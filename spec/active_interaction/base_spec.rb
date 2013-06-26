@@ -1,5 +1,15 @@
 require 'active_interaction'
 
+shared_examples 'validations pass' do |method|
+  context 'validations pass' do
+    subject(:outcome) { SubBase.send(method, valid: true) }
+
+    it 'sets `response` to the value of `execute`' do
+      expect(outcome.response).to eq 'Execute!'
+    end
+  end
+end
+
 describe ActiveInteraction::Base do
   subject(:base) { described_class.new }
 
@@ -27,19 +37,25 @@ describe ActiveInteraction::Base do
   end
 
   describe '.run(options = {})' do
-    context 'validations pass' do
-      subject(:outcome) { SubBase.run(valid: true) }
-
-      it 'sets `response` to the value of `execute`' do
-        expect(outcome.response).to eq 'Execute!'
-      end
-    end
+    it_behaves_like 'validations pass', :run
 
     context 'validations fail' do
       subject(:outcome) { SubBase.run(valid: false) }
 
       it 'sets response to nil' do
         expect(outcome.response).to be_nil
+      end
+    end
+  end
+
+  describe '.run!(options = {})' do
+    it_behaves_like 'validations pass', :run!
+
+    context 'validations fail' do
+      it 'throws an error' do
+        expect {
+          SubBase.run!(valid: false)
+        }.to raise_error ActiveInteraction::InteractionInvalid
       end
     end
   end

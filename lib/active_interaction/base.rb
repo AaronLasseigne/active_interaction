@@ -33,6 +33,16 @@ module ActiveInteraction
         call_execute(new(options))
       end
 
+      def run!(options = {})
+        outcome = run(options)
+
+        if !outcome.valid?
+          raise InteractionInvalid
+        end
+
+        outcome
+      end
+
       private
 
       def call_execute(obj)
