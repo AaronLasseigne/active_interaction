@@ -3,37 +3,30 @@ require 'active_interaction'
 describe ActiveInteraction::Base do
   subject(:base) { described_class.new }
 
-  its(:new_record?) { should be_true  }
-  its(:persisted?)  { should be_false }
+  class SubBase < described_class
+    attr_reader :valid
 
-  describe '#execute' do
-    it 'throws a NotImplementedError' do
-      expect { base.execute }.to raise_error NotImplementedError
+    validates :valid,
+      inclusion: {in: [true]}
+
+    def execute
+      'Execute!'
     end
   end
 
-  describe '.run(traits = {})' do
-    class SubBase < described_class
-      attr_reader :valid
-
-      validates :valid,
-        inclusion: {in: [true]}
-
-      def execute
-        'Execute!'
-      end
+  describe '.new(options = {})' do
+    it 'sets the attributes on the return value based on the options passed' do
+      expect(SubBase.new(valid: true).valid).to eq true
     end
 
-    it 'sets the attributes on the return value based on the traits passed' do
-      expect(SubBase.run(valid: true).valid).to eq true
-    end
-
-    it 'does not allow :response as a trait' do
+    it 'does not allow :response as a option' do
       expect {
-        described_class.run(response: true)
+        SubBase.new(response: true)
       }.to raise_error ArgumentError
     end
+  end
 
+  describe '.run(options = {})' do
     context 'validations pass' do
       subject(:outcome) { SubBase.run(valid: true) }
 
@@ -48,6 +41,15 @@ describe ActiveInteraction::Base do
       it 'sets response to nil' do
         expect(outcome.response).to be_nil
       end
+    end
+  end
+
+  its(:new_record?) { should be_true  }
+  its(:persisted?)  { should be_false }
+
+  describe '#execute' do
+    it 'throws a NotImplementedError' do
+      expect { base.execute }.to raise_error NotImplementedError
     end
   end
 end
