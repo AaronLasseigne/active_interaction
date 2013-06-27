@@ -18,6 +18,12 @@ describe ActiveInteraction::BooleanAttr do
       expect(described_class.prepare('0')).to eq false
     end
 
+    it 'throws an argument error for everything else' do
+      expect {
+        described_class.prepare(1)
+      }.to raise_error ArgumentError
+    end
+
     context 'options' do
       context ':allow_nil' do
         context 'is true' do
