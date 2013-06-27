@@ -60,6 +60,54 @@ describe ActiveInteraction::Base do
     end
   end
 
+  describe 'method_missing(attr_type, *args, &block)' do
+    context 'it catches valid attr types' do
+      class BoolTest < described_class
+        boolean :test
+
+        def execute; end
+      end
+
+      it 'adds an attr_reader for the method' do
+        expect(BoolTest.new).to respond_to :test
+      end
+
+      it 'adds an attr_writer for the method' do
+        expect(BoolTest.new).to respond_to :test=
+      end
+    end
+
+    context 'allows multiple methods to be defined' do
+      class BoolTest < described_class
+        boolean :test1, :test2
+
+        def execute; end
+      end
+
+      it 'creates a attr_reader for both methods' do
+        expect(BoolTest.new).to respond_to :test1
+        expect(BoolTest.new).to respond_to :test2
+      end
+
+      it 'creates a attr_writer for both methods' do
+        expect(BoolTest.new).to respond_to :test1
+        expect(BoolTest.new).to respond_to :test2
+      end
+    end
+
+    context 'does not stop other missing methods from erroring out' do
+      it 'throws a missing method error for non-attr types' do
+        expect {
+          class FooTest < described_class
+            foo :test
+
+            def execute; end
+          end
+        }.to raise_error NoMethodError
+      end
+    end
+  end
+
   its(:new_record?) { should be_true  }
   its(:persisted?)  { should be_false }
 

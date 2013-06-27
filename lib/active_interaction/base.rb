@@ -28,28 +28,46 @@ module ActiveInteraction
       raise NotImplementedError
     end
 
-    class << self
-      def run(options = {})
-        call_execute(new(options))
+    def self.run(options = {})
+      me = new(options)
+
+      me.instance_variable_set(:@response, me.execute) if me.valid?
+
+      me
+    end
+
+    def self.run!(options = {})
+      outcome = run(options)
+
+      if !outcome.valid?
+        raise InteractionInvalid
       end
 
-      def run!(options = {})
-        outcome = run(options)
+      outcome
+    end
 
-        if !outcome.valid?
-          raise InteractionInvalid
-        end
+    def self.method_missing(attr_type, *args, &block)
+      klass = "#{attr_type.to_s.capitalize}Attr"
 
-        outcome
+      super unless ActiveInteraction.const_defined?(klass)
+
+      options = {}
+      if args.last.is_a?(Hash)
+        options = args.pop
       end
+      method_names = args
 
-      private
-
-      def call_execute(obj)
-        obj.instance_variable_set(:@response, obj.execute) if obj.valid?
-
-        obj
+      method_names.each do |method_name|
+        class_eval %Q(
+          def #{method_name}
+            @#{method_name}
+          end
+          def #{method_name}=(value)
+            @#{method_name} = #{klass}.prepare(value, #{options})
+          end
+        )
       end
     end
+    private_class_method :method_missing
   end
 end
