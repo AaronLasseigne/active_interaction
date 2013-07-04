@@ -1,5 +1,7 @@
 module ActiveInteraction
   module BooleanAttr
+    extend Attr
+
     DEFAULT_OPTIONS = {
       allow_nil: false
     }.freeze
@@ -15,15 +17,10 @@ module ActiveInteraction
         when '1'
           true
         when NilClass
-          options[:allow_nil] ? nil : bad_value
+          return_nil(options[:allow_nil])
         else
           bad_value
       end
     end
-
-    def self.bad_value
-      raise ArgumentError
-    end
-    private_class_method :bad_value
   end
 end
