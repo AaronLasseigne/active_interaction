@@ -1,4 +1,4 @@
-require 'active_interaction'
+require 'spec_helper'
 
 shared_examples 'validations pass' do |method|
   context 'validations pass' do
