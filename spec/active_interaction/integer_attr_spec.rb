@@ -6,6 +6,12 @@ describe ActiveInteraction::IntegerAttr do
       it 'converts Strings that are only digits' do
         expect(described_class.prepare('1')).to eq 1
       end
+
+      it 'errors on all other Strings' do
+        expect {
+          described_class.prepare('1a')
+        }.to raise_error ArgumentError
+      end
     end
 
     context 'value is an Integer' do
