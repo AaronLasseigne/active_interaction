@@ -2,7 +2,7 @@ module ActiveInteraction
   module HashAttr
     extend Attr
 
-    def self.prepare(value, options = {})
+    def self.prepare(_, value, options = {})
       case value
         when Hash
           value

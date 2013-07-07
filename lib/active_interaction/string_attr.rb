@@ -2,7 +2,7 @@ module ActiveInteraction
   module StringAttr
     extend Attr
 
-    def self.prepare(value, options = {})
+    def self.prepare(_, value, options = {})
       case value
         when String
           value
