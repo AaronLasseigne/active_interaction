@@ -16,7 +16,7 @@ describe ActiveInteraction::ArrayAttr do
 
     context 'a block is given' do
       it 'runs the attr method on each array item' do
-        output = described_class.prepare :key, ['1']  do
+        output = described_class.prepare :key, ['1'] do
           integer
         end
 
@@ -24,7 +24,7 @@ describe ActiveInteraction::ArrayAttr do
       end
 
       it 'handles nested blocks' do
-        output = described_class.prepare :key, [['1']]  do
+        output = described_class.prepare :key, [['1']] do
           array do
             integer
           end
@@ -35,7 +35,7 @@ describe ActiveInteraction::ArrayAttr do
 
       it 'raises an error if an array item does not match' do
         expect {
-          described_class.prepare :key, ['a']  do
+          described_class.prepare :key, ['a'] do
             integer
           end
         }.to raise_error ArgumentError
@@ -43,7 +43,7 @@ describe ActiveInteraction::ArrayAttr do
 
       it 'raises an error if more than one attr requirement is listed' do
         expect {
-          described_class.prepare :key, ['1']  do
+          described_class.prepare :key, ['1'] do
             integer
             boolean
           end

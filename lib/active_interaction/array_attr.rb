@@ -14,7 +14,7 @@ module ActiveInteraction
     end
 
     def self.convert_values(values, &block)
-      return values unless block_given?
+      return values.dup unless block_given?
 
       attr_methods = ActiveInteraction::AttrMethods.evaluate(&block)
       if attr_methods.count > 1
