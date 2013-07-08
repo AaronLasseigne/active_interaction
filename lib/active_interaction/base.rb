@@ -63,7 +63,7 @@ module ActiveInteraction
             @#{method_name}
           end
           def #{method_name}=(value)
-            @#{method_name} = #{klass}.prepare(method_name, value, #{options})
+            @#{method_name} = #{klass}.prepare(method_name, value, options, &block)
           end
         )
       end
