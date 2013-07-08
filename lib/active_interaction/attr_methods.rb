@@ -1,5 +1,5 @@
 module ActiveInteraction
-  class AttrBlock
+  class AttrMethods
     include Enumerable
 
     def self.evaluate(&block)

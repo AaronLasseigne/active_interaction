@@ -16,15 +16,15 @@ module ActiveInteraction
     def self.convert_values(values, &block)
       return values unless block_given?
 
-      block_attrs = ActiveInteraction::AttrBlock.evaluate(&block)
-      if block_attrs.count > 1
+      attr_methods = ActiveInteraction::AttrMethods.evaluate(&block)
+      if attr_methods.count > 1
         raise ArgumentError
       else
-        block_attr = block_attrs.first
+        attr_method = attr_methods.first
       end
 
       values.map do |value|
-        ActiveInteraction::Attr.factory(block_attr.method_name).prepare(block_attr.attribute, value, block_attr.options, &block_attr.block)
+        ActiveInteraction::Attr.factory(attr_method.method_name).prepare(attr_method.attribute, value, attr_method.options, &attr_method.block)
       end
     end
     private_class_method :convert_values

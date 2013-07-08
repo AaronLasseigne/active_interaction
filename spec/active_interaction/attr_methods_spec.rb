@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::AttrBlock do
+describe ActiveInteraction::AttrMethods do
   describe '.evaluate(&block)' do
     let(:attr_block) do
       described_class.evaluate do
