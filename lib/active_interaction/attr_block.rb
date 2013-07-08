@@ -9,15 +9,15 @@ module ActiveInteraction
     end
 
     def initialize
-      @attr_requirements = []
+      @attr_methods = []
     end
 
     def each(&block)
-      @attr_requirements.each(&block)
+      @attr_methods.each(&block)
     end
 
     def method_missing(attr_type, *args, &block)
-      @attr_requirements.push([attr_type, args, block])
+      @attr_methods.push(ActiveInteraction::AttrMethod.new(attr_type, *args, &block))
     end
     private :method_missing
   end

@@ -17,12 +17,14 @@ module ActiveInteraction
       return values unless block_given?
 
       block_attrs = ActiveInteraction::AttrBlock.evaluate(&block)
-      raise ArgumentError if block_attrs.count > 1
-
-      attr_type, options, internal_block = block_attrs.first
+      if block_attrs.count > 1
+        raise ArgumentError
+      else
+        block_attr = block_attrs.first
+      end
 
       values.map do |value|
-        ActiveInteraction::Attr.factory(attr_type).prepare(nil, value, options, &internal_block)
+        ActiveInteraction::Attr.factory(block_attr.method_name).prepare(block_attr.attribute, value, block_attr.options, &block_attr.block)
       end
     end
     private_class_method :convert_values
