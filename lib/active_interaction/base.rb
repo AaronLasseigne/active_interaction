@@ -47,9 +47,7 @@ module ActiveInteraction
     end
 
     def self.method_missing(attr_type, *args, &block)
-      klass = "#{attr_type.to_s.capitalize}Attr"
-
-      super unless ActiveInteraction.const_defined?(klass)
+      klass = ActiveInteraction::Attr.factory(attr_type)
 
       options = {}
       if args.last.is_a?(Hash)
