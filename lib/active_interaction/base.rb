@@ -20,7 +20,7 @@ module ActiveInteraction
       end
 
       options.each do |attribute, value|
-        instance_variable_set("@#{attribute}".to_sym, value)
+        send("#{attribute}=", value)
       end
     end
 
@@ -56,14 +56,14 @@ module ActiveInteraction
       method_names = args
 
       method_names.each do |method_name|
-        class_eval %Q(
-          def #{method_name}
-            @#{method_name}
-          end
-          def #{method_name}=(value)
-            @#{method_name} = #{klass}.prepare(method_name, value, options, &block)
-          end
-        )
+        define_method(method_name) do
+          instance_variable_get("@#{method_name}")
+        end
+
+        define_method("#{method_name}=") do |value|
+          instance_variable_set("@#{method_name}",
+            klass.prepare(method_name, value, options, &block))
+        end
       end
     end
     private_class_method :method_missing

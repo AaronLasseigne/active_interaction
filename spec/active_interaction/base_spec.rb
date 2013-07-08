@@ -115,5 +115,20 @@ describe ActiveInteraction::Base do
     it 'throws a NotImplementedError' do
       expect { base.execute }.to raise_error NotImplementedError
     end
+
+    context 'integration' do
+      class TestInteraction < described_class
+        boolean :b
+        def execute; end
+      end
+
+      it 'raises an error with invalid option' do
+        expect { TestInteraction.run!(b: 0) }.to raise_error ArgumentError
+      end
+
+      it 'does not raise an error with valid option' do
+        expect { TestInteraction.run!(b: true) }.to_not raise_error ArgumentError
+      end
+    end
   end
 end
