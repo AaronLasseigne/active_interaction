@@ -32,9 +32,16 @@ describe ActiveInteraction::AttrBlock do
     end
   end
 
-  describe '#count' do
-    it 'returns the number of evaluated attr methods' do
-      expect(described_class.new.count).to eq 0
+  describe '#each(&block)' do
+    let(:attrs) do
+      described_class.evaluate do
+        integer
+        boolean
+      end
+    end
+
+    it 'returns the attr methods broken down one by one' do
+      expect(attrs.each).to be_a Enumerator
     end
   end
 end
