@@ -14,7 +14,7 @@ shared_examples 'it matches on the class' do |key, options = {}|
   context 'the model class does not match the derived key class' do
     it 'throws an argument error' do
       expect {
-        described_class.prepare(key, mock, options)
+        described_class.prepare(key, double, options)
       }.to raise_error ArgumentError
     end
   end
@@ -28,7 +28,7 @@ describe ActiveInteraction::ModelAttr do
       context 'the model class does not exist' do
         it 'throws a name error' do
           expect {
-            described_class.prepare(:a_constant_that_does_not_exist, mock)
+            described_class.prepare(:a_constant_that_does_not_exist, double)
           }.to raise_error NameError
         end
       end
@@ -50,7 +50,7 @@ describe ActiveInteraction::ModelAttr do
           context 'the model class does not exist' do
             it 'throws a name error' do
               expect {
-                described_class.prepare(:key, mock, class: 'NotARealClass')
+                described_class.prepare(:key, double, class: 'NotARealClass')
               }.to raise_error NameError
             end
           end
