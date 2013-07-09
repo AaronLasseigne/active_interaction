@@ -53,7 +53,7 @@ end
 [4]: https://gemnasium.com/orgsync/active_interaction
 [5]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/badges/bd2ae2bc5f9a707b9008/gpa.png
 [6]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/feed
-[7]: https://badge.fury.io/rb/active_interaction@2x.png
+[7]: https://badge.fury.io/rb/active_interaction.png
 [8]: http://rubygems.org/gems/active_interaction
 [9]: https://coveralls.io/repos/orgsync/active_interaction/badge.png
 [10]: https://coveralls.io/r/orgsync/active_interaction
