@@ -36,7 +36,7 @@ module ActiveInteraction
       me = new(options)
 
       me.send(:run_validations!) # REVIEW
-      me.instance_variable_set(:@response, me.execute) if me.errors.any?
+      me.instance_variable_set(:@response, me.execute) if me.errors.empty?
 
       me
     end
