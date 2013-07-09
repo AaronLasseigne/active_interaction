@@ -1,4 +1,4 @@
-# ActiveInteraction
+# ActiveInteraction [![][1]][2]
 
 Manage application specific business logic.
 
@@ -46,4 +46,6 @@ else
 end
 ```
 
+[1]: https://travis-ci.org/orgsync/active_interaction.png
+[2]: https://travis-ci.org/orgsync/active_interaction
 [mutations]: https://github.com/cypriss/mutations
