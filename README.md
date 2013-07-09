@@ -3,7 +3,7 @@
 [![Gem Version][]](https://badge.fury.io/rb/active_interaction)
 [![Build Status][]](https://travis-ci.org/orgsync/active_interaction)
 [![Coverage Status][]](https://coveralls.io/r/orgsync/active_interaction)
-[![Code Climate][]](https://codeclimate.com/repos/51dc5784c7f3a37a72000019/feed)
+[![Code Climate][]](https://codeclimate.com/github/orgsync/active_interaction)
 [![Dependency Status][]](https://gemnasium.com/orgsync/active_interaction)
 
 Manage application specific business logic.
@@ -54,7 +54,7 @@ end
 ```
 
 [build status]: https://travis-ci.org/orgsync/active_interaction.png
-[code climate]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/badges/bd2ae2bc5f9a707b9008/gpa.png
+[code climate]: https://codeclimate.com/github/orgsync/active_interaction.png
 [coverage status]: https://coveralls.io/repos/orgsync/active_interaction/badge.png
 [dependency status]: https://gemnasium.com/orgsync/active_interaction.png
 [gem version]: https://badge.fury.io/rb/active_interaction.png
