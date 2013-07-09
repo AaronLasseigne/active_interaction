@@ -20,7 +20,11 @@ module ActiveInteraction
       end
 
       options.each do |attribute, value|
-        instance_variable_set("@#{attribute}".to_sym, value)
+        if respond_to?("#{attribute}=")
+          send("#{attribute}=", value)
+        else
+          instance_variable_set("@#{attribute}", value)
+        end
       end
     end
 
@@ -28,28 +32,42 @@ module ActiveInteraction
       raise NotImplementedError
     end
 
-    class << self
-      def run(options = {})
-        call_execute(new(options))
+    def self.run(options = {})
+      me = new(options)
+
+      me.instance_variable_set(:@response, me.execute) if me.valid?
+
+      me
+    end
+
+    def self.run!(options = {})
+      outcome = run(options)
+
+      if !outcome.valid?
+        raise InteractionInvalid
       end
 
-      def run!(options = {})
-        outcome = run(options)
+      outcome
+    end
 
-        if !outcome.valid?
-          raise InteractionInvalid
+    def self.method_missing(attr_type, *args, &block)
+      klass = ActiveInteraction::Attr.factory(attr_type)
+
+      options = {}
+      if args.last.is_a?(Hash)
+        options = args.pop
+      end
+      method_names = args
+
+      method_names.each do |method_name|
+        attr_reader method_name
+
+        define_method("#{method_name}=") do |value|
+          instance_variable_set("@#{method_name}",
+            klass.prepare(method_name, value, options, &block))
         end
-
-        outcome
-      end
-
-      private
-
-      def call_execute(obj)
-        obj.instance_variable_set(:@response, obj.execute) if obj.valid?
-
-        obj
       end
     end
+    private_class_method :method_missing
   end
 end
