@@ -9,12 +9,16 @@ module ActiveInteraction
     end
 
     def return_nil(allow_nil)
-      allow_nil ? nil : bad_value
+      if allow_nil
+        nil
+      else
+        raise ActiveInteraction::MissingValue
+      end
     end
     private :return_nil
 
     def bad_value
-      raise ArgumentError
+      raise ActiveInteraction::InvalidValue
     end
     private :bad_value
   end

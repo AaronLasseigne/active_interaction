@@ -35,7 +35,8 @@ module ActiveInteraction
     def self.run(options = {})
       me = new(options)
 
-      me.instance_variable_set(:@response, me.execute) if me.valid?
+      me.send(:run_validations!) # REVIEW
+      me.instance_variable_set(:@response, me.execute) if me.errors.any?
 
       me
     end
@@ -63,8 +64,14 @@ module ActiveInteraction
         attr_reader method_name
 
         define_method("#{method_name}=") do |value|
-          instance_variable_set("@#{method_name}",
-            klass.prepare(method_name, value, options, &block))
+          begin
+            instance_variable_set("@#{method_name}",
+              klass.prepare(method_name, value, options, &block))
+          rescue ActiveInteraction::MissingValue
+            errors.add(method_name, 'is required')
+          rescue ActiveInteraction::InvalidValue
+            errors.add(method_name, 'is invalid') # TODO: improve
+          end
         end
       end
     end
