@@ -21,8 +21,8 @@ describe ActiveInteraction::TimeAttr do
       expect(described_class.prepare(key, value)).to eql Time.at(value)
     end
 
-    it 'throws an argument error for everything else' do
-      expect { described_class.prepare(key, '') }.to raise_error ArgumentError
+    it 'throws an error for everything else' do
+      expect { described_class.prepare(key, '') }.to raise_error ActiveInteraction::InvalidValue
     end
   end
 end

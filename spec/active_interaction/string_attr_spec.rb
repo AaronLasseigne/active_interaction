@@ -8,10 +8,10 @@ describe ActiveInteraction::StringAttr do
       end
     end
 
-    it 'throws an argument error for everything else' do
+    it 'throws an error for everything else' do
       expect {
         described_class.prepare(:key, true)
-      }.to raise_error ArgumentError
+      }.to raise_error ActiveInteraction::InvalidValue
     end
 
     it_behaves_like 'options includes :allow_nil'

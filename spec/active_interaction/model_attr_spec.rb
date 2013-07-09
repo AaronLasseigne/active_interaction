@@ -12,10 +12,10 @@ shared_examples 'it matches on the class' do |key, options = {}|
   end
 
   context 'the model class does not match the derived key class' do
-    it 'throws an argument error' do
+    it 'throws an error' do
       expect {
         described_class.prepare(key, double, options)
-      }.to raise_error ArgumentError
+      }.to raise_error ActiveInteraction::InvalidValue
     end
   end
 end
@@ -34,10 +34,10 @@ describe ActiveInteraction::ModelAttr do
       end
     end
 
-    it 'throws an argument error for everything else' do
+    it 'throws an error for everything else' do
       expect {
         described_class.prepare(:key, true)
-      }.to raise_error ArgumentError
+      }.to raise_error ActiveInteraction::InvalidValue
     end
 
     it_behaves_like 'options includes :allow_nil'

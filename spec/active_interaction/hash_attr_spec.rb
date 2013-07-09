@@ -6,10 +6,10 @@ describe ActiveInteraction::HashAttr do
       expect(described_class.prepare(:key, {one: 1})).to eql({one: 1})
     end
 
-    it 'throws an argument error for everything else' do
+    it 'throws an error for everything else' do
       expect {
         described_class.prepare(:key, 1)
-      }.to raise_error ArgumentError
+      }.to raise_error ActiveInteraction::InvalidValue
     end
 
     it_behaves_like 'options includes :allow_nil'
@@ -38,7 +38,7 @@ describe ActiveInteraction::HashAttr do
           described_class.prepare :key, {one: 'a'} do
             integer :one
           end
-        }.to raise_error ArgumentError
+        }.to raise_error ActiveInteraction::InvalidValue
       end
 
       it 'allows more than one key to be listed' do

@@ -6,10 +6,10 @@ describe ActiveInteraction::ArrayAttr do
       expect(described_class.prepare(:key, [1])).to eql [1]
     end
 
-    it 'throws an argument error for everything else' do
+    it 'throws an error for everything else' do
       expect {
         described_class.prepare(:key, 1)
-      }.to raise_error ArgumentError
+      }.to raise_error ActiveInteraction::InvalidValue
     end
 
     it_behaves_like 'options includes :allow_nil'
@@ -38,7 +38,7 @@ describe ActiveInteraction::ArrayAttr do
           described_class.prepare :key, ['a'] do
             integer
           end
-        }.to raise_error ArgumentError
+        }.to raise_error ActiveInteraction::InvalidValue
       end
 
       it 'raises an error if more than one attr requirement is listed' do

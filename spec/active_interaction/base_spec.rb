@@ -123,7 +123,9 @@ describe ActiveInteraction::Base do
       end
 
       it 'raises an error with invalid option' do
-        expect { TestInteraction.run!(b: 0) }.to raise_error ArgumentError
+        expect {
+          TestInteraction.run!(b: 0)
+        }.to raise_error ActiveInteraction::InteractionInvalid
       end
 
       it 'does not raise an error with valid option' do

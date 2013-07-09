@@ -11,7 +11,7 @@ shared_examples 'options includes :allow_nil' do
         it 'throws an error' do
           expect {
             described_class.prepare(:key, nil, allow_nil: false)
-          }.to raise_error ArgumentError
+          }.to raise_error ActiveInteraction::MissingValue
         end
       end
     end
