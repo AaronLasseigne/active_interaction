@@ -10,6 +10,8 @@ Manage application specific business logic.
 
 Inspired by [Mutations][].
 
+This project uses [semantic versioning][].
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -59,3 +61,4 @@ end
 [dependency status]: https://gemnasium.com/orgsync/active_interaction.png
 [gem version]: https://badge.fury.io/rb/active_interaction.png
 [mutations]: https://github.com/cypriss/mutations
+[semantic versioning]: http://semver.org
