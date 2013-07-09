@@ -1,4 +1,4 @@
-# ActiveInteraction [![][1]][2] [![][3]][4] [![][5]][6]
+# ActiveInteraction [![][1]][2] [![][3]][4] [![][5]][6] [![][7]][8]
 
 Manage application specific business logic.
 
@@ -52,4 +52,6 @@ end
 [4]: https://gemnasium.com/orgsync/active_interaction
 [5]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/badges/bd2ae2bc5f9a707b9008/gpa.png
 [6]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/feed
+[7]: https://badge.fury.io/rb/active_interaction@2x.png
+[8]: http://rubygems.org/gems/active_interaction
 [mutations]: https://github.com/cypriss/mutations
