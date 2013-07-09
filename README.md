@@ -1,4 +1,4 @@
-# ActiveInteraction [![][1]][2] [![][3]][4]
+# ActiveInteraction [![][1]][2] [![][3]][4] [![][5]][6]
 
 Manage application specific business logic.
 
@@ -50,4 +50,6 @@ end
 [2]: https://travis-ci.org/orgsync/active_interaction
 [3]: https://gemnasium.com/orgsync/active_interaction.png
 [4]: https://gemnasium.com/orgsync/active_interaction
+[5]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/badges/bd2ae2bc5f9a707b9008/gpa.png
+[6]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/feed
 [mutations]: https://github.com/cypriss/mutations
