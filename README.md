@@ -10,6 +10,7 @@ Add this line to your application's Gemfile:
 
 ```rb
 gem 'active_interaction', '~> 0.1.0'
+```
 
 And then execute:
 
