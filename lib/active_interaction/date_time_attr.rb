@@ -6,6 +6,12 @@ module ActiveInteraction
       case value
         when DateTime
           value
+        when String
+          begin
+            DateTime.parse(value)
+          rescue ArgumentError
+            bad_value
+          end
         when NilClass
           return_nil(options[:allow_nil])
         else
