@@ -17,7 +17,7 @@ module ActiveInteraction
     end
 
     def method_missing(attr_type, *args, &block)
-      @attr_methods.push(ActiveInteraction::AttrMethod.new(attr_type, *args, &block))
+      @attr_methods.push(AttrMethod.new(attr_type, *args, &block))
     end
     private :method_missing
   end

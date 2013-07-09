@@ -16,7 +16,7 @@ module ActiveInteraction
     def self.convert_values(values, &block)
       return values.dup unless block_given?
 
-      attr_methods = ActiveInteraction::AttrMethods.evaluate(&block)
+      attr_methods = AttrMethods.evaluate(&block)
       if attr_methods.count > 1
         raise ArgumentError
       else
@@ -24,7 +24,7 @@ module ActiveInteraction
       end
 
       values.map do |value|
-        ActiveInteraction::Attr.factory(attr_method.method_name).prepare(attr_method.attribute, value, attr_method.options, &attr_method.block)
+        Attr.factory(attr_method.method_name).prepare(attr_method.attribute, value, attr_method.options, &attr_method.block)
       end
     end
     private_class_method :convert_values

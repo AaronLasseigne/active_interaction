@@ -16,10 +16,10 @@ module ActiveInteraction
     def self.convert_values(hash, &block)
       return hash unless block_given?
 
-      ActiveInteraction::AttrMethods.evaluate(&block).each do |attr_method|
+      AttrMethods.evaluate(&block).each do |attr_method|
         key = attr_method.attribute
 
-        hash[key] = ActiveInteraction::Attr.factory(attr_method.method_name).prepare(key, hash[key], attr_method.options, &attr_method.block)
+        hash[key] = Attr.factory(attr_method.method_name).prepare(key, hash[key], attr_method.options, &attr_method.block)
       end
 
       hash

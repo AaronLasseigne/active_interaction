@@ -51,7 +51,7 @@ module ActiveInteraction
     end
 
     def self.method_missing(attr_type, *args, &block)
-      klass = ActiveInteraction::Attr.factory(attr_type)
+      klass = Attr.factory(attr_type)
 
       options = {}
       if args.last.is_a?(Hash)
@@ -69,9 +69,9 @@ module ActiveInteraction
         define_method(validation_method_name) do
           begin
             klass.prepare(method_name, send(method_name), options, &block)
-          rescue ActiveInteraction::MissingValue
+          rescue MissingValue
             errors.add(method_name, 'is required')
-          rescue ActiveInteraction::InvalidValue
+          rescue InvalidValue
             errors.add(method_name, 'is invalid')
           end
         end

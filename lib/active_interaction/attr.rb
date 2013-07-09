@@ -12,13 +12,13 @@ module ActiveInteraction
       if allow_nil
         nil
       else
-        raise ActiveInteraction::MissingValue
+        raise MissingValue
       end
     end
     private :return_nil
 
     def bad_value
-      raise ActiveInteraction::InvalidValue
+      raise InvalidValue
     end
     private :bad_value
   end
