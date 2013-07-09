@@ -127,7 +127,7 @@ describe ActiveInteraction::Base do
       end
 
       it 'does not raise an error with valid option' do
-        expect { TestInteraction.run!(b: true) }.to_not raise_error ArgumentError
+        expect { TestInteraction.run!(b: true) }.to_not raise_error
       end
     end
   end
