@@ -11,7 +11,9 @@ shared_examples 'validations pass' do |method|
 end
 
 describe ActiveInteraction::Base do
-  subject(:base) { described_class.new }
+  class ExampleInteraction < ActiveInteraction::Base; end
+
+  subject(:base) { ExampleInteraction.new }
 
   class SubBase < described_class
     attr_reader :valid
@@ -130,6 +132,10 @@ describe ActiveInteraction::Base do
 
       it 'does not raise an error with valid option' do
         expect { TestInteraction.run!(b: true) }.to_not raise_error
+      end
+
+      it 'requires required options' do
+        expect(TestInteraction.run b: nil).to_not be_valid
       end
     end
   end

@@ -35,8 +35,7 @@ module ActiveInteraction
     def self.run(options = {})
       me = new(options)
 
-      me.send(:run_validations!) # REVIEW
-      me.instance_variable_set(:@response, me.execute) if me.errors.empty?
+      me.instance_variable_set(:@response, me.execute) if me.valid?
 
       me
     end
@@ -44,7 +43,7 @@ module ActiveInteraction
     def self.run!(options = {})
       outcome = run(options)
 
-      if outcome.errors.any?
+      unless outcome.valid?
         raise InteractionInvalid
       end
 
@@ -61,18 +60,22 @@ module ActiveInteraction
       method_names = args
 
       method_names.each do |method_name|
-        attr_reader method_name
+        attr_accessor method_name
 
-        define_method("#{method_name}=") do |value|
+        validation_method_name = "_validate__#{method_name}__#{attr_type}"
+
+        validate validation_method_name
+
+        define_method(validation_method_name) do
           begin
-            instance_variable_set("@#{method_name}",
-              klass.prepare(method_name, value, options, &block))
+            klass.prepare(method_name, send(method_name), options, &block)
           rescue ActiveInteraction::MissingValue
             errors.add(method_name, 'is required')
           rescue ActiveInteraction::InvalidValue
-            errors.add(method_name, 'is invalid') # TODO: improve
+            errors.add(method_name, 'is invalid')
           end
         end
+        private validation_method_name
       end
     end
     private_class_method :method_missing
