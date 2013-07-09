@@ -6,6 +6,8 @@ module ActiveInteraction
       case value
         when Time
           value
+        when Numeric
+          Time.at(value)
         when NilClass
           return_nil(options[:allow_nil])
         else
