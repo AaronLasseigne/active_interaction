@@ -5,7 +5,7 @@ module ActiveInteraction
 
       raise NoMethodError unless ActiveInteraction.const_defined?(klass)
 
-      "ActiveInteraction::#{klass}".constantize
+      ActiveInteraction.const_get(klass)
     end
 
     def return_nil(allow_nil)
