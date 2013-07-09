@@ -4,7 +4,7 @@ describe ActiveInteraction::StringAttr do
   describe '#prepare(key, value, options = {})' do
     context 'value is a String' do
       it 'passes it on through' do
-        expect(described_class.prepare(:key, 'hello')).to eq 'hello'
+        expect(described_class.prepare(:key, 'hello')).to eql 'hello'
       end
     end
 

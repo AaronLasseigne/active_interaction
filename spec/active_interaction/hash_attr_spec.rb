@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ActiveInteraction::HashAttr do
   describe '#prepare(key, value, options = {}, &block)' do
     it 'passes a Hash through' do
-      expect(described_class.prepare(:key, {one: 1})).to eq({one: 1})
+      expect(described_class.prepare(:key, {one: 1})).to eql({one: 1})
     end
 
     it 'throws an argument error for everything else' do
@@ -20,7 +20,7 @@ describe ActiveInteraction::HashAttr do
           integer :one
         end
 
-        expect(output).to eq({one: 1})
+        expect(output).to eql({one: 1})
       end
 
       it 'handles nested blocks' do
@@ -30,7 +30,7 @@ describe ActiveInteraction::HashAttr do
           end
         end
 
-        expect(output).to eq({one: [1]})
+        expect(output).to eql({one: [1]})
       end
 
       it 'raises an error if an array item does not match' do
@@ -47,7 +47,7 @@ describe ActiveInteraction::HashAttr do
           float   :two
         end
 
-        expect(output).to eq({one: 1, two: 2.0})
+        expect(output).to eql({one: 1, two: 2.0})
       end
     end
   end

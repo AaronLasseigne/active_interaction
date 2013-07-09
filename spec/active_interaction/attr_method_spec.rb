@@ -9,9 +9,9 @@ describe ActiveInteraction::AttrMethod do
         end
       end
 
-      its(:method_name) { should eq :method_name }
-      its(:attribute)   { should eq :attribute }
-      its(:options)     { should eq({options: true}) }
+      its(:method_name) { should eql :method_name }
+      its(:attribute)   { should eql :attribute }
+      its(:options)     { should eql({options: true}) }
       its(:block)       { should be_a Proc }
     end
 
@@ -22,9 +22,9 @@ describe ActiveInteraction::AttrMethod do
         end
       end
 
-      its(:method_name) { should eq :method_name }
+      its(:method_name) { should eql :method_name }
       its(:attribute)   { should be_nil }
-      its(:options)     { should eq({options: true}) }
+      its(:options)     { should eql({options: true}) }
       its(:block)       { should be_a Proc }
     end
   end
