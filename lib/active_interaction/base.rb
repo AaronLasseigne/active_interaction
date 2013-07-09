@@ -20,7 +20,11 @@ module ActiveInteraction
       end
 
       options.each do |attribute, value|
-        send("#{attribute}=", value)
+        if respond_to?("#{attribute}=")
+          send("#{attribute}=", value)
+        else
+          instance_variable_set("@#{attribute}", value)
+        end
       end
     end
 
@@ -56,9 +60,7 @@ module ActiveInteraction
       method_names = args
 
       method_names.each do |method_name|
-        define_method(method_name) do
-          instance_variable_get("@#{method_name}")
-        end
+        attr_reader method_name
 
         define_method("#{method_name}=") do |value|
           instance_variable_set("@#{method_name}",
