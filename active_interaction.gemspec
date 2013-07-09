@@ -6,8 +6,8 @@ require 'active_interaction/version'
 Gem::Specification.new do |spec|
   spec.name          = 'active_interaction'
   spec.version       = ActiveInteraction::VERSION
-  spec.authors       = ['Aaron Lasseigne']
-  spec.email         = ['aaron.lasseigne@gmail.com']
+  spec.authors       = ['Aaron Lasseigne', 'Taylor Fausak']
+  spec.email         = ['aaron.lasseigne@gmail.com', 'taylor@orgsync.com']
   spec.description   = %q{TODO: Write a gem description}
   spec.summary       = %q{TODO: Write a gem summary}
   spec.homepage      = 'https://github.com/orgsync/active_interaction'
