@@ -1,29 +1,49 @@
 # ActiveInteraction
 
-TODO: Write a gem description
+Manage application specific business logic.
+
+Inspired by [Mutations][].
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'active_interaction'
+```rb
+gem 'active_interaction', '~> 0.1.0'
 
 And then execute:
 
-    $ bundle
+```sh
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install active_interaction
+```sh
+$ gem install active_interaction
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+```rb
+class ExampleInteraction < ActiveInteraction::Base
+  # Required
+  integer :a
 
-## Contributing
+  # Optional
+  integer :b, allow_nil: true
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+  def execute
+    b.nil? ? a : a + b
+  end
+end
+
+outcome = ExampleInteraction.run(a: 1, b: 2)
+if outcome.valid?
+  p outcome.response
+else
+  p outcome.errors
+end
+```
+
+[mutations]: https://github.com/cypriss/mutations
