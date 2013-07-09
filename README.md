@@ -1,4 +1,10 @@
-# ActiveInteraction [![][1]][2] [![][3]][4] [![][5]][6] [![][7]][8] [![][9]][10]
+# ActiveInteraction
+
+[![Gem Version][]](https://badge.fury.io/rb/active_interaction)
+[![Build Status][]](https://travis-ci.org/orgsync/active_interaction)
+[![Coverage Status][]](https://coveralls.io/r/orgsync/active_interaction)
+[![Code Climate][]](https://codeclimate.com/repos/51dc5784c7f3a37a72000019/feed)
+[![Dependency Status][]](https://gemnasium.com/orgsync/active_interaction)
 
 Manage application specific business logic.
 
@@ -47,14 +53,9 @@ else
 end
 ```
 
-[1]: https://travis-ci.org/orgsync/active_interaction.png
-[2]: https://travis-ci.org/orgsync/active_interaction
-[3]: https://gemnasium.com/orgsync/active_interaction.png
-[4]: https://gemnasium.com/orgsync/active_interaction
-[5]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/badges/bd2ae2bc5f9a707b9008/gpa.png
-[6]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/feed
-[7]: https://badge.fury.io/rb/active_interaction.png
-[8]: http://rubygems.org/gems/active_interaction
-[9]: https://coveralls.io/repos/orgsync/active_interaction/badge.png
-[10]: https://coveralls.io/r/orgsync/active_interaction
+[build status]: https://travis-ci.org/orgsync/active_interaction.png
+[code climate]: https://codeclimate.com/repos/51dc5784c7f3a37a72000019/badges/bd2ae2bc5f9a707b9008/gpa.png
+[coverage status]: https://coveralls.io/repos/orgsync/active_interaction/badge.png
+[dependency status]: https://gemnasium.com/orgsync/active_interaction.png
+[gem version]: https://badge.fury.io/rb/active_interaction.png
 [mutations]: https://github.com/cypriss/mutations
