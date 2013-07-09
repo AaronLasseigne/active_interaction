@@ -1,4 +1,7 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in active_interaction.gemspec
 gemspec
+
+group :test do
+  gem 'coveralls', '~> 0.6.7', require: false
+end
