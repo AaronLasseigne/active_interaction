@@ -1,5 +1,3 @@
-require 'time'
-
 module ActiveInteraction
   # @private
   class TimeFilter < Filter
