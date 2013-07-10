@@ -1,5 +1,6 @@
 --no-private
 --protected
---markup markdown
+--markup-provider=kramdown
+--markup=markdown
 -
 LICENSE.txt

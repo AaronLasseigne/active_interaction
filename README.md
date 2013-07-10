@@ -16,44 +16,36 @@ This project uses [semantic versioning][].
 
 Add this line to your application's Gemfile:
 
-```rb
-gem 'active_interaction', '~> 0.1.0'
-```
+    gem 'active_interaction', '~> 0.1.0'
 
 And then execute:
 
-```sh
-$ bundle
-```
+    $ bundle
 
 Or install it yourself as:
 
-```sh
-$ gem install active_interaction
-```
+    $ gem install active_interaction
 
 ## Usage
 
-```rb
-class ExampleInteraction < ActiveInteraction::Base
-  # Required
-  integer :a
+    class ExampleInteraction < ActiveInteraction::Base
+      # Required
+      integer :a
 
-  # Optional
-  integer :b, allow_nil: true
+      # Optional
+      integer :b, allow_nil: true
 
-  def execute
-    b.nil? ? a : a + b
-  end
-end
+      def execute
+        b.nil? ? a : a + b
+      end
+    end
 
-outcome = ExampleInteraction.run(a: 1, b: 2)
-if outcome.valid?
-  p outcome.response
-else
-  p outcome.errors
-end
-```
+    outcome = ExampleInteraction.run(a: 1, b: 2)
+    if outcome.valid?
+      p outcome.response
+    else
+      p outcome.errors
+    end
 
 [build status]: https://travis-ci.org/orgsync/active_interaction.png
 [code climate]: https://codeclimate.com/github/orgsync/active_interaction.png
