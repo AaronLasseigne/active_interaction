@@ -48,30 +48,25 @@ module ActiveInteraction
 
     def self.method_missing(attr_type, *args, &block)
       klass = Attr.factory(attr_type)
+      options = args.last.is_a?(Hash) ? args.pop : {}
 
-      options = {}
-      if args.last.is_a?(Hash)
-        options = args.pop
-      end
-      method_names = args
+      args.each do |attribute|
+        validator = "_validate__#{attribute}__#{attr_type}"
 
-      method_names.each do |method_name|
-        attr_accessor method_name
+        attr_accessor attribute
 
-        validation_method_name = "_validate__#{method_name}__#{attr_type}"
+        validate validator
 
-        validate validation_method_name
-
-        define_method(validation_method_name) do
+        define_method(validator) do
           begin
-            klass.prepare(method_name, send(method_name), options, &block)
+            klass.prepare(attribute, send(attribute), options, &block)
           rescue MissingValue
-            errors.add(method_name, 'is required')
+            errors.add(attribute, 'is required')
           rescue InvalidValue
-            errors.add(method_name, 'is invalid')
+            errors.add(attribute, 'is invalid')
           end
         end
-        private validation_method_name
+        private validator
       end
     end
     private_class_method :method_missing
