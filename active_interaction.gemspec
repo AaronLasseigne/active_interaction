@@ -29,4 +29,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.1'
   spec.add_development_dependency 'rb-fsevent', '~> 0.9'
   spec.add_development_dependency 'rspec', '~> 2.14'
+  spec.add_development_dependency 'yard', '~> 0.8.6'
+  spec.add_development_dependency 'redcarpet', '~> 2.3'
 end
