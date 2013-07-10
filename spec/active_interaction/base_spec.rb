@@ -154,14 +154,22 @@ describe ActiveInteraction::Base do
     end
 
     context 'when arguments are passed it works as an filter method' do
-      it 'gets sent to method_missing' do
+      it 'gets sent to add_filter_methods' do
         allow(described_class).to receive(:method_missing)
 
         described_class.hash(:attr_name, {}) do
           'Block!'
         end
 
-        expect(described_class).to have_received(:method_missing).once.with(:attr_name, kind_of(Hash), kind_of(Proc))
+        expect(described_class).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash), kind_of(Proc))
+      end
+
+      it 'gets sent to add_filter_methods with no block' do
+        allow(described_class).to receive(:method_missing)
+
+        described_class.hash(:attr_name, {})
+
+        expect(described_class).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash))
       end
     end
   end
