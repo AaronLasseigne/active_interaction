@@ -37,6 +37,8 @@ module ActiveInteraction
       end
     end
 
+    # @raise [NotImplementedError] This must be overridden in a custom ActiveInteraction
+    #   class.
     def execute
       raise NotImplementedError
     end
@@ -56,6 +58,9 @@ module ActiveInteraction
     end
 
     # @overload hash(:attributes, options = {}, &block)
+    #
+    # @macro attribute_method_params
+    # @param block [Proc] Apply attribute methods to specific values in the hash.
     def self.hash(*args, &block)
       if args.length == 0 && !block_given?
         super
@@ -64,23 +69,47 @@ module ActiveInteraction
       end
     end
 
-    # @method self.array(:attributes, options = {}, &block)
+    # @!macro [new] attribute_method_params
+    #   @param *attributes [Symbol] A list of attribute names.
+    #   @param options [Hash] A hash of options.
+    #   @option options [Boolean] :allow_nil Allow a nil value to be passed in.
 
-    # @method self.boolean(:attributes, options = {})
+    # @method self.array(*attributes, options = {}, &block)
+    #
+    # @macro attribute_method_params
+    # @param block [Proc] Apply attribute methods to each entry in the array.
 
-    # @method self.date(:attributes, options = {})
+    # @method self.boolean(*attributes, options = {})
+    #
+    # @macro attribute_method_params
 
-    # @method self.date_time(:attributes, options = {})
+    # @method self.date(*attributes, options = {})
+    #
+    # @macro attribute_method
 
-    # @method self.float(:attributes, options = {})
+    # @method self.date_time(*attributes, options = {})
+    #
+    # @macro attribute_method_params
 
-    # @method self.integer(:attributes, options = {})
+    # @method self.float(*attributes, options = {})
+    #
+    # @macro attribute_method_params
 
-    # @method self.model(:attributes, options = {})
+    # @method self.integer(*attributes, options = {})
+    #
+    # @macro attribute_method_params
 
-    # @method self.string(:attributes, options = {})
+    # @method self.model(*attributes, options = {})
+    #
+    # @macro attribute_method_params
 
-    # @method self.time(:attributes, options = {})
+    # @method self.string(*attributes, options = {})
+    #
+    # @macro attribute_method_params
+
+    # @method self.time(*attributes, options = {})
+    #
+    # @macro attribute_method_params
 
     # @private
     def self.method_missing(attr_type, *args, &block)
