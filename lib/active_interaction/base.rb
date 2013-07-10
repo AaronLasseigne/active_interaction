@@ -18,7 +18,7 @@ module ActiveInteraction
       false
     end
 
-    # Returns the output from {#execute} if there are no errors or nil otherwise.
+    # Returns the output from {#execute} if there are no errors or `nil` otherwise.
     #
     # @return [Nil] if there are validation errors.
     # @return [Object] if there are no validation errors.
@@ -41,8 +41,9 @@ module ActiveInteraction
       end
     end
 
-    # This must be overridden in a custom ActiveInteraction
-    #   class.
+    # Runs the business logic associated with the interactor. The method is only
+    #   run when there are no validation errors. The return value is placed into
+    #   {#response}. This method must be overridden in the subclass.
     #
     # @raise [NotImplementedError] if the method is not defined.
     def execute
@@ -75,10 +76,85 @@ module ActiveInteraction
       outcome
     end
 
-    # @overload hash(:attributes, options = {}, &block)
+    # @!macro [new] attribute_method_params
+    #   @param *attributes [Symbol] A list of attribute names.
+    #   @param options [Hash] A hash of options.
+    #   @option options [Boolean] :allow_nil Allow a nil value to be passed in.
+
+    # Confirms that any values passed to the provided attributes are Arrays.
+    #
+    # @macro attribute_method_params
+    # @param block [Proc] Apply attribute methods to each entry in the array.
+    #
+    # @example
+    #   array :ids
+    #
+    # @example An Array of Integers
+    #   array :ids do
+    #     integer
+    #   end
+    #
+    # @example An Array of Integers where some are nil
+    #   array :ids do
+    #     integer allow_nil: true
+    #   end
+    #
+    # @method self.array(*attributes, options = {}, &block)
+
+    # Confirms that any values passed to the provided attributes are Booleans.
+    #   The String "1" is converted to `true` and "0" is converted to `false`.
+    #
+    # @macro attribute_method_params
+    #
+    # @example
+    #   boolean :subscribed
+    #
+    # @method self.boolean(*attributes, options = {})
+
+    # Confirms that any values passed to the provided attributes are Dates.
+    #
+    # @macro attribute_method_params
+    #
+    # @example
+    #   date :birthday
+    #
+    # @method self.date(*attributes, options = {})
+
+    # Confirms that any values passed to the provided attributes are DateTimes.
+    #
+    # @macro attribute_method_params
+    #
+    # @example
+    #   date_time :start_date
+    #
+    # @method self.date_time(*attributes, options = {})
+
+    # Confirms that any values passed to the provided attributes are Floats.
+    #
+    # @macro attribute_method_params
+    #
+    # @example
+    #   float :amount
+    #
+    # @method self.float(*attributes, options = {})
+
+    # Confirms that any values passed to the provided attributes are Hashes.
     #
     # @macro attribute_method_params
     # @param block [Proc] Apply attribute methods to specific values in the hash.
+    #
+    # @example
+    #   hash :order
+    #
+    # @example A Hash where certain keys also have their values confirmed.
+    #   hash :order do
+    #     model :account
+    #     model :item
+    #     integer :quantity
+    #     boolean :delivered
+    #   end
+    #
+    # @method self.hash(:attributes, options = {}, &block)
     def self.hash(*args, &block)
       if args.length == 0 && !block_given?
         super
@@ -87,47 +163,45 @@ module ActiveInteraction
       end
     end
 
-    # @!macro [new] attribute_method_params
-    #   @param *attributes [Symbol] A list of attribute names.
-    #   @param options [Hash] A hash of options.
-    #   @option options [Boolean] :allow_nil Allow a nil value to be passed in.
-
-    # @method self.array(*attributes, options = {}, &block)
+    # Confirms that any values passed to the provided attributes are Integers.
     #
     # @macro attribute_method_params
-    # @param block [Proc] Apply attribute methods to each entry in the array.
-
-    # @method self.boolean(*attributes, options = {})
     #
-    # @macro attribute_method_params
-
-    # @method self.date(*attributes, options = {})
+    # @example
+    #   integer :quantity
     #
-    # @macro attribute_method
-
-    # @method self.date_time(*attributes, options = {})
-    #
-    # @macro attribute_method_params
-
-    # @method self.float(*attributes, options = {})
-    #
-    # @macro attribute_method_params
-
     # @method self.integer(*attributes, options = {})
+
+    # Confirms that any values passed to the provided attributes are the correct Class.
     #
     # @macro attribute_method_params
-
+    # @option options [Class, String, Symbol] :class (use the attribute name) Class name used to confirm the provided value.
+    #
+    # @example Confirms that the Class is `Account`
+    #   model :account
+    #
+    # @example Confirms that the Class is `User`
+    #   model :account, class: User
+    #
     # @method self.model(*attributes, options = {})
+
+    # Confirms that any values passed to the provided attributes are Strings.
     #
     # @macro attribute_method_params
-
+    #
+    # @example
+    #   string :first_name
+    #
     # @method self.string(*attributes, options = {})
-    #
-    # @macro attribute_method_params
 
-    # @method self.time(*attributes, options = {})
+    # Confirms that any values passed to the provided attributes are Times.
     #
     # @macro attribute_method_params
+    #
+    # @example
+    #   time :start_date
+    #
+    # @method self.time(*attributes, options = {})
 
     # @private
     def self.method_missing(attr_type, *args, &block)
