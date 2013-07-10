@@ -161,7 +161,7 @@ describe ActiveInteraction::Base do
           'Block!'
         end
 
-        expect(described_class).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash), kind_of(Proc))
+        expect(described_class).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash)) # TODO: find out how to check for blocks
       end
 
       it 'gets sent to add_filter_methods with no block' do
