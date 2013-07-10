@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep(/^spec\//)
 
   # Dependencies
-  spec.required_ruby_version = '>= 1.9.2'
+  spec.required_ruby_version = '>= 1.9.3'
 
   spec.add_dependency 'activemodel', '>= 3.2', '~> 4.0'
 
