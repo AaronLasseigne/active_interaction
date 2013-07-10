@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.description = spec.summary
   spec.homepage = 'https://github.com/orgsync/active_interaction'
   spec.authors = ['Aaron Lasseigne', 'Taylor Fausak']
-  spec.email = ['aaron.lasseigne@gmail.com', 'taylor@orgsync.com']
+  spec.email = ['aaron.lasseigne@gmail.com', 'taylor@fausak.me']
   spec.license = 'MIT'
 
   # Files
