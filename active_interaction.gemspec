@@ -5,7 +5,7 @@ require 'active_interaction/version'
 
 Gem::Specification.new do |spec|
   spec.name = 'active_interaction'
-  spec.version = ActiveInteraction::VERSION
+  spec.version = ActiveInteraction::VERSION.to_s
   spec.summary = 'Manage application specific business logic.'
   spec.description = spec.summary
   spec.homepage = 'https://github.com/orgsync/active_interaction'
