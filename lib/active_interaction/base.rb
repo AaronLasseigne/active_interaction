@@ -221,7 +221,8 @@ module ActiveInteraction
           rescue MissingValue
             errors.add(attribute, 'is required')
           rescue InvalidValue
-            errors.add(attribute, 'is invalid')
+            errors.add(attribute,
+                "is not a valid #{filter_type.to_s.humanize.downcase}")
           end
         end
         private validator
