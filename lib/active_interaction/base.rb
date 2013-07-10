@@ -55,6 +55,14 @@ module ActiveInteraction
       outcome
     end
 
+    def self.hash(*args, &block)
+      if args.length == 0 && !block_given?
+        super
+      else
+        method_missing(*args, block)
+      end
+    end
+
     # @!method array
     #
     # @return [Array]
