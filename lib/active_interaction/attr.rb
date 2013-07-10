@@ -9,11 +9,6 @@ module ActiveInteraction
       ActiveInteraction.const_get(klass)
     end
 
-    def camelize(string)
-      string.split('_').map(&:capitalize).join
-    end
-    private :camelize
-
     def return_nil(allow_nil)
       if allow_nil
         nil
