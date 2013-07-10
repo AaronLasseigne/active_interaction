@@ -15,8 +15,8 @@ Gem::Specification.new do |spec|
 
   # Files
   spec.require_path = 'lib'
-  spec.files = %x(git ls-files).split($/)
-  spec.test_files = spec.files.grep(/^spec\//)
+  spec.test_files = Dir['spec/**/*.rb']
+  spec.files = spec.test_files + Dir['lib/**/*.rb'] + %w(CHANGELOG.md LICENSE.txt README.md)
 
   # Dependencies
   spec.required_ruby_version = '>= 1.9.3'
