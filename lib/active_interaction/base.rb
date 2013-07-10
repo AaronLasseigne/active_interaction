@@ -129,6 +129,15 @@ module ActiveInteraction
     #
     # @method self.date_time(*attributes, options = {})
 
+    # Confirms that any values passed to the provided attributes are Files.
+    #
+    # @macro attribute_method_params
+    #
+    # @example
+    #   file :image
+    #
+    # @method self.file(*attributes, options = {})
+
     # Confirms that any values passed to the provided attributes are Floats.
     #
     # @macro attribute_method_params
