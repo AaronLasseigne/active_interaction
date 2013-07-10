@@ -154,7 +154,7 @@ module ActiveInteraction
     #     boolean :delivered
     #   end
     #
-    # @method self.hash(:attributes, options = {}, &block)
+    # @method self.hash(*attributes, options = {}, &block)
     def self.hash(*args, &block)
       if args.length == 0 && !block_given?
         super
