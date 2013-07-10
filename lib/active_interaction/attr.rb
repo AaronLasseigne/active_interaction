@@ -1,12 +1,17 @@
 module ActiveInteraction
   module Attr
     def self.factory(attr_type)
-      klass = "#{attr_type.to_s.capitalize}Attr"
+      klass = "#{attr_type.to_s.camelize}Attr"
 
       raise NoMethodError unless ActiveInteraction.const_defined?(klass)
 
       ActiveInteraction.const_get(klass)
     end
+
+    def camelize(string)
+      string.split('_').map(&:capitalize).join
+    end
+    private :camelize
 
     def return_nil(allow_nil)
       if allow_nil
