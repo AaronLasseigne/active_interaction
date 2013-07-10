@@ -63,7 +63,7 @@ module ActiveInteraction
     #
     # @return [Date]
 
-    # @!method datetime
+    # @!method date_time
     #
     # @return [DateTime]
 
