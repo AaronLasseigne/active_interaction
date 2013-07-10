@@ -6,10 +6,19 @@ module ActiveInteraction
         when Time
           value
         when Numeric
-          Time.at(value)
+          time.at(value)
         else
           super
       end
     end
+
+    def self.time
+      if Time.respond_to?(:zone)
+        Time.zone
+      else
+        Time
+      end
+    end
+    private_class_method :time
   end
 end
