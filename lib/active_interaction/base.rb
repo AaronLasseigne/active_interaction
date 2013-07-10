@@ -55,6 +55,7 @@ module ActiveInteraction
       outcome
     end
 
+    # @overload hash(:attributes, options = {}, &block)
     def self.hash(*args, &block)
       if args.length == 0 && !block_given?
         super
@@ -63,45 +64,23 @@ module ActiveInteraction
       end
     end
 
-    # @!method array
-    #
-    # @return [Array]
+    # @method self.array(:attributes, options = {}, &block)
 
-    # @!method boolean
-    #
-    # @return [Boolean]
+    # @method self.boolean(:attributes, options = {})
 
-    # @!method date
-    #
-    # @return [Date]
+    # @method self.date(:attributes, options = {})
 
-    # @!method date_time
-    #
-    # @return [DateTime]
+    # @method self.date_time(:attributes, options = {})
 
-    # @!method float
-    #
-    # @return [Float]
+    # @method self.float(:attributes, options = {})
 
-    # @!method hash
-    #
-    # @return [Hash]
+    # @method self.integer(:attributes, options = {})
 
-    # @!method integer
-    #
-    # @return [Integer]
+    # @method self.model(:attributes, options = {})
 
-    # @!method model
-    #
-    # @return [Model]
+    # @method self.string(:attributes, options = {})
 
-    # @!method string
-    #
-    # @return [String]
-
-    # @!method time
-    #
-    # @return [Time]
+    # @method self.time(:attributes, options = {})
 
     # @private
     def self.method_missing(attr_type, *args, &block)
