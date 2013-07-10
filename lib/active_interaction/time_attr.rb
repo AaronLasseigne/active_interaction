@@ -7,10 +7,8 @@ module ActiveInteraction
           value
         when Numeric
           Time.at(value)
-        when NilClass
-          return_nil(options[:allow_nil])
         else
-          bad_value
+          super
       end
     end
   end

@@ -11,10 +11,8 @@ module ActiveInteraction
           rescue ArgumentError
             bad_value
           end
-        when NilClass
-          return_nil(options[:allow_nil])
         else
-          bad_value
+          super
       end
     end
   end

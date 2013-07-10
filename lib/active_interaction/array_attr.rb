@@ -5,10 +5,8 @@ module ActiveInteraction
       case value
         when Array
           convert_values(value, &block)
-        when NilClass
-          return_nil(options[:allow_nil])
         else
-          bad_value
+          super
       end
     end
 

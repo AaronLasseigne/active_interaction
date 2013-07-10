@@ -9,10 +9,8 @@ module ActiveInteraction
           false
         when '1'
           true
-        when NilClass
-          return_nil(options[:allow_nil])
         else
-          bad_value
+          super
       end
     end
   end
