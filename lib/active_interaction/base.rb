@@ -42,11 +42,7 @@ module ActiveInteraction
 
     def self.run!(options = {})
       outcome = run(options)
-
-      unless outcome.valid?
-        raise InteractionInvalid
-      end
-
+      raise InteractionInvalid if outcome.invalid?
       outcome
     end
 
