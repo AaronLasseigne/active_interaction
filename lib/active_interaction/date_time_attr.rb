@@ -1,8 +1,6 @@
 module ActiveInteraction
   # @private
-  module DateTimeAttr
-    extend Attr
-
+  class DateTimeAttr < Attr
     def self.prepare(_, value, options = {})
       case value
         when DateTime

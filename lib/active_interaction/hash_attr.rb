@@ -1,8 +1,6 @@
 module ActiveInteraction
   # @private
-  module HashAttr
-    extend Attr
-
+  class HashAttr < Attr
     def self.prepare(_, value, options = {}, &block)
       case value
         when Hash

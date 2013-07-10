@@ -1,8 +1,6 @@
 module ActiveInteraction
   # @private
-  module ModelAttr
-    extend Attr
-
+  class ModelAttr < Attr
     def self.prepare(key, value, options = {})
       key_class = constantize(options.fetch(:class, key))
 

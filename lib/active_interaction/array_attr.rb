@@ -1,8 +1,6 @@
 module ActiveInteraction
   # @private
-  module ArrayAttr
-    extend Attr
-
+  class ArrayAttr < Attr
     def self.prepare(_, value, options = {}, &block)
       case value
         when Array

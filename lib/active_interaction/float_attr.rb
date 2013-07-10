@@ -1,8 +1,6 @@
 module ActiveInteraction
   # @private
-  module FloatAttr
-    extend Attr
-
+  class FloatAttr < Attr
     def self.prepare(_, value, options = {})
       case value
         when Float

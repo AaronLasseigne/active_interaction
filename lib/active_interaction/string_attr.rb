@@ -1,8 +1,6 @@
 module ActiveInteraction
   # @private
-  module StringAttr
-    extend Attr
-
+  class StringAttr < Attr
     def self.prepare(_, value, options = {})
       case value
         when String

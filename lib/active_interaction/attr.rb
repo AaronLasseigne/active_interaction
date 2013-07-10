@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  module Attr
+  class Attr
     def self.factory(attr_type)
       klass = "#{attr_type.to_s.camelize}Attr"
 
@@ -9,18 +9,18 @@ module ActiveInteraction
       ActiveInteraction.const_get(klass)
     end
 
-    def return_nil(allow_nil)
+    def self.return_nil(allow_nil)
       if allow_nil
         nil
       else
         raise MissingValue
       end
     end
-    private :return_nil
+    private_class_method :return_nil
 
-    def bad_value
+    def self.bad_value
       raise InvalidValue
     end
-    private :bad_value
+    private_class_method :bad_value
   end
 end

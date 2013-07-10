@@ -1,8 +1,6 @@
 module ActiveInteraction
   # @private
-  module BooleanAttr
-    extend Attr
-
+  class BooleanAttr < Attr
     def self.prepare(_, value, options = {})
       case value
         when TrueClass, FalseClass

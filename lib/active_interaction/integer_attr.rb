@@ -1,8 +1,6 @@
 module ActiveInteraction
   # @private
-  module IntegerAttr
-    extend Attr
-
+  class IntegerAttr < Attr
     def self.prepare(_, value, options = {})
       case value
         when Integer
