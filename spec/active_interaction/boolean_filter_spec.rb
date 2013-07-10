@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::BooleanAttr do
+describe ActiveInteraction::BooleanFilter do
   describe '#prepare(key, value, options = {})' do
     it 'sets `true` to `true`' do
       expect(described_class.prepare(:key, true)).to eql true

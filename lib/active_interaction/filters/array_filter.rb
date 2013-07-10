@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  class ArrayAttr < Attr
+  class ArrayFilter < Filter
     def self.prepare(_, value, options = {}, &block)
       case value
         when Array
@@ -13,15 +13,15 @@ module ActiveInteraction
     def self.convert_values(values, &block)
       return values.dup unless block_given?
 
-      attr_methods = AttrMethods.evaluate(&block)
-      if attr_methods.count > 1
+      filter_methods = FilterMethods.evaluate(&block)
+      if filter_methods.count > 1
         raise ArgumentError
       else
-        attr_method = attr_methods.first
+        filter_method = filter_methods.first
       end
 
       values.map do |value|
-        Attr.factory(attr_method.method_name).prepare(attr_method.attribute, value, attr_method.options, &attr_method.block)
+        Filter.factory(filter_method.method_name).prepare(filter_method.attribute, value, filter_method.options, &filter_method.block)
       end
     end
     private_class_method :convert_values

@@ -1,13 +1,13 @@
 module ActiveInteraction
   # @private
-  class DateTimeAttr < Attr
+  class DateFilter < Filter
     def self.prepare(_, value, options = {})
       case value
-        when DateTime
+        when Date
           value
         when String
           begin
-            DateTime.parse(value)
+            Date.parse(value)
           rescue ArgumentError
             bad_value
           end

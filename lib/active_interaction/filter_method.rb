@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  class AttrMethod
+  class FilterMethod
     attr_reader :method_name, :attribute, :options, :block
 
     def initialize(method_name, *args, &block)

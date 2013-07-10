@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::FloatAttr do
+describe ActiveInteraction::FloatFilter do
   describe '#prepare(key, value, options = {})' do
     context 'value is a String' do
       it 'converts Strings that are only digits' do

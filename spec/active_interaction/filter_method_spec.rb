@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe ActiveInteraction::AttrMethod do
+describe ActiveInteraction::FilterMethod do
   describe '.new(method_name, *args, &block)' do
     context 'with an attribute name in the args' do
-      subject(:attr_method) do
+      subject(:filter_method) do
         described_class.new(:method_name, :attribute, {options: true}) do
           'Block'
         end
@@ -16,7 +16,7 @@ describe ActiveInteraction::AttrMethod do
     end
 
     context 'without an attribute name in the args' do
-      subject(:attr_method) do
+      subject(:filter_method) do
         described_class.new(:method_name, {options: true}) do
           'Block'
         end

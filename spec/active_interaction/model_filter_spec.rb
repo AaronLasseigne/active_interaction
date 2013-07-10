@@ -20,7 +20,7 @@ shared_examples 'it matches on the class' do |key, options = {}|
   end
 end
 
-describe ActiveInteraction::ModelAttr do
+describe ActiveInteraction::ModelFilter do
   describe '#prepare(key, value, options = {})' do
     context 'value is a model' do
       it_behaves_like 'it matches on the class', :key

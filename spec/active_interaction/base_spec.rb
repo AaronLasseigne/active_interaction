@@ -68,8 +68,8 @@ describe ActiveInteraction::Base do
     end
   end
 
-  describe 'method_missing(attr_type, *args, &block)' do
-    context 'it catches valid attr types' do
+  describe 'method_missing(filter_type, *args, &block)' do
+    context 'it catches valid filter types' do
       class BoolTest < described_class
         boolean :test
 
@@ -104,7 +104,7 @@ describe ActiveInteraction::Base do
     end
 
     context 'does not stop other missing methods from erroring out' do
-      it 'throws a missing method error for non-attr types' do
+      it 'throws a missing method error for non-filter types' do
         expect {
           class FooTest < described_class
             foo :test
@@ -153,7 +153,7 @@ describe ActiveInteraction::Base do
       end
     end
 
-    context 'when arguments are passed it works as an attribute method' do
+    context 'when arguments are passed it works as an filter method' do
       it 'gets sent to method_missing' do
         allow(described_class).to receive(:method_missing)
 

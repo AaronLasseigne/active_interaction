@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  class TimeAttr < Attr
+  class TimeFilter < Filter
     def self.prepare(_, value, options = {})
       case value
         when Time

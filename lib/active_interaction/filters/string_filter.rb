@@ -1,14 +1,10 @@
 module ActiveInteraction
   # @private
-  class BooleanAttr < Attr
+  class StringFilter < Filter
     def self.prepare(_, value, options = {})
       case value
-        when TrueClass, FalseClass
+        when String
           value
-        when '0'
-          false
-        when '1'
-          true
         else
           super
       end

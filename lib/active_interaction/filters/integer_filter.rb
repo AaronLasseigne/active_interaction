@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  class IntegerAttr < Attr
+  class IntegerFilter < Filter
     def self.prepare(_, value, options = {})
       case value
         when Integer

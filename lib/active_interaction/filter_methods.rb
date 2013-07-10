@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  class AttrMethods
+  class FilterMethods
     include Enumerable
 
     def self.evaluate(&block)
@@ -10,15 +10,15 @@ module ActiveInteraction
     end
 
     def initialize
-      @attr_methods = []
+      @filter_methods = []
     end
 
     def each(&block)
-      @attr_methods.each(&block)
+      @filter_methods.each(&block)
     end
 
     def method_missing(attr_type, *args, &block)
-      @attr_methods.push(AttrMethod.new(attr_type, *args, &block))
+      @filter_methods.push(FilterMethod.new(attr_type, *args, &block))
     end
     private :method_missing
   end

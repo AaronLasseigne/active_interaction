@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::HashAttr do
+describe ActiveInteraction::HashFilter do
   describe '#prepare(key, value, options = {}, &block)' do
     it 'passes a Hash through' do
       expect(described_class.prepare(:key, {one: 1})).to eql({one: 1})
@@ -15,7 +15,7 @@ describe ActiveInteraction::HashAttr do
     it_behaves_like 'options includes :allow_nil'
 
     context 'a block is given' do
-      it 'runs the attr method on each array item' do
+      it 'runs the filter method on each array item' do
         output = described_class.prepare :key, {one: '1'} do
           integer :one
         end

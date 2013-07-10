@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  class FloatAttr < Attr
+  class FloatFilter < Filter
     def self.prepare(_, value, options = {})
       case value
         when Float

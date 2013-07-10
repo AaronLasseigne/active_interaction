@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  class ModelAttr < Attr
+  class ModelFilter < Filter
     def self.prepare(key, value, options = {})
       key_class = constantize(options.fetch(:class, key))
 

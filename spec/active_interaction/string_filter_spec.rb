@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::StringAttr do
+describe ActiveInteraction::StringFilter do
   describe '#prepare(key, value, options = {})' do
     context 'value is a String' do
       it 'passes it on through' do

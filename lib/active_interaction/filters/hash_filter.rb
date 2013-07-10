@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  class HashAttr < Attr
+  class HashFilter < Filter
     def self.prepare(_, value, options = {}, &block)
       case value
         when Hash
@@ -13,10 +13,10 @@ module ActiveInteraction
     def self.convert_values(hash, &block)
       return hash unless block_given?
 
-      AttrMethods.evaluate(&block).each do |attr_method|
-        key = attr_method.attribute
+      FilterMethods.evaluate(&block).each do |filter_method|
+        key = filter_method.attribute
 
-        hash[key] = Attr.factory(attr_method.method_name).prepare(key, hash[key], attr_method.options, &attr_method.block)
+        hash[key] = Filter.factory(filter_method.method_name).prepare(key, hash[key], filter_method.options, &filter_method.block)
       end
 
       hash

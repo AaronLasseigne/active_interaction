@@ -204,12 +204,12 @@ module ActiveInteraction
     # @method self.time(*attributes, options = {})
 
     # @private
-    def self.method_missing(attr_type, *args, &block)
-      klass = Attr.factory(attr_type)
+    def self.method_missing(filter_type, *args, &block)
+      klass = Filter.factory(filter_type)
       options = args.last.is_a?(Hash) ? args.pop : {}
 
       args.each do |attribute|
-        validator = "_validate__#{attribute}__#{attr_type}"
+        validator = "_validate__#{attribute}__#{filter_type}"
 
         attr_accessor attribute
 

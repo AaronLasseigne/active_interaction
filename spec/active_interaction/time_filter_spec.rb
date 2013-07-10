@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::TimeAttr do
+describe ActiveInteraction::TimeFilter do
   describe '#prepare' do
     let(:key) { SecureRandom.hex.to_sym }
 

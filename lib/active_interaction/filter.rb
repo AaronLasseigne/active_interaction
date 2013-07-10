@@ -1,8 +1,8 @@
 module ActiveInteraction
   # @private
-  class Attr
-    def self.factory(attr_type)
-      klass = "#{attr_type.to_s.camelize}Attr"
+  class Filter
+    def self.factory(type)
+      klass = "#{type.to_s.camelize}Filter"
 
       raise NoMethodError unless ActiveInteraction.const_defined?(klass)
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::DateAttr do
+describe ActiveInteraction::DateFilter do
   describe '#prepare' do
     let(:key) { SecureRandom.hex.to_sym }
 

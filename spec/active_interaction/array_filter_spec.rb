@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::ArrayAttr do
+describe ActiveInteraction::ArrayFilter do
   describe '#prepare(key, value, options = {}, &block)' do
     it 'passes an Array through' do
       expect(described_class.prepare(:key, [1])).to eql [1]
@@ -15,7 +15,7 @@ describe ActiveInteraction::ArrayAttr do
     it_behaves_like 'options includes :allow_nil'
 
     context 'a block is given' do
-      it 'runs the attr method on each array item' do
+      it 'runs the filter method on each array item' do
         output = described_class.prepare :key, ['1'] do
           integer
         end
@@ -41,7 +41,7 @@ describe ActiveInteraction::ArrayAttr do
         }.to raise_error ActiveInteraction::InvalidValue
       end
 
-      it 'raises an error if more than one attr requirement is listed' do
+      it 'raises an error if more than one filter requirement is listed' do
         expect {
           described_class.prepare :key, ['1'] do
             integer
