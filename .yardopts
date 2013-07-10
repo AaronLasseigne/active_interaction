@@ -1,3 +1,4 @@
+--readme=README.md
 --no-private
 --protected
 --markup-provider=kramdown
