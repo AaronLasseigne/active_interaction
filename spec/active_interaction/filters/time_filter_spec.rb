@@ -36,36 +36,36 @@ describe ActiveInteraction::TimeFilter do
     end
 
     context 'Time.zone exists' do
-      before(:each) do
-        @time_zone_class = double
-        allow(Time).to receive(:zone).and_return(@time_zone_class)
+      let(:time_zone_class) { double }
+      before do
+        allow(Time).to receive(:zone).and_return(time_zone_class)
       end
 
       it 'converts an Integer' do
         value = rand(1 << 30)
-        allow(@time_zone_class).to receive(:at)
+        allow(time_zone_class).to receive(:at)
 
         described_class.prepare(key, value)
 
-        expect(@time_zone_class).to have_received(:at).with(value).once
+        expect(time_zone_class).to have_received(:at).with(value).once
       end
 
       it 'converts a Float' do
         value = rand(1 << 30) + rand
-        allow(@time_zone_class).to receive(:at)
+        allow(time_zone_class).to receive(:at)
 
         described_class.prepare(key, value)
 
-        expect(@time_zone_class).to have_received(:at).with(value).once
+        expect(time_zone_class).to have_received(:at).with(value).once
       end
 
       it 'converts a String' do
         value = '2013-01-01 00:00:00'
-        allow(@time_zone_class).to receive(:parse)
+        allow(time_zone_class).to receive(:parse)
 
         described_class.prepare(key, value)
 
-        expect(@time_zone_class).to have_received(:parse).with(value).once
+        expect(time_zone_class).to have_received(:parse).with(value).once
       end
     end
 
