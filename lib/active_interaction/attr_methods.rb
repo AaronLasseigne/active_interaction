@@ -1,4 +1,5 @@
 module ActiveInteraction
+  # @private
   class AttrMethods
     include Enumerable
 

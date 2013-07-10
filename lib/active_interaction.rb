@@ -16,3 +16,6 @@ require 'active_interaction/model_attr'
 require 'active_interaction/string_attr'
 require 'active_interaction/time_attr'
 require 'active_interaction/base'
+
+# @since 0.1.0
+module ActiveInteraction; end

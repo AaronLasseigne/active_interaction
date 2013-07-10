@@ -1,4 +1,5 @@
 module ActiveInteraction
+  # @private
   module Attr
     def self.factory(attr_type)
       klass = "#{attr_type.to_s.camelize}Attr"

@@ -1,4 +1,5 @@
 module ActiveInteraction
+  # @private
   module DateAttr
     extend Attr
 

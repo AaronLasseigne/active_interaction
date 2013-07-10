@@ -1,4 +1,5 @@
 module ActiveInteraction
+  # @private
   module ArrayAttr
     extend Attr
 

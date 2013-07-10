@@ -1,4 +1,5 @@
 module ActiveInteraction
+  # @private
   class AttrMethod
     attr_reader :method_name, :attribute, :options, :block
 

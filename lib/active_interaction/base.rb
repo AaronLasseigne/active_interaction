@@ -1,19 +1,24 @@
 module ActiveInteraction
+  # @abstract Subclass and override {#execute} to implement
+  #   a custom ActiveInteraction class.
   class Base
     extend  ::ActiveModel::Naming
     include ::ActiveModel::Conversion
     include ::ActiveModel::Validations
 
+    # @private
     def new_record?
       true
     end
 
+    # @private
     def persisted?
       false
     end
 
     attr_reader :response
 
+    # @private
     def initialize(options = {})
       if options.has_key?(:response)
         raise ArgumentError, ':response is reserved and can not be used'
@@ -46,6 +51,47 @@ module ActiveInteraction
       outcome
     end
 
+    # @!method array
+    #
+    # @return [Array]
+
+    # @!method boolean
+    #
+    # @return [Boolean]
+
+    # @!method date
+    #
+    # @return [Date]
+
+    # @!method datetime
+    #
+    # @return [DateTime]
+
+    # @!method float
+    #
+    # @return [Float]
+
+    # @!method hash
+    #
+    # @return [Hash]
+
+    # @!method integer
+    #
+    # @return [Integer]
+
+    # @!method model
+    #
+    # @return [Model]
+
+    # @!method string
+    #
+    # @return [String]
+
+    # @!method time
+    #
+    # @return [Time]
+
+    # @private
     def self.method_missing(attr_type, *args, &block)
       klass = Attr.factory(attr_type)
       options = args.last.is_a?(Hash) ? args.pop : {}
