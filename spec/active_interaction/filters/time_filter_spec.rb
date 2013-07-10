@@ -12,22 +12,26 @@ describe ActiveInteraction::TimeFilter do
     end
 
     context 'Time.zone does not exist' do
-      it 'converts an integer' do
+      it 'converts an Integer' do
         value = rand(1 << 30)
-        allow(Time).to receive(:at)
 
-        described_class.prepare(key, value)
-
-        expect(Time).to have_received(:at).with(value).once
+        expect(described_class.prepare(key, value)).to eql Time.at(value)
       end
 
-      it 'converts a float' do
+      it 'converts a Float' do
         value = rand(1 << 30) + rand
-        allow(Time).to receive(:at)
 
-        described_class.prepare(key, value)
+        expect(described_class.prepare(key, value)).to eql Time.at(value)
+      end
 
-        expect(Time).to have_received(:at).with(value).once
+      it 'converts a String' do
+        value = '2013-01-01 00:00:00'
+
+        expect(described_class.prepare(key, value)).to eql Time.parse(value)
+      end
+
+      it 'throws an error for invalid time Strings' do
+        expect { described_class.prepare(key, 'a') }.to raise_error ActiveInteraction::InvalidValue
       end
     end
 
@@ -37,7 +41,7 @@ describe ActiveInteraction::TimeFilter do
         allow(Time).to receive(:zone).and_return(@time_zone_class)
       end
 
-      it 'converts an integer' do
+      it 'converts an Integer' do
         value = rand(1 << 30)
         allow(@time_zone_class).to receive(:at)
 
@@ -46,7 +50,7 @@ describe ActiveInteraction::TimeFilter do
         expect(@time_zone_class).to have_received(:at).with(value).once
       end
 
-      it 'converts a float' do
+      it 'converts a Float' do
         value = rand(1 << 30) + rand
         allow(@time_zone_class).to receive(:at)
 
@@ -54,10 +58,19 @@ describe ActiveInteraction::TimeFilter do
 
         expect(@time_zone_class).to have_received(:at).with(value).once
       end
+
+      it 'converts a String' do
+        value = '2013-01-01 00:00:00'
+        allow(@time_zone_class).to receive(:parse)
+
+        described_class.prepare(key, value)
+
+        expect(@time_zone_class).to have_received(:parse).with(value).once
+      end
     end
 
     it 'throws an error for everything else' do
-      expect { described_class.prepare(key, '') }.to raise_error ActiveInteraction::InvalidValue
+      expect { described_class.prepare(key, true) }.to raise_error ActiveInteraction::InvalidValue
     end
   end
 end

@@ -1,3 +1,5 @@
+require 'time'
+
 module ActiveInteraction
   # @private
   class TimeFilter < Filter
@@ -5,6 +7,12 @@ module ActiveInteraction
       case value
         when Time
           value
+        when String
+          begin
+            time.parse(value)
+          rescue ArgumentError
+            bad_value
+          end
         when Numeric
           time.at(value)
         else
