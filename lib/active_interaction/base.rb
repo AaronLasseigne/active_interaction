@@ -18,6 +18,10 @@ module ActiveInteraction
       false
     end
 
+    # Returns the output from {#execute} if there are no errors or nil otherwise.
+    #
+    # @return [Nil] if there are validation errors.
+    # @return [Object] if there are no validation errors.
     attr_reader :response
 
     # @private
@@ -37,12 +41,21 @@ module ActiveInteraction
       end
     end
 
-    # @raise [NotImplementedError] This must be overridden in a custom ActiveInteraction
+    # This must be overridden in a custom ActiveInteraction
     #   class.
+    #
+    # @raise [NotImplementedError] if the method is not defined.
     def execute
       raise NotImplementedError
     end
 
+    # @!macro [new] run_attributes
+    #   @param options [Hash] A hash of attributes values to set.
+    #   @return [ActiveInteraction::Base] An instance of the class run is called on.
+
+    # Runs validations and if there are no errors it will call {#execute}.
+    #
+    # @macro run_attributes
     def self.run(options = {})
       me = new(options)
 
@@ -51,6 +64,11 @@ module ActiveInteraction
       me
     end
 
+    # Same as {.run} except that an exception is raised if there are any validation
+    #   errors.
+    #
+    # @macro run_attributes
+    # @raise [InteractionInvalid] if there are any errors on the model.
     def self.run!(options = {})
       outcome = run(options)
       raise InteractionInvalid if outcome.invalid?
