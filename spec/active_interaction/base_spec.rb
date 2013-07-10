@@ -36,6 +36,12 @@ describe ActiveInteraction::Base do
         SubBase.new(response: true)
       }.to raise_error ArgumentError
     end
+
+    it "does not allow 'response' as a option" do
+      expect {
+        SubBase.new('response' => true)
+      }.to raise_error ArgumentError
+    end
   end
 
   describe '.run(options = {})' do

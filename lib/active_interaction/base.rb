@@ -1,3 +1,5 @@
+require 'active_support/core_ext/hash/indifferent_access'
+
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement
   #   a custom ActiveInteraction class.
@@ -20,6 +22,8 @@ module ActiveInteraction
 
     # @private
     def initialize(options = {})
+      options = options.with_indifferent_access
+
       if options.has_key?(:response)
         raise ArgumentError, ':response is reserved and can not be used'
       end
