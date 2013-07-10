@@ -20,6 +20,12 @@ describe ActiveInteraction::FloatFilter do
       end
     end
 
+    context 'value is an Integer' do
+      it 'converts to Float' do
+        expect(described_class.prepare(:key, 1)).to eql 1.0
+      end
+    end
+
     it 'throws an error for everything else' do
       expect {
         described_class.prepare(:key, true)

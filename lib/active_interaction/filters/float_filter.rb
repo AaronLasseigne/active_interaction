@@ -5,7 +5,7 @@ module ActiveInteraction
       case value
         when Float
           value
-        when String
+        when Integer, String
           begin
             Float(value)
           rescue ArgumentError
