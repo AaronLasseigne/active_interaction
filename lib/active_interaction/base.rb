@@ -39,6 +39,8 @@ module ActiveInteraction
       false
     end
 
+    extend OverloadHash
+
     # Returns the output from {#execute} if there are no validation errors or
     #   `nil` otherwise.
     #
@@ -96,16 +98,6 @@ module ActiveInteraction
       outcome = run(options)
       raise InteractionInvalid if outcome.invalid?
       outcome
-    end
-
-    def self.hash(*args, &block)
-      if args.length == 0 && !block_given?
-        super
-      elsif block_given?
-        method_missing(:hash, *args, &block)
-      else
-        method_missing(:hash, *args)
-      end
     end
 
     # @private

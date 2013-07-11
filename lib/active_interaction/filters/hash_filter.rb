@@ -4,7 +4,7 @@ module ActiveInteraction
     #   the attributes are Hashes.
     #
     # @macro attribute_method_params
-    # @param block [Proc] Filter methods to apply for selected keys.
+    # @param block [Proc] Filter methods to apply for select keys.
     #
     # @example
     #   hash :order

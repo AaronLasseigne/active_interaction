@@ -2,6 +2,7 @@ require 'active_model'
 
 require 'active_interaction/version'
 require 'active_interaction/errors'
+require 'active_interaction/overload_hash'
 require 'active_interaction/filter'
 require 'active_interaction/filter_method'
 require 'active_interaction/filter_methods'

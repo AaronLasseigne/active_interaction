@@ -145,32 +145,4 @@ describe ActiveInteraction::Base do
       end
     end
   end
-
-  describe '.hash' do
-    context 'when no arguments are passed it acts like the standard hash method' do
-      it 'returns a fixnum' do
-        expect(described_class.hash).to be_a Fixnum
-      end
-    end
-
-    context 'when arguments are passed it works as an filter method' do
-      it 'gets sent to add_filter_methods' do
-        allow(described_class).to receive(:method_missing)
-
-        described_class.hash(:attr_name, {}) do
-          'Block!'
-        end
-
-        expect(described_class).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash)) # TODO: find out how to check for blocks
-      end
-
-      it 'gets sent to add_filter_methods with no block' do
-        allow(described_class).to receive(:method_missing)
-
-        described_class.hash(:attr_name, {})
-
-        expect(described_class).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash))
-      end
-    end
-  end
 end

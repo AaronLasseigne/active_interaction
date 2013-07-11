@@ -2,6 +2,7 @@ module ActiveInteraction
   # @private
   class FilterMethods
     include Enumerable
+    include OverloadHash
 
     def self.evaluate(&block)
       me = new
