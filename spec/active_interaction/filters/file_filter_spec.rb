@@ -21,7 +21,7 @@ describe ActiveInteraction::FileFilter do
       end
     end
 
-    context 'with a model that responds to `tempfile`' do
+    context 'with a object that responds to `tempfile`' do
       let(:value) { double(tempfile: Tempfile.open(__FILE__)) }
 
       it 'returns the Tempfile' do
