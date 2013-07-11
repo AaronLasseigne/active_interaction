@@ -20,5 +20,13 @@ describe ActiveInteraction::FileFilter do
         expect(result).to equal(value)
       end
     end
+
+    context 'with a model that responds to `tempfile`' do
+      let(:value) { double(tempfile: Tempfile.open(__FILE__)) }
+
+      it 'returns the Tempfile' do
+        expect(result).to equal(value.tempfile)
+      end
+    end
   end
 end

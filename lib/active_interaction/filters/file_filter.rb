@@ -14,6 +14,8 @@ module ActiveInteraction
   # @private
   class FileFilter < Filter
     def self.prepare(key, value, options = {}, &block)
+      value = extract_file(value)
+
       case value
         when File, Tempfile
           value
@@ -21,5 +23,14 @@ module ActiveInteraction
           super
       end
     end
+
+    def self.extract_file(value)
+      if value.respond_to?(:tempfile)
+        value = value.tempfile
+      else
+        value
+      end
+    end
+    private_class_method :extract_file
   end
 end
