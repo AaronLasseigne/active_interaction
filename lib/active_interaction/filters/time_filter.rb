@@ -1,9 +1,9 @@
 module ActiveInteraction
   class Base
-    # Confirms that any values passed to the provided attributes are Times. Numeric
-    #   values are processed using `at`. Strings are processed using `parse`. If
-    #   `Time.zone` is available it will be used so that the values are time zone
-    #   aware.
+    # Creates accessors for the attributes and ensures that values passed to
+    #   the attributes are Times. Numeric values are processed using `at`.
+    #   Strings are processed using `parse`. If `Time.zone` is available it will
+    #   be used so that the values are time zone aware.
     #
     # @macro attribute_method_params
     #

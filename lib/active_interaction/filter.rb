@@ -1,8 +1,8 @@
 module ActiveInteraction
   # @!macro [new] attribute_method_params
-  #   @param *attributes [Symbol] A list of attribute names.
-  #   @param options [Hash] A hash of options.
-  #   @option options [Boolean] :allow_nil Allow a nil value to be passed in.
+  #   @param *attributes [Symbol] One or more attributes to create.
+  #   @param options [Hash]
+  #   @option options [Boolean] :allow_nil Allow a `nil` value.
 
   # @private
   class Filter

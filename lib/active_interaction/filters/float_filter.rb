@@ -1,7 +1,8 @@
 module ActiveInteraction
   class Base
-    # Confirms that any values passed to the provided attributes are Floats.
-    #   Integer and String values are converted into Floats.
+    # Creates accessors for the attributes and ensures that values passed to
+    #   the attributes are Floats. Integer and String values are converted into
+    #   Floats.
     #
     # @macro attribute_method_params
     #

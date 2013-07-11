@@ -1,6 +1,7 @@
 module ActiveInteraction
   class Base
-    # Confirms that any values passed to the provided attributes are Files.
+    # Creates accessors for the attributes and ensures that values passed to
+    #   the attributes are Files.
     #
     # @macro attribute_method_params
     #

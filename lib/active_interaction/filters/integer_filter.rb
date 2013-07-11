@@ -1,7 +1,7 @@
 module ActiveInteraction
   class Base
-    # Confirms that any values passed to the provided attributes are Integers.
-    #   String values are converted into Integers.
+    # Creates accessors for the attributes and ensures that values passed to
+    #   the attributes are Integers. String values are converted into Integers.
     #
     # @macro attribute_method_params
     #

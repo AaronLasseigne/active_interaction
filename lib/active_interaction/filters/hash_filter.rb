@@ -1,14 +1,15 @@
 module ActiveInteraction
   class Base
-    # Confirms that any values passed to the provided attributes are Hashes.
+    # Creates accessors for the attributes and ensures that values passed to
+    #   the attributes are Hashes.
     #
     # @macro attribute_method_params
-    # @param block [Proc] Apply attribute methods to specific values in the hash.
+    # @param block [Proc] Filter methods to apply for selected keys.
     #
     # @example
     #   hash :order
     #
-    # @example A Hash where certain keys also have their values confirmed.
+    # @example A Hash where certain keys also have their values ensured.
     #   hash :order do
     #     model :account
     #     model :item

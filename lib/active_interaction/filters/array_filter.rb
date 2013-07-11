@@ -1,9 +1,10 @@
 module ActiveInteraction
   class Base
-    # Confirms that any values passed to the provided attributes are Arrays.
+    # Creates accessors for the attributes and ensures that values passed to
+    #   the attributes are Arrays.
     #
     # @macro attribute_method_params
-    # @param block [Proc] Apply attribute methods to each entry in the array.
+    # @param block [Proc] A filter method to apply to each element.
     #
     # @example
     #   array :ids
@@ -13,7 +14,7 @@ module ActiveInteraction
     #     integer
     #   end
     #
-    # @example An Array of Integers where some are nil
+    # @example An Array of Integers where some or all are nil
     #   array :ids do
     #     integer allow_nil: true
     #   end

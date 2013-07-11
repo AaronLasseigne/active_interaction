@@ -3,6 +3,27 @@ require 'active_support/core_ext/hash/indifferent_access'
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement
   #   a custom ActiveInteraction class.
+  #
+  # @example
+  #   class ExampleInteraction < ActiveInteraction::Base
+  #     # Required
+  #     integer :a, :b
+  # 
+  #     # Optional
+  #     integer :c, allow_nil: true
+  # 
+  #     def execute
+  #       response = a + b
+  #       c.nil? ? response : response + c
+  #     end
+  #   end
+  # 
+  #   outcome = ExampleInteraction.run(a: 1, b: 2, c: 3)
+  #   if outcome.valid?
+  #     p outcome.response
+  #   else
+  #     p outcome.errors
+  #   end
   class Base
     extend  ::ActiveModel::Naming
     include ::ActiveModel::Conversion
@@ -18,7 +39,8 @@ module ActiveInteraction
       false
     end
 
-    # Returns the output from {#execute} if there are no errors or `nil` otherwise.
+    # Returns the output from {#execute} if there are no validation errors or
+    #   `nil` otherwise.
     #
     # @return [Nil] if there are validation errors.
     # @return [Object] if there are no validation errors.
@@ -51,8 +73,8 @@ module ActiveInteraction
     end
 
     # @!macro [new] run_attributes
-    #   @param options [Hash] A hash of attributes values to set.
-    #   @return [ActiveInteraction::Base] An instance of the class run is called on.
+    #   @param options [Hash] Attribute values to set.
+    #   @return [ActiveInteraction::Base] An instance of the class `$0` is called on.
 
     # Runs validations and if there are no errors it will call {#execute}.
     #
