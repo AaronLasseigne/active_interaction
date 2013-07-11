@@ -112,6 +112,7 @@ module ActiveInteraction
     # @method self.boolean(*attributes, options = {})
 
     # Confirms that any values passed to the provided attributes are Dates.
+    #   Strings are processed using `parse`.
     #
     # @macro attribute_method_params
     #
@@ -121,6 +122,7 @@ module ActiveInteraction
     # @method self.date(*attributes, options = {})
 
     # Confirms that any values passed to the provided attributes are DateTimes.
+    #   Strings are processed using `parse`.
     #
     # @macro attribute_method_params
     #
@@ -139,6 +141,7 @@ module ActiveInteraction
     # @method self.file(*attributes, options = {})
 
     # Confirms that any values passed to the provided attributes are Floats.
+    #   Integer and String values are converted into Floats.
     #
     # @macro attribute_method_params
     #
@@ -175,6 +178,7 @@ module ActiveInteraction
     end
 
     # Confirms that any values passed to the provided attributes are Integers.
+    #   String values are converted into Integers.
     #
     # @macro attribute_method_params
     #
@@ -205,7 +209,10 @@ module ActiveInteraction
     #
     # @method self.string(*attributes, options = {})
 
-    # Confirms that any values passed to the provided attributes are Times.
+    # Confirms that any values passed to the provided attributes are Times. Numeric
+    #   values are processed using `at`. Strings are processed using `parse`. If
+    #   `Time.zone` is available it will be used so that the values are time zone
+    #   aware.
     #
     # @macro attribute_method_params
     #
