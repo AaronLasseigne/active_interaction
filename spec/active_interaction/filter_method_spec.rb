@@ -24,7 +24,7 @@ describe ActiveInteraction::FilterMethod do
 
       its(:method_name) { should eql :method_name }
       its(:attribute)   { should be_nil }
-      its(:options)     { should eql({options: true}) }
+      its(:options)     { should eql(options: true) }
       its(:block)       { should be_a Proc }
     end
   end

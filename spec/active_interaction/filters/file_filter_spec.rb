@@ -9,7 +9,7 @@ describe ActiveInteraction::FileFilter do
       let(:value) { File.open(__FILE__) }
 
       it 'returns the File' do
-        expect(result).to equal(value)
+        expect(result).to equal value
       end
     end
 
@@ -17,7 +17,7 @@ describe ActiveInteraction::FileFilter do
       let(:value) { Tempfile.open(__FILE__) }
 
       it 'returns the Tempfile' do
-        expect(result).to equal(value)
+        expect(result).to equal value
       end
     end
 
@@ -25,7 +25,7 @@ describe ActiveInteraction::FileFilter do
       let(:value) { double(tempfile: Tempfile.open(__FILE__)) }
 
       it 'returns the Tempfile' do
-        expect(result).to equal(value.tempfile)
+        expect(result).to equal value.tempfile
       end
     end
   end
