@@ -9,7 +9,15 @@ describe ActiveInteraction::FileFilter do
       let(:value) { File.open(__FILE__) }
 
       it 'returns the File' do
-        expect(result).to eql(value)
+        expect(result).to equal(value)
+      end
+    end
+
+    context 'with a Tempfile' do
+      let(:value) { Tempfile.open(__FILE__) }
+
+      it 'returns the Tempfile' do
+        expect(result).to equal(value)
       end
     end
   end
