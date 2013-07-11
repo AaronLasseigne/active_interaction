@@ -5,15 +5,12 @@ shared_context 'interactions' do
 end
 
 class IntegrationInteraction < ActiveInteraction::Base
-  # model :a, class: Object
-  # model :b, class: Object, allow_nil: true
-
   def execute
     b || a
   end
 end
 
-shared_examples 'an integration interaction' do
+shared_examples_for 'an integration interaction' do
   include_context 'interactions'
 
   it 'is invalid without required options' do
