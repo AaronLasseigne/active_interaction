@@ -4,7 +4,7 @@ class HashInteraction < IntegrationInteraction
   hash :a
   hash :b, allow_nil: true
   hash :c, allow_nil: true do
-    boolean :d
+    hash :d
   end
 
   def execute
@@ -18,7 +18,7 @@ describe HashInteraction do
 
   let(:a) { { 'a' => false } }
   let(:b) { { 'b' => true } }
-  let(:c) { { 'd' => false } }
+  let(:c) { { 'd' => {} } }
 
   context 'with required option "a"' do
     before { options.merge!(a: a) }

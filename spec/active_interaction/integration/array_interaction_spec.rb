@@ -4,7 +4,7 @@ class ArrayInteraction < IntegrationInteraction
   array :a
   array :b, allow_nil: true
   array :c, allow_nil: true do
-    boolean
+    array
   end
 
   def execute
@@ -18,7 +18,7 @@ describe ArrayInteraction do
 
   let(:a) { [false] }
   let(:b) { [true] }
-  let(:c) { [false, true] }
+  let(:c) { [[]] }
 
   context 'with required option "a"' do
     before { options.merge!(a: a) }
