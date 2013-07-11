@@ -1,7 +1,7 @@
 module ActiveInteraction
   # @private
   class FileFilter < Filter
-    def self.prepare(_, value, _ = {})
+    def self.prepare(key, value, options = {}, &block)
       case value
         when File
           value

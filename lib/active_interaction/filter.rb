@@ -9,7 +9,7 @@ module ActiveInteraction
       ActiveInteraction.const_get(klass)
     end
 
-    def self.prepare(_, value, options = {})
+    def self.prepare(key, value, options = {}, &block)
       case value
         when NilClass
           return_nil(options[:allow_nil])

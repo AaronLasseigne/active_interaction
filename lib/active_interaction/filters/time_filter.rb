@@ -1,7 +1,7 @@
 module ActiveInteraction
   # @private
   class TimeFilter < Filter
-    def self.prepare(_, value, options = {})
+    def self.prepare(key, value, options = {}, &block)
       case value
         when Time
           value

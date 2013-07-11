@@ -1,7 +1,7 @@
 module ActiveInteraction
   # @private
   class ModelFilter < Filter
-    def self.prepare(key, value, options = {})
+    def self.prepare(key, value, options = {}, &block)
       key_class = constantize(options.fetch(:class, key))
 
       case value

@@ -1,7 +1,7 @@
 module ActiveInteraction
   # @private
   class HashFilter < Filter
-    def self.prepare(_, value, options = {}, &block)
+    def self.prepare(key, value, options = {}, &block)
       case value
         when Hash
           convert_values(value.dup, &block)

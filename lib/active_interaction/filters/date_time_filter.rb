@@ -1,7 +1,7 @@
 module ActiveInteraction
   # @private
   class DateTimeFilter < Filter
-    def self.prepare(_, value, options = {})
+    def self.prepare(key, value, options = {}, &block)
       case value
         when DateTime
           value

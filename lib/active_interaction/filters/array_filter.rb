@@ -1,7 +1,7 @@
 module ActiveInteraction
   # @private
   class ArrayFilter < Filter
-    def self.prepare(_, value, options = {}, &block)
+    def self.prepare(key, value, options = {}, &block)
       case value
         when Array
           convert_values(value, &block)
