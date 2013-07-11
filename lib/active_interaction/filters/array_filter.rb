@@ -15,7 +15,7 @@ module ActiveInteraction
 
       filter_methods = FilterMethods.evaluate(&block)
       if filter_methods.count > 1
-        raise ArgumentError
+        raise ArgumentError, 'Array filter blocks can only contain one filter.'
       else
         filter_method = filter_methods.first
       end
