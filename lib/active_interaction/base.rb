@@ -218,27 +218,32 @@ module ActiveInteraction
     def self.method_missing(filter_type, *args, &block)
       klass = Filter.factory(filter_type)
       options = args.last.is_a?(Hash) ? args.pop : {}
-
       args.each do |attribute|
-        validator = "_validate__#{attribute}__#{filter_type}"
-
-        attr_accessor attribute
-
-        validate validator
-
-        define_method(validator) do
-          begin
-            klass.prepare(attribute, send(attribute), options, &block)
-          rescue MissingValue
-            errors.add(attribute, 'is required')
-          rescue InvalidValue
-            errors.add(attribute,
-                "is not a valid #{filter_type.to_s.humanize.downcase}")
-          end
-        end
-        private validator
+        set_up_validator(attribute, filter_type, klass, options, &block)
       end
     end
     private_class_method :method_missing
+
+    # @private
+    def self.set_up_validator(attribute, type, filter, options, &block)
+      validator = "_validate__#{attribute}__#{type}"
+
+      attr_accessor attribute
+
+      validate validator
+
+      define_method(validator) do
+        begin
+          filter.prepare(attribute, send(attribute), options, &block)
+        rescue MissingValue
+          errors.add(attribute, 'is required')
+        rescue InvalidValue
+          errors.add(attribute,
+            "is not a valid #{type.to_s.humanize.downcase}")
+        end
+      end
+      private validator
+    end
+    private_class_method :set_up_validator
   end
 end
