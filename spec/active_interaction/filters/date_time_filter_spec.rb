@@ -1,31 +1,32 @@
 require 'spec_helper'
 
 describe ActiveInteraction::DateTimeFilter do
-  describe '#prepare' do
-    let(:key) { SecureRandom.hex.to_sym }
+  include_context 'filters'
+  it_behaves_like 'a filter'
 
-    it_behaves_like 'options includes :allow_nil'
+  describe '.prepare(key, value, options = {}, &block)' do
+    context 'with a DateTime' do
+      let(:value) { DateTime.now }
 
-    it 'passes a DateTime through' do
-      value = DateTime.new
-      expect(described_class.prepare(key, value)).to eql value
+      it 'returns the DateTime' do
+        expect(result).to eql value
+      end
     end
 
-    it 'parses a string' do
-      value = '2001-01-01T01:01:01+01:01'
-      expect(described_class.prepare(key, value)).to eql DateTime.parse(value)
+    context 'with a valid String' do
+      let(:value) { '2001-01-01T01:01:01+01:01' }
+
+      it 'parses the String' do
+        expect(result).to eql DateTime.parse(value)
+      end
     end
 
-    it 'throws an error for an invalid string' do
-      expect {
-        described_class.prepare(key, 'invalid date time')
-      }.to raise_error ActiveInteraction::InvalidValue
-    end
+    context 'with an invalid String' do
+      let(:value) { 'not a valid DateTine' }
 
-    it 'throws an error for everything else' do
-      expect {
-        described_class.prepare(key, 0)
-      }.to raise_error ActiveInteraction::InvalidValue
+      it 'raises an error' do
+        expect { result }.to raise_error ActiveInteraction::InvalidValue
+      end
     end
   end
 end

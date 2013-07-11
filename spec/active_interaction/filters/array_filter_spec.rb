@@ -1,53 +1,53 @@
 require 'spec_helper'
 
 describe ActiveInteraction::ArrayFilter do
-  describe '#prepare(key, value, options = {}, &block)' do
-    it 'passes an Array through' do
-      expect(described_class.prepare(:key, [1])).to eql [1]
+  include_context 'filters'
+  it_behaves_like 'a filter'
+
+  describe '.prepare(key, value, options = {}, &block)' do
+    context 'with an Array' do
+      let(:value) { [] }
+
+      it 'returns the Array' do
+        expect(result).to eql value
+      end
     end
 
-    it 'throws an error for everything else' do
-      expect {
-        described_class.prepare(:key, 1)
-      }.to raise_error ActiveInteraction::InvalidValue
+    context 'with block as a valid block' do
+      let(:block) { Proc.new { array } }
+
+      context 'with an Array of Arrays' do
+        let(:value) { [[]] }
+
+        it 'returns the Array' do
+          expect(result).to eql value
+        end
+      end
+
+      context 'with an Array of anything else' do
+        let(:value) { [Object.new] }
+
+        it 'raises an error' do
+          expect { result }.to raise_error ActiveInteraction::InvalidValue
+        end
+      end
     end
 
-    it_behaves_like 'options includes :allow_nil'
+    context 'with block as a nested block' do
+      let(:block) { Proc.new { array { array } } }
+      let(:value) { [[[]]] }
 
-    context 'a block is given' do
-      it 'runs the filter method on each array item' do
-        output = described_class.prepare :key, ['1'] do
-          integer
-        end
-
-        expect(output).to eql [1]
+      it 'returns the Array' do
+        expect(result).to eql value
       end
+    end
 
-      it 'handles nested blocks' do
-        output = described_class.prepare :key, [['1']] do
-          array do
-            integer
-          end
-        end
+    context 'with block as an invalid block' do
+      let(:block) { Proc.new { array; array } }
+      let(:value) { [] }
 
-        expect(output).to eql [[1]]
-      end
-
-      it 'raises an error if an array item does not match' do
-        expect {
-          described_class.prepare :key, ['a'] do
-            integer
-          end
-        }.to raise_error ActiveInteraction::InvalidValue
-      end
-
-      it 'raises an error if more than one filter requirement is listed' do
-        expect {
-          described_class.prepare :key, ['1'] do
-            integer
-            boolean
-          end
-        }.to raise_error ArgumentError
+      it 'raises an error' do
+        expect { result }.to raise_error ArgumentError
       end
     end
   end

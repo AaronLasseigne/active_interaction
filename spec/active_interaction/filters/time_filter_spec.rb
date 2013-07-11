@@ -1,76 +1,66 @@
 require 'spec_helper'
 
 describe ActiveInteraction::TimeFilter do
-  describe '#prepare' do
-    let(:key) { SecureRandom.hex.to_sym }
+  include_context 'filters'
+  it_behaves_like 'a filter'
 
-    it_behaves_like 'options includes :allow_nil'
+  describe '.prepare(key, value, options = {}, &block)' do
+    context 'with a Time' do
+      let(:value) { Time.now }
 
-    it 'passes a Time through' do
-      value = Time.new
-      expect(described_class.prepare(key, value)).to eql value
-    end
-
-    context 'Time.zone does not exist' do
-      it 'converts an Integer' do
-        value = rand(1 << 30)
-
-        expect(described_class.prepare(key, value)).to eql Time.at(value)
-      end
-
-      it 'converts a Float' do
-        value = rand(1 << 30) + rand
-
-        expect(described_class.prepare(key, value)).to eql Time.at(value)
-      end
-
-      it 'converts a String' do
-        value = '2013-01-01 00:00:00'
-
-        expect(described_class.prepare(key, value)).to eql Time.parse(value)
-      end
-
-      it 'throws an error for invalid time Strings' do
-        expect { described_class.prepare(key, 'a') }.to raise_error ActiveInteraction::InvalidValue
+      it 'returns the Time' do
+        expect(result).to eql value
       end
     end
 
-    context 'Time.zone exists' do
-      let(:time_zone_class) { double }
+    shared_examples 'conversion' do
+      context 'with a float' do
+        let(:value) { rand }
+
+        it 'converts the Float' do
+          expect(result).to eql Time.at(value)
+        end
+      end
+
+      context 'with an Integer' do
+        let(:value) { rand(1 << 16) }
+
+        it 'converts the Integer' do
+          expect(result).to eql Time.at(value)
+        end
+      end
+
+      context 'with a valid String' do
+        let(:value) { '2001-01-01T01:01:01+01:01' }
+
+        it 'parses the String' do
+          expect(result).to eql Time.parse(value)
+        end
+      end
+
+      context 'with an invalid String' do
+        let(:value) { 'not a valid Time' }
+
+        it 'raises an error' do
+          expect { result }.to raise_error ActiveInteraction::InvalidValue
+        end
+      end
+    end
+
+    context 'without Time.zone' do
+      include_examples 'conversion'
+    end
+
+    context 'with Time.zone' do
+      include_examples 'conversion'
+
       before do
-        allow(Time).to receive(:zone).and_return(time_zone_class)
+        allow(Time).to receive(:zone).and_return(Time)
       end
 
-      it 'converts an Integer' do
-        value = rand(1 << 30)
-        allow(time_zone_class).to receive(:at)
-
-        described_class.prepare(key, value)
-
-        expect(time_zone_class).to have_received(:at).with(value).once
+      after do
+        expect(Time).to have_received(:zone).with(no_args)
       end
-
-      it 'converts a Float' do
-        value = rand(1 << 30) + rand
-        allow(time_zone_class).to receive(:at)
-
-        described_class.prepare(key, value)
-
-        expect(time_zone_class).to have_received(:at).with(value).once
-      end
-
-      it 'converts a String' do
-        value = '2013-01-01 00:00:00'
-        allow(time_zone_class).to receive(:parse)
-
-        described_class.prepare(key, value)
-
-        expect(time_zone_class).to have_received(:parse).with(value).once
-      end
-    end
-
-    it 'throws an error for everything else' do
-      expect { described_class.prepare(key, true) }.to raise_error ActiveInteraction::InvalidValue
     end
   end
 end

@@ -1,37 +1,40 @@
 require 'spec_helper'
 
 describe ActiveInteraction::FloatFilter do
-  describe '#prepare(key, value, options = {})' do
-    context 'value is a String' do
-      it 'converts Strings that are only digits' do
-        expect(described_class.prepare(:key, '1')).to eql 1.0
-      end
+  include_context 'filters'
+  it_behaves_like 'a filter'
 
-      it 'errors on all other Strings' do
-        expect {
-          described_class.prepare(:key, '1a')
-        }.to raise_error ActiveInteraction::InvalidValue
-      end
-    end
+  describe '.prepare(key, value, options = {}, &block)' do
+    context 'with a Float' do
+      let(:value) { rand }
 
-    context 'value is a Float' do
-      it 'passes it on through' do
-        expect(described_class.prepare(:key, 1.0)).to eql 1.0
+      it 'returns the Float' do
+        expect(result).to eql value
       end
     end
 
-    context 'value is an Integer' do
-      it 'converts to Float' do
-        expect(described_class.prepare(:key, 1)).to eql 1.0
+    context 'with an Integer' do
+      let(:value) { rand(1 << 16) }
+
+      it 'converts the Integer' do
+        expect(result).to eql Float(value)
       end
     end
 
-    it 'throws an error for everything else' do
-      expect {
-        described_class.prepare(:key, true)
-      }.to raise_error ActiveInteraction::InvalidValue
+    context 'with a valid String' do
+      let(:value) { rand.to_s }
+
+      it 'converts the String' do
+        expect(result).to eql Float(value)
+      end
     end
 
-    it_behaves_like 'options includes :allow_nil'
+    context 'with an invalid String' do
+      let(:value) { 'not a valid Float' }
+
+      it 'raises an error' do
+        expect { result }.to raise_error ActiveInteraction::InvalidValue
+      end
+    end
   end
 end

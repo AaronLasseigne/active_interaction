@@ -1,29 +1,40 @@
 require 'spec_helper'
 
 describe ActiveInteraction::BooleanFilter do
-  describe '#prepare(key, value, options = {})' do
-    it 'sets `true` to `true`' do
-      expect(described_class.prepare(:key, true)).to eql true
+  include_context 'filters'
+  it_behaves_like 'a filter'
+
+  describe '.prepare(key, value, options = {}, &block)' do
+    context 'with true' do
+      let(:value) { true }
+
+      it 'returns true' do
+        expect(result).to eql true
+      end
     end
 
-    it 'sets `false` to `false`' do
-      expect(described_class.prepare(:key, false)).to eql false
+    context 'with false' do
+      let(:value) { false }
+
+      it 'returns false' do
+        expect(result).to eql false
+      end
     end
 
-    it 'sets "1" to `true`' do
-      expect(described_class.prepare(:key, '1')).to eql true
+    context 'with "1"' do
+      let(:value) { '1' }
+
+      it 'returns true' do
+        expect(result).to eql true
+      end
     end
 
-    it 'sets "0" to `false`' do
-      expect(described_class.prepare(:key, '0')).to eql false
-    end
+    context 'with "0"' do
+      let(:value) { '0' }
 
-    it 'throws an error for everything else' do
-      expect {
-        described_class.prepare(:key, 1)
-      }.to raise_error ActiveInteraction::InvalidValue
+      it 'returns false' do
+        expect(result).to eql false
+      end
     end
-
-    it_behaves_like 'options includes :allow_nil'
   end
 end

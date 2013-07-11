@@ -1,17 +1,35 @@
-shared_examples 'options includes :allow_nil' do
-  context 'options' do
-    context ':allow_nil' do
-      context 'is true' do
-        it 'allows the options to be set to nil' do
-          expect(described_class.prepare(:key, nil, allow_nil: true)).to eq nil
-        end
-      end
+shared_context 'filters' do
+  let(:key) { SecureRandom.hex }
+  let(:value) { nil }
+  let(:options) { {} }
+  let(:block) { Proc.new {} }
+  subject(:result) { described_class.prepare(key, value, options, &block) }
+end
 
-      context 'is false' do
-        it 'throws an error' do
-          expect {
-            described_class.prepare(:key, nil, allow_nil: false)
-          }.to raise_error ActiveInteraction::MissingValue
+shared_examples_for 'a filter' do
+  include_context 'filters'
+
+  context '.prepare(key, value, options = {}, &block)' do
+    context 'with nil' do
+      it 'raises an error' do
+        expect { result }.to raise_error ActiveInteraction::MissingValue
+      end
+    end
+
+    context 'with anything else' do
+      let(:value) { Object.new }
+
+      it 'raises an error' do
+        expect { result }.to raise_error ActiveInteraction::InvalidValue
+      end
+    end
+
+    context 'optional' do
+      before { options.merge!(allow_nil: true) }
+
+      context 'with nil' do
+        it 'returns nil' do
+          expect(result).to be_nil
         end
       end
     end
