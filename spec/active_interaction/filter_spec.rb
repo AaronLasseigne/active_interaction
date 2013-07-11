@@ -1,15 +1,29 @@
 require 'spec_helper'
 
+module ActiveInteraction
+  class TestFilter < Filter; end
+end
+
 describe ActiveInteraction::Filter do
+  it_behaves_like 'a filter'
+
   describe '.factory(type)' do
-    it 'returns the full name of the filter class matching the type' do
-      expect(described_class.factory(:integer)).to eq ActiveInteraction::IntegerFilter
+    let(:result) { described_class.factory(type) }
+
+    context 'with a valid type' do
+      let(:type) { :test }
+
+      it 'returns the Class' do
+        expect(result).to eql ActiveInteraction::TestFilter
+      end
     end
 
-    it 'raises a NoMethodError if the type does not match a filter class' do
-      expect {
-        described_class.factory(:not_a_valid_type)
-      }.to raise_error NoMethodError
+    context 'with an invalid type' do
+      let(:type) { :not_a_valid_type }
+
+      it 'raises an error' do
+        expect { result }.to raise_error NoMethodError
+      end
     end
   end
 end
