@@ -1,7 +1,7 @@
 shared_context 'interactions' do
   let(:options) { {} }
   let(:outcome) { described_class.run(options) }
-  let(:response) { outcome.response }
+  let(:result) { outcome.result }
 end
 
 class IntegrationInteraction < ActiveInteraction::Base
@@ -21,14 +21,14 @@ shared_examples_for 'an integration interaction' do
     before { options.merge!(a: a) }
 
     it 'returns the correct value' do
-      expect(response).to eq a
+      expect(result).to eq a
     end
 
     context 'with optional option "b"' do
       before { options.merge!(b: b) }
 
       it 'returns the correct value' do
-        expect(response).to eq b
+        expect(result).to eq b
       end
     end
   end

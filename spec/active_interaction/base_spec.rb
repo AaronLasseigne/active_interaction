@@ -4,8 +4,8 @@ shared_examples 'validations pass' do |method|
   context 'validations pass' do
     subject(:outcome) { SubBase.send(method, valid: true) }
 
-    it 'sets `response` to the value of `execute`' do
-      expect(outcome.response).to eq 'Execute!'
+    it 'sets `result` to the value of `execute`' do
+      expect(outcome.result).to eq 'Execute!'
     end
   end
 end
@@ -31,15 +31,15 @@ describe ActiveInteraction::Base do
       expect(SubBase.new(valid: true).valid).to eq true
     end
 
-    it 'does not allow :response as a option' do
+    it 'does not allow :result as a option' do
       expect {
-        SubBase.new(response: true)
+        SubBase.new(result: true)
       }.to raise_error ArgumentError
     end
 
-    it "does not allow 'response' as a option" do
+    it "does not allow 'result' as a option" do
       expect {
-        SubBase.new('response' => true)
+        SubBase.new('result' => true)
       }.to raise_error ArgumentError
     end
   end
@@ -50,8 +50,8 @@ describe ActiveInteraction::Base do
     context 'validations fail' do
       subject(:outcome) { SubBase.run(valid: false) }
 
-      it 'sets response to nil' do
-        expect(outcome.response).to be_nil
+      it 'sets result to nil' do
+        expect(outcome.result).to be_nil
       end
     end
   end

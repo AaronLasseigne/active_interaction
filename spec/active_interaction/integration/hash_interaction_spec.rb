@@ -27,7 +27,7 @@ describe HashInteraction do
       before { options.merge!(c: c) }
 
       it 'returns the correct value' do
-        expect(response).to eq c
+        expect(result).to eq c
       end
     end
   end

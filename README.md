@@ -42,7 +42,7 @@ Or install it yourself as:
 
     outcome = ExampleInteraction.run(a: 1, b: 2)
     if outcome.valid?
-      p outcome.response
+      p outcome.result
     else
       p outcome.errors
     end

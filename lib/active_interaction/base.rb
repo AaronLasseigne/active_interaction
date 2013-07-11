@@ -8,19 +8,19 @@ module ActiveInteraction
   #   class ExampleInteraction < ActiveInteraction::Base
   #     # Required
   #     integer :a, :b
-  # 
+  #
   #     # Optional
   #     integer :c, allow_nil: true
-  # 
+  #
   #     def execute
-  #       response = a + b
-  #       c.nil? ? response : response + c
+  #       sum = a + b
+  #       c.nil? ? sum : sum + c
   #     end
   #   end
-  # 
+  #
   #   outcome = ExampleInteraction.run(a: 1, b: 2, c: 3)
   #   if outcome.valid?
-  #     p outcome.response
+  #     p outcome.result
   #   else
   #     p outcome.errors
   #   end
@@ -46,14 +46,14 @@ module ActiveInteraction
     #
     # @return [Nil] if there are validation errors.
     # @return [Object] if there are no validation errors.
-    attr_reader :response
+    attr_reader :result
 
     # @private
     def initialize(options = {})
       options = options.with_indifferent_access
 
-      if options.has_key?(:response)
-        raise ArgumentError, ':response is reserved and can not be used'
+      if options.has_key?(:result)
+        raise ArgumentError, ':result is reserved and can not be used'
       end
 
       options.each do |attribute, value|
@@ -67,7 +67,7 @@ module ActiveInteraction
 
     # Runs the business logic associated with the interactor. The method is only
     #   run when there are no validation errors. The return value is placed into
-    #   {#response}. This method must be overridden in the subclass.
+    #   {#result}. This method must be overridden in the subclass.
     #
     # @raise [NotImplementedError] if the method is not defined.
     def execute
@@ -84,7 +84,7 @@ module ActiveInteraction
     def self.run(options = {})
       me = new(options)
 
-      me.instance_variable_set(:@response, me.execute) if me.valid?
+      me.instance_variable_set(:@result, me.execute) if me.valid?
 
       me
     end
