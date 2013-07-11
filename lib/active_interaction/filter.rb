@@ -1,4 +1,9 @@
 module ActiveInteraction
+  # @!macro [new] attribute_method_params
+  #   @param *attributes [Symbol] A list of attribute names.
+  #   @param options [Hash] A hash of options.
+  #   @option options [Boolean] :allow_nil Allow a nil value to be passed in.
+
   # @private
   class Filter
     def self.factory(type)

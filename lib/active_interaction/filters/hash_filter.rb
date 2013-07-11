@@ -1,4 +1,24 @@
 module ActiveInteraction
+  class Base
+    # Confirms that any values passed to the provided attributes are Hashes.
+    #
+    # @macro attribute_method_params
+    # @param block [Proc] Apply attribute methods to specific values in the hash.
+    #
+    # @example
+    #   hash :order
+    #
+    # @example A Hash where certain keys also have their values confirmed.
+    #   hash :order do
+    #     model :account
+    #     model :item
+    #     integer :quantity
+    #     boolean :delivered
+    #   end
+    #
+    # @method self.hash(*attributes, options = {}, &block)
+  end
+
   # @private
   class HashFilter < Filter
     def self.prepare(key, value, options = {}, &block)

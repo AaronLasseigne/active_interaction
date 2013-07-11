@@ -1,4 +1,26 @@
 module ActiveInteraction
+  class Base
+    # Confirms that any values passed to the provided attributes are Arrays.
+    #
+    # @macro attribute_method_params
+    # @param block [Proc] Apply attribute methods to each entry in the array.
+    #
+    # @example
+    #   array :ids
+    #
+    # @example An Array of Integers
+    #   array :ids do
+    #     integer
+    #   end
+    #
+    # @example An Array of Integers where some are nil
+    #   array :ids do
+    #     integer allow_nil: true
+    #   end
+    #
+    # @method self.array(*attributes, options = {}, &block)
+  end
+
   # @private
   class ArrayFilter < Filter
     def self.prepare(key, value, options = {}, &block)

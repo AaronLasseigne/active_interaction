@@ -1,4 +1,18 @@
 module ActiveInteraction
+  class Base
+    # Confirms that any values passed to the provided attributes are Times. Numeric
+    #   values are processed using `at`. Strings are processed using `parse`. If
+    #   `Time.zone` is available it will be used so that the values are time zone
+    #   aware.
+    #
+    # @macro attribute_method_params
+    #
+    # @example
+    #   time :start_date
+    #
+    # @method self.time(*attributes, options = {})
+  end
+
   # @private
   class TimeFilter < Filter
     def self.prepare(key, value, options = {}, &block)
