@@ -1,30 +1,40 @@
 require 'spec_helper'
 
 describe ActiveInteraction::OverloadHash do
-  let(:subject) { double.extend(ActiveInteraction::OverloadHash) }
+  subject { double.extend(described_class) }
 
   describe '#hash(*args, &block)' do
-    context 'when no arguments are passed it acts like the standard hash method' do
-      it 'returns a fixnum' do
-        expect(subject.hash).to be_a Fixnum
+    context 'with no arguments' do
+      let(:hash) { subject.hash }
+
+      it 'returns a Fixnum' do
+        expect(hash).to be_a Fixnum
       end
     end
 
-    context 'when arguments are passed it works as a filter method' do
+    context 'with arguments' do
+      let(:arguments) { [:attribute, {}] }
+      let(:hash) { subject.hash(*arguments) }
+
       before { allow(subject).to receive(:method_missing) }
 
-      it 'gets sent to method_missing' do
-        subject.hash(:attr_name, {}) do
-          'Block'
-        end
-
-        expect(subject).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash)) # TODO: find out how to check for blocks
+      it 'calls method_missing' do
+        hash
+        expect(subject).to have_received(:method_missing).once.
+          with(:hash, *arguments)
       end
 
-      it 'gets sent to add_filter_methods with no block' do
-        subject.hash(:attr_name, {})
+      context 'with a block' do
+        let(:block) { Proc.new {} }
+        let(:hash) { subject.hash(*arguments, &block) }
 
-        expect(subject).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash))
+        it 'calls method_missing' do
+          hash
+          expect(subject).to have_received(:method_missing).once.
+            with(:hash, *arguments)
+        end
+
+        it 'passes the block to method_missing'
       end
     end
   end
