@@ -1,35 +1,43 @@
 require 'spec_helper'
 
-shared_examples 'all other args are assigned' do
-  its(:method_name) { should eql :method_name }
-  its(:options)     { should eql({options: true}) }
-  its(:block)       { should be_a Proc }
-end
-
 describe ActiveInteraction::FilterMethod do
   describe '.new(method_name, *args, &block)' do
-    context 'with an attribute name in the args' do
-      subject(:filter_method) do
-        described_class.new(:method_name, :attribute, {options: true}) do
-          'Block'
-        end
-      end
+    let(:method_name) { SecureRandom.hex }
+    let(:attribute) { nil }
+    let(:options) { {} }
+    let(:args) { [] }
+    let(:block) { nil }
+    subject(:filter_method) { described_class.new(method_name, *args, &block) }
 
-      its(:attribute) { should eql :attribute }
-
-      it_behaves_like 'all other args are assigned'
+    shared_examples 'instance variable assignment' do
+      its(:method_name) { should equal method_name }
+      its(:attribute) { should equal attribute }
+      its(:options) { should eq options }
+      its(:block) { should equal block }
     end
 
-    context 'without an attribute name in the args' do
-      subject(:filter_method) do
-        described_class.new(:method_name, {options: true}) do
-          'Block'
-        end
-      end
+    include_examples 'instance variable assignment'
 
-      its(:attribute) { should be_nil }
+    context 'with an attribute' do
+      let(:attribute) { SecureRandom.hex.to_sym }
 
-      it_behaves_like 'all other args are assigned'
+      before { args << attribute }
+
+      include_examples 'instance variable assignment'
+    end
+
+    context 'with options' do
+      let(:options) { { nil => nil } }
+
+      before { args << options }
+
+      include_examples 'instance variable assignment'
+    end
+
+    context 'with a block' do
+      let(:block) { Proc.new {} }
+
+      include_examples 'instance variable assignment'
     end
   end
 end
