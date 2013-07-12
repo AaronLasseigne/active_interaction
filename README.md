@@ -18,15 +18,21 @@ This project uses [semantic versioning][].
 
 Add it to your Gemfile:
 
-    gem 'active_interaction', '~> 0.1.0'
+~~~ rb
+gem 'active_interaction', '~> 0.1.0'
+~~~
 
 And then execute:
 
-    $ bundle
+~~~ sh
+$ bundle
+~~~
 
 Or install it yourself as:
 
-    $ gem install active_interaction
+~~~ rb
+$ gem install active_interaction
+~~~
 
 ## What do I get?
 
@@ -36,42 +42,44 @@ want them in. If the options are valid it will call `execute`, store the return
 value of that method in `result`, and return an instance of your ActiveInteraction::Base
 subclass. Let's looks at a simple example:
 
-    # Define an interaction that signs up a user.
-    class UserSignup < ActiveInteraction::Base
-      # required
-      string :email, :name
+~~~ rb
+# Define an interaction that signs up a user.
+class UserSignup < ActiveInteraction::Base
+  # required
+  string :email, :name
 
-      # optional
-      boolean :newsletter_subscribe, allow_nil: true
+  # optional
+  boolean :newsletter_subscribe, allow_nil: true
 
-      # ActiveRecord validations
-      validates :email, format: EMAIL_REGEX
+  # ActiveRecord validations
+  validates :email, format: EMAIL_REGEX
 
-      # The execute method is called only if the options validate. It does your
-      # business action. The return value will be stored in `result`.
-      def execute
-        user = User.create!(email: email, name: name)
-        NewsletterSubscriptions.create(email: email, user_id: user.id) if newsletter_subscribe
-        UserMailer.async(:deliver_welcome, user.id)
-        user
-      end
-    end
+  # The execute method is called only if the options validate. It does your
+  # business action. The return value will be stored in `result`.
+  def execute
+    user = User.create!(email: email, name: name)
+    NewsletterSubscriptions.create(email: email, user_id: user.id) if newsletter_subscribe
+    UserMailer.async(:deliver_welcome, user.id)
+    user
+  end
+end
 
-    # In a controller action (for instance), you can run it:
-    def new
-      @signup = UserSignup.new
-    end
+# In a controller action (for instance), you can run it:
+def new
+  @signup = UserSignup.new
+end
 
-    def create
-      @signup = UserSignup.run(params[:user])
+def create
+  @signup = UserSignup.run(params[:user])
 
-      # Then check to see if it worked:
-      if @signup.valid?
-        redirect_to welcome_path(user_id: signup.result.id)
-      else
-        render action: :new
-      end
-    end
+  # Then check to see if it worked:
+  if @signup.valid?
+    redirect_to welcome_path(user_id: signup.result.id)
+  else
+    render action: :new
+  end
+end
+~~~
 
 You may have noticed that ActiveInteraction::Base quacks like ActiveRecord::Base.
 It can use validations from your Rails application and check option validity with
@@ -82,12 +90,14 @@ model.
 
 There are two way to call an interaction. Given UserSignup, you can do this:
 
-    outcome = UserSignup.run(params)
-    if outcome.valid?
-      p outcome.result
-    else
-      p outcome.errors
-    end
+~~~ rb
+outcome = UserSignup.run(params)
+if outcome.valid?
+  p outcome.result
+else
+  p outcome.errors
+end
+~~~
 
 Or, you can do this:
 
@@ -97,68 +107,78 @@ Or, you can do this:
 
 ActiveInteractions only accept a Hash for `run` and `run!`.
 
-    # A user comments on an article
-    class CreateComment < ActiveInteraction::Base
-      model :article, :user
-      string :comment
+~~~ rb
+# A user comments on an article
+class CreateComment < ActiveInteraction::Base
+  model :article, :user
+  string :comment
 
-      validates :comment, length: {maximum: 500}
+  validates :comment, length: {maximum: 500}
 
-      def execute; ...; end
-    end
+  def execute; ...; end
+end
 
-    def somewhere
-      outcome = CreateComment.run(
-        comment: params[:comment],
-        article: Article.find(params[:article_id]),
-        user: current_user
-      )
-    end
+def somewhere
+  outcome = CreateComment.run(
+    comment: params[:comment],
+    article: Article.find(params[:article_id]),
+    user: current_user
+  )
+end
+~~~
 
 ## How do I define an interaction?
 
 1. Subclass ActiveInteraction::Base
 
-        class YourInteraction < ActiveInteraction::Base
-          # ...
-        end
+    ~~~ rb
+    class YourInteraction < ActiveInteraction::Base
+      # ...
+    end
+    ~~~
 
 2. Define your attributes:
 
-        string :name, :state
-        integer :age
-        boolean :is_special
-        model :account
-        array :tags, allow_nil: true do
-          string
-        end
-        hash :prefs, allow_nil: true do
-          boolean :smoking
-          boolean :view
-        end
-        time :arrives_at, :departs_at
+    ~~~ rb
+    string :name, :state
+    integer :age
+    boolean :is_special
+    model :account
+    array :tags, allow_nil: true do
+      string
+    end
+    hash :prefs, allow_nil: true do
+      boolean :smoking
+      boolean :view
+    end
+    time :arrives_at, :departs_at
+    ~~~
 
 3. Use any additional validations you need:
 
-        validates :name, length: {maximum: 10}
-        validates :state, inclusion: {in: %w(AL AK AR ... WY)}
-        validate arrives_before_departs
+    ~~~ rb
+    validates :name, length: {maximum: 10}
+    validates :state, inclusion: {in: %w(AL AK AR ... WY)}
+    validate arrives_before_departs
 
-        private
+    private
 
-        def arrive_before_departs
-          if departs_at <= arrives_at
-            errors.add(:departs_at, 'must come after the arrival time')
-          end
-        end
+    def arrive_before_departs
+      if departs_at <= arrives_at
+        errors.add(:departs_at, 'must come after the arrival time')
+      end
+    end
+    ~~~
 
 4. Define your execute method. It can return whatever you like:
 
-        def execute
-          record = do_thing(...)
-          # ...
-          record
-        end
+    ~~~ rb
+    def execute
+      record = do_thing(...)
+      # ...
+      record
+    end
+    ~~~
 
 A full list of methods can be found [here](http://www.rubydoc.info/github/orgsync/active_interaction/master/ActiveInteraction/Base).
 
