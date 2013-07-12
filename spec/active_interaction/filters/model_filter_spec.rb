@@ -1,17 +1,17 @@
 require 'spec_helper'
 
-TestClass = Class.new
+TestModel = Class.new
 
 describe ActiveInteraction::ModelFilter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  before { options.merge!(class: TestClass) }
+  before { options.merge!(class: TestModel) }
 
   describe '.prepare(key, value, options = {}, &block)' do
     shared_examples 'typechecking' do
       context 'with the right class' do
-        let(:value) { TestClass.new }
+        let(:value) { TestModel.new }
 
         it 'returns the instance' do
           expect(result).to eql value
