@@ -76,11 +76,12 @@ module ActiveInteraction
 
     # @!macro [new] run_attributes
     #   @param options [Hash] Attribute values to set.
-    #   @return [ActiveInteraction::Base] An instance of the class `$0` is called on.
 
     # Runs validations and if there are no errors it will call {#execute}.
     #
     # @macro run_attributes
+    #
+    # @return [ActiveInteraction::Base] An instance of the class `run` is called on.
     def self.run(options = {})
       me = new(options)
 
@@ -93,11 +94,14 @@ module ActiveInteraction
     #   errors.
     #
     # @macro run_attributes
+    #
     # @raise [InteractionInvalid] if there are any errors on the model.
+    #
+    # @return The return value of {#execute}.
     def self.run!(options = {})
       outcome = run(options)
       raise InteractionInvalid if outcome.invalid?
-      outcome
+      outcome.result
     end
 
     # @private

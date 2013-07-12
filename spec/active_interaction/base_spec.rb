@@ -1,15 +1,5 @@
 require 'spec_helper'
 
-shared_examples 'validations pass' do |method|
-  context 'validations pass' do
-    subject(:outcome) { SubBase.send(method, valid: true) }
-
-    it 'sets `result` to the value of `execute`' do
-      expect(outcome.result).to eq 'Execute!'
-    end
-  end
-end
-
 describe ActiveInteraction::Base do
   class ExampleInteraction < ActiveInteraction::Base; end
 
@@ -45,7 +35,13 @@ describe ActiveInteraction::Base do
   end
 
   describe '.run(options = {})' do
-    it_behaves_like 'validations pass', :run
+    context 'validations pass' do
+      subject(:outcome) { SubBase.run(valid: true) }
+
+      it 'sets `result` to the value of `execute`' do
+        expect(outcome.result).to eq 'Execute!'
+      end
+    end
 
     context 'validations fail' do
       subject(:outcome) { SubBase.run(valid: false) }
@@ -57,7 +53,13 @@ describe ActiveInteraction::Base do
   end
 
   describe '.run!(options = {})' do
-    it_behaves_like 'validations pass', :run!
+    context 'validations pass' do
+      subject(:result) { SubBase.run!(valid: true) }
+
+      it 'sets `result` to the value of `execute`' do
+        expect(result).to eq 'Execute!'
+      end
+    end
 
     context 'validations fail' do
       it 'throws an error' do

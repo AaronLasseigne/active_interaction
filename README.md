@@ -71,7 +71,7 @@ You have two choices. Given UserSignup, you can do this:
 
 Or, you can do this:
 
-    outcome = UserSignup.run!(params) # returns the outcome, or raises ActiveInteraction::InteractionInvalid
+    result = UserSignup.run!(params) # returns the result of execute, or raises ActiveInteraction::InteractionInvalid
     
 ## What can I pass to interactions?
 
