@@ -30,4 +30,40 @@ describe ArrayInteraction do
       expect(result[:b]).to eq [[]]
     end
   end
+
+  context 'with an invalid default' do
+    it 'raises an error' do
+      expect {
+        Class.new(ActiveInteraction::Base) do
+          array :a, default: Object.new
+        end
+      }.to raise_error ActiveInteraction::InvalidDefaultValue
+    end
+  end
+
+  context 'with an invalid nested default' do
+    it 'raises an error' do
+      expect {
+        Class.new(ActiveInteraction::Base) do
+          array :a, default: [Object.new] do
+            array
+          end
+        end
+      }.to raise_error ActiveInteraction::InvalidDefaultValue
+    end
+  end
+
+  context 'with an invalidly nested default' do
+    it 'raises an error' do
+      expect {
+        klass = Class.new(ActiveInteraction::Base) do
+          array :a do
+            array default: []
+          end
+        end
+        # TODO: We should fail when defining the class, not when trying to run it.
+        klass.run(a: [])
+      }.to raise_error ArgumentError
+    end
+  end
 end

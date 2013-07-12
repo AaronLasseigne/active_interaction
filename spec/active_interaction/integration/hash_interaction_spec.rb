@@ -30,4 +30,40 @@ describe HashInteraction do
       expect(result[:b]).to eq(x: {})
     end
   end
+
+  context 'with an invalid default' do
+    it 'raises an error' do
+      expect {
+        Class.new(ActiveInteraction::Base) do
+          hash :a, default: Object.new
+        end
+      }.to raise_error ActiveInteraction::InvalidDefaultValue
+    end
+  end
+
+  context 'with an invalid nested default' do
+    it 'raises an error' do
+      expect {
+        Class.new(ActiveInteraction::Base) do
+          hash :a, default: { x: Object.new } do
+            hash :x
+          end
+        end
+      }.to raise_error ActiveInteraction::InvalidDefaultValue
+    end
+  end
+
+  context 'with an invalidly nested default' do
+    it 'raises an error' do
+      expect {
+        klass = Class.new(ActiveInteraction::Base) do
+          hash :a do
+            hash :x, default: {}
+          end
+        end
+        # TODO: We should fail when defining the class, not when trying to run it.
+        klass.run(a: {})
+      }.to raise_error ArgumentError
+    end
+  end
 end
