@@ -1,160 +1,175 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Base do
-  class ExampleInteraction < described_class; end
+  let(:options) { {} }
+  subject(:interaction) { described_class.new(options) }
 
-  subject(:base) { ExampleInteraction.new }
+  class TestInteraction1 < described_class
+    attr_reader :thing
 
-  class SubBase < described_class
-    attr_reader :valid
-
-    validates :valid,
-      inclusion: {in: [true]}
+    validates :thing, presence: true
 
     def execute
-      'Execute'
+      thing
     end
+  end
+
+  class TestInteraction2 < described_class
+    float :thing
+
+    def execute
+      thing
+    end
+  end
+
+  class TestInteraction3 < described_class
+    float :thing1, :thing2
+
+    def execute; end
   end
 
   describe '.new(options = {})' do
-    it 'sets the attributes on the return value based on the options passed' do
-      expect(SubBase.new(valid: true).valid).to eq true
+    it 'does not allow :result as an option' do
+      options.merge!(result: nil)
+      expect { interaction }.to raise_error ArgumentError
     end
 
-    it 'does not allow :result as a option' do
+    it 'does not allow "result" as an option' do
+      options.merge!('result' => nil)
+      expect { interaction }.to raise_error ArgumentError
+    end
+
+    describe TestInteraction1 do
+      let(:described_class) { TestInteraction1 }
+      let(:thing) { SecureRandom.hex }
+
+      context 'failing validations' do
+        before { options.merge!(thing: nil) }
+
+        it 'returns an invalid outcome' do
+          expect(interaction).to be_invalid
+        end
+      end
+
+      context 'passing validations' do
+        before { options.merge!(thing: thing) }
+
+        it 'returns a valid outcome' do
+          expect(interaction).to be_valid
+        end
+
+        it 'sets the attribute' do
+          expect(interaction.thing).to eq thing
+        end
+      end
+    end
+  end
+
+  describe '.method_missing(filter_type, *args, &block)' do
+    it 'raises an error for invalid filter types' do
       expect {
-        SubBase.new(result: true)
-      }.to raise_error ArgumentError
+        class TestInteraction < described_class
+          not_a_valid_filter_type :thing
+          def execute; end
+        end
+      }.to raise_error NoMethodError
     end
 
-    it "does not allow 'result' as a option" do
-      expect {
-        SubBase.new('result' => true)
-      }.to raise_error ArgumentError
-    end
-  end
+    describe TestInteraction2 do
+      let(:described_class) { TestInteraction2 }
 
-  describe '.run(options = {})' do
-    subject(:outcome) { SubBase.run(valid: valid) }
+      it 'adds an attr_reader' do
+        expect(interaction).to respond_to :thing
+      end
 
-    it 'returns an instance of the class' do
-      expect(SubBase.run).to be_a SubBase
-    end
-
-    context 'validations pass' do
-      let(:valid) { true }
-
-      it 'sets `result` to the value of `execute`' do
-        expect(outcome.result).to eq 'Execute'
+      it 'adds an attr_writer' do
+        expect(interaction).to respond_to :thing=
       end
     end
 
-    context 'validations fail' do
-      let(:valid) { false }
+    describe TestInteraction3 do
+      let(:described_class) { TestInteraction3 }
 
-      it 'sets result to nil' do
-        expect(outcome.result).to be_nil
-      end
-    end
-  end
+      %w(thing1 thing2).each do |thing|
+        it "adds an attr_reader for #{thing}" do
+          expect(interaction).to respond_to thing
+        end
 
-  describe '.run!(options = {})' do
-    subject(:result) { SubBase.run!(valid: valid) }
-
-    context 'validations pass' do
-      let(:valid) { true }
-
-      it 'sets `result` to the value of `execute`' do
-        expect(result).to eq 'Execute'
-      end
-    end
-
-    context 'validations fail' do
-      let(:valid) { false }
-
-      it 'throws an error' do
-        expect {
-          result
-        }.to raise_error ActiveInteraction::InteractionInvalid
+        it "adds an attr_writer for #{thing}" do
+          expect(interaction).to respond_to "#{thing}="
+        end
       end
     end
   end
 
-  describe 'method_missing(filter_type, *args, &block)' do
-    context 'it catches valid filter types' do
-      class BoolTest < described_class
-        boolean :test
+  describe TestInteraction2 do
+    let(:described_class) { TestInteraction2 }
+    let(:thing) { rand }
 
-        def execute; end
+    describe '.run(options = {})' do
+      subject(:outcome) { described_class.run(options) }
+
+      it "returns an instance of #{described_class}" do
+        expect(outcome).to be_a described_class
       end
 
-      it 'adds an attr_reader for the method' do
-        expect(BoolTest.new).to respond_to :test
+      context 'failing validations' do
+        it 'returns an invalid outcome' do
+          expect(outcome).to be_invalid
+        end
+
+        it 'sets the result to nil' do
+          expect(outcome.result).to be_nil
+        end
       end
 
-      it 'adds an attr_writer for the method' do
-        expect(BoolTest.new).to respond_to :test=
+      context 'passing validations' do
+        before { options.merge!(thing: thing) }
+
+        it 'returns a valid outcome' do
+          expect(outcome).to be_valid
+        end
+
+        it 'sets the result' do
+          expect(outcome.result).to eq thing
+        end
       end
     end
 
-    context 'allows multiple methods to be defined' do
-      class BoolTest < described_class
-        boolean :test1, :test2
+    describe '.run!(options = {})' do
+      subject(:result) { described_class.run!(options) }
 
-        def execute; end
+      context 'failing validations' do
+        it 'raises an error' do
+          expect { result }.to raise_error ActiveInteraction::InteractionInvalid
+        end
       end
 
-      it 'creates a attr_reader for both methods' do
-        expect(BoolTest.new).to respond_to :test1
-        expect(BoolTest.new).to respond_to :test2
-      end
+      context 'passing validations' do
+        before { options.merge!(thing: thing) }
 
-      it 'creates a attr_writer for both methods' do
-        expect(BoolTest.new).to respond_to :test1
-        expect(BoolTest.new).to respond_to :test2
-      end
-    end
-
-    context 'does not stop other missing methods from erroring out' do
-      it 'throws a missing method error for non-filter types' do
-        expect {
-          class FooTest < described_class
-            foo :test
-
-            def execute; end
-          end
-        }.to raise_error NoMethodError
+        it 'returns the result' do
+          expect(result).to eq thing
+        end
       end
     end
   end
-
-  its(:new_record?) { should be_true  }
-  its(:persisted?)  { should be_false }
 
   describe '#execute' do
-    it 'throws a NotImplementedError' do
-      expect { base.execute }.to raise_error NotImplementedError
+    it 'raises an error' do
+      expect { interaction.execute }.to raise_error NotImplementedError
     end
+  end
 
-    context 'integration' do
-      class TestInteraction < described_class
-        boolean :b
-        def execute; end
-      end
+  describe '#new_record?' do
+    it 'returns true' do
+      expect(interaction).to be_new_record
+    end
+  end
 
-      it 'raises an error with invalid option' do
-        expect {
-          TestInteraction.run!(b: 0)
-        }.to raise_error ActiveInteraction::InteractionInvalid
-      end
-
-      it 'does not raise an error with valid option' do
-        expect { TestInteraction.run!(b: true) }.to_not raise_error
-      end
-
-      it 'requires required options' do
-        expect(TestInteraction.run b: nil).to_not be_valid
-      end
+  describe '#persisted?' do
+    it 'returns false' do
+      expect(interaction).to_not be_persisted
     end
   end
 end
