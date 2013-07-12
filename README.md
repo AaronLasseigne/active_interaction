@@ -101,7 +101,9 @@ end
 
 Or, you can do this:
 
-    result = UserSignup.run!(params) # returns the result of execute, or raises ActiveInteraction::InteractionInvalid
+~~~ rb
+result = UserSignup.run!(params) # returns the result of execute, or raises ActiveInteraction::InteractionInvalid
+~~~
 
 ## What can I pass to an interaction?
 
