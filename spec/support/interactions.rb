@@ -9,13 +9,18 @@ shared_examples_for 'an interaction' do |type, value_lambda, filter_options = {}
 
   let(:described_class) do
     Class.new(ActiveInteraction::Base) do
-      send(type, :a, filter_options)
-      send(type, :b, filter_options.merge(allow_nil: true))
-      send(type, :c, filter_options.merge(default: value_lambda.call))
-      send(type, :d, filter_options.merge(allow_nil: true, default: nil))
+      send(type, :required, filter_options)
+      send(type, :optional, filter_options.merge(allow_nil: true))
+      send(type, :default, filter_options.merge(default: value_lambda.call))
+      send(type, :nil_default, filter_options.merge(allow_nil: true, default: nil))
 
       def execute
-        { a: a, b: b, c: c, d: d }
+        {
+          required: required,
+          optional: optional,
+          default: default,
+          nil_default: nil_default
+        }
       end
     end
   end
@@ -27,37 +32,37 @@ shared_examples_for 'an interaction' do |type, value_lambda, filter_options = {}
   end
 
   context 'with required options' do
-    let(:a) { value_lambda.call }
+    let(:required) { value_lambda.call }
 
-    before { options.merge!(a: a) }
+    before { options.merge!(required: required) }
 
     it 'is valid' do
       expect(outcome).to be_valid
     end
 
-    it 'returns the correct value for :a' do
-      expect(result[:a]).to eq a
+    it 'returns the correct value for :required' do
+      expect(result[:required]).to eq required
     end
 
-    it 'returns nil for :b' do
-      expect(result[:b]).to be_nil
+    it 'returns nil for :optional' do
+      expect(result[:optional]).to be_nil
     end
 
-    it 'does not return nil for :c' do
-      expect(result[:c]).to_not be_nil
+    it 'does not return nil for :default' do
+      expect(result[:default]).to_not be_nil
     end
 
-    it 'returns nil for :d' do
-      expect(result[:d]).to be_nil
+    it 'returns nil for :nil_default' do
+      expect(result[:nil_default]).to be_nil
     end
 
-    context 'with optional option :b' do
-      let(:b) { value_lambda.call }
+    context 'with optional option :optional' do
+      let(:optional) { value_lambda.call }
 
-      before { options.merge!(b: b) }
+      before { options.merge!(optional: optional) }
 
-      it 'returns the correct value for :b' do
-        expect(result[:b]).to eq b
+      it 'returns the correct value for :optional' do
+        expect(result[:optional]).to eq optional
       end
     end
   end
