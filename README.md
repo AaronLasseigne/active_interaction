@@ -9,7 +9,7 @@
 At first it seemed alright. A little business logic in a controller or model
 wasn't going to hurt anything. Then one day you wake up and you're surrounded
 by fat models and unweildy controller methods. Curled up and crying in the
-corner you can help but wonder how it came to this. Take back control. Slim
+corner you can't help but wonder how it came to this. Take back control. Slim
 down models and wrangle monstrous controller methods with ActiveInteraction.
 
 ## Installation
