@@ -90,8 +90,8 @@ module ActiveInteraction
       me
     end
 
-    # Same as {.run} except that an exception is raised if there are any validation
-    #   errors.
+    # Like {.run} except that it returns the value of {#execute} or raises an
+    #   exception if there were any validation errors.
     #
     # @macro run_attributes
     #

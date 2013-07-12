@@ -8,9 +8,11 @@
 
 At first it seemed alright. A little business logic in a controller or model
 wasn't going to hurt anything. Then one day you wake up and you're surrounded
-by fat models and unweildy controller methods. Curled up and crying in the
-corner you can't help but wonder how it came to this. Take back control. Slim
-down models and wrangle monstrous controller methods with ActiveInteraction.
+by fat models and unweildy controllers. Curled up and crying in the
+corner, you can't help but wonder how it came to this.
+
+Take back control. Slim down models and wrangle monstrous controller methods
+with ActiveInteraction.
 
 ## Installation
 
@@ -93,21 +95,23 @@ There are two way to call an interaction. Given UserSignup, you can do this:
 ~~~ rb
 outcome = UserSignup.run(params)
 if outcome.valid?
-  p outcome.result
+  # Do something with outcome.result...
 else
-  p outcome.errors
+  # Do something with outcome.errors...
 end
 ~~~
 
 Or, you can do this:
 
 ~~~ rb
-result = UserSignup.run!(params) # returns the result of execute, or raises ActiveInteraction::InteractionInvalid
+result = UserSignup.run!(params)
+# Either returns the result of execute,
+# or raises ActiveInteraction::InteractionInvalid
 ~~~
 
 ## What can I pass to an interaction?
 
-ActiveInteractions only accept a Hash for `run` and `run!`.
+Interactions only accept a Hash for `run` and `run!`.
 
 ~~~ rb
 # A user comments on an article
