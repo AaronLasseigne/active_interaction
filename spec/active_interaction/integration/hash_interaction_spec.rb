@@ -1,34 +1,22 @@
 require 'spec_helper'
 
-class HashInteraction < IntegrationInteraction
-  hash :a
-  hash :b, allow_nil: true
-  hash :c, allow_nil: true do
-    hash :d
+class HashInteraction < ActiveInteraction::Base
+  hash :a do
+    hash :b
   end
 
   def execute
-    c || super
+    a
   end
 end
 
 describe HashInteraction do
   include_context 'interactions'
-  it_behaves_like 'an integration interaction'
+  it_behaves_like 'an interaction', :hash, -> { {} }
 
-  let(:a) { { 'a' => false } }
-  let(:b) { { 'b' => true } }
-  let(:c) { { 'd' => {} } }
-
-  context 'with required option "a"' do
-    before { options.merge!(a: a) }
-
-    context 'with optional option "c"' do
-      before { options.merge!(c: c) }
-
-      it 'returns the correct value' do
-        expect(result).to eq c
-      end
-    end
+  it do
+    a = { 'b' => {} }
+    options.merge!(a: a)
+    expect(result).to eq a
   end
 end

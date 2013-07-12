@@ -1,34 +1,22 @@
 require 'spec_helper'
 
-class ArrayInteraction < IntegrationInteraction
-  array :a
-  array :b, allow_nil: true
-  array :c, allow_nil: true do
+class ArrayInteraction < ActiveInteraction::Base
+  array :a do
     array
   end
 
   def execute
-    c || super
+    a
   end
 end
 
 describe ArrayInteraction do
   include_context 'interactions'
-  it_behaves_like 'an integration interaction'
+  it_behaves_like 'an interaction', :array, -> { [] }
 
-  let(:a) { [false] }
-  let(:b) { [true] }
-  let(:c) { [[]] }
-
-  context 'with required option "a"' do
-    before { options.merge!(a: a) }
-
-    context 'with optional options "c"' do
-      before { options.merge!(c: c) }
-
-      it 'returns the correct value' do
-        expect(result).to eq c
-      end
-    end
+  it do
+    a = [[]]
+    options.merge!(a: a)
+    expect(result).to eq a
   end
 end
