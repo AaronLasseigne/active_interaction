@@ -31,7 +31,7 @@ shared_examples_for 'an interaction' do |type, value_lambda, filter_options = {}
     end
   end
 
-  context 'with required options' do
+  context 'with options[:required]' do
     let(:required) { value_lambda.call }
 
     before { options.merge!(required: required) }
@@ -56,13 +56,23 @@ shared_examples_for 'an interaction' do |type, value_lambda, filter_options = {}
       expect(result[:nil_default]).to be_nil
     end
 
-    context 'with optional option :optional' do
+    context 'with options[:optional]' do
       let(:optional) { value_lambda.call }
 
       before { options.merge!(optional: optional) }
 
       it 'returns the correct value for :optional' do
         expect(result[:optional]).to eq optional
+      end
+    end
+
+    context 'with options[:default]' do
+      let(:default) { value_lambda.call }
+
+      before { options.merge!(default: default) }
+
+      it 'returns the correct value for :default' do
+        expect(result[:default]).to eq default
       end
     end
   end
