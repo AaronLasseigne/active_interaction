@@ -109,24 +109,25 @@ module ActiveInteraction
       klass = Filter.factory(filter_type)
       options = args.last.is_a?(Hash) ? args.pop : {}
       args.each do |attribute|
-        set_up_validator(attribute, filter_type, klass, options, &block)
+        filter_attr_accessor(klass, attribute, options, &block)
+
+        filter_validator(attribute, filter_type, klass, options, &block)
       end
     end
     private_class_method :method_missing
 
     # @private
-    def self.set_up_validator(attribute, type, filter, options, &block)
-      validator = "_validate__#{attribute}__#{type}"
-
+    def self.filter_attr_accessor(filter, attribute, options, &block)
       attr_writer attribute
 
       if options.has_key?(:default)
         begin
-          default_value = filter.prepare(attribute, options[:default], options, &block)
+          default_value = filter.prepare(attribute, options.delete(:default), options, &block)
         rescue InvalidValue
           raise InvalidDefaultValue
         end
       end
+
       define_method(attribute) do
         instance_variable_name = "@#{attribute}"
         if instance_variable_defined?(instance_variable_name)
@@ -135,6 +136,12 @@ module ActiveInteraction
           default_value
         end
       end
+    end
+    private_class_method :filter_attr_accessor
+
+    # @private
+    def self.filter_validator(attribute, type, filter, options, &block)
+      validator = "_validate__#{attribute}__#{type}"
 
       validate validator
 
@@ -150,6 +157,6 @@ module ActiveInteraction
       end
       private validator
     end
-    private_class_method :set_up_validator
+    private_class_method :filter_validator
   end
 end
