@@ -3,6 +3,7 @@ module ActiveInteraction
   #   @param *attributes [Symbol] One or more attributes to create.
   #   @param options [Hash]
   #   @option options [Boolean] :allow_nil Allow a `nil` value.
+  #   @option options [Object] :default Value to use if `nil` is given.
 
   # @private
   class Filter

@@ -118,7 +118,23 @@ module ActiveInteraction
     def self.set_up_validator(attribute, type, filter, options, &block)
       validator = "_validate__#{attribute}__#{type}"
 
-      attr_accessor attribute
+      attr_writer attribute
+
+      if options.has_key?(:default)
+        begin
+          default_value = filter.prepare(attribute, options[:default], options, &block)
+        rescue InvalidValue
+          raise InvalidDefaultValue
+        end
+      end
+      define_method(attribute) do
+        instance_variable_name = "@#{attribute}"
+        if instance_variable_defined?(instance_variable_name)
+          instance_variable_get(instance_variable_name)
+        else
+          default_value
+        end
+      end
 
       validate validator
 

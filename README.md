@@ -153,7 +153,8 @@ end
       boolean :smoking
       boolean :view
     end
-    time :arrives_at, :departs_at
+    date :arrives_on, default: Date.today
+    date :departs_on, default: Date.tomorrow
     ~~~
 
 3. Use any additional validations you need:
@@ -166,8 +167,8 @@ end
     private
 
     def arrive_before_departs
-      if departs_at <= arrives_at
-        errors.add(:departs_at, 'must come after the arrival time')
+      if departs_on <= arrives_on
+        errors.add(:departs_on, 'must come after the arrival time')
       end
     end
     ~~~
