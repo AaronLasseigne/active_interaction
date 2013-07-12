@@ -4,7 +4,7 @@ describe ActiveInteraction::Base do
   let(:options) { {} }
   subject(:interaction) { described_class.new(options) }
 
-  class TestInteraction1 < described_class
+  class InteractionWithAttribute < described_class
     attr_reader :thing
 
     validates :thing, presence: true
@@ -14,7 +14,7 @@ describe ActiveInteraction::Base do
     end
   end
 
-  class TestInteraction2 < described_class
+  class InteractionWithFilter < described_class
     float :thing
 
     def execute
@@ -22,7 +22,7 @@ describe ActiveInteraction::Base do
     end
   end
 
-  class TestInteraction3 < described_class
+  class InteractionWithFilters < described_class
     float :thing1, :thing2
 
     def execute; end
@@ -39,8 +39,8 @@ describe ActiveInteraction::Base do
       expect { interaction }.to raise_error ArgumentError
     end
 
-    describe TestInteraction1 do
-      let(:described_class) { TestInteraction1 }
+    describe InteractionWithAttribute do
+      let(:described_class) { InteractionWithAttribute }
       let(:thing) { SecureRandom.hex }
 
       context 'failing validations' do
@@ -68,15 +68,15 @@ describe ActiveInteraction::Base do
   describe '.method_missing(filter_type, *args, &block)' do
     it 'raises an error for invalid filter types' do
       expect {
-        class TestInteraction < described_class
+        class InteractionWithInvalidFilter < described_class
           not_a_valid_filter_type :thing
           def execute; end
         end
       }.to raise_error NoMethodError
     end
 
-    describe TestInteraction2 do
-      let(:described_class) { TestInteraction2 }
+    describe InteractionWithFilter do
+      let(:described_class) { InteractionWithFilter }
 
       it 'adds an attr_reader' do
         expect(interaction).to respond_to :thing
@@ -87,8 +87,8 @@ describe ActiveInteraction::Base do
       end
     end
 
-    describe TestInteraction3 do
-      let(:described_class) { TestInteraction3 }
+    describe InteractionWithFilters do
+      let(:described_class) { InteractionWithFilters }
 
       %w(thing1 thing2).each do |thing|
         it "adds an attr_reader for #{thing}" do
@@ -102,8 +102,8 @@ describe ActiveInteraction::Base do
     end
   end
 
-  describe TestInteraction2 do
-    let(:described_class) { TestInteraction2 }
+  describe InteractionWithFilter do
+    let(:described_class) { InteractionWithFilter }
     let(:thing) { rand }
 
     describe '.run(options = {})' do
