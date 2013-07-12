@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+shared_examples 'all other args are assigned' do
+  its(:method_name) { should eql :method_name }
+  its(:options)     { should eql({options: true}) }
+  its(:block)       { should be_a Proc }
+end
+
 describe ActiveInteraction::FilterMethod do
   describe '.new(method_name, *args, &block)' do
     context 'with an attribute name in the args' do
@@ -9,10 +15,9 @@ describe ActiveInteraction::FilterMethod do
         end
       end
 
-      its(:method_name) { should eql :method_name }
-      its(:attribute)   { should eql :attribute }
-      its(:options)     { should eql({options: true}) }
-      its(:block)       { should be_a Proc }
+      its(:attribute) { should eql :attribute }
+
+      it_behaves_like 'all other args are assigned'
     end
 
     context 'without an attribute name in the args' do
@@ -22,10 +27,9 @@ describe ActiveInteraction::FilterMethod do
         end
       end
 
-      its(:method_name) { should eql :method_name }
-      its(:attribute)   { should be_nil }
-      its(:options)     { should eql(options: true) }
-      its(:block)       { should be_a Proc }
+      its(:attribute) { should be_nil }
+
+      it_behaves_like 'all other args are assigned'
     end
   end
 end

@@ -10,20 +10,18 @@ describe ActiveInteraction::OverloadHash do
       end
     end
 
-    context 'when arguments are passed it works as an filter method' do
-      it 'gets sent to add_filter_methods' do
-        allow(subject).to receive(:method_missing)
+    context 'when arguments are passed it works as a filter method' do
+      before { allow(subject).to receive(:method_missing) }
 
+      it 'gets sent to method_missing' do
         subject.hash(:attr_name, {}) do
-          'Block!'
+          'Block'
         end
 
         expect(subject).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash)) # TODO: find out how to check for blocks
       end
 
       it 'gets sent to add_filter_methods with no block' do
-        allow(subject).to receive(:method_missing)
-
         subject.hash(:attr_name, {})
 
         expect(subject).to have_received(:method_missing).once.with(:hash, :attr_name, kind_of(Hash))

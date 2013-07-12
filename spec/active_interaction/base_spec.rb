@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Base do
-  class ExampleInteraction < ActiveInteraction::Base; end
+  class ExampleInteraction < described_class; end
 
   subject(:base) { ExampleInteraction.new }
 
@@ -12,7 +12,7 @@ describe ActiveInteraction::Base do
       inclusion: {in: [true]}
 
     def execute
-      'Execute!'
+      'Execute'
     end
   end
 
@@ -35,16 +35,22 @@ describe ActiveInteraction::Base do
   end
 
   describe '.run(options = {})' do
+    subject(:outcome) { SubBase.run(valid: valid) }
+
+    it 'returns an instance of the class' do
+      expect(SubBase.run).to be_a SubBase
+    end
+
     context 'validations pass' do
-      subject(:outcome) { SubBase.run(valid: true) }
+      let(:valid) { true }
 
       it 'sets `result` to the value of `execute`' do
-        expect(outcome.result).to eq 'Execute!'
+        expect(outcome.result).to eq 'Execute'
       end
     end
 
     context 'validations fail' do
-      subject(:outcome) { SubBase.run(valid: false) }
+      let(:valid) { false }
 
       it 'sets result to nil' do
         expect(outcome.result).to be_nil
@@ -53,18 +59,22 @@ describe ActiveInteraction::Base do
   end
 
   describe '.run!(options = {})' do
+    subject(:result) { SubBase.run!(valid: valid) }
+
     context 'validations pass' do
-      subject(:result) { SubBase.run!(valid: true) }
+      let(:valid) { true }
 
       it 'sets `result` to the value of `execute`' do
-        expect(result).to eq 'Execute!'
+        expect(result).to eq 'Execute'
       end
     end
 
     context 'validations fail' do
+      let(:valid) { false }
+
       it 'throws an error' do
         expect {
-          SubBase.run!(valid: false)
+          result
         }.to raise_error ActiveInteraction::InteractionInvalid
       end
     end
