@@ -31,10 +31,10 @@ Or install it yourself as:
 ## What do I get?
 
 ActiveInteraction::Base lets you create interaction models. These models ensure
-that certain options are provided and that these options are in the format you
-want them in. If the options are valid it calls an `execute` method, stores the
-result of that method in `result`, and returns an instance of your
-ActiveInteraction::Base subclass. Let's looks at a simple example:
+that certain options are provided and that those options are in the format you
+want them in. If the options are valid it will call `execute`, store the return
+value of that method in `result`, and return an instance of your ActiveInteraction::Base
+subclass. Let's looks at a simple example:
 
     # Define an interaction that signs up a user.
     class UserSignup < ActiveInteraction::Base
@@ -73,8 +73,8 @@ ActiveInteraction::Base subclass. Let's looks at a simple example:
       end
     end
 
-You might have noticed that ActiveInteraction::Base quacks like ActiveRecord::Base.
-It can use validations from your Rails application and check validation with
+You may have noticed that ActiveInteraction::Base quacks like ActiveRecord::Base.
+It can use validations from your Rails application and check option validity with
 `valid?`. Any errors are added to `errors` which works exactly like an ActiveRecord
 model.
 
@@ -160,7 +160,7 @@ ActiveInteractions only accept a Hash for `run` and `run!`.
           record
         end
 
-See a full list of methods can be found [here](http://www.rubydoc.info/github/orgsync/active_interaction/master/ActiveInteraction/Base).
+A full list of methods can be found [here](http://www.rubydoc.info/github/orgsync/active_interaction/master/ActiveInteraction/Base).
 
 ## Credits
 
