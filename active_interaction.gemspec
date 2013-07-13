@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   # Dependencies
   spec.required_ruby_version = '>= 1.9.3'
 
-  spec.add_dependency 'activemodel', '>= 3.0.0', '~> 4.0'
+  spec.add_dependency 'activemodel', '>= 3.0.0'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'coveralls', '~> 0.6'
