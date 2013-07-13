@@ -48,7 +48,7 @@ module ActiveInteraction
       if filter_methods.count > 1
         raise ArgumentError, 'Array filter blocks can only contain one filter.'
       else
-        filter_method = filter_methods.first
+        filter_methods.first
       end
     end
     private_class_method :get_filter_method

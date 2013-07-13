@@ -21,7 +21,7 @@ module ActiveInteraction
           return_nil(options[:allow_nil])
         else
           bad_value
-        end
+      end
     end
 
     def self.return_nil(allow_nil)
