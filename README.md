@@ -21,7 +21,7 @@ This project uses [semantic versioning][].
 Add it to your Gemfile:
 
 ~~~ rb
-gem 'active_interaction', '~> 0.1.0'
+gem 'active_interaction', '~> 0.1.1'
 ~~~
 
 And then execute:
