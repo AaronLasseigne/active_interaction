@@ -32,7 +32,7 @@ $ bundle
 
 Or install it yourself as:
 
-~~~ rb
+~~~ sh
 $ gem install active_interaction
 ~~~
 
@@ -137,55 +137,55 @@ end
 
 1. Subclass ActiveInteraction::Base
 
-    ~~~ rb
-    class YourInteraction < ActiveInteraction::Base
-      # ...
-    end
-    ~~~
+   ~~~ rb
+   class YourInteraction < ActiveInteraction::Base
+     # ...
+   end
+   ~~~
 
 2. Define your attributes:
 
-    ~~~ rb
-    string :name, :state
-    integer :age
-    boolean :is_special
-    model :account
-    array :tags, allow_nil: true do
-      string
-    end
-    hash :prefs, allow_nil: true do
-      boolean :smoking
-      boolean :view
-    end
-    date :arrives_on, default: Date.today
-    date :departs_on, default: Date.tomorrow
-    ~~~
+   ~~~ rb
+   string :name, :state
+   integer :age
+   boolean :is_special
+   model :account
+   array :tags, allow_nil: true do
+     string
+   end
+   hash :prefs, allow_nil: true do
+     boolean :smoking
+     boolean :view
+   end
+   date :arrives_on, default: Date.today
+   date :departs_on, default: Date.tomorrow
+   ~~~
 
 3. Use any additional validations you need:
 
-    ~~~ rb
-    validates :name, length: {maximum: 10}
-    validates :state, inclusion: {in: %w(AL AK AR ... WY)}
-    validate arrives_before_departs
+   ~~~ rb
+   validates :name, length: {maximum: 10}
+   validates :state, inclusion: {in: %w(AL AK AR ... WY)}
+   validate arrives_before_departs
 
-    private
+   private
 
-    def arrive_before_departs
-      if departs_on <= arrives_on
-        errors.add(:departs_on, 'must come after the arrival time')
-      end
-    end
-    ~~~
+   def arrive_before_departs
+     if departs_on <= arrives_on
+       errors.add(:departs_on, 'must come after the arrival time')
+     end
+   end
+   ~~~
 
 4. Define your execute method. It can return whatever you like:
 
-    ~~~ rb
-    def execute
-      record = do_thing(...)
-      # ...
-      record
-    end
-    ~~~
+   ~~~ rb
+   def execute
+     record = do_thing(...)
+     # ...
+     record
+   end
+   ~~~
 
 A full list of methods can be found [here](http://www.rubydoc.info/github/orgsync/active_interaction/master/ActiveInteraction/Base).
 
