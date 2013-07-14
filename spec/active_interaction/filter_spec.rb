@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module ActiveInteraction
-  class TestFilter < Filter; end
+  TestFilter = Class.new(Filter)
 end
 
 describe ActiveInteraction::Filter do
