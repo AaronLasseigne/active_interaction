@@ -1,8 +1,8 @@
 require 'active_support/core_ext/hash/indifferent_access'
 
 module ActiveInteraction
-  # @abstract Subclass and override {#execute} to implement
-  #   a custom ActiveInteraction class.
+  # @abstract Subclass and override {#execute} to implement a custom
+  #   ActiveInteraction class.
   #
   # @example
   #   class ExampleInteraction < ActiveInteraction::Base
@@ -65,9 +65,9 @@ module ActiveInteraction
       end
     end
 
-    # Runs the business logic associated with the interaction. The method is only
-    #   run when there are no validation errors. The return value is placed into
-    #   {#result}. This method must be overridden in the subclass.
+    # Runs the business logic associated with the interaction. The method is
+    #   only run when there are no validation errors. The return value is
+    #   placed into {#result}. This method must be overridden in the subclass.
     #
     # @raise [NotImplementedError] if the method is not defined.
     def execute
@@ -81,7 +81,8 @@ module ActiveInteraction
     #
     # @macro run_attributes
     #
-    # @return [ActiveInteraction::Base] An instance of the class `run` is called on.
+    # @return [ActiveInteraction::Base] An instance of the class `run` is
+    #   called on.
     def self.run(options = {})
       me = new(options)
 
@@ -136,7 +137,8 @@ module ActiveInteraction
       default_value = nil
       if options.has_key?(:default)
         begin
-          default_value = filter.prepare(attribute, options.delete(:default), options, &block)
+          default_value = filter.prepare(
+            attribute, options.delete(:default), options, &block)
         rescue InvalidValue
           raise InvalidDefaultValue
         end

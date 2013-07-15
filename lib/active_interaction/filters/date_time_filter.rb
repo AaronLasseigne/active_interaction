@@ -1,7 +1,8 @@
 module ActiveInteraction
   class Base
     # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are DateTimes. String values are processed using `parse`.
+    #   the attributes are DateTimes. String values are processed using
+    #   `parse`.
     #
     # @macro attribute_method_params
     #

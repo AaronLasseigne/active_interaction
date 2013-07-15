@@ -34,10 +34,10 @@ module ActiveInteraction
     def self.convert_values(hash, &block)
       return hash unless block_given?
 
-      FilterMethods.evaluate(&block).each do |filter_method|
-        key = filter_method.attribute
-
-        hash[key] = Filter.factory(filter_method.method_name).prepare(key, hash[key], filter_method.options, &filter_method.block)
+      FilterMethods.evaluate(&block).each do |method|
+        key = method.attribute
+        hash[key] = Filter.factory(method.method_name).
+          prepare(key, hash[key], method.options, &method.block)
       end
 
       hash

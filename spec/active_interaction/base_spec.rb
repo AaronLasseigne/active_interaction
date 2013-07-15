@@ -176,7 +176,9 @@ describe ActiveInteraction::Base do
 
       context 'failing validations' do
         it 'raises an error' do
-          expect { result }.to raise_error ActiveInteraction::InteractionInvalid
+          expect {
+            result
+          }.to raise_error ActiveInteraction::InteractionInvalid
         end
       end
 

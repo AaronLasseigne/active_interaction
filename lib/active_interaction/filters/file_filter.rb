@@ -2,8 +2,8 @@ module ActiveInteraction
   class Base
     # Creates accessors for the attributes and ensures that values passed to
     #   the attributes are Files or TempFiles. It will also extract a file from
-    #   any object with a `tempfile` method. This is useful when passing in Rails
-    #   params that include a file upload.
+    #   any object with a `tempfile` method. This is useful when passing in
+    #   Rails params that include a file upload.
     #
     # @macro attribute_method_params
     #

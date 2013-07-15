@@ -61,7 +61,7 @@ describe ArrayInteraction do
             array default: []
           end
         end
-        # TODO: We should fail when defining the class, not when trying to run it.
+        # TODO: Fail when defining class, not running it.
         klass.run(a: [])
       }.to raise_error ArgumentError
     end

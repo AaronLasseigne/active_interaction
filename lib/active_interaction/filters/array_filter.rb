@@ -36,10 +36,10 @@ module ActiveInteraction
     def self.convert_values(values, &block)
       return values.dup unless block_given?
 
-      filter_method = get_filter_method(FilterMethods.evaluate(&block))
-
+      method = get_filter_method(FilterMethods.evaluate(&block))
       values.map do |value|
-        Filter.factory(filter_method.method_name).prepare(filter_method.attribute, value, filter_method.options, &filter_method.block)
+        Filter.factory(method.method_name).
+          prepare(method.attribute, value, method.options, &method.block)
       end
     end
     private_class_method :convert_values
