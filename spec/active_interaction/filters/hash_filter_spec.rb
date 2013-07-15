@@ -13,7 +13,7 @@ describe ActiveInteraction::HashFilter do
       end
     end
 
-    context 'with block as a block' do
+    context 'with a block' do
       let(:block) { Proc.new { hash :a } }
 
       context 'with a Hash containing a Hash' do
@@ -33,7 +33,7 @@ describe ActiveInteraction::HashFilter do
       end
     end
 
-    context 'with block as a block with multiple filters' do
+    context 'with a block with multiple filters' do
       let(:block) { Proc.new { hash :a; hash :b } }
 
       context 'with a Hash containing Hashes' do
@@ -45,7 +45,7 @@ describe ActiveInteraction::HashFilter do
       end
     end
 
-    context 'with block as a nested block' do
+    context 'with a nested block' do
       let(:block) { Proc.new { hash :a do; hash :b end } }
       let(:value) { { a: { b: {} } } }
 

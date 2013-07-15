@@ -62,13 +62,13 @@ describe ActiveInteraction::Base do
       end
     end
 
-    describe InteractionWithFilter do
+    describe 'with a filter' do
       let(:described_class) { InteractionWithFilter }
 
       context 'failing validations' do
         before { options.merge!(thing: thing) }
 
-        context 'InvalidValue' do
+        context 'with an invalid value' do
           let(:thing) { 'a' }
 
           it 'sets the attribute to the filtered value' do
@@ -76,7 +76,7 @@ describe ActiveInteraction::Base do
           end
         end
 
-        context 'MissingValue' do
+        context 'without a value' do
           let(:thing) { nil }
 
           it 'sets the attribute to the filtered value' do

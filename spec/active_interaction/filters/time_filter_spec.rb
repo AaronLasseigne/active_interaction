@@ -14,7 +14,7 @@ describe ActiveInteraction::TimeFilter do
     end
 
     shared_examples 'conversion' do
-      context 'with a float' do
+      context 'with a Float' do
         let(:value) { rand }
 
         it 'converts the Float' do
