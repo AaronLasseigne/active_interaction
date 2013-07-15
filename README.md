@@ -1,18 +1,19 @@
 # ActiveInteraction
 
-[![Gem Version][]](https://badge.fury.io/rb/active_interaction)
-[![Build Status][]](https://travis-ci.org/orgsync/active_interaction)
-[![Coverage Status][]](https://coveralls.io/r/orgsync/active_interaction)
-[![Code Climate][]](https://codeclimate.com/github/orgsync/active_interaction)
-[![Dependency Status][]](https://gemnasium.com/orgsync/active_interaction)
+[![Gem Version][]][1]
+[![Build Status][]][2]
+[![Coverage Status][]][3]
+[![Code Climate][]][4]
+[![Dependency Status][]][5]
 
-At first it seemed alright. A little business logic in a controller or model
-wasn't going to hurt anything. Then one day you wake up and you're surrounded
-by fat models and unweildy controllers. Curled up and crying in the
-corner, you can't help but wonder how it came to this.
+At first it seemed alright. A little business logic in a controller
+or model wasn't going to hurt anything. Then one day you wake up
+and you're surrounded by fat models and unweildy controllers. Curled
+up and crying in the corner, you can't help but wonder how it came
+to this.
 
-Take back control. Slim down models and wrangle monstrous controller methods
-with ActiveInteraction.
+Take back control. Slim down models and wrangle monstrous controller
+methods with ActiveInteraction.
 
 ## Installation
 
@@ -20,31 +21,32 @@ This project uses [semantic versioning][].
 
 Add it to your Gemfile:
 
-~~~ rb
+```ruby
 gem 'active_interaction', '~> 0.1.2'
-~~~
+```
 
 And then execute:
 
-~~~ sh
+```sh
 $ bundle
-~~~
+```
 
-Or install it yourself as:
+Or install it yourself with:
 
-~~~ sh
+```sh
 $ gem install active_interaction
-~~~
+```
 
 ## What do I get?
 
-ActiveInteraction::Base lets you create interaction models. These models ensure
-that certain options are provided and that those options are in the format you
-want them in. If the options are valid it will call `execute`, store the return
-value of that method in `result`, and return an instance of your ActiveInteraction::Base
+ActiveInteraction::Base lets you create interaction models. These
+models ensure that certain options are provided and that those
+options are in the format you want them in. If the options are valid
+it will call `execute`, store the return value of that method in
+`result`, and return an instance of your ActiveInteraction::Base
 subclass. Let's looks at a simple example:
 
-~~~ rb
+```ruby
 # Define an interaction that signs up a user.
 class UserSignup < ActiveInteraction::Base
   # required
@@ -56,11 +58,14 @@ class UserSignup < ActiveInteraction::Base
   # ActiveRecord validations
   validates :email, format: EMAIL_REGEX
 
-  # The execute method is called only if the options validate. It does your
-  # business action. The return value will be stored in `result`.
+  # The execute method is called only if the options validate. It
+  # does your business action. The return value will be stored in
+  # `result`.
   def execute
     user = User.create!(email: email, name: name)
-    NewsletterSubscriptions.create(email: email, user_id: user.id) if newsletter_subscribe
+    if newsletter_subscribe
+      NewsletterSubscriptions.create(email: email, user_id: user.id)
+    end
     UserMailer.async(:deliver_welcome, user.id)
     user
   end
@@ -81,45 +86,46 @@ def create
     render action: :new
   end
 end
-~~~
+```
 
-You may have noticed that ActiveInteraction::Base quacks like ActiveRecord::Base.
-It can use validations from your Rails application and check option validity with
-`valid?`. Any errors are added to `errors` which works exactly like an ActiveRecord
-model.
+You may have noticed that ActiveInteraction::Base quacks like
+ActiveRecord::Base. It can use validations from your Rails application
+and check option validity with `valid?`. Any errors are added to
+`errors` which works exactly like an ActiveRecord model.
 
 ## How do I call an interaction?
 
-There are two way to call an interaction. Given UserSignup, you can do this:
+There are two way to call an interaction. Given UserSignup, you can
+do this:
 
-~~~ rb
+```ruby
 outcome = UserSignup.run(params)
 if outcome.valid?
   # Do something with outcome.result...
 else
   # Do something with outcome.errors...
 end
-~~~
+```
 
 Or, you can do this:
 
-~~~ rb
+```ruby
 result = UserSignup.run!(params)
 # Either returns the result of execute,
 # or raises ActiveInteraction::InteractionInvalid
-~~~
+```
 
 ## What can I pass to an interaction?
 
 Interactions only accept a Hash for `run` and `run!`.
 
-~~~ rb
+```ruby
 # A user comments on an article
 class CreateComment < ActiveInteraction::Base
   model :article, :user
   string :comment
 
-  validates :comment, length: {maximum: 500}
+  validates :comment, length: { maximum: 500 }
 
   def execute; ...; end
 end
@@ -131,72 +137,78 @@ def somewhere
     user: current_user
   )
 end
-~~~
+```
 
 ## How do I define an interaction?
 
 1. Subclass ActiveInteraction::Base
 
-   ~~~ rb
-   class YourInteraction < ActiveInteraction::Base
-     # ...
-   end
-   ~~~
+    ```ruby
+    class YourInteraction < ActiveInteraction::Base
+      # ...
+    end
+    ```
 
 2. Define your attributes:
 
-   ~~~ rb
-   string :name, :state
-   integer :age
-   boolean :is_special
-   model :account
-   array :tags, allow_nil: true do
-     string
-   end
-   hash :prefs, allow_nil: true do
-     boolean :smoking
-     boolean :view
-   end
-   date :arrives_on, default: Date.today
-   date :departs_on, default: Date.tomorrow
-   ~~~
+    ```ruby
+    string :name, :state
+    integer :age
+    boolean :is_special
+    model :account
+    array :tags, allow_nil: true do
+      string
+    end
+    hash :prefs, allow_nil: true do
+      boolean :smoking
+      boolean :view
+    end
+    date :arrives_on, default: Date.today
+    date :departs_on, default: Date.tomorrow
+    ```
 
 3. Use any additional validations you need:
 
-   ~~~ rb
-   validates :name, length: {maximum: 10}
-   validates :state, inclusion: {in: %w(AL AK AR ... WY)}
-   validate arrives_before_departs
+    ```ruby
+    validates :name, length: { maximum: 10 }
+    validates :state, inclusion: { in: %w(AL AK AR ... WY) }
+    validate arrives_before_departs
 
-   private
+    private
 
-   def arrive_before_departs
-     if departs_on <= arrives_on
-       errors.add(:departs_on, 'must come after the arrival time')
-     end
-   end
-   ~~~
+    def arrive_before_departs
+      if departs_on <= arrives_on
+        errors.add(:departs_on, 'must come after the arrival time')
+      end
+    end
+    ```
 
 4. Define your execute method. It can return whatever you like:
 
-   ~~~ rb
-   def execute
-     record = do_thing(...)
-     # ...
-     record
-   end
-   ~~~
+    ```ruby
+    def execute
+      record = do_thing(...)
+      # ...
+      record
+    end
+    ```
 
-A full list of methods can be found [here](http://www.rubydoc.info/github/orgsync/active_interaction/master/ActiveInteraction/Base).
+Check out the [documentation][] for a full list of methods.
 
 ## Credits
 
 This project was inspired by the fantastic work done in [Mutations][].
 
-[build status]: https://travis-ci.org/orgsync/active_interaction.png
-[code climate]: https://codeclimate.com/github/orgsync/active_interaction.png
-[coverage status]: https://coveralls.io/repos/orgsync/active_interaction/badge.png
-[dependency status]: https://gemnasium.com/orgsync/active_interaction.png
-[gem version]: https://badge.fury.io/rb/active_interaction.png
-[mutations]: https://github.com/cypriss/mutations
-[semantic versioning]: http://semver.org
+  [1]: https://badge.fury.io/rb/active_interaction "Gem Version"
+  [2]: https://travis-ci.org/orgsync/active_interaction "Build Status"
+  [3]: https://coveralls.io/r/orgsync/active_interaction "Coverage Status"
+  [4]: https://codeclimate.com/github/orgsync/active_interaction "Code Climate"
+  [5]: https://gemnasium.com/orgsync/active_interaction "Dependency Status"
+  [build status]: https://travis-ci.org/orgsync/active_interaction.png
+  [code climate]: https://codeclimate.com/github/orgsync/active_interaction.png
+  [coverage status]: https://coveralls.io/repos/orgsync/active_interaction/badge.png
+  [dependency status]: https://gemnasium.com/orgsync/active_interaction.png
+  [documentation]: http://rubydoc.info/github/orgsync/active_interaction
+  [gem version]: https://badge.fury.io/rb/active_interaction.png
+  [mutations]: https://github.com/cypriss/mutations
+  [semantic versioning]: http://semver.org

@@ -1,7 +1,7 @@
 --readme=README.md
 --no-private
 --protected
---markup-provider=kramdown
+--markup-provider=rdoc
 --markup=markdown
 -
 LICENSE.txt
