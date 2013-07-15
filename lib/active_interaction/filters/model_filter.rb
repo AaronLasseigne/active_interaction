@@ -4,7 +4,8 @@ module ActiveInteraction
     #   the attributes are the correct class.
     #
     # @macro attribute_method_params
-    # @option options [Class, String, Symbol] :class (use the attribute name) Class name used to ensure the value.
+    # @option options [Class, String, Symbol] :class (use the attribute name)
+    #   Class name used to ensure the value.
     #
     # @example Ensures that the class is `Account`
     #   model :account

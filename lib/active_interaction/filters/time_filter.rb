@@ -29,7 +29,7 @@ module ActiveInteraction
     end
 
     def self.time
-      if Time.respond_to?(:zone)
+      if Time.respond_to?(:zone) && !Time.zone.nil?
         Time.zone
       else
         Time

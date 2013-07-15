@@ -13,7 +13,7 @@ describe ActiveInteraction::ArrayFilter do
       end
     end
 
-    context 'with block as a valid block' do
+    context 'with a block' do
       let(:block) { Proc.new { array } }
 
       context 'with an Array of Arrays' do
@@ -33,7 +33,7 @@ describe ActiveInteraction::ArrayFilter do
       end
     end
 
-    context 'with block as a nested block' do
+    context 'with a nested block' do
       let(:block) { Proc.new { array { array } } }
       let(:value) { [[[]]] }
 
@@ -42,7 +42,7 @@ describe ActiveInteraction::ArrayFilter do
       end
     end
 
-    context 'with block as an invalid block' do
+    context 'with an invalid block' do
       let(:block) { Proc.new { array; array } }
       let(:value) { [] }
 

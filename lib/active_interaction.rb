@@ -21,4 +21,4 @@ require 'active_interaction/filters/time_filter'
 require 'active_interaction/base'
 
 # @since 0.1.0
-module ActiveInteraction; end
+module ActiveInteraction end

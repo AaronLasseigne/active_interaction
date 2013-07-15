@@ -4,15 +4,16 @@ shared_context 'interactions' do
   let(:result) { outcome.result }
 end
 
-shared_examples_for 'an interaction' do |type, value_lambda, filter_options = {}|
+shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
   include_context 'interactions'
 
   let(:described_class) do
     Class.new(ActiveInteraction::Base) do
       send(type, :required, filter_options)
       send(type, :optional, filter_options.merge(allow_nil: true))
-      send(type, :default, filter_options.merge(default: value_lambda.call))
-      send(type, :nil_default, filter_options.merge(allow_nil: true, default: nil))
+      send(type, :default, filter_options.merge(default: generator.call))
+      send(type, :nil_default,
+           filter_options.merge(allow_nil: true, default: nil))
 
       def execute
         {
@@ -32,7 +33,7 @@ shared_examples_for 'an interaction' do |type, value_lambda, filter_options = {}
   end
 
   context 'with options[:required]' do
-    let(:required) { value_lambda.call }
+    let(:required) { generator.call }
 
     before { options.merge!(required: required) }
 
@@ -57,7 +58,7 @@ shared_examples_for 'an interaction' do |type, value_lambda, filter_options = {}
     end
 
     context 'with options[:optional]' do
-      let(:optional) { value_lambda.call }
+      let(:optional) { generator.call }
 
       before { options.merge!(optional: optional) }
 
@@ -67,7 +68,7 @@ shared_examples_for 'an interaction' do |type, value_lambda, filter_options = {}
     end
 
     context 'with options[:default]' do
-      let(:default) { value_lambda.call }
+      let(:default) { generator.call }
 
       before { options.merge!(default: default) }
 

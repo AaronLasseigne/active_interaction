@@ -30,8 +30,8 @@ describe ActiveInteraction::Base do
 
           validates :thing, presence: true
 
-          def self.model_name
-            ActiveModel::Name.new(self, nil, SecureRandom.hex)
+          def self.name
+            SecureRandom.hex
           end
 
           def execute
@@ -62,13 +62,13 @@ describe ActiveInteraction::Base do
       end
     end
 
-    describe InteractionWithFilter do
+    describe 'with a filter' do
       let(:described_class) { InteractionWithFilter }
 
       context 'failing validations' do
         before { options.merge!(thing: thing) }
 
-        context 'InvalidValue' do
+        context 'with an invalid value' do
           let(:thing) { 'a' }
 
           it 'sets the attribute to the filtered value' do
@@ -76,7 +76,7 @@ describe ActiveInteraction::Base do
           end
         end
 
-        context 'MissingValue' do
+        context 'without a value' do
           let(:thing) { nil }
 
           it 'sets the attribute to the filtered value' do
@@ -176,7 +176,9 @@ describe ActiveInteraction::Base do
 
       context 'failing validations' do
         it 'raises an error' do
-          expect { result }.to raise_error ActiveInteraction::InteractionInvalid
+          expect {
+            result
+          }.to raise_error ActiveInteraction::InteractionInvalid
         end
       end
 

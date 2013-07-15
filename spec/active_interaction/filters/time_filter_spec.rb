@@ -14,7 +14,7 @@ describe ActiveInteraction::TimeFilter do
     end
 
     shared_examples 'conversion' do
-      context 'with a float' do
+      context 'with a Float' do
         let(:value) { rand }
 
         it 'converts the Float' do
@@ -70,14 +70,28 @@ describe ActiveInteraction::TimeFilter do
     end
 
     context 'with Time.zone' do
-      include_examples 'conversion'
+      context 'as nil' do
+        include_examples 'conversion'
 
-      before do
-        allow(Time).to receive(:zone).and_return(Time)
+        before do
+          allow(Time).to receive(:zone).and_return(nil)
+        end
+
+        after do
+          expect(Time).to have_received(:zone).once.with(no_args)
+        end
       end
 
-      after do
-        expect(Time).to have_received(:zone).with(no_args)
+      context 'as Time' do
+        include_examples 'conversion'
+
+        before do
+          allow(Time).to receive(:zone).and_return(Time)
+        end
+
+        after do
+          expect(Time).to have_received(:zone).twice.with(no_args)
+        end
       end
     end
   end

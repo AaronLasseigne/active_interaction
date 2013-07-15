@@ -1,8 +1,8 @@
 require 'active_support/core_ext/hash/indifferent_access'
 
 module ActiveInteraction
-  # @abstract Subclass and override {#execute} to implement
-  #   a custom ActiveInteraction class.
+  # @abstract Subclass and override {#execute} to implement a custom
+  #   ActiveInteraction class.
   #
   # @example
   #   class ExampleInteraction < ActiveInteraction::Base
@@ -25,7 +25,7 @@ module ActiveInteraction
   #     p outcome.errors
   #   end
   class Base
-    extend  ::ActiveModel::Naming
+    extend ::ActiveModel::Naming
     include ::ActiveModel::Conversion
     include ::ActiveModel::Validations
 
@@ -57,17 +57,18 @@ module ActiveInteraction
       end
 
       options.each do |attribute, value|
-        if respond_to?("#{attribute}=")
-          send("_filter__#{attribute}=", value)
+        method = "_filter__#{attribute}="
+        if respond_to?(method, true)
+          send(method, value)
         else
           instance_variable_set("@#{attribute}", value)
         end
       end
     end
 
-    # Runs the business logic associated with the interactor. The method is only
-    #   run when there are no validation errors. The return value is placed into
-    #   {#result}. This method must be overridden in the subclass.
+    # Runs the business logic associated with the interaction. The method is
+    #   only run when there are no validation errors. The return value is
+    #   placed into {#result}. This method must be overridden in the subclass.
     #
     # @raise [NotImplementedError] if the method is not defined.
     def execute
@@ -81,7 +82,8 @@ module ActiveInteraction
     #
     # @macro run_attributes
     #
-    # @return [ActiveInteraction::Base] An instance of the class `run` is called on.
+    # @return [ActiveInteraction::Base] An instance of the class `run` is
+    #   called on.
     def self.run(options = {})
       me = new(options)
 
@@ -105,55 +107,61 @@ module ActiveInteraction
     end
 
     # @private
-    def self.method_missing(filter_type, *args, &block)
-      klass = Filter.factory(filter_type)
+    def self.method_missing(type, *args, &block)
+      filter = Filter.factory(type)
       options = args.last.is_a?(Hash) ? args.pop : {}
       args.each do |attribute|
-        filter_attr_accessor(klass, attribute, options, &block)
-
-        filter_validator(attribute, filter_type, klass, options, &block)
+        set_up_reader(attribute, filter, options, &block)
+        set_up_writer(attribute, filter, options, &block)
+        set_up_validator(attribute, type, filter, options, &block)
       end
     end
     private_class_method :method_missing
 
     # @private
-    def self.filter_attr_accessor(filter, attribute, options, &block)
-      filter_attr_writer = "_filter__#{attribute}="
-      define_method(filter_attr_writer) do |value|
-        filtered_value =
-          begin
-            filter.prepare(attribute, value, options, &block)
-          rescue InvalidValue, MissingValue
-            value
-          end
-
-        instance_variable_set("@#{attribute}", filtered_value)
-      end
-      private filter_attr_writer
-
-      attr_writer attribute
-
+    def self.set_up_reader(attribute, filter, options, &block)
+      default = nil
       if options.has_key?(:default)
         begin
-          default_value = filter.prepare(attribute, options.delete(:default), options, &block)
+          default = filter.
+            prepare(attribute, options.delete(:default), options, &block)
         rescue InvalidValue
           raise InvalidDefaultValue
         end
       end
 
       define_method(attribute) do
-        instance_variable_name = "@#{attribute}"
-        if instance_variable_defined?(instance_variable_name)
-          instance_variable_get(instance_variable_name)
+        symbol = "@#{attribute}"
+        if instance_variable_defined?(symbol)
+          instance_variable_get(symbol)
         else
-          default_value
+          default
         end
       end
     end
-    private_class_method :filter_attr_accessor
+    private_class_method :set_up_reader
 
     # @private
-    def self.filter_validator(attribute, type, filter, options, &block)
+    def self.set_up_writer(attribute, filter, options, &block)
+      attr_writer attribute
+
+      writer = "_filter__#{attribute}="
+
+      define_method(writer) do |value|
+        value =
+          begin
+            filter.prepare(attribute, value, options, &block)
+          rescue InvalidValue, MissingValue
+            value
+          end
+        instance_variable_set("@#{attribute}", value)
+      end
+      private writer
+    end
+    private_class_method :set_up_writer
+
+    # @private
+    def self.set_up_validator(attribute, type, filter, options, &block)
       validator = "_validate__#{attribute}__#{type}"
 
       validate validator
@@ -165,11 +173,11 @@ module ActiveInteraction
           errors.add(attribute, 'is required')
         rescue InvalidValue
           errors.add(attribute,
-            "is not a valid #{type.to_s.humanize.downcase}")
+                     "is not a valid #{type.to_s.humanize.downcase}")
         end
       end
       private validator
     end
-    private_class_method :filter_validator
+    private_class_method :set_up_validator
   end
 end
