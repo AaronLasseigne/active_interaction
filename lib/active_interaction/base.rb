@@ -57,8 +57,9 @@ module ActiveInteraction
       end
 
       options.each do |attribute, value|
-        if respond_to?("#{attribute}=")
-          send("_filter__#{attribute}=", value)
+        method = "_filter__#{attribute}="
+        if respond_to?(method, true)
+          send(method, value)
         else
           instance_variable_set("@#{attribute}", value)
         end
