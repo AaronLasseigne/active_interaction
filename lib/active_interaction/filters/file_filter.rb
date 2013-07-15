@@ -28,7 +28,7 @@ module ActiveInteraction
 
     def self.extract_file(value)
       if value.respond_to?(:tempfile)
-        value = value.tempfile
+        value.tempfile
       else
         value
       end
