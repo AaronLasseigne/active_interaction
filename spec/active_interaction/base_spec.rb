@@ -30,8 +30,8 @@ describe ActiveInteraction::Base do
 
           validates :thing, presence: true
 
-          def self.model_name
-            ActiveModel::Name.new(self, nil, SecureRandom.hex)
+          def self.name
+            SecureRandom.hex
           end
 
           def execute
