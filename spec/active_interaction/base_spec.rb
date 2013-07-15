@@ -61,6 +61,38 @@ describe ActiveInteraction::Base do
         end
       end
     end
+
+    describe InteractionWithFilter do
+      let(:described_class) { InteractionWithFilter }
+
+      context 'failing validations' do
+        before { options.merge!(thing: thing) }
+
+        context 'InvalidValue' do
+          let(:thing) { 'a' }
+
+          it 'sets the attribute to the filtered value' do
+            expect(interaction.thing).to equal thing
+          end
+        end
+
+        context 'MissingValue' do
+          let(:thing) { nil }
+
+          it 'sets the attribute to the filtered value' do
+            expect(interaction.thing).to equal thing
+          end
+        end
+      end
+
+      context 'passing validations' do
+        before { options.merge!(thing: 1) }
+
+        it 'sets the attribute to the filtered value' do
+          expect(interaction.thing).to eql 1.0
+        end
+      end
+    end
   end
 
   describe '.method_missing(filter_type, *args, &block)' do

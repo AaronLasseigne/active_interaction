@@ -58,7 +58,7 @@ module ActiveInteraction
 
       options.each do |attribute, value|
         if respond_to?("#{attribute}=")
-          send("#{attribute}=", value)
+          send("_filter__#{attribute}=", value)
         else
           instance_variable_set("@#{attribute}", value)
         end
@@ -118,6 +118,19 @@ module ActiveInteraction
 
     # @private
     def self.filter_attr_accessor(filter, attribute, options, &block)
+      filter_attr_writer = "_filter__#{attribute}="
+      define_method(filter_attr_writer) do |value|
+        filtered_value =
+          begin
+            filter.prepare(attribute, value, options, &block)
+          rescue InvalidValue, MissingValue
+            value
+          end
+
+        instance_variable_set("@#{attribute}", filtered_value)
+      end
+      private filter_attr_writer
+
       attr_writer attribute
 
       if options.has_key?(:default)
