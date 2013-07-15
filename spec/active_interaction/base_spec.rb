@@ -4,28 +4,12 @@ describe ActiveInteraction::Base do
   let(:options) { {} }
   subject(:interaction) { described_class.new(options) }
 
-  class InteractionWithAttribute < described_class
-    attr_reader :thing
-
-    validates :thing, presence: true
-
-    def execute
-      thing
-    end
-  end
-
   class InteractionWithFilter < described_class
     float :thing
 
     def execute
       thing
     end
-  end
-
-  class InteractionWithFilters < described_class
-    float :thing1, :thing2
-
-    def execute; end
   end
 
   describe '.new(options = {})' do
@@ -39,8 +23,22 @@ describe ActiveInteraction::Base do
       expect { interaction }.to raise_error ArgumentError
     end
 
-    describe InteractionWithAttribute do
-      let(:described_class) { InteractionWithAttribute }
+    context 'with an attribute' do
+      let(:described_class) do
+        Class.new(ActiveInteraction::Base) do
+          attr_reader :thing
+
+          validates :thing, presence: true
+
+          def self.model_name
+            ActiveModel::Name.new(self, nil, SecureRandom.hex)
+          end
+
+          def execute
+            thing
+          end
+        end
+      end
       let(:thing) { SecureRandom.hex }
 
       context 'failing validations' do
@@ -63,19 +61,50 @@ describe ActiveInteraction::Base do
         end
       end
     end
+
+    describe InteractionWithFilter do
+      let(:described_class) { InteractionWithFilter }
+
+      context 'failing validations' do
+        before { options.merge!(thing: thing) }
+
+        context 'InvalidValue' do
+          let(:thing) { 'a' }
+
+          it 'sets the attribute to the filtered value' do
+            expect(interaction.thing).to equal thing
+          end
+        end
+
+        context 'MissingValue' do
+          let(:thing) { nil }
+
+          it 'sets the attribute to the filtered value' do
+            expect(interaction.thing).to equal thing
+          end
+        end
+      end
+
+      context 'passing validations' do
+        before { options.merge!(thing: 1) }
+
+        it 'sets the attribute to the filtered value' do
+          expect(interaction.thing).to eql 1.0
+        end
+      end
+    end
   end
 
   describe '.method_missing(filter_type, *args, &block)' do
-    it 'raises an error for invalid filter types' do
+    it 'raises an error for an invalid filter type' do
       expect {
-        class InteractionWithInvalidFilter < described_class
+        Class.new(described_class) do
           not_a_valid_filter_type :thing
-          def execute; end
         end
       }.to raise_error NoMethodError
     end
 
-    describe InteractionWithFilter do
+    context 'with a filter' do
       let(:described_class) { InteractionWithFilter }
 
       it 'adds an attr_reader' do
@@ -87,8 +116,14 @@ describe ActiveInteraction::Base do
       end
     end
 
-    describe InteractionWithFilters do
-      let(:described_class) { InteractionWithFilters }
+    context 'with multiple filters' do
+      let(:described_class) do
+        Class.new(ActiveInteraction::Base) do
+          float :thing1, :thing2
+
+          def execute; end
+        end
+      end
 
       %w(thing1 thing2).each do |thing|
         it "adds an attr_reader for #{thing}" do
@@ -102,7 +137,7 @@ describe ActiveInteraction::Base do
     end
   end
 
-  describe InteractionWithFilter do
+  context 'with a filter' do
     let(:described_class) { InteractionWithFilter }
     let(:thing) { rand }
 

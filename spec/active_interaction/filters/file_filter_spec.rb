@@ -14,7 +14,7 @@ describe ActiveInteraction::FileFilter do
     end
 
     context 'with a Tempfile' do
-      let(:value) { Tempfile.new('temp') }
+      let(:value) { Tempfile.new(SecureRandom.hex) }
 
       it 'returns the Tempfile' do
         expect(result).to equal value
@@ -22,7 +22,7 @@ describe ActiveInteraction::FileFilter do
     end
 
     context 'with a object that responds to `tempfile`' do
-      let(:value) { double(tempfile: Tempfile.new('temp')) }
+      let(:value) { double(tempfile: Tempfile.new(SecureRandom.hex)) }
 
       it 'returns the Tempfile' do
         expect(result).to equal value.tempfile
