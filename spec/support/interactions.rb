@@ -13,7 +13,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       send(type, :optional, filter_options.merge(allow_nil: true))
       send(type, :default, filter_options.merge(default: generator.call))
       send(type, :nil_default,
-        filter_options.merge(allow_nil: true, default: nil))
+           filter_options.merge(allow_nil: true, default: nil))
 
       def execute
         {
