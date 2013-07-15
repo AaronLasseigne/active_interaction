@@ -20,21 +20,21 @@ This project uses [semantic versioning][].
 
 Add it to your Gemfile:
 
-~~~ rb
+```ruby
 gem 'active_interaction', '~> 0.1.2'
-~~~
+```
 
 And then execute:
 
-~~~ sh
+```sh
 $ bundle
-~~~
+```
 
 Or install it yourself as:
 
-~~~ rb
+```sh
 $ gem install active_interaction
-~~~
+```
 
 ## What do I get?
 
@@ -44,7 +44,7 @@ want them in. If the options are valid it will call `execute`, store the return
 value of that method in `result`, and return an instance of your ActiveInteraction::Base
 subclass. Let's looks at a simple example:
 
-~~~ rb
+```ruby
 # Define an interaction that signs up a user.
 class UserSignup < ActiveInteraction::Base
   # required
@@ -81,7 +81,7 @@ def create
     render action: :new
   end
 end
-~~~
+```
 
 You may have noticed that ActiveInteraction::Base quacks like ActiveRecord::Base.
 It can use validations from your Rails application and check option validity with
@@ -92,28 +92,28 @@ model.
 
 There are two way to call an interaction. Given UserSignup, you can do this:
 
-~~~ rb
+```ruby
 outcome = UserSignup.run(params)
 if outcome.valid?
   # Do something with outcome.result...
 else
   # Do something with outcome.errors...
 end
-~~~
+```
 
 Or, you can do this:
 
-~~~ rb
+```ruby
 result = UserSignup.run!(params)
 # Either returns the result of execute,
 # or raises ActiveInteraction::InteractionInvalid
-~~~
+```
 
 ## What can I pass to an interaction?
 
 Interactions only accept a Hash for `run` and `run!`.
 
-~~~ rb
+```ruby
 # A user comments on an article
 class CreateComment < ActiveInteraction::Base
   model :article, :user
@@ -131,21 +131,21 @@ def somewhere
     user: current_user
   )
 end
-~~~
+```
 
 ## How do I define an interaction?
 
 1. Subclass ActiveInteraction::Base
 
-    ~~~ rb
+    ```ruby
     class YourInteraction < ActiveInteraction::Base
       # ...
     end
-    ~~~
+    ```
 
 2. Define your attributes:
 
-    ~~~ rb
+    ```ruby
     string :name, :state
     integer :age
     boolean :is_special
@@ -159,11 +159,11 @@ end
     end
     date :arrives_on, default: Date.today
     date :departs_on, default: Date.tomorrow
-    ~~~
+    ```
 
 3. Use any additional validations you need:
 
-    ~~~ rb
+    ```ruby
     validates :name, length: {maximum: 10}
     validates :state, inclusion: {in: %w(AL AK AR ... WY)}
     validate arrives_before_departs
@@ -175,17 +175,17 @@ end
         errors.add(:departs_on, 'must come after the arrival time')
       end
     end
-    ~~~
+    ```
 
 4. Define your execute method. It can return whatever you like:
 
-    ~~~ rb
+    ```ruby
     def execute
       record = do_thing(...)
       # ...
       record
     end
-    ~~~
+    ```
 
 A full list of methods can be found [here](http://www.rubydoc.info/github/orgsync/active_interaction/master/ActiveInteraction/Base).
 
