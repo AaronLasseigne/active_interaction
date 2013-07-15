@@ -65,7 +65,7 @@ module ActiveInteraction
       end
     end
 
-    # Runs the business logic associated with the interactor. The method is only
+    # Runs the business logic associated with the interaction. The method is only
     #   run when there are no validation errors. The return value is placed into
     #   {#result}. This method must be overridden in the subclass.
     #

@@ -8,7 +8,7 @@
 
 At first it seemed alright. A little business logic in a controller
 or model wasn't going to hurt anything. Then one day you wake up
-and you're surrounded by fat models and unweildy controllers. Curled
+and you're surrounded by fat models and unwieldy controllers. Curled
 up and crying in the corner, you can't help but wonder how it came
 to this.
 
