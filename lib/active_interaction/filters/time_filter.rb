@@ -19,25 +19,12 @@ module ActiveInteraction
   end
 
   # @private
-  class TimeFilter < Filter
+  class TimeFilter < AbstractDateTimeFilter
     def self.prepare(key, value, options = {}, &block)
-      case value
-        when Time
-          value
-        when String
-          begin
-            if options.has_key?(:format)
-              time.strptime(value, options[:format])
-            else
-              time.parse(value)
-            end
-          rescue ArgumentError
-            bad_value
-          end
-        when Numeric
-          time.at(value)
-        else
-          super
+      if value.is_a?(Numeric)
+        time.at(value)
+      else
+        parse(time, value, options) || super
       end
     end
 

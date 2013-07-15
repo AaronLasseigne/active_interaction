@@ -18,24 +18,9 @@ module ActiveInteraction
   end
 
   # @private
-  class DateFilter < Filter
+  class DateFilter < AbstractDateTimeFilter
     def self.prepare(key, value, options = {}, &block)
-      case value
-        when Date
-          value
-        when String
-          begin
-            if options.has_key?(:format)
-              Date.strptime(value, options[:format])
-            else
-              Date.parse(value)
-            end
-          rescue ArgumentError
-            bad_value
-          end
-        else
-          super
-      end
+      parse(Date, value, options) || super
     end
   end
 end
