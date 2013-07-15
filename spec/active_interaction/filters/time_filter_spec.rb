@@ -36,6 +36,16 @@ describe ActiveInteraction::TimeFilter do
         it 'parses the String' do
           expect(result).to eql Time.parse(value)
         end
+
+        context 'with options[:format]' do
+          let(:value) { '01010101012001' }
+
+          before { options.merge!(format: '%S%M%H%d%m%Y') }
+
+          it 'parses the String' do
+            expect(result).to eql Time.strptime(value, options[:format])
+          end
+        end
       end
 
       context 'with an invalid String' do
@@ -43,6 +53,14 @@ describe ActiveInteraction::TimeFilter do
 
         it 'raises an error' do
           expect { result }.to raise_error ActiveInteraction::InvalidValue
+        end
+
+        context 'with options[:format]' do
+          before { options.merge!(format: '%S%M%H%d%m%Y') }
+
+          it 'raises an error' do
+            expect { result }.to raise_error ActiveInteraction::InvalidValue
+          end
         end
       end
     end
