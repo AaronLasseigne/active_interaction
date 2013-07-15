@@ -133,6 +133,7 @@ module ActiveInteraction
 
       attr_writer attribute
 
+      default_value = nil
       if options.has_key?(:default)
         begin
           default_value = filter.prepare(attribute, options.delete(:default), options, &block)
