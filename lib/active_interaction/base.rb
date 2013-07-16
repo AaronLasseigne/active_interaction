@@ -1,5 +1,10 @@
 require 'active_support/core_ext/hash/indifferent_access'
 
+begin
+  require 'active_record'
+rescue LoadError
+end
+
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
   #   ActiveInteraction class.
@@ -76,21 +81,10 @@ module ActiveInteraction
     end
 
     # @private
-    def self.active_record_available?
-      begin
-        require 'active_record'
-      rescue LoadError
-      end
-
-      defined?(ActiveRecord)
-    end
-    private_class_method :active_record_available?
-
-    # @private
     def self.transaction
       return unless block_given?
 
-      if active_record_available?
+      if defined?(ActiveRecord)
         ::ActiveRecord::Base.transaction { yield }
       else
         yield

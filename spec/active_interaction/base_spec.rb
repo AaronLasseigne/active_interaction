@@ -176,13 +176,6 @@ describe ActiveInteraction::Base do
             with(no_args)
         end
 
-        it 'tries to require ActiveRecord' do
-          allow(described_class).to receive(:require).and_return(true)
-          outcome
-          expect(described_class).to have_received(:require).once.
-            with('active_record')
-        end
-
         context 'with ActiveRecord' do
           before do
             ActiveRecord = Class.new
