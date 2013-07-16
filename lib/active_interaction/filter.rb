@@ -18,20 +18,15 @@ module ActiveInteraction
     def self.prepare(key, value, options = {}, &block)
       case value
         when NilClass
-          return_nil(options[:allow_nil])
+          if options[:allow_nil]
+            nil
+          else
+            raise MissingValue
+          end
         else
           bad_value
       end
     end
-
-    def self.return_nil(allow_nil)
-      if allow_nil
-        nil
-      else
-        raise MissingValue
-      end
-    end
-    private_class_method :return_nil
 
     def self.bad_value
       raise InvalidValue
