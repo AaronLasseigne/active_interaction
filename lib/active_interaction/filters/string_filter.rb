@@ -4,6 +4,8 @@ module ActiveInteraction
     #   the attributes are Strings.
     #
     # @macro attribute_method_params
+    # @option options [Boolean] :strip (true) Strip leading and trailing
+    #   whitespace.
     #
     # @example
     #   string :first_name
@@ -16,7 +18,7 @@ module ActiveInteraction
     def self.prepare(key, value, options = {}, &block)
       case value
         when String
-          value
+          options.fetch(:strip, true) ? value.strip : value
         else
           super
       end
