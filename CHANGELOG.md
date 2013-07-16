@@ -1,5 +1,7 @@
 # Master
 
+# 0.1.3
+
 - Fix bug that prevented `attr_accessor`s from working.
 - Handle unconfigured timezones.
 - Use RDoc as YARD's Markdown provider instead of kramdown.
