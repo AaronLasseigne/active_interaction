@@ -21,10 +21,11 @@ module ActiveInteraction
   # @private
   class TimeFilter < AbstractDateTimeFilter
     def self.prepare(key, value, options = {}, &block)
-      if value.is_a?(Numeric)
-        time.at(value)
-      else
-        super(key, value, options.merge(class: time), &block)
+      case value
+        when Numeric
+          time.at(value)
+        else
+          super(key, value, options.merge(class: time), &block)
       end
     end
 
