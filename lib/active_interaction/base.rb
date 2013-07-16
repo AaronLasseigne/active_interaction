@@ -1,5 +1,10 @@
 require 'active_support/core_ext/hash/indifferent_access'
 
+begin
+  require 'active_record'
+rescue LoadError
+end
+
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
   #   ActiveInteraction class.
@@ -75,6 +80,18 @@ module ActiveInteraction
       raise NotImplementedError
     end
 
+    # @private
+    def self.transaction
+      return unless block_given?
+
+      if defined?(ActiveRecord)
+        ::ActiveRecord::Base.transaction { yield }
+      else
+        yield
+      end
+    end
+    private_class_method :transaction
+
     # @!macro [new] run_attributes
     #   @param options [Hash] Attribute values to set.
 
@@ -85,11 +102,12 @@ module ActiveInteraction
     # @return [ActiveInteraction::Base] An instance of the class `run` is
     #   called on.
     def self.run(options = {})
-      me = new(options)
-
-      me.instance_variable_set(:@result, me.execute) if me.valid?
-
-      me
+      new(options).tap do |interaction|
+        if interaction.valid?
+          result = transaction { interaction.execute }
+          interaction.instance_variable_set(:@result, result)
+        end
+      end
     end
 
     # Like {.run} except that it returns the value of {#execute} or raises an

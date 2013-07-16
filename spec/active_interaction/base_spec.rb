@@ -168,6 +168,31 @@ describe ActiveInteraction::Base do
         it 'sets the result' do
           expect(outcome.result).to eq thing
         end
+
+        it 'calls transaction' do
+          allow(described_class).to receive(:transaction)
+          outcome
+          expect(described_class).to have_received(:transaction).once.
+            with(no_args)
+        end
+
+        context 'with ActiveRecord' do
+          before do
+            ActiveRecord = Class.new
+            ActiveRecord::Base = double
+            allow(ActiveRecord::Base).to receive(:transaction)
+          end
+
+          after do
+            Object.send(:remove_const, :ActiveRecord)
+          end
+
+          it 'calls ActiveRecord::Base.transaction' do
+            outcome
+            expect(ActiveRecord::Base).to have_received(:transaction).once.
+              with(no_args)
+          end
+        end
       end
     end
 
