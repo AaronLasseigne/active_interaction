@@ -1,5 +1,11 @@
 # Master
 
+# 0.2.0
+
+- Wrap interactions in ActiveRecord transactions if they're available.
+- Add option to strip string values, which is enabled by default.
+- Add support for strptime format strings on Date, DateTime, and Time filters.
+
 # 0.1.3
 
 - Fix bug that prevented `attr_accessor`s from working.
