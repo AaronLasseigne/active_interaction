@@ -91,7 +91,9 @@ end
 You may have noticed that ActiveInteraction::Base quacks like
 ActiveRecord::Base. It can use validations from your Rails application
 and check option validity with `valid?`. Any errors are added to
-`errors` which works exactly like an ActiveRecord model.
+`errors` which works exactly like an ActiveRecord model. Additionally,
+everything within the `execute` method is run in a transaction if
+ActiveRecord is available.
 
 ## How do I call an interaction?
 

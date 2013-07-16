@@ -74,6 +74,7 @@ module ActiveInteraction
     # Runs the business logic associated with the interaction. The method is
     #   only run when there are no validation errors. The return value is
     #   placed into {#result}. This method must be overridden in the subclass.
+    #   This method is run in a transaction if ActiveRecord is available.
     #
     # @raise [NotImplementedError] if the method is not defined.
     def execute
