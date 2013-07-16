@@ -22,7 +22,7 @@ module ActiveInteraction
           begin
             Float(value)
           rescue ArgumentError
-            bad_value
+            super
           end
         else
           super

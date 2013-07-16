@@ -1,7 +1,9 @@
 module ActiveInteraction
   # @private
   class AbstractDateTimeFilter < Filter
-    def self.parse(klass, value, options)
+    def self.prepare(key, value, options = {}, &block)
+      klass = options.delete(:class)
+
       case value
         when klass
           value
@@ -13,10 +15,11 @@ module ActiveInteraction
               klass.parse(value)
             end
           rescue ArgumentError
-            bad_value
+            super
           end
+        else
+          super
       end
     end
-    private_class_method :parse
   end
 end

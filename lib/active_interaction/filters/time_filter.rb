@@ -24,7 +24,7 @@ module ActiveInteraction
       if value.is_a?(Numeric)
         time.at(value)
       else
-        parse(time, value, options) || super
+        super(key, value, options.merge(class: time), &block)
       end
     end
 

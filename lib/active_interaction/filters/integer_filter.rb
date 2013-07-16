@@ -21,7 +21,7 @@ module ActiveInteraction
           begin
             Integer(value)
           rescue ArgumentError
-            bad_value
+            super
           end
         else
           super

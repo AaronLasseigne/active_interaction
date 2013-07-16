@@ -20,7 +20,7 @@ module ActiveInteraction
   # @private
   class DateTimeFilter < AbstractDateTimeFilter
     def self.prepare(key, value, options = {}, &block)
-      parse(DateTime, value, options) || super
+      super(key, value, options.merge(class: DateTime), &block)
     end
   end
 end

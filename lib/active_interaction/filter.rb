@@ -24,13 +24,8 @@ module ActiveInteraction
             raise MissingValue
           end
         else
-          bad_value
+          raise InvalidValue
       end
     end
-
-    def self.bad_value
-      raise InvalidValue
-    end
-    private_class_method :bad_value
   end
 end
