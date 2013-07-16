@@ -34,7 +34,12 @@ describe ActiveInteraction::OverloadHash do
             with(:hash, *arguments)
         end
 
-        it 'passes the block to method_missing'
+        it 'passes the block to method_missing' do
+          allow(subject).to receive(:method_missing) do |*, &other_block|
+            expect(other_block).to equal block
+          end
+          hash(&block)
+        end
       end
     end
   end
