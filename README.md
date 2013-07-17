@@ -174,7 +174,7 @@ end
     ```ruby
     validates :name, length: { maximum: 10 }
     validates :state, inclusion: { in: %w(AL AK AR ... WY) }
-    validate arrives_before_departs
+    validate :arrives_before_departs
 
     private
 
