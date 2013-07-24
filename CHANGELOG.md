@@ -25,7 +25,7 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.2.0...
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.2.0...master
   [0.2.0]: https://github.com/orgsync/active_interaction/compare/v0.1.3...v0.2.0
   [0.1.3]: https://github.com/orgsync/active_interaction/compare/v0.1.2...v0.1.3
   [0.1.2]: https://github.com/orgsync/active_interaction/compare/v0.1.1...v0.1.2
