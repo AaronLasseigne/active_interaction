@@ -139,6 +139,8 @@ module ActiveInteraction
 
     # @private
     def self.set_up_reader(attribute, filter, options, &block)
+      options = options.dup
+
       default = nil
       if options.has_key?(:default)
         begin
