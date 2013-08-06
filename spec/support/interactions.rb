@@ -14,6 +14,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       send(type, :default, filter_options.merge(default: generator.call))
       send(type, :nil_default,
            filter_options.merge(allow_nil: true, default: nil))
+      send(type, :multi_default_1, :multi_default_2, filter_options.merge(default: generator.call))
 
       def execute
         {
@@ -79,6 +80,10 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
 
       it 'returns the correct value for :default' do
         expect(result[:default]).to eq default
+      end
+
+      it 'sets the default on multiple attributes' do
+        expect(outcome).to be_valid
       end
     end
   end
