@@ -3,6 +3,10 @@
 - Use default value when given an explicit `nil`.
 - Allow nested default values.
 
+# [0.2.1][] (2013-08-06)
+
+- Fix setting a default value on more than one attribute at a time.
+
 # [0.2.0][] (2013-07-16)
 
 - Wrap interactions in ActiveRecord transactions if they're available.
@@ -28,7 +32,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.2.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.2.1...master
+  [0.2.1]: https://github.com/orgsync/active_interaction/compare/v0.2.0...v0.2.1
   [0.2.0]: https://github.com/orgsync/active_interaction/compare/v0.1.3...v0.2.0
   [0.1.3]: https://github.com/orgsync/active_interaction/compare/v0.1.2...v0.1.3
   [0.1.2]: https://github.com/orgsync/active_interaction/compare/v0.1.1...v0.1.2
