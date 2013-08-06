@@ -20,6 +20,8 @@ module ActiveInteraction
         when NilClass
           if options[:allow_nil]
             nil
+          elsif options.has_key?(:default)
+            options[:default]
           else
             raise MissingValue
           end

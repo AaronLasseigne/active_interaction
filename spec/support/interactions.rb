@@ -53,6 +53,11 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       expect(result[:default]).to_not be_nil
     end
 
+    it 'does not return nil for :default when given nil' do
+      options.merge!(default: nil)
+      expect(result[:default]).to_not be_nil
+    end
+
     it 'returns nil for :nil_default' do
       expect(result[:nil_default]).to be_nil
     end

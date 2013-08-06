@@ -143,7 +143,7 @@ module ActiveInteraction
       if options.has_key?(:default)
         begin
           default = filter.
-            prepare(attribute, options.delete(:default), options, &block)
+            prepare(attribute, options[:default], options, &block)
         rescue InvalidValue
           raise InvalidDefaultValue
         end
