@@ -1,5 +1,6 @@
 # [Master][]
 
+- Use default value when given an explicit `nil`.
 - Allow nested default values.
 
 # [0.2.0][] (2013-07-16)
