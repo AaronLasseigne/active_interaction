@@ -1,5 +1,7 @@
 # [Master][]
 
+- Allow nested default values.
+
 # [0.2.0][] (2013-07-16)
 
 - Wrap interactions in ActiveRecord transactions if they're available.
