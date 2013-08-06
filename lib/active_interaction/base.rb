@@ -139,13 +139,11 @@ module ActiveInteraction
 
     # @private
     def self.set_up_reader(attribute, filter, options, &block)
-      options = options.dup
-
       default = nil
       if options.has_key?(:default)
         begin
           default = filter.
-            prepare(attribute, options.delete(:default), options, &block)
+            prepare(attribute, options[:default], options, &block)
         rescue InvalidValue
           raise InvalidDefaultValue
         end
