@@ -25,7 +25,7 @@ module ActiveInteraction
         when Numeric
           time.at(value)
         else
-          super(key, value, options.merge(class: time), &block)
+          super(key, value, options.merge(class: time_class), &block)
       end
     end
 
@@ -37,5 +37,10 @@ module ActiveInteraction
       end
     end
     private_class_method :time
+
+    def self.time_class
+      time.at(0).class
+    end
+    private_class_method :time_class
   end
 end
