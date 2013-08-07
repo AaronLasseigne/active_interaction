@@ -1,5 +1,7 @@
 # [Master][]
 
+# [0.3.0][] (2013-08-07)
+
 - Give better error messages for nested attributes.
 - Use default value when given an explicit `nil`.
 - Allow nested default values.
@@ -37,7 +39,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.2.2...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.3.0...master
+  [0.3.0]: https://github.com/orgsync/active_interaction/compare/v0.2.2...v0.3.0
   [0.2.2]: https://github.com/orgsync/active_interaction/compare/v0.2.1...v0.2.2
   [0.2.1]: https://github.com/orgsync/active_interaction/compare/v0.2.0...v0.2.1
   [0.2.0]: https://github.com/orgsync/active_interaction/compare/v0.1.3...v0.2.0
