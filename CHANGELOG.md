@@ -1,5 +1,6 @@
 # [Master][]
 
+- Give better error messages for nested attributes.
 - Use default value when given an explicit `nil`.
 - Allow nested default values.
 
