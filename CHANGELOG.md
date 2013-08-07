@@ -1,5 +1,7 @@
 # [Master][]
 
+# [0.2.2][] (2013-08-07)
+
 - Fix support for `ActiveSupport::TimeWithZone`.
 
 # [0.2.1][] (2013-08-06)
@@ -31,7 +33,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.2.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.2.2...master
+  [0.2.2]: https://github.com/orgsync/active_interaction/compare/v0.2.1...v0.2.2
   [0.2.1]: https://github.com/orgsync/active_interaction/compare/v0.2.0...v0.2.1
   [0.2.0]: https://github.com/orgsync/active_interaction/compare/v0.1.3...v0.2.0
   [0.1.3]: https://github.com/orgsync/active_interaction/compare/v0.1.2...v0.1.3
