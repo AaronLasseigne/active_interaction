@@ -32,11 +32,6 @@ describe ActiveInteraction::FilterMethod do
       before { args << options }
 
       include_examples 'instance variable assignment'
-
-      it 'does not allow :default' do
-        options.merge!(default: nil)
-        expect { filter_method }.to raise_error ArgumentError
-      end
     end
 
     context 'with a block' do

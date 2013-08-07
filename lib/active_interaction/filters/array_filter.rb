@@ -41,6 +41,8 @@ module ActiveInteraction
         Filter.factory(method.method_name).
           prepare(method.attribute, value, method.options, &method.block)
       end
+    rescue InvalidValue, MissingValue
+      raise InvalidNestedValue
     end
     private_class_method :convert_values
 

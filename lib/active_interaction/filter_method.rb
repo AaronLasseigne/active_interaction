@@ -8,10 +8,6 @@ module ActiveInteraction
 
       @attribute = args.shift if args.first.is_a?(Symbol)
       @options = (args.first || {}).dup
-
-      if @options.include?(:default)
-        raise ArgumentError, ':default is not supported inside filter blocks'
-      end
     end
   end
 end

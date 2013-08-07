@@ -1,5 +1,9 @@
 # [Master][]
 
+- Give better error messages for nested attributes.
+- Use default value when given an explicit `nil`.
+- Allow nested default values.
+
 # [0.2.2][] (2013-08-07)
 
 - Fix support for `ActiveSupport::TimeWithZone`.
