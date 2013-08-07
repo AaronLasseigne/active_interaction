@@ -121,7 +121,9 @@ module ActiveInteraction
     # @return The return value of {#execute}.
     def self.run!(options = {})
       outcome = run(options)
-      raise InteractionInvalid if outcome.invalid?
+      if outcome.invalid?
+        raise InteractionInvalid, outcome.errors.full_messages.join(', ')
+      end
       outcome.result
     end
 
