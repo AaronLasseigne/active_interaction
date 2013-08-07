@@ -28,7 +28,9 @@ describe ActiveInteraction::ArrayFilter do
         let(:value) { [Object.new] }
 
         it 'raises an error' do
-          expect { result }.to raise_error ActiveInteraction::InvalidValue
+          expect {
+            result
+          }.to raise_error ActiveInteraction::InvalidNestedValue
         end
       end
     end

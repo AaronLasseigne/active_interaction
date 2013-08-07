@@ -41,6 +41,8 @@ module ActiveInteraction
       end
 
       hash
+    rescue InvalidValue, MissingValue
+      raise InvalidNestedValue
     end
     private_class_method :convert_values
   end

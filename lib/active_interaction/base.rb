@@ -146,7 +146,7 @@ module ActiveInteraction
         begin
           default = filter.
             prepare(attribute, options[:default], options, &block)
-        rescue InvalidValue
+        rescue InvalidNestedValue, InvalidValue
           raise InvalidDefaultValue
         end
       end
@@ -172,7 +172,7 @@ module ActiveInteraction
         value =
           begin
             filter.prepare(attribute, value, options, &block)
-          rescue InvalidValue, MissingValue
+          rescue InvalidNestedValue, InvalidValue, MissingValue
             value
           end
         instance_variable_set("@#{attribute}", value)
@@ -190,11 +190,13 @@ module ActiveInteraction
       define_method(validator) do
         begin
           filter.prepare(attribute, send(attribute), options, &block)
-        rescue MissingValue
-          errors.add(attribute, 'is required')
+        rescue InvalidNestedValue
+          errors.add(attribute, 'is invalid')
         rescue InvalidValue
           errors.add(attribute,
                      "is not a valid #{type.to_s.humanize.downcase}")
+        rescue MissingValue
+          errors.add(attribute, 'is required')
         end
       end
       private validator
