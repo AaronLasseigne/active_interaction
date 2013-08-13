@@ -4,7 +4,7 @@ en:
       array: 'array'
       boolean: 'boolean'
       date: 'date'
-      date_time: 'date_time'
+      date_time: 'date time'
       file: 'file'
       float: 'float'
       hash: 'hash'

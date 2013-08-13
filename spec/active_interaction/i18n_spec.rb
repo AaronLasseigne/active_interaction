@@ -28,7 +28,7 @@ describe 'I18n' do
       :time
     ].each do |type|
       it "has a value for #{type} in English" do
-        expect(I18n.translate(:"active_interaction.types.#{type}")).to eq type.to_s
+        expect(I18n.translate(:"active_interaction.types.#{type}")).to eq type.to_s.humanize.downcase
       end
     end
   end
