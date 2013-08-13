@@ -234,4 +234,10 @@ describe ActiveInteraction::Base do
       expect(interaction).to_not be_persisted
     end
   end
+
+  describe '.i18n_scope' do
+    it 'returns the scope' do
+      expect(described_class.i18n_scope).to eq :active_interaction
+    end
+  end
 end

@@ -44,6 +44,10 @@ module ActiveInteraction
       false
     end
 
+    def self.i18n_scope
+      :active_interaction
+    end
+
     extend OverloadHash
 
     # Returns the output from {#execute} if there are no validation errors or
@@ -191,12 +195,13 @@ module ActiveInteraction
         begin
           filter.prepare(attribute, send(attribute), options, &block)
         rescue InvalidNestedValue
-          errors.add(attribute, 'is invalid')
+          errors.add(attribute, :invalid_nested)
         rescue InvalidValue
-          errors.add(attribute,
-                     "is not a valid #{type.to_s.humanize.downcase}")
+          errors.add(attribute, :invalid,
+            type: I18n.translate(:"#{self.class.i18n_scope}.types.#{type.to_s}")
+          )
         rescue MissingValue
-          errors.add(attribute, 'is required')
+          errors.add(attribute, :missing)
         end
       end
       private validator

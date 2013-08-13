@@ -1,0 +1,19 @@
+en:
+  active_interaction:
+    types:
+      array: 'array'
+      boolean: 'boolean'
+      date: 'date'
+      date_time: 'date_time'
+      file: 'file'
+      float: 'float'
+      hash: 'hash'
+      integer: 'integer'
+      model: 'model'
+      string: 'string'
+      time: 'time'
+    errors:
+      messages:
+        invalid_nested: 'is invalid'
+        invalid: 'is not a valid %{type}'
+        missing: 'is required'
