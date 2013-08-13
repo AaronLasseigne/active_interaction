@@ -48,6 +48,10 @@ module ActiveInteraction
       :active_interaction
     end
 
+    def i18n_scope
+      self.class.i18n_scope
+    end
+
     extend OverloadHash
 
     # Returns the output from {#execute} if there are no validation errors or
@@ -198,7 +202,7 @@ module ActiveInteraction
           errors.add(attribute, :invalid_nested)
         rescue InvalidValue
           errors.add(attribute, :invalid,
-            type: I18n.translate(:"#{self.class.i18n_scope}.types.#{type.to_s}")
+            type: I18n.translate(:"#{i18n_scope}.types.#{type.to_s}")
           )
         rescue MissingValue
           errors.add(attribute, :missing)

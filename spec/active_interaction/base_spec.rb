@@ -240,4 +240,10 @@ describe ActiveInteraction::Base do
       expect(described_class.i18n_scope).to eq :active_interaction
     end
   end
+
+  describe '#i18n_scope' do
+    it 'returns the scope' do
+      expect(described_class.new.i18n_scope).to eq :active_interaction
+    end
+  end
 end
