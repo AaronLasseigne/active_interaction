@@ -197,6 +197,49 @@ end
 
 Check out the [documentation][] for a full list of methods.
 
+## How do I translate an interaction?
+
+If you want to translate ActiveInteraction into another language,
+drop a YAML file into `lib/active_interaction/locale`. For instance,
+let's say (for whatever reason) you want to print out everything
+backwards. Just add a `hsilgne.yml` locale:
+
+```yaml
+# lib/active_interaction/locale/hsilgne.yml
+hsilgne:
+  active_interaction:
+    types:
+      array: yarra
+      boolean: naeloob
+      date: etad
+      date_time: emit etad
+      file: elif
+      float: taolf
+      hash: hsah
+      integer: regetni
+      model: ledom
+      string: gnirts
+      time: emit
+    errors:
+      messages:
+        invalid: dilavni si
+        invalid_nested: '%{type} dilav a ton si'
+        missing: deriuqer si
+```
+
+Then set your locale and run an interaction like normal:
+
+```ruby
+require 'active_interaction'
+I18n.locale = :hsilgne
+class Interaction < ActiveInteraction::Base
+  boolean :a
+  def execute; end
+end
+p Interaction.run.errors.messages
+# => {:a=>["deriuqer si"]}
+```
+
 ## Credits
 
 This project was inspired by the fantastic work done in [Mutations][].
