@@ -14,21 +14,12 @@ describe 'I18n' do
       I18n.locale = :en
     end
 
-    [
-      :array,
-      :boolean,
-      :date,
-      :date_time,
-      :file,
-      :float,
-      :hash,
-      :integer,
-      :model,
-      :string,
-      :time
-    ].each do |type|
+    %w(
+      array boolean date date_time file float hash integer model string time
+    ).each do |type|
       it "has a value for #{type} in English" do
-        expect(I18n.translate(:"active_interaction.types.#{type}")).to eq type.to_s.humanize.downcase
+        expect(I18n.translate("active_interaction.types.#{type}")).
+          to eq type.humanize.downcase
       end
     end
   end
