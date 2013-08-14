@@ -20,7 +20,8 @@ require 'active_interaction/filters/string_filter'
 require 'active_interaction/filters/time_filter'
 require 'active_interaction/base'
 
-I18n.backend.load_translations(Dir['lib/active_interaction/locale/*.yml'])
+I18n.backend.load_translations(
+  Dir.glob(File.join(*%w(lib active_interaction locale *.yml))))
 
 # @since 0.1.0
 module ActiveInteraction end
