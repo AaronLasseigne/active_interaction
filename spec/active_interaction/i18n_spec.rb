@@ -1,152 +1,108 @@
 require 'spec_helper'
 
-describe 'I18n' do
-  class I18nTest < ActiveInteraction::Base
-    hash :thing do
-      integer :i
-    end
-
-    def execute; end
+class I18nInteraction < ActiveInteraction::Base
+  hash :a do
+    hash :x
   end
 
-  context 'types' do
-    before do
-      I18n.locale = :en
-    end
+  def execute; end
+end
 
-    %w(
-      array boolean date date_time file float hash integer model string time
-    ).each do |type|
-      it "has a value for #{type} in English" do
-        expect(I18n.translate("active_interaction.types.#{type}")).
-          to eq type.humanize.downcase
-      end
-    end
-  end
+describe I18nInteraction do
+  include_context 'interactions'
 
-  context 'model name' do
-    let(:model_name) { 'Internationalization Test' }
+  TYPES = %w(
+    array
+    boolean
+    date
+    date_time
+    file
+    float
+    hash
+    integer
+    model
+    string
+    time
+  )
 
-    before do
-      I18n.locale = :en
-
-      I18n.backend.store_translations :en, active_interaction: {
-        models: {
-          i18n_test: {
-            one: model_name,
-            other: model_name + 's'
-          }}}
-    end
-
-    it 'returns the translated version of the singular model name' do
-      expect(I18nTest.model_name.human).to eq model_name
-    end
-
-    it 'returns the translated version of the plural model name' do
-      expect(I18nTest.model_name.human(count: 2)).to eq model_name + 's'
-    end
-  end
-
-  context 'attributes' do
-    let(:attr_name) { 'Thing' }
-
-    context 'default' do
-      it 'returns a humanized version of the attribute name' do
-        expect(I18nTest.human_attribute_name(:thing)).to eq attr_name
+  shared_examples 'translation' do
+    context 'types' do
+      TYPES.each do |type|
+        it "has a translation for #{type}" do
+          key = "#{described_class.i18n_scope}.types.#{type}"
+          expect { I18n.translate(key, raise: true) }.to_not raise_error
+        end
       end
     end
 
-    context 'translated' do
-      let(:attr_name) { 'Thing'.downcase.reverse.capitalize }
+    context 'error messages' do
+      let(:translation) { I18n.translate(key, type: type, raise: true) }
+      let(:type) { I18n.translate("#{described_class.i18n_scope}.types.hash") }
 
-      before do
-        I18n.locale = :reverse
+      context ':invalid' do
+        let(:key) { "#{described_class.i18n_scope}.errors.messages.invalid" }
 
-        I18n.backend.store_translations :reverse, active_interaction: {
-          attributes: {
-            i18n_test: {
-              thing: attr_name
-            }}}
-      end
+        it 'has a translation' do
+          expect { translation }.to_not raise_error
+        end
 
-      it 'returns a translated version of the attribute name' do
-        expect(
-          I18nTest.human_attribute_name(:thing)
-        ).to eq attr_name
-      end
-    end
-  end
-
-  context 'validations' do
-    context 'default' do
-      before do
-        I18n.locale = :en
-      end
-
-      context ':invalid_nested' do
-        it 'returns "is invalid" in English' do
-          expect(
-            I18nTest.run(thing: {i: Object.new}).errors[:thing]
-          ).to eq ['is invalid']
+        it 'returns the translation' do
+          options.merge!(a: Object.new)
+          expect(outcome.errors[:a]).to eq [translation]
         end
       end
 
-      context ':invalid' do
-        it 'returns "is not a valid hash" in English' do
-          expect(
-            I18nTest.run(thing: Object.new).errors[:thing]
-          ).to eq ['is not a valid hash']
+      context ':invalid_nested' do
+        let(:key) {
+          "#{described_class.i18n_scope}.errors.messages.invalid_nested"
+        }
+
+        it 'has a translation' do
+          expect { translation }.to_not raise_error
+        end
+
+        it 'returns the translation' do
+          options.merge!(a: { x: Object.new })
+          expect(outcome.errors[:a]).to eq [translation]
         end
       end
 
       context ':missing' do
-        it 'returns "is required" in English' do
-          expect(
-            I18nTest.run().errors[:thing]
-          ).to eq ['is required']
+        let(:key) { "#{described_class.i18n_scope}.errors.messages.missing" }
+
+        it 'has a translation' do
+          expect { translation }.to_not raise_error
+        end
+
+        it 'returns the translation' do
+          expect(outcome.errors[:a]).to eq [translation]
         end
       end
     end
+  end
 
-    context 'translated' do
-      before do
-        I18n.locale = :reverse
+  context 'english' do
+    include_examples 'translation'
 
-        I18n.backend.store_translations :reverse, active_interaction: {
-          types: {
-            hash: 'hash'.reverse
-          },
-          errors: {
-            messages: {
-              invalid_nested: 'is invalid'.reverse,
-              invalid:        "%{type} #{'is not a valid'.reverse}",
-              missing:        'is required'.reverse
-            }}}
-      end
+    before do
+      I18n.locale = :en
+    end
+  end
 
-      context ':invalid_nested' do
-        it 'returns "is invalid" translated' do
-          expect(
-            I18nTest.run(thing: {i: Object.new}).errors[:thing]
-          ).to eq ['is invalid'.reverse]
-        end
-      end
+  context 'english'.reverse do
+    include_examples 'translation'
 
-      context ':invalid' do
-        it 'returns "is not a valid hash" translated' do
-          expect(
-            I18nTest.run(thing: Object.new).errors[:thing]
-          ).to eq ['is not a valid hash'.reverse]
-        end
-      end
+    before do
+      I18n.locale = 'english'.reverse
 
-      context ':missing' do
-        it 'returns "is required" translated' do
-          expect(
-            I18nTest.run().errors[:thing]
-          ).to eq ['is required'.reverse]
-        end
-      end
+      I18n.backend.store_translations(I18n.locale, active_interaction: {
+        errors: { messages: {
+          invalid: "%{type} #{'invalid'.reverse}",
+          invalid_nested: 'invalid_nested'.reverse,
+          missing: 'missing'.reverse
+        } },
+        types: TYPES.reduce({}) { |a, e| a[e] = e.reverse; a }
+      })
     end
   end
 end
