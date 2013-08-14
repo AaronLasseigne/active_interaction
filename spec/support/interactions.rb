@@ -17,6 +17,10 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       send(type, :defaults_1, :defaults_2,
            filter_options.merge(default: generator.call))
 
+      def self.name
+        SecureRandom.hex
+      end
+
       def execute
         {
           required: required,
@@ -26,16 +30,6 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
           defaults_1: defaults_1,
           defaults_2: defaults_2
         }
-      end
-
-      # This causes the tests to fail with:
-      #   Class name cannot be blank. You need to supply a name argument when
-      #   anonymous class given
-      #
-      # In particular adding an error in the MissingValue rescue inside
-      # self.set_up_validator triggers the exception.
-      def self.model_name
-        ActiveModel::Name.new(self, nil, 'Temp')
       end
     end
   end
