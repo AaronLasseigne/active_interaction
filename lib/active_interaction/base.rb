@@ -202,8 +202,7 @@ module ActiveInteraction
           errors.add(attribute, :invalid_nested)
         rescue InvalidValue
           errors.add(attribute, :invalid,
-            type: I18n.translate(:"#{i18n_scope}.types.#{type.to_s}")
-          )
+                     type: I18n.translate("#{i18n_scope}.types.#{type.to_s}"))
         rescue MissingValue
           errors.add(attribute, :missing)
         end
