@@ -17,6 +17,10 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       send(type, :defaults_1, :defaults_2,
            filter_options.merge(default: generator.call))
 
+      def self.name
+        SecureRandom.hex
+      end
+
       def execute
         {
           required: required,

@@ -1,5 +1,7 @@
 # [Master][]
 
+- Support i18n translations.
+
 # [0.3.0][] (2013-08-07)
 
 - Give better error messages for nested attributes.
