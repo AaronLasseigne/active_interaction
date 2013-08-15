@@ -199,13 +199,14 @@ Check out the [documentation][] for a full list of methods.
 
 ## How do I translate an interaction?
 
-If you want to translate ActiveInteraction into another language,
-drop a YAML file into `lib/active_interaction/locale`. For instance,
-let's say (for whatever reason) you want to print out everything
-backwards. Just add a `hsilgne.yml` locale:
+ActiveInteraction is i18n-aware out of the box! All you have to do
+is add translations to your project. In Rails, they typically go
+into `config/locales`. So, for example, let's say that (for whatever
+reason) you want to print out everything backwards. Simply add
+translations for ActiveInteraction to your `hsilgne` locale:
 
 ```yaml
-# lib/active_interaction/locale/hsilgne.yml
+# config/locales/hsilgne.yml
 hsilgne:
   active_interaction:
     types:
@@ -230,7 +231,6 @@ hsilgne:
 Then set your locale and run an interaction like normal:
 
 ```ruby
-require 'active_interaction'
 I18n.locale = :hsilgne
 class Interaction < ActiveInteraction::Base
   boolean :a
