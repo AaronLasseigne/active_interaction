@@ -1,5 +1,7 @@
 # [Master][]
 
+# [0.4.0][]
+
 - Support i18n translations.
 
 # [0.3.0][] (2013-08-07)
@@ -41,7 +43,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.3.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.4.0...master
+  [0.4.0]: https://github.com/orgsync/active_interaction/compare/v0.3.0...v0.4.0
   [0.3.0]: https://github.com/orgsync/active_interaction/compare/v0.2.2...v0.3.0
   [0.2.2]: https://github.com/orgsync/active_interaction/compare/v0.2.1...v0.2.2
   [0.2.1]: https://github.com/orgsync/active_interaction/compare/v0.2.0...v0.2.1
