@@ -44,10 +44,12 @@ module ActiveInteraction
       false
     end
 
+    # @private
     def self.i18n_scope
       :active_interaction
     end
 
+    # @private
     def i18n_scope
       self.class.i18n_scope
     end
