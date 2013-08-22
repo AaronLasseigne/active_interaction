@@ -29,5 +29,13 @@ module ActiveInteraction
           raise InvalidValue
       end
     end
+
+    def self.default(key, value, options = {}, &block)
+      begin
+        self.prepare(key, value, options, &block)
+      rescue InvalidValue, InvalidNestedValue
+        raise InvalidDefaultValue
+      end
+    end
   end
 end

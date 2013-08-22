@@ -151,14 +151,8 @@ module ActiveInteraction
 
     # @private
     def self.set_up_reader(attribute, filter, options, &block)
-      default = nil
-      if options.has_key?(:default)
-        begin
-          default = filter.
-            prepare(attribute, options[:default], options, &block)
-        rescue InvalidNestedValue, InvalidValue
-          raise InvalidDefaultValue
-        end
+      if options.key?(:default)
+        default = filter.default(attribute, options[:default], options, &block)
       end
 
       define_method(attribute) do
