@@ -25,7 +25,7 @@ module ActiveInteraction
     def self.prepare(key, value, options = {}, &block)
       case value
         when Hash
-          convert_values(value.merge(options[:default] || {}), &block)
+          convert_values(value, &block)
         else
           super
       end
