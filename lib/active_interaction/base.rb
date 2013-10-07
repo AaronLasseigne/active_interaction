@@ -56,6 +56,13 @@ module ActiveInteraction
 
     extend OverloadHash
 
+    class << self
+      # A custom description for the interaction.
+      #
+      # @return [String]
+      attr_accessor :description
+    end
+
     # Returns the output from {#execute} if there are no validation errors or
     #   `nil` otherwise.
     #

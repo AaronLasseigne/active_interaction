@@ -246,4 +246,24 @@ describe ActiveInteraction::Base do
       expect(interaction.i18n_scope).to eq :active_interaction
     end
   end
+
+  context 'description' do
+    context 'without a description' do
+      it do
+        expect(described_class.description).to be_nil
+      end
+    end
+
+    context 'with a description' do
+      let(:described_class) do
+        Class.new(ActiveInteraction::Base) do
+          self.description = 'How descriptive!'
+        end
+      end
+
+      it do
+        expect(described_class.description).to eq 'How descriptive!'
+      end
+    end
+  end
 end
