@@ -8,11 +8,9 @@ module ActiveInteraction
   # @private
   class Filter
     def self.factory(type)
-      klass = "#{type.to_s.camelize}Filter"
-
-      raise NoMethodError unless ActiveInteraction.const_defined?(klass)
-
-      ActiveInteraction.const_get(klass)
+      ActiveInteraction.const_get("#{type.to_s.camelize}Filter")
+    rescue NameError
+      raise InvalidFilter
     end
 
     def self.prepare(key, value, options = {}, &block)
