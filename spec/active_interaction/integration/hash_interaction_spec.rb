@@ -74,5 +74,21 @@ describe HashInteraction do
         end
       }.to raise_error ActiveInteraction::InvalidDefaultValue
     end
+
+    # REVIEW: This should probably raise an InvalidDefaultValue error when the
+    #   class is initialized.
+    it 'raises an error' do
+      expect {
+        Class.new(ActiveInteraction::Base) do
+          def self.name
+            SecureRandom.hex
+          end
+
+          hash :a do
+            hash :x, default: Object.new
+          end
+        end.run!(a: {})
+      }.to raise_error ActiveInteraction::InteractionInvalid
+    end
   end
 end

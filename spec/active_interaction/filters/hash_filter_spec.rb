@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-# TODO: Check for invalid default.
-
 shared_examples_for 'valid hash values' do |method, error|
   context 'with a Hash' do
     let(:value) { {} }
