@@ -151,7 +151,7 @@ module ActiveInteraction
 
     # @private
     def self.set_up_reader(attribute, filter, options, &block)
-      if options.key?(:default)
+      if options.has_key?(:default)
         default = filter.default(attribute, options[:default], options, &block)
       end
 
