@@ -98,6 +98,18 @@ module ActiveInteraction
       raise NotImplementedError
     end
 
+    # TODO: Documentation
+    def self.attributes
+      # TODO: Add nested attributes.
+      @filter_methods.map do |fm|
+        {
+          name: fm.attribute,
+          options: fm.options,
+          type: fm.method_name
+        }
+      end
+    end
+
     # @private
     def self.transaction
       return unless block_given?
@@ -154,12 +166,23 @@ module ActiveInteraction
 
       options = args.last.is_a?(Hash) ? args.pop : {}
       args.each do |attribute|
+        # REVIEW: This should probably be outside the loop, but FilterMethod
+        #   doesn't like multiple attributes.
+        add_attribute(type, *[attribute, options], &block)
         set_up_reader(attribute, filter, options, &block)
         set_up_writer(attribute, filter, options, &block)
         set_up_validator(attribute, type, filter, options, &block)
       end
     end
     private_class_method :method_missing
+
+    # @private
+    def self.add_attribute(type, *args, &block)
+      # REVIEW: @filter_methods is not an instance of FilterMethods.
+      @filter_methods ||= []
+      @filter_methods.push(FilterMethod.new(type, *args, &block))
+    end
+    private_class_method :add_attribute
 
     # @private
     def self.set_up_reader(attribute, filter, options, &block)
