@@ -22,7 +22,7 @@ describe ActiveInteraction::Filter do
       let(:type) { :not_a_valid_type }
 
       it 'raises an error' do
-        expect { result }.to raise_error NoMethodError
+        expect { result }.to raise_error ActiveInteraction::InvalidFilter
       end
     end
   end

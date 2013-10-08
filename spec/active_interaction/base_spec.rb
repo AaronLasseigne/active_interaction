@@ -246,4 +246,17 @@ describe ActiveInteraction::Base do
       expect(interaction.i18n_scope).to eq :active_interaction
     end
   end
+
+  describe '.description' do
+    let(:description) { SecureRandom.hex }
+
+    it do
+      expect(described_class.description).to be_nil
+    end
+
+    it do
+      described_class.description(description)
+      expect(described_class.description).to eq description
+    end
+  end
 end
