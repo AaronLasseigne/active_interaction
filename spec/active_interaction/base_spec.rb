@@ -247,23 +247,16 @@ describe ActiveInteraction::Base do
     end
   end
 
-  context 'description' do
-    context 'without a description' do
-      it do
-        expect(described_class.description).to be_nil
-      end
+  describe '.description' do
+    let(:description) { SecureRandom.hex }
+
+    it do
+      expect(described_class.description).to be_nil
     end
 
-    context 'with a description' do
-      let(:described_class) do
-        Class.new(ActiveInteraction::Base) do
-          self.description = 'How descriptive!'
-        end
-      end
-
-      it do
-        expect(described_class.description).to eq 'How descriptive!'
-      end
+    it do
+      described_class.description(description)
+      expect(described_class.description).to eq description
     end
   end
 end

@@ -56,13 +56,6 @@ module ActiveInteraction
 
     extend OverloadHash
 
-    class << self
-      # A custom description for the interaction.
-      #
-      # @return [String]
-      attr_accessor :description
-    end
-
     # Returns the output from {#execute} if there are no validation errors or
     #   `nil` otherwise.
     #
@@ -108,6 +101,16 @@ module ActiveInteraction
           type: fm.method_name
         }
       end
+    end
+
+    # Gives the interaction a custom, human-readable description. Useful for
+    #   dynamically generating documentation.
+    #
+    # @param description [String] The interaction's description.
+    # @return [String] The interaction's description.
+    def self.description(description = nil)
+      @description = description if description
+      @description
     end
 
     # @private
