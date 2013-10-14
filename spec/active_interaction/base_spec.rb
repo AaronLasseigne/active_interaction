@@ -161,6 +161,27 @@ describe ActiveInteraction::Base do
       context 'passing validations' do
         before { options.merge!(thing: thing) }
 
+        context 'failing runtime validations' do
+          before do
+            @execute = described_class.instance_method(:execute)
+            described_class.send(:define_method, :execute) do
+              errors.add(:thing, SecureRandom.hex)
+            end
+          end
+
+          after do
+            described_class.send(:define_method, :execute, @execute)
+          end
+
+          it 'returns an invalid outcome' do
+            expect(outcome).to be_invalid
+          end
+
+          it 'sets the result to nil' do
+            expect(outcome.result).to be_nil
+          end
+        end
+
         it 'returns a valid outcome' do
           expect(outcome).to be_valid
         end
