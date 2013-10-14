@@ -176,6 +176,10 @@ describe ActiveInteraction::Base do
           it 'returns an invalid outcome' do
             expect(outcome).to be_invalid
           end
+
+          it 'sets the result to nil' do
+            expect(outcome.result).to be_nil
+          end
         end
 
         it 'returns a valid outcome' do
