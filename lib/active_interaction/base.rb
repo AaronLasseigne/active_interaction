@@ -92,6 +92,11 @@ module ActiveInteraction
     end
 
     # @private
+    def valid?(*args)
+      super || instance_variable_set(:@result, nil)
+    end
+
+    # @private
     def self.transaction
       return unless block_given?
 
