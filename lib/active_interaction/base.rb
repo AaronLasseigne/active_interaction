@@ -56,6 +56,13 @@ module ActiveInteraction
 
     extend OverloadHash
 
+    validate do
+      return unless @_interaction_errors
+      @_interaction_errors.each do |attribute, message|
+        errors.add(attribute, message)
+      end
+    end
+
     # Returns the output from {#execute} if there are no validation errors or
     #   `nil` otherwise.
     #
@@ -121,7 +128,13 @@ module ActiveInteraction
       new(options).tap do |interaction|
         if interaction.valid?
           result = transaction { interaction.execute }
-          interaction.instance_variable_set(:@result, result)
+
+          if interaction.errors.empty?
+            interaction.instance_variable_set(:@result, result)
+          else
+            interaction.instance_variable_set(:@_interaction_errors,
+              interaction.errors.dup)
+          end
         end
       end
     end
