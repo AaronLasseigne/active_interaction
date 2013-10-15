@@ -154,7 +154,7 @@ describe ActiveInteraction::Base do
             boolean :attribute
 
             validate do
-              @result = SecureRandom.hex
+              @_interaction_result = SecureRandom.hex
               errors.add(:attribute, SecureRandom.hex)
             end
 

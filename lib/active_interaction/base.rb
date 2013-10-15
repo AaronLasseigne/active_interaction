@@ -63,13 +63,6 @@ module ActiveInteraction
       end
     end
 
-    # Returns the output from {#execute} if there are no validation errors or
-    #   `nil` otherwise.
-    #
-    # @return [Nil] if there are validation errors.
-    # @return [Object] if there are no validation errors.
-    attr_reader :result
-
     # @private
     def initialize(options = {})
       options = options.with_indifferent_access
@@ -98,9 +91,18 @@ module ActiveInteraction
       raise NotImplementedError
     end
 
+    # Returns the output from {#execute} if there are no validation errors or
+    #   `nil` otherwise.
+    #
+    # @return [Nil] if there are validation errors.
+    # @return [Object] if there are no validation errors.
+    def result
+      @_interaction_result
+    end
+
     # @private
     def valid?(*args)
-      super || instance_variable_set(:@result, nil)
+      super || instance_variable_set(:@_interaction_result, nil)
     end
 
     # @private
@@ -130,7 +132,7 @@ module ActiveInteraction
           result = transaction { interaction.execute }
 
           if interaction.errors.empty?
-            interaction.instance_variable_set(:@result, result)
+            interaction.instance_variable_set(:@_interaction_result, result)
           else
             interaction.instance_variable_set(:@_interaction_errors,
               interaction.errors.dup)
