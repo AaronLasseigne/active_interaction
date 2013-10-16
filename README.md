@@ -15,6 +15,8 @@ to this.
 Take back control. Slim down models and wrangle monstrous controller
 methods with ActiveInteraction.
 
+Check out the full [documentation][] on RubyDoc.info.
+
 ## Installation
 
 This project uses [semantic versioning][].
