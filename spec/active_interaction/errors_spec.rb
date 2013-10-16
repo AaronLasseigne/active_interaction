@@ -18,22 +18,22 @@ describe ActiveInteraction::Errors do
   describe '#sym_add' do
     it do
       errors.sym_add(:attribute)
-      expect(errors.sym_messages).to eq({ attribute: [:invalid] })
+      expect(errors.symbolic).to eq({ attribute: [:invalid] })
     end
 
     it do
       errors.sym_add(:attribute, :symbol)
-      expect(errors.sym_messages).to eq({ attribute: [:symbol] })
+      expect(errors.symbolic).to eq({ attribute: [:symbol] })
     end
 
     it do
       errors.sym_add(:attribute, :symbol, 'message')
-      expect(errors.sym_messages).to eq({ attribute: [:symbol] })
+      expect(errors.symbolic).to eq({ attribute: [:symbol] })
     end
 
     it do
       errors.sym_add(:attribute, :symbol, 'message', { key: :value })
-      expect(errors.sym_messages).to eq({ attribute: [:symbol] })
+      expect(errors.symbolic).to eq({ attribute: [:symbol] })
     end
 
     context do

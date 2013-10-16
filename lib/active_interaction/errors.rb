@@ -10,7 +10,7 @@ module ActiveInteraction
   class Errors < ActiveModel::Errors
     # TODO
     # @return [Hash{Symbol, Array<Symbol>}]
-    attr_reader :sym_messages
+    attr_reader :symbolic
 
     # TODO
     # @param attribute [Symbol]
@@ -19,15 +19,15 @@ module ActiveInteraction
     # @param options [Hash]
     # @return [Hash{Symbol, Array<String>}]
     def sym_add(attribute, symbol = :invalid, message = nil, options = {})
-      sym_messages[attribute] ||= []
-      sym_messages[attribute] << symbol
+      symbolic[attribute] ||= []
+      symbolic[attribute] << symbol
 
       add(attribute, message || symbol, options)
     end
 
     # @private
     def initialize(*args)
-      @sym_messages = {}
+      @symbolic = {}
       super
     end
   end
