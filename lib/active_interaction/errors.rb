@@ -1,7 +1,7 @@
 module ActiveInteraction
-  class InteractionInvalid < ::StandardError; end
-  class InvalidDefaultValue < ::StandardError; end
-  class InvalidNestedValue < ::StandardError; end
-  class InvalidValue < ::StandardError; end
-  class MissingValue < ::StandardError; end
+  InteractionInvalid = Class.new(StandardError)
+  InvalidDefaultValue = Class.new(StandardError)
+  InvalidNestedValue = Class.new(StandardError)
+  InvalidValue = Class.new(StandardError)
+  MissingValue = Class.new(StandardError)
 end
