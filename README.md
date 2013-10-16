@@ -15,7 +15,8 @@ to this.
 Take back control. Slim down models and wrangle monstrous controller
 methods with ActiveInteraction.
 
-Check out the full [documentation][] on RubyDoc.info.
+Read more on the [project page][] or check out the full [documentation][]
+on RubyDoc.info.
 
 ## Installation
 
@@ -258,4 +259,5 @@ This project was inspired by the fantastic work done in [Mutations][].
   [documentation]: http://rubydoc.info/github/orgsync/active_interaction
   [gem version]: https://badge.fury.io/rb/active_interaction.png
   [mutations]: https://github.com/cypriss/mutations
+  [project page]: http://orgsync.github.io/active_interaction/
   [semantic versioning]: http://semver.org
