@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version = ActiveInteraction::VERSION.to_s
   spec.summary = 'Manage application specific business logic.'
   spec.description = spec.summary
-  spec.homepage = 'https://github.com/orgsync/active_interaction'
+  spec.homepage = 'http://orgsync.github.io/active_interaction/'
   spec.authors = ['Aaron Lasseigne', 'Taylor Fausak']
   spec.email = %w(aaron.lasseigne@gmail.com taylor@fausak.me)
   spec.license = 'MIT'

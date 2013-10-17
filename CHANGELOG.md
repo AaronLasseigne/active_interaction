@@ -1,5 +1,10 @@
 # [Master][]
 
+# [0.5.0][]
+
+- Allow adding errors in `execute` method with `errors.add`.
+- Prevent manually setting the outcome's result.
+
 # [0.4.0][]
 
 - Support i18n translations.
@@ -43,7 +48,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.4.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.5.0...master
+  [0.5.0]: https://github.com/orgsync/active_interaction/compare/v0.4.0...v0.5.0
   [0.4.0]: https://github.com/orgsync/active_interaction/compare/v0.3.0...v0.4.0
   [0.3.0]: https://github.com/orgsync/active_interaction/compare/v0.2.2...v0.3.0
   [0.2.2]: https://github.com/orgsync/active_interaction/compare/v0.2.1...v0.2.2

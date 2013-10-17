@@ -56,12 +56,12 @@ module ActiveInteraction
 
     extend OverloadHash
 
-    # Returns the output from {#execute} if there are no validation errors or
-    #   `nil` otherwise.
-    #
-    # @return [Nil] if there are validation errors.
-    # @return [Object] if there are no validation errors.
-    attr_reader :result
+    validate do
+      return unless @_interaction_errors
+      @_interaction_errors.each do |attribute, message|
+        errors.add(attribute, message)
+      end
+    end
 
     # @private
     def initialize(options = {})
@@ -91,6 +91,20 @@ module ActiveInteraction
       raise NotImplementedError
     end
 
+    # Returns the output from {#execute} if there are no validation errors or
+    #   `nil` otherwise.
+    #
+    # @return [Nil] if there are validation errors.
+    # @return [Object] if there are no validation errors.
+    def result
+      @_interaction_result
+    end
+
+    # @private
+    def valid?(*args)
+      super || instance_variable_set(:@_interaction_result, nil)
+    end
+
     # @private
     def self.transaction
       return unless block_given?
@@ -116,7 +130,13 @@ module ActiveInteraction
       new(options).tap do |interaction|
         if interaction.valid?
           result = transaction { interaction.execute }
-          interaction.instance_variable_set(:@result, result)
+
+          if interaction.errors.empty?
+            interaction.instance_variable_set(:@_interaction_result, result)
+          else
+            interaction.instance_variable_set(:@_interaction_errors,
+              interaction.errors.dup)
+          end
         end
       end
     end

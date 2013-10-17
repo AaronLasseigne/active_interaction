@@ -15,6 +15,9 @@ to this.
 Take back control. Slim down models and wrangle monstrous controller
 methods with ActiveInteraction.
 
+Read more on the [project page][] or check out the full [documentation][]
+on RubyDoc.info.
+
 ## Installation
 
 This project uses [semantic versioning][].
@@ -22,7 +25,7 @@ This project uses [semantic versioning][].
 Add it to your Gemfile:
 
 ```ruby
-gem 'active_interaction', '~> 0.4.0'
+gem 'active_interaction', '~> 0.5.0'
 ```
 
 And then execute:
@@ -256,4 +259,5 @@ This project was inspired by the fantastic work done in [Mutations][].
   [documentation]: http://rubydoc.info/github/orgsync/active_interaction
   [gem version]: https://badge.fury.io/rb/active_interaction.png
   [mutations]: https://github.com/cypriss/mutations
+  [project page]: http://orgsync.github.io/active_interaction/
   [semantic versioning]: http://semver.org
