@@ -15,6 +15,12 @@ describe ActiveInteraction::Errors do
 
   subject(:errors) { described_class.new(klass.new) }
 
+  describe '#initialize' do
+    it do
+      expect(errors.symbolic).to eq({})
+    end
+  end
+
   describe '#sym_add' do
     it do
       errors.sym_add(:attribute)
