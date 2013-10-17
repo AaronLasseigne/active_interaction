@@ -1,5 +1,8 @@
 # [Master][]
 
+- Allow adding symbolic errors with `errors.add_sym` and retrieving them with
+  `errors.symbolic`.
+
 # [0.5.0][]
 
 - Allow adding errors in `execute` method with `errors.add`.
