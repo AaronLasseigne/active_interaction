@@ -21,24 +21,24 @@ describe ActiveInteraction::Errors do
     end
   end
 
-  describe '#sym_add' do
+  describe '#add_sym' do
     it do
-      errors.sym_add(:attribute)
+      errors.add_sym(:attribute)
       expect(errors.symbolic).to eq({ attribute: [:invalid] })
     end
 
     it do
-      errors.sym_add(:attribute, :symbol)
+      errors.add_sym(:attribute, :symbol)
       expect(errors.symbolic).to eq({ attribute: [:symbol] })
     end
 
     it do
-      errors.sym_add(:attribute, :symbol, 'message')
+      errors.add_sym(:attribute, :symbol, 'message')
       expect(errors.symbolic).to eq({ attribute: [:symbol] })
     end
 
     it do
-      errors.sym_add(:attribute, :symbol, 'message', { key: :value })
+      errors.add_sym(:attribute, :symbol, 'message', { key: :value })
       expect(errors.symbolic).to eq({ attribute: [:symbol] })
     end
 
@@ -48,25 +48,25 @@ describe ActiveInteraction::Errors do
       end
 
       it do
-        errors.sym_add(:attribute)
+        errors.add_sym(:attribute)
         expect(errors).to have_received(:add).once.
           with(:attribute, :invalid, {})
       end
 
       it do
-        errors.sym_add(:attribute, :symbol)
+        errors.add_sym(:attribute, :symbol)
         expect(errors).to have_received(:add).once.
           with(:attribute, :symbol, {})
       end
 
       it do
-        errors.sym_add(:attribute, :symbol, 'message')
+        errors.add_sym(:attribute, :symbol, 'message')
         expect(errors).to have_received(:add).once.
           with(:attribute, 'message', {})
       end
 
       it do
-        errors.sym_add(:attribute, :symbol, 'message', { key: :value })
+        errors.add_sym(:attribute, :symbol, 'message', { key: :value })
         expect(errors).to have_received(:add).once.
           with(:attribute, 'message', { key: :value })
       end

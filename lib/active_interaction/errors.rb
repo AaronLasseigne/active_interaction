@@ -18,7 +18,7 @@ module ActiveInteraction
     # @param message [String, Symbol, Proc]
     # @param options [Hash]
     # @return [Hash{Symbol, Array<String>}]
-    def sym_add(attribute, symbol = :invalid, message = nil, options = {})
+    def add_sym(attribute, symbol = :invalid, message = nil, options = {})
       symbolic[attribute] ||= []
       symbolic[attribute] << symbol
 
