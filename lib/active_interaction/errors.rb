@@ -15,21 +15,23 @@ module ActiveInteraction
 
     # Adds a symbolic error message to an attribute.
     #
-    # @example
+    # @example Adding a symbolic error.
     #   errors.add_sym(:attribute)
     #   errors.symbolic
     #   # => {:attribute=>[:invalid]}
+    #   errors.messages
+    #   # => {:attribute=>["is invalid"]}
     # @param attribute [Symbol] The attribute to add an error to.
     # @param symbol [Symbol] The symbolic error to add.
     # @param message [String, Symbol, Proc]
     # @param options [Hash]
-    # @return [Hash{Symbol => Array<String>}]
+    # @return [Hash{Symbol => Array<Symbol>}]
     # @see ActiveModel::Errors#add
     def add_sym(attribute, symbol = :invalid, message = nil, options = {})
+      add(attribute, message || symbol, options)
+
       symbolic[attribute] ||= []
       symbolic[attribute] << symbol
-
-      add(attribute, message || symbol, options)
     end
 
     # @private
