@@ -6,10 +6,9 @@ module ActiveInteraction
   MissingValue = Class.new(StandardError)
 
   # TODO
-  # @since 0.5.1
   class Errors < ActiveModel::Errors
     # TODO
-    # @return [Hash{Symbol, Array<Symbol>}]
+    # @return [Hash{Symbol => Array<Symbol>}]
     attr_reader :symbolic
 
     # TODO
@@ -17,7 +16,7 @@ module ActiveInteraction
     # @param symbol [Symbol]
     # @param message [String, Symbol, Proc]
     # @param options [Hash]
-    # @return [Hash{Symbol, Array<String>}]
+    # @return [Hash{Symbol => Array<String>}]
     def add_sym(attribute, symbol = :invalid, message = nil, options = {})
       symbolic[attribute] ||= []
       symbolic[attribute] << symbol
