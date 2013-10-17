@@ -15,12 +15,6 @@ describe ActiveInteraction::Errors do
 
   subject(:errors) { described_class.new(klass.new) }
 
-  describe '#initialize' do
-    it do
-      expect(errors.symbolic).to eq({})
-    end
-  end
-
   describe '#add_sym' do
     it do
       errors.add_sym(:attribute)
@@ -70,6 +64,39 @@ describe ActiveInteraction::Errors do
         expect(errors).to have_received(:add).once.
           with(:attribute, 'message', { key: :value })
       end
+    end
+  end
+
+  describe '#initialize' do
+    it do
+      expect(errors.symbolic).to eq({})
+    end
+  end
+
+  describe '#initialize_dup' do
+    let(:errors_dup) { errors.dup }
+
+    before do
+      errors.add_sym(:attribute)
+    end
+
+    it do
+      expect(errors_dup.symbolic).to eq errors.symbolic
+    end
+
+    it do
+      expect(errors_dup.symbolic).to_not equal errors.symbolic
+    end
+  end
+
+  describe '#clear' do
+    before do
+      errors.add_sym(:attribute)
+    end
+
+    it do
+      errors.clear
+      expect(errors.symbolic).to be_empty
     end
   end
 end

@@ -30,5 +30,17 @@ module ActiveInteraction
       @symbolic = {}
       super
     end
+
+    # @private
+    def initialize_dup(other)
+      @symbolic = other.symbolic.dup
+      super
+    end
+
+    # @private
+    def clear
+      symbolic.clear
+      super
+    end
   end
 end
