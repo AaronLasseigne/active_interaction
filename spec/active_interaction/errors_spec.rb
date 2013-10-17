@@ -16,50 +16,50 @@ describe ActiveInteraction::Errors do
   subject(:errors) { described_class.new(klass.new) }
 
   describe '#add_sym' do
-    it do
+    it 'defaults to :invalid' do
       errors.add_sym(:attribute)
       expect(errors.symbolic).to eq({ attribute: [:invalid] })
     end
 
-    it do
+    it 'adds a symbol' do
       errors.add_sym(:attribute, :symbol)
       expect(errors.symbolic).to eq({ attribute: [:symbol] })
     end
 
-    it do
+    it 'accepts a message' do
       errors.add_sym(:attribute, :symbol, 'message')
       expect(errors.symbolic).to eq({ attribute: [:symbol] })
     end
 
-    it do
+    it 'accepts a message and options' do
       errors.add_sym(:attribute, :symbol, 'message', { key: :value })
       expect(errors.symbolic).to eq({ attribute: [:symbol] })
     end
 
-    context do
+    context 'calling #add' do
       before do
         allow(errors).to receive(:add)
       end
 
-      it do
+      it 'with the default' do
         errors.add_sym(:attribute)
         expect(errors).to have_received(:add).once.
           with(:attribute, :invalid, {})
       end
 
-      it do
+      it 'with a symbol' do
         errors.add_sym(:attribute, :symbol)
         expect(errors).to have_received(:add).once.
           with(:attribute, :symbol, {})
       end
 
-      it do
+      it 'with a symbol and message' do
         errors.add_sym(:attribute, :symbol, 'message')
         expect(errors).to have_received(:add).once.
           with(:attribute, 'message', {})
       end
 
-      it do
+      it 'with a symbol, message and options' do
         errors.add_sym(:attribute, :symbol, 'message', { key: :value })
         expect(errors).to have_received(:add).once.
           with(:attribute, 'message', { key: :value })
@@ -68,7 +68,7 @@ describe ActiveInteraction::Errors do
   end
 
   describe '#initialize' do
-    it do
+    it 'sets symbolic to an empty hash' do
       expect(errors.symbolic).to eq({})
     end
   end
@@ -80,11 +80,8 @@ describe ActiveInteraction::Errors do
       errors.add_sym(:attribute)
     end
 
-    it do
+    it 'dups symbolic' do
       expect(errors_dup.symbolic).to eq errors.symbolic
-    end
-
-    it do
       expect(errors_dup.symbolic).to_not equal errors.symbolic
     end
   end
@@ -94,7 +91,7 @@ describe ActiveInteraction::Errors do
       errors.add_sym(:attribute)
     end
 
-    it do
+    it 'clears symbolic' do
       errors.clear
       expect(errors.symbolic).to be_empty
     end
