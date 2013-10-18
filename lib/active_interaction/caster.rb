@@ -6,9 +6,9 @@ module ActiveInteraction
   #   @option options [Object] :default Value to use if `nil` is given.
 
   # @private
-  class Filter
+  class Caster
     def self.factory(type)
-      klass = "#{type.to_s.camelize}Filter"
+      klass = "#{type.to_s.camelize}Caster"
 
       raise NoMethodError unless ActiveInteraction.const_defined?(klass)
 

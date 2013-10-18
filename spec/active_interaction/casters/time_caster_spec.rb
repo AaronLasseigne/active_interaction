@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::TimeFilter do
+describe ActiveInteraction::TimeCaster do
   include_context 'filters'
   it_behaves_like 'a filter'
 

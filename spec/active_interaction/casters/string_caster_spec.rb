@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::StringFilter do
+describe ActiveInteraction::StringCaster do
   include_context 'filters'
   it_behaves_like 'a filter'
 

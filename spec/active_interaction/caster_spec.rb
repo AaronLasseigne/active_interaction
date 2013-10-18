@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 module ActiveInteraction
-  TestFilter = Class.new(Filter)
+  TestCaster = Class.new(Caster)
 end
 
-describe ActiveInteraction::Filter do
+describe ActiveInteraction::Caster do
   it_behaves_like 'a filter'
 
   describe '.factory(type)' do
@@ -14,7 +14,7 @@ describe ActiveInteraction::Filter do
       let(:type) { :test }
 
       it 'returns the Class' do
-        expect(result).to eql ActiveInteraction::TestFilter
+        expect(result).to eql ActiveInteraction::TestCaster
       end
     end
 

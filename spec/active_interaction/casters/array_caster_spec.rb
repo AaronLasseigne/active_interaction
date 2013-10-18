@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::ArrayFilter do
+describe ActiveInteraction::ArrayCaster do
   include_context 'filters'
   it_behaves_like 'a filter'
 

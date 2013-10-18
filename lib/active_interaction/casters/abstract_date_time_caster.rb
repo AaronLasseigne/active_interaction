@@ -1,6 +1,6 @@
 module ActiveInteraction
   # @private
-  class AbstractDateTimeFilter < Filter
+  class AbstractDateTimeCaster < Caster
     def self.prepare(key, value, options = {}, &block)
       klass = options.delete(:class)
 

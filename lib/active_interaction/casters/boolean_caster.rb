@@ -1,28 +1,27 @@
 module ActiveInteraction
   class Base
     # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are Integers. String values are converted into Integers.
+    #   the attributes are Arrays. The String `"1"` is converted to `true` and
+    #   `"0"` is converted to `false`.
     #
     # @macro attribute_method_params
     #
     # @example
-    #   integer :quantity
+    #   boolean :subscribed
     #
-    # @method self.integer(*attributes, options = {})
+    # @method self.boolean(*attributes, options = {})
   end
 
   # @private
-  class IntegerFilter < Filter
+  class BooleanCaster < Caster
     def self.prepare(key, value, options = {}, &block)
       case value
-        when Integer
+        when TrueClass, FalseClass
           value
-        when String
-          begin
-            Integer(value)
-          rescue ArgumentError
-            super
-          end
+        when '0'
+          false
+        when '1'
+          true
         else
           super
       end

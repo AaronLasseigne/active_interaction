@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::IntegerFilter do
+describe ActiveInteraction::IntegerCaster do
   include_context 'filters'
   it_behaves_like 'a filter'
 

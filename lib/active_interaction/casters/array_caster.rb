@@ -23,7 +23,7 @@ module ActiveInteraction
   end
 
   # @private
-  class ArrayFilter < Filter
+  class ArrayCaster < Caster
     def self.prepare(key, value, options = {}, &block)
       case value
         when Array
@@ -38,7 +38,7 @@ module ActiveInteraction
 
       method = get_filter_method(FilterMethods.evaluate(&block))
       values.map do |value|
-        Filter.factory(method.method_name).
+        Caster.factory(method.method_name).
           prepare(method.attribute, value, method.options, &method.block)
       end
     rescue InvalidValue, MissingValue

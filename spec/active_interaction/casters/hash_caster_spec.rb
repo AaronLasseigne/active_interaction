@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::HashFilter do
+describe ActiveInteraction::HashCaster do
   include_context 'filters'
   it_behaves_like 'a filter'
 

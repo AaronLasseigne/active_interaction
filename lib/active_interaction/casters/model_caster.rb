@@ -17,7 +17,7 @@ module ActiveInteraction
   end
 
   # @private
-  class ModelFilter < Filter
+  class ModelCaster < Caster
     def self.prepare(key, value, options = {}, &block)
       key_class = constantize(options.fetch(:class, key))
 

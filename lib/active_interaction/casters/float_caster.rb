@@ -13,7 +13,7 @@ module ActiveInteraction
   end
 
   # @private
-  class FloatFilter < Filter
+  class FloatCaster < Caster
     def self.prepare(key, value, options = {}, &block)
       case value
         when Float

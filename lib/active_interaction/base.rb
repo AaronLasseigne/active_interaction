@@ -159,7 +159,7 @@ module ActiveInteraction
 
     # @private
     def self.method_missing(type, *args, &block)
-      filter = Filter.factory(type)
+      filter = Caster.factory(type)
       options = args.last.is_a?(Hash) ? args.pop : {}
       args.each do |attribute|
         set_up_reader(attribute, filter, options, &block)

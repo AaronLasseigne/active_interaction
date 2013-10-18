@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::FloatFilter do
+describe ActiveInteraction::FloatCaster do
   include_context 'filters'
   it_behaves_like 'a filter'
 

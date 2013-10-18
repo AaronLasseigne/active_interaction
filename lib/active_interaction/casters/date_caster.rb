@@ -18,7 +18,7 @@ module ActiveInteraction
   end
 
   # @private
-  class DateFilter < AbstractDateTimeFilter
+  class DateCaster < AbstractDateTimeCaster
     def self.prepare(key, value, options = {}, &block)
       super(key, value, options.merge(class: Date), &block)
     end

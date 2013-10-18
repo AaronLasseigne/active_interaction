@@ -19,7 +19,7 @@ module ActiveInteraction
   end
 
   # @private
-  class TimeFilter < AbstractDateTimeFilter
+  class TimeCaster < AbstractDateTimeCaster
     def self.prepare(key, value, options = {}, &block)
       case value
         when Numeric

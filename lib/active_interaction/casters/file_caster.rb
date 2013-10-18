@@ -14,7 +14,7 @@ module ActiveInteraction
   end
 
   # @private
-  class FileFilter < Filter
+  class FileCaster < Caster
     def self.prepare(key, value, options = {}, &block)
       value = extract_file(value)
 

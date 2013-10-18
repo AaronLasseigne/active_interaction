@@ -2,7 +2,7 @@ require 'spec_helper'
 
 TestModel = Class.new
 
-describe ActiveInteraction::ModelFilter do
+describe ActiveInteraction::ModelCaster do
   include_context 'filters'
   it_behaves_like 'a filter'
 

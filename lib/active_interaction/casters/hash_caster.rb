@@ -21,7 +21,7 @@ module ActiveInteraction
   end
 
   # @private
-  class HashFilter < Filter
+  class HashCaster < Caster
     def self.prepare(key, value, options = {}, &block)
       case value
         when Hash
@@ -36,7 +36,7 @@ module ActiveInteraction
 
       FilterMethods.evaluate(&block).each do |method|
         key = method.attribute
-        hash[key] = Filter.factory(method.method_name).
+        hash[key] = Caster.factory(method.method_name).
           prepare(key, hash[key], method.options, &method.block)
       end
 

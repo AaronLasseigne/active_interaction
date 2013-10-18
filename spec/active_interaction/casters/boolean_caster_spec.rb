@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::BooleanFilter do
+describe ActiveInteraction::BooleanCaster do
   include_context 'filters'
   it_behaves_like 'a filter'
 
