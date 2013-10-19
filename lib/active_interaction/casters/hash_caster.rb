@@ -35,8 +35,8 @@ module ActiveInteraction
       return hash unless block_given?
 
       FilterMethods.evaluate(&block).each do |method|
-        key = method.attribute
-        hash[key] = Caster.factory(method.method_name).
+        key = method.name
+        hash[key] = Caster.factory(method.type).
           prepare(key, hash[key], method.options, &method.block)
       end
 

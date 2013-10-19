@@ -162,27 +162,28 @@ module ActiveInteraction
       caster = Caster.factory(type)
       options = args.last.is_a?(Hash) ? args.pop : {}
       args.each do |attribute|
-        set_up_reader(attribute, caster, options, &block)
-        set_up_writer(attribute, caster, options, &block)
-        set_up_validator(attribute, type, caster, options, &block)
+        filter = Filter.new(type, attribute, options, &block)
+        set_up_reader(filter, caster)
+        set_up_writer(filter, caster)
+        set_up_validator(filter, caster)
       end
     end
     private_class_method :method_missing
 
     # @private
-    def self.set_up_reader(attribute, caster, options, &block)
+    def self.set_up_reader(filter, caster)
       default = nil
-      if options.has_key?(:default)
+      if filter.options.has_key?(:default)
         begin
           default = caster.
-            prepare(attribute, options[:default], options, &block)
+            prepare(filter.name, filter.options[:default], filter.options, &filter.block)
         rescue InvalidNestedValue, InvalidValue
           raise InvalidDefaultValue
         end
       end
 
-      define_method(attribute) do
-        symbol = "@#{attribute}"
+      define_method(filter.name) do
+        symbol = "@#{filter.name}"
         if instance_variable_defined?(symbol)
           instance_variable_get(symbol)
         else
@@ -193,40 +194,40 @@ module ActiveInteraction
     private_class_method :set_up_reader
 
     # @private
-    def self.set_up_writer(attribute, caster, options, &block)
-      attr_writer attribute
+    def self.set_up_writer(filter, caster)
+      attr_writer filter.name
 
-      writer = "_filter__#{attribute}="
+      writer = "_filter__#{filter.name}="
 
       define_method(writer) do |value|
         value =
           begin
-            caster.prepare(attribute, value, options, &block)
+            caster.prepare(filter.name, value, filter.options, &filter.block)
           rescue InvalidNestedValue, InvalidValue, MissingValue
             value
           end
-        instance_variable_set("@#{attribute}", value)
+        instance_variable_set("@#{filter.name}", value)
       end
       private writer
     end
     private_class_method :set_up_writer
 
     # @private
-    def self.set_up_validator(attribute, type, caster, options, &block)
-      validator = "_validate__#{attribute}__#{type}"
+    def self.set_up_validator(filter, caster)
+      validator = "_validate__#{filter.name}__#{filter.type}"
 
       validate validator
 
       define_method(validator) do
         begin
-          caster.prepare(attribute, send(attribute), options, &block)
+          caster.prepare(filter.name, send(filter.name), filter.options, &filter.block)
         rescue InvalidNestedValue
-          errors.add(attribute, :invalid_nested)
+          errors.add(filter.name, :invalid_nested)
         rescue InvalidValue
-          errors.add(attribute, :invalid,
-                     type: I18n.translate("#{i18n_scope}.types.#{type.to_s}"))
+          errors.add(filter.name, :invalid,
+                     type: I18n.translate("#{i18n_scope}.types.#{filter.type.to_s}"))
         rescue MissingValue
-          errors.add(attribute, :missing)
+          errors.add(filter.name, :missing)
         end
       end
       private validator

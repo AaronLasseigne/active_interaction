@@ -18,8 +18,12 @@ module ActiveInteraction
       @filter_methods.each(&block)
     end
 
-    def method_missing(filter_type, *args, &block)
-      @filter_methods.push(FilterMethod.new(filter_type, *args, &block))
+    def method_missing(type, *args, &block)
+      options = args.last.is_a?(Hash) ? args.pop : {}
+      args = [:unnamed] if args.empty?
+      args.each do |attribute|
+        @filter_methods.push(Filter.new(type, attribute, options, &block))
+      end
     end
     private :method_missing
   end

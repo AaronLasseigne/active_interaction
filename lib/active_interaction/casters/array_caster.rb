@@ -38,8 +38,8 @@ module ActiveInteraction
 
       method = get_filter_method(FilterMethods.evaluate(&block))
       values.map do |value|
-        Caster.factory(method.method_name).
-          prepare(method.attribute, value, method.options, &method.block)
+        Caster.factory(method.type).
+          prepare(method.name, value, method.options, &method.block)
       end
     rescue InvalidValue, MissingValue
       raise InvalidNestedValue
