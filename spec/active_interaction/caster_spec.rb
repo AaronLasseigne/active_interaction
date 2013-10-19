@@ -5,7 +5,7 @@ module ActiveInteraction
 end
 
 describe ActiveInteraction::Caster do
-  it_behaves_like 'a filter'
+  it_behaves_like 'a caster'
 
   describe '.factory(type)' do
     let(:result) { described_class.factory(type) }

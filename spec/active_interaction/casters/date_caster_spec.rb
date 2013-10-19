@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe ActiveInteraction::DateCaster do
-  include_context 'filters'
-  it_behaves_like 'a filter'
+  include_context 'casters'
+  it_behaves_like 'a caster'
 
   describe '.prepare(key, value, options = {}, &block)' do
     context 'with a Date' do

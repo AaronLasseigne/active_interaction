@@ -3,8 +3,8 @@ require 'spec_helper'
 TestModel = Class.new
 
 describe ActiveInteraction::ModelCaster do
-  include_context 'filters'
-  it_behaves_like 'a filter'
+  include_context 'casters'
+  it_behaves_like 'a caster'
 
   before { options.merge!(class: TestModel) }
 

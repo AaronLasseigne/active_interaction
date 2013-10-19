@@ -1,4 +1,4 @@
-shared_context 'filters' do
+shared_context 'casters' do
   let(:key) { SecureRandom.hex }
   let(:value) { nil }
   let(:options) { {} }
@@ -6,8 +6,8 @@ shared_context 'filters' do
   subject(:result) { described_class.prepare(key, value, options, &block) }
 end
 
-shared_examples_for 'a filter' do
-  include_context 'filters'
+shared_examples_for 'a caster' do
+  include_context 'casters'
 
   context '.prepare(key, value, options = {}, &block)' do
     context 'with nil' do
