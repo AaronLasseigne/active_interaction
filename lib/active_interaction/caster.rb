@@ -8,11 +8,7 @@ module ActiveInteraction
   # @private
   class Caster
     def self.factory(type)
-      klass = "#{type.to_s.camelize}Caster"
-
-      raise NoMethodError unless ActiveInteraction.const_defined?(klass)
-
-      ActiveInteraction.const_get(klass)
+      ActiveInteraction.const_get("#{type.to_s.camelize}Caster")
     end
 
     def self.prepare(key, value, options = {}, &block)
