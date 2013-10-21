@@ -58,8 +58,13 @@ module ActiveInteraction
 
     validate do
       return unless @_interaction_errors
-      @_interaction_errors.each do |attribute, message|
-        errors.add(attribute, message)
+
+      @_interaction_errors.symbolic.each do |attribute, symbols|
+        symbols.each { |symbol| errors.add_sym(attribute, symbol) }
+      end
+
+      @_interaction_errors.messages.each do |attribute, messages|
+        messages.each { |message| errors.add(attribute, message) }
       end
     end
 
@@ -98,6 +103,11 @@ module ActiveInteraction
     # @return [Object] if there are no validation errors.
     def result
       @_interaction_result
+    end
+
+    # @private
+    def errors
+      @errors ||= Errors.new(self)
     end
 
     # @private
@@ -221,12 +231,12 @@ module ActiveInteraction
         begin
           filter.prepare(attribute, send(attribute), options, &block)
         rescue InvalidNestedValue
-          errors.add(attribute, :invalid_nested)
+          errors.add_sym(attribute, :invalid_nested)
         rescue InvalidValue
-          errors.add(attribute, :invalid,
+          errors.add_sym(attribute, :invalid, nil,
                      type: I18n.translate("#{i18n_scope}.types.#{type.to_s}"))
         rescue MissingValue
-          errors.add(attribute, :missing)
+          errors.add_sym(attribute, :missing)
         end
       end
       private validator
