@@ -1,38 +1,37 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Filter do
-  describe '.new(type, name, options = {}, &block)' do
-    let(:type) { SecureRandom.hex }
-    let(:name) { nil }
-    let(:options) { {} }
-    let(:block) { nil }
-    subject(:filter_method) { described_class.new(type, name, options, &block) }
+  class ActiveInteraction::TestKlassFilter < described_class; end
 
-    shared_examples 'instance variable assignment' do
-      its(:type) { should equal type }
-      its(:name) { should equal name }
-      its(:options) { should eq options }
-      its(:block) { should equal block }
+  it 'registers subclass type on inheritance' do
+    expect(described_class::TYPES['TestKlass']).to eq ActiveInteraction::TestKlassFilter
+  end
+
+  describe '.factory(type)' do
+    context 'the type is not found' do
+      it 'throws a NoMethodError' do
+        expect { described_class.factory(:'1') }.to raise_error(NoMethodError)
+      end
     end
 
-    include_examples 'instance variable assignment'
-
-    context 'with an name' do
-      let(:name) { SecureRandom.hex.to_sym }
-
-      include_examples 'instance variable assignment'
+    context 'the type is found' do
+      it 'returns the class of that type' do
+        expect(described_class.factory(:test_klass)).to eq ActiveInteraction::TestKlassFilter
+      end
     end
+  end
 
-    context 'with options' do
-      let(:options) { { nil => nil } }
-
-      include_examples 'instance variable assignment'
+  describe '.type' do
+    it 'returns the filter type as a symbol' do
+      expect(ActiveInteraction::TestKlassFilter.type).to eql :test_klass
     end
+  end
 
-    context 'with a block' do
-      let(:block) { Proc.new {} }
+  describe '#type' do
+    it 'returns the filter type as a symbol' do
+      klass = ActiveInteraction::TestKlassFilter.new(SecureRandom.hex)
 
-      include_examples 'instance variable assignment'
+      expect(klass.type).to eql :test_klass
     end
   end
 end

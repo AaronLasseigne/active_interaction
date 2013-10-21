@@ -159,23 +159,22 @@ module ActiveInteraction
 
     # @private
     def self.method_missing(type, *args, &block)
-      caster = Caster.factory(type)
       options = args.last.is_a?(Hash) ? args.pop : {}
       args.each do |attribute|
-        filter = Filter.new(type, attribute, options, &block)
-        set_up_reader(filter, caster)
-        set_up_writer(filter, caster)
-        set_up_validator(filter, caster)
+        filter = Filter.factory(type).new(attribute, options, &block)
+        set_up_reader(filter)
+        set_up_writer(filter)
+        set_up_validator(filter)
       end
     end
     private_class_method :method_missing
 
     # @private
-    def self.set_up_reader(filter, caster)
+    def self.set_up_reader(filter)
       default = nil
       if filter.options.has_key?(:default)
         begin
-          default = caster.
+          default = Caster.factory(filter.type).
             prepare(filter.name, filter.options[:default], filter.options, &filter.block)
         rescue InvalidNestedValue, InvalidValue
           raise InvalidDefaultValue
@@ -194,7 +193,7 @@ module ActiveInteraction
     private_class_method :set_up_reader
 
     # @private
-    def self.set_up_writer(filter, caster)
+    def self.set_up_writer(filter)
       attr_writer filter.name
 
       writer = "_filter__#{filter.name}="
@@ -202,7 +201,8 @@ module ActiveInteraction
       define_method(writer) do |value|
         value =
           begin
-            caster.prepare(filter.name, value, filter.options, &filter.block)
+            Caster.factory(filter.type).
+              prepare(filter.name, value, filter.options, &filter.block)
           rescue InvalidNestedValue, InvalidValue, MissingValue
             value
           end
@@ -213,14 +213,15 @@ module ActiveInteraction
     private_class_method :set_up_writer
 
     # @private
-    def self.set_up_validator(filter, caster)
+    def self.set_up_validator(filter)
       validator = "_validate__#{filter.name}__#{filter.type}"
 
       validate validator
 
       define_method(validator) do
         begin
-          caster.prepare(filter.name, send(filter.name), filter.options, &filter.block)
+          Caster.factory(filter.type).
+            prepare(filter.name, send(filter.name), filter.options, &filter.block)
         rescue InvalidNestedValue
           errors.add(filter.name, :invalid_nested)
         rescue InvalidValue

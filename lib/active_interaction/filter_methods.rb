@@ -22,7 +22,7 @@ module ActiveInteraction
       options = args.last.is_a?(Hash) ? args.pop : {}
       args = [:unnamed] if args.empty?
       args.each do |attribute|
-        @filter_methods.push(Filter.new(type, attribute, options, &block))
+        @filter_methods.push(Filter.factory(type).new(attribute, options, &block))
       end
     end
     private :method_missing
