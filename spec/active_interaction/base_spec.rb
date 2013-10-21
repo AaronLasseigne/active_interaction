@@ -209,7 +209,7 @@ describe ActiveInteraction::Base do
           end
 
           it 'has symbolic errors' do
-            expect(outcome.errors.symbolic[:thing]).to eq %i(error)
+            expect(outcome.errors.symbolic[:thing]).to eq [:error]
           end
         end
 
