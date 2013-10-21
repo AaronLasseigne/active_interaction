@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class ArrayFilter < Filter; end
+  class ArrayFilter < FilterWithBlock; end
 end

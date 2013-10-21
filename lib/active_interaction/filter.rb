@@ -18,18 +18,22 @@ module ActiveInteraction
     end
 
     def self.extract_class_type(full_name)
-      full_name.match(/\AActiveInteraction::(.*)Filter\z/).captures.first
+      full_name.match(/\AActiveInteraction::(.*)Filter(?:WithBlock)?\z/).captures.first
     end
     private_class_method :extract_class_type
 
-    attr_reader :name, :options, :block
+    attr_reader :name, :options
 
-    def initialize(name, options = {}, &block)
-      @name, @options, @block = name, options.dup, block
+    def initialize(name, options = {})
+      @name, @options = name, options.dup
     end
 
     def type
       self.class.type
+    end
+
+    def block
+      Proc.new {}
     end
   end
 end

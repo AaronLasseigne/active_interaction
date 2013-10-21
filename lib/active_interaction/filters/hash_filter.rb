@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class HashFilter < Filter; end
+  class HashFilter < FilterWithBlock; end
 end

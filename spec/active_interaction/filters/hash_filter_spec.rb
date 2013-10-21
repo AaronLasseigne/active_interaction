@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe ActiveInteraction::HashFilter do
-  it_behaves_like 'a filter'
+  it_behaves_like 'a filter with a block'
 end
