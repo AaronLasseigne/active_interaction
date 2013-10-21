@@ -187,7 +187,8 @@ describe ActiveInteraction::Base do
           before do
             @execute = described_class.instance_method(:execute)
             described_class.send(:define_method, :execute) do
-              errors.add(:thing, SecureRandom.hex)
+              errors.add(:thing, 'error')
+              errors.add_sym(:thing, :error, 'error')
             end
           end
 
@@ -201,6 +202,14 @@ describe ActiveInteraction::Base do
 
           it 'sets the result to nil' do
             expect(outcome.result).to be_nil
+          end
+
+          it 'has errors' do
+            expect(outcome.errors.messages[:thing]).to eq %w(error error)
+          end
+
+          it 'has symbolic errors' do
+            expect(outcome.errors.symbolic[:thing]).to eq [:error]
           end
         end
 
