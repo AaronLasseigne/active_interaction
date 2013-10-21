@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class HashFilter < ActiveInteraction::Filter; end
+  class HashFilter < Filter; end
 end

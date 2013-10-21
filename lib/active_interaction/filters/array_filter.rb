@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class ArrayFilter < ActiveInteraction::Filter; end
+  class ArrayFilter < Filter; end
 end

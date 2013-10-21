@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class DateFilter < ActiveInteraction::Filter; end
+  class DateFilter < Filter; end
 end

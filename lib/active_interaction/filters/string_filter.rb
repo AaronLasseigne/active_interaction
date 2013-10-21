@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class StringFilter < ActiveInteraction::Filter; end
+  class StringFilter < Filter; end
 end

@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class TimeFilter < ActiveInteraction::Filter; end
+  class TimeFilter < Filter; end
 end

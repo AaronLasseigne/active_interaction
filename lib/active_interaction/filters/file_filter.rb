@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class FileFilter < ActiveInteraction::Filter; end
+  class FileFilter < Filter; end
 end

@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class FloatFilter < ActiveInteraction::Filter; end
+  class FloatFilter < Filter; end
 end

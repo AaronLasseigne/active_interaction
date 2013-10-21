@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class ModelFilter < ActiveInteraction::Filter; end
+  class ModelFilter < Filter; end
 end

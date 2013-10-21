@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class BooleanFilter < ActiveInteraction::Filter; end
+  class BooleanFilter < Filter; end
 end

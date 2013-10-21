@@ -1,3 +1,3 @@
 module ActiveInteraction
-  class IntegerFilter < ActiveInteraction::Filter; end
+  class IntegerFilter < Filter; end
 end
