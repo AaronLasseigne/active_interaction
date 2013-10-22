@@ -4,7 +4,9 @@ module ActiveInteraction
     TYPES = {}
 
     def self.inherited(subclass)
-      TYPES[extract_class_type(subclass.name)] = subclass
+      if subclass != ActiveInteraction::FilterWithBlock
+        TYPES[extract_class_type(subclass.name)] = subclass
+      end
     end
 
     def self.type
