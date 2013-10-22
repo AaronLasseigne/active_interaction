@@ -22,10 +22,10 @@ module ActiveInteraction
 
   # @private
   class HashCaster < Caster
-    def self.prepare(key, value, options = {}, &block)
+    def self.prepare(filter, value)
       case value
         when Hash
-          convert_values(value.merge(options[:default] || {}), &block)
+          convert_values(value.merge(filter.options[:default] || {}), &filter.block)
         else
           super
       end
@@ -34,10 +34,9 @@ module ActiveInteraction
     def self.convert_values(hash, &block)
       return hash unless block_given?
 
-      FilterMethods.evaluate(&block).each do |method|
-        key = method.name
-        hash[key] = Caster.factory(method.type).
-          prepare(key, hash[key], method.options, &method.block)
+      FilterMethods.evaluate(&block).each do |filter|
+        key = filter.name
+        hash[key] = Caster.factory(filter.type).prepare(filter, hash[key])
       end
 
       hash

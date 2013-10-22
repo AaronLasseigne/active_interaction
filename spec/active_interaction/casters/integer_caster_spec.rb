@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe ActiveInteraction::IntegerCaster do
-  include_context 'casters'
-  it_behaves_like 'a caster'
+  include_context 'casters', ActiveInteraction::IntegerFilter
+  it_behaves_like 'a caster', ActiveInteraction::IntegerFilter
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  describe '.prepare(filter, value)' do
     context 'with an Integer' do
       let(:value) { rand(1 << 16) }
 

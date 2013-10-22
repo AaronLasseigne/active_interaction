@@ -1,15 +1,16 @@
-shared_context 'casters' do
-  let(:key) { SecureRandom.hex }
+shared_context 'casters' do |filter_class|
   let(:value) { nil }
+  let(:name) { SecureRandom.hex }
   let(:options) { {} }
   let(:block) { Proc.new {} }
-  subject(:result) { described_class.prepare(key, value, options, &block) }
+  let(:filter) { filter_class.new(name, options, &block)}
+  subject(:result) { described_class.prepare(filter, value) }
 end
 
-shared_examples_for 'a caster' do
-  include_context 'casters'
+shared_examples_for 'a caster' do |filter_class|
+  include_context 'casters', filter_class
 
-  context '.prepare(key, value, options = {}, &block)' do
+  context '.prepare(filter, value)' do
     context 'with nil' do
       it 'raises an error' do
         expect { result }.to raise_error ActiveInteraction::MissingValue

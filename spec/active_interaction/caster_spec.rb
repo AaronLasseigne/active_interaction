@@ -2,10 +2,11 @@ require 'spec_helper'
 
 module ActiveInteraction
   TestCaster = Class.new(Caster)
+  class TestFilter < Filter; end
 end
 
 describe ActiveInteraction::Caster do
-  it_behaves_like 'a caster'
+  it_behaves_like 'a caster', ActiveInteraction::TestFilter
 
   describe '.factory(type)' do
     let(:result) { described_class.factory(type) }

@@ -15,10 +15,10 @@ module ActiveInteraction
 
   # @private
   class StringCaster < Caster
-    def self.prepare(key, value, options = {}, &block)
+    def self.prepare(filter, value)
       case value
         when String
-          options.fetch(:strip, true) ? value.strip : value
+          filter.options.fetch(:strip, true) ? value.strip : value
         else
           super
       end

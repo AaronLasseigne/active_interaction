@@ -13,7 +13,7 @@ module ActiveInteraction
 
   # @private
   class IntegerCaster < Caster
-    def self.prepare(key, value, options = {}, &block)
+    def self.prepare(filter, value)
       case value
         when Integer
           value

@@ -11,13 +11,13 @@ module ActiveInteraction
       ActiveInteraction.const_get("#{type.to_s.camelize}Caster")
     end
 
-    def self.prepare(key, value, options = {}, &block)
+    def self.prepare(filter, value)
       case value
         when NilClass
-          if options[:allow_nil]
+          if filter.options[:allow_nil]
             nil
-          elsif options.has_key?(:default)
-            options[:default]
+          elsif filter.options.has_key?(:default)
+            filter.options[:default]
           else
             raise MissingValue
           end

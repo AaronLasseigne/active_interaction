@@ -3,12 +3,12 @@ require 'spec_helper'
 TestModel = Class.new
 
 describe ActiveInteraction::ModelCaster do
-  include_context 'casters'
-  it_behaves_like 'a caster'
+  include_context 'casters', ActiveInteraction::ModelFilter
+  it_behaves_like 'a caster', ActiveInteraction::ModelFilter
 
   before { options.merge!(class: TestModel) }
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  describe '.prepare(filter, value)' do
     shared_examples 'type checking' do
       context 'with the right class' do
         let(:value) { TestModel.new }

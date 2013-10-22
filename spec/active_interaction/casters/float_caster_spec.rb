@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe ActiveInteraction::FloatCaster do
-  include_context 'casters'
-  it_behaves_like 'a caster'
+  include_context 'casters', ActiveInteraction::FloatFilter
+  it_behaves_like 'a caster', ActiveInteraction::FloatFilter
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  describe '.prepare(filter, value)' do
     context 'with a Float' do
       let(:value) { rand }
 

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe ActiveInteraction::ArrayCaster do
-  include_context 'casters'
-  it_behaves_like 'a caster'
+  include_context 'casters', ActiveInteraction::ArrayFilter
+  it_behaves_like 'a caster', ActiveInteraction::ArrayFilter
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  describe '.prepare(filter, value)' do
     context 'with an Array' do
       let(:value) { [] }
 

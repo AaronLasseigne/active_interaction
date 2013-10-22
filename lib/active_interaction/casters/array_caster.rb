@@ -24,10 +24,10 @@ module ActiveInteraction
 
   # @private
   class ArrayCaster < Caster
-    def self.prepare(key, value, options = {}, &block)
+    def self.prepare(filter, value)
       case value
         when Array
-          convert_values(value, &block)
+          convert_values(value, &filter.block)
         else
           super
       end
@@ -36,23 +36,22 @@ module ActiveInteraction
     def self.convert_values(values, &block)
       return values.dup unless block_given?
 
-      method = get_filter_method(FilterMethods.evaluate(&block))
+      filter = get_filter(FilterMethods.evaluate(&block))
       values.map do |value|
-        Caster.factory(method.type).
-          prepare(method.name, value, method.options, &method.block)
+        Caster.factory(filter.type).prepare(filter, value)
       end
     rescue InvalidValue, MissingValue
       raise InvalidNestedValue
     end
     private_class_method :convert_values
 
-    def self.get_filter_method(filter_methods)
+    def self.get_filter(filter_methods)
       if filter_methods.count > 1
         raise ArgumentError, 'Array filter blocks can only contain one filter.'
       else
         filter_methods.first
       end
     end
-    private_class_method :get_filter_method
+    private_class_method :get_filter
   end
 end

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe ActiveInteraction::BooleanCaster do
-  include_context 'casters'
-  it_behaves_like 'a caster'
+  include_context 'casters', ActiveInteraction::BooleanFilter
+  it_behaves_like 'a caster', ActiveInteraction::BooleanFilter
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  describe '.prepare(filter, value)' do
     context 'with true' do
       let(:value) { true }
 

@@ -19,13 +19,25 @@ module ActiveInteraction
   end
 
   # @private
-  class TimeCaster < AbstractDateTimeCaster
-    def self.prepare(key, value, options = {}, &block)
+  class TimeCaster < Caster
+    def self.prepare(filter, value)
       case value
         when Numeric
           time.at(value)
+        when time_class
+          value
+        when String
+          begin
+            if filter.options.has_key?(:format)
+              time_class.strptime(value, filter.options[:format])
+            else
+              time_class.parse(value)
+            end
+          rescue ArgumentError
+            super
+          end
         else
-          super(key, value, options.merge(class: time_class), &block)
+          super
       end
     end
 

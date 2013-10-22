@@ -184,8 +184,7 @@ module ActiveInteraction
       default = nil
       if filter.options.has_key?(:default)
         begin
-          default = Caster.factory(filter.type).
-            prepare(filter.name, filter.options[:default], filter.options, &filter.block)
+          default = Caster.factory(filter.type).prepare(filter, filter.options[:default])
         rescue InvalidNestedValue, InvalidValue
           raise InvalidDefaultValue
         end
@@ -211,8 +210,7 @@ module ActiveInteraction
       define_method(writer) do |value|
         value =
           begin
-            Caster.factory(filter.type).
-              prepare(filter.name, value, filter.options, &filter.block)
+            Caster.factory(filter.type).prepare(filter, value)
           rescue InvalidNestedValue, InvalidValue, MissingValue
             value
           end
@@ -230,8 +228,7 @@ module ActiveInteraction
 
       define_method(validator) do
         begin
-          Caster.factory(filter.type).
-            prepare(filter.name, send(filter.name), filter.options, &filter.block)
+          Caster.factory(filter.type).prepare(filter, send(filter.name))
         rescue InvalidNestedValue
           errors.add_sym(filter.name, :invalid_nested)
         rescue InvalidValue

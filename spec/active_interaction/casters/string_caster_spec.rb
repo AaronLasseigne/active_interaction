@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe ActiveInteraction::StringCaster do
-  include_context 'casters'
-  it_behaves_like 'a caster'
+  include_context 'casters', ActiveInteraction::StringFilter
+  it_behaves_like 'a caster', ActiveInteraction::StringFilter
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  describe '.prepare(filter, value)' do
     context 'with a String' do
       let(:value) { SecureRandom.hex }
 

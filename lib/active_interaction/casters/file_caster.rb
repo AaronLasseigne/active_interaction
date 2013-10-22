@@ -15,7 +15,7 @@ module ActiveInteraction
 
   # @private
   class FileCaster < Caster
-    def self.prepare(key, value, options = {}, &block)
+    def self.prepare(filter, value)
       value = extract_file(value)
 
       case value

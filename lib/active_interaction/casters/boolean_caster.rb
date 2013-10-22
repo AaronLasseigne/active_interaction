@@ -14,7 +14,7 @@ module ActiveInteraction
 
   # @private
   class BooleanCaster < Caster
-    def self.prepare(key, value, options = {}, &block)
+    def self.prepare(filter, value)
       case value
         when TrueClass, FalseClass
           value

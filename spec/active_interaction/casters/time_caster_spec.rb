@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe ActiveInteraction::TimeCaster do
-  include_context 'casters'
-  it_behaves_like 'a caster'
+  include_context 'casters', ActiveInteraction::TimeFilter
+  it_behaves_like 'a caster', ActiveInteraction::TimeFilter
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  describe '.prepare(filter, value)' do
     context 'with a Time' do
       let(:value) { Time.now }
 
@@ -78,7 +78,7 @@ describe ActiveInteraction::TimeCaster do
         end
 
         after do
-          expect(Time).to have_received(:zone).once.with(no_args)
+          expect(Time).to have_received(:zone).at_least(1).times.with(no_args)
         end
       end
 
@@ -90,7 +90,7 @@ describe ActiveInteraction::TimeCaster do
         end
 
         after do
-          expect(Time).to have_received(:zone).twice.with(no_args)
+          expect(Time).to have_received(:zone).at_least(1).times.with(no_args)
         end
       end
     end

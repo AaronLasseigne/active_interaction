@@ -18,8 +18,8 @@ module ActiveInteraction
 
   # @private
   class ModelCaster < Caster
-    def self.prepare(key, value, options = {}, &block)
-      key_class = constantize(options.fetch(:class, key))
+    def self.prepare(filter, value)
+      key_class = constantize(filter.options.fetch(:class, filter.name))
 
       case value
         when key_class
