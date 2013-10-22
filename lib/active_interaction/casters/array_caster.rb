@@ -38,7 +38,7 @@ module ActiveInteraction
 
       filter = get_filter(FilterMethods.evaluate(&block))
       values.map do |value|
-        Caster.factory(filter.type).prepare(filter, value)
+        Caster.cast(filter, value)
       end
     rescue InvalidValue, MissingValue
       raise InvalidNestedValue

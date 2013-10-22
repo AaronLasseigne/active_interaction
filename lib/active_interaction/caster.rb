@@ -7,9 +7,14 @@ module ActiveInteraction
 
   # @private
   class Caster
+    def self.cast(filter, value)
+      factory(filter.type).prepare(filter, value)
+    end
+
     def self.factory(type)
       ActiveInteraction.const_get("#{type.to_s.camelize}Caster")
     end
+    private_class_method :factory
 
     def self.prepare(filter, value)
       case value

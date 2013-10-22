@@ -36,7 +36,7 @@ module ActiveInteraction
 
       FilterMethods.evaluate(&block).each do |filter|
         key = filter.name
-        hash[key] = Caster.factory(filter.type).prepare(filter, hash[key])
+        hash[key] = Caster.cast(filter, hash[key])
       end
 
       hash

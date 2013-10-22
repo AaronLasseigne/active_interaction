@@ -6,21 +6,21 @@ module ActiveInteraction
 end
 
 describe ActiveInteraction::Caster do
-  it_behaves_like 'a caster', ActiveInteraction::TestFilter
+  include_context 'casters', ActiveInteraction::TestFilter
 
-  describe '.factory(type)' do
-    let(:result) { described_class.factory(type) }
+  describe '.cast(filter, value)' do
+    let(:result) { described_class.cast(filter, value) }
 
     context 'with a valid type' do
-      let(:type) { :test }
-
-      it 'returns the Class' do
-        expect(result).to eql ActiveInteraction::TestCaster
+      it 'calls `prepare` on the proper Caster type' do
+        allow(ActiveInteraction::TestCaster).to receive(:prepare)
+        result
+        expect(ActiveInteraction::TestCaster).to have_received(:prepare).once.with(filter, value)
       end
     end
 
     context 'with an invalid type' do
-      let(:type) { :not_a_valid_type }
+      let(:filter) { Object.new }
 
       it 'raises an error' do
         expect { result }.to raise_error NameError
