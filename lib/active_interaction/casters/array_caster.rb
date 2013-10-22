@@ -36,7 +36,7 @@ module ActiveInteraction
     def self.convert_values(values, &block)
       return values.dup unless block_given?
 
-      filter = get_filter(FilterMethods.evaluate(&block))
+      filter = get_filter(Filters.evaluate(&block))
       values.map do |value|
         Caster.cast(filter, value)
       end
@@ -45,11 +45,11 @@ module ActiveInteraction
     end
     private_class_method :convert_values
 
-    def self.get_filter(filter_methods)
-      if filter_methods.count > 1
+    def self.get_filter(filters)
+      if filters.count > 1
         raise ArgumentError, 'Array filter blocks can only contain one filter.'
       else
-        filter_methods.first
+        filters.first
       end
     end
     private_class_method :get_filter

@@ -4,7 +4,7 @@ module ActiveInteraction
     #   the attributes are Hashes.
     #
     # @macro attribute_method_params
-    # @param block [Proc] Filter methods to apply for select keys.
+    # @param block [Proc] Filters to apply for select keys.
     #
     # @example
     #   hash :order
@@ -34,7 +34,7 @@ module ActiveInteraction
     def self.convert_values(hash, &block)
       return hash unless block_given?
 
-      FilterMethods.evaluate(&block).each do |filter|
+      Filters.evaluate(&block).each do |filter|
         key = filter.name
         hash[key] = Caster.cast(filter, hash[key])
       end
