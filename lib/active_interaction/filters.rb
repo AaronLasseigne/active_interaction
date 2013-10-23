@@ -2,13 +2,6 @@ module ActiveInteraction
   # @private
   class Filters
     include Enumerable
-    include OverloadHash
-
-    def self.evaluate(&block)
-      me = new
-      me.instance_eval(&block)
-      me
-    end
 
     def initialize
       @filters = []
@@ -18,13 +11,10 @@ module ActiveInteraction
       @filters.each(&block)
     end
 
-    def method_missing(type, *args, &block)
-      options = args.last.is_a?(Hash) ? args.pop : {}
-      args = [:unnamed] if args.empty?
-      args.each do |attribute|
-        @filters.push(Filter.factory(type).new(attribute, options, &block))
-      end
+    def add(filter)
+      @filters << filter
+
+      self
     end
-    private :method_missing
   end
 end

@@ -25,24 +25,24 @@ module ActiveInteraction
     def self.prepare(filter, value)
       case value
         when Hash
-          convert_values(value.merge(filter.options[:default] || {}), &filter.block)
+          sub_prepare(filter.filters, value.merge(filter.options[:default] || {}))
         else
           super
       end
     end
 
-    def self.convert_values(hash, &block)
-      return hash unless block_given?
+    def self.sub_prepare(filters, value)
+      return value if filters.none?
 
-      Filters.evaluate(&block).each do |filter|
+      filters.each do |filter|
         key = filter.name
-        hash[key] = Caster.cast(filter, hash[key])
+        value[key] = Caster.cast(filter, value[key])
       end
 
-      hash
+      value
     rescue InvalidValue, MissingValue
       raise InvalidNestedValue
     end
-    private_class_method :convert_values
+    private_class_method :sub_prepare
   end
 end

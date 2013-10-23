@@ -33,9 +33,5 @@ module ActiveInteraction
     def type
       self.class.type
     end
-
-    def block
-      Proc.new {}
-    end
   end
 end

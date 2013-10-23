@@ -22,5 +22,4 @@ shared_examples_for 'a filter with a block' do
   include_context 'filters with blocks'
 
   it_behaves_like 'a filter'
-  its(:block) { should equal block }
 end

@@ -1,12 +1,16 @@
 module ActiveInteraction
   # @private
   class FilterWithBlock < Filter
-    attr_reader :block
+    include OverloadHash
 
     def initialize(name, options = {}, &block)
-      @block = block
-
       super
+
+      instance_eval(&block) if block_given?
+    end
+
+    def filters
+      @filters ||= Filters.new
     end
   end
 end

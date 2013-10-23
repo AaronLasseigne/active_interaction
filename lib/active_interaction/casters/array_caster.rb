@@ -27,23 +27,23 @@ module ActiveInteraction
     def self.prepare(filter, value)
       case value
         when Array
-          convert_values(value, &filter.block)
+          sub_prepare(filter.filters, value)
         else
           super
       end
     end
 
-    def self.convert_values(values, &block)
-      return values.dup unless block_given?
+    def self.sub_prepare(filters, values)
+      return values if filters.none?
 
-      filter = get_filter(Filters.evaluate(&block))
+      filter = get_filter(filters)
       values.map do |value|
         Caster.cast(filter, value)
       end
     rescue InvalidValue, MissingValue
       raise InvalidNestedValue
     end
-    private_class_method :convert_values
+    private_class_method :sub_prepare
 
     def self.get_filter(filters)
       if filters.count > 1
