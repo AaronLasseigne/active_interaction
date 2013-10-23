@@ -43,14 +43,5 @@ describe ActiveInteraction::ArrayCaster do
         expect(result).to eql value
       end
     end
-
-    context 'with an invalid block' do
-      let(:block) { Proc.new { array; array } }
-      let(:value) { [] }
-
-      it 'raises an error' do
-        expect { result }.to raise_error ArgumentError
-      end
-    end
   end
 end

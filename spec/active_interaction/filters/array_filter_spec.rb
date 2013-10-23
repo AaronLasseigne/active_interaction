@@ -25,6 +25,14 @@ describe ActiveInteraction::ArrayFilter do
           expect { result.filters }.to raise_error ArgumentError
         end
       end
+
+      context 'where two filters are provided' do
+        let(:block) { Proc.new { array; array } }
+
+        it 'only allows one' do
+          expect { result.filters }.to raise_error ArgumentError
+        end
+      end
     end
   end
 end

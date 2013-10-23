@@ -36,7 +36,7 @@ module ActiveInteraction
     def self.sub_prepare(filters, values)
       return values if filters.none?
 
-      filter = get_filter(filters)
+      filter = filters.first
       values.map do |value|
         Caster.cast(filter, value)
       end
@@ -44,14 +44,5 @@ module ActiveInteraction
       raise InvalidNestedValue
     end
     private_class_method :sub_prepare
-
-    def self.get_filter(filters)
-      if filters.count > 1
-        raise ArgumentError, 'Array filter blocks can only contain one filter.'
-      else
-        filters.first
-      end
-    end
-    private_class_method :get_filter
   end
 end
