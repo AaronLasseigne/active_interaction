@@ -269,6 +269,20 @@ describe ActiveInteraction::Base do
     end
   end
 
+  describe '#inputs' do
+    let(:described_class) { InteractionWithFilter }
+    let(:other_val) { SecureRandom.hex }
+    let(:options) { {thing: 1, other: other_val} }
+
+    it 'casts filtered inputs' do
+      expect(interaction.inputs[:thing]).to eql 1.0
+    end
+
+    it 'does not modify non-filtered inputs' do
+      expect(interaction.inputs[:other]).to equal other_val
+    end
+  end
+
   describe '#execute' do
     it 'raises an error' do
       expect { interaction.execute }.to raise_error NotImplementedError

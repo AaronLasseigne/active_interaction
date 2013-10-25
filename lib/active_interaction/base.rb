@@ -68,20 +68,22 @@ module ActiveInteraction
       end
     end
 
+    attr_reader :inputs
+
     # @private
     def initialize(options = {})
-      options = options.with_indifferent_access
+      @inputs = options.with_indifferent_access
 
-      if options.has_key?(:result)
+      if @inputs.has_key?(:result)
         raise ArgumentError, ':result is reserved and can not be used'
       end
 
-      options.each do |attribute, value|
-        method = "_filter__#{attribute}="
+      @inputs.each do |name, value|
+        method = "_filter__#{name}="
         if respond_to?(method, true)
-          send(method, value)
+          @inputs[name] = send(method, value)
         else
-          instance_variable_set("@#{attribute}", value)
+          instance_variable_set("@#{name}", value)
         end
       end
     end
