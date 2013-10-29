@@ -57,6 +57,11 @@ module ActiveInteraction
     extend OverloadHash
 
     validate do
+      Validation.run(self.class.filters, inputs).each do |error|
+        errors.add_sym(*error)
+      end
+    end
+    validate do
       return unless @_interaction_errors
 
       @_interaction_errors.symbolic.each do |attribute, symbols|
@@ -129,6 +134,11 @@ module ActiveInteraction
     end
     private_class_method :transaction
 
+    # @private
+    def self.filters
+      @filters ||= Filters.new
+    end
+
     # @!macro [new] run_attributes
     #   @param options [Hash] Attribute values to set.
 
@@ -175,9 +185,11 @@ module ActiveInteraction
 
       args.each do |attribute|
         filter = Filter.factory(type).new(attribute, options, &block)
+
+        filters.add(filter)
+
         set_up_reader(filter)
         set_up_writer(filter)
-        set_up_validator(filter)
       end
     end
     private_class_method :method_missing
@@ -222,27 +234,5 @@ module ActiveInteraction
       private writer
     end
     private_class_method :set_up_writer
-
-    # @private
-    def self.set_up_validator(filter)
-      validator = "_validate__#{filter.name}__#{filter.type}"
-
-      validate validator
-
-      define_method(validator) do
-        begin
-          Caster.cast(filter, send(filter.name))
-        rescue InvalidNestedValue
-          errors.add_sym(filter.name, :invalid_nested)
-        rescue InvalidValue
-          errors.add_sym(filter.name, :invalid, nil,
-                     type: I18n.translate("#{i18n_scope}.types.#{filter.type.to_s}"))
-        rescue MissingValue
-          errors.add_sym(filter.name, :missing)
-        end
-      end
-      private validator
-    end
-    private_class_method :set_up_validator
   end
 end

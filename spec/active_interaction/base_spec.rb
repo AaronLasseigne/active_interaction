@@ -172,7 +172,7 @@ describe ActiveInteraction::Base do
 
       context 'failing validations' do
         it 'returns an invalid outcome' do
-          expect(outcome).to be_invalid
+          expect(outcome).to_not be_valid
         end
 
         it 'sets the result to nil' do

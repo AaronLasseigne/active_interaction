@@ -29,6 +29,7 @@ require 'active_interaction/casters/integer_caster'
 require 'active_interaction/casters/model_caster'
 require 'active_interaction/casters/string_caster'
 require 'active_interaction/casters/time_caster'
+require 'active_interaction/validation'
 require 'active_interaction/base'
 
 I18n.backend.load_translations(
