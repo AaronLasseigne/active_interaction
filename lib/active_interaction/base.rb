@@ -73,6 +73,11 @@ module ActiveInteraction
       end
     end
 
+    # Returns the inputs provided to {.run} or {.run!} after being cast based
+    #   on the filters in the class.
+    # 
+    # @return [Hash] All inputs passed to {.run} or {.run!}.
+    # @since 0.6.0
     attr_reader :inputs
 
     # @private
