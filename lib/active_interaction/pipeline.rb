@@ -5,6 +5,10 @@ module ActiveInteraction
       instance_eval(&block)
     end
 
+    def pipe(interaction, function = nil)
+      @steps << [lambdafy(function), interaction]
+    end
+
     def run(options = {})
       raise EmptyPipeline if @steps.empty?
       (function, interaction), *steps = @steps
@@ -33,10 +37,6 @@ module ActiveInteraction
       else
         raise
       end
-    end
-
-    def pipe(interaction, function = nil)
-      @steps << [lambdafy(function), interaction]
     end
   end
 end
