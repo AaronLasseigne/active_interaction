@@ -6,6 +6,7 @@ module ActiveInteraction
     end
 
     def run(options = {})
+      raise EmptyPipeline if @steps.empty?
       (function, interaction), *steps = @steps
       outcome = interaction.run(function.call(options))
       steps.reduce(outcome) do |o, (f, i)|

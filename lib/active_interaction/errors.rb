@@ -1,4 +1,5 @@
 module ActiveInteraction
+  EmptyPipeline = Class.new(StandardError)
   InteractionInvalid = Class.new(StandardError)
   InvalidDefaultValue = Class.new(StandardError)
   InvalidNestedValue = Class.new(StandardError)
