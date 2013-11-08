@@ -23,7 +23,7 @@ describe ActiveInteraction::Pipeline do
       pipe HashifyInteraction
       pipe AddInteraction
       pipe SquareInteraction, :a
-      pipe MultiplyInteraction, ->(result) { { a: result, b: 3 } }
+      pipe MultiplyInteraction, -> result { { a: result, b: 3 } }
     end
     outcome = pipeline.run(a: 5)
     expect(outcome.result).to eq(((5 + 5) ** 2) * 3)
