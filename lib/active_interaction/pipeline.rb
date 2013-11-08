@@ -34,9 +34,10 @@ module ActiveInteraction
     #   result straight through, use `nil`. To pass the result as a value in a
     #   hash, pass the key as a symbol.
     #
-    # @return [Array<Array(Proc, Base)>]
+    # @return [nil]
     def pipe(interaction, function = nil)
       @steps << [lambdafy(function), interaction]
+      nil
     end
 
     # Run all the interactions in the pipeline. If any interaction fails, stop
