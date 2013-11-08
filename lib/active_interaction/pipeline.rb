@@ -43,8 +43,7 @@ module ActiveInteraction
     # Run all the interactions in the pipeline. If any interaction fails, stop
     #   and return immediately without running any more interactions.
     #
-    # @param [Hash] options Arguments to pass to {Base.run} on the first
-    #   interaction in the pipeline.
+    # @param (see Base.run)
     #
     # @return [Base] An instance of the class of the last interaction in the
     #   pipeline. If any interaction fails, an instance of that class will be
@@ -52,10 +51,10 @@ module ActiveInteraction
     #
     # @raise [EmptyPipeline] If nothing is in the pipeline. Add things with
     #   {#pipe}.
-    def run(options = {})
+    def run(*args)
       raise EmptyPipeline if @steps.empty?
       (function, interaction), *steps = @steps
-      outcome = interaction.run(function.call(options))
+      outcome = interaction.run(function.call(*args))
       steps.reduce(outcome) { |o, (f, i)| bind(o, f, i) }
     end
 
