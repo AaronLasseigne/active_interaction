@@ -25,14 +25,10 @@ describe ActiveInteraction::Base do
 
     context 'with an attribute' do
       let(:described_class) do
-        Class.new(ActiveInteraction::Base) do
+        Class.new(TestInteraction) do
           attr_reader :thing
 
           validates :thing, presence: true
-
-          def self.name
-            SecureRandom.hex
-          end
 
           def execute
             thing
@@ -150,16 +146,12 @@ describe ActiveInteraction::Base do
 
       context 'setting the result' do
         let(:described_class) do
-          Class.new(ActiveInteraction::Base) do
+          Class.new(TestInteraction) do
             boolean :attribute
 
             validate do
               @_interaction_result = SecureRandom.hex
               errors.add(:attribute, SecureRandom.hex)
-            end
-
-            def self.name
-              SecureRandom.hex
             end
           end
         end
