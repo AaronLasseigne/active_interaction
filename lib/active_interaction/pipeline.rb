@@ -16,14 +16,21 @@ module ActiveInteraction
 
     private
 
-    def pipe(interaction, function = nil)
-      if function.nil?
-        function = -> result { result }
-      elsif function.is_a?(Symbol)
-        symbol = function
-        function = -> result { { symbol => result } }
+    def lambdafy(thing)
+      case thing
+      when Proc
+        thing
+      when NilClass
+        -> result { result }
+      when Symbol
+        -> result { { thing => result } }
+      else
+        raise
       end
-      @steps << [function, interaction]
+    end
+
+    def pipe(interaction, function = nil)
+      @steps << [lambdafy(function), interaction]
     end
   end
 end
