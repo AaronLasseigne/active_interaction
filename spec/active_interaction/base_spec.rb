@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Base do
-  let(:options) { {} }
+  include_context 'interactions'
+
   subject(:interaction) { described_class.new(options) }
 
   class InteractionWithFilter < described_class
@@ -25,14 +26,10 @@ describe ActiveInteraction::Base do
 
     context 'with an attribute' do
       let(:described_class) do
-        Class.new(ActiveInteraction::Base) do
+        Class.new(TestInteraction) do
           attr_reader :thing
 
           validates :thing, presence: true
-
-          def self.name
-            SecureRandom.hex
-          end
 
           def execute
             thing
@@ -142,31 +139,25 @@ describe ActiveInteraction::Base do
     let(:thing) { rand }
 
     describe '.run(options = {})' do
-      subject(:outcome) { described_class.run(options) }
-
       it "returns an instance of #{described_class}" do
         expect(outcome).to be_a described_class
       end
 
       context 'setting the result' do
         let(:described_class) do
-          Class.new(ActiveInteraction::Base) do
+          Class.new(TestInteraction) do
             boolean :attribute
 
             validate do
               @_interaction_result = SecureRandom.hex
               errors.add(:attribute, SecureRandom.hex)
             end
-
-            def self.name
-              SecureRandom.hex
-            end
           end
         end
 
         it 'sets the result to nil' do
           expect(outcome).to be_invalid
-          expect(outcome.result).to be_nil
+          expect(result).to be_nil
         end
       end
 
@@ -176,7 +167,7 @@ describe ActiveInteraction::Base do
         end
 
         it 'sets the result to nil' do
-          expect(outcome.result).to be_nil
+          expect(result).to be_nil
         end
       end
 
@@ -201,7 +192,7 @@ describe ActiveInteraction::Base do
           end
 
           it 'sets the result to nil' do
-            expect(outcome.result).to be_nil
+            expect(result).to be_nil
           end
 
           it 'has errors' do
@@ -218,7 +209,7 @@ describe ActiveInteraction::Base do
         end
 
         it 'sets the result' do
-          expect(outcome.result).to eq thing
+          expect(result).to eq thing
         end
 
         it 'calls transaction' do
