@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ActiveInteraction::Pipeline do
   it 'succeeds' do
-    HashInteraction = Class.new(ActiveInteraction::Base) do
+    HashifyInteraction = Class.new(ActiveInteraction::Base) do
       integer :a
       def execute; { a: a, b: a } end
     end
@@ -20,7 +20,7 @@ describe ActiveInteraction::Pipeline do
     end
 
     pipeline = ActiveInteraction::Pipeline.new do
-      pipe HashInteraction
+      pipe HashifyInteraction
       pipe AddInteraction
       pipe SquareInteraction, :a
       pipe MultiplyInteraction, ->(result) { { a: result, b: 3 } }
