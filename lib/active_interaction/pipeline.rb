@@ -70,14 +70,12 @@ module ActiveInteraction
 
     def lambdafy(thing)
       case thing
-      when Proc
-        thing
       when NilClass
         -> result { result }
       when Symbol
         -> result { { thing => result } }
       else
-        raise
+        thing
       end
     end
   end
