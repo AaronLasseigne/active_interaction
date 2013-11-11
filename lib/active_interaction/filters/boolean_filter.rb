@@ -1,8 +1,8 @@
 module ActiveInteraction
   class Base
     # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are Arrays. The String `"1"` is converted to `true` and
-    #   `"0"` is converted to `false`.
+    #   the attributes are Booleans. The String `"1"` is converted to `true`
+    #   and `"0"` is converted to `false`.
     #
     # @macro attribute_method_params
     #
