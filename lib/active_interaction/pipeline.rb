@@ -15,7 +15,7 @@ module ActiveInteraction
     #   end
     def initialize(&block)
       @steps = []
-      instance_eval(&block)
+      instance_eval(&block) if block_given?
     end
 
     # Add an interaction to the end of the pipeline.

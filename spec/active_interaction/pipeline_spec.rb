@@ -24,9 +24,7 @@ describe ActiveInteraction::Pipeline do
   end
 
   it 'raises an error with no pipes' do
-    pipeline = described_class.new do
-    end
-
+    pipeline = described_class.new
     expect { pipeline.run }.to raise_error(ActiveInteraction::EmptyPipeline)
   end
 
