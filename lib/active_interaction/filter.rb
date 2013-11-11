@@ -1,33 +1,37 @@
 module ActiveInteraction
-  # @!macro [new] attribute_method_params
-  #   @param *attributes [Symbol] One or more attributes to create.
-  #   @param options [Hash]
-  #   @option options [Boolean] :allow_nil Allow a `nil` value.
-  #   @option options [Object] :default Value to use if `nil` is given.
-
   # @private
   class Filter
-    def self.factory(type)
-      klass = "#{type.to_s.camelize}Filter"
+    TYPES = {}
 
-      raise NoMethodError unless ActiveInteraction.const_defined?(klass)
-
-      ActiveInteraction.const_get(klass)
+    def self.inherited(subclass)
+      if subclass != ActiveInteraction::FilterWithBlock
+        TYPES[extract_class_type(subclass.name)] = subclass
+      end
     end
 
-    def self.prepare(key, value, options = {}, &block)
-      case value
-        when NilClass
-          if options[:allow_nil]
-            nil
-          elsif options.has_key?(:default)
-            options[:default]
-          else
-            raise MissingValue
-          end
-        else
-          raise InvalidValue
+    def self.type
+      @type ||= extract_class_type(name).underscore.to_sym
+    end
+
+    def self.factory(type)
+      TYPES.fetch(type.to_s.camelize) do |type|
+        raise NoMethodError, "undefined filter '#{type}' for ActiveInteraction::Base"
       end
+    end
+
+    def self.extract_class_type(full_name)
+      full_name.match(/\AActiveInteraction::(.*)Filter(?:WithBlock)?\z/).captures.first
+    end
+    private_class_method :extract_class_type
+
+    attr_reader :name, :options
+
+    def initialize(name, options = {})
+      @name, @options = name, options.dup
+    end
+
+    def type
+      self.class.type
     end
   end
 end

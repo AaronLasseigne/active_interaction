@@ -1,37 +1,25 @@
 shared_context 'filters' do
-  let(:key) { SecureRandom.hex }
-  let(:value) { nil }
+  let(:name) { nil }
   let(:options) { {} }
-  let(:block) { Proc.new {} }
-  subject(:result) { described_class.prepare(key, value, options, &block) }
+  subject(:result) { described_class.new(name, options) }
 end
 
 shared_examples_for 'a filter' do
   include_context 'filters'
 
-  context '.prepare(key, value, options = {}, &block)' do
-    context 'with nil' do
-      it 'raises an error' do
-        expect { result }.to raise_error ActiveInteraction::MissingValue
-      end
-    end
+  its(:name) { should equal name }
+  its(:options) { should eq options }
+end
 
-    context 'with anything else' do
-      let(:value) { Object.new }
+shared_context 'filters with blocks' do
+  include_context 'filters'
 
-      it 'raises an error' do
-        expect { result }.to raise_error ActiveInteraction::InvalidValue
-      end
-    end
+  let(:block) { Proc.new {} }
+  subject(:result) { described_class.new(name, options, &block) }
+end
 
-    context 'optional' do
-      before { options.merge!(allow_nil: true) }
+shared_examples_for 'a filter with a block' do
+  include_context 'filters with blocks'
 
-      context 'with nil' do
-        it 'returns nil' do
-          expect(result).to be_nil
-        end
-      end
-    end
-  end
+  it_behaves_like 'a filter'
 end

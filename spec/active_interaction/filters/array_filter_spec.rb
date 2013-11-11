@@ -1,55 +1,37 @@
 require 'spec_helper'
 
 describe ActiveInteraction::ArrayFilter do
-  include_context 'filters'
-  it_behaves_like 'a filter'
+  include_context 'filters with blocks'
+  it_behaves_like 'a filter with a block'
 
-  describe '.prepare(key, value, options = {}, &block)' do
-    context 'with an Array' do
-      let(:value) { [] }
-
-      it 'returns the Array' do
-        expect(result).to eql value
+  context 'block evaluation' do
+    context 'empty block' do
+      it 'adds no filters' do
+        expect(result.filters).to be_none
       end
     end
 
-    context 'with a block' do
+    context 'non-empty block' do
       let(:block) { Proc.new { array } }
 
-      context 'with an Array of Arrays' do
-        let(:value) { [[]] }
+      it 'adds filters' do
+        expect(result.filters).to have(1).filter
+      end
 
-        it 'returns the Array' do
-          expect(result).to eql value
+      context 'where the internal filter is passed a name' do
+        let(:block) { Proc.new { array :a } }
+
+        it 'adds filters' do
+          expect { result.filters }.to raise_error ArgumentError
         end
       end
 
-      context 'with an Array of anything else' do
-        let(:value) { [Object.new] }
+      context 'where two filters are provided' do
+        let(:block) { Proc.new { array; array } }
 
-        it 'raises an error' do
-          expect {
-            result
-          }.to raise_error ActiveInteraction::InvalidNestedValue
+        it 'only allows one' do
+          expect { result.filters }.to raise_error ArgumentError
         end
-      end
-    end
-
-    context 'with a nested block' do
-      let(:block) { Proc.new { array { array } } }
-      let(:value) { [[[]]] }
-
-      it 'returns the Array' do
-        expect(result).to eql value
-      end
-    end
-
-    context 'with an invalid block' do
-      let(:block) { Proc.new { array; array } }
-      let(:value) { [] }
-
-      it 'raises an error' do
-        expect { result }.to raise_error ArgumentError
       end
     end
   end

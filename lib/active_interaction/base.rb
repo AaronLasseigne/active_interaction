@@ -57,6 +57,11 @@ module ActiveInteraction
     extend OverloadHash
 
     validate do
+      Validation.validate(self.class.filters, inputs).each do |error|
+        errors.add_sym(*error)
+      end
+    end
+    validate do
       return unless @_interaction_errors
 
       @_interaction_errors.symbolic.each do |attribute, symbols|
@@ -68,20 +73,27 @@ module ActiveInteraction
       end
     end
 
+    # Returns the inputs provided to {.run} or {.run!} after being cast based
+    #   on the filters in the class.
+    # 
+    # @return [Hash] All inputs passed to {.run} or {.run!}.
+    # @since 0.6.0
+    attr_reader :inputs
+
     # @private
     def initialize(options = {})
-      options = options.with_indifferent_access
+      @inputs = options.with_indifferent_access
 
-      if options.has_key?(:result)
+      if @inputs.has_key?(:result)
         raise ArgumentError, ':result is reserved and can not be used'
       end
 
-      options.each do |attribute, value|
-        method = "_filter__#{attribute}="
+      @inputs.each do |name, value|
+        method = "_filter__#{name}="
         if respond_to?(method, true)
-          send(method, value)
+          @inputs[name] = send(method, value)
         else
-          instance_variable_set("@#{attribute}", value)
+          instance_variable_set("@#{name}", value)
         end
       end
     end
@@ -127,6 +139,11 @@ module ActiveInteraction
     end
     private_class_method :transaction
 
+    # @private
+    def self.filters
+      @filters ||= Filters.new
+    end
+
     # @!macro [new] run_attributes
     #   @param options [Hash] Attribute values to set.
 
@@ -169,30 +186,32 @@ module ActiveInteraction
 
     # @private
     def self.method_missing(type, *args, &block)
-      filter = Filter.factory(type)
       options = args.last.is_a?(Hash) ? args.pop : {}
+
       args.each do |attribute|
-        set_up_reader(attribute, filter, options, &block)
-        set_up_writer(attribute, filter, options, &block)
-        set_up_validator(attribute, type, filter, options, &block)
+        filter = Filter.factory(type).new(attribute, options, &block)
+
+        filters.add(filter)
+
+        set_up_reader(filter)
+        set_up_writer(filter)
       end
     end
     private_class_method :method_missing
 
     # @private
-    def self.set_up_reader(attribute, filter, options, &block)
+    def self.set_up_reader(filter)
       default = nil
-      if options.has_key?(:default)
+      if filter.options.has_key?(:default)
         begin
-          default = filter.
-            prepare(attribute, options[:default], options, &block)
+          default = Caster.cast(filter, filter.options[:default])
         rescue InvalidNestedValue, InvalidValue
           raise InvalidDefaultValue
         end
       end
 
-      define_method(attribute) do
-        symbol = "@#{attribute}"
+      define_method(filter.name) do
+        symbol = "@#{filter.name}"
         if instance_variable_defined?(symbol)
           instance_variable_get(symbol)
         else
@@ -203,44 +222,22 @@ module ActiveInteraction
     private_class_method :set_up_reader
 
     # @private
-    def self.set_up_writer(attribute, filter, options, &block)
-      attr_writer attribute
+    def self.set_up_writer(filter)
+      attr_writer filter.name
 
-      writer = "_filter__#{attribute}="
+      writer = "_filter__#{filter.name}="
 
       define_method(writer) do |value|
         value =
           begin
-            filter.prepare(attribute, value, options, &block)
+            Caster.cast(filter, value)
           rescue InvalidNestedValue, InvalidValue, MissingValue
             value
           end
-        instance_variable_set("@#{attribute}", value)
+        instance_variable_set("@#{filter.name}", value)
       end
       private writer
     end
     private_class_method :set_up_writer
-
-    # @private
-    def self.set_up_validator(attribute, type, filter, options, &block)
-      validator = "_validate__#{attribute}__#{type}"
-
-      validate validator
-
-      define_method(validator) do
-        begin
-          filter.prepare(attribute, send(attribute), options, &block)
-        rescue InvalidNestedValue
-          errors.add_sym(attribute, :invalid_nested)
-        rescue InvalidValue
-          errors.add_sym(attribute, :invalid, nil,
-                     type: I18n.translate("#{i18n_scope}.types.#{type.to_s}"))
-        rescue MissingValue
-          errors.add_sym(attribute, :missing)
-        end
-      end
-      private validator
-    end
-    private_class_method :set_up_validator
   end
 end

@@ -1,29 +1,37 @@
 require 'spec_helper'
 
-module ActiveInteraction
-  TestFilter = Class.new(Filter)
-end
-
 describe ActiveInteraction::Filter do
-  it_behaves_like 'a filter'
+  class ActiveInteraction::TestKlassFilter < described_class; end
+
+  it 'registers subclass type on inheritance' do
+    expect(described_class::TYPES['TestKlass']).to eq ActiveInteraction::TestKlassFilter
+  end
 
   describe '.factory(type)' do
-    let(:result) { described_class.factory(type) }
-
-    context 'with a valid type' do
-      let(:type) { :test }
-
-      it 'returns the Class' do
-        expect(result).to eql ActiveInteraction::TestFilter
+    context 'the type is not found' do
+      it 'throws a NoMethodError' do
+        expect { described_class.factory(:'1') }.to raise_error(NoMethodError)
       end
     end
 
-    context 'with an invalid type' do
-      let(:type) { :not_a_valid_type }
-
-      it 'raises an error' do
-        expect { result }.to raise_error NoMethodError
+    context 'the type is found' do
+      it 'returns the class of that type' do
+        expect(described_class.factory(:test_klass)).to eq ActiveInteraction::TestKlassFilter
       end
+    end
+  end
+
+  describe '.type' do
+    it 'returns the filter type as a symbol' do
+      expect(ActiveInteraction::TestKlassFilter.type).to eql :test_klass
+    end
+  end
+
+  describe '#type' do
+    it 'returns the filter type as a symbol' do
+      klass = ActiveInteraction::TestKlassFilter.new(SecureRandom.hex)
+
+      expect(klass.type).to eql :test_klass
     end
   end
 end
