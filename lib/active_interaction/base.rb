@@ -30,6 +30,7 @@ module ActiveInteraction
   #     p outcome.errors
   #   end
   class Base
+    extend Core
     extend ::ActiveModel::Naming
     include ::ActiveModel::Conversion
     include ::ActiveModel::Validations
@@ -115,18 +116,6 @@ module ActiveInteraction
       super || instance_variable_set(:@_interaction_result, nil)
     end
 
-    # @private
-    def self.transaction
-      return unless block_given?
-
-      if defined?(ActiveRecord)
-        ::ActiveRecord::Base.transaction { yield }
-      else
-        yield
-      end
-    end
-    private_class_method :transaction
-
     # @!macro [new] run_attributes
     #   @param options [Hash] Attribute values to set.
 
@@ -149,22 +138,6 @@ module ActiveInteraction
           end
         end
       end
-    end
-
-    # Like {.run} except that it returns the value of {#execute} or raises an
-    #   exception if there were any validation errors.
-    #
-    # @macro run_attributes
-    #
-    # @raise [InteractionInvalid] if there are any errors on the model.
-    #
-    # @return The return value of {#execute}.
-    def self.run!(options = {})
-      outcome = run(options)
-      if outcome.invalid?
-        raise InteractionInvalid, outcome.errors.full_messages.join(', ')
-      end
-      outcome.result
     end
 
     # @private

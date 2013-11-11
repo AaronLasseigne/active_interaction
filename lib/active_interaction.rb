@@ -18,6 +18,7 @@ require 'active_interaction/filters/integer_filter'
 require 'active_interaction/filters/model_filter'
 require 'active_interaction/filters/string_filter'
 require 'active_interaction/filters/time_filter'
+require 'active_interaction/core'
 require 'active_interaction/base'
 require 'active_interaction/pipeline'
 
