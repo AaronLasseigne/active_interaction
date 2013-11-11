@@ -75,7 +75,7 @@ module ActiveInteraction
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
     #   on the filters in the class.
-    # 
+    #
     # @return [Hash] All inputs passed to {.run} or {.run!}.
     # @since 0.6.0
     attr_reader :inputs
@@ -89,6 +89,8 @@ module ActiveInteraction
       end
 
       @inputs.each do |name, value|
+        next if value.nil?
+
         method = "_filter__#{name}="
         if respond_to?(method, true)
           @inputs[name] = send(method, value)
@@ -201,21 +203,12 @@ module ActiveInteraction
 
     # @private
     def self.set_up_reader(filter)
-      default = nil
-      if filter.options.has_key?(:default)
-        begin
-          default = Caster.cast(filter, filter.options[:default])
-        rescue InvalidNestedValue, InvalidValue
-          raise InvalidDefaultValue
-        end
-      end
-
       define_method(filter.name) do
         symbol = "@#{filter.name}"
         if instance_variable_defined?(symbol)
           instance_variable_get(symbol)
         else
-          default
+          filter.default
         end
       end
     end

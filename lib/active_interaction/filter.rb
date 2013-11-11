@@ -33,5 +33,13 @@ module ActiveInteraction
     def type
       self.class.type
     end
+
+    def default
+      return unless @options.has_key?(:default)
+
+      Caster.cast(self, @options[:default])
+    rescue InvalidNestedValue, InvalidValue
+      raise InvalidDefaultValue
+    end
   end
 end

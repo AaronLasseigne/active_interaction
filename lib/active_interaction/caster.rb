@@ -22,6 +22,8 @@ module ActiveInteraction
           if filter.options[:allow_nil]
             nil
           elsif filter.options.has_key?(:default)
+            # REVIEW: This value isn't actually used anywhere. It is required
+            #   to make the validator (Validation.validate) happy.
             filter.options[:default]
           else
             raise MissingValue
