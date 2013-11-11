@@ -243,6 +243,43 @@ p Interaction.run.errors.messages
 # => {:a=>["deriuqer si"]}
 ```
 
+## How do I define custom filters?
+
+Defining a custom filter is as easy as subclassing
+`ActiveInteraction::Filter` and defining `.prepare`. If you want
+to use the built-in functionality for allowing `nil` values or
+providing defaults, fall back to calling `super`.
+
+For instance, let's say you want to create a filter that allows
+strings and forces them to end with a question mark. Here's how you
+might do that:
+
+```ruby
+class QuestionFilter < ActiveInteraction::Filter
+  def self.prepare(key, value, options = {}, &block)
+    case value
+    when String
+      value.end_with?('?') ? value : "#{value}?"
+    else
+      super
+    end
+  end
+end
+```
+
+To use your new filter in an interaction, take the part before
+"Filter" and [underscore][] it. That's the method to use for defining
+attributes with that filter.
+
+```ruby
+class Interaction < ActiveInteraction::Base
+  question :a
+  def execute; a end
+end
+p Interaction.run!(a: 'Cookies')
+# => "Cookies?"
+```
+
 ## Credits
 
 This project was inspired by the fantastic work done in [Mutations][].
@@ -261,3 +298,4 @@ This project was inspired by the fantastic work done in [Mutations][].
   [mutations]: https://github.com/cypriss/mutations
   [project page]: http://orgsync.github.io/active_interaction/
   [semantic versioning]: http://semver.org
+  [underscore]: http://api.rubyonrails.org/classes/ActiveSupport/Inflector.html#method-i-underscore
