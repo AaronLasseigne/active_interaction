@@ -203,12 +203,14 @@ module ActiveInteraction
 
     # @private
     def self.set_up_reader(filter)
+      default = filter.default
+
       define_method(filter.name) do
         symbol = "@#{filter.name}"
         if instance_variable_defined?(symbol)
           instance_variable_get(symbol)
         else
-          filter.default
+          default
         end
       end
     end
