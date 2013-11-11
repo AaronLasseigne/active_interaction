@@ -8,8 +8,6 @@ module ActiveInteraction
     #     pipe InteractionOne
     #     pipe InteractionTwo
     #   end
-    #
-    # @param [Proc] &block
     def initialize(&block)
       @steps = []
       instance_eval(&block)
@@ -56,6 +54,23 @@ module ActiveInteraction
       (function, interaction), *steps = @steps
       outcome = interaction.run(function.call(*args))
       steps.reduce(outcome) { |o, (f, i)| bind(o, f, i) }
+    end
+
+    # Run all the interactions in the pipeline. If any interaction fails, stop
+    #   and raise immediately without running any more interactions.
+    #
+    # @param (see #run)
+    #
+    # @return (see Base.run!)
+    #
+    # @raise (see #run)
+    # @raise (see Base.run!)
+    def run!(*args)
+      outcome = run(*args)
+      if outcome.invalid?
+        raise InteractionInvalid, outcome.errors.full_messages.join(', ')
+      end
+      outcome.result
     end
 
     private

@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Pipeline do
+  let(:invalid_interaction) do
+    Class.new(TestInteraction) do
+      float :a
+      validates :a, inclusion: { in: [] }
+      def execute; a end
+    end
+  end
+
   let(:square_interaction) do
     Class.new(TestInteraction) do
       float :a
@@ -20,6 +28,16 @@ describe ActiveInteraction::Pipeline do
     end
 
     expect { pipeline.run }.to raise_error(ActiveInteraction::EmptyPipeline)
+  end
+
+  it 'returns an invalid outcome with one invalid pipe' do
+    interaction = invalid_interaction
+    pipeline = described_class.new do
+      pipe interaction
+    end
+
+    options = { a: rand }
+    expect(pipeline.run(options)).to be_invalid
   end
 
   it 'succeeds with one pipe' do
@@ -71,5 +89,27 @@ describe ActiveInteraction::Pipeline do
 
     options = rand
     expect(pipeline.run(options).result).to eq((2 * options) ** 2)
+  end
+
+  describe '#run!' do
+    it 'raises an error with one invalid pipe' do
+      interaction = invalid_interaction
+      pipeline = described_class.new do
+        pipe interaction
+      end
+
+      options = { a: rand }
+      expect { pipeline.run!(options) }.to raise_error(ActiveInteraction::InteractionInvalid)
+    end
+
+    it 'returns the outcome with one valid pipe' do
+      interaction = square_interaction
+      pipeline = described_class.new do
+        pipe interaction
+      end
+
+      options = { a: rand }
+      expect(pipeline.run!(options)).to eq(options[:a] ** 2)
+    end
   end
 end
