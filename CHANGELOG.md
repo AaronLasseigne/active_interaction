@@ -1,5 +1,8 @@
 # [Master][]
 
+# [0.6.0][]
+
+- Refactor internals.
 - Add a symbol filter.
 - Allow adding symbolic errors with `errors.add_sym` and retrieving them with
   `errors.symbolic`.
@@ -52,7 +55,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.5.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.6.0...master
+  [0.5.0]: https://github.com/orgsync/active_interaction/compare/v0.5.0...v0.6.0
   [0.5.0]: https://github.com/orgsync/active_interaction/compare/v0.4.0...v0.5.0
   [0.4.0]: https://github.com/orgsync/active_interaction/compare/v0.3.0...v0.4.0
   [0.3.0]: https://github.com/orgsync/active_interaction/compare/v0.2.2...v0.3.0
