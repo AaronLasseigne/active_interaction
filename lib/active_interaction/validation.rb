@@ -1,11 +1,11 @@
 module ActiveInteraction
   module Validation
     def self.validate(filters, inputs)
-      errors = []
-
-      filters.each do |filter|
+      filters.reduce([]) do |errors, filter|
         begin
           Caster.cast(filter, inputs[filter.name])
+
+          errors
         rescue InvalidNestedValue
           errors << [filter.name, :invalid_nested]
         rescue InvalidValue
@@ -14,8 +14,6 @@ module ActiveInteraction
           errors << [filter.name, :missing]
         end
       end
-
-      errors
     end
   end
 end
