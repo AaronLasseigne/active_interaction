@@ -1,3 +1,12 @@
+class TestInteraction < ActiveInteraction::Base
+  def self.name
+    SecureRandom.hex
+  end
+
+  def execute
+  end
+end
+
 shared_context 'interactions' do
   let(:options) { {} }
   let(:outcome) { described_class.run(options) }
@@ -8,7 +17,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
   include_context 'interactions'
 
   let(:described_class) do
-    Class.new(ActiveInteraction::Base) do
+    Class.new(TestInteraction) do
       send(type, :required, filter_options)
       send(type, :optional, filter_options.merge(allow_nil: true))
       send(type, :default, filter_options.merge(default: generator.call))
@@ -16,10 +25,6 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
            filter_options.merge(allow_nil: true, default: nil))
       send(type, :defaults_1, :defaults_2,
            filter_options.merge(default: generator.call))
-
-      def self.name
-        SecureRandom.hex
-      end
 
       def execute
         {

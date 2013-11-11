@@ -1,5 +1,6 @@
 # [Master][]
 
+- Add a symbol filter.
 - Allow adding symbolic errors with `errors.add_sym` and retrieving them with
   `errors.symbolic`.
 
