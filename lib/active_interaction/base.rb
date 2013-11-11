@@ -57,7 +57,7 @@ module ActiveInteraction
     extend OverloadHash
 
     validate do
-      Validation.run(self.class.filters, inputs).each do |error|
+      Validation.validate(self.class.filters, inputs).each do |error|
         errors.add_sym(*error)
       end
     end

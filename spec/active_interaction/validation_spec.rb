@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Validation do
-  describe '.run(filters, inputs)' do
+  describe '.validate(filters, inputs)' do
     let(:inputs) { {} }
     let(:filter) { ActiveInteraction::Filter.new(:name, {}) }
     let(:filters) { ActiveInteraction::Filters.new.add(filter) }
-    let(:result) { described_class.run(filters, inputs) }
+    let(:result) { described_class.validate(filters, inputs) }
 
     context 'no filters are given' do
       let(:filters) { ActiveInteraction::Filters.new }

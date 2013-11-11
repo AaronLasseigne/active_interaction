@@ -1,6 +1,6 @@
 module ActiveInteraction
   module Validation
-    def self.run(filters, inputs)
+    def self.validate(filters, inputs)
       errors = []
 
       filters.each do |filter|
