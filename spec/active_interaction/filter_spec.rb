@@ -34,4 +34,37 @@ describe ActiveInteraction::Filter do
       expect(klass.type).to eql :test_klass
     end
   end
+
+  describe '#default' do
+    let(:name) { SecureRandom.hex }
+    let(:options) { {} }
+
+    subject(:filter) { ActiveInteraction::TestKlassFilter.new(name, options) }
+
+    context 'without a default' do
+      it 'returns nil' do
+        expect(filter.default).to be_nil
+      end
+    end
+
+    context 'with a default' do
+      let(:default) { SecureRandom.hex }
+      let(:factory) { double }
+
+      before do
+        options.merge!(default: default)
+        allow(ActiveInteraction::Caster).to receive(:cast).and_return(default)
+      end
+
+      it 'returns the default' do
+        expect(filter.default).to eq default
+      end
+
+      it 'calls cast' do
+        expect(ActiveInteraction::Caster).to receive(:cast).
+          once.with(filter, default)
+        filter.default
+      end
+    end
+  end
 end
