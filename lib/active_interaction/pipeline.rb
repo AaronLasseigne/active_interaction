@@ -33,11 +33,13 @@ module ActiveInteraction
     #   pipe Interaction
     #   # -> result { result }
     #
-    # @param [Base] interaction The interaction to add.
-    # @param [Proc, Symbol, nil] function A function to convert the result of
-    #   the last interaction into the input for this interaction. To pass the
-    #   result straight through, use `nil`. To pass the result as a value in a
-    #   hash, pass the key as a symbol.
+    # @param interaction [Base] the interaction to add
+    # @param function [Proc] a function to convert the output of an interaction
+    #   into the input for the next one
+    # @param function [Symbol] a shortcut for creating a function that puts the
+    #   output into a hash with this key
+    # @param function [nil] a shortcut for creating a function that passes the
+    #   output straight through
     #
     # @return [nil]
     def pipe(interaction, function = nil)
@@ -50,12 +52,10 @@ module ActiveInteraction
     #
     # @param (see Base.run)
     #
-    # @return [Base] An instance of the class of the last interaction in the
-    #   pipeline. If any interaction fails, an instance of that class will be
-    #   returned instead.
+    # @return [Base] an instance of the last successful interaction in the
+    #   pipeline
     #
-    # @raise [EmptyPipeline] If nothing is in the pipeline. Add things with
-    #   {#pipe}.
+    # @raise [EmptyPipeline] if nothing is in the pipeline
     def run(*args)
       raise EmptyPipeline if @steps.empty?
       transaction do
