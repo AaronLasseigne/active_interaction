@@ -1,24 +1,5 @@
 require 'spec_helper'
 
 describe ActiveInteraction::SymbolFilter do
-  include_context 'filters'
   it_behaves_like 'a filter'
-
-  describe '.prepare(key, value, options = {}, &block)' do
-    context 'with a Symbol' do
-      let(:value) { SecureRandom.hex.to_sym }
-
-      it 'returns the Symbol' do
-        expect(result).to eql value
-      end
-    end
-
-    context 'with a String' do
-      let(:value) { SecureRandom.hex }
-
-      it 'returns the String as a Symbol' do
-        expect(result).to eql value.to_sym
-      end
-    end
-  end
 end
