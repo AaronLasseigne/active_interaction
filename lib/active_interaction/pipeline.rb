@@ -1,3 +1,8 @@
+begin
+  require 'active_record'
+rescue LoadError
+end
+
 module ActiveInteraction
   # Compose interactions by piping them together.
   class Pipeline
@@ -51,9 +56,11 @@ module ActiveInteraction
     #   {#pipe}.
     def run(*args)
       raise EmptyPipeline if @steps.empty?
-      (function, interaction), *steps = @steps
-      outcome = interaction.run(function.call(*args))
-      steps.reduce(outcome) { |o, (f, i)| bind(o, f, i) }
+      transaction do
+        (function, interaction), *steps = @steps
+        outcome = interaction.run(function.call(*args))
+        steps.reduce(outcome) { |o, (f, i)| bind(o, f, i) }
+      end
     end
 
     # Run all the interactions in the pipeline. If any interaction fails, stop
@@ -91,6 +98,16 @@ module ActiveInteraction
         -> result { { thing => result } }
       else
         thing
+      end
+    end
+
+    def transaction
+      return unless block_given?
+
+      if defined?(ActiveRecord)
+        ::ActiveRecord::Base.transaction { yield }
+      else
+        yield
       end
     end
   end
