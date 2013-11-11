@@ -9,7 +9,7 @@ describe ActiveInteraction::TimeFilter do
       let(:value) { Time.now }
 
       it 'returns the Time' do
-        expect(result).to eql value
+        expect(prepare).to eql value
       end
     end
 
@@ -18,7 +18,7 @@ describe ActiveInteraction::TimeFilter do
         let(:value) { rand }
 
         it 'converts the Float' do
-          expect(result).to eql Time.at(value)
+          expect(prepare).to eql Time.at(value)
         end
       end
 
@@ -26,7 +26,7 @@ describe ActiveInteraction::TimeFilter do
         let(:value) { rand(1 << 16) }
 
         it 'converts the Integer' do
-          expect(result).to eql Time.at(value)
+          expect(prepare).to eql Time.at(value)
         end
       end
 
@@ -34,7 +34,7 @@ describe ActiveInteraction::TimeFilter do
         let(:value) { '2001-01-01T01:01:01+01:01' }
 
         it 'parses the String' do
-          expect(result).to eql Time.parse(value)
+          expect(prepare).to eql Time.parse(value)
         end
 
         context 'with options[:format]' do
@@ -43,7 +43,7 @@ describe ActiveInteraction::TimeFilter do
           before { options.merge!(format: '%S%M%H%d%m%Y') }
 
           it 'parses the String' do
-            expect(result).to eql Time.strptime(value, options[:format])
+            expect(prepare).to eql Time.strptime(value, options[:format])
           end
         end
       end
@@ -52,14 +52,14 @@ describe ActiveInteraction::TimeFilter do
         let(:value) { 'not a valid Time' }
 
         it 'raises an error' do
-          expect { result }.to raise_error ActiveInteraction::InvalidValue
+          expect { prepare }.to raise_error ActiveInteraction::InvalidValue
         end
 
         context 'with options[:format]' do
           before { options.merge!(format: '%S%M%H%d%m%Y') }
 
           it 'raises an error' do
-            expect { result }.to raise_error ActiveInteraction::InvalidValue
+            expect { prepare }.to raise_error ActiveInteraction::InvalidValue
           end
         end
       end
