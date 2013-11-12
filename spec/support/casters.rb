@@ -26,7 +26,7 @@ shared_examples_for 'a caster' do |filter_class|
     end
 
     context 'optional' do
-      before { options.merge!(allow_nil: true) }
+      before { options.merge!(default: nil) }
 
       context 'with nil' do
         it 'returns nil' do

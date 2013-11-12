@@ -2,7 +2,6 @@ module ActiveInteraction
   # @!macro [new] attribute_method_params
   #   @param *attributes [Symbol] One or more attributes to create.
   #   @param options [Hash]
-  #   @option options [Boolean] :allow_nil Allow a `nil` value.
   #   @option options [Object] :default Value to use if `nil` is given.
 
   # @private
@@ -19,9 +18,7 @@ module ActiveInteraction
     def self.prepare(filter, value)
       case value
         when NilClass
-          if filter.options[:allow_nil]
-            nil
-          elsif filter.options.has_key?(:default)
+          if filter.options.has_key?(:default)
             # REVIEW: This value isn't actually used anywhere. It is required
             #   to make the validator (Validation.validate) happy.
             filter.options[:default]
