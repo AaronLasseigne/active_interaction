@@ -10,7 +10,7 @@ module ActiveInteraction
     def cast(value)
       case value
       when Hash
-        filters.reduce({}) do |h, f|
+        filters.reduce(@options.fetch(:strip, true) ? {} : value) do |h, f|
           k = f.name
           h[k] = f.clean(value[k])
           h
