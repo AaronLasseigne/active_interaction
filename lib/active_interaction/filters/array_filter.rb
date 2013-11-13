@@ -1,4 +1,27 @@
 module ActiveInteraction
+  class Base
+    # Creates accessors for the attributes and ensures that values passed to
+    #   the attributes are Arrays.
+    #
+    # @macro attribute_method_params
+    # @param block [Proc] filter method to apply to each element
+    #
+    # @example
+    #   array :ids
+    #
+    # @example An Array of Integers
+    #   array :ids do
+    #     integer
+    #   end
+    #
+    # @example An Array of Integers where some or all are nil
+    #   array :ids do
+    #     integer default: nil
+    #   end
+    #
+    # @method self.array(*attributes, options = {}, &block)
+  end
+
   # @private
   class ArrayFilter < Filter
     include MethodMissing

@@ -1,4 +1,25 @@
 module ActiveInteraction
+  class Base
+    # Creates accessors for the attributes and ensures that values passed to
+    #   the attributes are Hashes.
+    #
+    # @macro attribute_method_params
+    # @param block [Proc] filter methods to apply for select keys
+    #
+    # @example
+    #   hash :order
+    #
+    # @example A Hash where certain keys also have their values ensured.
+    #   hash :order do
+    #     model :account
+    #     model :item
+    #     integer :quantity
+    #     boolean :delivered
+    #   end
+    #
+    # @method self.hash(*attributes, options = {}, &block)
+  end
+
   # @private
   class HashFilter < Filter
     include MethodMissing

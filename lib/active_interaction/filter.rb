@@ -1,6 +1,12 @@
 require 'active_support/inflector'
 
 module ActiveInteraction
+  # @!macro [new] filter_method_params
+  #   @param *attributes [Array<Symbol>] attributes to create
+  #   @param options [Hash{Symbol => Object}]
+  #
+  #   @option options [Object] :default fallback value if `nil` is given
+
   # Describes an input filter for an interaction.
   #
   # @since 0.6.0
