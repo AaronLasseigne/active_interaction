@@ -14,6 +14,8 @@ module ActiveInteraction
       end
     end
 
+    private
+
     # @return [Class]
     #
     # @raise [Error]
@@ -21,8 +23,7 @@ module ActiveInteraction
       name = @options.fetch(:class, @name).to_s.classify
       name.constantize
     rescue NameError
-      # TODO: Better error.
-      raise Error.new(name.inspect)
+      raise InvalidClass.new(name.inspect)
     end
   end
 end

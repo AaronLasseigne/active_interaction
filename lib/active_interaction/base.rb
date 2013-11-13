@@ -188,7 +188,7 @@ module ActiveInteraction
     end
 
     # @private
-    # TODO: Share with HashFilter?
+    # TODO: Extract common code between ArrayFilter, HashFilter and this.
     def self.method_missing(*args, &block)
       begin
         klass = Filter.factory(args.first)
@@ -199,8 +199,7 @@ module ActiveInteraction
       args.shift
       options = args.last.is_a?(Hash) ? args.pop : {}
 
-      # TODO: Better error.
-      raise Error if args.empty?
+      raise InvalidFilter.new('no name') if args.empty?
 
       args.each do |attribute|
         filter = klass.new(attribute, options, &block)

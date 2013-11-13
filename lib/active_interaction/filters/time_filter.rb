@@ -26,13 +26,14 @@ module ActiveInteraction
       end
     end
 
+    private
+
     # @return [Class]
     def klass
       time.at(0).class
     end
 
-    # @return [TimeWithZone]
-    # @return [Time]
+    # @return [Time, TimeWithZone]
     def time
       if Time.respond_to?(:zone) && !Time.zone.nil?
         Time.zone

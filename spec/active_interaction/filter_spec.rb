@@ -33,7 +33,7 @@ describe ActiveInteraction::Filter, :filter do
 
   describe '.slug' do
     it do
-      expect { described_class.slug }.to raise_error(ActiveInteraction::InvalidFilter)
+      expect { described_class.slug }.to raise_error(ActiveInteraction::InvalidClass)
     end
 
     context do

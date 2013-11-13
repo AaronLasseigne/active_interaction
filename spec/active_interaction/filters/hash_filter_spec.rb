@@ -12,7 +12,7 @@ describe ActiveInteraction::HashFilter, :filter do
     end }
 
     it do
-      expect { filter }.to raise_error(ActiveInteraction::Error)
+      expect { filter }.to raise_error(ActiveInteraction::InvalidFilter)
     end
   end
 

@@ -10,7 +10,7 @@ describe ActiveInteraction::ModelFilter, :filter do
     let(:value) { Random.new }
 
     it do
-      expect { filter.cast(value) }.to raise_error(ActiveInteraction::Error)
+      expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidClass)
     end
 
     context do

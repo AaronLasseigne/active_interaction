@@ -17,6 +17,9 @@ module ActiveInteraction
       end
     end
 
+    private
+
+    # TODO: Extract common code between Base, HashFilter and this.
     def method_missing(*args, &block)
       begin
         klass = self.class.factory(args.first)
@@ -27,10 +30,9 @@ module ActiveInteraction
       options = args.last.is_a?(Hash) ? args.pop : {}
       filter = klass.new(name, options, &block)
 
-      # TODO: Better errors.
-      raise Error unless filters.empty?
-      raise Error if args.length > 1
-      raise Error if filter.optional?
+      raise InvalidFilter.new('multiple nested filters') unless filters.empty?
+      raise InvalidFilter.new('nested name') if args.length > 1
+      raise InvalidFilter.new('nested default') if filter.optional?
 
       @filters << filter
     end

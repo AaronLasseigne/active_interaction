@@ -2,6 +2,7 @@ module ActiveInteraction
   Error = Class.new(StandardError)
 
   InteractionInvalid = Class.new(Error)
+  InvalidClass = Class.new(Error)
   InvalidDefault = Class.new(Error)
   InvalidFilter = Class.new(Error)
   InvalidValue = Class.new(Error)

@@ -18,6 +18,9 @@ module ActiveInteraction
       end
     end
 
+    private
+
+    # TODO: Extract common code between ArrayFilter, Base and this.
     def method_missing(*args, &block)
       begin
         klass = self.class.factory(args.first)
@@ -28,8 +31,7 @@ module ActiveInteraction
       args.shift
       options = args.last.is_a?(Hash) ? args.pop : {}
 
-      # TODO: Better error.
-      raise Error if args.empty?
+      raise InvalidFilter.new('no name') if args.empty?
 
       args.each do |name|
         @filters << klass.new(name, options, &block)
