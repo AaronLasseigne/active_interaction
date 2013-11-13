@@ -43,7 +43,11 @@ module ActiveInteraction
 
       # @param klass [Class]
       def inherited(klass)
-        CLASSES[klass.slug] = klass
+        begin
+          CLASSES[klass.slug] = klass
+        rescue InvalidClass
+        end
+
         super
       end
     end
