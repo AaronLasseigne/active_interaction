@@ -1,13 +1,29 @@
 module ActiveInteraction
+  # Top-level error class. All other errors subclass this.
   Error = Class.new(StandardError)
 
+  # Raised if an interaction is invalid.
   InteractionInvalid = Class.new(Error)
+
+  # Raised if a class name is invalid.
   InvalidClass = Class.new(Error)
+
+  # Raised if a default value is invalid.
   InvalidDefault = Class.new(Error)
+
+  # Raised if a filter has an invalid definition.
   InvalidFilter = Class.new(Error)
+
+  # Raised if a user-supplied value is invalid.
   InvalidValue = Class.new(Error)
+
+  # Raised if there is no default value.
   MissingDefault = Class.new(Error)
+
+  # Raised if a filter cannot be found.
   MissingFilter = Class.new(Error)
+
+  # Raised if no value is given.
   MissingValue = Class.new(Error)
 
   # A small extension to provide symbolic error messages to make introspecting
