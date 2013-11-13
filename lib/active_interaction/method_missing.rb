@@ -1,13 +1,12 @@
 module ActiveInteraction
   module MethodMissing
-    def method_missing(*args, &block)
+    def method_missing(slug, *args, &block)
       begin
-        klass = Filter.factory(args.first)
+        klass = Filter.factory(slug)
       rescue MissingFilter
         super
       end
 
-      args.shift
       options = args.last.is_a?(Hash) ? args.pop : {}
 
       yield(klass, args, options) if block_given?
