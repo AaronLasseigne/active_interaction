@@ -1,14 +1,14 @@
 module ActiveInteraction
-  class HashInput < Input
+  class HashFilter < Filter
     # @param value [Object]
     #
     # @return [Hash{Symbol => Object}]
     #
-    # @raise (see Input#cast)
+    # @raise (see Filter#cast)
     def cast(value)
       case value
       when Hash
-        inputs.reduce({}) do |h, f|
+        filters.reduce({}) do |h, f|
           k = f.name
           h[k] = f.clean(value[k])
           h
@@ -21,7 +21,7 @@ module ActiveInteraction
     def method_missing(*args, &block)
       begin
         klass = self.class.factory(args.first)
-      rescue MissingInput
+      rescue MissingFilter
         super
       end
 
@@ -32,7 +32,7 @@ module ActiveInteraction
       raise Error if args.empty?
 
       args.each do |name|
-        @inputs << klass.new(name, options, &block)
+        @filters << klass.new(name, options, &block)
       end
     end
   end

@@ -1,17 +1,17 @@
 require 'spec_helper'
 
-describe ActiveInteraction::TimeInput, :input do
+describe ActiveInteraction::TimeFilter, :filter do
   let(:name) { SecureRandom.hex.to_sym }
   let(:options) { {} }
 
-  subject(:input) { described_class.new(name, options) }
+  subject(:filter) { described_class.new(name, options) }
 
   describe '#cast' do
     context do
       let(:value) { Time.new }
 
       it do
-        expect(input.cast(value)).to eq value
+        expect(filter.cast(value)).to eq value
       end
     end
 
@@ -19,7 +19,7 @@ describe ActiveInteraction::TimeInput, :input do
       let(:value) { '2011-12-13 14:15:16 +1718' }
 
       it do
-        expect(input.cast(value)).to eq Time.parse(value)
+        expect(filter.cast(value)).to eq Time.parse(value)
       end
 
       context do
@@ -31,7 +31,7 @@ describe ActiveInteraction::TimeInput, :input do
         end
 
         it do
-          expect(input.cast(value)).to eq Time.strptime(value, format)
+          expect(filter.cast(value)).to eq Time.strptime(value, format)
         end
       end
     end
@@ -40,7 +40,7 @@ describe ActiveInteraction::TimeInput, :input do
       let(:value) { 'invalid' }
 
       it do
-        expect { input.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+        expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
       end
 
       context do
@@ -51,7 +51,7 @@ describe ActiveInteraction::TimeInput, :input do
         end
 
         it do
-          expect { input.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+          expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
         end
       end
     end

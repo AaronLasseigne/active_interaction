@@ -1,39 +1,39 @@
 require 'spec_helper'
 
-describe ActiveInteraction::ArrayInput, :input do
+describe ActiveInteraction::ArrayFilter, :filter do
   let(:name) { SecureRandom.hex.to_sym }
   let(:options) { {} }
 
-  subject(:input) { described_class.new(name, options) }
+  subject(:filter) { described_class.new(name, options) }
 
   context do
-    subject(:input) { described_class.new(name, options) do
+    subject(:filter) { described_class.new(name, options) do
       array
       array
     end }
 
     it do
-      expect { input }.to raise_error(ActiveInteraction::Error)
+      expect { filter }.to raise_error(ActiveInteraction::Error)
     end
   end
 
   context do
-    subject(:input) { described_class.new(name, options) do
+    subject(:filter) { described_class.new(name, options) do
       array :a
     end }
 
     it do
-      expect { input }.to raise_error(ActiveInteraction::Error)
+      expect { filter }.to raise_error(ActiveInteraction::Error)
     end
   end
 
   context do
-    subject(:input) { described_class.new(name, options) do
+    subject(:filter) { described_class.new(name, options) do
       array default: nil
     end }
 
     it do
-      expect { input }.to raise_error(ActiveInteraction::Error)
+      expect { filter }.to raise_error(ActiveInteraction::Error)
     end
   end
 
@@ -42,7 +42,7 @@ describe ActiveInteraction::ArrayInput, :input do
       let(:value) { [] }
 
       it do
-        expect(input.cast(value)).to eq value
+        expect(filter.cast(value)).to eq value
       end
     end
 
@@ -50,12 +50,12 @@ describe ActiveInteraction::ArrayInput, :input do
       let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
       it do
-        expect(input.cast(value)).to eq value
+        expect(filter.cast(value)).to eq value
       end
     end
 
     context do
-      subject(:input) { described_class.new(name, options) do
+      subject(:filter) { described_class.new(name, options) do
         array
       end }
 
@@ -63,7 +63,7 @@ describe ActiveInteraction::ArrayInput, :input do
         let(:value) { [] }
 
         it do
-          expect(input.cast(value)).to eq value
+          expect(filter.cast(value)).to eq value
         end
       end
 
@@ -71,7 +71,7 @@ describe ActiveInteraction::ArrayInput, :input do
         let(:value) { [[]] }
 
         it do
-          expect(input.cast(value)).to eq value
+          expect(filter.cast(value)).to eq value
         end
       end
 
@@ -79,7 +79,7 @@ describe ActiveInteraction::ArrayInput, :input do
         let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
         it do
-          expect{ input.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+          expect{ filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
         end
       end
     end

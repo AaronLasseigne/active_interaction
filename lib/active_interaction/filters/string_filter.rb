@@ -1,10 +1,10 @@
 module ActiveInteraction
-  class StringInput < Input
+  class StringFilter < Filter
     # @param value [Object]
     #
     # @return [String]
     #
-    # @raise (see Input#cast)
+    # @raise (see Filter#cast)
     def cast(value)
       case value
       when String

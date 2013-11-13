@@ -1,15 +1,15 @@
 require 'active_support/inflector'
 
 module ActiveInteraction
-  class Input
+  class Filter
     # @return [Regexp]
-    CLASS_REGEXP = /\AActiveInteraction::([A-Z]\w*)Input\z/.freeze
+    CLASS_REGEXP = /\AActiveInteraction::([A-Z]\w*)Filter\z/.freeze
 
     # @return [Hash{Symbol => Class}]
     CLASSES = {}
 
-    # @return [Array<Input>]
-    attr_reader :inputs
+    # @return [Array<Filter>]
+    attr_reader :filters
 
     # @return [Symbol]
     attr_reader :name
@@ -19,16 +19,16 @@ module ActiveInteraction
     class << self
       # @param slug [Symbol]
       #
-      # @return [Input]
+      # @return [Filter]
       #
-      # @raise [MissingInput]
+      # @raise [MissingFilter]
       def factory(slug)
         CLASSES.fetch(slug)
       rescue KeyError
-        raise MissingInput.new(slug.inspect)
+        raise MissingFilter.new(slug.inspect)
       end
 
-      # @param klass [Input]
+      # @param klass [Filter]
       def inherited(klass)
         CLASSES[klass.slug] = klass
         super
@@ -36,10 +36,10 @@ module ActiveInteraction
 
       # @return [Symbol]
       #
-      # @raise [InvalidInput]
+      # @raise [InvalidFilter]
       def slug
         match = CLASS_REGEXP.match(name)
-        raise InvalidInput.new(name.inspect) unless match
+        raise InvalidFilter.new(name.inspect) unless match
         match.captures.first.underscore.to_sym
       end
     end
@@ -51,7 +51,7 @@ module ActiveInteraction
     def initialize(name, options = {}, &block)
       @name = name
       @options = options
-      @inputs = []
+      @filters = []
 
       instance_eval(&block) if block_given?
     end

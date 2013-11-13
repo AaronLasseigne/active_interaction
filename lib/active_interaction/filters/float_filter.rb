@@ -1,17 +1,17 @@
 module ActiveInteraction
-  class IntegerInput < Input
+  class FloatFilter < Filter
     # @param value [Object]
     #
-    # @return [Integer]
+    # @return [Float]
     #
-    # @raise (see Input#cast)
+    # @raise (see Filter#cast)
     def cast(value)
       case value
       when Numeric
-        value.to_i
+        value.to_f
       when String
         begin
-          Integer(value)
+          Float(value)
         rescue ArgumentError
           super
         end

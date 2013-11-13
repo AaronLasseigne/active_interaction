@@ -1,17 +1,17 @@
 module ActiveInteraction
-  class ArrayInput < Input
+  class ArrayFilter < Filter
     # @param value [Object]
     #
     # @return [Array<Object>]
     #
-    # @raise (see Input#cast)
+    # @raise (see Filter#cast)
     def cast(value)
       case value
       when Array
-        return value if inputs.empty?
+        return value if filters.empty?
 
-        input = inputs.first
-        value.map { |e| input.clean(e) }
+        filter = filters.first
+        value.map { |e| filter.clean(e) }
       else
         super
       end
@@ -20,19 +20,19 @@ module ActiveInteraction
     def method_missing(*args, &block)
       begin
         klass = self.class.factory(args.first)
-      rescue MissingInput
+      rescue MissingFilter
         super
       end
 
       options = args.last.is_a?(Hash) ? args.pop : {}
-      input = klass.new(name, options, &block)
+      filter = klass.new(name, options, &block)
 
       # TODO: Better errors.
-      raise Error unless inputs.empty?
+      raise Error unless filters.empty?
       raise Error if args.length > 1
-      raise Error if input.optional?
+      raise Error if filter.optional?
 
-      @inputs << input
+      @filters << filter
     end
   end
 end

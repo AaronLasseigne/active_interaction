@@ -1,10 +1,10 @@
 module ActiveInteraction
-  class ModelInput < Input
+  class ModelFilter < Filter
     # @param value [Object]
     #
     # @return [Object]
     #
-    # @raise (see Input#cast)
+    # @raise (see Filter#cast)
     def cast(value)
       case value
       when klass

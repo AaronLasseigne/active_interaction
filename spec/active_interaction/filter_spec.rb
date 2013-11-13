@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-class ActiveInteraction::RSpecInput < ActiveInteraction::Input
+class ActiveInteraction::RSpecFilter < ActiveInteraction::Filter
 end
 
-describe ActiveInteraction::Input, :input do
+describe ActiveInteraction::Filter, :filter do
   let(:name) { SecureRandom.hex.to_sym }
   let(:options) { {} }
 
-  subject(:input) { described_class.new(name, options) }
+  subject(:filter) { described_class.new(name, options) }
 
   shared_context 'with invalid default' do
     before do
@@ -23,21 +23,21 @@ describe ActiveInteraction::Input, :input do
 
   describe '.factory' do
     it do
-      expect { described_class.factory(:'') }.to raise_error(ActiveInteraction::MissingInput)
+      expect { described_class.factory(:'') }.to raise_error(ActiveInteraction::MissingFilter)
     end
 
     it do
-      expect(described_class.factory(:r_spec)).to eq ActiveInteraction::RSpecInput
+      expect(described_class.factory(:r_spec)).to eq ActiveInteraction::RSpecFilter
     end
   end
 
   describe '.slug' do
     it do
-      expect { described_class.slug }.to raise_error(ActiveInteraction::InvalidInput)
+      expect { described_class.slug }.to raise_error(ActiveInteraction::InvalidFilter)
     end
 
     context do
-      let(:described_class) { ActiveInteraction::RSpecInput }
+      let(:described_class) { ActiveInteraction::RSpecFilter }
 
       it do
         expect(described_class.slug).to eq(:r_spec)
@@ -49,14 +49,14 @@ describe ActiveInteraction::Input, :input do
     let(:value) { nil }
 
     it do
-      expect { input.cast(value) }.to raise_error(ActiveInteraction::MissingValue)
+      expect { filter.cast(value) }.to raise_error(ActiveInteraction::MissingValue)
     end
 
     context do
       include_context 'with valid default'
 
       it do
-        expect(input.cast(value)).to be_nil
+        expect(filter.cast(value)).to be_nil
       end
     end
 
@@ -64,7 +64,7 @@ describe ActiveInteraction::Input, :input do
       include_context 'with invalid default'
 
       it do
-        expect(input.cast(value)).to be_nil
+        expect(filter.cast(value)).to be_nil
       end
     end
 
@@ -72,7 +72,7 @@ describe ActiveInteraction::Input, :input do
       let(:value) { Object.new }
 
       it do
-        expect { input.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+        expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
       end
     end
   end
@@ -81,14 +81,14 @@ describe ActiveInteraction::Input, :input do
     let(:value) { nil }
 
     it do
-      expect { input.clean(value) }.to raise_error(ActiveInteraction::MissingValue)
+      expect { filter.clean(value) }.to raise_error(ActiveInteraction::MissingValue)
     end
 
     context do
       include_context 'with valid default'
 
       it do
-        expect(input.clean(value)).to eq options[:default]
+        expect(filter.clean(value)).to eq options[:default]
       end
     end
 
@@ -96,7 +96,7 @@ describe ActiveInteraction::Input, :input do
       include_context 'with invalid default'
 
       it do
-        expect { input.clean(value) }.to raise_error(ActiveInteraction::InvalidDefault)
+        expect { filter.clean(value) }.to raise_error(ActiveInteraction::InvalidDefault)
       end
     end
 
@@ -104,21 +104,21 @@ describe ActiveInteraction::Input, :input do
       let(:value) { Object.new }
 
       it do
-        expect { input.clean(value) }.to raise_error(ActiveInteraction::InvalidValue)
+        expect { filter.clean(value) }.to raise_error(ActiveInteraction::InvalidValue)
       end
     end
   end
 
   describe '#default' do
     it do
-      expect { input.default }.to raise_error(ActiveInteraction::MissingDefault)
+      expect { filter.default }.to raise_error(ActiveInteraction::MissingDefault)
     end
 
     context do
       include_context 'with valid default'
 
       it do
-        expect(input.default).to eq options[:default]
+        expect(filter.default).to eq options[:default]
       end
     end
 
@@ -126,53 +126,53 @@ describe ActiveInteraction::Input, :input do
       include_context 'with invalid default'
 
       it do
-        expect { input.default }.to raise_error(ActiveInteraction::InvalidDefault)
+        expect { filter.default }.to raise_error(ActiveInteraction::InvalidDefault)
       end
     end
   end
 
   describe '#hash' do
     it do
-      expect { input.hash }.to raise_error(NoMethodError)
+      expect { filter.hash }.to raise_error(NoMethodError)
     end
   end
 
-  describe '#inputs' do
+  describe '#filters' do
     it do
-      expect(input.inputs).to eq []
+      expect(filter.filters).to eq []
     end
   end
 
   describe '#name' do
     it do
-      expect(input.name).to eq name
+      expect(filter.name).to eq name
     end
   end
 
   describe '#optional?' do
     it do
-      expect(input).to_not be_optional
+      expect(filter).to_not be_optional
     end
 
     context do
       include_context 'with valid default'
 
       it do
-        expect(input).to be_optional
+        expect(filter).to be_optional
       end
     end
   end
 
   describe '#required?' do
     it do
-      expect(input).to be_required
+      expect(filter).to be_required
     end
 
     context do
       include_context 'with valid default'
 
       it do
-        expect(input).to_not be_required
+        expect(filter).to_not be_required
       end
     end
   end

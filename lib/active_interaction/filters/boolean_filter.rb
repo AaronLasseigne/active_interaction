@@ -1,10 +1,10 @@
 module ActiveInteraction
-  class BooleanInput < Input
+  class BooleanFilter < Filter
     # @param value [Object]
     #
     # @return [Boolean]
     #
-    # @raise (see Input#cast)
+    # @raise (see Filter#cast)
     def cast(value)
       case value
       when FalseClass, '0'

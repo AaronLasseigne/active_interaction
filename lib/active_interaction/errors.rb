@@ -3,10 +3,10 @@ module ActiveInteraction
 
   InteractionInvalid = Class.new(Error)
   InvalidDefault = Class.new(Error)
-  InvalidInput = Class.new(Error)
+  InvalidFilter = Class.new(Error)
   InvalidValue = Class.new(Error)
   MissingDefault = Class.new(Error)
-  MissingInput = Class.new(Error)
+  MissingFilter = Class.new(Error)
   MissingValue = Class.new(Error)
 
   # A small extension to provide symbolic error messages to make introspecting

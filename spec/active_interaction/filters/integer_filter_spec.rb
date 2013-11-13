@@ -1,17 +1,17 @@
 require 'spec_helper'
 
-describe ActiveInteraction::IntegerInput, :input do
+describe ActiveInteraction::IntegerFilter, :filter do
   let(:name) { SecureRandom.hex.to_sym }
   let(:options) { {} }
 
-  subject(:input) { described_class.new(name, options) }
+  subject(:filter) { described_class.new(name, options) }
 
   describe '#cast' do
     context do
       let(:value) { rand(1 << 16) }
 
       it do
-        expect(input.cast(value)).to eq value
+        expect(filter.cast(value)).to eq value
       end
     end
 
@@ -19,7 +19,7 @@ describe ActiveInteraction::IntegerInput, :input do
       let(:value) { rand(1 << 16) + rand }
 
       it do
-        expect(input.cast(value)).to eq value.to_i
+        expect(filter.cast(value)).to eq value.to_i
       end
     end
 
@@ -27,7 +27,7 @@ describe ActiveInteraction::IntegerInput, :input do
       let(:value) { rand(1 << 16).to_s }
 
       it do
-        expect(input.cast(value)).to eq Integer(value)
+        expect(filter.cast(value)).to eq Integer(value)
       end
     end
 
@@ -35,7 +35,7 @@ describe ActiveInteraction::IntegerInput, :input do
       let(:value) { 'invalid' }
 
       it do
-        expect { input.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+        expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
       end
     end
   end

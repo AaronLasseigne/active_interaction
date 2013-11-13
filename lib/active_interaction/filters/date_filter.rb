@@ -1,10 +1,10 @@
 module ActiveInteraction
-  class DateInput < Input
+  class DateFilter < Filter
     # @param value [Object]
     #
     # @return [Date]
     #
-    # @raise (see Input#cast)
+    # @raise (see Filter#cast)
     def cast(value)
       case value
       when Date

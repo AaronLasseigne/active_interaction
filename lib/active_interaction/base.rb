@@ -92,7 +92,7 @@ module ActiveInteraction
       @inputs.each do |name, value|
         next if value.nil?
 
-        method = "_input__#{name}="
+        method = "_filter__#{name}="
         if respond_to?(method, true)
           @inputs[name] = send(method, value)
         else
@@ -188,11 +188,11 @@ module ActiveInteraction
     end
 
     # @private
-    # TODO: Share with HashInput?
+    # TODO: Share with HashFilter?
     def self.method_missing(*args, &block)
       begin
-        klass = Input.factory(args.first)
-      rescue MissingInput
+        klass = Filter.factory(args.first)
+      rescue MissingFilter
         super
       end
 
@@ -203,20 +203,20 @@ module ActiveInteraction
       raise Error if args.empty?
 
       args.each do |attribute|
-        input = klass.new(attribute, options, &block)
-        filters.add(input)
-        set_up_reader(input)
-        set_up_writer(input)
+        filter = klass.new(attribute, options, &block)
+        filters.add(filter)
+        set_up_reader(filter)
+        set_up_writer(filter)
       end
     end
     private_class_method :method_missing
 
     # @private
-    def self.set_up_reader(input)
-      default = input.default if input.optional?
+    def self.set_up_reader(filter)
+      default = filter.default if filter.optional?
 
-      define_method(input.name) do
-        symbol = "@#{input.name}"
+      define_method(filter.name) do
+        symbol = "@#{filter.name}"
         if instance_variable_defined?(symbol)
           instance_variable_get(symbol)
         else
@@ -227,19 +227,19 @@ module ActiveInteraction
     private_class_method :set_up_reader
 
     # @private
-    def self.set_up_writer(input)
-      attr_writer input.name
+    def self.set_up_writer(filter)
+      attr_writer filter.name
 
-      writer = "_input__#{input.name}="
+      writer = "_filter__#{filter.name}="
 
       define_method(writer) do |value|
         value =
           begin
-            input.cast(value)
+            filter.cast(value)
           rescue InvalidValue, MissingValue
             value
           end
-        instance_variable_set("@#{input.name}", value)
+        instance_variable_set("@#{filter.name}", value)
       end
       private writer
     end

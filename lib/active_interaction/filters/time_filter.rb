@@ -1,10 +1,10 @@
 module ActiveInteraction
-  class TimeInput < Input
+  class TimeFilter < Filter
     # @param value [Object]
     #
     # @return [Time]
     #
-    # @raise (see Input#cast)
+    # @raise (see Filter#cast)
     def cast(value)
       case value
       when klass

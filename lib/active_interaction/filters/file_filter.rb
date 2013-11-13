@@ -1,10 +1,10 @@
 module ActiveInteraction
-  class FileInput < Input
+  class FileFilter < Filter
     # @param value [Object]
     #
     # @return [File]
     #
-    # @raise (see Input#cast)
+    # @raise (see Filter#cast)
     def cast(value)
       case value
       when File

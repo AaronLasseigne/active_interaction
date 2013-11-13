@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ActiveInteraction::Validation do
   describe '.validate(filters, inputs)' do
     let(:inputs) { {} }
-    let(:filter) { ActiveInteraction::Input.new(:name, {}) }
+    let(:filter) { ActiveInteraction::Filter.new(:name, {}) }
     let(:filters) { ActiveInteraction::Filters.new.add(filter) }
     let(:result) { described_class.validate(filters, inputs) }
 
@@ -34,7 +34,7 @@ describe ActiveInteraction::Validation do
 
       context 'InvalidValue' do
         let(:exception) { ActiveInteraction::InvalidValue }
-        let(:filter) { ActiveInteraction::FloatInput.new(:name, {}) }
+        let(:filter) { ActiveInteraction::FloatFilter.new(:name, {}) }
 
         it 'returns an :invalid_nested error' do
           type = I18n.translate("#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug.to_s}")

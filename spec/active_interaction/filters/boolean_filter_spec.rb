@@ -1,17 +1,17 @@
 require 'spec_helper'
 
-describe ActiveInteraction::BooleanInput, :input do
+describe ActiveInteraction::BooleanFilter, :filter do
   let(:name) { SecureRandom.hex.to_sym }
   let(:options) { {} }
 
-  subject(:input) { described_class.new(name, options) }
+  subject(:filter) { described_class.new(name, options) }
 
   describe '#cast' do
     context do
       let(:value) { false }
 
       it do
-        expect(input.cast(value)).to be_false
+        expect(filter.cast(value)).to be_false
       end
     end
 
@@ -19,7 +19,7 @@ describe ActiveInteraction::BooleanInput, :input do
       let(:value) { true }
 
       it do
-        expect(input.cast(value)).to be_true
+        expect(filter.cast(value)).to be_true
       end
     end
 
@@ -27,7 +27,7 @@ describe ActiveInteraction::BooleanInput, :input do
       let(:value) { '0' }
 
       it do
-        expect(input.cast(value)).to be_false
+        expect(filter.cast(value)).to be_false
       end
     end
 
@@ -35,7 +35,7 @@ describe ActiveInteraction::BooleanInput, :input do
       let(:value) { '1' }
 
       it do
-        expect(input.cast(value)).to be_true
+        expect(filter.cast(value)).to be_true
       end
     end
   end

@@ -1,17 +1,17 @@
 require 'spec_helper'
 
-describe ActiveInteraction::StringInput, :input do
+describe ActiveInteraction::StringFilter, :filter do
   let(:name) { SecureRandom.hex.to_sym }
   let(:options) { {} }
 
-  subject(:input) { described_class.new(name, options) }
+  subject(:filter) { described_class.new(name, options) }
 
   describe '#cast' do
     context do
       let(:value) { SecureRandom.hex }
 
       it do
-        expect(input.cast(value)).to eq value
+        expect(filter.cast(value)).to eq value
       end
     end
 
@@ -19,7 +19,7 @@ describe ActiveInteraction::StringInput, :input do
       let(:value) { " #{SecureRandom.hex} " }
 
       it do
-        expect(input.cast(value)).to eq value.strip
+        expect(filter.cast(value)).to eq value.strip
       end
 
       context do
@@ -28,7 +28,7 @@ describe ActiveInteraction::StringInput, :input do
         end
 
         it do
-          expect(input.cast(value)).to eq value
+          expect(filter.cast(value)).to eq value
         end
       end
     end
