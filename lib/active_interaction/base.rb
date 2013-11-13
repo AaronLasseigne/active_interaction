@@ -61,6 +61,7 @@ module ActiveInteraction
         errors.add_sym(*error)
       end
     end
+
     validate do
       return unless @_interaction_errors
 
@@ -187,26 +188,35 @@ module ActiveInteraction
     end
 
     # @private
-    def self.method_missing(type, *args, &block)
+    # TODO: Share with HashInput?
+    def self.method_missing(*args, &block)
+      begin
+        klass = Input.factory(args.first)
+      rescue MissingInput
+        super
+      end
+
+      args.shift
       options = args.last.is_a?(Hash) ? args.pop : {}
 
+      # TODO: Better error.
+      raise Error if args.empty?
+
       args.each do |attribute|
-        filter = Filter.factory(type).new(attribute, options, &block)
-
-        filters.add(filter)
-
-        set_up_reader(filter)
-        set_up_writer(filter)
+        input = klass.new(attribute, options, &block)
+        filters.add(input)
+        set_up_reader(input)
+        set_up_writer(input)
       end
     end
     private_class_method :method_missing
 
     # @private
-    def self.set_up_reader(filter)
-      default = filter.default
+    def self.set_up_reader(input)
+      default = input.default if input.optional?
 
-      define_method(filter.name) do
-        symbol = "@#{filter.name}"
+      define_method(input.name) do
+        symbol = "@#{input.name}"
         if instance_variable_defined?(symbol)
           instance_variable_get(symbol)
         else
@@ -217,19 +227,19 @@ module ActiveInteraction
     private_class_method :set_up_reader
 
     # @private
-    def self.set_up_writer(filter)
-      attr_writer filter.name
+    def self.set_up_writer(input)
+      attr_writer input.name
 
-      writer = "_filter__#{filter.name}="
+      writer = "_input__#{input.name}="
 
       define_method(writer) do |value|
         value =
           begin
-            Caster.cast(filter, value)
-          rescue InvalidNestedValue, InvalidValue, MissingValue
+            input.cast(value)
+          rescue InvalidValue, MissingValue
             value
           end
-        instance_variable_set("@#{filter.name}", value)
+        instance_variable_set("@#{input.name}", value)
       end
       private writer
     end
