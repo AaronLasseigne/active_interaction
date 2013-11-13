@@ -10,7 +10,7 @@ module ActiveInteraction
     def cast(value)
       case value
       when Hash
-        filters.reduce(options.fetch(:strip, true) ? {} : value) do |h, f|
+        filters.reduce(strip? ? {} : value) do |h, f|
           k = f.name
           h[k] = f.clean(value[k])
           h
@@ -38,6 +38,10 @@ module ActiveInteraction
           filters.add(klass.new(name, options, &block))
         end
       end
+    end
+
+    def strip?
+      options.fetch(:strip, true)
     end
   end
 end

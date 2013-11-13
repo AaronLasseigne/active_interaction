@@ -39,11 +39,9 @@ module ActiveInteraction
       # @raise [InvalidClass]
       def slug
         match = CLASS_REGEXP.match(name)
-        raise InvalidClass, name.inspect unless match
+        raise InvalidClass, name unless match
         match.captures.first.underscore.to_sym
       end
-
-      private
 
       # @param klass [Class]
       def inherited(klass)
@@ -105,7 +103,7 @@ module ActiveInteraction
     # @raise [InvalidDefault]
     # @raise [MissingDefault]
     def default
-      raise MissingDefault, @name if required?
+      raise MissingDefault, @name unless has_default?
 
       cast(options[:default])
     rescue InvalidValue, MissingValue
@@ -113,15 +111,22 @@ module ActiveInteraction
     end
 
     # @return [Boolean]
-    def optional?
+    def has_default?
       options.has_key?(:default)
     end
 
     # @return [Boolean]
     #
-    # @see #optional?
-    def required?
-      !optional?
+    # @private
+    def cast(value)
+      case value
+      when NilClass
+        raise MissingValue, @name unless has_default?
+
+        nil
+      else
+        raise InvalidValue, "#{@name}: #{value.inspect}"
+      end
     end
   end
 end

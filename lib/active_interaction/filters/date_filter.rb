@@ -11,8 +11,8 @@ module ActiveInteraction
         value
       when String
         begin
-          if options.has_key?(:format)
-            Date.strptime(value, options[:format])
+          if has_format?
+            Date.strptime(value, format)
           else
             Date.parse(value)
           end
@@ -22,6 +22,16 @@ module ActiveInteraction
       else
         super
       end
+    end
+
+    private
+
+    def has_format?
+      options.has_key?(:format)
+    end
+
+    def format
+      options.fetch(:format)
     end
   end
 end

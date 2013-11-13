@@ -159,51 +159,33 @@ shared_examples_for 'a filter' do
     end
   end
 
+  describe '#has_default?' do
+    context 'optional' do
+      include_context 'optional'
+
+      it 'returns true' do
+        expect(filter).to have_default
+      end
+    end
+
+    context 'required' do
+      include_context 'required'
+
+      it 'returns false' do
+        expect(filter).to_not have_default
+      end
+    end
+  end
+
   describe '#name' do
     it 'returns the name' do
       expect(filter.name).to eq name
     end
   end
 
-  describe '#optional?' do
-    context 'optional' do
-      include_context 'optional'
-
-      it 'returns true' do
-        expect(filter).to be_optional
-      end
-    end
-
-    context 'required' do
-      include_context 'required'
-
-      it 'returns false' do
-        expect(filter).to_not be_optional
-      end
-    end
-  end
-
   describe '#options' do
     it 'returns the options' do
       expect(filter.options).to eq options
-    end
-  end
-
-  describe '#required?' do
-    context 'optional' do
-      include_context 'optional'
-
-      it 'returns false' do
-        expect(filter).to_not be_required
-      end
-    end
-
-    context 'required' do
-      include_context 'required'
-
-      it 'returns true' do
-        expect(filter).to be_required
-      end
     end
   end
 end

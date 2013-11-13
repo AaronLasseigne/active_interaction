@@ -205,7 +205,7 @@ module ActiveInteraction
 
     # @private
     def self.set_up_reader(filter)
-      default = filter.default if filter.optional?
+      default = filter.default if filter.has_default?
 
       define_method(filter.name) do
         symbol = "@#{filter.name}"

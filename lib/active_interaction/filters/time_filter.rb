@@ -13,8 +13,8 @@ module ActiveInteraction
         time.at(value)
       when String
         begin
-          if options.has_key?(:format)
-            klass.strptime(value, options[:format])
+          if has_format?
+            klass.strptime(value, format)
           else
             klass.parse(value)
           end
@@ -28,12 +28,18 @@ module ActiveInteraction
 
     private
 
-    # @return [Class]
+    def format
+      options.fetch(:format)
+    end
+
+    def has_format?
+      options.has_key?(:format)
+    end
+
     def klass
       time.at(0).class
     end
 
-    # @return [Time, TimeWithZone]
     def time
       if Time.respond_to?(:zone) && !Time.zone.nil?
         Time.zone

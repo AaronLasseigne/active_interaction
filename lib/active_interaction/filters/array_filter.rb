@@ -27,7 +27,7 @@ module ActiveInteraction
 
         raise InvalidFilter, 'multiple nested filters' if filters.any?
         raise InvalidFilter, 'nested name' unless names.empty?
-        raise InvalidDefault, 'nested default' if filter.optional?
+        raise InvalidDefault, 'nested default' if filter.has_default?
 
         filters.add(filter)
       end

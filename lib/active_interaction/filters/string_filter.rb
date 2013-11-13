@@ -8,14 +8,16 @@ module ActiveInteraction
     def cast(value)
       case value
       when String
-        if options.fetch(:strip, true)
-          value.strip
-        else
-          value
-        end
+        strip? ? value.strip : value
       else
         super
       end
+    end
+
+    private
+
+    def strip?
+      options.fetch(:strip, true)
     end
   end
 end
