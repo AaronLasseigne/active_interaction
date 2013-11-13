@@ -15,7 +15,7 @@ module ActiveInteraction
   #     integer :a, :b
   #
   #     # Optional
-  #     integer :c, allow_nil: true
+  #     integer :c, default: nil
   #
   #     def execute
   #       sum = a + b
