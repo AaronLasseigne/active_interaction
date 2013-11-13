@@ -23,7 +23,7 @@ describe HashInteraction do
     before { options.merge!(a: a) }
 
     it 'returns the correct value for :a' do
-      expect(result[:a]).to eq a
+      expect(result[:a]).to eq a.symbolize_keys
     end
 
     it 'returns the correct value for :b' do
@@ -37,7 +37,7 @@ describe HashInteraction do
         Class.new(ActiveInteraction::Base) do
           hash :a, default: Object.new
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultValue
+      }.to raise_error ActiveInteraction::InvalidDefault
     end
   end
 
@@ -49,7 +49,7 @@ describe HashInteraction do
             hash :x
           end
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultValue
+      }.to raise_error ActiveInteraction::InvalidDefault
     end
   end
 

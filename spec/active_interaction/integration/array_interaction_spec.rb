@@ -37,7 +37,7 @@ describe ArrayInteraction do
         Class.new(ActiveInteraction::Base) do
           array :a, default: Object.new
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultValue
+      }.to raise_error ActiveInteraction::InvalidDefault
     end
   end
 
@@ -49,27 +49,7 @@ describe ArrayInteraction do
             array
           end
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultValue
-    end
-  end
-
-  context 'with a validly nested default' do
-    let(:described_class) do
-      Class.new(ActiveInteraction::Base) do
-        array :a do
-          array default: [rand]
-        end
-        def execute; a end
-      end
-    end
-    let(:options) { { a: [] } }
-
-    it 'does not raise an error' do
-      expect { described_class.run(options) }.to_not raise_error
-    end
-
-    it 'ignores the nested default value' do
-      expect(described_class.run!(options)).to eq options[:a]
+      }.to raise_error ActiveInteraction::InvalidDefault
     end
   end
 end

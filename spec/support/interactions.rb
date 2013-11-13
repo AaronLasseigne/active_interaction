@@ -19,10 +19,8 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
   let(:described_class) do
     Class.new(TestInteraction) do
       send(type, :required, filter_options)
-      send(type, :optional, filter_options.merge(allow_nil: true))
+      send(type, :optional, filter_options.merge(default: nil))
       send(type, :default, filter_options.merge(default: generator.call))
-      send(type, :nil_default,
-           filter_options.merge(allow_nil: true, default: nil))
       send(type, :defaults_1, :defaults_2,
            filter_options.merge(default: generator.call))
 
@@ -31,7 +29,6 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
           required: required,
           optional: optional,
           default: default,
-          nil_default: nil_default,
           defaults_1: defaults_1,
           defaults_2: defaults_2
         }
@@ -69,10 +66,6 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
     it 'does not return nil for :default when given nil' do
       options.merge!(default: nil)
       expect(result[:default]).to_not be_nil
-    end
-
-    it 'returns nil for :nil_default' do
-      expect(result[:nil_default]).to be_nil
     end
 
     it 'does not return nil for :defaults_1' do

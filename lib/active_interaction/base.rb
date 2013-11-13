@@ -92,7 +92,7 @@ module ActiveInteraction
       @inputs.each do |name, value|
         next if value.nil?
 
-        method = "_filter__#{name}="
+        method = "_input__#{name}="
         if respond_to?(method, true)
           @inputs[name] = send(method, value)
         else

@@ -3,9 +3,7 @@ module ActiveInteraction
 
   InteractionInvalid = Class.new(Error)
   InvalidDefault = Class.new(Error)
-  InvalidDefaultValue = Class.new(Error)
   InvalidInput = Class.new(Error)
-  InvalidNestedValue = Class.new(Error)
   InvalidValue = Class.new(Error)
   MissingDefault = Class.new(Error)
   MissingInput = Class.new(Error)
