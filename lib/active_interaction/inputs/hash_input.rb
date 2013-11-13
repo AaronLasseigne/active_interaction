@@ -32,7 +32,7 @@ module ActiveInteraction
       raise Error if args.empty?
 
       args.each do |name|
-        @inputs << klass.new(name, options)
+        @inputs << klass.new(name, options, &block)
       end
     end
   end

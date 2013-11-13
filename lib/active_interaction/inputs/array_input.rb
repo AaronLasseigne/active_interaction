@@ -25,7 +25,7 @@ module ActiveInteraction
       end
 
       options = args.last.is_a?(Hash) ? args.pop : {}
-      input = klass.new(name, options)
+      input = klass.new(name, options, &block)
 
       # TODO: Better errors.
       raise Error unless inputs.empty?
