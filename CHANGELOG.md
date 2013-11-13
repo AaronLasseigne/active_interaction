@@ -1,6 +1,6 @@
 # [Master][]
 
-# [0.6.0][]
+# [0.6.0][] (2013-11-13)
 
 - Prevent specifying defaults (other than `nil` or `{}`) on hash filters. Set
   defaults on the nested filters instead.
@@ -64,7 +64,7 @@
 - Initial release.
 
   [master]: https://github.com/orgsync/active_interaction/compare/v0.6.0...master
-  [0.5.0]: https://github.com/orgsync/active_interaction/compare/v0.5.0...v0.6.0
+  [0.6.0]: https://github.com/orgsync/active_interaction/compare/v0.5.0...v0.6.0
   [0.5.0]: https://github.com/orgsync/active_interaction/compare/v0.4.0...v0.5.0
   [0.4.0]: https://github.com/orgsync/active_interaction/compare/v0.3.0...v0.4.0
   [0.3.0]: https://github.com/orgsync/active_interaction/compare/v0.2.2...v0.3.0
