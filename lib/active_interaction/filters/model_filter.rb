@@ -23,7 +23,7 @@ module ActiveInteraction
       name = @options.fetch(:class, @name).to_s.classify
       name.constantize
     rescue NameError
-      raise InvalidClass.new(name.inspect)
+      raise InvalidClass, name.inspect
     end
   end
 end

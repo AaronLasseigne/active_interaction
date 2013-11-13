@@ -191,7 +191,7 @@ module ActiveInteraction
     # @private
     def self.method_missing(*args, &block)
       super do |klass, names, options|
-        raise InvalidFilter.new('no name') if names.empty?
+        raise InvalidFilter, 'no name' if names.empty?
 
         names.each do |attribute|
           filter = klass.new(attribute, options, &block)

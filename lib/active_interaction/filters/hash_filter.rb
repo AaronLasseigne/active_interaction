@@ -26,7 +26,7 @@ module ActiveInteraction
         if @options[:default].empty?
           cast({})
         else
-          raise InvalidDefault.new(name)
+          raise InvalidDefault, name
         end
       when NilClass
         cast(nil)
@@ -39,7 +39,7 @@ module ActiveInteraction
 
     def method_missing(*args, &block)
       super do |klass, names, options|
-        raise InvalidFilter.new('no name') if names.empty?
+        raise InvalidFilter, 'no name' if names.empty?
 
         names.each do |name|
           @filters << klass.new(name, options, &block)

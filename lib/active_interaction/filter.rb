@@ -27,7 +27,7 @@ module ActiveInteraction
       def factory(slug)
         CLASSES.fetch(slug)
       rescue KeyError
-        raise MissingFilter.new(slug.inspect)
+        raise MissingFilter, slug.inspect
       end
 
       # @return [Symbol]
@@ -35,7 +35,7 @@ module ActiveInteraction
       # @raise [InvalidClass]
       def slug
         match = CLASS_REGEXP.match(name)
-        raise InvalidClass.new(name.inspect) unless match
+        raise InvalidClass, name.inspect unless match
         match.captures.first.underscore.to_sym
       end
 
@@ -73,11 +73,11 @@ module ActiveInteraction
     def cast(value)
       case value
       when NilClass
-        raise MissingValue.new(@name) if required?
+        raise MissingValue, @name if required?
 
         nil
       else
-        raise InvalidValue.new("#{@name}: #{value.inspect}")
+        raise InvalidValue, "#{@name}: #{value.inspect}"
       end
     end
 
@@ -101,11 +101,11 @@ module ActiveInteraction
     # @raise [InvalidDefault]
     # @raise [MissingDefault]
     def default
-      raise MissingDefault.new(@name) if required?
+      raise MissingDefault, @name if required?
 
       cast(@options[:default])
     rescue InvalidValue, MissingValue
-      raise InvalidDefault.new("#{@name}: #{@options[:default].inspect}")
+      raise InvalidDefault, "#{@name}: #{@options[:default].inspect}"
     end
 
     # @return [Boolean]
