@@ -52,24 +52,4 @@ describe HashInteraction do
       }.to raise_error ActiveInteraction::InvalidDefault
     end
   end
-
-  context 'with a validly nested default' do
-    let(:described_class) do
-      Class.new(ActiveInteraction::Base) do
-        hash :a do
-          hash :x, default: { y: rand }
-        end
-        def execute; a end
-      end
-    end
-    let(:options) { { a: { x: {} } } }
-
-    it 'does not raise an error' do
-      expect { described_class.run(options) }.to_not raise_error
-    end
-
-    it 'merges the nested default value' do
-      expect(described_class.run!(options)[:x]).to have_key(:y)
-    end
-  end
 end
