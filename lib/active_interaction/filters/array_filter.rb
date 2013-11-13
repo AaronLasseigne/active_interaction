@@ -1,16 +1,55 @@
 module ActiveInteraction
-  class ArrayFilter < FilterWithBlock
-    def method_missing(type, options = {}, &block)
-      if filters.count > 0
-        raise ArgumentError, 'Array filter blocks can only contain one filter.'
-      end
+  class Base
+    # Creates accessors for the attributes and ensures that values passed to
+    #   the attributes are Arrays.
+    #
+    # @macro attribute_method_params
+    # @param block [Proc] filter method to apply to each element
+    #
+    # @example
+    #   array :ids
+    #
+    # @example An Array of Integers
+    #   array :ids do
+    #     integer
+    #   end
+    #
+    # @example An Array of Integers where some or all are nil
+    #   array :ids do
+    #     integer default: nil
+    #   end
+    #
+    # @method self.array(*attributes, options = {}, &block)
+  end
 
-      if options.is_a?(Symbol)
-        raise ArgumentError, 'Array filter blocks can not contain named filters.'
-      end
+  # @private
+  class ArrayFilter < Filter
+    include MethodMissing
 
-      filters.add(Filter.factory(type).new(:unnamed, options.dup, &block))
+    def cast(value)
+      case value
+      when Array
+        return value if filters.none?
+
+        filter = filters.first
+        value.map { |e| filter.clean(e) }
+      else
+        super
+      end
     end
-    private :method_missing
+
+    private
+
+    def method_missing(*args, &block)
+      super do |klass, names, options|
+        filter = klass.new(name, options, &block)
+
+        raise InvalidFilter, 'multiple nested filters' if filters.any?
+        raise InvalidFilter, 'nested name' unless names.empty?
+        raise InvalidDefault, 'nested default' if filter.has_default?
+
+        filters.add(filter)
+      end
+    end
   end
 end

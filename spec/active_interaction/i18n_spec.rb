@@ -52,21 +52,6 @@ describe I18nInteraction do
         end
       end
 
-      context ':invalid_nested' do
-        let(:key) {
-          "#{described_class.i18n_scope}.errors.messages.invalid_nested"
-        }
-
-        it 'has a translation' do
-          expect { translation }.to_not raise_error
-        end
-
-        it 'returns the translation' do
-          options.merge!(a: { x: Object.new })
-          expect(outcome.errors[:a]).to eq [translation]
-        end
-      end
-
       context ':missing' do
         let(:key) { "#{described_class.i18n_scope}.errors.messages.missing" }
 

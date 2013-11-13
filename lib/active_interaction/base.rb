@@ -54,6 +54,7 @@ module ActiveInteraction
       self.class.i18n_scope
     end
 
+    extend MethodMissing
     extend OverloadHash
 
     validate do
@@ -61,6 +62,7 @@ module ActiveInteraction
         errors.add_sym(*error)
       end
     end
+
     validate do
       return unless @_interaction_errors
 
@@ -187,23 +189,23 @@ module ActiveInteraction
     end
 
     # @private
-    def self.method_missing(type, *args, &block)
-      options = args.last.is_a?(Hash) ? args.pop : {}
+    def self.method_missing(*args, &block)
+      super do |klass, names, options|
+        raise InvalidFilter, 'no name' if names.empty?
 
-      args.each do |attribute|
-        filter = Filter.factory(type).new(attribute, options, &block)
-
-        filters.add(filter)
-
-        set_up_reader(filter)
-        set_up_writer(filter)
+        names.each do |attribute|
+          filter = klass.new(attribute, options, &block)
+          filters.add(filter)
+          set_up_reader(filter)
+          set_up_writer(filter)
+        end
       end
     end
     private_class_method :method_missing
 
     # @private
     def self.set_up_reader(filter)
-      default = filter.default
+      default = filter.default if filter.has_default?
 
       define_method(filter.name) do
         symbol = "@#{filter.name}"
@@ -225,8 +227,8 @@ module ActiveInteraction
       define_method(writer) do |value|
         value =
           begin
-            Caster.cast(filter, value)
-          rescue InvalidNestedValue, InvalidValue, MissingValue
+            filter.cast(value)
+          rescue InvalidValue, MissingValue
             value
           end
         instance_variable_set("@#{filter.name}", value)

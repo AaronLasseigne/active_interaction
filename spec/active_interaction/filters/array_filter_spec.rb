@@ -1,36 +1,76 @@
 require 'spec_helper'
 
-describe ActiveInteraction::ArrayFilter do
-  include_context 'filters with blocks'
-  it_behaves_like 'a filter with a block'
+describe ActiveInteraction::ArrayFilter, :filter do
+  include_context 'filters'
+  it_behaves_like 'a filter'
 
-  context 'block evaluation' do
-    context 'empty block' do
-      it 'adds no filters' do
-        expect(result.filters).to be_none
+  context 'with multiple nested filters' do
+    let(:block) { Proc.new { array; array } }
+
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilter
+    end
+  end
+
+  context 'with a nested name' do
+    let(:block) { Proc.new { array :a } }
+
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilter
+    end
+  end
+
+  context 'with a nested default' do
+    let(:block) { Proc.new { array default: nil } }
+
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidDefault
+    end
+  end
+
+  describe '#cast' do
+    context 'with an Array' do
+      let(:value) { [] }
+
+      it 'returns the Array' do
+        expect(filter.cast(value)).to eq value
       end
     end
 
-    context 'non-empty block' do
+    context 'with a heterogenous Array' do
+      let(:value) { [[], false, 0.0, {}, 0, '', :''] }
+
+      it 'returns the Array' do
+        expect(filter.cast(value)).to eq value
+      end
+    end
+
+    context 'with a nested filter' do
       let(:block) { Proc.new { array } }
 
-      it 'adds filters' do
-        expect(result.filters).to have(1).filter
-      end
+      context 'with an Array' do
+        let(:value) { [] }
 
-      context 'where the internal filter is passed a name' do
-        let(:block) { Proc.new { array :a } }
-
-        it 'adds filters' do
-          expect { result.filters }.to raise_error ArgumentError
+        it 'returns the Array' do
+          expect(filter.cast(value)).to eq value
         end
       end
 
-      context 'where two filters are provided' do
-        let(:block) { Proc.new { array; array } }
+      context 'with an Array of Arrays' do
+        let(:value) { [[]] }
 
-        it 'only allows one' do
-          expect { result.filters }.to raise_error ArgumentError
+        it 'returns the Array' do
+          expect(filter.cast(value)).to eq value
+        end
+      end
+
+      context 'with a heterogenous Array' do
+        let(:value) { [[], false, 0.0, {}, 0, '', :''] }
+
+        it 'raises an error' do
+          expect{
+            filter.cast(value)
+          }.to raise_error ActiveInteraction::InvalidValue
         end
       end
     end
