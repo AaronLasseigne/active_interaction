@@ -1,4 +1,5 @@
 module ActiveInteraction
+  # @private
   module Validation
     def self.validate(filters, inputs)
       filters.reduce([]) do |errors, filter|
@@ -7,7 +8,8 @@ module ActiveInteraction
 
           errors
         rescue InvalidValue
-          errors << [filter.name, :invalid, nil, type: I18n.translate("#{Base.i18n_scope}.types.#{filter.class.slug}")]
+          type = I18n.translate("#{Base.i18n_scope}.types.#{filter.class.slug}"
+          errors << [filter.name, :invalid, nil, type: type)]
         rescue MissingValue
           errors << [filter.name, :missing]
         end
