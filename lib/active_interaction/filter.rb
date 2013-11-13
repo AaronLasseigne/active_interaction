@@ -58,7 +58,7 @@ module ActiveInteraction
     # @option options [Object] :default
     def initialize(name, options = {}, &block)
       @name = name
-      @options = options
+      @options = options.dup
       @filters = []
 
       instance_eval(&block) if block_given?
