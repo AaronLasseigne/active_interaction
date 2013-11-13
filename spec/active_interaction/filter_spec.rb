@@ -139,7 +139,7 @@ describe ActiveInteraction::Filter, :filter do
 
   describe '#filters' do
     it do
-      expect(filter.filters).to eq []
+      expect(filter.filters).to be_an(ActiveInteraction::Filters)
     end
   end
 

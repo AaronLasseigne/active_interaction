@@ -42,7 +42,7 @@ module ActiveInteraction
         raise InvalidFilter, 'no name' if names.empty?
 
         names.each do |name|
-          @filters << klass.new(name, options, &block)
+          filters.add(klass.new(name, options, &block))
         end
       end
     end

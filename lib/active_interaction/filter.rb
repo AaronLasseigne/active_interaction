@@ -1,6 +1,7 @@
 require 'active_support/inflector'
 
 module ActiveInteraction
+  # @since 0.6.0
   class Filter
     # @return [Regexp]
     CLASS_REGEXP = /\AActiveInteraction::([A-Z]\w*)Filter\z/.freeze
@@ -10,7 +11,7 @@ module ActiveInteraction
     CLASSES = {}
     private_constant :CLASSES
 
-    # @return [Array<Filter>]
+    # @return [Filters]
     attr_reader :filters
 
     # @return [Symbol]
@@ -62,7 +63,7 @@ module ActiveInteraction
     def initialize(name, options = {}, &block)
       @name = name
       @options = options.dup
-      @filters = []
+      @filters = Filters.new
 
       instance_eval(&block) if block_given?
     end

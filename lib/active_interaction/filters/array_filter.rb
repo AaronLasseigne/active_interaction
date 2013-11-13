@@ -10,7 +10,7 @@ module ActiveInteraction
     def cast(value)
       case value
       when Array
-        return value if filters.empty?
+        return value if filters.none?
 
         filter = filters.first
         value.map { |e| filter.clean(e) }
@@ -25,11 +25,11 @@ module ActiveInteraction
       super do |klass, names, options|
         filter = klass.new(name, options, &block)
 
-        raise InvalidFilter, 'multiple nested filters' unless filters.empty?
+        raise InvalidFilter, 'multiple nested filters' if filters.any?
         raise InvalidFilter, 'nested name' unless names.empty?
         raise InvalidDefault, 'nested default' if filter.optional?
 
-        @filters << filter
+        filters.add(filter)
       end
     end
   end
