@@ -20,6 +20,21 @@ module ActiveInteraction
       end
     end
 
+    def default
+      case @options[:default]
+      when Hash
+        if @options[:default].empty?
+          cast({})
+        else
+          raise InvalidDefault.new(name)
+        end
+      when NilClass
+        cast(nil)
+      else
+        super
+      end
+    end
+
     private
 
     def method_missing(*args, &block)
