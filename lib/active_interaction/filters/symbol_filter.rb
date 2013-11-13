@@ -1,10 +1,6 @@
 module ActiveInteraction
+  # @private
   class SymbolFilter < Filter
-    # @param value [Object]
-    #
-    # @return [Symbol]
-    #
-    # @raise (see Filter#cast)
     def cast(value)
       case value
       when Symbol

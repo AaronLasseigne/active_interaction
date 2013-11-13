@@ -1,10 +1,6 @@
 module ActiveInteraction
+  # @private
   class TimeFilter < Filter
-    # @param value [Object]
-    #
-    # @return [Time]
-    #
-    # @raise (see Filter#cast)
     def cast(value)
       case value
       when klass

@@ -1,10 +1,6 @@
 module ActiveInteraction
+  # @private
   class FloatFilter < Filter
-    # @param value [Object]
-    #
-    # @return [Float]
-    #
-    # @raise (see Filter#cast)
     def cast(value)
       case value
       when Numeric

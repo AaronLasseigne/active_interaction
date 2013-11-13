@@ -1,10 +1,6 @@
 module ActiveInteraction
+  # @private
   class FileFilter < Filter
-    # @param value [Object]
-    #
-    # @return [File]
-    #
-    # @raise (see Filter#cast)
     def cast(value)
       value = extract_file(value)
 

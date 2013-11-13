@@ -1,10 +1,6 @@
 module ActiveInteraction
+  # @private
   class IntegerFilter < Filter
-    # @param value [Object]
-    #
-    # @return [Integer]
-    #
-    # @raise (see Filter#cast)
     def cast(value)
       case value
       when Numeric

@@ -1,12 +1,8 @@
 module ActiveInteraction
+  # @private
   class HashFilter < Filter
     include MethodMissing
 
-    # @param value [Object]
-    #
-    # @return [Hash{Symbol => Object}]
-    #
-    # @raise (see Filter#cast)
     def cast(value)
       case value
       when Hash

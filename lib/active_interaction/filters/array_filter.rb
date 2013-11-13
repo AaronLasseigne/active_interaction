@@ -1,12 +1,8 @@
 module ActiveInteraction
+  # @private
   class ArrayFilter < Filter
     include MethodMissing
 
-    # @param value [Object]
-    #
-    # @return [Array<Object>]
-    #
-    # @raise (see Filter#cast)
     def cast(value)
       case value
       when Array

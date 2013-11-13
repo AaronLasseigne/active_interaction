@@ -1,10 +1,6 @@
 module ActiveInteraction
+  # @private
   class ModelFilter < Filter
-    # @param value [Object]
-    #
-    # @return [Object]
-    #
-    # @raise (see Filter#cast)
     def cast(value)
       case value
       when klass
@@ -16,9 +12,6 @@ module ActiveInteraction
 
     private
 
-    # @return [Class]
-    #
-    # @raise [Error]
     def klass
       name = options.fetch(:class, @name).to_s.classify
       name.constantize
