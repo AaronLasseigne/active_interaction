@@ -21,18 +21,11 @@ module ActiveInteraction
     end
 
     def default
-      case options[:default]
-      when Hash
-        if options[:default].empty?
-          cast({})
-        else
-          raise InvalidDefault, name
-        end
-      when NilClass
-        cast(nil)
-      else
-        super
+      if options[:default].is_a?(Hash) && !options[:default].empty?
+        raise InvalidDefault, "#{@name}: #{options[:default].inspect}"
       end
+
+      super
     end
 
     private
