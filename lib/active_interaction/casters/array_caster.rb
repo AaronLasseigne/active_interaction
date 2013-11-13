@@ -16,7 +16,7 @@ module ActiveInteraction
     #
     # @example An Array of Integers where some or all are nil
     #   array :ids do
-    #     integer allow_nil: true
+    #     integer default: nil
     #   end
     #
     # @method self.array(*attributes, options = {}, &block)
