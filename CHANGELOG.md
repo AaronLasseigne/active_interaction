@@ -2,6 +2,14 @@
 
 # [0.6.0][]
 
+- Prevent specifying defaults (other than `nil` or `{}`) on hash filters. Set
+  defaults on the nested filters instead.
+- Add ability to introspect interactions with `filters`.
+- Fix bug that prevented listing multiple attributes in a hash filter.
+- Allow getting all of the user-supplied inputs in an interaction with
+  `inputs`.
+- Fix bug that prevented hash filters from being nested in array filters.
+- Replace `allow_nil: true` with `default: nil`.
 - Refactor internals.
 - Add a symbol filter.
 - Allow adding symbolic errors with `errors.add_sym` and retrieving them with
