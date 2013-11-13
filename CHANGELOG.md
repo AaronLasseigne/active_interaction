@@ -7,12 +7,12 @@
 - Allow adding symbolic errors with `errors.add_sym` and retrieving them with
   `errors.symbolic`.
 
-# [0.5.0][]
+# [0.5.0][] (2013-10-16)
 
 - Allow adding errors in `execute` method with `errors.add`.
 - Prevent manually setting the outcome's result.
 
-# [0.4.0][]
+# [0.4.0][] (2013-08-15)
 
 - Support i18n translations.
 
