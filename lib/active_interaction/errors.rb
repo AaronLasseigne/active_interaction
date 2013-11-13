@@ -1,9 +1,15 @@
 module ActiveInteraction
-  InteractionInvalid = Class.new(StandardError)
-  InvalidDefaultValue = Class.new(StandardError)
-  InvalidNestedValue = Class.new(StandardError)
-  InvalidValue = Class.new(StandardError)
-  MissingValue = Class.new(StandardError)
+  Error = Class.new(StandardError)
+
+  InteractionInvalid = Class.new(Error)
+  InvalidDefault = Class.new(Error)
+  InvalidDefaultValue = Class.new(Error)
+  InvalidInput = Class.new(Error)
+  InvalidNestedValue = Class.new(Error)
+  InvalidValue = Class.new(Error)
+  MissingDefault = Class.new(Error)
+  MissingInput = Class.new(Error)
+  MissingValue = Class.new(Error)
 
   # A small extension to provide symbolic error messages to make introspecting
   #   and testing easier.
