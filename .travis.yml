@@ -7,5 +7,6 @@ rvm:
 - jruby-19mode
 - rbx-19mode
 notifications:
+  email: false
   hipchat:
   - secure: "UXiSnDlm3hzEIzImCMtHriu1w9T8ZQi27WR0DxiA18OZ1swyHcRaFvOR/WGn\nQ3JHLQ42o2utpc4IiMiKmD/2GIu5nququXqRYHF65Urrqrf1ymcGWlas5G6C\nivR5nEELqEsDgDZAcKGJtRgp70d6Geg5iFUfV9aP1ySy2U0AXBM="
