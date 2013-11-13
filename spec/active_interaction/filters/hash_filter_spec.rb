@@ -1,47 +1,67 @@
 require 'spec_helper'
 
 describe ActiveInteraction::HashFilter, :filter do
-  let(:name) { SecureRandom.hex.to_sym }
-  let(:options) { {} }
+  include_context 'filters'
+  it_behaves_like 'a filter'
 
-  subject(:filter) { described_class.new(name, options) }
+  context 'with a nested nameless filter' do
+    let(:block) { Proc.new { hash } }
 
-  context do
-    subject(:filter) { described_class.new(name, options) do
-      hash
-    end }
-
-    it do
-      expect { filter }.to raise_error(ActiveInteraction::InvalidFilter)
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilter
     end
   end
 
   describe '#cast' do
-    context do
+    context 'with a Hash' do
       let(:value) { {} }
 
-      it do
+      it 'returns the Hash' do
         expect(filter.cast(value)).to eq value
       end
     end
 
-    context do
+    context 'with a non-empty Hash' do
       let(:value) { { a: {} } }
 
-      it do
+      it 'returns an empty Hash' do
         expect(filter.cast(value)).to eq({})
       end
     end
 
-    context do
-      let(:value) { { a: {} } }
+    context 'with a nested filter' do
+      let(:block) { Proc.new { hash :a } }
 
-      subject(:filter) { described_class.new(name, options) do
-        hash :a
-      end }
+      context 'with a Hash' do
+        let(:value) { { a: {} } }
 
-      it do
-        expect(filter.cast(value)).to eq value
+        it 'returns the Hash' do
+          expect(filter.cast(value)).to eq value
+        end
+      end
+    end
+  end
+
+  describe '#default' do
+    context 'with a Hash' do
+      before do
+        options.merge!(default: {})
+      end
+
+      it 'returns the Hash' do
+        expect(filter.default).to eq options[:default]
+      end
+    end
+
+    context 'with a non-empty Hash' do
+      before do
+        options.merge!(default: { a: {} })
+      end
+
+      it 'raises an error' do
+        expect {
+          filter.default
+        }.to raise_error ActiveInteraction::InvalidDefault
       end
     end
   end

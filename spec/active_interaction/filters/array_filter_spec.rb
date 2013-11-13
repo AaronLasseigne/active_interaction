@@ -1,85 +1,76 @@
 require 'spec_helper'
 
 describe ActiveInteraction::ArrayFilter, :filter do
-  let(:name) { SecureRandom.hex.to_sym }
-  let(:options) { {} }
+  include_context 'filters'
+  it_behaves_like 'a filter'
 
-  subject(:filter) { described_class.new(name, options) }
+  context 'with multiple nested filters' do
+    let(:block) { Proc.new { array; array } }
 
-  context do
-    subject(:filter) { described_class.new(name, options) do
-      array
-      array
-    end }
-
-    it do
-      expect { filter }.to raise_error(ActiveInteraction::InvalidFilter)
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilter
     end
   end
 
-  context do
-    subject(:filter) { described_class.new(name, options) do
-      array :a
-    end }
+  context 'with a nested name' do
+    let(:block) { Proc.new { array :a } }
 
-    it do
-      expect { filter }.to raise_error(ActiveInteraction::InvalidFilter)
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilter
     end
   end
 
-  context do
-    subject(:filter) { described_class.new(name, options) do
-      array default: nil
-    end }
+  context 'with a nested default' do
+    let(:block) { Proc.new { array default: nil } }
 
-    it do
-      expect { filter }.to raise_error(ActiveInteraction::InvalidDefault)
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidDefault
     end
   end
 
   describe '#cast' do
-    context do
+    context 'with an Array' do
       let(:value) { [] }
 
-      it do
+      it 'returns the Array' do
         expect(filter.cast(value)).to eq value
       end
     end
 
-    context do
+    context 'with a heterogenous Array' do
       let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
-      it do
+      it 'returns the Array' do
         expect(filter.cast(value)).to eq value
       end
     end
 
-    context do
-      subject(:filter) { described_class.new(name, options) do
-        array
-      end }
+    context 'with a nested filter' do
+      let(:block) { Proc.new { array } }
 
-      context do
+      context 'with an Array' do
         let(:value) { [] }
 
-        it do
+        it 'returns the Array' do
           expect(filter.cast(value)).to eq value
         end
       end
 
-      context do
+      context 'with an Array of Arrays' do
         let(:value) { [[]] }
 
-        it do
+        it 'returns the Array' do
           expect(filter.cast(value)).to eq value
         end
       end
 
-      context do
+      context 'with a heterogenous Array' do
         let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
-        it do
-          expect{ filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+        it 'raises an error' do
+          expect{
+            filter.cast(value)
+          }.to raise_error ActiveInteraction::InvalidValue
         end
       end
     end

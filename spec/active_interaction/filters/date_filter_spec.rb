@@ -1,57 +1,60 @@
 require 'spec_helper'
 
 describe ActiveInteraction::DateFilter, :filter do
-  let(:name) { SecureRandom.hex.to_sym }
-  let(:options) { {} }
+  include_context 'filters'
+  it_behaves_like 'a filter'
 
-  subject(:filter) { described_class.new(name, options) }
+  shared_context 'with format' do
+    let(:format) { '%d/%m/%Y' }
+
+    before do
+      options.merge!(format: format)
+    end
+  end
 
   describe '#cast' do
-    context do
+    context 'with a Date' do
       let(:value) { Date.new }
 
-      it do
+      it 'returns the Date' do
         expect(filter.cast(value)).to eq value
       end
     end
 
-    context do
+    context 'with a String' do
       let(:value) { '2011-12-13' }
 
-      it do
+      it 'returns a Date' do
         expect(filter.cast(value)).to eq Date.parse(value)
       end
 
-      context do
-        let(:format) { '%d/%m/%Y' }
+      context 'with format' do
+        include_context 'with format'
+
         let(:value) { '13/12/2011' }
 
-        before do
-          options.merge!(format: format)
-        end
-
-        it do
+        it 'returns a Date' do
           expect(filter.cast(value)).to eq Date.strptime(value, format)
         end
       end
     end
 
-    context do
+    context 'with an invalid String' do
       let(:value) { 'invalid' }
 
-      it do
-        expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+      it 'raises an error' do
+        expect {
+          filter.cast(value)
+        }.to raise_error ActiveInteraction::InvalidValue
       end
 
-      context do
-        let(:format) { '%d/%m/%Y' }
+      context 'with format' do
+        include_context 'with format'
 
-        before do
-          options.merge!(format: format)
-        end
-
-        it do
-          expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+        it 'raises an error' do
+          expect {
+            filter.cast(value)
+          }.to raise_error ActiveInteraction::InvalidValue
         end
       end
     end

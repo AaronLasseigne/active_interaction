@@ -1,57 +1,60 @@
 require 'spec_helper'
 
 describe ActiveInteraction::DateTimeFilter, :filter do
-  let(:name) { SecureRandom.hex.to_sym }
-  let(:options) { {} }
+  include_context 'filters'
+  it_behaves_like 'a filter'
 
-  subject(:filter) { described_class.new(name, options) }
+  shared_context 'with format' do
+    let(:format) { '%d/%m/%Y %H:%M:%S %:z' }
+
+    before do
+      options.merge!(format: format)
+    end
+  end
 
   describe '#cast' do
-    context do
+    context 'with a Datetime' do
       let(:value) { DateTime.new }
 
-      it do
+      it 'returns the DateTime' do
         expect(filter.cast(value)).to eq value
       end
     end
 
-    context do
+    context 'with a String' do
       let(:value) { '2011-12-13T14:15:16+17:18' }
 
-      it do
+      it 'returns a DateTime' do
         expect(filter.cast(value)).to eq DateTime.parse(value)
       end
 
-      context do
-        let(:format) { '%d/%m/%Y %H:%M:%S %:z' }
+      context 'with format' do
+        include_context 'with format'
+
         let(:value) { '13/12/2011 14:15:16 +17:18' }
 
-        before do
-          options.merge!(format: format)
-        end
-
-        it do
+        it 'returns a DateTime' do
           expect(filter.cast(value)).to eq DateTime.strptime(value, format)
         end
       end
     end
 
-    context do
+    context 'with an invalid String' do
       let(:value) { 'invalid' }
 
-      it do
-        expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+      it 'raises an error' do
+        expect {
+          filter.cast(value)
+        }.to raise_error ActiveInteraction::InvalidValue
       end
 
-      context do
-        let(:format) { '%d/%m/%Y' }
+      context 'with format' do
+        include_context 'with format'
 
-        before do
-          options.merge!(format: format)
-        end
-
-        it do
-          expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidValue)
+        it 'raises an error' do
+          expect {
+            filter.cast(value)
+          }.to raise_error ActiveInteraction::InvalidValue
         end
       end
     end

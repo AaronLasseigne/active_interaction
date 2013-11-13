@@ -1,33 +1,35 @@
 require 'spec_helper'
 
 describe ActiveInteraction::StringFilter, :filter do
-  let(:name) { SecureRandom.hex.to_sym }
-  let(:options) { {} }
+  include_context 'filters'
+  it_behaves_like 'a filter'
 
-  subject(:filter) { described_class.new(name, options) }
+  shared_context 'without strip' do
+    before do
+      options.merge!(strip: false)
+    end
+  end
 
   describe '#cast' do
-    context do
+    context 'with a String' do
       let(:value) { SecureRandom.hex }
 
-      it do
+      it 'returns the String' do
         expect(filter.cast(value)).to eq value
       end
     end
 
-    context do
+    context 'with a strippable String' do
       let(:value) { " #{SecureRandom.hex} " }
 
-      it do
+      it 'returns the stripped string' do
         expect(filter.cast(value)).to eq value.strip
       end
 
-      context do
-        before do
-          options.merge!(strip: false)
-        end
+      context 'without strip' do
+        include_context 'without strip'
 
-        it do
+        it 'returns the String' do
           expect(filter.cast(value)).to eq value
         end
       end

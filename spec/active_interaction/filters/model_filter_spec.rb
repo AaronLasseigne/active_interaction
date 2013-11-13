@@ -1,55 +1,43 @@
 require 'spec_helper'
 
-describe ActiveInteraction::ModelFilter, :filter do
-  let(:name) { SecureRandom.hex.to_sym }
-  let(:options) { {} }
+class Model; end
 
-  subject(:filter) { described_class.new(name, options) }
+describe ActiveInteraction::ModelFilter, :filter do
+  include_context 'filters'
+  it_behaves_like 'a filter'
+
+  before do
+    options.merge!(class: Model)
+  end
 
   describe '#cast' do
-    let(:value) { Random.new }
+    let(:value) { Model.new }
 
-    it do
-      expect { filter.cast(value) }.to raise_error(ActiveInteraction::InvalidClass)
-    end
-
-    context do
-      before do
-        options.merge!(class: Random)
-      end
-
-      it do
+    context 'with class as a Class' do
+      it 'returns the instance' do
         expect(filter.cast(value)).to eq value
       end
     end
 
-    context do
+    context 'with class as a String' do
       before do
-        options.merge!(class: 'random')
+        options.merge!(class: Model.name)
       end
 
-      it do
+      it 'returns the instance' do
         expect(filter.cast(value)).to eq value
       end
     end
 
-    context do
-      before do
-        options.merge!(class: :random)
-      end
-
-      it do
-        expect(filter.cast(value)).to eq value
-      end
-    end
-
-    context do
+    context 'with class as an invalid String' do
       before do
         options.merge!(class: 'invalid')
       end
 
-      it do
-      expect { filter.cast(value) }.to raise_error(ActiveInteraction::Error)
+      it 'raises an error' do
+        expect {
+          filter.cast(value)
+        }.to raise_error ActiveInteraction::InvalidClass
       end
     end
   end
