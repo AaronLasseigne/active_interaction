@@ -4,8 +4,8 @@ class HashInteraction < ActiveInteraction::Base
   hash :a do
     hash :x
   end
-  hash :b, default: { x: {} } do
-    hash :x
+  hash :b, default: {} do
+    hash :x, default: {}
   end
 
   def execute

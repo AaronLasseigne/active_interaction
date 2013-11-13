@@ -33,7 +33,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
     end }
 
     it do
-      expect { filter }.to raise_error(ActiveInteraction::InvalidFilter)
+      expect { filter }.to raise_error(ActiveInteraction::InvalidDefault)
     end
   end
 
