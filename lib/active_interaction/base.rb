@@ -54,6 +54,7 @@ module ActiveInteraction
       self.class.i18n_scope
     end
 
+    extend MethodMissing
     extend OverloadHash
 
     validate do
@@ -188,24 +189,16 @@ module ActiveInteraction
     end
 
     # @private
-    # TODO: Extract common code between ArrayFilter, HashFilter and this.
     def self.method_missing(*args, &block)
-      begin
-        klass = Filter.factory(args.first)
-      rescue MissingFilter
-        super
-      end
+      super do |klass, names, options|
+        raise InvalidFilter.new('no name') if names.empty?
 
-      args.shift
-      options = args.last.is_a?(Hash) ? args.pop : {}
-
-      raise InvalidFilter.new('no name') if args.empty?
-
-      args.each do |attribute|
-        filter = klass.new(attribute, options, &block)
-        filters.add(filter)
-        set_up_reader(filter)
-        set_up_writer(filter)
+        names.each do |attribute|
+          filter = klass.new(attribute, options, &block)
+          filters.add(filter)
+          set_up_reader(filter)
+          set_up_writer(filter)
+        end
       end
     end
     private_class_method :method_missing

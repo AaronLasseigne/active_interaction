@@ -1,5 +1,7 @@
 module ActiveInteraction
   class HashFilter < Filter
+    include MethodMissing
+
     # @param value [Object]
     #
     # @return [Hash{Symbol => Object}]
@@ -20,21 +22,13 @@ module ActiveInteraction
 
     private
 
-    # TODO: Extract common code between ArrayFilter, Base and this.
     def method_missing(*args, &block)
-      begin
-        klass = self.class.factory(args.first)
-      rescue MissingFilter
-        super
-      end
+      super do |klass, names, options|
+        raise InvalidFilter.new('no name') if names.empty?
 
-      args.shift
-      options = args.last.is_a?(Hash) ? args.pop : {}
-
-      raise InvalidFilter.new('no name') if args.empty?
-
-      args.each do |name|
-        @filters << klass.new(name, options, &block)
+        names.each do |name|
+          @filters << klass.new(name, options, &block)
+        end
       end
     end
   end

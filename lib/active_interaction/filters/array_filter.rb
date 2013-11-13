@@ -1,5 +1,7 @@
 module ActiveInteraction
   class ArrayFilter < Filter
+    include MethodMissing
+
     # @param value [Object]
     #
     # @return [Array<Object>]
@@ -19,22 +21,16 @@ module ActiveInteraction
 
     private
 
-    # TODO: Extract common code between Base, HashFilter and this.
     def method_missing(*args, &block)
-      begin
-        klass = self.class.factory(args.first)
-      rescue MissingFilter
-        super
+      super do |klass, names, options|
+        filter = klass.new(name, options, &block)
+
+        raise InvalidFilter.new('multiple nested filters') unless filters.empty?
+        raise InvalidFilter.new('nested name') unless names.empty?
+        raise InvalidFilter.new('nested default') if filter.optional?
+
+        @filters << filter
       end
-
-      options = args.last.is_a?(Hash) ? args.pop : {}
-      filter = klass.new(name, options, &block)
-
-      raise InvalidFilter.new('multiple nested filters') unless filters.empty?
-      raise InvalidFilter.new('nested name') if args.length > 1
-      raise InvalidFilter.new('nested default') if filter.optional?
-
-      @filters << filter
     end
   end
 end
