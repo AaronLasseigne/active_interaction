@@ -10,7 +10,7 @@ module ActiveInteraction
     def cast(value)
       case value
       when Hash
-        filters.reduce(@options.fetch(:strip, true) ? {} : value) do |h, f|
+        filters.reduce(options.fetch(:strip, true) ? {} : value) do |h, f|
           k = f.name
           h[k] = f.clean(value[k])
           h
@@ -21,9 +21,9 @@ module ActiveInteraction
     end
 
     def default
-      case @options[:default]
+      case options[:default]
       when Hash
-        if @options[:default].empty?
+        if options[:default].empty?
           cast({})
         else
           raise InvalidDefault, name

@@ -13,8 +13,8 @@ module ActiveInteraction
         time.at(value)
       when String
         begin
-          if @options.has_key?(:format)
-            klass.strptime(value, @options[:format])
+          if options.has_key?(:format)
+            klass.strptime(value, options[:format])
           else
             klass.parse(value)
           end

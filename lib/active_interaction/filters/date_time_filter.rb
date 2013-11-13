@@ -11,8 +11,8 @@ module ActiveInteraction
         value
       when String
         begin
-          if @options.has_key?(:format)
-            DateTime.strptime(value, @options[:format])
+          if options.has_key?(:format)
+            DateTime.strptime(value, options[:format])
           else
             DateTime.parse(value)
           end

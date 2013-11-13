@@ -16,6 +16,9 @@ module ActiveInteraction
     # @return [Symbol]
     attr_reader :name
 
+    # @return [Hash{Symbol => Object}]
+    attr_reader :options
+
     undef_method :hash
 
     class << self
@@ -66,7 +69,7 @@ module ActiveInteraction
 
     # @param value [Object]
     #
-    # @return [nil]
+    # @return [Object]
     #
     # @raise [InvalidValue]
     # @raise [MissingValue]
@@ -103,14 +106,14 @@ module ActiveInteraction
     def default
       raise MissingDefault, @name if required?
 
-      cast(@options[:default])
+      cast(options[:default])
     rescue InvalidValue, MissingValue
-      raise InvalidDefault, "#{@name}: #{@options[:default].inspect}"
+      raise InvalidDefault, "#{@name}: #{options[:default].inspect}"
     end
 
     # @return [Boolean]
     def optional?
-      @options.has_key?(:default)
+      options.has_key?(:default)
     end
 
     # @return [Boolean]

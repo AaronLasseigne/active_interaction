@@ -8,7 +8,7 @@ module ActiveInteraction
     def cast(value)
       case value
       when String
-        if @options.fetch(:strip, true)
+        if options.fetch(:strip, true)
           value.strip
         else
           value
