@@ -41,10 +41,10 @@ module ActiveInteraction
     # @param function [nil] a shortcut for creating a function that passes the
     #   output straight through
     #
-    # @return [nil]
+    # @return [Pipeline]
     def pipe(interaction, function = nil)
       @steps << [lambdafy(function), interaction]
-      nil
+      self
     end
 
     # Run all the interactions in the pipeline. If any interaction fails, stop
