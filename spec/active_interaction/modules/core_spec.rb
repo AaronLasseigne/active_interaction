@@ -1,13 +1,8 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Core do
-  let(:model) do
-    Class.new do
-      include ActiveInteraction::Core
-    end
-  end
-
-  subject(:instance) { model.new }
+  let(:klass) { Class.new { include ActiveInteraction::Core } }
+  subject(:instance) { klass.new }
 
   describe '#desc' do
     let(:desc) { SecureRandom.hex }

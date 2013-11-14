@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe ActiveInteraction::OverloadHash do
-  subject { double.extend(described_class) }
+  let(:klass) { Class.new { include ActiveInteraction::OverloadHash } }
+  subject(:instance) { klass.new }
 
   describe '#hash(*args, &block)' do
     context 'with no arguments' do
