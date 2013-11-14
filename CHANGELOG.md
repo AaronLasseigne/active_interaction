@@ -1,5 +1,9 @@
 # [Master][]
 
+- Add ability to chain a series of interactions together with
+  `ActiveInteraction::Pipeline`.
+- Refactor internals (abstract filters & core class).
+
 # [0.6.1][] (2013-11-14)
 
 - Re-release. Forgot to merge into master.
