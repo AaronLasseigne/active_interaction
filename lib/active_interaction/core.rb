@@ -11,6 +11,13 @@ module ActiveInteraction
   module Core
     # Get or set the description.
     #
+    # @example
+    #   core.desc
+    #   # => nil
+    #   core.desc('descriptive!')
+    #   core.desc
+    #   # => "descriptive!"
+    #
     # @param desc [String, nil] what to set the description to
     #
     # @return [String, nil] the description
