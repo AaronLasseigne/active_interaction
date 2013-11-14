@@ -6,41 +6,63 @@ module ActiveInteraction
     #   in which case they will be processed with `strptime`. If `Time.zone` is
     #   available it will be used so that the values are time zone aware.
     #
-    # @macro attribute_method_params
-    # @option options [String] :format Parse strings using this format string.
+    # @macro filter_method_params
+    # @option options [String] :format parse strings using this format string
     #
     # @example
     #   time :start_date
     #
     # @example
-    #   date_time :start_date, format: '%Y-%m-%dT%H:%M:%S'
+    #   date_time :start_date, format: '%Y-%m-%dT%H:%M:%S%z'
+    #
+    # @since 0.1.0
     #
     # @method self.time(*attributes, options = {})
   end
 
   # @private
-  class TimeFilter < AbstractDateTimeFilter
-    def self.prepare(key, value, options = {}, &block)
+  class TimeFilter < Filter
+    def cast(value)
       case value
-        when Numeric
-          time.at(value)
-        else
-          super(key, value, options.merge(class: time_class), &block)
+      when klass
+        value
+      when Numeric
+        time.at(value)
+      when String
+        begin
+          if has_format?
+            klass.strptime(value, format)
+          else
+            klass.parse(value)
+          end
+        rescue ArgumentError
+          super
+        end
+      else
+        super
       end
     end
 
-    def self.time
+    private
+
+    def format
+      options.fetch(:format)
+    end
+
+    def has_format?
+      options.has_key?(:format)
+    end
+
+    def klass
+      time.at(0).class
+    end
+
+    def time
       if Time.respond_to?(:zone) && !Time.zone.nil?
         Time.zone
       else
         Time
       end
     end
-    private_class_method :time
-
-    def self.time_class
-      time.at(0).class
-    end
-    private_class_method :time_class
   end
 end

@@ -3,7 +3,7 @@ module ActiveInteraction
     # Creates accessors for the attributes and ensures that values passed to
     #   the attributes are the correct class.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     # @option options [Class, String, Symbol] :class (use the attribute name)
     #   Class name used to ensure the value.
     #
@@ -13,29 +13,29 @@ module ActiveInteraction
     # @example Ensures that the class is `User`
     #   model :account, class: User
     #
+    # @since 0.1.0
+    #
     # @method self.model(*attributes, options = {})
   end
 
   # @private
   class ModelFilter < Filter
-    def self.prepare(key, value, options = {}, &block)
-      key_class = constantize(options.fetch(:class, key))
-
+    def cast(value)
       case value
-        when key_class
-          value
-        else
-          super
+      when klass
+        value
+      else
+        super
       end
     end
 
-    def self.constantize(constant_name)
-      if constant_name.is_a?(Symbol) || constant_name.is_a?(String)
-        constant_name.to_s.classify.constantize
-      else
-        constant_name
-      end
+    private
+
+    def klass
+      klass_name = options.fetch(:class, name).to_s.classify
+      klass_name.constantize
+    rescue NameError
+      raise InvalidClassError, klass_name.inspect
     end
-    private_class_method :constantize
   end
 end

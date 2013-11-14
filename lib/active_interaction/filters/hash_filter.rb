@@ -3,8 +3,9 @@ module ActiveInteraction
     # Creates accessors for the attributes and ensures that values passed to
     #   the attributes are Hashes.
     #
-    # @macro attribute_method_params
-    # @param block [Proc] Filter methods to apply for select keys.
+    # @macro filter_method_params
+    # @param block [Proc] filter methods to apply for select keys
+    # @option options [Boolean] :strip (true) strip unknown keys
     #
     # @example
     #   hash :order
@@ -17,33 +18,51 @@ module ActiveInteraction
     #     boolean :delivered
     #   end
     #
+    # @since 0.1.0
+    #
     # @method self.hash(*attributes, options = {}, &block)
   end
 
   # @private
   class HashFilter < Filter
-    def self.prepare(key, value, options = {}, &block)
+    include MethodMissing
+
+    def cast(value)
       case value
-        when Hash
-          convert_values(value.merge(options[:default] || {}), &block)
-        else
-          super
+      when Hash
+        value = value.symbolize_keys
+        filters.reduce(strip? ? {} : value) do |h, f|
+          k = f.name
+          h[k] = f.clean(value[k])
+          h
+        end
+      else
+        super
       end
     end
 
-    def self.convert_values(hash, &block)
-      return hash unless block_given?
-
-      FilterMethods.evaluate(&block).each do |method|
-        key = method.attribute
-        hash[key] = Filter.factory(method.method_name).
-          prepare(key, hash[key], method.options, &method.block)
+    def default
+      if options[:default].is_a?(Hash) && !options[:default].empty?
+        raise InvalidDefaultError, "#{name}: #{options[:default].inspect}"
       end
 
-      hash
-    rescue InvalidValue, MissingValue
-      raise InvalidNestedValue
+      super
     end
-    private_class_method :convert_values
+
+    def method_missing(*args, &block)
+      super do |klass, names, options|
+        raise InvalidFilterError, 'no name' if names.empty?
+
+        names.each do |name|
+          filters.add(klass.new(name, options, &block))
+        end
+      end
+    end
+
+    private
+
+    def strip?
+      options.fetch(:strip, true)
+    end
   end
 end

@@ -25,7 +25,7 @@ This project uses [semantic versioning][].
 Add it to your Gemfile:
 
 ```ruby
-gem 'active_interaction', '~> 0.5.0'
+gem 'active_interaction', '~> 0.6.0'
 ```
 
 And then execute:
@@ -56,7 +56,7 @@ class UserSignup < ActiveInteraction::Base
   string :email, :name
 
   # optional
-  boolean :newsletter_subscribe, allow_nil: true
+  boolean :newsletter_subscribe, default: nil
 
   # ActiveRecord validations
   validates :email, format: EMAIL_REGEX
@@ -161,10 +161,10 @@ end
     integer :age
     boolean :is_special
     model :account
-    array :tags, allow_nil: true do
+    array :tags, default: nil do
       string
     end
-    hash :prefs, allow_nil: true do
+    hash :prefs, default: nil do
       boolean :smoking
       boolean :view
     end

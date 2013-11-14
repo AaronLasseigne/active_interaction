@@ -1,96 +1,60 @@
 require 'spec_helper'
 
-describe ActiveInteraction::TimeFilter do
+describe ActiveInteraction::TimeFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  shared_context 'with format' do
+    let(:format) { '%d/%m/%Y %H:%M:%S %z' }
+
+    before do
+      options.merge!(format: format)
+    end
+  end
+
+  describe '#cast' do
     context 'with a Time' do
-      let(:value) { Time.now }
+      let(:value) { Time.new }
 
       it 'returns the Time' do
-        expect(result).to eql value
+        expect(filter.cast(value)).to eq value
       end
     end
 
-    shared_examples 'conversion' do
-      context 'with a Float' do
-        let(:value) { rand }
+    context 'with a String' do
+      let(:value) { '2011-12-13 14:15:16 +1718' }
 
-        it 'converts the Float' do
-          expect(result).to eql Time.at(value)
-        end
+      it 'returns a Time' do
+        expect(filter.cast(value)).to eq Time.parse(value)
       end
 
-      context 'with an Integer' do
-        let(:value) { rand(1 << 16) }
+      context 'with format' do
+        include_context 'with format'
 
-        it 'converts the Integer' do
-          expect(result).to eql Time.at(value)
-        end
-      end
+        let(:value) { '13/12/2011 14:15:16 +1718' }
 
-      context 'with a valid String' do
-        let(:value) { '2001-01-01T01:01:01+01:01' }
-
-        it 'parses the String' do
-          expect(result).to eql Time.parse(value)
-        end
-
-        context 'with options[:format]' do
-          let(:value) { '01010101012001' }
-
-          before { options.merge!(format: '%S%M%H%d%m%Y') }
-
-          it 'parses the String' do
-            expect(result).to eql Time.strptime(value, options[:format])
-          end
-        end
-      end
-
-      context 'with an invalid String' do
-        let(:value) { 'not a valid Time' }
-
-        it 'raises an error' do
-          expect { result }.to raise_error ActiveInteraction::InvalidValue
-        end
-
-        context 'with options[:format]' do
-          before { options.merge!(format: '%S%M%H%d%m%Y') }
-
-          it 'raises an error' do
-            expect { result }.to raise_error ActiveInteraction::InvalidValue
-          end
+        it 'returns a Time' do
+          expect(filter.cast(value)).to eq Time.strptime(value, format)
         end
       end
     end
 
-    context 'without Time.zone' do
-      include_examples 'conversion'
-    end
+    context 'with an invalid String' do
+      let(:value) { 'invalid' }
 
-    context 'with Time.zone' do
-      context 'as nil' do
-        include_examples 'conversion'
-
-        before do
-          allow(Time).to receive(:zone).and_return(nil)
-        end
-
-        after do
-          expect(Time).to have_received(:zone).once.with(no_args)
-        end
+      it 'raises an error' do
+        expect {
+          filter.cast(value)
+        }.to raise_error ActiveInteraction::InvalidValueError
       end
 
-      context 'as Time' do
-        include_examples 'conversion'
+      context 'with format' do
+        include_context 'with format'
 
-        before do
-          allow(Time).to receive(:zone).and_return(Time)
-        end
-
-        after do
-          expect(Time).to have_received(:zone).twice.with(no_args)
+        it do
+          expect {
+            filter.cast(value)
+          }.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end

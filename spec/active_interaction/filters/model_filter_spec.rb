@@ -1,39 +1,43 @@
 require 'spec_helper'
 
-TestModel = Class.new
+class Model; end
 
-describe ActiveInteraction::ModelFilter do
+describe ActiveInteraction::ModelFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  before { options.merge!(class: TestModel) }
+  before do
+    options.merge!(class: Model)
+  end
 
-  describe '.prepare(key, value, options = {}, &block)' do
-    shared_examples 'type checking' do
-      context 'with the right class' do
-        let(:value) { TestModel.new }
+  describe '#cast' do
+    let(:value) { Model.new }
 
-        it 'returns the instance' do
-          expect(result).to eql value
-        end
+    context 'with class as a Class' do
+      it 'returns the instance' do
+        expect(filter.cast(value)).to eq value
       end
     end
 
-    context 'with options[:class] as a Class' do
-      include_examples 'type checking'
+    context 'with class as a String' do
+      before do
+        options.merge!(class: Model.name)
+      end
+
+      it 'returns the instance' do
+        expect(filter.cast(value)).to eq value
+      end
     end
 
-    context 'with options[:class] as a valid String' do
-      include_examples 'type checking'
-
-      before { options.merge!(class: options[:class].to_s) }
-    end
-
-    context 'with options[:class] as an invalid String' do
-      before { options.merge!(class: 'not a valid Class') }
+    context 'with class as an invalid String' do
+      before do
+        options.merge!(class: 'invalid')
+      end
 
       it 'raises an error' do
-        expect { result }.to raise_error NameError
+        expect {
+          filter.cast(value)
+        }.to raise_error ActiveInteraction::InvalidClassError
       end
     end
   end

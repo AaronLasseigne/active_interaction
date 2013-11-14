@@ -3,8 +3,8 @@ module ActiveInteraction
     # Creates accessors for the attributes and ensures that values passed to
     #   the attributes are Arrays.
     #
-    # @macro attribute_method_params
-    # @param block [Proc] A filter method to apply to each element.
+    # @macro filter_method_params
+    # @param block [Proc] filter method to apply to each element
     #
     # @example
     #   array :ids
@@ -16,43 +16,40 @@ module ActiveInteraction
     #
     # @example An Array of Integers where some or all are nil
     #   array :ids do
-    #     integer allow_nil: true
+    #     integer default: nil
     #   end
+    #
+    # @since 0.1.0
     #
     # @method self.array(*attributes, options = {}, &block)
   end
 
   # @private
   class ArrayFilter < Filter
-    def self.prepare(key, value, options = {}, &block)
+    include MethodMissing
+
+    def cast(value)
       case value
-        when Array
-          convert_values(value, &block)
-        else
-          super
-      end
-    end
+      when Array
+        return value if filters.none?
 
-    def self.convert_values(values, &block)
-      return values.dup unless block_given?
-
-      method = get_filter_method(FilterMethods.evaluate(&block))
-      values.map do |value|
-        Filter.factory(method.method_name).
-          prepare(method.attribute, value, method.options, &method.block)
-      end
-    rescue InvalidValue, MissingValue
-      raise InvalidNestedValue
-    end
-    private_class_method :convert_values
-
-    def self.get_filter_method(filter_methods)
-      if filter_methods.count > 1
-        raise ArgumentError, 'Array filter blocks can only contain one filter.'
+        filter = filters.first
+        value.map { |e| filter.clean(e) }
       else
-        filter_methods.first
+        super
       end
     end
-    private_class_method :get_filter_method
+
+    def method_missing(*args, &block)
+      super do |klass, names, options|
+        filter = klass.new(name, options, &block)
+
+        raise InvalidFilterError, 'multiple nested filters' if filters.any?
+        raise InvalidFilterError, 'nested name' unless names.empty?
+        raise InvalidDefaultError, 'nested default' if filter.has_default?
+
+        filters.add(filter)
+      end
+    end
   end
 end

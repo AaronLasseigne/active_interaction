@@ -15,7 +15,7 @@ module ActiveInteraction
   #     integer :a, :b
   #
   #     # Optional
-  #     integer :c, allow_nil: true
+  #     integer :c, default: nil
   #
   #     def execute
   #       sum = a + b
@@ -30,58 +30,59 @@ module ActiveInteraction
   #     p outcome.errors
   #   end
   class Base
-    extend ::ActiveModel::Naming
-    include ::ActiveModel::Conversion
-    include ::ActiveModel::Validations
-
-    # @private
-    def new_record?
-      true
-    end
-
-    # @private
-    def persisted?
-      false
-    end
-
-    # @private
-    def self.i18n_scope
-      :active_interaction
-    end
-
-    # @private
-    def i18n_scope
-      self.class.i18n_scope
-    end
-
+    include ActiveModel
+    extend MethodMissing
     extend OverloadHash
 
     validate do
-      return unless @_interaction_errors
+      Validation.validate(self.class.filters, inputs).each do |error|
+        errors.add_sym(*error)
+      end
+    end
 
-      @_interaction_errors.symbolic.each do |attribute, symbols|
+    validate do
+      return unless instance_variable_defined?(:@_interaction_runtime_errors)
+
+      @_interaction_runtime_errors.symbolic.each do |attribute, symbols|
         symbols.each { |symbol| errors.add_sym(attribute, symbol) }
       end
 
-      @_interaction_errors.messages.each do |attribute, messages|
+      @_interaction_runtime_errors.messages.each do |attribute, messages|
         messages.each { |message| errors.add(attribute, message) }
       end
     end
 
+    # Returns the inputs provided to {.run} or {.run!} after being cast based
+    #   on the filters in the class.
+    #
+    # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
+    #
+    # @since 0.6.0
+    def inputs
+      self.class.filters.reduce({}) do |h, filter|
+        h[filter.name] = send(filter.name)
+        h
+      end
+    end
+
+    # @param options [Hash{Symbol => Object}] Attribute values to set.
+    #
     # @private
     def initialize(options = {})
-      options = options.with_indifferent_access
+      options = options.symbolize_keys
 
-      if options.has_key?(:result)
-        raise ArgumentError, ':result is reserved and can not be used'
+      options.each do |key, value|
+        if key.to_s.start_with?('_interaction_')
+          raise InvalidValueError, key.inspect
+        end
+
+        instance_variable_set("@#{key}", value)
       end
 
-      options.each do |attribute, value|
-        method = "_filter__#{attribute}="
-        if respond_to?(method, true)
-          send(method, value)
-        else
-          instance_variable_set("@#{attribute}", value)
+      self.class.filters.each do |filter|
+        begin
+          send("#{filter.name}=", filter.clean(options[filter.name]))
+        rescue InvalidValueError, MissingValueError
         end
       end
     end
@@ -92,6 +93,8 @@ module ActiveInteraction
     #   This method is run in a transaction if ActiveRecord is available.
     #
     # @raise [NotImplementedError] if the method is not defined.
+    #
+    # @abstract
     def execute
       raise NotImplementedError
     end
@@ -102,17 +105,22 @@ module ActiveInteraction
     # @return [Nil] if there are validation errors.
     # @return [Object] if there are no validation errors.
     def result
-      @_interaction_result
+      symbol = :'@_interaction_result'
+      if instance_variable_defined?(symbol)
+        instance_variable_get(symbol)
+      else
+        nil
+      end
     end
 
     # @private
     def errors
-      @errors ||= Errors.new(self)
+      @_interaction_errors ||= Errors.new(self)
     end
 
     # @private
     def valid?(*args)
-      super || instance_variable_set(:@_interaction_result, nil)
+      super || @_interaction_result = nil
     end
 
     # @private
@@ -125,27 +133,32 @@ module ActiveInteraction
         yield
       end
     end
-    private_class_method :transaction
 
-    # @!macro [new] run_attributes
-    #   @param options [Hash] Attribute values to set.
+    # Get all the filters defined on this interaction.
+    #
+    # @return [Filters]
+    #
+    # @since 0.6.0
+    def self.filters
+      @_interaction_filters ||= Filters.new
+    end
 
     # Runs validations and if there are no errors it will call {#execute}.
     #
-    # @macro run_attributes
+    # @param (see #initialize)
     #
     # @return [ActiveInteraction::Base] An instance of the class `run` is
     #   called on.
-    def self.run(options = {})
-      new(options).tap do |interaction|
+    def self.run(*args)
+      new(*args).tap do |interaction|
         if interaction.valid?
           result = transaction { interaction.execute }
 
           if interaction.errors.empty?
             interaction.instance_variable_set(:@_interaction_result, result)
           else
-            interaction.instance_variable_set(:@_interaction_errors,
-              interaction.errors.dup)
+            interaction.instance_variable_set(
+              :@_interaction_runtime_errors, interaction.errors.dup)
           end
         end
       end
@@ -154,93 +167,36 @@ module ActiveInteraction
     # Like {.run} except that it returns the value of {#execute} or raises an
     #   exception if there were any validation errors.
     #
-    # @macro run_attributes
-    #
-    # @raise [InteractionInvalid] if there are any errors on the model.
+    # @param (see .run)
     #
     # @return The return value of {#execute}.
-    def self.run!(options = {})
-      outcome = run(options)
+    #
+    # @raise [InteractionInvalidError] if there are any errors on the model.
+    def self.run!(*args)
+      outcome = run(*args)
       if outcome.invalid?
-        raise InteractionInvalid, outcome.errors.full_messages.join(', ')
+        raise InteractionInvalidError, outcome.errors.full_messages.join(', ')
       end
       outcome.result
     end
 
     # @private
-    def self.method_missing(type, *args, &block)
-      filter = Filter.factory(type)
-      options = args.last.is_a?(Hash) ? args.pop : {}
-      args.each do |attribute|
-        set_up_reader(attribute, filter, options, &block)
-        set_up_writer(attribute, filter, options, &block)
-        set_up_validator(attribute, type, filter, options, &block)
-      end
-    end
-    private_class_method :method_missing
+    def self.method_missing(*args, &block)
+      super do |klass, names, options|
+        raise InvalidFilterError, 'no name' if names.empty?
 
-    # @private
-    def self.set_up_reader(attribute, filter, options, &block)
-      default = nil
-      if options.has_key?(:default)
-        begin
-          default = filter.
-            prepare(attribute, options[:default], options, &block)
-        rescue InvalidNestedValue, InvalidValue
-          raise InvalidDefaultValue
-        end
-      end
-
-      define_method(attribute) do
-        symbol = "@#{attribute}"
-        if instance_variable_defined?(symbol)
-          instance_variable_get(symbol)
-        else
-          default
-        end
-      end
-    end
-    private_class_method :set_up_reader
-
-    # @private
-    def self.set_up_writer(attribute, filter, options, &block)
-      attr_writer attribute
-
-      writer = "_filter__#{attribute}="
-
-      define_method(writer) do |value|
-        value =
-          begin
-            filter.prepare(attribute, value, options, &block)
-          rescue InvalidNestedValue, InvalidValue, MissingValue
-            value
+        names.each do |attribute|
+          if attribute.to_s.start_with?('_interaction_')
+            raise InvalidFilterError, attribute.inspect
           end
-        instance_variable_set("@#{attribute}", value)
-      end
-      private writer
-    end
-    private_class_method :set_up_writer
 
-    # @private
-    def self.set_up_validator(attribute, type, filter, options, &block)
-      validator = "_validate__#{attribute}__#{type}"
+          filter = klass.new(attribute, options, &block)
+          filters.add(filter)
+          attr_accessor filter.name
 
-      validate validator
-
-      define_method(validator) do
-        begin
-          filter.prepare(attribute, send(attribute), options, &block)
-        rescue InvalidNestedValue
-          errors.add_sym(attribute, :invalid_nested)
-        rescue InvalidValue
-          errors.add_sym(attribute, :invalid, nil,
-                     type: I18n.translate("#{i18n_scope}.types.#{type.to_s}"))
-        rescue MissingValue
-          errors.add_sym(attribute, :missing)
+          filter.default if filter.has_default?
         end
       end
-      private validator
     end
-    private_class_method :set_up_validator
   end
 end

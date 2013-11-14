@@ -1,55 +1,77 @@
 require 'spec_helper'
 
-describe ActiveInteraction::ArrayFilter do
+describe ActiveInteraction::ArrayFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  context 'with multiple nested filters' do
+    let(:block) { Proc.new { array; array } }
+
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
+    end
+  end
+
+  context 'with a nested name' do
+    let(:block) { Proc.new { array :a } }
+
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
+    end
+  end
+
+  context 'with a nested default' do
+    let(:block) { Proc.new { array default: nil } }
+
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidDefaultError
+    end
+  end
+
+  describe '#cast' do
     context 'with an Array' do
       let(:value) { [] }
 
       it 'returns the Array' do
-        expect(result).to eql value
+        expect(filter.cast(value)).to eq value
       end
     end
 
-    context 'with a block' do
+    context 'with a heterogenous Array' do
+      let(:value) { [[], false, 0.0, {}, 0, '', :''] }
+
+      it 'returns the Array' do
+        expect(filter.cast(value)).to eq value
+      end
+    end
+
+    context 'with a nested filter' do
       let(:block) { Proc.new { array } }
+
+      context 'with an Array' do
+        let(:value) { [] }
+
+        it 'returns the Array' do
+          expect(filter.cast(value)).to eq value
+        end
+      end
 
       context 'with an Array of Arrays' do
         let(:value) { [[]] }
 
         it 'returns the Array' do
-          expect(result).to eql value
+          expect(filter.cast(value)).to eq value
         end
       end
 
-      context 'with an Array of anything else' do
-        let(:value) { [Object.new] }
+      context 'with a heterogenous Array' do
+        let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
         it 'raises an error' do
-          expect {
-            result
-          }.to raise_error ActiveInteraction::InvalidNestedValue
+          expect{
+            filter.cast(value)
+          }.to raise_error ActiveInteraction::InvalidValueError
         end
-      end
-    end
-
-    context 'with a nested block' do
-      let(:block) { Proc.new { array { array } } }
-      let(:value) { [[[]]] }
-
-      it 'returns the Array' do
-        expect(result).to eql value
-      end
-    end
-
-    context 'with an invalid block' do
-      let(:block) { Proc.new { array; array } }
-      let(:value) { [] }
-
-      it 'raises an error' do
-        expect { result }.to raise_error ArgumentError
       end
     end
   end

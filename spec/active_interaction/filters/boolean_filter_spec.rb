@@ -1,31 +1,23 @@
 require 'spec_helper'
 
-describe ActiveInteraction::BooleanFilter do
+describe ActiveInteraction::BooleanFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  describe '.prepare(key, value, options = {}, &block)' do
-    context 'with true' do
-      let(:value) { true }
-
-      it 'returns true' do
-        expect(result).to eql true
-      end
-    end
-
+  describe '#cast' do
     context 'with false' do
       let(:value) { false }
 
       it 'returns false' do
-        expect(result).to eql false
+        expect(filter.cast(value)).to be_false
       end
     end
 
-    context 'with "1"' do
-      let(:value) { '1' }
+    context 'with true' do
+      let(:value) { true }
 
       it 'returns true' do
-        expect(result).to eql true
+        expect(filter.cast(value)).to be_true
       end
     end
 
@@ -33,7 +25,15 @@ describe ActiveInteraction::BooleanFilter do
       let(:value) { '0' }
 
       it 'returns false' do
-        expect(result).to eql false
+        expect(filter.cast(value)).to be_false
+      end
+    end
+
+    context 'with "1"' do
+      let(:value) { '1' }
+
+      it 'returns true' do
+        expect(filter.cast(value)).to be_true
       end
     end
   end

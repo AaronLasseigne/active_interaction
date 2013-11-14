@@ -1,48 +1,60 @@
 require 'spec_helper'
 
-describe ActiveInteraction::DateTimeFilter do
+describe ActiveInteraction::DateTimeFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  describe '.prepare(key, value, options = {}, &block)' do
-    context 'with a DateTime' do
-      let(:value) { DateTime.now }
+  shared_context 'with format' do
+    let(:format) { '%d/%m/%Y %H:%M:%S %:z' }
+
+    before do
+      options.merge!(format: format)
+    end
+  end
+
+  describe '#cast' do
+    context 'with a Datetime' do
+      let(:value) { DateTime.new }
 
       it 'returns the DateTime' do
-        expect(result).to eql value
+        expect(filter.cast(value)).to eq value
       end
     end
 
-    context 'with a valid String' do
-      let(:value) { '2001-01-01T01:01:01+01:01' }
+    context 'with a String' do
+      let(:value) { '2011-12-13T14:15:16+17:18' }
 
-      it 'parses the String' do
-        expect(result).to eql DateTime.parse(value)
+      it 'returns a DateTime' do
+        expect(filter.cast(value)).to eq DateTime.parse(value)
       end
 
-      context 'with options[:format]' do
-        let(:value) { '01010101012001' }
+      context 'with format' do
+        include_context 'with format'
 
-        before { options.merge!(format: '%S%M%H%m%d%Y') }
+        let(:value) { '13/12/2011 14:15:16 +17:18' }
 
-        it 'parses the String' do
-          expect(result).to eql DateTime.strptime(value, options[:format])
+        it 'returns a DateTime' do
+          expect(filter.cast(value)).to eq DateTime.strptime(value, format)
         end
       end
     end
 
     context 'with an invalid String' do
-      let(:value) { 'not a valid DateTine' }
+      let(:value) { 'invalid' }
 
       it 'raises an error' do
-        expect { result }.to raise_error ActiveInteraction::InvalidValue
+        expect {
+          filter.cast(value)
+        }.to raise_error ActiveInteraction::InvalidValueError
       end
 
-      context 'with options[:format]' do
-        before { options.merge!(format: '%S%M%H%m%d%Y') }
+      context 'with format' do
+        include_context 'with format'
 
         it 'raises an error' do
-          expect { result }.to raise_error ActiveInteraction::InvalidValue
+          expect {
+            filter.cast(value)
+          }.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end

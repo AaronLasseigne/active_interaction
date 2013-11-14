@@ -14,14 +14,20 @@ describe ActiveInteraction::Base do
   end
 
   describe '.new(options = {})' do
-    it 'does not allow :result as an option' do
-      options.merge!(result: nil)
-      expect { interaction }.to raise_error ArgumentError
+    it 'does not allow :_interaction_* as an option' do
+      key = :"_interaction_#{SecureRandom.hex}"
+      options.merge!(key => nil)
+      expect {
+        interaction
+      }.to raise_error ActiveInteraction::InvalidValueError
     end
 
-    it 'does not allow "result" as an option' do
-      options.merge!('result' => nil)
-      expect { interaction }.to raise_error ArgumentError
+    it 'does not allow "_interaction_*" as an option' do
+      key = "_interaction_#{SecureRandom.hex}"
+      options.merge!(key => nil)
+      expect {
+        interaction
+      }.to raise_error ActiveInteraction::InvalidValueError
     end
 
     context 'with an attribute' do
@@ -101,6 +107,14 @@ describe ActiveInteraction::Base do
       }.to raise_error NoMethodError
     end
 
+    it do
+      expect do
+        Class.new(described_class) do
+          float :_interaction_thing
+        end
+      end.to raise_error ActiveInteraction::InvalidFilterError
+    end
+
     context 'with a filter' do
       let(:described_class) { InteractionWithFilter }
 
@@ -163,7 +177,7 @@ describe ActiveInteraction::Base do
 
       context 'failing validations' do
         it 'returns an invalid outcome' do
-          expect(outcome).to be_invalid
+          expect(outcome).to_not be_valid
         end
 
         it 'sets the result to nil' do
@@ -184,7 +198,9 @@ describe ActiveInteraction::Base do
           end
 
           after do
-            described_class.send(:define_method, :execute, @execute)
+            silence_warnings do
+              described_class.send(:define_method, :execute, @execute)
+            end
           end
 
           it 'returns an invalid outcome' do
@@ -246,7 +262,7 @@ describe ActiveInteraction::Base do
         it 'raises an error' do
           expect {
             result
-          }.to raise_error ActiveInteraction::InteractionInvalid
+          }.to raise_error ActiveInteraction::InteractionInvalidError
         end
       end
 
@@ -260,33 +276,23 @@ describe ActiveInteraction::Base do
     end
   end
 
+  describe '#inputs' do
+    let(:described_class) { InteractionWithFilter }
+    let(:other_val) { SecureRandom.hex }
+    let(:options) { {thing: 1, other: other_val} }
+
+    it 'casts filtered inputs' do
+      expect(interaction.inputs[:thing]).to eql 1.0
+    end
+
+    it 'strips non-filtered inputs' do
+      expect(interaction.inputs).to_not have_key(:other)
+    end
+  end
+
   describe '#execute' do
     it 'raises an error' do
       expect { interaction.execute }.to raise_error NotImplementedError
-    end
-  end
-
-  describe '#new_record?' do
-    it 'returns true' do
-      expect(interaction).to be_new_record
-    end
-  end
-
-  describe '#persisted?' do
-    it 'returns false' do
-      expect(interaction).to_not be_persisted
-    end
-  end
-
-  describe '.i18n_scope' do
-    it 'returns the scope' do
-      expect(described_class.i18n_scope).to eq :active_interaction
-    end
-  end
-
-  describe '#i18n_scope' do
-    it 'returns the scope' do
-      expect(interaction.i18n_scope).to eq :active_interaction
     end
   end
 end

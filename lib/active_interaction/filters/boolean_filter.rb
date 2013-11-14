@@ -4,26 +4,26 @@ module ActiveInteraction
     #   the attributes are Booleans. The String `"1"` is converted to `true`
     #   and `"0"` is converted to `false`.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     #
     # @example
     #   boolean :subscribed
+    #
+    # @since 0.1.0
     #
     # @method self.boolean(*attributes, options = {})
   end
 
   # @private
   class BooleanFilter < Filter
-    def self.prepare(key, value, options = {}, &block)
+    def cast(value)
       case value
-        when TrueClass, FalseClass
-          value
-        when '0'
-          false
-        when '1'
-          true
-        else
-          super
+      when FalseClass, '0'
+        false
+      when TrueClass, '1'
+        true
+      else
+        super
       end
     end
   end

@@ -1,29 +1,21 @@
 require 'spec_helper'
 
-module ActiveInteraction
-  TestFilter = Class.new(Filter)
-end
+class ActiveInteraction::TestFilter < ActiveInteraction::Filter; end
 
-describe ActiveInteraction::Filter do
-  it_behaves_like 'a filter'
+describe ActiveInteraction::Filter, :filter do
+  include_context 'filters'
 
-  describe '.factory(type)' do
-    let(:result) { described_class.factory(type) }
-
-    context 'with a valid type' do
-      let(:type) { :test }
-
-      it 'returns the Class' do
-        expect(result).to eql ActiveInteraction::TestFilter
-      end
+  describe '.slug' do
+    it 'raises an error' do
+      expect {
+        described_class.slug
+      }.to raise_error ActiveInteraction::InvalidClassError
     end
+  end
 
-    context 'with an invalid type' do
-      let(:type) { :not_a_valid_type }
+  context ActiveInteraction::TestFilter do
+    it_behaves_like 'a filter'
 
-      it 'raises an error' do
-        expect { result }.to raise_error NoMethodError
-      end
-    end
+    let(:described_class) { ActiveInteraction::TestFilter }
   end
 end

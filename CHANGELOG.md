@@ -1,5 +1,19 @@
 # [Master][]
 
+# [0.6.0][] (2013-11-13)
+
+- Error class now end with `Error`.
+- By default, strip unlisted keys from hashes. To retain the old behavior, set
+  `strip: false` on a hash filter.
+- Prevent specifying defaults (other than `nil` or `{}`) on hash filters. Set
+  defaults on the nested filters instead.
+- Add ability to introspect interactions with `filters`.
+- Fix bug that prevented listing multiple attributes in a hash filter.
+- Allow getting all of the user-supplied inputs in an interaction with
+  `inputs`.
+- Fix bug that prevented hash filters from being nested in array filters.
+- Replace `allow_nil: true` with `default: nil`.
+- Refactor internals.
 - Add a symbol filter.
 - Allow adding symbolic errors with `errors.add_sym` and retrieving them with
   `errors.symbolic`.
@@ -52,7 +66,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.5.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.6.0...master
+  [0.6.0]: https://github.com/orgsync/active_interaction/compare/v0.5.0...v0.6.0
   [0.5.0]: https://github.com/orgsync/active_interaction/compare/v0.4.0...v0.5.0
   [0.4.0]: https://github.com/orgsync/active_interaction/compare/v0.3.0...v0.4.0
   [0.3.0]: https://github.com/orgsync/active_interaction/compare/v0.2.2...v0.3.0

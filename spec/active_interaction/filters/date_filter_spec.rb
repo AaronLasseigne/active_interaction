@@ -1,48 +1,60 @@
 require 'spec_helper'
 
-describe ActiveInteraction::DateFilter do
+describe ActiveInteraction::DateFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  describe '.prepare(key, value, options = {}, &block)' do
+  shared_context 'with format' do
+    let(:format) { '%d/%m/%Y' }
+
+    before do
+      options.merge!(format: format)
+    end
+  end
+
+  describe '#cast' do
     context 'with a Date' do
-      let(:value) { Date.today }
+      let(:value) { Date.new }
 
       it 'returns the Date' do
-        expect(result).to eql value
+        expect(filter.cast(value)).to eq value
       end
     end
 
-    context 'with a valid String' do
-      let(:value) { '2001-01-01' }
+    context 'with a String' do
+      let(:value) { '2011-12-13' }
 
-      it 'parses the String' do
-        expect(result).to eql Date.parse(value)
+      it 'returns a Date' do
+        expect(filter.cast(value)).to eq Date.parse(value)
       end
 
-      context 'with options[:format]' do
-        let(:value) { '01012001' }
+      context 'with format' do
+        include_context 'with format'
 
-        before { options.merge!(format: '%m%d%Y') }
+        let(:value) { '13/12/2011' }
 
-        it 'parses the String' do
-          expect(result).to eql Date.strptime(value, options[:format])
+        it 'returns a Date' do
+          expect(filter.cast(value)).to eq Date.strptime(value, format)
         end
       end
     end
 
     context 'with an invalid String' do
-      let(:value) { 'not a valid Date' }
+      let(:value) { 'invalid' }
 
       it 'raises an error' do
-        expect { result }.to raise_error ActiveInteraction::InvalidValue
+        expect {
+          filter.cast(value)
+        }.to raise_error ActiveInteraction::InvalidValueError
       end
 
-      context 'with options[:format]' do
-        before { options.merge!(format: '%m%d%Y') }
+      context 'with format' do
+        include_context 'with format'
 
         it 'raises an error' do
-          expect { result }.to raise_error ActiveInteraction::InvalidValue
+          expect {
+            filter.cast(value)
+          }.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end
