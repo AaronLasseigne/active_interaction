@@ -37,8 +37,11 @@ module ActiveInteraction
     #
     # @private
     def initialize(options = {})
-      options = options.symbolize_keys
+      @_interaction_errors = Errors.new(self)
+      @_interaction_result = nil
+      @_interaction_runtime_errors = nil
 
+      options = options.symbolize_keys
       options.each do |key, value|
         if key.to_s.start_with?('_interaction_')
           raise InvalidValueError, key.inspect
@@ -86,17 +89,12 @@ module ActiveInteraction
     # @return [Nil] if there are validation errors.
     # @return [Object] if there are no validation errors.
     def result
-      symbol = :'@_interaction_result'
-      if instance_variable_defined?(symbol)
-        instance_variable_get(symbol)
-      else
-        nil
-      end
+      @_interaction_result
     end
 
     # @private
     def errors
-      @_interaction_errors ||= Errors.new(self)
+      @_interaction_errors
     end
 
     # @private
@@ -164,7 +162,7 @@ module ActiveInteraction
     end
 
     def runtime_errors
-      return unless instance_variable_defined?(:@_interaction_runtime_errors)
+      return unless @_interaction_runtime_errors
 
       @_interaction_runtime_errors.symbolic.each do |attribute, symbols|
         symbols.each { |symbol| errors.add_sym(attribute, symbol) }
