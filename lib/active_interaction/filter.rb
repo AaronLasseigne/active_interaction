@@ -154,14 +154,14 @@ module ActiveInteraction
     #
     # @example
     #   ActiveInteraction::Filter.new(:example).default
-    #   # => ActiveInteraction::MissingDefault: example
+    #   # => ActiveInteraction::NoDefault: example
     #
     # @return [Object]
     #
     # @raise [InvalidDefault] if the default value is invalid
-    # @raise [MissingDefault] if there is no default value
+    # @raise [NoDefault] if there is no default value
     def default
-      raise MissingDefault, name unless has_default?
+      raise NoDefault, name unless has_default?
 
       cast(options[:default])
     rescue InvalidValue, MissingValue

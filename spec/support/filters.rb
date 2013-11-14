@@ -136,7 +136,7 @@ shared_examples_for 'a filter' do
       it 'raises an error' do
         expect {
           filter.default
-        }.to raise_error ActiveInteraction::MissingDefault
+        }.to raise_error ActiveInteraction::NoDefault
       end
     end
 

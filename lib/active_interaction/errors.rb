@@ -18,7 +18,7 @@ module ActiveInteraction
   InvalidValue = Class.new(Error)
 
   # Raised if there is no default value.
-  MissingDefault = Class.new(Error)
+  NoDefault = Class.new(Error)
 
   # Raised if a filter cannot be found.
   MissingFilter = Class.new(Error)
