@@ -57,13 +57,13 @@ module ActiveInteraction
     # @return [Base] an instance of the last successful interaction in the
     #   pipeline
     #
-    # @raise [EmptyPipeline] if nothing is in the pipeline
+    # @raise [EmptyPipelineError] if nothing is in the pipeline
     def run(*args)
-      raise EmptyPipeline if @steps.empty?
+      raise EmptyPipelineError if @steps.empty?
       transaction do
-        (function, interaction), *steps = @steps
+        function, interaction = @steps.first
         outcome = interaction.run(function.call(*args))
-        steps.reduce(outcome) { |o, (f, i)| bind(o, f, i) }
+        @steps[1..-1].reduce(outcome) { |o, (f, i)| bind(o, f, i) }
       end
     end
 

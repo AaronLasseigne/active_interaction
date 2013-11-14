@@ -7,16 +7,16 @@ module ActiveInteraction
     include ::ActiveModel::Conversion
     include ::ActiveModel::Validations
 
+    def i18n_scope
+      self.class.i18n_scope
+    end
+
     def new_record?
       true
     end
 
     def persisted?
       false
-    end
-
-    def i18n_scope
-      self.class.i18n_scope
     end
 
     # @private

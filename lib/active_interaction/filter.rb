@@ -79,18 +79,12 @@ module ActiveInteraction
         match.captures.first.underscore.to_sym
       end
 
-      # @param klass [Class]
-      #
-      # @return [nil]
-      #
       # @private
       def inherited(klass)
         begin
           CLASSES[klass.slug] = klass
         rescue InvalidClassError
         end
-
-        super
       end
     end
 
@@ -129,7 +123,9 @@ module ActiveInteraction
     #
     # @return [Object]
     #
-    # @raise (see #cast)
+    # @raise [InvalidValueError] if the value is invalid
+    # @raise [MissingValueError] if the value is missing and the input is
+    #   required
     # @raise (see #default)
     #
     # @see #default
@@ -185,13 +181,6 @@ module ActiveInteraction
       options.has_key?(:default)
     end
 
-    # @param value [Object]
-    #
-    # @return [nil]
-    #
-    # @raise [InvalidValueError] if the value is invalid
-    # @raise [MissingValueError] if the value is missing and the input is required
-    #
     # @private
     def cast(value)
       case value

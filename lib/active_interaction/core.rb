@@ -16,22 +16,24 @@ module ActiveInteraction
     #
     # @return [Object] the return value of {Base#execute}
     #
-    # @raise [InteractionInvalidError] if the outcome is invalid
+    # @raise [InvalidInteractionError] if the outcome is invalid
     def run!(*args)
       outcome = run(*args)
 
       if outcome.valid?
         outcome.result
       else
-        raise InteractionInvalidError.new(outcome.errors.full_messages.join(', '))
+        raise InvalidInteractionError, outcome.errors.full_messages.join(', ')
       end
     end
 
     private
 
-    def transaction(*args, &block)
+    def transaction(*args)
+      return unless block_given?
+
       if defined?(ActiveRecord)
-        ActiveRecord::Base.transaction(*args, &block)
+        ::ActiveRecord::Base.transaction(*args) { yield }
       else
         yield
       end

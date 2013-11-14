@@ -25,7 +25,7 @@ describe ActiveInteraction::Pipeline do
 
   it 'raises an error with no pipes' do
     pipeline = described_class.new
-    expect { pipeline.run }.to raise_error(ActiveInteraction::EmptyPipeline)
+    expect { pipeline.run }.to raise_error(ActiveInteraction::EmptyPipelineError)
   end
 
   it 'returns an invalid outcome with one invalid pipe' do
@@ -97,7 +97,7 @@ describe ActiveInteraction::Pipeline do
       end
 
       options = { a: rand }
-      expect { pipeline.run!(options) }.to raise_error(ActiveInteraction::InteractionInvalidError)
+      expect { pipeline.run!(options) }.to raise_error(ActiveInteraction::InvalidInteractionError)
     end
 
     it 'returns the outcome with one valid pipe' do

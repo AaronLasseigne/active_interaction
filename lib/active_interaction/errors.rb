@@ -2,8 +2,8 @@ module ActiveInteraction
   # Top-level error class. All other errors subclass this.
   Error = Class.new(StandardError)
 
-  # Raised if an interaction is invalid.
-  InteractionInvalidError = Class.new(Error)
+  # Raised when trying to run an empty pipeline.
+  EmptyPipelineError = Class.new(Error)
 
   # Raised if a class name is invalid.
   InvalidClassError = Class.new(Error)
@@ -14,11 +14,11 @@ module ActiveInteraction
   # Raised if a filter has an invalid definition.
   InvalidFilterError = Class.new(Error)
 
+  # Raised if an interaction is invalid.
+  InvalidInteractionError = Class.new(Error)
+
   # Raised if a user-supplied value is invalid.
   InvalidValueError = Class.new(Error)
-
-  # Raised if there is no default value.
-  NoDefaultError = Class.new(Error)
 
   # Raised if a filter cannot be found.
   MissingFilterError = Class.new(Error)
@@ -26,7 +26,8 @@ module ActiveInteraction
   # Raised if no value is given.
   MissingValueError = Class.new(Error)
 
-  EmptyPipeline = Class.new(StandardError)
+  # Raised if there is no default value.
+  NoDefaultError = Class.new(Error)
 
   # A small extension to provide symbolic error messages to make introspecting
   #   and testing easier.

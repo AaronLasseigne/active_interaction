@@ -50,7 +50,7 @@ module ActiveInteraction
     end
 
     def method_missing(*args, &block)
-      super do |klass, names, options|
+      super(*args) do |klass, names, options|
         raise InvalidFilterError, 'no name' if names.empty?
 
         names.each do |name|

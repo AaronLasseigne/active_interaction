@@ -107,7 +107,7 @@ module ActiveInteraction
 
     # @private
     def valid?(*args)
-      super || @_interaction_result = nil
+      super(*args) || (@_interaction_result = nil)
     end
 
     # Get all the filters defined on this interaction.
