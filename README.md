@@ -47,7 +47,7 @@ models ensure that certain options are provided and that those
 options are in the format you want them in. If the options are valid
 it will call `execute`, store the return value of that method in
 `result`, and return an instance of your ActiveInteraction::Base
-subclass. Let's looks at a simple example:
+subclass. Let's look at a simple example:
 
 ```ruby
 # Define an interaction that signs up a user.
