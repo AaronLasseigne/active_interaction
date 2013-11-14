@@ -198,10 +198,9 @@ describe ActiveInteraction::Base do
           end
 
           after do
-            verbose = $VERBOSE
-            $VERBOSE = nil
-            described_class.send(:define_method, :execute, @execute)
-            $VERBOSE = verbose
+            silence_warnings do
+              described_class.send(:define_method, :execute, @execute)
+            end
           end
 
           it 'returns an invalid outcome' do
