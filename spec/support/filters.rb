@@ -153,6 +153,24 @@ shared_examples_for 'a filter' do
     end
   end
 
+  describe '#desc' do
+    it 'returns nil' do
+      expect(filter.desc).to be_nil
+    end
+
+    context 'with a description' do
+      let(:desc) { SecureRandom.hex }
+
+      before do
+        options.merge!(desc: desc)
+      end
+
+      it 'returns the description' do
+        expect(filter.desc).to eq desc
+      end
+    end
+  end
+
   describe '#filters' do
     it 'returns Filters' do
       expect(filter.filters).to be_an ActiveInteraction::Filters

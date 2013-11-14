@@ -6,6 +6,7 @@ module ActiveInteraction
   #   @param options [Hash{Symbol => Object}]
   #
   #   @option options [Object] :default fallback value if `nil` is given
+  #   @option options [String] :desc human-readable description of this input
 
   # Describes an input filter for an interaction.
   #
@@ -162,6 +163,19 @@ module ActiveInteraction
       cast(options[:default])
     rescue InvalidValueError, MissingValueError
       raise InvalidDefaultError, "#{name}: #{options[:default].inspect}"
+    end
+
+    # Get the description.
+    #
+    # @example
+    #   ActiveInteraction::Filter.new(:example, desc: 'description').desc
+    #   # => "description"
+    #
+    # @return [String]
+    #
+    # @since 0.8.0
+    def desc
+      options[:desc]
     end
 
     # Tells if this filter has a default value.
