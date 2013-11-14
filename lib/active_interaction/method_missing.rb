@@ -4,8 +4,6 @@ module ActiveInteraction
   #
   # @since 0.6.0
   module MethodMissing
-    private
-
     def method_missing(slug, *args, &block)
       begin
         klass = Filter.factory(slug)
