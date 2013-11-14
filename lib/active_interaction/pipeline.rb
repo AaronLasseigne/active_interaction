@@ -63,7 +63,7 @@ module ActiveInteraction
       transaction do
         function, interaction = @steps.first
         outcome = interaction.run(function.call(*args))
-        @steps[1..-1].reduce(outcome) { |o, (f, i)| bind(o, f, i) }
+        @steps.drop(1).reduce(outcome) { |o, (f, i)| bind(o, f, i) }
       end
     end
 
