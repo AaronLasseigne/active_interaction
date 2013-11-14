@@ -20,34 +20,11 @@ module ActiveInteraction
   end
 
   # @private
-  class DateFilter < Filter
-    def cast(value)
-      case value
-      when Date
-        value
-      when String
-        begin
-          if has_format?
-            Date.strptime(value, format)
-          else
-            Date.parse(value)
-          end
-        rescue ArgumentError
-          super
-        end
-      else
-        super
-      end
-    end
-
+  class DateFilter < AbstractDateTimeFilter
     private
 
-    def has_format?
-      options.has_key?(:format)
-    end
-
-    def format
-      options.fetch(:format)
+    def klass
+      Date
     end
   end
 end

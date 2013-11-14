@@ -21,37 +21,17 @@ module ActiveInteraction
   end
 
   # @private
-  class TimeFilter < Filter
+  class TimeFilter < AbstractDateTimeFilter
     def cast(value)
       case value
-      when klass
-        value
       when Numeric
         time.at(value)
-      when String
-        begin
-          if has_format?
-            klass.strptime(value, format)
-          else
-            klass.parse(value)
-          end
-        rescue ArgumentError
-          super
-        end
       else
         super
       end
     end
 
     private
-
-    def format
-      options.fetch(:format)
-    end
-
-    def has_format?
-      options.has_key?(:format)
-    end
 
     def klass
       time.at(0).class
