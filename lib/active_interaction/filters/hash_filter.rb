@@ -49,8 +49,6 @@ module ActiveInteraction
       super
     end
 
-    private
-
     def method_missing(*args, &block)
       super do |klass, names, options|
         raise InvalidFilterError, 'no name' if names.empty?
@@ -60,6 +58,8 @@ module ActiveInteraction
         end
       end
     end
+
+    private
 
     def strip?
       options.fetch(:strip, true)

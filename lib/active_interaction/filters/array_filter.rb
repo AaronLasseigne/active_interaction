@@ -40,8 +40,6 @@ module ActiveInteraction
       end
     end
 
-    private
-
     def method_missing(*args, &block)
       super do |klass, names, options|
         filter = klass.new(name, options, &block)

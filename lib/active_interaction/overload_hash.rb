@@ -1,7 +1,4 @@
 module ActiveInteraction
-  # Helper module for allowing the use of `hash` as both the built-in method
-  #   and a part of a DSL.
-  #
   # @private
   module OverloadHash
     def hash(*args, &block)
