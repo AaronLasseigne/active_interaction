@@ -60,6 +60,7 @@ module ActiveInteraction
     # @raise [EmptyPipelineError] if nothing is in the pipeline
     def run(*args)
       raise EmptyPipelineError if @steps.empty?
+
       transaction do
         function, interaction = @steps.first
         outcome = interaction.run(function.call(*args))
