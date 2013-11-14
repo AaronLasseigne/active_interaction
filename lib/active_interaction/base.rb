@@ -33,19 +33,6 @@ module ActiveInteraction
 
     validate :input_errors, :runtime_errors
 
-    # Returns the inputs provided to {.run} or {.run!} after being cast based
-    #   on the filters in the class.
-    #
-    # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
-    #
-    # @since 0.6.0
-    def inputs
-      self.class.filters.reduce({}) do |h, filter|
-        h[filter.name] = send(filter.name)
-        h
-      end
-    end
-
     # @param options [Hash{Symbol => Object}] Attribute values to set.
     #
     # @private
@@ -65,6 +52,19 @@ module ActiveInteraction
           send("#{filter.name}=", filter.clean(options[filter.name]))
         rescue InvalidValueError, MissingValueError
         end
+      end
+    end
+
+    # Returns the inputs provided to {.run} or {.run!} after being cast based
+    #   on the filters in the class.
+    #
+    # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
+    #
+    # @since 0.6.0
+    def inputs
+      self.class.filters.reduce({}) do |h, filter|
+        h[filter.name] = send(filter.name)
+        h
       end
     end
 
