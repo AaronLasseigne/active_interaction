@@ -137,7 +137,7 @@ module ActiveInteraction
     # @private
     def self.method_missing(*args, &block)
       super do |klass, names, options|
-        raise InvalidFilterError, 'no name' if names.empty?
+        raise InvalidFilterError, 'missing attribute name' if names.empty?
 
         names.each do |attribute|
           if attribute.to_s.start_with?('_interaction_')
@@ -148,6 +148,8 @@ module ActiveInteraction
           filters.add(filter)
           attr_accessor filter.name
 
+          # This isn't required, but it makes invalid defaults raise errors on
+          #   class definition instead of on execution.
           filter.default if filter.has_default?
         end
       end

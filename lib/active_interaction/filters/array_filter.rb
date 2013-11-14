@@ -44,9 +44,15 @@ module ActiveInteraction
       super do |klass, names, options|
         filter = klass.new(name, options, &block)
 
-        raise InvalidFilterError, 'multiple nested filters' if filters.any?
-        raise InvalidFilterError, 'nested name' unless names.empty?
-        raise InvalidDefaultError, 'nested default' if filter.has_default?
+        if filters.any?
+          raise InvalidFilterError, 'multiple filters in array block'
+        end
+        unless names.empty?
+          raise InvalidFilterError, 'attribute names in array block'
+        end
+        if filter.has_default?
+          raise InvalidDefaultError, 'default values in array block'
+        end
 
         filters.add(filter)
       end

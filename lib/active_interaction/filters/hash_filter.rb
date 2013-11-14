@@ -51,7 +51,7 @@ module ActiveInteraction
 
     def method_missing(*args, &block)
       super(*args) do |klass, names, options|
-        raise InvalidFilterError, 'no name' if names.empty?
+        raise InvalidFilterError, 'missing attribute name' if names.empty?
 
         names.each do |name|
           filters.add(klass.new(name, options, &block))
