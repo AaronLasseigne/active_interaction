@@ -80,24 +80,25 @@ module ActiveInteraction
     #
     # @return [Hash] All inputs passed to {.run} or {.run!}.
     # @since 0.6.0
-    attr_reader :inputs
+    def inputs
+      self.class.filters.reduce({}) do |h, filter|
+        h[filter.name] = send(filter.name)
+        h
+      end
+    end
 
     # @private
     def initialize(options = {})
-      @inputs = options.with_indifferent_access
+      options = options.symbolize_keys
 
-      if @inputs.has_key?(:result)
-        raise ArgumentError, ':result is reserved and can not be used'
+      options.each do |key, value|
+        instance_variable_set("@#{key}", value)
       end
 
-      @inputs.each do |name, value|
-        next if value.nil?
-
-        method = "_filter__#{name}="
-        if respond_to?(method, true)
-          @inputs[name] = send(method, value)
-        else
-          instance_variable_set("@#{name}", value)
+      self.class.filters.each do |filter|
+        begin
+          send("#{filter.name}=", filter.clean(options[filter.name]))
+        rescue InvalidValue, MissingValue
         end
       end
     end
@@ -196,45 +197,10 @@ module ActiveInteraction
         names.each do |attribute|
           filter = klass.new(attribute, options, &block)
           filters.add(filter)
-          set_up_reader(filter)
-          set_up_writer(filter)
+          attr_accessor filter.name
+          filter.default if filter.has_default?
         end
       end
     end
-    private_class_method :method_missing
-
-    # @private
-    def self.set_up_reader(filter)
-      default = filter.default if filter.has_default?
-
-      define_method(filter.name) do
-        symbol = "@#{filter.name}"
-        if instance_variable_defined?(symbol)
-          instance_variable_get(symbol)
-        else
-          default
-        end
-      end
-    end
-    private_class_method :set_up_reader
-
-    # @private
-    def self.set_up_writer(filter)
-      attr_writer filter.name
-
-      writer = "_filter__#{filter.name}="
-
-      define_method(writer) do |value|
-        value =
-          begin
-            filter.cast(value)
-          rescue InvalidValueError, MissingValueError
-            value
-          end
-        instance_variable_set("@#{filter.name}", value)
-      end
-      private writer
-    end
-    private_class_method :set_up_writer
   end
 end
