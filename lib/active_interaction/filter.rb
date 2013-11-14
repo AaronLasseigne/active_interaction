@@ -171,7 +171,7 @@ module ActiveInteraction
     #   ActiveInteraction::Filter.new(:example, desc: 'description').desc
     #   # => "description"
     #
-    # @return [String]
+    # @return [String, nil] the description
     #
     # @since 0.8.0
     def desc
