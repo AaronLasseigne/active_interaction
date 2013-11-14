@@ -14,17 +14,21 @@ describe ActiveInteraction::Base do
   end
 
   describe '.new(options = {})' do
-    # REVIEW: I think this test is wrong.
-    # it 'does not allow :result as an option' do
-    #   options.merge!(result: nil)
-    #   expect { interaction }.to raise_error ArgumentError
-    # end
+    it 'does not allow :_interaction_* as an option' do
+      key = :"_interaction_#{SecureRandom.hex}"
+      options.merge!(key => nil)
+      expect {
+        interaction
+      }.to raise_error ActiveInteraction::InvalidValueError
+    end
 
-    # REVIEW: I think this test is wrong.
-    # it 'does not allow "result" as an option' do
-    #   options.merge!('result' => nil)
-    #   expect { interaction }.to raise_error ArgumentError
-    # end
+    it 'does not allow "_interaction_*" as an option' do
+      key = "_interaction_#{SecureRandom.hex}"
+      options.merge!(key => nil)
+      expect {
+        interaction
+      }.to raise_error ActiveInteraction::InvalidValueError
+    end
 
     context 'with an attribute' do
       let(:described_class) do

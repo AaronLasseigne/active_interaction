@@ -95,6 +95,10 @@ module ActiveInteraction
       options = options.symbolize_keys
 
       options.each do |key, value|
+        if key.to_s.start_with?('_interaction_')
+          raise InvalidValueError, key.inspect
+        end
+
         instance_variable_set("@#{key}", value)
       end
 
