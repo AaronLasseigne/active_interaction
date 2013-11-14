@@ -9,6 +9,25 @@ module ActiveInteraction
   # @see Base
   # @see Pipeline
   module Core
+    # Get or set the description.
+    #
+    # @param desc [String, nil] what to set the description to
+    #
+    # @return [String, nil] the description
+    #
+    # @since 0.8.0
+    def desc(desc = nil)
+      if desc.nil?
+        unless instance_variable_defined?(:@_interaction_desc)
+          @_interaction_desc = nil
+        end
+      else
+        @_interaction_desc = desc
+      end
+
+      @_interaction_desc
+    end
+
     # Like {Base.run} except that it returns the value of {Base#execute} or
     #   raises an exception if there were any validation errors.
     #
