@@ -34,23 +34,8 @@ module ActiveInteraction
     extend MethodMissing
     extend OverloadHash
 
-    validate do
-      Validation.validate(self.class.filters, inputs).each do |error|
-        errors.add_sym(*error)
-      end
-    end
-
-    validate do
-      return unless instance_variable_defined?(:@_interaction_runtime_errors)
-
-      @_interaction_runtime_errors.symbolic.each do |attribute, symbols|
-        symbols.each { |symbol| errors.add_sym(attribute, symbol) }
-      end
-
-      @_interaction_runtime_errors.messages.each do |attribute, messages|
-        messages.each { |message| errors.add(attribute, message) }
-      end
-    end
+    validate :input_errors
+    validate :runtime_errors
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
     #   on the filters in the class.
@@ -196,6 +181,26 @@ module ActiveInteraction
 
           filter.default if filter.has_default?
         end
+      end
+    end
+
+    private
+
+    def input_errors
+      Validation.validate(self.class.filters, inputs).each do |error|
+        errors.add_sym(*error)
+      end
+    end
+
+    def runtime_errors
+      return unless instance_variable_defined?(:@_interaction_runtime_errors)
+
+      @_interaction_runtime_errors.symbolic.each do |attribute, symbols|
+        symbols.each { |symbol| errors.add_sym(attribute, symbol) }
+      end
+
+      @_interaction_runtime_errors.messages.each do |attribute, messages|
+        messages.each { |message| errors.add(attribute, message) }
       end
     end
   end
