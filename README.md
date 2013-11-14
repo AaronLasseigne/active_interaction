@@ -260,8 +260,11 @@ outcome.result
 # => 128 # ((3 + 5) ** 2) * 2
 ```
 
-The whole pipeline executes in a single transaction. It behaves a lot like a
-subclass of `ActiveInteraction::Base`, but it's not exactly the same.
+The whole pipeline executes in a single transaction. The pipeline returns the
+outcome of the last successful interaction. An error in the pipeline will short-
+circuit and stop execution immediately.
+
+While pipelines are similar to interactions, the two are not substitutable.
 
 ## Credits
 
