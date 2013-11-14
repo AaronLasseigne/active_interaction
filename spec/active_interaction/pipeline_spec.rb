@@ -25,7 +25,9 @@ describe ActiveInteraction::Pipeline do
 
   it 'raises an error with no pipes' do
     pipeline = described_class.new
-    expect { pipeline.run }.to raise_error(ActiveInteraction::EmptyPipelineError)
+    expect {
+      pipeline.run
+    }.to raise_error ActiveInteraction::EmptyPipelineError
   end
 
   it 'returns an invalid outcome with one invalid pipe' do
@@ -56,7 +58,7 @@ describe ActiveInteraction::Pipeline do
     end
 
     options = { a: rand, b: rand }
-    expect(pipeline.run(options).result).to eq(options)
+    expect(pipeline.run(options).result).to eq options
   end
 
   it 'succeeds with an implicit transformation' do
@@ -66,7 +68,7 @@ describe ActiveInteraction::Pipeline do
     end
 
     options = { a: rand }
-    expect(pipeline.run(options).result).to eq(options[:a] ** 2)
+    expect(pipeline.run(options).result).to eq options[:a] ** 2
   end
 
   it 'succeeds with a symbolic transformation' do
@@ -76,7 +78,7 @@ describe ActiveInteraction::Pipeline do
     end
 
     options = rand
-    expect(pipeline.run(options).result).to eq(options ** 2)
+    expect(pipeline.run(options).result).to eq options ** 2
   end
 
   it 'succeeds with a lambda transformation' do
@@ -86,7 +88,7 @@ describe ActiveInteraction::Pipeline do
     end
 
     options = rand
-    expect(pipeline.run(options).result).to eq((2 * options) ** 2)
+    expect(pipeline.run(options).result).to eq (2 * options) ** 2
   end
 
   describe '#run!' do
@@ -97,7 +99,9 @@ describe ActiveInteraction::Pipeline do
       end
 
       options = { a: rand }
-      expect { pipeline.run!(options) }.to raise_error(ActiveInteraction::InvalidInteractionError)
+      expect {
+        pipeline.run!(options)
+      }.to raise_error ActiveInteraction::InvalidInteractionError
     end
 
     it 'returns the outcome with one valid pipe' do
@@ -107,7 +111,7 @@ describe ActiveInteraction::Pipeline do
       end
 
       options = { a: rand }
-      expect(pipeline.run!(options)).to eq(options[:a] ** 2)
+      expect(pipeline.run!(options)).to eq options[:a] ** 2
     end
   end
 end
