@@ -1,10 +1,5 @@
 require 'active_support/core_ext/hash/indifferent_access'
 
-begin
-  require 'active_record'
-rescue LoadError
-end
-
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
   #   ActiveInteraction class.
