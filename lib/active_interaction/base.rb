@@ -31,6 +31,8 @@ module ActiveInteraction
   #   end
   class Base
     include ActiveModel
+
+    extend Core
     extend MethodMissing
     extend OverloadHash
 
@@ -108,17 +110,6 @@ module ActiveInteraction
       super || @_interaction_result = nil
     end
 
-    # @private
-    def self.transaction
-      return unless block_given?
-
-      if defined?(ActiveRecord)
-        ::ActiveRecord::Base.transaction { yield }
-      else
-        yield
-      end
-    end
-
     # Get all the filters defined on this interaction.
     #
     # @return [Filters]
@@ -147,22 +138,6 @@ module ActiveInteraction
           end
         end
       end
-    end
-
-    # Like {.run} except that it returns the value of {#execute} or raises an
-    #   exception if there were any validation errors.
-    #
-    # @param (see .run)
-    #
-    # @return The return value of {#execute}.
-    #
-    # @raise [InteractionInvalidError] if there are any errors on the model.
-    def self.run!(*args)
-      outcome = run(*args)
-      if outcome.invalid?
-        raise InteractionInvalidError, outcome.errors.full_messages.join(', ')
-      end
-      outcome.result
     end
 
     # @private

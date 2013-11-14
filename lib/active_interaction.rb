@@ -22,7 +22,9 @@ require 'active_interaction/filters/symbol_filter'
 require 'active_interaction/filters/time_filter'
 require 'active_interaction/filters'
 require 'active_interaction/validation'
+require 'active_interaction/core'
 require 'active_interaction/base'
+require 'active_interaction/pipeline'
 
 I18n.backend.load_translations(
   Dir.glob(File.join(%w(lib active_interaction locale *.yml)))

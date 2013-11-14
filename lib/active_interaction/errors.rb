@@ -26,6 +26,8 @@ module ActiveInteraction
   # Raised if no value is given.
   MissingValueError = Class.new(Error)
 
+  EmptyPipeline = Class.new(StandardError)
+
   # A small extension to provide symbolic error messages to make introspecting
   #   and testing easier.
   #
