@@ -15,20 +15,11 @@ module ActiveInteraction
   end
 
   # @private
-  class FloatFilter < Filter
-    def cast(value)
-      case value
-      when Numeric
-        value.to_f
-      when String
-        begin
-          Float(value)
-        rescue ArgumentError
-          super
-        end
-      else
-        super
-      end
+  class FloatFilter < AbstractNumericFilter
+    private
+
+    def klass
+      Float
     end
   end
 end
