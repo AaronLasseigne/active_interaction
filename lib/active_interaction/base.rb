@@ -101,7 +101,7 @@ module ActiveInteraction
       self.class.filters.each do |filter|
         begin
           send("#{filter.name}=", filter.clean(options[filter.name]))
-        rescue InvalidValue, MissingValue
+        rescue InvalidValueError, MissingValueError
         end
       end
     end
