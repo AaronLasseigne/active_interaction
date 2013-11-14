@@ -16,7 +16,7 @@ describe ActiveInteraction::MethodMissing do
       it 'calls super' do
         expect {
           instance.method_missing(slug)
-        }.to raise_error NoMethodError
+        }.to raise_error NameError
       end
     end
 
