@@ -3,9 +3,10 @@ module ActiveInteraction
   module ActiveModel
     extend ::ActiveSupport::Concern
 
-    extend ::ActiveModel::Naming
     include ::ActiveModel::Conversion
     include ::ActiveModel::Validations
+
+    extend ::ActiveModel::Naming
 
     def i18n_scope
       self.class.i18n_scope
