@@ -107,6 +107,14 @@ describe ActiveInteraction::Base do
       }.to raise_error NoMethodError
     end
 
+    it do
+      expect do
+        Class.new(described_class) do
+          float :_interaction_thing
+        end
+      end.to raise_error ActiveInteraction::InvalidFilterError
+    end
+
     context 'with a filter' do
       let(:described_class) { InteractionWithFilter }
 

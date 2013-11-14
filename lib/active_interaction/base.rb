@@ -201,9 +201,14 @@ module ActiveInteraction
         raise InvalidFilterError, 'no name' if names.empty?
 
         names.each do |attribute|
+          if attribute.to_s.start_with?('_interaction_')
+            raise InvalidFilterError, attribute.inspect
+          end
+
           filter = klass.new(attribute, options, &block)
           filters.add(filter)
           attr_accessor filter.name
+
           filter.default if filter.has_default?
         end
       end
