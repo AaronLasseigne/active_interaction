@@ -36,8 +36,7 @@ module ActiveInteraction
     extend MethodMissing
     extend OverloadHash
 
-    validate :input_errors
-    validate :runtime_errors
+    validate :input_errors, :runtime_errors
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
     #   on the filters in the class.
