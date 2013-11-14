@@ -5,6 +5,8 @@ end
 
 module ActiveInteraction
   # Compose interactions by piping them together.
+  #
+  # @since 0.7.0
   class Pipeline
     include Core
 
