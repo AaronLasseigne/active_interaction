@@ -39,7 +39,7 @@ module ActiveInteraction
 
     def default
       if options[:default].is_a?(Hash) && !options[:default].empty?
-        raise InvalidDefault, "#{@name}: #{options[:default].inspect}"
+        raise InvalidDefault, "#{name}: #{options[:default].inspect}"
       end
 
       super

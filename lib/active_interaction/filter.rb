@@ -161,11 +161,11 @@ module ActiveInteraction
     # @raise [InvalidDefault] if the default value is invalid
     # @raise [MissingDefault] if there is no default value
     def default
-      raise MissingDefault, @name unless has_default?
+      raise MissingDefault, name unless has_default?
 
       cast(options[:default])
     rescue InvalidValue, MissingValue
-      raise InvalidDefault, "#{@name}: #{options[:default].inspect}"
+      raise InvalidDefault, "#{name}: #{options[:default].inspect}"
     end
 
     # Tells if this filter has a default value.
@@ -196,11 +196,11 @@ module ActiveInteraction
     def cast(value)
       case value
       when NilClass
-        raise MissingValue, @name unless has_default?
+        raise MissingValue, name unless has_default?
 
         nil
       else
-        raise InvalidValue, "#{@name}: #{value.inspect}"
+        raise InvalidValue, "#{name}: #{value.inspect}"
       end
     end
   end
