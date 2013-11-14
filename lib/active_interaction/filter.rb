@@ -12,7 +12,7 @@ module ActiveInteraction
   # @since 0.6.0
   class Filter
     # @return [Regexp]
-    CLASS_REGEXP = /\AActiveInteraction::([A-Z]\w*)Filter\z/.freeze
+    CLASS_REGEXP = /\AActiveInteraction::([A-Z]\w*)Filter\z/
     private_constant :CLASS_REGEXP
 
     # @return [Hash{Symbol => Class}]
