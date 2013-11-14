@@ -24,6 +24,10 @@ describe ActiveInteraction::MethodMissing do
       let(:filter) { ActiveInteraction::Filter.factory(slug) }
       let(:slug) { :boolean }
 
+      it 'returns self' do
+        expect(instance.method_missing(slug)).to eq instance
+      end
+
       it 'yields' do
         expect { |b|
           instance.method_missing(slug, &b)

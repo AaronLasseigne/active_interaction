@@ -14,6 +14,8 @@ module ActiveInteraction
       options = args.last.is_a?(Hash) ? args.pop : {}
 
       yield(klass, args, options) if block_given?
+
+      self
     end
   end
 end
