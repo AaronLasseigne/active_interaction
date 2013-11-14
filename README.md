@@ -243,6 +243,26 @@ p Interaction.run.errors.messages
 # => {:a=>["deriuqer si"]}
 ```
 
+## How do I compose interactions?
+
+You can run many interactions in series by setting up a pipeline. Simply list
+the interactions you want to run with `pipe`. Transforming the output of an
+interaction into the input of the next one is accomplished with lambdas.
+
+```ruby
+pipeline = ActiveInteraction::Pipeline.new do
+  pipe Add
+  pipe Square, :x
+  pipe Add, -> result { { x: result, y: result } }
+end
+outcome = pipeline.run(x: 3, y: 5)
+outcome.result
+# => 128 # ((3 + 5) ** 2) * 2
+```
+
+The whole pipeline executes in a single transaction. It behaves a lot like a
+subclass of `ActiveInteraction::Base`, but it's not exactly the same.
+
 ## Credits
 
 This project was inspired by the fantastic work done in [Mutations][].
