@@ -9,7 +9,7 @@ module ActiveInteraction
     def method_missing(slug, *args, &block)
       begin
         klass = Filter.factory(slug)
-      rescue MissingFilter
+      rescue MissingFilterError
         super
       end
 

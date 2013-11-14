@@ -2,6 +2,7 @@
 
 # [0.6.0][] (2013-11-13)
 
+- Error class now end with `Error`.
 - Prevent specifying defaults (other than `nil` or `{}`) on hash filters. Set
   defaults on the nested filters instead.
 - Add ability to introspect interactions with `filters`.

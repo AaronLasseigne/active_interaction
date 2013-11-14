@@ -44,9 +44,9 @@ module ActiveInteraction
       super do |klass, names, options|
         filter = klass.new(name, options, &block)
 
-        raise InvalidFilter, 'multiple nested filters' if filters.any?
-        raise InvalidFilter, 'nested name' unless names.empty?
-        raise InvalidDefault, 'nested default' if filter.has_default?
+        raise InvalidFilterError, 'multiple nested filters' if filters.any?
+        raise InvalidFilterError, 'nested name' unless names.empty?
+        raise InvalidDefaultError, 'nested default' if filter.has_default?
 
         filters.add(filter)
       end

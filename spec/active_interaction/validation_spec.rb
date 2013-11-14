@@ -32,8 +32,8 @@ describe ActiveInteraction::Validation do
         filter.stub(:cast).and_raise(exception)
       end
 
-      context 'InvalidValue' do
-        let(:exception) { ActiveInteraction::InvalidValue }
+      context 'InvalidValueError' do
+        let(:exception) { ActiveInteraction::InvalidValueError }
         let(:filter) { ActiveInteraction::FloatFilter.new(:name, {}) }
 
         it 'returns an :invalid_nested error' do
@@ -43,8 +43,8 @@ describe ActiveInteraction::Validation do
         end
       end
 
-      context 'MissingValue' do
-        let(:exception) { ActiveInteraction::MissingValue }
+      context 'MissingValueError' do
+        let(:exception) { ActiveInteraction::MissingValueError }
 
         it 'returns an :invalid_nested error' do
           expect(result).to eq [[filter.name, :missing]]

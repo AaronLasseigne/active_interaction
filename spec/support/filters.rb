@@ -26,7 +26,7 @@ shared_examples_for 'a filter' do
       it 'raises an error' do
         expect {
           described_class.factory(:invalid)
-        }.to raise_error ActiveInteraction::MissingFilter
+        }.to raise_error ActiveInteraction::MissingFilterError
       end
     end
 
@@ -62,7 +62,7 @@ shared_examples_for 'a filter' do
       it 'raises an error' do
         expect {
           filter.cast(value)
-        }.to raise_error ActiveInteraction::MissingValue
+        }.to raise_error ActiveInteraction::MissingValueError
       end
 
       context 'with an invalid default' do
@@ -71,7 +71,7 @@ shared_examples_for 'a filter' do
         it 'raises an error' do
           expect {
             filter.cast(value)
-          }.to raise_error ActiveInteraction::InvalidValue
+          }.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end
@@ -94,7 +94,7 @@ shared_examples_for 'a filter' do
       it 'raises an error' do
         expect {
           filter.clean(value)
-        }.to raise_error ActiveInteraction::MissingValue
+        }.to raise_error ActiveInteraction::MissingValueError
       end
 
       context 'with an invalid value' do
@@ -103,7 +103,7 @@ shared_examples_for 'a filter' do
         it 'raises an error' do
           expect {
             filter.clean(value)
-          }.to raise_error ActiveInteraction::InvalidValue
+          }.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end
@@ -116,7 +116,7 @@ shared_examples_for 'a filter' do
       it 'raises an error' do
         expect {
           filter.clean(value)
-        }.to raise_error ActiveInteraction::InvalidDefault
+        }.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
   end
@@ -136,7 +136,7 @@ shared_examples_for 'a filter' do
       it 'raises an error' do
         expect {
           filter.default
-        }.to raise_error ActiveInteraction::NoDefault
+        }.to raise_error ActiveInteraction::NoDefaultError
       end
     end
 
@@ -148,7 +148,7 @@ shared_examples_for 'a filter' do
       it 'raises an error' do
         expect {
           filter.default
-        }.to raise_error ActiveInteraction::InvalidDefault
+        }.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
   end

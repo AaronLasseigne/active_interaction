@@ -35,7 +35,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
       it 'raises an error' do
         expect {
           filter.cast(value)
-        }.to raise_error ActiveInteraction::InvalidValue
+        }.to raise_error ActiveInteraction::InvalidValueError
       end
     end
   end

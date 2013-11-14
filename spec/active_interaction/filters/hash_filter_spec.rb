@@ -8,7 +8,7 @@ describe ActiveInteraction::HashFilter, :filter do
     let(:block) { Proc.new { hash } }
 
     it 'raises an error' do
-      expect { filter }.to raise_error ActiveInteraction::InvalidFilter
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
     end
   end
 
@@ -61,7 +61,7 @@ describe ActiveInteraction::HashFilter, :filter do
       it 'raises an error' do
         expect {
           filter.default
-        }.to raise_error ActiveInteraction::InvalidDefault
+        }.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
   end

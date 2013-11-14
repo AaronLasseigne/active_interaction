@@ -43,19 +43,19 @@ module ActiveInteraction
       #
       # @example
       #   ActiveInteraction::Filter.factory(:invalid)
-      #   # => ActiveInteraction::MissingFilter: :invalid
+      #   # => ActiveInteraction::MissingFilterError: :invalid
       #
       # @param slug [Symbol]
       #
       # @return [Class]
       #
-      # @raise [MissingFilter] if the slug doesn't map to a filter
+      # @raise [MissingFilterError] if the slug doesn't map to a filter
       #
       # @see .slug
       def factory(slug)
         CLASSES.fetch(slug)
       rescue KeyError
-        raise MissingFilter, slug.inspect
+        raise MissingFilterError, slug.inspect
       end
 
       # Convert the class name into a short symbol.
@@ -66,16 +66,16 @@ module ActiveInteraction
       #
       # @example
       #   ActiveInteraction::Filter.slug
-      #   # => ActiveInteraction::InvalidClass: ActiveInteraction::Filter
+      #   # => ActiveInteraction::InvalidClassError: ActiveInteraction::Filter
       #
       # @return [Symbol]
       #
-      # @raise [InvalidClass] if the filter doesn't have a valid slug
+      # @raise [InvalidClassError] if the filter doesn't have a valid slug
       #
       # @see .factory
       def slug
         match = CLASS_REGEXP.match(name)
-        raise InvalidClass, name unless match
+        raise InvalidClassError, name unless match
         match.captures.first.underscore.to_sym
       end
 
@@ -87,7 +87,7 @@ module ActiveInteraction
       def inherited(klass)
         begin
           CLASSES[klass.slug] = klass
-        rescue InvalidClass
+        rescue InvalidClassError
         end
 
         super
@@ -111,11 +111,11 @@ module ActiveInteraction
     #
     # @example
     #   ActiveInteraction::Filter.new(:example).clean(nil)
-    #   # => ActiveInteraction::MissingValue: example
+    #   # => ActiveInteraction::MissingValueError: example
     #
     # @example
     #   ActiveInteraction::Filter.new(:example).clean(0)
-    #   # => ActiveInteraction::InvalidValue: example: 0
+    #   # => ActiveInteraction::InvalidValueError: example: 0
     #
     # @example
     #   ActiveInteraction::Filter.new(:example, default: nil).clean(nil)
@@ -150,22 +150,22 @@ module ActiveInteraction
     #
     # @example
     #   ActiveInteraction::Filter.new(:example, default: 0).default
-    #   # => ActiveInteraction::InvalidDefault: example: 0
+    #   # => ActiveInteraction::InvalidDefaultError: example: 0
     #
     # @example
     #   ActiveInteraction::Filter.new(:example).default
-    #   # => ActiveInteraction::NoDefault: example
+    #   # => ActiveInteraction::NoDefaultError: example
     #
     # @return [Object]
     #
-    # @raise [InvalidDefault] if the default value is invalid
-    # @raise [NoDefault] if there is no default value
+    # @raise [InvalidDefaultError] if the default value is invalid
+    # @raise [NoDefaultError] if there is no default value
     def default
-      raise NoDefault, name unless has_default?
+      raise NoDefaultError, name unless has_default?
 
       cast(options[:default])
-    rescue InvalidValue, MissingValue
-      raise InvalidDefault, "#{name}: #{options[:default].inspect}"
+    rescue InvalidValueError, MissingValueError
+      raise InvalidDefaultError, "#{name}: #{options[:default].inspect}"
     end
 
     # Tells if this filter has a default value.
@@ -189,18 +189,18 @@ module ActiveInteraction
     #
     # @return [nil]
     #
-    # @raise [InvalidValue] if the value is invalid
-    # @raise [MissingValue] if the value is missing and the input is required
+    # @raise [InvalidValueError] if the value is invalid
+    # @raise [MissingValueError] if the value is missing and the input is required
     #
     # @private
     def cast(value)
       case value
       when NilClass
-        raise MissingValue, name unless has_default?
+        raise MissingValueError, name unless has_default?
 
         nil
       else
-        raise InvalidValue, "#{name}: #{value.inspect}"
+        raise InvalidValueError, "#{name}: #{value.inspect}"
       end
     end
   end

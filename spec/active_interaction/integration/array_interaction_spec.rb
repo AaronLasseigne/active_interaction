@@ -37,7 +37,7 @@ describe ArrayInteraction do
         Class.new(ActiveInteraction::Base) do
           array :a, default: Object.new
         end
-      }.to raise_error ActiveInteraction::InvalidDefault
+      }.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 
@@ -49,7 +49,7 @@ describe ArrayInteraction do
             array
           end
         end
-      }.to raise_error ActiveInteraction::InvalidDefault
+      }.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 end

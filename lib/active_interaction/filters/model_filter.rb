@@ -33,7 +33,7 @@ module ActiveInteraction
       klass_name = options.fetch(:class, name).to_s.classify
       klass_name.constantize
     rescue NameError
-      raise InvalidClass, klass_name.inspect
+      raise InvalidClassError, klass_name.inspect
     end
   end
 end

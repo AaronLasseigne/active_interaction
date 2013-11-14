@@ -37,7 +37,7 @@ describe HashInteraction do
         Class.new(ActiveInteraction::Base) do
           hash :a, default: Object.new
         end
-      }.to raise_error ActiveInteraction::InvalidDefault
+      }.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 
@@ -49,7 +49,7 @@ describe HashInteraction do
             hash :x
           end
         end
-      }.to raise_error ActiveInteraction::InvalidDefault
+      }.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 end

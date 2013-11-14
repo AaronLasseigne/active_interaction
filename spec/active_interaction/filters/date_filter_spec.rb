@@ -45,7 +45,7 @@ describe ActiveInteraction::DateFilter, :filter do
       it 'raises an error' do
         expect {
           filter.cast(value)
-        }.to raise_error ActiveInteraction::InvalidValue
+        }.to raise_error ActiveInteraction::InvalidValueError
       end
 
       context 'with format' do
@@ -54,7 +54,7 @@ describe ActiveInteraction::DateFilter, :filter do
         it 'raises an error' do
           expect {
             filter.cast(value)
-          }.to raise_error ActiveInteraction::InvalidValue
+          }.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end

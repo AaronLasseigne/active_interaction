@@ -8,7 +8,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
     let(:block) { Proc.new { array; array } }
 
     it 'raises an error' do
-      expect { filter }.to raise_error ActiveInteraction::InvalidFilter
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
     end
   end
 
@@ -16,7 +16,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
     let(:block) { Proc.new { array :a } }
 
     it 'raises an error' do
-      expect { filter }.to raise_error ActiveInteraction::InvalidFilter
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
     end
   end
 
@@ -24,7 +24,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
     let(:block) { Proc.new { array default: nil } }
 
     it 'raises an error' do
-      expect { filter }.to raise_error ActiveInteraction::InvalidDefault
+      expect { filter }.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 
@@ -70,7 +70,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
         it 'raises an error' do
           expect{
             filter.cast(value)
-          }.to raise_error ActiveInteraction::InvalidValue
+          }.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end

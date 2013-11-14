@@ -9,7 +9,7 @@ describe ActiveInteraction::Filter, :filter do
     it 'raises an error' do
       expect {
         described_class.slug
-      }.to raise_error ActiveInteraction::InvalidClass
+      }.to raise_error ActiveInteraction::InvalidClassError
     end
   end
 

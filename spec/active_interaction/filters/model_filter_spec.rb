@@ -37,7 +37,7 @@ describe ActiveInteraction::ModelFilter, :filter do
       it 'raises an error' do
         expect {
           filter.cast(value)
-        }.to raise_error ActiveInteraction::InvalidClass
+        }.to raise_error ActiveInteraction::InvalidClassError
       end
     end
   end

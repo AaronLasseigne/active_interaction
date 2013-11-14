@@ -177,13 +177,13 @@ module ActiveInteraction
     #
     # @macro run_attributes
     #
-    # @raise [InteractionInvalid] if there are any errors on the model.
+    # @raise [InteractionInvalidError] if there are any errors on the model.
     #
     # @return The return value of {#execute}.
     def self.run!(options = {})
       outcome = run(options)
       if outcome.invalid?
-        raise InteractionInvalid, outcome.errors.full_messages.join(', ')
+        raise InteractionInvalidError, outcome.errors.full_messages.join(', ')
       end
       outcome.result
     end
@@ -191,7 +191,7 @@ module ActiveInteraction
     # @private
     def self.method_missing(*args, &block)
       super do |klass, names, options|
-        raise InvalidFilter, 'no name' if names.empty?
+        raise InvalidFilterError, 'no name' if names.empty?
 
         names.each do |attribute|
           filter = klass.new(attribute, options, &block)
@@ -228,7 +228,7 @@ module ActiveInteraction
         value =
           begin
             filter.cast(value)
-          rescue InvalidValue, MissingValue
+          rescue InvalidValueError, MissingValueError
             value
           end
         instance_variable_set("@#{filter.name}", value)

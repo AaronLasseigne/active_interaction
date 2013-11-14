@@ -39,7 +39,7 @@ module ActiveInteraction
 
     def default
       if options[:default].is_a?(Hash) && !options[:default].empty?
-        raise InvalidDefault, "#{name}: #{options[:default].inspect}"
+        raise InvalidDefaultError, "#{name}: #{options[:default].inspect}"
       end
 
       super
@@ -49,7 +49,7 @@ module ActiveInteraction
 
     def method_missing(*args, &block)
       super do |klass, names, options|
-        raise InvalidFilter, 'no name' if names.empty?
+        raise InvalidFilterError, 'no name' if names.empty?
 
         names.each do |name|
           filters.add(klass.new(name, options, &block))

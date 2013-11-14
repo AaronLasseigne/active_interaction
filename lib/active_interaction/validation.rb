@@ -7,10 +7,10 @@ module ActiveInteraction
           filter.cast(inputs[filter.name])
 
           errors
-        rescue InvalidValue
+        rescue InvalidValueError
           type = I18n.translate("#{Base.i18n_scope}.types.#{filter.class.slug}")
           errors << [filter.name, :invalid, nil, type: type]
-        rescue MissingValue
+        rescue MissingValueError
           errors << [filter.name, :missing]
         end
       end

@@ -246,7 +246,7 @@ describe ActiveInteraction::Base do
         it 'raises an error' do
           expect {
             result
-          }.to raise_error ActiveInteraction::InteractionInvalid
+          }.to raise_error ActiveInteraction::InteractionInvalidError
         end
       end
 
