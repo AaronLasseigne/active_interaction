@@ -271,10 +271,9 @@ describe ActiveInteraction::Base do
       expect(interaction.inputs[:thing]).to eql 1.0
     end
 
-    # REVIEW: I think this test is wrong.
-    # it 'does not modify non-filtered inputs' do
-    #   expect(interaction.inputs[:other]).to equal other_val
-    # end
+    it 'strips non-filtered inputs' do
+      expect(interaction.inputs).to_not have_key(:other)
+    end
   end
 
   describe '#execute' do
