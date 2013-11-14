@@ -3,7 +3,7 @@ module ActiveInteraction
     # Creates accessors for the attributes and ensures that values passed to
     #   the attributes are Strings.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     # @option options [Boolean] :strip (true) strip leading and trailing
     #   whitespace
     #
@@ -12,6 +12,8 @@ module ActiveInteraction
     #
     # @example
     #   string :first_name, strip: false
+    #
+    # @since 0.1.0
     #
     # @method self.string(*attributes, options = {})
   end

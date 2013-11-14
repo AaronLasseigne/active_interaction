@@ -3,10 +3,12 @@ module ActiveInteraction
     # Creates accessors for the attributes and ensures that values passed to
     #   the attributes are Integers. String values are converted into Integers.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     #
     # @example
     #   integer :quantity
+    #
+    # @since 0.1.0
     #
     # @method self.integer(*attributes, options = {})
   end

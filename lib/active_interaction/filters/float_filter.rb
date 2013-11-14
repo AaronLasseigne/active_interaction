@@ -4,10 +4,12 @@ module ActiveInteraction
     #   the attributes are Floats. Integer and String values are converted into
     #   Floats.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     #
     # @example
     #   float :amount
+    #
+    # @since 0.1.0
     #
     # @method self.float(*attributes, options = {})
   end

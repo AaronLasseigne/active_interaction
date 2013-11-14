@@ -6,7 +6,7 @@ module ActiveInteraction
     #   in which case they will be processed with `strptime`. If `Time.zone` is
     #   available it will be used so that the values are time zone aware.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     # @option options [String] :format parse strings using this format string
     #
     # @example
@@ -14,6 +14,8 @@ module ActiveInteraction
     #
     # @example
     #   date_time :start_date, format: '%Y-%m-%dT%H:%M:%S%z'
+    #
+    # @since 0.1.0
     #
     # @method self.time(*attributes, options = {})
   end

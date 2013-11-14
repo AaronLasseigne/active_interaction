@@ -3,7 +3,7 @@ module ActiveInteraction
     # Creates accessors for the attributes and ensures that values passed to
     #   the attributes are Arrays.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     # @param block [Proc] filter method to apply to each element
     #
     # @example
@@ -18,6 +18,8 @@ module ActiveInteraction
     #   array :ids do
     #     integer default: nil
     #   end
+    #
+    # @since 0.1.0
     #
     # @method self.array(*attributes, options = {}, &block)
   end

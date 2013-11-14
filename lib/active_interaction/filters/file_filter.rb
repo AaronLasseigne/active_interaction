@@ -5,10 +5,12 @@ module ActiveInteraction
     #   any object with a `tempfile` method. This is useful when passing in
     #   Rails params that include a file upload.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     #
     # @example
     #   file :image
+    #
+    # @since 0.1.0
     #
     # @method self.file(*attributes, options = {})
   end

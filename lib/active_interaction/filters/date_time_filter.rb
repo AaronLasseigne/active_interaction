@@ -14,6 +14,8 @@ module ActiveInteraction
     # @example
     #   date :start_date, format: '%Y-%m-%dT%H:%M:%S%:z'
     #
+    # @since 0.1.0
+    #
     # @method self.date_time(*attributes, options = {})
   end
 

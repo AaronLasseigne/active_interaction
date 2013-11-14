@@ -14,6 +14,8 @@ module ActiveInteraction
     # @example
     #   date :birthday, format: '%Y-%m-%d'
     #
+    # @since 0.1.0
+    #
     # @method self.date(*attributes, options = {})
   end
 

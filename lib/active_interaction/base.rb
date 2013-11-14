@@ -65,7 +65,7 @@ module ActiveInteraction
       end
     end
 
-    # @param options [Hash{Symbol => Object}]
+    # @param options [Hash{Symbol => Object}] Attribute values to set.
     #
     # @private
     def initialize(options = {})
@@ -93,6 +93,8 @@ module ActiveInteraction
     #   This method is run in a transaction if ActiveRecord is available.
     #
     # @raise [NotImplementedError] if the method is not defined.
+    #
+    # @abstract
     def execute
       raise NotImplementedError
     end
@@ -127,17 +129,18 @@ module ActiveInteraction
       end
     end
 
+    # Get all the filters defined on this interaction.
+    #
     # @return [Filters]
+    #
+    # @since 0.6.0
     def self.filters
       @_interaction_filters ||= Filters.new
     end
 
-    # @!macro [new] run_attributes
-    #   @param options [Hash] Attribute values to set.
-
     # Runs validations and if there are no errors it will call {#execute}.
     #
-    # @macro run_attributes
+    # @param (see #initialize)
     #
     # @return [ActiveInteraction::Base] An instance of the class `run` is
     #   called on.
@@ -159,11 +162,11 @@ module ActiveInteraction
     # Like {.run} except that it returns the value of {#execute} or raises an
     #   exception if there were any validation errors.
     #
-    # @macro run_attributes
-    #
-    # @raise [InteractionInvalidError] if there are any errors on the model.
+    # @param (see .run)
     #
     # @return The return value of {#execute}.
+    #
+    # @raise [InteractionInvalidError] if there are any errors on the model.
     def self.run!(*args)
       outcome = run(*args)
       if outcome.invalid?

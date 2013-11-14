@@ -3,7 +3,7 @@ module ActiveInteraction
     # Creates accessors for the attributes and ensures that values passed to
     #   the attributes are the correct class.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     # @option options [Class, String, Symbol] :class (use the attribute name)
     #   Class name used to ensure the value.
     #
@@ -12,6 +12,8 @@ module ActiveInteraction
     #
     # @example Ensures that the class is `User`
     #   model :account, class: User
+    #
+    # @since 0.1.0
     #
     # @method self.model(*attributes, options = {})
   end

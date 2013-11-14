@@ -3,6 +3,8 @@ module ActiveInteraction
   #   creating a DSL.
   #
   # @since 0.6.0
+  #
+  # @private
   module MethodMissing
     def method_missing(slug, *args, &block)
       begin

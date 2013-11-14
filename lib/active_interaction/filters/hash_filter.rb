@@ -3,8 +3,9 @@ module ActiveInteraction
     # Creates accessors for the attributes and ensures that values passed to
     #   the attributes are Hashes.
     #
-    # @macro attribute_method_params
+    # @macro filter_method_params
     # @param block [Proc] filter methods to apply for select keys
+    # @option options [Boolean] :strip (true) strip unknown keys
     #
     # @example
     #   hash :order
@@ -16,6 +17,8 @@ module ActiveInteraction
     #     integer :quantity
     #     boolean :delivered
     #   end
+    #
+    # @since 0.1.0
     #
     # @method self.hash(*attributes, options = {}, &block)
   end

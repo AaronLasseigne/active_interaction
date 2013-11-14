@@ -9,6 +9,8 @@ module ActiveInteraction
     # @example
     #   boolean :subscribed
     #
+    # @since 0.1.0
+    #
     # @method self.boolean(*attributes, options = {})
   end
 
