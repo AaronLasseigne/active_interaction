@@ -41,7 +41,7 @@ module ActiveInteraction
     end
 
     validate do
-      return unless @_interaction_runtime_errors
+      return unless instance_variable_defined?(:@_interaction_runtime_errors)
 
       @_interaction_runtime_errors.symbolic.each do |attribute, symbols|
         symbols.each { |symbol| errors.add_sym(attribute, symbol) }
@@ -105,7 +105,12 @@ module ActiveInteraction
     # @return [Nil] if there are validation errors.
     # @return [Object] if there are no validation errors.
     def result
-      @_interaction_result
+      symbol = :'@_interaction_result'
+      if instance_variable_defined?(symbol)
+        instance_variable_get(symbol)
+      else
+        nil
+      end
     end
 
     # @private
