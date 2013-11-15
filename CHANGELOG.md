@@ -8,7 +8,6 @@
 
 - Add ability to chain a series of interactions together with
   `ActiveInteraction::Pipeline`.
-- Refactor internals (abstract filters & core class).
 
 # [0.6.1][] (2013-11-14)
 
@@ -27,7 +26,6 @@
   `inputs`.
 - Fix bug that prevented hash filters from being nested in array filters.
 - Replace `allow_nil: true` with `default: nil`.
-- Refactor internals.
 - Add a symbol filter.
 - Allow adding symbolic errors with `errors.add_sym` and retrieving them with
   `errors.symbolic`.
