@@ -30,8 +30,7 @@ module ActiveInteraction
     def cast(value)
       case value
       when Hash
-        value = value.symbolize_keys
-        filters.reduce(strip? ? {} : value) do |h, f|
+        filters.reduce(strip? ? {} : value.symbolize_keys) do |h, f|
           k = f.name
           h[k] = f.clean(value[k])
           h
