@@ -38,6 +38,16 @@ describe ActiveInteraction::HashFilter, :filter do
         it 'returns the Hash' do
           expect(filter.cast(value)).to eq value
         end
+
+        context 'with String keys' do
+          before do
+            value.stringify_keys!
+          end
+
+          it 'does not raise an error' do
+            expect { filter.cast(value) }.to_not raise_error
+          end
+        end
       end
     end
   end
