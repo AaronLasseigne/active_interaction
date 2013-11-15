@@ -74,7 +74,7 @@
 
 - Correct gemspec dependencies on activemodel.
 
-# [0.1.0][] (2013-08-12)
+# [0.1.0][] (2013-07-12)
 
 - Initial release.
 
