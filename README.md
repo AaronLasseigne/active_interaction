@@ -117,7 +117,7 @@ Or, you can do this:
 ```ruby
 result = UserSignup.run!(params)
 # Either returns the result of execute,
-# or raises ActiveInteraction::InteractionInvalid
+# or raises ActiveInteraction::InvalidInteractionError
 ```
 
 ## What can I pass to an interaction?
