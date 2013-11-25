@@ -283,4 +283,4 @@ This project was inspired by the fantastic work done in [Mutations][].
   [gem version]: https://badge.fury.io/rb/active_interaction.png
   [mutations]: https://github.com/cypriss/mutations
   [project page]: http://orgsync.github.io/active_interaction/
-  [semantic versioning]: http://semver.org
+  [semantic versioning]: http://semver.org/spec/v2.0.0.html
