@@ -2,9 +2,6 @@ module ActiveInteraction
   # Top-level error class. All other errors subclass this.
   Error = Class.new(StandardError)
 
-  # Raised when trying to run an empty pipeline.
-  EmptyPipelineError = Class.new(Error)
-
   # Raised if a class name is invalid.
   InvalidClassError = Class.new(Error)
 

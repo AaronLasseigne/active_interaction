@@ -1,5 +1,7 @@
 # [Master][]
 
+- Remove `ActiveInteraction::Pipeline`.
+
 # [0.8.0][] (2013-11-14)
 
 - Add ability to document interactions and filters.

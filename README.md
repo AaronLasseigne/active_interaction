@@ -200,29 +200,6 @@ end
 
 Check out the [documentation][] for a full list of methods.
 
-## How do I compose interactions?
-
-You can run many interactions in series by setting up a pipeline. Simply list
-the interactions you want to run with `pipe`. Transforming the output of an
-interaction into the input of the next one is accomplished with lambdas.
-
-```ruby
-pipeline = ActiveInteraction::Pipeline.new do
-  pipe Add
-  pipe Square, :x
-  pipe Add, -> result { { x: result, y: result } }
-end
-outcome = pipeline.run(x: 3, y: 5)
-outcome.result
-# => 128 # ((3 + 5) ** 2) * 2
-```
-
-The whole pipeline executes in a single transaction. The pipeline returns the
-outcome of the last successful interaction. An error in the pipeline will
-short-circuit and stop execution immediately.
-
-While pipelines are similar to interactions, the two are not substitutable.
-
 ## How do I translate an interaction?
 
 ActiveInteraction is i18n-aware out of the box! All you have to do
