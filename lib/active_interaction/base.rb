@@ -162,14 +162,8 @@ module ActiveInteraction
     end
 
     def runtime_errors
-      return unless @_interaction_runtime_errors
-
-      @_interaction_runtime_errors.symbolic.each do |attribute, symbols|
-        symbols.each { |symbol| errors.add_sym(attribute, symbol) }
-      end
-
-      @_interaction_runtime_errors.messages.each do |attribute, messages|
-        messages.each { |message| errors.add(attribute, message) }
+      if @_interaction_runtime_errors
+        errors.merge!(@_interaction_runtime_errors)
       end
     end
   end

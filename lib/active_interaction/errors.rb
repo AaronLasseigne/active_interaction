@@ -77,5 +77,28 @@ module ActiveInteraction
       symbolic.clear
       super
     end
+
+    # Merge other errors into this one.
+    #
+    # @param other [Errors]
+    #
+    # @return [Errors]
+    def merge!(other)
+      other.symbolic.each do |attribute, symbols|
+        symbols.each do |symbol|
+          add_sym(attribute, symbol)
+        end
+      end
+
+      other.messages.each do |attribute, messages|
+        messages.each do |message|
+          unless added?(attribute, message)
+            add(attribute, message)
+          end
+        end
+      end
+
+      self
+    end
   end
 end
