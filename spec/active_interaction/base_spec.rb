@@ -272,6 +272,29 @@ describe ActiveInteraction::Base do
     end
   end
 
+  describe '#interact' do
+    it do
+      AddInteraction = Class.new(described_class) do
+        float :x, :y
+        def execute; x + y end
+      end
+      InterruptInteraction = Class.new(described_class) do
+        model :x, :y, class: Object, default: nil
+        def execute; interact(AddInteraction, x: x, y: y) end
+      end
+
+      x = rand
+      y = rand
+      outcome = InterruptInteraction.run(x: x, y: y)
+      expect(outcome).to be_valid
+      expect(outcome.result).to eq x + y
+
+      outcome = InterruptInteraction.run(x: x)
+      expect(outcome).to be_invalid
+      expect(outcome.errors[:base]).to_not be_empty
+    end
+  end
+
   describe '#execute' do
     it 'raises an error' do
       expect { interaction.execute }.to raise_error NotImplementedError
