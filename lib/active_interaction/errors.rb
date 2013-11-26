@@ -26,6 +26,10 @@ module ActiveInteraction
   # Raised if there is no default value.
   NoDefaultError = Class.new(Error)
 
+  # @private
+  Interrupt = Class.new(::Interrupt)
+  private_constant :Interrupt
+
   # A small extension to provide symbolic error messages to make introspecting
   #   and testing easier.
   #

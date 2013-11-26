@@ -120,7 +120,12 @@ module ActiveInteraction
     def self.run(*args)
       new(*args).tap do |interaction|
         if interaction.valid?
-          result = transaction { interaction.execute }
+          result = transaction do
+            begin
+              interaction.execute
+            rescue Interrupt
+            end
+          end
 
           if interaction.errors.empty?
             interaction.instance_variable_set(:@_interaction_result, result)
@@ -164,6 +169,24 @@ module ActiveInteraction
     def runtime_errors
       if @_interaction_runtime_errors
         errors.merge!(@_interaction_runtime_errors)
+      end
+    end
+
+    def interact(interaction, options = {})
+      outcome = interaction.run(options)
+
+      if outcome.valid?
+        outcome.result
+      else
+        outcome.errors.messages.each do |_, messages|
+          messages.each do |message|
+            unless errors.added?(:base, message)
+              errors.add(:base, message)
+            end
+          end
+        end
+
+        raise Interrupt
       end
     end
   end
