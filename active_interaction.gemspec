@@ -36,5 +36,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 2.14'
   spec.add_development_dependency 'yard', '~> 0.8'
 
-  spec.add_development_dependency 'rubysl', '~> 2.0' if RUBY_ENGINE = 'rbx'
+  if RUBY_ENGINE = 'rbx'
+    spec.add_development_dependency 'rubinius-coverage', '~> 2.0'
+    spec.add_development_dependency 'rubysl', '~> 2.0'
+  end
 end
