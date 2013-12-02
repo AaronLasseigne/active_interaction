@@ -206,11 +206,11 @@ Check out the [documentation][] for a full list of methods.
 
 You can run interactions from within other interactions by calling `compose`.
 If the interaction is successful, it'll return the result (just like if you had
-called it with `run!`). If something went wrong, execution will stop right
-there and the errors will be moved onto the caller.
+called it with `run!`). If something went wrong, execution will halt
+immediately and the errors will be moved onto the caller.
 
 ```ruby
-class Composition < ActiveInteraction::Base
+class DoSomeMath < ActiveInteraction::Base
   integer :x, :y
   def execute
     sum = compose(Add, inputs)
@@ -218,17 +218,18 @@ class Composition < ActiveInteraction::Base
     compose(Add, x: square, y: square)
   end
 end
-Composition.run!(x: 3, y: 5)
+DoSomeMath.run!(x: 3, y: 5)
 # 128 => ((3 + 5) ** 2) * 2
 ```
 
 ```ruby
-class Composition < ActiveInteraction::Base
+class AddThree < ActiveInteraction::Base
+  integer :y
   def execute
-    compose(Add, x: 3, y: nil)
+    compose(Add, x: 3, y: y)
   end
 end
-Composition.run!
+AddThree.run!(y: nil)
 # => ActiveInteraction::InvalidInteractionError: Y is required
 ```
 
