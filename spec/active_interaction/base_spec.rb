@@ -272,6 +272,55 @@ describe ActiveInteraction::Base do
     end
   end
 
+  describe '#compose' do
+    let(:described_class) { InterruptInteraction }
+    let(:x) { rand }
+    let(:y) { rand }
+
+    AddInteraction = Class.new(ActiveInteraction::Base) do
+      float :x, :y
+
+      def execute
+        x + y
+      end
+    end
+
+    InterruptInteraction = Class.new(ActiveInteraction::Base) do
+      model :x, :y,
+        class: Object,
+        default: nil
+
+      def execute
+        compose(AddInteraction, inputs)
+      end
+    end
+
+    context 'with valid composition' do
+      before do
+        options.merge!(x: x, y: y)
+      end
+
+      it 'is valid' do
+        expect(outcome).to be_valid
+      end
+
+      it 'returns the sum' do
+        expect(result).to eq x + y
+      end
+    end
+
+    context 'with invalid composition' do
+      it 'is invalid' do
+        expect(outcome).to be_invalid
+      end
+
+      it 'has the correct errors' do
+        expect(outcome.errors[:base]).
+          to match_array ['X is required', 'Y is required']
+      end
+    end
+  end
+
   describe '#execute' do
     it 'raises an error' do
       expect { interaction.execute }.to raise_error NotImplementedError

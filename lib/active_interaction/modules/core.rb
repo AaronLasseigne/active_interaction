@@ -1,13 +1,13 @@
 begin
   require 'active_record'
 rescue LoadError
+  # ActiveRecord is an optional dependency.
 end
 
 module ActiveInteraction
-  # Functionality common between {Base} and {Pipeline}.
+  # Functionality common between {Base}.
   #
   # @see Base
-  # @see Pipeline
   module Core
     # Get or set the description.
     #

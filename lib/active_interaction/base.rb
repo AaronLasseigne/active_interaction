@@ -54,6 +54,7 @@ module ActiveInteraction
         begin
           send("#{filter.name}=", filter.clean(options[filter.name]))
         rescue InvalidValueError, MissingValueError
+          # Validators (#input_errors) will add errors if appropriate.
         end
       end
     end
@@ -86,8 +87,7 @@ module ActiveInteraction
     # Returns the output from {#execute} if there are no validation errors or
     #   `nil` otherwise.
     #
-    # @return [Nil] if there are validation errors.
-    # @return [Object] if there are no validation errors.
+    # @return [Object, nil] the output or nil if there were validation errors
     def result
       @_interaction_result
     end
@@ -120,7 +120,13 @@ module ActiveInteraction
     def self.run(*args)
       new(*args).tap do |interaction|
         if interaction.valid?
-          result = transaction { interaction.execute }
+          result = transaction do
+            begin
+              interaction.execute
+            rescue Interrupt
+              # Inner interaction failed. #compose handles merging errors.
+            end
+          end
 
           if interaction.errors.empty?
             interaction.instance_variable_set(:@_interaction_result, result)
@@ -162,15 +168,22 @@ module ActiveInteraction
     end
 
     def runtime_errors
-      return unless @_interaction_runtime_errors
+      if @_interaction_runtime_errors
+        errors.merge!(@_interaction_runtime_errors)
+      end
+    end
 
-      @_interaction_runtime_errors.symbolic.each do |attribute, symbols|
-        symbols.each { |symbol| errors.add_sym(attribute, symbol) }
+    def compose(interaction, options = {})
+      outcome = interaction.run(options)
+      return outcome.result if outcome.valid?
+
+      # This can't use Errors#merge! because the errors have to be added to
+      # base.
+      outcome.errors.full_messages.each do |message|
+        errors.add(:base, message) unless errors.added?(:base, message)
       end
 
-      @_interaction_runtime_errors.messages.each do |attribute, messages|
-        messages.each { |message| errors.add(attribute, message) }
-      end
+      raise Interrupt
     end
   end
 end

@@ -202,26 +202,36 @@ Check out the [documentation][] for a full list of methods.
 
 ## How do I compose interactions?
 
-You can run many interactions in series by setting up a pipeline. Simply list
-the interactions you want to run with `pipe`. Transforming the output of an
-interaction into the input of the next one is accomplished with lambdas.
+(Note: this feature is experimental. See [#41][] & [#79][].)
+
+You can run interactions from within other interactions by calling `compose`.
+If the interaction is successful, it'll return the result (just like if you had
+called it with `run!`). If something went wrong, execution will halt
+immediately and the errors will be moved onto the caller.
 
 ```ruby
-pipeline = ActiveInteraction::Pipeline.new do
-  pipe Add
-  pipe Square, :x
-  pipe Add, -> result { { x: result, y: result } }
+class DoSomeMath < ActiveInteraction::Base
+  integer :x, :y
+  def execute
+    sum = compose(Add, inputs)
+    square = compose(Square, x: sum)
+    compose(Add, x: square, y: square)
+  end
 end
-outcome = pipeline.run(x: 3, y: 5)
-outcome.result
-# => 128 # ((3 + 5) ** 2) * 2
+DoSomeMath.run!(x: 3, y: 5)
+# 128 => ((3 + 5) ** 2) * 2
 ```
 
-The whole pipeline executes in a single transaction. The pipeline returns the
-outcome of the last successful interaction. An error in the pipeline will
-short-circuit and stop execution immediately.
-
-While pipelines are similar to interactions, the two are not substitutable.
+```ruby
+class AddThree < ActiveInteraction::Base
+  integer :y
+  def execute
+    compose(Add, x: 3, y: y)
+  end
+end
+AddThree.run!(y: nil)
+# => ActiveInteraction::InvalidInteractionError: Y is required
+```
 
 ## How do I translate an interaction?
 
@@ -270,6 +280,8 @@ p Interaction.run.errors.messages
 
 This project was inspired by the fantastic work done in [Mutations][].
 
+  [#41]: https://github.com/orgsync/active_interaction/issues/41
+  [#79]: https://github.com/orgsync/active_interaction/issues/79
   [1]: https://badge.fury.io/rb/active_interaction "Gem Version"
   [2]: https://travis-ci.org/orgsync/active_interaction "Build Status"
   [3]: https://coveralls.io/r/orgsync/active_interaction "Coverage Status"
