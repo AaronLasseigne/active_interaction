@@ -18,7 +18,7 @@ describe HashInteraction do
   it_behaves_like 'an interaction', :hash, -> { {} }
 
   context 'with options[:a]' do
-    let(:a) { { 'x' => {} } }
+    let(:a) { { x: {} } }
 
     before { options.merge!(a: a) }
 
