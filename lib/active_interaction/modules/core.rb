@@ -1,6 +1,7 @@
 begin
   require 'active_record'
 rescue LoadError
+  # ActiveRecord is an optional dependency.
 end
 
 module ActiveInteraction

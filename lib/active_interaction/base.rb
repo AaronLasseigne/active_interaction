@@ -54,6 +54,7 @@ module ActiveInteraction
         begin
           send("#{filter.name}=", filter.clean(options[filter.name]))
         rescue InvalidValueError, MissingValueError
+          # Validators (#input_errors) will add errors if appropriate.
         end
       end
     end
@@ -124,6 +125,7 @@ module ActiveInteraction
             begin
               interaction.execute
             rescue Interrupt
+              # Inner interaction failed. #interact handles merging errors.
             end
           end
 

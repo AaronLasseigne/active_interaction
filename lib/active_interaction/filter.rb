@@ -85,6 +85,7 @@ module ActiveInteraction
         begin
           CLASSES[klass.slug] = klass
         rescue InvalidClassError
+          # Ignore classes with invalid slugs.
         end
       end
     end
