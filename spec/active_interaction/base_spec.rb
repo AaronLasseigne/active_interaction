@@ -273,25 +273,50 @@ describe ActiveInteraction::Base do
   end
 
   describe '#interact' do
-    it do
-      AddInteraction = Class.new(described_class) do
-        float :x, :y
-        def execute; x + y end
+    let(:described_class) { InterruptInteraction }
+    let(:x) { rand }
+    let(:y) { rand }
+
+    AddInteraction = Class.new(ActiveInteraction::Base) do
+      float :x, :y
+
+      def execute
+        x + y
       end
-      InterruptInteraction = Class.new(described_class) do
-        model :x, :y, class: Object, default: nil
-        def execute; interact(AddInteraction, x: x, y: y) end
+    end
+
+    InterruptInteraction = Class.new(ActiveInteraction::Base) do
+      model :x, :y,
+        class: Object,
+        default: nil
+
+      def execute
+        interact(AddInteraction, inputs)
+      end
+    end
+
+    context 'with valid composition' do
+      before do
+        options.merge!(x: x, y: y)
       end
 
-      x = rand
-      y = rand
-      outcome = InterruptInteraction.run(x: x, y: y)
-      expect(outcome).to be_valid
-      expect(outcome.result).to eq x + y
+      it 'is valid' do
+        expect(outcome).to be_valid
+      end
 
-      outcome = InterruptInteraction.run(x: x)
-      expect(outcome).to be_invalid
-      expect(outcome.errors[:base]).to_not be_empty
+      it 'returns the sum' do
+        expect(result).to eq x + y
+      end
+    end
+
+    context 'with invalid composition' do
+      it 'is invalid' do
+        expect(outcome).to be_invalid
+      end
+
+      it 'has the correct errors' do
+        expect(outcome.errors[:base]).to match_array ['is required']
+      end
     end
   end
 
