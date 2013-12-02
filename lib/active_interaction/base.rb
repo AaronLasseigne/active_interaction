@@ -87,8 +87,7 @@ module ActiveInteraction
     # Returns the output from {#execute} if there are no validation errors or
     #   `nil` otherwise.
     #
-    # @return [Nil] if there are validation errors.
-    # @return [Object] if there are no validation errors.
+    # @return [Object, nil] the output or nil if there were validation errors
     def result
       @_interaction_result
     end
