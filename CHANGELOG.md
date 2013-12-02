@@ -1,5 +1,7 @@
 # [Master][]
 
+# [0.9.0][] (2013-12-02)
+
 - Add experimental composition implementation
   (`ActiveInteraction::Base#compose`).
 - Remove `ActiveInteraction::Pipeline`.
@@ -82,7 +84,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.8.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.9.0...master
+  [0.9.0]: https://github.com/orgsync/active_interaction/compare/v0.9.0...0.9.0
   [0.8.0]: https://github.com/orgsync/active_interaction/compare/v0.7.0...v0.8.0
   [0.7.0]: https://github.com/orgsync/active_interaction/compare/v0.6.1...v0.7.0
   [0.6.1]: https://github.com/orgsync/active_interaction/compare/v0.6.0...v0.6.1

@@ -25,7 +25,7 @@ This project uses [semantic versioning][].
 Add it to your Gemfile:
 
 ```ruby
-gem 'active_interaction', '~> 0.8.0'
+gem 'active_interaction', '~> 0.9.0'
 ```
 
 And then execute:

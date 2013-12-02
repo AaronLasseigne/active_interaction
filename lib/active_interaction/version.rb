@@ -1,3 +1,3 @@
 module ActiveInteraction
-  VERSION = Gem::Version.new('0.8.0')
+  VERSION = Gem::Version.new('0.9.0')
 end
