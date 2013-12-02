@@ -179,7 +179,7 @@ module ActiveInteraction
 
       # This can't use Errors#merge! because the errors have to be added to
       # base.
-      outcome.errors.messages.values.flatten.each do |message|
+      outcome.errors.full_messages.each do |message|
         errors.add(:base, message) unless errors.added?(:base, message)
       end
 
