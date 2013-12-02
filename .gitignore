@@ -18,3 +18,4 @@ tmp
 .rspec
 .guardrc
 *.swp
+.vagrant/
