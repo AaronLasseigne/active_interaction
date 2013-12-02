@@ -200,6 +200,38 @@ end
 
 Check out the [documentation][] for a full list of methods.
 
+## How do I compose interactions?
+
+(Note: this feature is experimental. See [#41][] & [#79][].)
+
+You can run interactions from within other interactions by calling `compose`.
+If the interaction is successful, it'll return the result (just like if you had
+called it with `run!`). If something went wrong, execution will stop right
+there and the errors will be moved onto the caller.
+
+```ruby
+class Composition < ActiveInteraction::Base
+  integer :x, :y
+  def execute
+    sum = compose(Add, inputs)
+    square = compose(Square, x: sum)
+    compose(Add, x: square, y: square)
+  end
+end
+Composition.run!(x: 3, y: 5)
+# 128 => ((3 + 5) ** 2) * 2
+```
+
+```ruby
+class Composition < ActiveInteraction::Base
+  def execute
+    compose(Add, x: 3, y: nil)
+  end
+end
+Composition.run!
+# => ActiveInteraction::InvalidInteractionError: Y is required
+```
+
 ## How do I translate an interaction?
 
 ActiveInteraction is i18n-aware out of the box! All you have to do
@@ -247,6 +279,8 @@ p Interaction.run.errors.messages
 
 This project was inspired by the fantastic work done in [Mutations][].
 
+  [#41]: https://github.com/orgsync/active_interaction/issues/41
+  [#79]: https://github.com/orgsync/active_interaction/issues/79
   [1]: https://badge.fury.io/rb/active_interaction "Gem Version"
   [2]: https://travis-ci.org/orgsync/active_interaction "Build Status"
   [3]: https://coveralls.io/r/orgsync/active_interaction "Coverage Status"
