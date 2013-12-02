@@ -272,7 +272,7 @@ describe ActiveInteraction::Base do
     end
   end
 
-  describe '#interact' do
+  describe '#compose' do
     let(:described_class) { InterruptInteraction }
     let(:x) { rand }
     let(:y) { rand }
@@ -291,7 +291,7 @@ describe ActiveInteraction::Base do
         default: nil
 
       def execute
-        interact(AddInteraction, inputs)
+        compose(AddInteraction, inputs)
       end
     end
 

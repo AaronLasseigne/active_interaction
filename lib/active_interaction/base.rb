@@ -124,7 +124,7 @@ module ActiveInteraction
             begin
               interaction.execute
             rescue Interrupt
-              # Inner interaction failed. #interact handles merging errors.
+              # Inner interaction failed. #compose handles merging errors.
             end
           end
 
@@ -173,7 +173,7 @@ module ActiveInteraction
       end
     end
 
-    def interact(interaction, options = {})
+    def compose(interaction, options = {})
       outcome = interaction.run(options)
       return outcome.result if outcome.valid?
 
