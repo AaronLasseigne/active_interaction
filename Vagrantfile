@@ -1,8 +1,8 @@
-Vagrant.configure("2") do |config|
-  config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+Vagrant.configure('2') do |config|
+  config.vm.box = 'precise64'
+  config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
 
-  config.vm.provision "shell", inline: <<-SH
+  config.vm.provision 'shell', inline: <<-'SH'
     set -e -x
     update-locale LC_ALL=en_US.UTF-8
     aptitude -q -y update
@@ -23,10 +23,10 @@ Vagrant.configure("2") do |config|
     gem update --no-document --system
   SH
 
-  config.vm.provision "shell", inline: <<-SH, privileged: false
+  config.vm.provision 'shell', inline: <<-'SH', privileged: false
     set -e -x
     echo '{ gem: --no-document, install: --user-install }' > .gemrc
-    echo $'PATH="$(ruby -rubygems -e \'puts Gem.user_dir\')/bin:$PATH"' > .bash_profile
+    echo $'PATH="$(ruby -e \'puts Gem.user_dir\')/bin:$PATH"' > .bash_profile
     . .bash_profile
     gem install bundler
     cd /vagrant
