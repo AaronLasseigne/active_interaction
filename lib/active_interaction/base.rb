@@ -174,20 +174,15 @@ module ActiveInteraction
 
     def interact(interaction, options = {})
       outcome = interaction.run(options)
+      return outcome.result if outcome.valid?
 
-      if outcome.valid?
-        outcome.result
-      else
-        outcome.errors.messages.each do |_, messages|
-          messages.each do |message|
-            unless errors.added?(:base, message)
-              errors.add(:base, message)
-            end
-          end
-        end
-
-        raise Interrupt
+      # This can't use Errors#merge! because the errors have to be added to
+      # base.
+      outcome.errors.messages.values.flatten.each do |message|
+        errors.add(:base, message) unless errors.added?(:base, message)
       end
+
+      raise Interrupt
     end
   end
 end
