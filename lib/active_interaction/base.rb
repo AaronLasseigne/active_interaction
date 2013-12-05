@@ -66,9 +66,8 @@ module ActiveInteraction
     #
     # @since 0.6.0
     def inputs
-      self.class.filters.reduce({}) do |h, filter|
+      self.class.filters.each_with_object({}) do |filter, h|
         h[filter.name] = send(filter.name)
-        h
       end
     end
 

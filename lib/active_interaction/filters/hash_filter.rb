@@ -31,10 +31,9 @@ module ActiveInteraction
       case value
       when Hash
         value = value.symbolize_keys
-        filters.reduce(strip? ? {} : value) do |h, f|
-          k = f.name
-          h[k] = f.clean(value[k])
-          h
+        filters.each_with_object(strip? ? {} : value) do |filter, h|
+          k = filter.name
+          h[k] = filter.clean(value[k])
         end
       else
         super

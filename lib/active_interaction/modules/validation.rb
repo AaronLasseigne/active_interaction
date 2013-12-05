@@ -2,11 +2,9 @@ module ActiveInteraction
   # @private
   module Validation
     def self.validate(filters, inputs)
-      filters.reduce([]) do |errors, filter|
+      filters.each_with_object([]) do |filter, errors|
         begin
           filter.cast(inputs[filter.name])
-
-          errors
         rescue InvalidValueError
           type = I18n.translate("#{Base.i18n_scope}.types.#{filter.class.slug}")
           errors << [filter.name, :invalid, nil, type: type]
