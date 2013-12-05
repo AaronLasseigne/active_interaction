@@ -89,17 +89,11 @@ module ActiveInteraction
     # @return [Errors]
     def merge!(other)
       other.symbolic.each do |attribute, symbols|
-        symbols.each do |symbol|
-          add_sym(attribute, symbol)
-        end
+        symbols.each { |s| add_sym(attribute, s) }
       end
 
       other.messages.each do |attribute, messages|
-        messages.each do |message|
-          unless added?(attribute, message)
-            add(attribute, message)
-          end
-        end
+        messages.each { |m| add(attribute, m) unless added?(attribute, m) }
       end
 
       self

@@ -18,22 +18,22 @@ describe ActiveInteraction::Errors do
   describe '#add_sym' do
     it 'defaults to :invalid' do
       errors.add_sym(:attribute)
-      expect(errors.symbolic).to eq({ attribute: [:invalid] })
+      expect(errors.symbolic).to eq(attribute: [:invalid])
     end
 
     it 'adds a symbol' do
       errors.add_sym(:attribute, :symbol)
-      expect(errors.symbolic).to eq({ attribute: [:symbol] })
+      expect(errors.symbolic).to eq(attribute: [:symbol])
     end
 
     it 'accepts a message' do
       errors.add_sym(:attribute, :symbol, 'message')
-      expect(errors.symbolic).to eq({ attribute: [:symbol] })
+      expect(errors.symbolic).to eq(attribute: [:symbol])
     end
 
     it 'accepts a message and options' do
-      errors.add_sym(:attribute, :symbol, 'message', { key: :value })
-      expect(errors.symbolic).to eq({ attribute: [:symbol] })
+      errors.add_sym(:attribute, :symbol, 'message', key: :value)
+      expect(errors.symbolic).to eq(attribute: [:symbol])
     end
 
     context 'calling #add' do
@@ -43,26 +43,26 @@ describe ActiveInteraction::Errors do
 
       it 'with the default' do
         errors.add_sym(:attribute)
-        expect(errors).to have_received(:add).once.
-          with(:attribute, :invalid, {})
+        expect(errors).to have_received(:add).once
+          .with(:attribute, :invalid, {})
       end
 
       it 'with a symbol' do
         errors.add_sym(:attribute, :symbol)
-        expect(errors).to have_received(:add).once.
-          with(:attribute, :symbol, {})
+        expect(errors).to have_received(:add).once
+          .with(:attribute, :symbol, {})
       end
 
       it 'with a symbol and message' do
         errors.add_sym(:attribute, :symbol, 'message')
-        expect(errors).to have_received(:add).once.
-          with(:attribute, 'message', {})
+        expect(errors).to have_received(:add).once
+          .with(:attribute, 'message', {})
       end
 
       it 'with a symbol, message and options' do
-        errors.add_sym(:attribute, :symbol, 'message', { key: :value })
-        expect(errors).to have_received(:add).once.
-          with(:attribute, 'message', { key: :value })
+        errors.add_sym(:attribute, :symbol, 'message', key: :value)
+        expect(errors).to have_received(:add).once
+          .with(:attribute, 'message', key: :value)
       end
     end
   end

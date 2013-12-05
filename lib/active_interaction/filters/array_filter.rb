@@ -45,13 +45,13 @@ module ActiveInteraction
         filter = klass.new(name, options, &block)
 
         if filters.any?
-          raise InvalidFilterError, 'multiple filters in array block'
+          fail InvalidFilterError, 'multiple filters in array block'
         end
         unless names.empty?
-          raise InvalidFilterError, 'attribute names in array block'
+          fail InvalidFilterError, 'attribute names in array block'
         end
         if filter.has_default?
-          raise InvalidDefaultError, 'default values in array block'
+          fail InvalidDefaultError, 'default values in array block'
         end
 
         filters.add(filter)

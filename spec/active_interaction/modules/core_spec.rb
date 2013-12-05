@@ -35,7 +35,10 @@ describe ActiveInteraction::Core do
 
       it 'calls #run' do
         expect(instance).to receive(:run).once.with(options)
-        instance.run!(options) rescue nil
+        begin
+          instance.run!(options)
+        rescue
+        end
       end
     end
 
@@ -47,9 +50,9 @@ describe ActiveInteraction::Core do
       end
 
       it 'raises an error' do
-        expect {
+        expect do
           instance.run!
-        }.to raise_error ActiveInteraction::InvalidInteractionError
+        end.to raise_error ActiveInteraction::InvalidInteractionError
       end
     end
 
@@ -93,14 +96,14 @@ describe ActiveInteraction::Core do
       end
 
       it 'calls ActiveRecord::Base#transaction' do
-        block = Proc.new {}
+        block = proc {}
         expect(ActiveRecord::Base).to receive(:transaction).once.with(no_args)
         instance.send(:transaction, &block)
       end
 
       it 'calls ActiveRecord::Base#transaction' do
         args = [:a, :b, :c]
-        block = Proc.new {}
+        block = proc {}
         expect(ActiveRecord::Base).to receive(:transaction).once.with(*args)
         instance.send(:transaction, *args, &block)
       end

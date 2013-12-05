@@ -43,18 +43,18 @@ describe ActiveInteraction::DateTimeFilter, :filter do
       let(:value) { 'invalid' }
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.cast(value)
-        }.to raise_error ActiveInteraction::InvalidValueError
+        end.to raise_error ActiveInteraction::InvalidValueError
       end
 
       context 'with format' do
         include_context 'with format'
 
         it 'raises an error' do
-          expect {
+          expect do
             filter.cast(value)
-          }.to raise_error ActiveInteraction::InvalidValueError
+          end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end

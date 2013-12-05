@@ -9,9 +9,9 @@ describe ActiveInteraction::MethodMissing do
       let(:slug) { :slug }
 
       it 'calls super' do
-        expect {
+        expect do
           instance.method_missing(slug)
-        }.to raise_error NameError
+        end.to raise_error NameError
       end
     end
 
@@ -24,18 +24,18 @@ describe ActiveInteraction::MethodMissing do
       end
 
       it 'yields' do
-        expect { |b|
+        expect do |b|
           instance.method_missing(slug, &b)
-        }.to yield_with_args(filter, [], {})
+        end.to yield_with_args(filter, [], {})
       end
 
       context 'with names' do
         let(:names) { [:a, :b, :c] }
 
         it 'yields' do
-          expect { |b|
+          expect do |b|
             instance.method_missing(:boolean, *names, &b)
-          }.to yield_with_args(filter, names, {})
+          end.to yield_with_args(filter, names, {})
         end
       end
 
@@ -43,9 +43,9 @@ describe ActiveInteraction::MethodMissing do
         let(:options) { { a: nil, b: false, c: true } }
 
         it 'yields' do
-          expect { |b|
+          expect do |b|
             instance.method_missing(:boolean, options, &b)
-          }.to yield_with_args(filter, [], options)
+          end.to yield_with_args(filter, [], options)
         end
       end
 
@@ -54,9 +54,9 @@ describe ActiveInteraction::MethodMissing do
         let(:options) { { a: nil, b: false, c: true } }
 
         it 'yields' do
-          expect { |b|
+          expect do |b|
             instance.method_missing(:boolean, *names, options, &b)
-          }.to yield_with_args(filter, names, options)
+          end.to yield_with_args(filter, names, options)
         end
       end
     end
