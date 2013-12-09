@@ -2,6 +2,8 @@
 
 - Fix I18n deprecation warning.
 - Raise `ArgumentError` when running an interaction with non-hash inputs.
+- For compatibility with `ActiveRecord::Errors`, support indifferent access of 
+  `ActiveInteraction::Errors`.
 
 # [0.9.0][] (2013-12-02)
 
