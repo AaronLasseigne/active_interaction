@@ -1,3 +1,5 @@
+# coding: utf-8
+
 shared_context 'filters' do
   let(:block) { nil }
   let(:name) { SecureRandom.hex.to_sym }

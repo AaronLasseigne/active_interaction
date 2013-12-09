@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'active_model'
 
 require 'active_interaction/version'

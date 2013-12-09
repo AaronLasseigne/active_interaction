@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'active_support/inflector'
 
 module ActiveInteraction

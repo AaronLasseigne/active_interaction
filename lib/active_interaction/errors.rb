@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # rubocop:disable Documentation
 module ActiveInteraction
   # Top-level error class. All other errors subclass this.

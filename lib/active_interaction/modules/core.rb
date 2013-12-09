@@ -1,3 +1,5 @@
+# coding: utf-8
+
 begin
   require 'active_record'
 # rubocop:disable HandleExceptions

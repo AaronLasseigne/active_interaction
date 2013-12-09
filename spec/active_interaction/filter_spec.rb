@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'spec_helper'
 
 class ActiveInteraction::TestFilter < ActiveInteraction::Filter; end

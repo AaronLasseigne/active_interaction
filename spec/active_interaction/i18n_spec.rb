@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'spec_helper'
 
 I18nInteraction = Class.new(TestInteraction) do
