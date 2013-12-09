@@ -10,3 +10,5 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run_including :focus
 end
+
+I18n.config.enforce_available_locales = true

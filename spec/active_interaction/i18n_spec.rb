@@ -74,13 +74,11 @@ describe I18nInteraction do
     end
   end
 
-  context 'english'.reverse do
+  context 'hsilgne' do
     include_examples 'translation'
 
     before do
-      I18n.locale = 'english'.reverse
-
-      I18n.backend.store_translations(I18n.locale, active_interaction: {
+      I18n.backend.store_translations('hsilgne', active_interaction: {
         errors: { messages: {
           invalid: "%{type} #{'invalid'.reverse}",
           invalid_nested: 'invalid_nested'.reverse,
@@ -88,6 +86,8 @@ describe I18nInteraction do
         } },
         types: TYPES.reduce({}) { |a, e| a[e] = e.reverse; a }
       })
+
+      I18n.locale = 'hsilgne'
     end
   end
 end
