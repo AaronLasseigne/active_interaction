@@ -44,7 +44,7 @@ module ActiveInteraction
       options = options.symbolize_keys
       options.each do |key, value|
         if key.to_s.start_with?('_interaction_')
-          raise InvalidValueError, key.inspect
+          fail InvalidValueError, key.inspect
         end
 
         instance_variable_set("@#{key}", value)
@@ -80,7 +80,7 @@ module ActiveInteraction
     #
     # @abstract
     def execute
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     # Returns the output from {#execute} if there are no validation errors or
@@ -140,11 +140,11 @@ module ActiveInteraction
     # @private
     def self.method_missing(*args, &block)
       super do |klass, names, options|
-        raise InvalidFilterError, 'missing attribute name' if names.empty?
+        fail InvalidFilterError, 'missing attribute name' if names.empty?
 
         names.each do |attribute|
           if attribute.to_s.start_with?('_interaction_')
-            raise InvalidFilterError, attribute.inspect
+            fail InvalidFilterError, attribute.inspect
           end
 
           filter = klass.new(attribute, options, &block)
@@ -182,7 +182,7 @@ module ActiveInteraction
         errors.add(:base, message) unless errors.added?(:base, message)
       end
 
-      raise Interrupt
+      fail Interrupt
     end
   end
 end

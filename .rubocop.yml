@@ -1,0 +1,13 @@
+%YAML 1.1
+---
+Documentation:
+  Enabled: false
+
+HandleExceptions:
+  Enabled: false
+
+MethodLength:
+  Max: 16
+
+TrivialAccessors:
+  ExactNameMatch: true

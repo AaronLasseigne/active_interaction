@@ -8,15 +8,15 @@ end
 
 class TimeWithZone
   def self.at(*args)
-    self.new(Time.at(*args))
+    new(Time.at(*args))
   end
 
   def initialize(time)
     @time = time
   end
 
-  def ==(time)
-    @time == time
+  def ==(other)
+    @time == other
   end
 end
 

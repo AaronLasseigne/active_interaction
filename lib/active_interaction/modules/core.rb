@@ -49,7 +49,7 @@ module ActiveInteraction
       if outcome.valid?
         outcome.result
       else
-        raise InvalidInteractionError, outcome.errors.full_messages.join(', ')
+        fail InvalidInteractionError, outcome.errors.full_messages.join(', ')
       end
     end
 
