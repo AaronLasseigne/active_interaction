@@ -1,5 +1,3 @@
-%YAML 1.1
----
 language: ruby
 rvm:
 - '1.9.3'
