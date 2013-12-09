@@ -13,9 +13,6 @@ HandleExceptions:
 MethodLength:
   Enabled: false
 
-OpMethod:
-  Enabled: false
-
 Proc:
   Enabled: false
 

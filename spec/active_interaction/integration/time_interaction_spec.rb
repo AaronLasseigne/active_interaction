@@ -15,8 +15,8 @@ class TimeWithZone
     @time = time
   end
 
-  def ==(time)
-    @time == time
+  def ==(other)
+    @time == other
   end
 end
 
