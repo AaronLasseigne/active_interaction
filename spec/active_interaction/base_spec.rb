@@ -231,8 +231,8 @@ describe ActiveInteraction::Base do
         it 'calls transaction' do
           allow(described_class).to receive(:transaction)
           outcome
-          expect(described_class).to have_received(:transaction).once.
-            with(no_args)
+          expect(described_class).to have_received(:transaction).once
+            .with(no_args)
         end
       end
     end
@@ -315,8 +315,8 @@ describe ActiveInteraction::Base do
       end
 
       it 'has the correct errors' do
-        expect(outcome.errors[:base]).
-          to match_array ['X is required', 'Y is required']
+        expect(outcome.errors[:base])
+          .to match_array ['X is required', 'Y is required']
       end
     end
   end

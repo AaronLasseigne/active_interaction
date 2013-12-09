@@ -21,8 +21,8 @@ describe ActiveInteraction::OverloadHash do
 
       it 'calls method_missing' do
         hash
-        expect(subject).to have_received(:method_missing).once.
-          with(:hash, *arguments)
+        expect(subject).to have_received(:method_missing).once
+          .with(:hash, *arguments)
       end
 
       context 'with a block' do
@@ -31,8 +31,8 @@ describe ActiveInteraction::OverloadHash do
 
         it 'calls method_missing' do
           hash
-          expect(subject).to have_received(:method_missing).once.
-            with(:hash, *arguments)
+          expect(subject).to have_received(:method_missing).once
+            .with(:hash, *arguments)
         end
 
         it 'passes the block to method_missing' do

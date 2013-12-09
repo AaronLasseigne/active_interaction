@@ -7,9 +7,6 @@
 Documentation:
   Enabled: false
 
-DotPosition:
-  Enabled: false
-
 HandleExceptions:
   Enabled: false
 

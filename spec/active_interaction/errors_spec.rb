@@ -43,26 +43,26 @@ describe ActiveInteraction::Errors do
 
       it 'with the default' do
         errors.add_sym(:attribute)
-        expect(errors).to have_received(:add).once.
-          with(:attribute, :invalid, {})
+        expect(errors).to have_received(:add).once
+          .with(:attribute, :invalid, {})
       end
 
       it 'with a symbol' do
         errors.add_sym(:attribute, :symbol)
-        expect(errors).to have_received(:add).once.
-          with(:attribute, :symbol, {})
+        expect(errors).to have_received(:add).once
+          .with(:attribute, :symbol, {})
       end
 
       it 'with a symbol and message' do
         errors.add_sym(:attribute, :symbol, 'message')
-        expect(errors).to have_received(:add).once.
-          with(:attribute, 'message', {})
+        expect(errors).to have_received(:add).once
+          .with(:attribute, 'message', {})
       end
 
       it 'with a symbol, message and options' do
         errors.add_sym(:attribute, :symbol, 'message', key: :value)
-        expect(errors).to have_received(:add).once.
-          with(:attribute, 'message', key: :value)
+        expect(errors).to have_received(:add).once
+          .with(:attribute, 'message', key: :value)
       end
     end
   end
