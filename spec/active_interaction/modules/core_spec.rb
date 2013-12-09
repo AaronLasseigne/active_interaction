@@ -34,10 +34,10 @@ describe ActiveInteraction::Core do
       let(:options) { double }
 
       it 'calls #run' do
-        expect(instance).to receive(:run).once.with(options)
         begin
           instance.run!(options)
-        rescue
+        rescue ActiveInteraction::InvalidInteractionError
+          expect(instance).to have_received(:run).once.with(options)
         end
       end
     end

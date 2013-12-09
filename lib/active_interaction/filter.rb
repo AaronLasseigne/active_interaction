@@ -84,7 +84,7 @@ module ActiveInteraction
       def inherited(klass)
         CLASSES[klass.slug] = klass
       rescue InvalidClassError
-        # Ignore classes with invalid slugs.
+        CLASSES[klass.name.to_sym] = klass
       end
     end
 
