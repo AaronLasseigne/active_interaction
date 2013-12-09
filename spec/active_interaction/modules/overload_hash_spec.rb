@@ -26,7 +26,7 @@ describe ActiveInteraction::OverloadHash do
       end
 
       context 'with a block' do
-        let(:block) { Proc.new {} }
+        let(:block) { proc {} }
         let(:hash) { subject.hash(*arguments, &block) }
 
         it 'calls method_missing' do

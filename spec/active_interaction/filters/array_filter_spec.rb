@@ -5,7 +5,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
   it_behaves_like 'a filter'
 
   context 'with multiple nested filters' do
-    let(:block) { Proc.new { array; array } }
+    let(:block) { proc { array; array } }
 
     it 'raises an error' do
       expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
@@ -13,7 +13,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
   end
 
   context 'with a nested name' do
-    let(:block) { Proc.new { array :a } }
+    let(:block) { proc { array :a } }
 
     it 'raises an error' do
       expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
@@ -21,7 +21,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
   end
 
   context 'with a nested default' do
-    let(:block) { Proc.new { array default: nil } }
+    let(:block) { proc { array default: nil } }
 
     it 'raises an error' do
       expect { filter }.to raise_error ActiveInteraction::InvalidDefaultError
@@ -46,7 +46,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
     end
 
     context 'with a nested filter' do
-      let(:block) { Proc.new { array } }
+      let(:block) { proc { array } }
 
       context 'with an Array' do
         let(:value) { [] }

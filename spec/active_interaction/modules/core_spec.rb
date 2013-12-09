@@ -93,14 +93,14 @@ describe ActiveInteraction::Core do
       end
 
       it 'calls ActiveRecord::Base#transaction' do
-        block = Proc.new {}
+        block = proc {}
         expect(ActiveRecord::Base).to receive(:transaction).once.with(no_args)
         instance.send(:transaction, &block)
       end
 
       it 'calls ActiveRecord::Base#transaction' do
         args = [:a, :b, :c]
-        block = Proc.new {}
+        block = proc {}
         expect(ActiveRecord::Base).to receive(:transaction).once.with(*args)
         instance.send(:transaction, *args, &block)
       end
