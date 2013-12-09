@@ -35,7 +35,10 @@ describe ActiveInteraction::Core do
 
       it 'calls #run' do
         expect(instance).to receive(:run).once.with(options)
-        instance.run!(options) rescue nil
+        begin
+          instance.run!(options)
+        rescue
+        end
       end
     end
 

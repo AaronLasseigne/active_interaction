@@ -13,9 +13,6 @@ HandleExceptions:
 MethodLength:
   Enabled: false
 
-RescueModifier:
-  Enabled: false
-
 Semicolon:
   Enabled: false
 
