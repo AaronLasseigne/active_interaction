@@ -287,8 +287,8 @@ describe ActiveInteraction::Base do
 
     InterruptInteraction = Class.new(ActiveInteraction::Base) do
       model :x, :y,
-        class: Object,
-        default: nil
+            class: Object,
+            default: nil
 
       def execute
         compose(AddInteraction, inputs)
