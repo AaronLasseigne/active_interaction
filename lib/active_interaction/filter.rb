@@ -82,11 +82,9 @@ module ActiveInteraction
 
       # @private
       def inherited(klass)
-        begin
-          CLASSES[klass.slug] = klass
-        rescue InvalidClassError
-          # Ignore classes with invalid slugs.
-        end
+        CLASSES[klass.slug] = klass
+      rescue InvalidClassError
+        # Ignore classes with invalid slugs.
       end
     end
 

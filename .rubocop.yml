@@ -13,9 +13,6 @@ HandleExceptions:
 MethodLength:
   Enabled: false
 
-RedundantBegin:
-  Enabled: false
-
 RedundantSelf:
   Enabled: false
 
