@@ -193,7 +193,7 @@ module ActiveInteraction
     #
     # @return [Boolean]
     def has_default?
-      options.has_key?(:default)
+      options.key?(:default)
     end
 
     # @private

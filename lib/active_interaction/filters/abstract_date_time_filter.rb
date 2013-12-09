@@ -27,7 +27,7 @@ module ActiveInteraction
     end
 
     def has_format?
-      options.has_key?(:format)
+      options.key?(:format)
     end
 
     def klass

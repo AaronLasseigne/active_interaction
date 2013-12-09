@@ -10,9 +10,6 @@ Documentation:
 HandleExceptions:
   Enabled: false
 
-HashMethods:
-  Enabled: false
-
 IfUnlessModifier:
   Enabled: false
 
