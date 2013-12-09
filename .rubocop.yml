@@ -14,4 +14,4 @@ MethodLength:
   Enabled: false
 
 TrivialAccessors:
-  Enabled: false
+  ExactNameMatch: true
