@@ -96,9 +96,7 @@ module ActiveInteraction
 
       other.messages.each do |attribute, messages|
         messages.each do |message|
-          unless added?(attribute, message)
-            add(attribute, message)
-          end
+          add(attribute, message) unless added?(attribute, message)
         end
       end
 
