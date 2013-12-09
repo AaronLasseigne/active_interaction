@@ -13,8 +13,5 @@ HandleExceptions:
 MethodLength:
   Enabled: false
 
-SpaceInsideHashLiteralBraces:
-  Enabled: false
-
 TrivialAccessors:
   Enabled: false

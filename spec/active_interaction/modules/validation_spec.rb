@@ -16,7 +16,7 @@ describe ActiveInteraction::Validation do
     end
 
     context 'filter.cast returns a value' do
-      let(:inputs) { {name: 1} }
+      let(:inputs) { { name: 1 } }
 
       before do
         filter.stub(:cast).and_return(1)

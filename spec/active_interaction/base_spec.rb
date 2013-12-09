@@ -261,7 +261,7 @@ describe ActiveInteraction::Base do
   describe '#inputs' do
     let(:described_class) { InteractionWithFilter }
     let(:other_val) { SecureRandom.hex }
-    let(:options) { {thing: 1, other: other_val} }
+    let(:options) { { thing: 1, other: other_val } }
 
     it 'casts filtered inputs' do
       expect(interaction.inputs[:thing]).to eql 1.0
