@@ -1,3 +1,5 @@
+# coding: utf-8
+
 shared_context 'filters' do
   let(:block) { nil }
   let(:name) { SecureRandom.hex.to_sym }
@@ -24,9 +26,9 @@ shared_examples_for 'a filter' do
   describe '.factory' do
     context 'with an invalid slug' do
       it 'raises an error' do
-        expect {
+        expect do
           described_class.factory(:invalid)
-        }.to raise_error ActiveInteraction::MissingFilterError
+        end.to raise_error ActiveInteraction::MissingFilterError
       end
     end
 
@@ -60,18 +62,18 @@ shared_examples_for 'a filter' do
       include_context 'required'
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.cast(value)
-        }.to raise_error ActiveInteraction::MissingValueError
+        end.to raise_error ActiveInteraction::MissingValueError
       end
 
       context 'with an invalid default' do
         let(:value) { Object.new }
 
         it 'raises an error' do
-          expect {
+          expect do
             filter.cast(value)
-          }.to raise_error ActiveInteraction::InvalidValueError
+          end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end
@@ -92,18 +94,18 @@ shared_examples_for 'a filter' do
       include_context 'required'
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.clean(value)
-        }.to raise_error ActiveInteraction::MissingValueError
+        end.to raise_error ActiveInteraction::MissingValueError
       end
 
       context 'with an invalid value' do
         let(:value) { Object.new }
 
         it 'raises an error' do
-          expect {
+          expect do
             filter.clean(value)
-          }.to raise_error ActiveInteraction::InvalidValueError
+          end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end
@@ -114,9 +116,9 @@ shared_examples_for 'a filter' do
       end
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.clean(value)
-        }.to raise_error ActiveInteraction::InvalidDefaultError
+        end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
   end
@@ -134,9 +136,9 @@ shared_examples_for 'a filter' do
       include_context 'required'
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.default
-        }.to raise_error ActiveInteraction::NoDefaultError
+        end.to raise_error ActiveInteraction::NoDefaultError
       end
     end
 
@@ -146,9 +148,9 @@ shared_examples_for 'a filter' do
       end
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.default
-        }.to raise_error ActiveInteraction::InvalidDefaultError
+        end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
   end

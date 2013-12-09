@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'spec_helper'
 
 class Model; end
@@ -35,9 +37,9 @@ describe ActiveInteraction::ModelFilter, :filter do
       end
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.cast(value)
-        }.to raise_error ActiveInteraction::InvalidClassError
+        end.to raise_error ActiveInteraction::InvalidClassError
       end
     end
   end

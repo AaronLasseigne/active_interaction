@@ -1,6 +1,8 @@
+# coding: utf-8
+
 require 'spec_helper'
 
-class HashInteraction < ActiveInteraction::Base
+HashInteraction = Class.new(TestInteraction) do
   hash :a do
     hash :x
   end
@@ -9,7 +11,7 @@ class HashInteraction < ActiveInteraction::Base
   end
 
   def execute
-    { a: a, b: b }
+    inputs
   end
 end
 
@@ -33,23 +35,23 @@ describe HashInteraction do
 
   context 'with an invalid default' do
     it 'raises an error' do
-      expect {
+      expect do
         Class.new(ActiveInteraction::Base) do
           hash :a, default: Object.new
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultError
+      end.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 
   context 'with an invalid nested default' do
     it 'raises an error' do
-      expect {
+      expect do
         Class.new(ActiveInteraction::Base) do
           hash :a, default: { x: Object.new } do
             hash :x
           end
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultError
+      end.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 end

@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'spec_helper'
 
 describe ActiveInteraction::OverloadHash do
@@ -21,18 +23,18 @@ describe ActiveInteraction::OverloadHash do
 
       it 'calls method_missing' do
         hash
-        expect(subject).to have_received(:method_missing).once.
-          with(:hash, *arguments)
+        expect(subject).to have_received(:method_missing).once
+          .with(:hash, *arguments)
       end
 
       context 'with a block' do
-        let(:block) { Proc.new {} }
+        let(:block) { proc {} }
         let(:hash) { subject.hash(*arguments, &block) }
 
         it 'calls method_missing' do
           hash
-          expect(subject).to have_received(:method_missing).once.
-            with(:hash, *arguments)
+          expect(subject).to have_received(:method_missing).once
+            .with(:hash, *arguments)
         end
 
         it 'passes the block to method_missing' do
