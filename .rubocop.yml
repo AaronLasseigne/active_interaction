@@ -13,9 +13,6 @@ HandleExceptions:
 MethodLength:
   Enabled: false
 
-SpaceAroundBlockBraces:
-  Enabled: false
-
 SpaceInsideHashLiteralBraces:
   Enabled: false
 
