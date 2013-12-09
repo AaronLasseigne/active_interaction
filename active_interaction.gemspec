@@ -38,11 +38,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'yard', '~> 0.8'
 
   if RUBY_ENGINE == 'rbx'
+    spec.add_development_dependency 'parser', '~> 2.1.0.pre1'
+    spec.add_development_dependency 'racc', '~> 1.4'
     spec.add_development_dependency 'rubinius-coverage', '~> 2.0'
     spec.add_development_dependency 'rubysl', '~> 2.0'
-
-    # The latest version of Rubinius supports Ruby 2.1 syntax, which requires
-    # the pre-release version of the parser gem.
-    spec.add_development_dependency 'parser', '~> 2.1.0.pre1'
   end
 end
