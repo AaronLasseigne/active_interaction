@@ -76,7 +76,7 @@ module ActiveInteraction
       # @see .factory
       def slug
         match = CLASS_REGEXP.match(name)
-        raise InvalidClassError, name unless match
+        fail InvalidClassError, name unless match
         match.captures.first.underscore.to_sym
       end
 
@@ -157,7 +157,7 @@ module ActiveInteraction
     # @raise [InvalidDefaultError] if the default value is invalid
     # @raise [NoDefaultError] if there is no default value
     def default
-      raise NoDefaultError, name unless has_default?
+      fail NoDefaultError, name unless has_default?
 
       cast(options[:default])
     rescue InvalidValueError, MissingValueError
@@ -198,11 +198,11 @@ module ActiveInteraction
     def cast(value)
       case value
       when NilClass
-        raise MissingValueError, name unless has_default?
+        fail MissingValueError, name unless has_default?
 
         nil
       else
-        raise InvalidValueError, "#{name}: #{value.inspect}"
+        fail InvalidValueError, "#{name}: #{value.inspect}"
       end
     end
   end

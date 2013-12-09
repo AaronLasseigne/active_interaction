@@ -31,7 +31,7 @@ module ActiveInteraction
     end
 
     def klass
-      raise NotImplementedError
+      fail NotImplementedError
     end
   end
 end

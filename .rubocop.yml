@@ -13,9 +13,6 @@ HandleExceptions:
 MethodLength:
   Enabled: false
 
-SignalException:
-  Enabled: false
-
 SpaceAroundBlockBraces:
   Enabled: false
 
