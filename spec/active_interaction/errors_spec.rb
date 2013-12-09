@@ -20,22 +20,22 @@ describe ActiveInteraction::Errors do
   describe '#add_sym' do
     it 'defaults to :invalid' do
       errors.add_sym(:attribute)
-      expect(errors.symbolic).to eq(attribute: [:invalid])
+      expect(errors.symbolic[:attribute]).to eq [:invalid]
     end
 
     it 'adds a symbol' do
       errors.add_sym(:attribute, :symbol)
-      expect(errors.symbolic).to eq(attribute: [:symbol])
+      expect(errors.symbolic[:attribute]).to eq [:symbol]
     end
 
     it 'accepts a message' do
       errors.add_sym(:attribute, :symbol, 'message')
-      expect(errors.symbolic).to eq(attribute: [:symbol])
+      expect(errors.symbolic[:attribute]).to eq [:symbol]
     end
 
     it 'accepts a message and options' do
       errors.add_sym(:attribute, :symbol, 'message', key: :value)
-      expect(errors.symbolic).to eq(attribute: [:symbol])
+      expect(errors.symbolic[:attribute]).to eq [:symbol]
     end
 
     context 'calling #add' do

@@ -45,7 +45,6 @@ module ActiveInteraction
       @_interaction_result = nil
       @_interaction_runtime_errors = nil
 
-      inputs = inputs.symbolize_keys
       inputs.each do |key, value|
         if key.to_s.start_with?('_interaction_')
           fail InvalidValueError, key.inspect
@@ -54,6 +53,7 @@ module ActiveInteraction
         instance_variable_set("@#{key}", value)
       end
 
+      inputs = inputs.symbolize_keys
       self.class.filters.each do |filter|
         begin
           send("#{filter.name}=", filter.clean(inputs[filter.name]))

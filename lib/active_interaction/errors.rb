@@ -69,13 +69,13 @@ module ActiveInteraction
 
     # @private
     def initialize(*args)
-      @symbolic = {}
+      @symbolic = {}.with_indifferent_access
       super
     end
 
     # @private
     def initialize_dup(other)
-      @symbolic = other.symbolic.dup
+      @symbolic = other.symbolic.with_indifferent_access
       super
     end
 
