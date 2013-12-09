@@ -5,7 +5,7 @@
 # one by one as the offences are removed from the code base.
 
 MethodLength:
-  Enabled: false
+  Max: 16
 
 TrivialAccessors:
   ExactNameMatch: true
