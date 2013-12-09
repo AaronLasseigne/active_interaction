@@ -10,8 +10,8 @@ TestInteraction = Class.new(ActiveInteraction::Base) do
 end
 
 shared_context 'interactions' do
-  let(:options) { {} }
-  let(:outcome) { described_class.run(options) }
+  let(:inputs) { {} }
+  let(:outcome) { described_class.run(inputs) }
   let(:result) { outcome.result }
 end
 
@@ -38,16 +38,16 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
     end
   end
 
-  context 'without required options' do
+  context 'without required inputs' do
     it 'is invalid' do
       expect(outcome).to be_invalid
     end
   end
 
-  context 'with options[:required]' do
+  context 'with inputs[:required]' do
     let(:required) { generator.call }
 
-    before { options.merge!(required: required) }
+    before { inputs.merge!(required: required) }
 
     it 'is valid' do
       expect(outcome).to be_valid
@@ -66,7 +66,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
     end
 
     it 'does not return nil for :default when given nil' do
-      options.merge!(default: nil)
+      inputs.merge!(default: nil)
       expect(result[:default]).to_not be_nil
     end
 
@@ -78,20 +78,20 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       expect(result[:defaults_2]).to_not be_nil
     end
 
-    context 'with options[:optional]' do
+    context 'with inputs[:optional]' do
       let(:optional) { generator.call }
 
-      before { options.merge!(optional: optional) }
+      before { inputs.merge!(optional: optional) }
 
       it 'returns the correct value for :optional' do
         expect(result[:optional]).to eq optional
       end
     end
 
-    context 'with options[:default]' do
+    context 'with inputs[:default]' do
       let(:default) { generator.call }
 
-      before { options.merge!(default: default) }
+      before { inputs.merge!(default: default) }
 
       it 'returns the correct value for :default' do
         expect(result[:default]).to eq default

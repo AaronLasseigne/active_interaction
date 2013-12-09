@@ -19,10 +19,10 @@ describe ArrayInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction', :array, -> { [] }
 
-  context 'with options[:a]' do
+  context 'with inputs[:a]' do
     let(:a) { [[]] }
 
-    before { options.merge!(a: a) }
+    before { inputs.merge!(a: a) }
 
     it 'returns the correct value for :a' do
       expect(result[:a]).to eq a

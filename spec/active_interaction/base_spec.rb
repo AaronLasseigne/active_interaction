@@ -13,12 +13,12 @@ end
 describe ActiveInteraction::Base do
   include_context 'interactions'
 
-  subject(:interaction) { described_class.new(options) }
+  subject(:interaction) { described_class.new(inputs) }
 
-  describe '.new(options = {})' do
+  describe '.new(inputs = {})' do
     it 'does not allow :_interaction_* as an option' do
       key = :"_interaction_#{SecureRandom.hex}"
-      options.merge!(key => nil)
+      inputs.merge!(key => nil)
       expect do
         interaction
       end.to raise_error ActiveInteraction::InvalidValueError
@@ -26,14 +26,14 @@ describe ActiveInteraction::Base do
 
     it 'does not allow "_interaction_*" as an option' do
       key = "_interaction_#{SecureRandom.hex}"
-      options.merge!(key => nil)
+      inputs.merge!(key => nil)
       expect do
         interaction
       end.to raise_error ActiveInteraction::InvalidValueError
     end
 
-    context 'with invalid options' do
-      let(:options) { nil }
+    context 'with invalid inputs' do
+      let(:inputs) { nil }
 
       it 'raises an error' do
         expect { interaction }.to raise_error ArgumentError
@@ -55,7 +55,7 @@ describe ActiveInteraction::Base do
       let(:thing) { SecureRandom.hex }
 
       context 'failing validations' do
-        before { options.merge!(thing: nil) }
+        before { inputs.merge!(thing: nil) }
 
         it 'returns an invalid outcome' do
           expect(interaction).to be_invalid
@@ -63,7 +63,7 @@ describe ActiveInteraction::Base do
       end
 
       context 'passing validations' do
-        before { options.merge!(thing: thing) }
+        before { inputs.merge!(thing: thing) }
 
         it 'returns a valid outcome' do
           expect(interaction).to be_valid
@@ -79,7 +79,7 @@ describe ActiveInteraction::Base do
       let(:described_class) { InteractionWithFilter }
 
       context 'failing validations' do
-        before { options.merge!(thing: thing) }
+        before { inputs.merge!(thing: thing) }
 
         context 'with an invalid value' do
           let(:thing) { 'a' }
@@ -99,7 +99,7 @@ describe ActiveInteraction::Base do
       end
 
       context 'passing validations' do
-        before { options.merge!(thing: 1) }
+        before { inputs.merge!(thing: 1) }
 
         it 'sets the attribute to the filtered value' do
           expect(interaction.thing).to eql 1.0
@@ -162,7 +162,7 @@ describe ActiveInteraction::Base do
     let(:described_class) { InteractionWithFilter }
     let(:thing) { rand }
 
-    describe '.run(options = {})' do
+    describe '.run(inputs = {})' do
       it "returns an instance of #{described_class}" do
         expect(outcome).to be_a described_class
       end
@@ -196,7 +196,7 @@ describe ActiveInteraction::Base do
       end
 
       context 'passing validations' do
-        before { options.merge!(thing: thing) }
+        before { inputs.merge!(thing: thing) }
 
         context 'failing runtime validations' do
           before do
@@ -247,8 +247,8 @@ describe ActiveInteraction::Base do
       end
     end
 
-    describe '.run!(options = {})' do
-      subject(:result) { described_class.run!(options) }
+    describe '.run!(inputs = {})' do
+      subject(:result) { described_class.run!(inputs) }
 
       context 'failing validations' do
         it 'raises an error' do
@@ -259,7 +259,7 @@ describe ActiveInteraction::Base do
       end
 
       context 'passing validations' do
-        before { options.merge!(thing: thing) }
+        before { inputs.merge!(thing: thing) }
 
         it 'returns the result' do
           expect(result).to eq thing
@@ -271,7 +271,7 @@ describe ActiveInteraction::Base do
   describe '#inputs' do
     let(:described_class) { InteractionWithFilter }
     let(:other_val) { SecureRandom.hex }
-    let(:options) { { thing: 1, other: other_val } }
+    let(:inputs) { { thing: 1, other: other_val } }
 
     it 'casts filtered inputs' do
       expect(interaction.inputs[:thing]).to eql 1.0
@@ -307,7 +307,7 @@ describe ActiveInteraction::Base do
 
     context 'with valid composition' do
       before do
-        options.merge!(x: x, y: y)
+        inputs.merge!(x: x, y: y)
       end
 
       it 'is valid' do

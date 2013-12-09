@@ -33,13 +33,13 @@ describe ActiveInteraction::Core do
     end
 
     shared_examples '#run!' do
-      let(:options) { double }
+      let(:inputs) { double }
 
       it 'calls #run' do
         begin
-          instance.run!(options)
+          instance.run!(inputs)
         rescue ActiveInteraction::InvalidInteractionError
-          expect(instance).to have_received(:run).once.with(options)
+          expect(instance).to have_received(:run).once.with(inputs)
         end
       end
     end

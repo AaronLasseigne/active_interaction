@@ -35,18 +35,18 @@ module ActiveInteraction
 
     validate :input_errors, :runtime_errors
 
-    # @param options [Hash{Symbol => Object}] Attribute values to set.
+    # @param inputs [Hash{Symbol => Object}] Attribute values to set.
     #
     # @private
-    def initialize(options = {})
-      fail ArgumentError, 'options must be a hash' unless options.is_a?(Hash)
+    def initialize(inputs = {})
+      fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
       @_interaction_errors = Errors.new(self)
       @_interaction_result = nil
       @_interaction_runtime_errors = nil
 
-      options = options.symbolize_keys
-      options.each do |key, value|
+      inputs = inputs.symbolize_keys
+      inputs.each do |key, value|
         if key.to_s.start_with?('_interaction_')
           fail InvalidValueError, key.inspect
         end
@@ -56,7 +56,7 @@ module ActiveInteraction
 
       self.class.filters.each do |filter|
         begin
-          send("#{filter.name}=", filter.clean(options[filter.name]))
+          send("#{filter.name}=", filter.clean(inputs[filter.name]))
         # rubocop: disable HandleExceptions
         rescue InvalidValueError, MissingValueError
           # Validators (#input_errors) will add errors if appropriate.
@@ -178,8 +178,8 @@ module ActiveInteraction
       end
     end
 
-    def compose(interaction, options = {})
-      outcome = interaction.run(options)
+    def compose(interaction, inputs = {})
+      outcome = interaction.run(inputs)
       return outcome.result if outcome.valid?
 
       # This can't use Errors#merge! because the errors have to be added to
