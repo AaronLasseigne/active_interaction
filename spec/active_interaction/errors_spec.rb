@@ -98,4 +98,36 @@ describe ActiveInteraction::Errors do
       expect(errors.symbolic).to be_empty
     end
   end
+
+  describe '#merge!' do
+    let(:other) { described_class.new(klass.new) }
+
+    context 'with an error' do
+      before do
+        other.add(:attribute)
+      end
+
+      it 'adds the error' do
+        errors.merge!(other)
+        expect(errors.messages[:attribute]).to eq ['is invalid']
+      end
+
+      it 'does not add duplicate errors' do
+        other.add(:attribute)
+        errors.merge!(other)
+        expect(errors.messages[:attribute]).to eq ['is invalid']
+      end
+    end
+
+    context 'with a symbolic error' do
+      before do
+        other.add_sym(:attribute)
+      end
+
+      it 'adds the error' do
+        errors.merge!(other)
+        expect(errors.symbolic[:attribute]).to eq [:invalid]
+      end
+    end
+  end
 end
