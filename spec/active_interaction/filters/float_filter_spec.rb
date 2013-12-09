@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'spec_helper'
 
 describe ActiveInteraction::FloatFilter, :filter do
@@ -33,9 +35,9 @@ describe ActiveInteraction::FloatFilter, :filter do
       let(:value) { 'invalid' }
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.cast(value)
-        }.to raise_error ActiveInteraction::InvalidValueError
+        end.to raise_error ActiveInteraction::InvalidValueError
       end
     end
   end

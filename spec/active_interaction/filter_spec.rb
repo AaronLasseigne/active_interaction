@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'spec_helper'
 
 class ActiveInteraction::TestFilter < ActiveInteraction::Filter; end
@@ -7,9 +9,9 @@ describe ActiveInteraction::Filter, :filter do
 
   describe '.slug' do
     it 'raises an error' do
-      expect {
+      expect do
         described_class.slug
-      }.to raise_error ActiveInteraction::InvalidClassError
+      end.to raise_error ActiveInteraction::InvalidClassError
     end
   end
 

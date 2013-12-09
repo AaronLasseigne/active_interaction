@@ -1,6 +1,8 @@
+# coding: utf-8
+
 require 'spec_helper'
 
-class ArrayInteraction < ActiveInteraction::Base
+ArrayInteraction = Class.new(TestInteraction) do
   array :a do
     array
   end
@@ -9,7 +11,7 @@ class ArrayInteraction < ActiveInteraction::Base
   end
 
   def execute
-    { a: a, b: b }
+    inputs
   end
 end
 
@@ -33,23 +35,23 @@ describe ArrayInteraction do
 
   context 'with an invalid default' do
     it 'raises an error' do
-      expect {
+      expect do
         Class.new(ActiveInteraction::Base) do
           array :a, default: Object.new
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultError
+      end.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 
   context 'with an invalid nested default' do
     it 'raises an error' do
-      expect {
+      expect do
         Class.new(ActiveInteraction::Base) do
           array :a, default: [Object.new] do
             array
           end
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultError
+      end.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 end

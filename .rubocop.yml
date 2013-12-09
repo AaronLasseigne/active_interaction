@@ -1,0 +1,5 @@
+MethodLength:
+  Max: 16
+
+TrivialAccessors:
+  ExactNameMatch: true

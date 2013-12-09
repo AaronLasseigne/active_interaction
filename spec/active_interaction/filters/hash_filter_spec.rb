@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'spec_helper'
 
 describe ActiveInteraction::HashFilter, :filter do
@@ -5,7 +7,7 @@ describe ActiveInteraction::HashFilter, :filter do
   it_behaves_like 'a filter'
 
   context 'with a nested nameless filter' do
-    let(:block) { Proc.new { hash } }
+    let(:block) { proc { hash } }
 
     it 'raises an error' do
       expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
@@ -30,7 +32,7 @@ describe ActiveInteraction::HashFilter, :filter do
     end
 
     context 'with a nested filter' do
-      let(:block) { Proc.new { hash :a } }
+      let(:block) { proc { hash :a } }
 
       context 'with a Hash' do
         let(:value) { { a: {} } }
@@ -59,9 +61,9 @@ describe ActiveInteraction::HashFilter, :filter do
       end
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.default
-        }.to raise_error ActiveInteraction::InvalidDefaultError
+        end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
   end
