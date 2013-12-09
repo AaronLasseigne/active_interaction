@@ -1,17 +1,17 @@
 require 'spec_helper'
 
+InteractionWithFilter = Class.new(TestInteraction) do
+  float :thing
+
+  def execute
+    thing
+  end
+end
+
 describe ActiveInteraction::Base do
   include_context 'interactions'
 
   subject(:interaction) { described_class.new(options) }
-
-  class InteractionWithFilter < described_class
-    float :thing
-
-    def execute
-      thing
-    end
-  end
 
   describe '.new(options = {})' do
     it 'does not allow :_interaction_* as an option' do

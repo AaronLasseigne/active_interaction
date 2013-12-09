@@ -1,3 +1,4 @@
+# rubocop:disable Documentation
 module ActiveInteraction
   # Top-level error class. All other errors subclass this.
   Error = Class.new(StandardError)

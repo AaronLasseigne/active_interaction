@@ -1,11 +1,9 @@
 require 'spec_helper'
 
-class I18nInteraction < ActiveInteraction::Base
+I18nInteraction = Class.new(TestInteraction) do
   hash :a do
     hash :x
   end
-
-  def execute; end
 end
 
 describe I18nInteraction do

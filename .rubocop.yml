@@ -4,9 +4,6 @@
 # The point is for the user to remove these configuration records
 # one by one as the offences are removed from the code base.
 
-Documentation:
-  Enabled: false
-
 HandleExceptions:
   Enabled: false
 

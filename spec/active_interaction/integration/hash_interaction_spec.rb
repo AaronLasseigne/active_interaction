@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class HashInteraction < ActiveInteraction::Base
+HashInteraction = Class.new(TestInteraction) do
   hash :a do
     hash :x
   end
@@ -9,7 +9,7 @@ class HashInteraction < ActiveInteraction::Base
   end
 
   def execute
-    { a: a, b: b }
+    inputs
   end
 end
 

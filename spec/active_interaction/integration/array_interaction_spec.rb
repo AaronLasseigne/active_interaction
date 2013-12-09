@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class ArrayInteraction < ActiveInteraction::Base
+ArrayInteraction = Class.new(TestInteraction) do
   array :a do
     array
   end
@@ -9,7 +9,7 @@ class ArrayInteraction < ActiveInteraction::Base
   end
 
   def execute
-    { a: a, b: b }
+    inputs
   end
 end
 

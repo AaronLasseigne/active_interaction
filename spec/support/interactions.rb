@@ -1,4 +1,4 @@
-class TestInteraction < ActiveInteraction::Base
+TestInteraction = Class.new(ActiveInteraction::Base) do
   def self.name
     SecureRandom.hex
   end
