@@ -1,5 +1,8 @@
 # [Master][]
 
+- Fix I18n deprecation warning.
+- Raise `ArgumentError` when running an interaction with non-hash options.
+
 # [0.9.0][] (2013-12-02)
 
 - Add experimental composition implementation
