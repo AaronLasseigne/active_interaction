@@ -30,6 +30,14 @@ describe ActiveInteraction::Base do
       }.to raise_error ActiveInteraction::InvalidValueError
     end
 
+    context 'with invalid options' do
+      let(:options) { nil }
+
+      it 'raises an error' do
+        expect { interaction }.to raise_error ArgumentError
+      end
+    end
+
     context 'with an attribute' do
       let(:described_class) do
         Class.new(TestInteraction) do

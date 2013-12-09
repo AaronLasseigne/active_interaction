@@ -37,6 +37,8 @@ module ActiveInteraction
     #
     # @private
     def initialize(options = {})
+      fail ArgumentError, 'options must be a hash' unless options.is_a?(Hash)
+
       @_interaction_errors = Errors.new(self)
       @_interaction_result = nil
       @_interaction_runtime_errors = nil
