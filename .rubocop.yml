@@ -1,5 +1,5 @@
 MethodLength:
-  Max: 16
+  Max: 20
 
 TrivialAccessors:
   ExactNameMatch: true
