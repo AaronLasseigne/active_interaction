@@ -47,9 +47,9 @@ describe ActiveInteraction::Core do
       end
 
       it 'raises an error' do
-        expect {
+        expect do
           instance.run!
-        }.to raise_error ActiveInteraction::InvalidInteractionError
+        end.to raise_error ActiveInteraction::InvalidInteractionError
       end
     end
 

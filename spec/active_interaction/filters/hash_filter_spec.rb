@@ -59,9 +59,9 @@ describe ActiveInteraction::HashFilter, :filter do
       end
 
       it 'raises an error' do
-        expect {
+        expect do
           filter.default
-        }.to raise_error ActiveInteraction::InvalidDefaultError
+        end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
   end

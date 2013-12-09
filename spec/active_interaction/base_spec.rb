@@ -17,17 +17,17 @@ describe ActiveInteraction::Base do
     it 'does not allow :_interaction_* as an option' do
       key = :"_interaction_#{SecureRandom.hex}"
       options.merge!(key => nil)
-      expect {
+      expect do
         interaction
-      }.to raise_error ActiveInteraction::InvalidValueError
+      end.to raise_error ActiveInteraction::InvalidValueError
     end
 
     it 'does not allow "_interaction_*" as an option' do
       key = "_interaction_#{SecureRandom.hex}"
       options.merge!(key => nil)
-      expect {
+      expect do
         interaction
-      }.to raise_error ActiveInteraction::InvalidValueError
+      end.to raise_error ActiveInteraction::InvalidValueError
     end
 
     context 'with an attribute' do
@@ -100,11 +100,11 @@ describe ActiveInteraction::Base do
 
   describe '.method_missing(filter_type, *args, &block)' do
     it 'raises an error for an invalid filter type' do
-      expect {
+      expect do
         Class.new(described_class) do
           not_a_valid_filter_type :thing
         end
-      }.to raise_error NoMethodError
+      end.to raise_error NoMethodError
     end
 
     it do
@@ -242,9 +242,9 @@ describe ActiveInteraction::Base do
 
       context 'failing validations' do
         it 'raises an error' do
-          expect {
+          expect do
             result
-          }.to raise_error ActiveInteraction::InvalidInteractionError
+          end.to raise_error ActiveInteraction::InvalidInteractionError
         end
       end
 

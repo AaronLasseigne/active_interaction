@@ -33,23 +33,23 @@ describe HashInteraction do
 
   context 'with an invalid default' do
     it 'raises an error' do
-      expect {
+      expect do
         Class.new(ActiveInteraction::Base) do
           hash :a, default: Object.new
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultError
+      end.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 
   context 'with an invalid nested default' do
     it 'raises an error' do
-      expect {
+      expect do
         Class.new(ActiveInteraction::Base) do
           hash :a, default: { x: Object.new } do
             hash :x
           end
         end
-      }.to raise_error ActiveInteraction::InvalidDefaultError
+      end.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
 end

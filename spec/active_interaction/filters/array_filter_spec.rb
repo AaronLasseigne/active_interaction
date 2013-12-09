@@ -68,9 +68,9 @@ describe ActiveInteraction::ArrayFilter, :filter do
         let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
         it 'raises an error' do
-          expect{
+          expect do
             filter.cast(value)
-          }.to raise_error ActiveInteraction::InvalidValueError
+          end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
     end
