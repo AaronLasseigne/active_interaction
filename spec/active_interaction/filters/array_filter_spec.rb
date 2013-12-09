@@ -5,7 +5,12 @@ describe ActiveInteraction::ArrayFilter, :filter do
   it_behaves_like 'a filter'
 
   context 'with multiple nested filters' do
-    let(:block) { proc { array; array } }
+    let(:block) do
+      proc do
+        array
+        array
+      end
+    end
 
     it 'raises an error' do
       expect { filter }.to raise_error ActiveInteraction::InvalidFilterError

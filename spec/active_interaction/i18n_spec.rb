@@ -86,7 +86,7 @@ describe I18nInteraction do
           invalid_nested: 'invalid_nested'.reverse,
           missing: 'missing'.reverse
         } },
-        types: TYPES.reduce({}) { |a, e| a[e] = e.reverse; a }
+        types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }
       })
     end
   end
