@@ -43,8 +43,8 @@ $ gem install active_interaction
 ## What do I get?
 
 ActiveInteraction::Base lets you create interaction models. These
-models ensure that certain options are provided and that those
-options are in the format you want them in. If the options are valid
+models ensure that certain inputs are provided and that those
+inputs are in the format you want them in. If the inputs are valid
 it will call `execute`, store the return value of that method in
 `result`, and return an instance of your ActiveInteraction::Base
 subclass. Let's look at a simple example:
@@ -61,7 +61,7 @@ class UserSignup < ActiveInteraction::Base
   # ActiveRecord validations
   validates :email, format: EMAIL_REGEX
 
-  # The execute method is called only if the options validate. It
+  # The execute method is called only if the inputs validate. It
   # does your business action. The return value will be stored in
   # `result`.
   def execute

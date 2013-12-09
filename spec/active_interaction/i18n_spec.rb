@@ -47,7 +47,7 @@ describe I18nInteraction do
         end
 
         it 'returns the translation' do
-          options.merge!(a: Object.new)
+          inputs.merge!(a: Object.new)
           expect(outcome.errors[:a]).to eq [translation]
         end
       end

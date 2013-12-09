@@ -1,7 +1,7 @@
 # [Master][]
 
 - Fix I18n deprecation warning.
-- Raise `ArgumentError` when running an interaction with non-hash options.
+- Raise `ArgumentError` when running an interaction with non-hash inputs.
 
 # [0.9.0][] (2013-12-02)
 

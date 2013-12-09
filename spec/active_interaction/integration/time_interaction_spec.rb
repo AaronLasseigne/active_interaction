@@ -39,7 +39,7 @@ describe TimeInteraction do
 
     before do
       allow(Time).to receive(:zone).and_return(TimeZone)
-      options.merge!(a: a)
+      inputs.merge!(a: a)
     end
 
     it 'returns the correct value' do
