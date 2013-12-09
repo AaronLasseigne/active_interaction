@@ -1,13 +1,16 @@
+# coding: utf-8
+
 begin
   require 'active_record'
+# rubocop:disable HandleExceptions
 rescue LoadError
+  # ActiveRecord is an optional dependency.
 end
 
 module ActiveInteraction
-  # Functionality common between {Base} and {Pipeline}.
+  # Functionality common between {Base}.
   #
   # @see Base
-  # @see Pipeline
   module Core
     # Get or set the description.
     #
@@ -49,7 +52,7 @@ module ActiveInteraction
       if outcome.valid?
         outcome.result
       else
-        raise InvalidInteractionError, outcome.errors.full_messages.join(', ')
+        fail InvalidInteractionError, outcome.errors.full_messages.join(', ')
       end
     end
 

@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module ActiveInteraction
   # @private
   class AbstractNumericFilter < Filter
@@ -19,7 +21,7 @@ module ActiveInteraction
     private
 
     def klass
-      raise NotImplementedError
+      fail NotImplementedError
     end
   end
 end

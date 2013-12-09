@@ -1,11 +1,11 @@
+# coding: utf-8
+
 require 'spec_helper'
 
-class I18nInteraction < ActiveInteraction::Base
+I18nInteraction = Class.new(TestInteraction) do
   hash :a do
     hash :x
   end
-
-  def execute; end
 end
 
 describe I18nInteraction do
@@ -74,20 +74,20 @@ describe I18nInteraction do
     end
   end
 
-  context 'english'.reverse do
+  context 'hsilgne' do
     include_examples 'translation'
 
     before do
-      I18n.locale = 'english'.reverse
-
-      I18n.backend.store_translations(I18n.locale, active_interaction: {
+      I18n.backend.store_translations('hsilgne', active_interaction: {
         errors: { messages: {
           invalid: "%{type} #{'invalid'.reverse}",
           invalid_nested: 'invalid_nested'.reverse,
           missing: 'missing'.reverse
         } },
-        types: TYPES.reduce({}) { |a, e| a[e] = e.reverse; a }
+        types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }
       })
+
+      I18n.locale = 'hsilgne'
     end
   end
 end

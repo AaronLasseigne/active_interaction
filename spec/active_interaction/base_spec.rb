@@ -1,33 +1,43 @@
+# coding: utf-8
+
 require 'spec_helper'
+
+InteractionWithFilter = Class.new(TestInteraction) do
+  float :thing
+
+  def execute
+    thing
+  end
+end
 
 describe ActiveInteraction::Base do
   include_context 'interactions'
 
   subject(:interaction) { described_class.new(options) }
 
-  class InteractionWithFilter < described_class
-    float :thing
-
-    def execute
-      thing
-    end
-  end
-
   describe '.new(options = {})' do
     it 'does not allow :_interaction_* as an option' do
       key = :"_interaction_#{SecureRandom.hex}"
       options.merge!(key => nil)
-      expect {
+      expect do
         interaction
-      }.to raise_error ActiveInteraction::InvalidValueError
+      end.to raise_error ActiveInteraction::InvalidValueError
     end
 
     it 'does not allow "_interaction_*" as an option' do
       key = "_interaction_#{SecureRandom.hex}"
       options.merge!(key => nil)
-      expect {
+      expect do
         interaction
-      }.to raise_error ActiveInteraction::InvalidValueError
+      end.to raise_error ActiveInteraction::InvalidValueError
+    end
+
+    context 'with invalid options' do
+      let(:options) { nil }
+
+      it 'raises an error' do
+        expect { interaction }.to raise_error ArgumentError
+      end
     end
 
     context 'with an attribute' do
@@ -100,11 +110,11 @@ describe ActiveInteraction::Base do
 
   describe '.method_missing(filter_type, *args, &block)' do
     it 'raises an error for an invalid filter type' do
-      expect {
+      expect do
         Class.new(described_class) do
           not_a_valid_filter_type :thing
         end
-      }.to raise_error NoMethodError
+      end.to raise_error NoMethodError
     end
 
     it do
@@ -231,8 +241,8 @@ describe ActiveInteraction::Base do
         it 'calls transaction' do
           allow(described_class).to receive(:transaction)
           outcome
-          expect(described_class).to have_received(:transaction).once.
-            with(no_args)
+          expect(described_class).to have_received(:transaction).once
+            .with(no_args)
         end
       end
     end
@@ -242,9 +252,9 @@ describe ActiveInteraction::Base do
 
       context 'failing validations' do
         it 'raises an error' do
-          expect {
+          expect do
             result
-          }.to raise_error ActiveInteraction::InvalidInteractionError
+          end.to raise_error ActiveInteraction::InvalidInteractionError
         end
       end
 
@@ -261,7 +271,7 @@ describe ActiveInteraction::Base do
   describe '#inputs' do
     let(:described_class) { InteractionWithFilter }
     let(:other_val) { SecureRandom.hex }
-    let(:options) { {thing: 1, other: other_val} }
+    let(:options) { { thing: 1, other: other_val } }
 
     it 'casts filtered inputs' do
       expect(interaction.inputs[:thing]).to eql 1.0
@@ -269,6 +279,55 @@ describe ActiveInteraction::Base do
 
     it 'strips non-filtered inputs' do
       expect(interaction.inputs).to_not have_key(:other)
+    end
+  end
+
+  describe '#compose' do
+    let(:described_class) { InterruptInteraction }
+    let(:x) { rand }
+    let(:y) { rand }
+
+    AddInteraction = Class.new(ActiveInteraction::Base) do
+      float :x, :y
+
+      def execute
+        x + y
+      end
+    end
+
+    InterruptInteraction = Class.new(ActiveInteraction::Base) do
+      model :x, :y,
+            class: Object,
+            default: nil
+
+      def execute
+        compose(AddInteraction, inputs)
+      end
+    end
+
+    context 'with valid composition' do
+      before do
+        options.merge!(x: x, y: y)
+      end
+
+      it 'is valid' do
+        expect(outcome).to be_valid
+      end
+
+      it 'returns the sum' do
+        expect(result).to eq x + y
+      end
+    end
+
+    context 'with invalid composition' do
+      it 'is invalid' do
+        expect(outcome).to be_invalid
+      end
+
+      it 'has the correct errors' do
+        expect(outcome.errors[:base])
+          .to match_array ['X is required', 'Y is required']
+      end
     end
   end
 

@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module ActiveInteraction
   class Base
     # Creates accessors for the attributes and ensures that values passed to
@@ -31,10 +33,9 @@ module ActiveInteraction
       case value
       when Hash
         value = value.symbolize_keys
-        filters.reduce(strip? ? {} : value) do |h, f|
-          k = f.name
-          h[k] = f.clean(value[k])
-          h
+        filters.each_with_object(strip? ? {} : value) do |filter, h|
+          k = filter.name
+          h[k] = filter.clean(value[k])
         end
       else
         super
@@ -43,7 +44,7 @@ module ActiveInteraction
 
     def default
       if options[:default].is_a?(Hash) && !options[:default].empty?
-        raise InvalidDefaultError, "#{name}: #{options[:default].inspect}"
+        fail InvalidDefaultError, "#{name}: #{options[:default].inspect}"
       end
 
       super
@@ -51,7 +52,7 @@ module ActiveInteraction
 
     def method_missing(*args, &block)
       super(*args) do |klass, names, options|
-        raise InvalidFilterError, 'missing attribute name' if names.empty?
+        fail InvalidFilterError, 'missing attribute name' if names.empty?
 
         names.each do |name|
           filters.add(klass.new(name, options, &block))

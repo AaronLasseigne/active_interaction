@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module ActiveInteraction
   class Base
     # Creates accessors for the attributes and ensures that values passed to

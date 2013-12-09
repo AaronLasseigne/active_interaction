@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module ActiveInteraction
   # A collection of {Filter}s.
   #

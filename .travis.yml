@@ -1,11 +1,9 @@
-%YAML 1.1
----
 language: ruby
 rvm:
 - '1.9.3'
 - '2.0.0'
 - jruby-19mode
-- rbx-19mode
+- rbx
 notifications:
   email: false
   hipchat:

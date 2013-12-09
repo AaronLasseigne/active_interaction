@@ -1,26 +1,28 @@
+# coding: utf-8
+
 require 'spec_helper'
 
-class TimeZone
+TimeZone = Class.new do
   def self.at(*args)
     TimeWithZone.at(*args)
   end
 end
 
-class TimeWithZone
+TimeWithZone = Class.new do
   def self.at(*args)
-    self.new(Time.at(*args))
+    new(Time.at(*args))
   end
 
   def initialize(time)
     @time = time
   end
 
-  def ==(time)
-    @time == time
+  def ==(other)
+    @time == other
   end
 end
 
-class TimeInteraction < ActiveInteraction::Base
+TimeInteraction = Class.new(TestInteraction) do
   time :a
 
   def execute

@@ -1,9 +1,9 @@
+# coding: utf-8
+
+# rubocop:disable Documentation
 module ActiveInteraction
   # Top-level error class. All other errors subclass this.
   Error = Class.new(StandardError)
-
-  # Raised when trying to run an empty pipeline.
-  EmptyPipelineError = Class.new(Error)
 
   # Raised if a class name is invalid.
   InvalidClassError = Class.new(Error)
@@ -28,6 +28,10 @@ module ActiveInteraction
 
   # Raised if there is no default value.
   NoDefaultError = Class.new(Error)
+
+  # @private
+  Interrupt = Class.new(::Interrupt)
+  private_constant :Interrupt
 
   # A small extension to provide symbolic error messages to make introspecting
   #   and testing easier.
@@ -79,6 +83,23 @@ module ActiveInteraction
     def clear
       symbolic.clear
       super
+    end
+
+    # Merge other errors into this one.
+    #
+    # @param other [Errors]
+    #
+    # @return [Errors]
+    def merge!(other)
+      other.symbolic.each do |attribute, symbols|
+        symbols.each { |s| add_sym(attribute, s) }
+      end
+
+      other.messages.each do |attribute, messages|
+        messages.each { |m| add(attribute, m) unless added?(attribute, m) }
+      end
+
+      self
     end
   end
 end
