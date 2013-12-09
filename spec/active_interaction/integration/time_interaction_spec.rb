@@ -8,7 +8,7 @@ end
 
 class TimeWithZone
   def self.at(*args)
-    self.new(Time.at(*args))
+    new(Time.at(*args))
   end
 
   def initialize(time)
