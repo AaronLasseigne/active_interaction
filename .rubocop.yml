@@ -1,3 +1,6 @@
+AlignParameters:
+  Enabled: false
+
 MethodLength:
   Max: 20
 
