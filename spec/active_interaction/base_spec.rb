@@ -336,4 +336,15 @@ describe ActiveInteraction::Base do
       expect { interaction.execute }.to raise_error NotImplementedError
     end
   end
+
+  context 'inheritance' do
+    it 'keeps the filters of the parent class' do
+      class ParentInteraction < ActiveInteraction::Base
+        boolean :x, default: nil
+        def execute; inputs end
+      end
+
+      expect(Class.new(ParentInteraction).run!).to eql({x: nil})
+    end
+  end
 end

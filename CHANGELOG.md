@@ -4,6 +4,7 @@
 - Raise `ArgumentError` when running an interaction with non-hash inputs.
 - For compatibility with `ActiveRecord::Errors`, support indifferent access of 
   `ActiveInteraction::Errors`.
+- Fix losing filters when using inheritance.
 
 # [0.9.0][] (2013-12-02)
 
