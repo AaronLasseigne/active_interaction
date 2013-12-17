@@ -194,7 +194,8 @@ module ActiveInteraction
     def self.inherited(subclass)
       instance_var = :@_interaction_filters
 
-      subclass.instance_variable_set(instance_var, instance_variable_get(instance_var))
+      subclass.instance_variable_set(
+        instance_var, instance_variable_get(instance_var))
     end
   end
 end

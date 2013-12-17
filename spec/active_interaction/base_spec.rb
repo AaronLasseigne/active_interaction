@@ -339,12 +339,16 @@ describe ActiveInteraction::Base do
 
   context 'inheritance' do
     it 'keeps the filters of the parent class' do
-      class ParentInteraction < ActiveInteraction::Base
-        boolean :x, default: nil
-        def execute; inputs end
+      ParentInteraction = Class.new(ActiveInteraction::Base) do
+        boolean :x,
+                default: nil
+
+        def execute
+          inputs
+        end
       end
 
-      expect(Class.new(ParentInteraction).run!).to eql({x: nil})
+      expect(Class.new(ParentInteraction).run!).to eql(x: nil)
     end
   end
 end
