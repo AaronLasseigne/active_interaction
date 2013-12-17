@@ -341,7 +341,7 @@ describe ActiveInteraction::Base do
     it 'keeps the filters of the parent class' do
       ParentInteraction = Class.new(ActiveInteraction::Base) do
         boolean :x,
-                default: nil
+          default: nil
 
         def execute
           inputs
