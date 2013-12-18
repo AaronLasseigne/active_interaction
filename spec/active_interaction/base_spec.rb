@@ -28,15 +28,6 @@ InterruptInteraction = Class.new(ActiveInteraction::Base) do
   end
 end
 
-ParentInteraction = Class.new(ActiveInteraction::Base) do
-  boolean :x,
-    default: nil
-
-  def execute
-    inputs
-  end
-end
-
 describe ActiveInteraction::Base do
   include_context 'interactions'
 
@@ -347,8 +338,14 @@ describe ActiveInteraction::Base do
   end
 
   context 'inheritance' do
-    it 'keeps the filters of the parent class' do
-      expect(Class.new(ParentInteraction).run!).to eql(x: nil)
+    let(:described_class) { InteractionWithFilter }
+
+    def filters(klass)
+      klass.filters.map(&:name)
+    end
+
+    it 'includes the filters from the superclass' do
+      expect(filters(Class.new(described_class))).to include :thing
     end
   end
 end
