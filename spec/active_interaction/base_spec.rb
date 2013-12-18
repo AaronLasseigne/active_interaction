@@ -347,5 +347,11 @@ describe ActiveInteraction::Base do
     it 'includes the filters from the superclass' do
       expect(filters(Class.new(described_class))).to include :thing
     end
+
+    it 'does not mutate the filters on the superclass' do
+      Class.new(described_class) { float :other_thing }
+
+      expect(filters(described_class)).to_not include :other_thing
+    end
   end
 end

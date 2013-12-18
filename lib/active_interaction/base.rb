@@ -191,11 +191,11 @@ module ActiveInteraction
       fail Interrupt
     end
 
-    def self.inherited(subclass)
-      instance_var = :@_interaction_filters
+    def self.inherited(klass)
+      new_filters = Filters.new
+      filters.each { |f| new_filters.add(f) }
 
-      subclass.instance_variable_set(
-        instance_var, instance_variable_get(instance_var))
+      klass.instance_variable_set(:@_interaction_filters, new_filters)
     end
   end
 end
