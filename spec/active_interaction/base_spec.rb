@@ -10,6 +10,33 @@ InteractionWithFilter = Class.new(TestInteraction) do
   end
 end
 
+AddInteraction = Class.new(ActiveInteraction::Base) do
+  float :x, :y
+
+  def execute
+    x + y
+  end
+end
+
+InterruptInteraction = Class.new(ActiveInteraction::Base) do
+  model :x, :y,
+    class: Object,
+    default: nil
+
+  def execute
+    compose(AddInteraction, inputs)
+  end
+end
+
+ParentInteraction = Class.new(ActiveInteraction::Base) do
+  boolean :x,
+    default: nil
+
+  def execute
+    inputs
+  end
+end
+
 describe ActiveInteraction::Base do
   include_context 'interactions'
 
@@ -287,24 +314,6 @@ describe ActiveInteraction::Base do
     let(:x) { rand }
     let(:y) { rand }
 
-    AddInteraction = Class.new(ActiveInteraction::Base) do
-      float :x, :y
-
-      def execute
-        x + y
-      end
-    end
-
-    InterruptInteraction = Class.new(ActiveInteraction::Base) do
-      model :x, :y,
-        class: Object,
-        default: nil
-
-      def execute
-        compose(AddInteraction, inputs)
-      end
-    end
-
     context 'with valid composition' do
       before do
         inputs.merge!(x: x, y: y)
@@ -339,15 +348,6 @@ describe ActiveInteraction::Base do
 
   context 'inheritance' do
     it 'keeps the filters of the parent class' do
-      ParentInteraction = Class.new(ActiveInteraction::Base) do
-        boolean :x,
-          default: nil
-
-        def execute
-          inputs
-        end
-      end
-
       expect(Class.new(ParentInteraction).run!).to eql(x: nil)
     end
   end
