@@ -278,7 +278,9 @@ p Interaction.run.errors.messages
 
 ## Credits
 
-This project was inspired by the fantastic work done in [Mutations][].
+ActiveInteraction is brough to you by [@AaronLasseigne][] and
+[@tfausak][] from [@orgsync][]. We were inspired by the fantastic
+work done in [Mutations][].
 
   [#41]: https://github.com/orgsync/active_interaction/issues/41
   [#79]: https://github.com/orgsync/active_interaction/issues/79
@@ -287,6 +289,9 @@ This project was inspired by the fantastic work done in [Mutations][].
   [3]: https://coveralls.io/r/orgsync/active_interaction "Coverage Status"
   [4]: https://codeclimate.com/github/orgsync/active_interaction "Code Climate"
   [5]: https://gemnasium.com/orgsync/active_interaction "Dependency Status"
+  [@AaronLasseigne]: https://github.com/AaronLasseigne
+  [@orgsync]: https://github.com/orgsync
+  [@tfausak]: https://github.com/tfausak
   [build status]: https://travis-ci.org/orgsync/active_interaction.png
   [code climate]: https://codeclimate.com/github/orgsync/active_interaction.png
   [coverage status]: https://coveralls.io/repos/orgsync/active_interaction/badge.png
