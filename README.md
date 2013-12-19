@@ -278,7 +278,7 @@ p Interaction.run.errors.messages
 
 ## Credits
 
-ActiveInteraction is brough to you by [@AaronLasseigne][] and
+ActiveInteraction is brought to you by [@AaronLasseigne][] and
 [@tfausak][] from [@orgsync][]. We were inspired by the fantastic
 work done in [Mutations][].
 
