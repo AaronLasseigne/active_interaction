@@ -45,23 +45,7 @@ module ActiveInteraction
       @_interaction_result = nil
       @_interaction_runtime_errors = nil
 
-      inputs.each do |key, value|
-        if key.to_s.start_with?('_interaction_')
-          fail InvalidValueError, key.inspect
-        end
-
-        instance_variable_set("@#{key}", value)
-      end
-
-      inputs = inputs.symbolize_keys
-      self.class.filters.each do |filter|
-        begin
-          send("#{filter.name}=", filter.clean(inputs[filter.name]))
-        # rubocop: disable HandleExceptions
-        rescue InvalidValueError, MissingValueError
-          # Validators (#input_errors) will add errors if appropriate.
-        end
-      end
+      process_inputs(inputs.symbolize_keys)
     end
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
@@ -165,6 +149,25 @@ module ActiveInteraction
     end
 
     private
+
+    def process_inputs(inputs)
+      inputs.each do |key, value|
+        if key.to_s.start_with?('_interaction_')
+          fail InvalidValueError, key.inspect
+        end
+
+        instance_variable_set("@#{key}", value)
+      end
+
+      self.class.filters.each do |filter|
+        begin
+          send("#{filter.name}=", filter.clean(inputs[filter.name]))
+        # rubocop: disable HandleExceptions
+        rescue InvalidValueError, MissingValueError
+          # Validators (#input_errors) will add errors if appropriate.
+        end
+      end
+    end
 
     def input_errors
       Validation.validate(self.class.filters, inputs).each do |error|
