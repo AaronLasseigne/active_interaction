@@ -38,5 +38,37 @@ describe ActiveInteraction::BooleanFilter, :filter do
         expect(filter.cast(value)).to be_true
       end
     end
+
+    context 'with "false"' do
+      let(:value) { 'false' }
+
+      it 'returns false' do
+        expect(filter.cast(value)).to be_false
+      end
+    end
+
+    context 'with "true"' do
+      let(:value) { 'true' }
+
+      it 'returns true' do
+        expect(filter.cast(value)).to be_true
+      end
+    end
+
+    context 'with "FALSE"' do
+      let(:value) { 'FALSE' }
+
+      it 'returns false' do
+        expect(filter.cast(value)).to be_false
+      end
+    end
+
+    context 'with "TRUE"' do
+      let(:value) { 'TRUE' }
+
+      it 'returns true' do
+        expect(filter.cast(value)).to be_true
+      end
+    end
   end
 end

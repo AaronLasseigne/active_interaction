@@ -20,9 +20,9 @@ module ActiveInteraction
   class BooleanFilter < Filter
     def cast(value)
       case value
-      when FalseClass, '0'
+      when FalseClass, '0', /\Afalse\z/i
         false
-      when TrueClass, '1'
+      when TrueClass, '1', /\Atrue\z/i
         true
       else
         super
