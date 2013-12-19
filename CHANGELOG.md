@@ -1,5 +1,6 @@
 # [Master][]
 
+- Support casting "true" and "false" as booleans.
 - Fix bug that allowed subclasses to mutate the filters on their superclasses.
 
 # [0.9.1][] (2013-12-17)

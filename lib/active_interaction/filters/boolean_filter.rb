@@ -3,8 +3,9 @@
 module ActiveInteraction
   class Base
     # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are Booleans. The String `"1"` is converted to `true`
-    #   and `"0"` is converted to `false`.
+    #   the attributes are Booleans. The strings `"1"` and `"true"`
+    #   (case-insensitive) are converted to `true` while the strings `"0"` and
+    #   `"false"` are converted to `false`.
     #
     # @macro filter_method_params
     #
@@ -20,9 +21,9 @@ module ActiveInteraction
   class BooleanFilter < Filter
     def cast(value)
       case value
-      when FalseClass, '0'
+      when FalseClass, '0', /\Afalse\z/i
         false
-      when TrueClass, '1'
+      when TrueClass, '1', /\Atrue\z/i
         true
       else
         super
