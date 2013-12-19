@@ -1,5 +1,7 @@
 # [Master][]
 
+- Support casting "true" and "false" as booleans.
+
 # [0.9.1][] (2013-12-17)
 
 - Fix I18n deprecation warning.
