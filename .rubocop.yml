@@ -1,6 +1,9 @@
 AlignParameters:
   Enabled: false
 
+HandleExceptions:
+  Enabled: false
+
 MethodLength:
   Max: 20
 

@@ -2,7 +2,6 @@
 
 begin
   require 'active_record'
-# rubocop:disable HandleExceptions
 rescue LoadError
   # ActiveRecord is an optional dependency.
 end

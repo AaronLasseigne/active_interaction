@@ -111,7 +111,6 @@ module ActiveInteraction
           result = transaction do
             begin
               interaction.execute
-            # rubocop:disable HandleExceptions
             rescue Interrupt
               # Inner interaction failed. #compose handles merging errors.
             end
@@ -162,7 +161,6 @@ module ActiveInteraction
       self.class.filters.each do |filter|
         begin
           send("#{filter.name}=", filter.clean(inputs[filter.name]))
-        # rubocop: disable HandleExceptions
         rescue InvalidValueError, MissingValueError
           # Validators (#input_errors) will add errors if appropriate.
         end
