@@ -6,6 +6,7 @@ TestInteraction = Class.new(ActiveInteraction::Base) do
   end
 
   def execute
+    inputs
   end
 end
 
@@ -25,16 +26,6 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       send(type, :default, filter_options.merge(default: generator.call))
       send(type, :defaults_1, :defaults_2,
            filter_options.merge(default: generator.call))
-
-      def execute
-        {
-          required: required,
-          optional: optional,
-          default: default,
-          defaults_1: defaults_1,
-          defaults_2: defaults_2
-        }
-      end
     end
   end
 

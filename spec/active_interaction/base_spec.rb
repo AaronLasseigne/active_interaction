@@ -4,13 +4,9 @@ require 'spec_helper'
 
 InteractionWithFilter = Class.new(TestInteraction) do
   float :thing
-
-  def execute
-    thing
-  end
 end
 
-AddInteraction = Class.new(ActiveInteraction::Base) do
+AddInteraction = Class.new(TestInteraction) do
   float :x, :y
 
   def execute
@@ -18,7 +14,7 @@ AddInteraction = Class.new(ActiveInteraction::Base) do
   end
 end
 
-InterruptInteraction = Class.new(ActiveInteraction::Base) do
+InterruptInteraction = Class.new(TestInteraction) do
   model :x, :y,
     class: Object,
     default: nil
@@ -64,10 +60,6 @@ describe ActiveInteraction::Base do
           attr_reader :thing
 
           validates :thing, presence: true
-
-          def execute
-            thing
-          end
         end
       end
       let(:thing) { SecureRandom.hex }
@@ -129,7 +121,7 @@ describe ActiveInteraction::Base do
   describe '.method_missing(filter_type, *args, &block)' do
     it 'raises an error for an invalid filter type' do
       expect do
-        Class.new(described_class) do
+        Class.new(TestInteraction) do
           not_a_valid_filter_type :thing
         end
       end.to raise_error NoMethodError
@@ -137,7 +129,7 @@ describe ActiveInteraction::Base do
 
     it do
       expect do
-        Class.new(described_class) do
+        Class.new(TestInteraction) do
           float :_interaction_thing
         end
       end.to raise_error ActiveInteraction::InvalidFilterError
@@ -157,10 +149,8 @@ describe ActiveInteraction::Base do
 
     context 'with multiple filters' do
       let(:described_class) do
-        Class.new(ActiveInteraction::Base) do
+        Class.new(TestInteraction) do
           float :thing1, :thing2
-
-          def execute; end
         end
       end
 
@@ -253,7 +243,7 @@ describe ActiveInteraction::Base do
         end
 
         it 'sets the result' do
-          expect(result).to eq thing
+          expect(result[:thing]).to eq thing
         end
 
         it 'calls transaction' do
@@ -280,7 +270,7 @@ describe ActiveInteraction::Base do
         before { inputs.merge!(thing: thing) }
 
         it 'returns the result' do
-          expect(result).to eq thing
+          expect(result[:thing]).to eq thing
         end
       end
     end

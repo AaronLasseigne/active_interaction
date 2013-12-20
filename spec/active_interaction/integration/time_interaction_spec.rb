@@ -24,10 +24,6 @@ end
 
 TimeInteraction = Class.new(TestInteraction) do
   time :a
-
-  def execute
-    a
-  end
 end
 
 describe TimeInteraction do
@@ -43,7 +39,7 @@ describe TimeInteraction do
     end
 
     it 'returns the correct value' do
-      expect(result).to eq Time.at(a)
+      expect(result[:a]).to eq Time.at(a)
     end
   end
 end

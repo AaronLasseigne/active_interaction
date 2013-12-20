@@ -9,10 +9,6 @@ ArrayInteraction = Class.new(TestInteraction) do
   array :b, default: [[]] do
     array
   end
-
-  def execute
-    inputs
-  end
 end
 
 describe ArrayInteraction do

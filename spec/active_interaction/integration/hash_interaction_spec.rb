@@ -9,10 +9,6 @@ HashInteraction = Class.new(TestInteraction) do
   hash :b, default: {} do
     hash :x, default: {}
   end
-
-  def execute
-    inputs
-  end
 end
 
 describe HashInteraction do
