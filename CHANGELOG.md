@@ -1,5 +1,8 @@
 # [Master][]
 
+- Fix bug that prevented parsing strings as times when ActiveSupport was
+  available.
+
 # [0.10.0][] (2013-12-19)
 
 - Support casting "true" and "false" as booleans.
