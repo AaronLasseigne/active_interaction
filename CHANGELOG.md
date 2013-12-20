@@ -1,5 +1,7 @@
 # [Master][]
 
+# [0.10.1][] (2013-12-20)
+
 - Fix bug that prevented parsing strings as times when ActiveSupport was
   available.
 
@@ -100,7 +102,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.10.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v0.10.1...master
+  [0.10.1]: https://github.com/orgsync/active_interaction/compare/v0.10.0...v0.10.1
   [0.10.0]: https://github.com/orgsync/active_interaction/compare/v0.9.1...v0.10.0
   [0.9.1]: https://github.com/orgsync/active_interaction/compare/v0.9.0...v0.9.1
   [0.9.0]: https://github.com/orgsync/active_interaction/compare/v0.8.0...v0.9.0
