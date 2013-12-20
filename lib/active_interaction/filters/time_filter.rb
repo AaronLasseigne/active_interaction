@@ -27,7 +27,7 @@ module ActiveInteraction
     def cast(value)
       case value
       when Numeric
-        time.at(value)
+        klass.at(value)
       else
         super
       end
@@ -36,15 +36,15 @@ module ActiveInteraction
     private
 
     def klass
-      time.at(0).class
-    end
-
-    def time
       if Time.respond_to?(:zone) && !Time.zone.nil?
         Time.zone
       else
         Time
       end
+    end
+
+    def value_class
+      klass.at(0).class
     end
   end
 end
