@@ -7,6 +7,9 @@ ClassLength:
 HandleExceptions:
   Enabled: false
 
+PredicateName:
+  Enabled: false
+
 MethodLength:
   Max: 20
 
