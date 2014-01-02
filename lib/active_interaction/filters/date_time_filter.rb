@@ -23,10 +23,5 @@ module ActiveInteraction
 
   # @private
   class DateTimeFilter < AbstractDateTimeFilter
-    private
-
-    def klass
-      DateTime
-    end
   end
 end

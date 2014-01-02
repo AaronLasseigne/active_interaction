@@ -39,7 +39,7 @@ module ActiveInteraction
       if Time.respond_to?(:zone) && !Time.zone.nil?
         Time.zone
       else
-        Time
+        super
       end
     end
 

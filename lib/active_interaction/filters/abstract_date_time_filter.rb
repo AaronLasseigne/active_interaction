@@ -33,7 +33,7 @@ module ActiveInteraction
     end
 
     def klass
-      fail NotImplementedError
+      self.class.slug.to_s.camelize.constantize
     end
 
     def klasses
