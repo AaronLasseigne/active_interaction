@@ -142,7 +142,7 @@ module ActiveInteraction
 
           # This isn't required, but it makes invalid defaults raise errors on
           #   class definition instead of on execution.
-          filter.default if filter.has_default?
+          filter.default if filter.default?
         end
       end
     end

@@ -159,7 +159,7 @@ module ActiveInteraction
     # @raise [InvalidDefaultError] if the default value is invalid
     # @raise [NoDefaultError] if there is no default value
     def default
-      fail NoDefaultError, name unless has_default?
+      fail NoDefaultError, name unless default?
 
       cast(options[:default])
     rescue InvalidValueError, MissingValueError
@@ -183,16 +183,16 @@ module ActiveInteraction
     #
     # @example
     #   filter = ActiveInteraction::Filter.new(:example)
-    #   filter.has_default?
+    #   filter.default?
     #   # => false
     #
     # @example
     #   filter = ActiveInteraction::Filter.new(:example, default: nil)
-    #   filter.has_default?
+    #   filter.default?
     #   # => true
     #
     # @return [Boolean]
-    def has_default?
+    def default?
       options.key?(:default)
     end
 
@@ -200,7 +200,7 @@ module ActiveInteraction
     def cast(value)
       case value
       when NilClass
-        fail MissingValueError, name unless has_default?
+        fail MissingValueError, name unless default?
 
         nil
       else
