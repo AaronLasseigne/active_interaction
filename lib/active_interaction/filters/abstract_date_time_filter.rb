@@ -5,7 +5,7 @@ module ActiveInteraction
   class AbstractDateTimeFilter < Filter
     def cast(value)
       case value
-      when value_class
+      when *klasses
         value
       when String
         begin
@@ -36,8 +36,8 @@ module ActiveInteraction
       fail NotImplementedError
     end
 
-    def value_class
-      klass
+    def klasses
+      [klass]
     end
   end
 end
