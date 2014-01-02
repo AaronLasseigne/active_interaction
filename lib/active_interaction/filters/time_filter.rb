@@ -26,6 +26,8 @@ module ActiveInteraction
   class TimeFilter < AbstractDateTimeFilter
     def cast(value)
       case value
+      when Time, value_class
+        value
       when Numeric
         klass.at(value)
       else
