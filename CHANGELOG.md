@@ -1,5 +1,7 @@
 # [Master][]
 
+- Fix a bug that marked Time instances as invalid if Time.zone was set.
+
 # [0.10.1][] (2013-12-20)
 
 - Fix bug that prevented parsing strings as times when ActiveSupport was
