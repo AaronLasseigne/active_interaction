@@ -9,7 +9,7 @@ module ActiveInteraction
         value
       when String
         begin
-          if has_format?
+          if format?
             klass.strptime(value, format)
           else
             klass.parse(value)
@@ -28,7 +28,7 @@ module ActiveInteraction
       options.fetch(:format)
     end
 
-    def has_format?
+    def format?
       options.key?(:format)
     end
 
