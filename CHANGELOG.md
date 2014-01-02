@@ -1,5 +1,7 @@
 # [Master][]
 
+- Rename `Filter#has_default?` to `Filter#default?`.
+
 # [0.10.1][] (2013-12-20)
 
 - Fix bug that prevented parsing strings as times when ActiveSupport was
