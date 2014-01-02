@@ -15,7 +15,7 @@ module ActiveInteraction
     #   time :start_date
     #
     # @example
-    #   date_time :start_date, format: '%Y-%m-%dT%H:%M:%S%z'
+    #   time :start_date, format: '%Y-%m-%dT%H:%M:%S%z'
     #
     # @since 0.1.0
     #
