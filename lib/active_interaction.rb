@@ -31,7 +31,7 @@ require 'active_interaction/filters/time_filter'
 require 'active_interaction/base'
 
 I18n.backend.load_translations(
-  Dir.glob(File.join(%w(lib active_interaction locale *.yml)))
+  Dir[File.join(%w(lib active_interaction locale *.yml))]
 )
 
 # @since 0.1.0
