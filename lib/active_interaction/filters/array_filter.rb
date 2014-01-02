@@ -52,7 +52,7 @@ module ActiveInteraction
         unless names.empty?
           fail InvalidFilterError, 'attribute names in array block'
         end
-        if filter.has_default?
+        if filter.default?
           fail InvalidDefaultError, 'default values in array block'
         end
 
