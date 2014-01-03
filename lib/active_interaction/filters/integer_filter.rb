@@ -17,10 +17,5 @@ module ActiveInteraction
 
   # @private
   class IntegerFilter < AbstractNumericFilter
-    private
-
-    def klass
-      Integer
-    end
   end
 end

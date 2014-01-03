@@ -21,7 +21,7 @@ module ActiveInteraction
     private
 
     def klass
-      fail NotImplementedError
+      self.class.slug.to_s.camelize.constantize
     end
   end
 end

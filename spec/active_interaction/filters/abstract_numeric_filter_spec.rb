@@ -9,7 +9,7 @@ describe ActiveInteraction::AbstractNumericFilter, :filter do
     let(:value) { nil }
 
     it 'raises an error' do
-      expect { filter.cast(value) }.to raise_error NotImplementedError
+      expect { filter.cast(value) }.to raise_error NameError
     end
   end
 end
