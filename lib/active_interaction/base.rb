@@ -127,9 +127,7 @@ module ActiveInteraction
         fail InvalidFilterError, 'missing attribute name' if names.empty?
 
         names.each do |attribute|
-          if attribute.to_s.start_with?('_interaction_')
-            fail InvalidFilterError, attribute.inspect
-          end
+          fail InvalidFilterError, attribute.inspect if reserved?(attribute)
 
           filter = klass.new(attribute, options, &block)
           filters.add(filter)
@@ -146,9 +144,7 @@ module ActiveInteraction
 
     def process_inputs(inputs)
       inputs.each do |key, value|
-        if key.to_s.start_with?('_interaction_')
-          fail InvalidValueError, key.inspect
-        end
+        fail InvalidValueError, key.inspect if self.class.reserved?(key)
 
         instance_variable_set("@#{key}", value)
       end
@@ -202,6 +198,10 @@ module ActiveInteraction
         interaction.instance_variable_set(
           :@_interaction_runtime_errors, interaction.errors.dup)
       end
+    end
+
+    def self.reserved?(symbol)
+      symbol.to_s.start_with?('_interaction_')
     end
   end
 end
