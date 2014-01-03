@@ -4,6 +4,7 @@ module ActiveInteraction
   # @private
   class AbstractDateTimeFilter < AbstractFilter
     alias_method :_cast, :cast
+    private :_cast
 
     def cast(value)
       case value
