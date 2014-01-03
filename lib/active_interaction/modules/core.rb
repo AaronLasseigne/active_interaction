@@ -37,9 +37,9 @@ module ActiveInteraction
       @_interaction_desc
     end
 
-    # Runs validations and if there are no errors it will call {#execute}.
+    # Runs validations and if there are no errors it will call {Base#execute}.
     #
-    # @param (see #initialize)
+    # @param (see Base#initialize)
     #
     # @return [ActiveInteraction::Base] An instance of the class `run` is
     #   called on.
@@ -59,10 +59,10 @@ module ActiveInteraction
       end
     end
 
-    # Like {Base.run} except that it returns the value of {Base#execute} or
+    # Like {#run} except that it returns the value of {Base#execute} or
     #   raises an exception if there were any validation errors.
     #
-    # @param (see Base.run)
+    # @param (see #run)
     #
     # @return [Object] the return value of {Base#execute}
     #
