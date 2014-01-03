@@ -3,26 +3,30 @@
 module ActiveInteraction
   # @private
   class AbstractDateTimeFilter < AbstractFilter
+    alias_method :_cast, :cast
+
     def cast(value)
       case value
       when *klasses
         value
       when String
-        begin
-          if has_format?
-            klass.strptime(value, format)
-          else
-            klass.parse(value)
-          end
-        rescue ArgumentError
-          super
-        end
+        convert(value)
       else
         super
       end
     end
 
     private
+
+    def convert(value)
+      if has_format?
+        klass.strptime(value, format)
+      else
+        klass.parse(value)
+      end
+    rescue ArgumentError
+      _cast(value)
+    end
 
     def format
       options.fetch(:format)
