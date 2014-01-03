@@ -2,7 +2,7 @@
 
 module ActiveInteraction
   # @private
-  class AbstractDateTimeFilter < Filter
+  class AbstractDateTimeFilter < AbstractFilter
     def cast(value)
       case value
       when *klasses
@@ -30,10 +30,6 @@ module ActiveInteraction
 
     def has_format?
       options.key?(:format)
-    end
-
-    def klass
-      self.class.slug.to_s.camelize.constantize
     end
 
     def klasses
