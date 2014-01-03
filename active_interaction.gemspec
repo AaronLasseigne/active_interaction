@@ -33,7 +33,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.1'
   spec.add_development_dependency 'rb-fsevent', '~> 0.9'
   spec.add_development_dependency 'rdoc', '~> 4.1'
-  spec.add_development_dependency 'rspec', '~> 2.14'
   spec.add_development_dependency 'guard-rubocop', '~> 1.0'
   spec.add_development_dependency 'yard', '~> 0.8'
 
