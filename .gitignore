@@ -19,3 +19,4 @@ tmp
 .guardrc
 *.swp
 .vagrant/
+Makefile
