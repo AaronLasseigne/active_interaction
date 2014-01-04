@@ -20,7 +20,7 @@ Vagrant.configure('2') do |config|
       make install
       cd ..
     fi
-    gem update --no-document --system
+    gem update --no-document --system 2.1.11
   SH
 
   config.vm.provision 'shell', inline: <<-'SH', privileged: false
