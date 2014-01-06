@@ -3,10 +3,6 @@
 module ActiveInteraction
   # @private
   module MethodMissing
-    def respond_to?(slug, include_all = false)
-      !!filter(slug) || super
-    end
-
     def method_missing(slug, *args, &block)
       super unless (klass = filter(slug))
 
@@ -23,6 +19,10 @@ module ActiveInteraction
       Filter.factory(slug)
     rescue MissingFilterError
       nil
+    end
+
+    def respond_to_missing?(slug, _)
+      !!filter(slug)
     end
   end
 end

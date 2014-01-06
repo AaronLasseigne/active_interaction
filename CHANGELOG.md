@@ -1,7 +1,7 @@
 # [Master][]
 
 - Rename `Filter#has_default?` to `Filter#default?`.
-- Add `respond_to?` to complement `method_missing` calls.
+- Add `respond_to_missing?` to complement `method_missing` calls.
 
 # [0.10.1][] (2013-12-20)
 

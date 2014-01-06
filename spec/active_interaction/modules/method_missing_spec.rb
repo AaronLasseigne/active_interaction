@@ -24,6 +24,24 @@ describe ActiveInteraction::MethodMissing do
     end
   end
 
+  describe '#method(sym)' do
+    context 'with invalid slug' do
+      let(:slug) { :slug }
+
+      it 'returns false' do
+        expect { instance.method(slug) }.to raise_error NameError
+      end
+    end
+
+    context 'with valid slug' do
+      let(:slug) { :boolean }
+
+      it 'returns true' do
+        expect(instance.method(slug)).to be_a Method
+      end
+    end
+  end
+
   describe '#method_missing' do
     context 'with invalid slug' do
       let(:slug) { :slug }
