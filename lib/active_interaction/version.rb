@@ -2,5 +2,5 @@
 
 # rubocop:disable Documentation
 module ActiveInteraction
-  VERSION = Gem::Version.new('0.10.1')
+  VERSION = Gem::Version.new('1.0.0')
 end

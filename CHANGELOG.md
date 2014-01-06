@@ -1,4 +1,4 @@
-# [Master][]
+# [1.0.0][]
 
 - Rename `Filter#has_default?` to `Filter#default?`.
 - Add `respond_to_missing?` to complement `method_missing` calls.
