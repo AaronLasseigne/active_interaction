@@ -7,8 +7,5 @@ ClassLength:
 HandleExceptions:
   Enabled: false
 
-MethodLength:
-  Max: 20
-
 TrivialAccessors:
   ExactNameMatch: true

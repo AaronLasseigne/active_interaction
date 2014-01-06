@@ -1,8 +1,8 @@
---readme=README.md
---no-private
---protected
 --markup-provider=rdoc
 --markup=markdown
+--no-private
+--protected
+--readme=README.md
 -
-LICENSE.txt
 CHANGELOG.md
+LICENSE.txt

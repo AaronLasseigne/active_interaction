@@ -11,10 +11,10 @@ module ActiveInteraction
     # @option options [String] :format parse strings using this format string
     #
     # @example
-    #   date :start_date
+    #   date_time :start_date
     #
     # @example
-    #   date :start_date, format: '%Y-%m-%dT%H:%M:%S%:z'
+    #   date_time :start_date, format: '%Y-%m-%dT%H:%M:%S%:z'
     #
     # @since 0.1.0
     #
@@ -23,10 +23,5 @@ module ActiveInteraction
 
   # @private
   class DateTimeFilter < AbstractDateTimeFilter
-    private
-
-    def klass
-      DateTime
-    end
   end
 end

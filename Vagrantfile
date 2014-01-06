@@ -7,20 +7,20 @@ Vagrant.configure('2') do |config|
     update-locale LC_ALL=en_US.UTF-8
     aptitude -q -y update
     aptitude -y install make
-    if ! ruby -v | grep -F -q 2.0.0p353; then
-      test -f ruby-2.0.0-p353.tar.bz2 ||
-        wget -q cache.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p353.tar.bz2
-      test -f ruby-2.0.0-p353.tar ||
-        bunzip2 -k -q ruby-2.0.0-p353.tar.bz2
-      test -d ruby-2.0.0-p353 ||
-        tar -x -f ruby-2.0.0-p353.tar
-      cd ruby-2.0.0-p353
+    if ! ruby -v | grep -F -q 2.1.0p0; then
+      test -f ruby-2.1.0.tar.bz2 ||
+        wget -q cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.0.tar.bz2
+      test -f ruby-2.1.0.tar ||
+        bunzip2 -k -q ruby-2.1.0.tar.bz2
+      test -d ruby-2.1.0 ||
+        tar -x -f ruby-2.1.0.tar
+      cd ruby-2.1.0
       ./configure --disable-install-doc
       make
       make install
       cd ..
     fi
-    gem update --no-document --system
+    gem update --no-document --system 2.1.11
   SH
 
   config.vm.provision 'shell', inline: <<-'SH', privileged: false

@@ -13,6 +13,7 @@ require 'active_interaction/modules/validation'
 
 require 'active_interaction/filter'
 require 'active_interaction/filters'
+require 'active_interaction/filters/abstract_filter'
 require 'active_interaction/filters/abstract_date_time_filter'
 require 'active_interaction/filters/abstract_numeric_filter'
 require 'active_interaction/filters/array_filter'

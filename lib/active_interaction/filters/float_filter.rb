@@ -18,10 +18,5 @@ module ActiveInteraction
 
   # @private
   class FloatFilter < AbstractNumericFilter
-    private
-
-    def klass
-      Float
-    end
   end
 end

@@ -46,17 +46,25 @@ module ActiveInteraction
       super do |klass, names, options|
         filter = klass.new(name, options, &block)
 
-        if filters.any?
-          fail InvalidFilterError, 'multiple filters in array block'
-        end
-        unless names.empty?
-          fail InvalidFilterError, 'attribute names in array block'
-        end
-        if filter.default?
-          fail InvalidDefaultError, 'default values in array block'
-        end
+        validate(filter, names)
 
         filters.add(filter)
+      end
+    end
+
+    private
+
+    def validate(filter, names)
+      if filters.any?
+        fail InvalidFilterError, 'multiple filters in array block'
+      end
+
+      unless names.empty?
+        fail InvalidFilterError, 'attribute names in array block'
+      end
+
+      if filter.default?
+        fail InvalidDefaultError, 'default values in array block'
       end
     end
   end

@@ -56,5 +56,21 @@ describe TimeInteraction do
         expect(result[:a]).to eq TimeZone.parse(a)
       end
     end
+
+    context 'with a Time' do
+      let(:a) { Time.now }
+
+      it 'returns the correct value' do
+        expect(result[:a]).to eq a
+      end
+    end
+
+    context 'with a TimeZone' do
+      let(:a) { TimeWithZone.new(Time.now) }
+
+      it 'returns the correct value' do
+        expect(result[:a]).to eq a
+      end
+    end
   end
 end

@@ -15,7 +15,7 @@ module ActiveInteraction
     #   time :start_date
     #
     # @example
-    #   date_time :start_date, format: '%Y-%m-%dT%H:%M:%S%z'
+    #   time :start_date, format: '%Y-%m-%dT%H:%M:%S%z'
     #
     # @since 0.1.0
     #
@@ -39,12 +39,12 @@ module ActiveInteraction
       if Time.respond_to?(:zone) && !Time.zone.nil?
         Time.zone
       else
-        Time
+        super
       end
     end
 
-    def value_class
-      klass.at(0).class
+    def klasses
+      [Time, klass.at(0).class]
     end
   end
 end

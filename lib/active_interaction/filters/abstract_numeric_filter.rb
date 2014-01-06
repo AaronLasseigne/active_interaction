@@ -2,17 +2,16 @@
 
 module ActiveInteraction
   # @private
-  class AbstractNumericFilter < Filter
+  class AbstractNumericFilter < AbstractFilter
+    alias_method :_cast, :cast
+    private :_cast
+
     def cast(value)
       case value
       when klass
         value
       when Numeric, String
-        begin
-          send(klass.name, value)
-        rescue ArgumentError
-          super
-        end
+        convert(value)
       else
         super
       end
@@ -20,8 +19,10 @@ module ActiveInteraction
 
     private
 
-    def klass
-      fail NotImplementedError
+    def convert(value)
+      send(klass.name, value)
+    rescue ArgumentError
+      _cast(value)
     end
   end
 end

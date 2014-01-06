@@ -107,22 +107,17 @@ module ActiveInteraction
     #   called on.
     def self.run(*args)
       new(*args).tap do |interaction|
-        if interaction.valid?
-          result = transaction do
-            begin
-              interaction.execute
-            rescue Interrupt
-              # Inner interaction failed. #compose handles merging errors.
-            end
-          end
+        next if interaction.invalid?
 
-          if interaction.errors.empty?
-            interaction.instance_variable_set(:@_interaction_result, result)
-          else
-            interaction.instance_variable_set(
-              :@_interaction_runtime_errors, interaction.errors.dup)
+        result = transaction do
+          begin
+            interaction.execute
+          rescue Interrupt
+            # Inner interaction failed. #compose handles merging errors.
           end
         end
+
+        finish(interaction, result)
       end
     end
 
@@ -132,9 +127,7 @@ module ActiveInteraction
         fail InvalidFilterError, 'missing attribute name' if names.empty?
 
         names.each do |attribute|
-          if attribute.to_s.start_with?('_interaction_')
-            fail InvalidFilterError, attribute.inspect
-          end
+          fail InvalidFilterError, attribute.inspect if reserved?(attribute)
 
           filter = klass.new(attribute, options, &block)
           filters.add(filter)
@@ -151,9 +144,7 @@ module ActiveInteraction
 
     def process_inputs(inputs)
       inputs.each do |key, value|
-        if key.to_s.start_with?('_interaction_')
-          fail InvalidValueError, key.inspect
-        end
+        fail InvalidValueError, key.inspect if self.class.reserved?(key)
 
         instance_variable_set("@#{key}", value)
       end
@@ -197,6 +188,20 @@ module ActiveInteraction
       filters.each { |f| new_filters.add(f) }
 
       klass.instance_variable_set(:@_interaction_filters, new_filters)
+    end
+
+    def self.finish(interaction, result)
+      if interaction.errors.empty?
+        interaction.instance_variable_set(
+          :@_interaction_result, result)
+      else
+        interaction.instance_variable_set(
+          :@_interaction_runtime_errors, interaction.errors.dup)
+      end
+    end
+
+    def self.reserved?(symbol)
+      symbol.to_s.start_with?('_interaction_')
     end
   end
 end

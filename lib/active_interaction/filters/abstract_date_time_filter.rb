@@ -2,27 +2,32 @@
 
 module ActiveInteraction
   # @private
-  class AbstractDateTimeFilter < Filter
+  class AbstractDateTimeFilter < AbstractFilter
+    alias_method :_cast, :cast
+    private :_cast
+
     def cast(value)
       case value
-      when value_class
+      when *klasses
         value
       when String
-        begin
-          if format?
-            klass.strptime(value, format)
-          else
-            klass.parse(value)
-          end
-        rescue ArgumentError
-          super
-        end
+        convert(value)
       else
         super
       end
     end
 
     private
+
+    def convert(value)
+      if format?
+        klass.strptime(value, format)
+      else
+        klass.parse(value)
+      end
+    rescue ArgumentError
+      _cast(value)
+    end
 
     def format
       options.fetch(:format)
@@ -32,12 +37,8 @@ module ActiveInteraction
       options.key?(:format)
     end
 
-    def klass
-      fail NotImplementedError
-    end
-
-    def value_class
-      klass
+    def klasses
+      [klass]
     end
   end
 end
