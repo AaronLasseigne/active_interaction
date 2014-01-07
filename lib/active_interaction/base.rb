@@ -56,7 +56,7 @@ module ActiveInteraction
     # @since 0.6.0
     def inputs
       self.class.filters.each_with_object({}) do |filter, h|
-        h[filter.name] = send(filter.name)
+        h[filter.name] = public_send(filter.name)
       end
     end
 
@@ -151,7 +151,7 @@ module ActiveInteraction
 
       self.class.filters.each do |filter|
         begin
-          send("#{filter.name}=", filter.clean(inputs[filter.name]))
+          public_send("#{filter.name}=", filter.clean(inputs[filter.name]))
         rescue InvalidValueError, MissingValueError
           # Validators (#input_errors) will add errors if appropriate.
         end
