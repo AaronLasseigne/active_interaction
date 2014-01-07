@@ -37,10 +37,32 @@ module ActiveInteraction
       @_interaction_desc
     end
 
-    # Like {Base.run} except that it returns the value of {Base#execute} or
+    # Runs validations and if there are no errors it will call {Base#execute}.
+    #
+    # @param (see Base#initialize)
+    #
+    # @return [ActiveInteraction::Base] An instance of the class `run` is
+    #   called on.
+    def run(*args)
+      new(*args).tap do |interaction|
+        next if interaction.invalid?
+
+        result = transaction do
+          begin
+            interaction.execute
+          rescue Interrupt
+            # Inner interaction failed. #compose handles merging errors.
+          end
+        end
+
+        finish(interaction, result)
+      end
+    end
+
+    # Like {#run} except that it returns the value of {Base#execute} or
     #   raises an exception if there were any validation errors.
     #
-    # @param (see Base.run)
+    # @param (see #run)
     #
     # @return [Object] the return value of {Base#execute}
     #
@@ -56,6 +78,16 @@ module ActiveInteraction
     end
 
     private
+
+    def finish(interaction, result)
+      if interaction.errors.empty?
+        interaction.instance_variable_set(
+          :@_interaction_result, result)
+      else
+        interaction.instance_variable_set(
+          :@_interaction_runtime_errors, interaction.errors.dup)
+      end
+    end
 
     def transaction(*args)
       return unless block_given?

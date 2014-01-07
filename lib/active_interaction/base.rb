@@ -99,28 +99,6 @@ module ActiveInteraction
       @_interaction_filters ||= Filters.new
     end
 
-    # Runs validations and if there are no errors it will call {#execute}.
-    #
-    # @param (see #initialize)
-    #
-    # @return [ActiveInteraction::Base] An instance of the class `run` is
-    #   called on.
-    def self.run(*args)
-      new(*args).tap do |interaction|
-        next if interaction.invalid?
-
-        result = transaction do
-          begin
-            interaction.execute
-          rescue Interrupt
-            # Inner interaction failed. #compose handles merging errors.
-          end
-        end
-
-        finish(interaction, result)
-      end
-    end
-
     # @private
     def self.method_missing(*args, &block)
       super do |klass, names, options|
@@ -188,16 +166,6 @@ module ActiveInteraction
       filters.each { |f| new_filters.add(f) }
 
       klass.instance_variable_set(:@_interaction_filters, new_filters)
-    end
-
-    def self.finish(interaction, result)
-      if interaction.errors.empty?
-        interaction.instance_variable_set(
-          :@_interaction_result, result)
-      else
-        interaction.instance_variable_set(
-          :@_interaction_runtime_errors, interaction.errors.dup)
-      end
     end
 
     def self.reserved?(symbol)
