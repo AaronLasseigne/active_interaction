@@ -1,3 +1,7 @@
+AllCops:
+  Excludes:
+    - tmp/*
+
 AlignParameters:
   Enabled: false
 
