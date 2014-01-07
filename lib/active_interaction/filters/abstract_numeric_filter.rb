@@ -20,7 +20,7 @@ module ActiveInteraction
     private
 
     def convert(value)
-      send(klass.name, value)
+      Kernel.public_send(klass.name, value)
     rescue ArgumentError
       _cast(value)
     end
