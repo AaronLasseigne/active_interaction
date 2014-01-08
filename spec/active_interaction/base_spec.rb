@@ -118,6 +118,10 @@ describe ActiveInteraction::Base do
     end
   end
 
+  describe '.desc' do
+    it
+  end
+
   describe '.method_missing(filter_type, *args, &block)' do
     it 'raises an error for an invalid filter type' do
       expect do
