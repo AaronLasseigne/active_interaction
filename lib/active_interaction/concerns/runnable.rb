@@ -48,12 +48,18 @@ module ActiveInteraction
       @_interaction_result
     end
 
+    # @private
     def result=(result)
       if errors.empty?
         @_interaction_result = result
       else
         @_interaction_runtime_errors = errors.dup
       end
+    end
+
+    # @private
+    def valid?(*_)
+      super || (@_interaction_result = nil)
     end
 
     module ClassMethods # rubocop:disable Documentation

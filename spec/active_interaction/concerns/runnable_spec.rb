@@ -24,4 +24,8 @@ describe ActiveInteraction::Runnable do
   describe '#result' do
     it
   end
+
+  describe '#valid?' do
+    it
+  end
 end
