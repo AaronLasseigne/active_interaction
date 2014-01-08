@@ -75,13 +75,12 @@ module ActiveInteraction
     # @raise [Interrupt]
     def compose(other, *args)
       outcome = other.run(*args)
-      return outcome.result if outcome.valid?
 
-      outcome.errors.full_messages.each do |message|
-        errors.add(:base, message) unless errors.added?(:base, message)
+      if outcome.valid?
+        outcome.result
+      else
+        fail Interrupt, outcome
       end
-
-      fail Interrupt
     end
 
     module ClassMethods
@@ -95,7 +94,12 @@ module ActiveInteraction
           instance.result = ActiveRecord::Base.transaction do
             begin
               instance.execute
-            rescue Interrupt
+            rescue Interrupt => interrupt
+              interrupt.outcome.errors.full_messages.each do |message|
+                unless instance.errors.added?(:base, message)
+                  instance.errors.add(:base, message)
+                end
+              end
             end
           end
         end

@@ -30,7 +30,15 @@ module ActiveInteraction
   NoDefaultError = Class.new(Error)
 
   # @private
-  Interrupt = Class.new(::Interrupt)
+  class Interrupt < Error
+    attr_reader :outcome
+
+    def initialize(outcome)
+      super()
+
+      @outcome = outcome
+    end
+  end
   private_constant :Interrupt
 
   # A small extension to provide symbolic error messages to make introspecting
