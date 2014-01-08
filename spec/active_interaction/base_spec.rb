@@ -245,13 +245,6 @@ describe ActiveInteraction::Base do
         it 'sets the result' do
           expect(result[:thing]).to eq thing
         end
-
-        it 'calls transaction' do
-          allow(described_class).to receive(:transaction)
-          outcome
-          expect(described_class).to have_received(:transaction).once
-            .with(no_args)
-        end
       end
     end
 

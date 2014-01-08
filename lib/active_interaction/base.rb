@@ -28,6 +28,7 @@ module ActiveInteraction
   #   end
   class Base
     include ActiveModel
+    include Runnable
 
     extend Core
     extend MethodMissing
@@ -41,11 +42,9 @@ module ActiveInteraction
     def initialize(inputs = {})
       fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
-      @_interaction_errors = Errors.new(self)
-      @_interaction_result = nil
-      @_interaction_runtime_errors = nil
-
       process_inputs(inputs.symbolize_keys)
+
+      super
     end
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
@@ -60,31 +59,6 @@ module ActiveInteraction
       end
     end
 
-    # Runs the business logic associated with the interaction. The method is
-    #   only run when there are no validation errors. The return value is
-    #   placed into {#result}. This method must be overridden in the subclass.
-    #   This method is run in a transaction if ActiveRecord is available.
-    #
-    # @raise [NotImplementedError] if the method is not defined.
-    #
-    # @abstract
-    def execute
-      fail NotImplementedError
-    end
-
-    # Returns the output from {#execute} if there are no validation errors or
-    #   `nil` otherwise.
-    #
-    # @return [Object, nil] the output or nil if there were validation errors
-    def result
-      @_interaction_result
-    end
-
-    # @private
-    def errors
-      @_interaction_errors
-    end
-
     # @private
     def valid?(*args)
       super(*args) || (@_interaction_result = nil)
@@ -97,28 +71,6 @@ module ActiveInteraction
     # @since 0.6.0
     def self.filters
       @_interaction_filters ||= Filters.new
-    end
-
-    # Runs validations and if there are no errors it will call {#execute}.
-    #
-    # @param (see #initialize)
-    #
-    # @return [ActiveInteraction::Base] An instance of the class `run` is
-    #   called on.
-    def self.run(*args)
-      new(*args).tap do |interaction|
-        next if interaction.invalid?
-
-        result = transaction do
-          begin
-            interaction.execute
-          rescue Interrupt
-            # Inner interaction failed. #compose handles merging errors.
-          end
-        end
-
-        finish(interaction, result)
-      end
     end
 
     # @private
@@ -188,16 +140,6 @@ module ActiveInteraction
       filters.each { |f| new_filters.add(f) }
 
       klass.instance_variable_set(:@_interaction_filters, new_filters)
-    end
-
-    def self.finish(interaction, result)
-      if interaction.errors.empty?
-        interaction.instance_variable_set(
-          :@_interaction_result, result)
-      else
-        interaction.instance_variable_set(
-          :@_interaction_runtime_errors, interaction.errors.dup)
-      end
     end
 
     def self.reserved?(symbol)
