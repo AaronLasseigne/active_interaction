@@ -65,6 +65,19 @@ module ActiveInteraction
       super || (@_interaction_result = nil)
     end
 
+    private
+
+    def compose(other, *args)
+      outcome = other.run(*args)
+      return outcome.result if outcome.valid?
+
+      outcome.errors.full_messages.each do |message|
+        errors.add(:base, message) unless errors.added?(:base, message)
+      end
+
+      fail Interrupt
+    end
+
     module ClassMethods
       # @param (see Runnable#initialize)
       #

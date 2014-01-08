@@ -142,19 +142,6 @@ module ActiveInteraction
       end
     end
 
-    def compose(interaction, inputs = {})
-      outcome = interaction.run(inputs)
-      return outcome.result if outcome.valid?
-
-      # This can't use Errors#merge! because the errors have to be added to
-      # base.
-      outcome.errors.full_messages.each do |message|
-        errors.add(:base, message) unless errors.added?(:base, message)
-      end
-
-      fail Interrupt
-    end
-
     def self.inherited(klass)
       new_filters = Filters.new
       filters.each { |f| new_filters.add(f) }
