@@ -83,26 +83,27 @@ module ActiveInteraction
       end
     end
 
+    # @return (see #result)
+    def run
+      return unless valid?
+
+      self.result = ActiveRecord::Base.transaction do
+        begin
+          execute
+        rescue Interrupt => interrupt
+          interrupt.outcome.errors.full_messages.each do |message|
+            errors.add(:base, message) unless errors.added?(:base, message)
+          end
+        end
+      end
+    end
+
     module ClassMethods
       # @param (see Runnable#initialize)
       #
       # @return [Runnable]
       def run(*args)
-        new(*args).tap do |instance|
-          next unless instance.valid?
-
-          instance.result = ActiveRecord::Base.transaction do
-            begin
-              instance.execute
-            rescue Interrupt => interrupt
-              interrupt.outcome.errors.full_messages.each do |message|
-                unless instance.errors.added?(:base, message)
-                  instance.errors.add(:base, message)
-                end
-              end
-            end
-          end
-        end
+        new(*args).tap { |instance| instance.send(:run) }
       end
 
       # @param (see #run)
