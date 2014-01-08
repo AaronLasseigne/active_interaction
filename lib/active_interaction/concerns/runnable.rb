@@ -67,6 +67,12 @@ module ActiveInteraction
 
     private
 
+    # @param other [Runnable]
+    # @param (see #initialize)
+    #
+    # @return (see #result)
+    #
+    # @raise [Interrupt]
     def compose(other, *args)
       outcome = other.run(*args)
       return outcome.result if outcome.valid?
