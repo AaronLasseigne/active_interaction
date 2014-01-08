@@ -13,42 +13,45 @@ rescue LoadError
 end
 
 module ActiveInteraction
-  # TODO
+  # @abstract Include and override {#execute} for a concrete class.
+  #
+  # @note Must be included after `ActiveModel::Validations`.
+  #
+  # Runs code in transactions and only provides the result if there are no
+  #   validation errors.
+  #
+  # @since 1.0.0
   module Runnable
     extend ActiveSupport::Concern
 
+    # @param (see Base#initialize)
     def initialize(*_)
       @_interaction_errors = Errors.new(self)
       @_interaction_result = nil
       @_interaction_runtime_errors = nil
     end
 
-    # @private
+    # @return [Errors]
     def errors
       @_interaction_errors
     end
 
-    # Runs the business logic associated with the interaction. The method is
-    #   only run when there are no validation errors. The return value is
-    #   placed into {#result}. This method must be overridden in the subclass.
-    #   This method is run in a transaction if ActiveRecord is available.
-    #
-    # @raise [NotImplementedError] if the method is not defined.
-    #
     # @abstract
+    #
+    # @raise [NotImplementedError]
     def execute
       fail NotImplementedError
     end
 
-    # Returns the output from {#execute} if there are no validation errors or
-    #   `nil` otherwise.
-    #
-    # @return [Object, nil] the output or nil if there were validation errors
+    # @return [Object]
+    # @return [nil]
     def result
       @_interaction_result
     end
 
-    # @private
+    # @param result [Object]
+    #
+    # @return (see #result)
     def result=(result)
       if errors.empty?
         @_interaction_result = result
@@ -57,18 +60,15 @@ module ActiveInteraction
       end
     end
 
-    # @private
+    # @return [Boolean]
     def valid?(*_)
       super || (@_interaction_result = nil)
     end
 
-    module ClassMethods # rubocop:disable Documentation
-      # Runs validations and if there are no errors it will call {#execute}.
+    module ClassMethods
+      # @param (see Runnable#initialize)
       #
-      # @param (see #initialize)
-      #
-      # @return [ActiveInteraction::Base] An instance of the class `run` is
-      #   called on.
+      # @return [Runnable]
       def run(*args)
         new(*args).tap do |instance|
           next unless instance.valid?
@@ -82,14 +82,11 @@ module ActiveInteraction
         end
       end
 
-      # Like {.run} except that it returns the value of {#execute} or raises an
-      #   exception if there were any validation errors.
+      # @param (see #run)
       #
-      # @param (see .run)
+      # @return (see #result)
       #
-      # @return [Object] the return value of {#execute}
-      #
-      # @raise [InvalidInteractionError] if the outcome is invalid
+      # @raise [InvalidInteractionError]
       def run!(*args)
         outcome = run(*args)
 
