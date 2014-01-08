@@ -119,7 +119,20 @@ describe ActiveInteraction::Base do
   end
 
   describe '.desc' do
-    it
+    let(:desc) { SecureRandom.hex }
+
+    it 'returns nil' do
+      expect(described_class.desc).to be_nil
+    end
+
+    it 'returns the description' do
+      expect(described_class.desc(desc)).to eq desc
+    end
+
+    it 'saves the description' do
+      described_class.desc(desc)
+      expect(described_class.desc).to eq desc
+    end
   end
 
   describe '.method_missing(filter_type, *args, &block)' do
@@ -248,6 +261,13 @@ describe ActiveInteraction::Base do
 
         it 'sets the result' do
           expect(result[:thing]).to eq thing
+        end
+
+        it 'calls ActiveRecord::Base.transaction' do
+          allow(ActiveRecord::Base).to receive(:transaction)
+          outcome
+          expect(ActiveRecord::Base).to have_received(:transaction)
+            .with(no_args)
         end
       end
     end

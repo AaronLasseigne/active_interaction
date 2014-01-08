@@ -5,7 +5,7 @@ begin
 rescue LoadError
   module ActiveRecord
     class Base # rubocop:disable Documentation
-      def self.transaction(*args)
+      def self.transaction(*_)
         yield
       end
     end
