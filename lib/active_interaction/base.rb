@@ -30,7 +30,6 @@ module ActiveInteraction
     include ActiveModel
     include Runnable
 
-    extend Core
     extend MethodMissing
     extend OverloadHash
 
@@ -57,6 +56,32 @@ module ActiveInteraction
       self.class.filters.each_with_object({}) do |filter, h|
         h[filter.name] = public_send(filter.name)
       end
+    end
+
+    # Get or set the description.
+    #
+    # @example
+    #   core.desc
+    #   # => nil
+    #   core.desc('descriptive!')
+    #   core.desc
+    #   # => "descriptive!"
+    #
+    # @param desc [String, nil] what to set the description to
+    #
+    # @return [String, nil] the description
+    #
+    # @since 0.8.0
+    def self.desc(desc = nil)
+      if desc.nil?
+        unless instance_variable_defined?(:@_interaction_desc)
+          @_interaction_desc = nil
+        end
+      else
+        @_interaction_desc = desc
+      end
+
+      @_interaction_desc
     end
 
     # Get all the filters defined on this interaction.

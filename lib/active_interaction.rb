@@ -8,7 +8,6 @@ require 'active_interaction/errors'
 require 'active_interaction/concerns/runnable'
 
 require 'active_interaction/modules/active_model'
-require 'active_interaction/modules/core'
 require 'active_interaction/modules/method_missing'
 require 'active_interaction/modules/overload_hash'
 require 'active_interaction/modules/validation'
