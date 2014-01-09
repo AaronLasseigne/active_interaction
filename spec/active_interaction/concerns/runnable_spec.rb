@@ -52,7 +52,7 @@ describe ActiveInteraction::Runnable do
 
       it 'is invalid' do
         instance.result = nil
-        expect(instance.valid?).to be_false
+        expect(instance).to_not be_valid
       end
     end
   end
@@ -110,22 +110,22 @@ describe ActiveInteraction::Runnable do
     let(:result) { double }
 
     it 'returns true' do
-      expect(instance.valid?).to be_true
+      expect(instance).to be_valid
     end
 
     context 'with an error' do
       include_context 'with an error'
 
       it 'returns true' do
-        expect(instance.valid?).to be_true
+        expect(instance).to be_valid
       end
     end
 
     context 'with a validator' do
       include_context 'with a validator'
 
-      it 'returns nil' do
-        expect(instance.valid?).to be_nil
+      it 'returns false' do
+        expect(instance).to_not be_valid
       end
 
       it 'sets the result to nil' do
