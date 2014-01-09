@@ -24,6 +24,10 @@ module ActiveInteraction
   module Runnable
     extend ActiveSupport::Concern
 
+    included do
+      validate :runtime_errors
+    end
+
     def initialize(*)
       @_interaction_errors = Errors.new(self)
       @_interaction_result = nil
@@ -108,6 +112,14 @@ module ActiveInteraction
         result
       else
         fail InvalidInteractionError, errors.full_messages.join(', ')
+      end
+    end
+
+    # @!group Validations
+
+    def runtime_errors
+      if @_interaction_runtime_errors
+        errors.merge!(@_interaction_runtime_errors)
       end
     end
 

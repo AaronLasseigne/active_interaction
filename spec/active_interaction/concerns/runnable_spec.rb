@@ -28,6 +28,10 @@ describe ActiveInteraction::Runnable do
 
   subject(:instance) { klass.new }
 
+  context 'validations' do
+    it
+  end
+
   describe 'ActiveRecord::Base.transaction' do
     it 'raises an error' do
       expect { ActiveRecord::Base.transaction }.to raise_error LocalJumpError

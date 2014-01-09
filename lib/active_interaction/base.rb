@@ -33,7 +33,7 @@ module ActiveInteraction
     extend MethodMissing
     extend OverloadHash
 
-    validate :input_errors, :runtime_errors
+    validate :input_errors
 
     # @param inputs [Hash{Symbol => Object}] Attribute values to set.
     #
@@ -133,12 +133,6 @@ module ActiveInteraction
     def input_errors
       Validation.validate(self.class.filters, inputs).each do |error|
         errors.add_sym(*error)
-      end
-    end
-
-    def runtime_errors
-      if @_interaction_runtime_errors
-        errors.merge!(@_interaction_runtime_errors)
       end
     end
 
