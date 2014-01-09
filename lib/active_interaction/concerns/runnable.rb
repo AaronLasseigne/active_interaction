@@ -24,7 +24,6 @@ module ActiveInteraction
   module Runnable
     extend ActiveSupport::Concern
 
-    # @param (see Base#initialize)
     def initialize(*)
       @_interaction_errors = Errors.new(self)
       @_interaction_result = nil
@@ -67,8 +66,8 @@ module ActiveInteraction
 
     private
 
-    # @param other [Runnable]
-    # @param (see #initialize)
+    # @param other [Class]
+    # @param (see ClassMethods.run)
     #
     # @return (see #result)
     #
@@ -83,7 +82,8 @@ module ActiveInteraction
       end
     end
 
-    # @return (see #result)
+    # @return (see #result=)
+    # @return [nil]
     def run
       return unless valid?
 
@@ -98,6 +98,9 @@ module ActiveInteraction
       end
     end
 
+    # @return (see #result)
+    #
+    # @raise [InvalidInteractionError]
     def run!
       run
 
@@ -116,11 +119,11 @@ module ActiveInteraction
         new(*args).tap { |instance| instance.send(:run) }
       end
 
-      # @param (see #run)
+      # @param (see Runnable#initialize)
       #
-      # @return (see #result)
+      # @return (see Runnable#run!)
       #
-      # @raise [InvalidInteractionError]
+      # @raise (see Runnable#run!)
       def run!(*args)
         new(*args).send(:run!)
       end
