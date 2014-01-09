@@ -5,7 +5,7 @@ begin
 rescue LoadError
   module ActiveRecord
     class Base # rubocop:disable Documentation
-      def self.transaction(*_)
+      def self.transaction(*)
         yield
       end
     end
@@ -25,7 +25,7 @@ module ActiveInteraction
     extend ActiveSupport::Concern
 
     # @param (see Base#initialize)
-    def initialize(*_)
+    def initialize(*)
       @_interaction_errors = Errors.new(self)
       @_interaction_result = nil
       @_interaction_runtime_errors = nil
@@ -61,7 +61,7 @@ module ActiveInteraction
     end
 
     # @return [Boolean]
-    def valid?(*_)
+    def valid?(*)
       super || (@_interaction_result = nil)
     end
 
