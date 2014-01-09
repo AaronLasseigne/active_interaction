@@ -27,7 +27,7 @@ module ActiveInteraction
   #     p outcome.errors
   #   end
   class Base
-    include Modelable
+    include ActiveModelable
     include Runnable
 
     class << self

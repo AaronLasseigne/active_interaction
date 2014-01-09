@@ -2,7 +2,7 @@
 
 module ActiveInteraction
   # @private
-  module Modelable
+  module ActiveModelable
     extend ActiveSupport::Concern
 
     include ActiveModel::Conversion

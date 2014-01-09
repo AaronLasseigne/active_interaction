@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-describe ActiveInteraction::Modelable do
-  include_context 'concerns', ActiveInteraction::Modelable
+describe ActiveInteraction::ActiveModelable do
+  include_context 'concerns', ActiveInteraction::ActiveModelable
 
   describe '.i18n_scope' do
     it 'returns the scope' do
