@@ -48,6 +48,14 @@ module ActiveInteraction
 
     # @!method execute
     #   @abstract
+    #
+    #   Runs the business logic associated with the interaction. The method is
+    #     only run when there are no validation errors. The return value is
+    #     placed into {#result}. This method must be overridden in the
+    #     subclass. This method is run in a transaction if ActiveRecord is
+    #     available.
+    #
+    #   @raise (see ActiveInteraction::Runnable#execute)
     loop
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
@@ -117,12 +125,17 @@ module ActiveInteraction
     end
 
     # @!method self.run(*)
+    #   Runs validations and if there are no errors it will call {#execute}.
+    #
     #   @param (see ActiveInteraction::Base#initialize)
     #
     #   @return (see ActiveInteraction::Runnable::ClassMethods#run)
     loop
 
     # @!method self.run!(*)
+    #   Like {.run} except that it returns the value of {#execute} or raises an
+    #     exception if there were any validation errors.
+    #
     #   @param (see ActiveInteraction::Base#initialize)
     #
     #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
