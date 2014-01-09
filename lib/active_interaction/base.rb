@@ -27,7 +27,7 @@ module ActiveInteraction
   #     p outcome.errors
   #   end
   class Base
-    include ActiveModel
+    include Modelable
     include Runnable
 
     extend MethodMissing

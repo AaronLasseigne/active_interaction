@@ -5,7 +5,7 @@ require 'active_model'
 require 'active_interaction/version'
 require 'active_interaction/errors'
 
-require 'active_interaction/concerns/active_model'
+require 'active_interaction/concerns/modelable'
 require 'active_interaction/concerns/runnable'
 
 require 'active_interaction/modules/method_missing'
