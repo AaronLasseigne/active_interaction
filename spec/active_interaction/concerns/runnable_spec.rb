@@ -47,7 +47,14 @@ describe ActiveInteraction::Runnable do
   subject(:instance) { klass.new }
 
   context 'validations' do
-    it
+    describe '#runtime_errors' do
+      include_context 'with an error'
+
+      it 'is invalid' do
+        instance.result = nil
+        expect(instance.valid?).to be_false
+      end
+    end
   end
 
   describe '#errors' do
