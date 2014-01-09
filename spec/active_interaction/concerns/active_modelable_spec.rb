@@ -10,7 +10,7 @@ shared_examples_for 'ActiveModel' do
   let(:model) { subject }
 
   ActiveModel::Lint::Tests.public_instance_methods
-    .grep(/\Atest/) { |m| example(m) { send(m) } }
+    .grep(/\Atest/) { |m| example(m) { public_send(m) } }
 end
 
 describe ActiveInteraction::ActiveModelable do
