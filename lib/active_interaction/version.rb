@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# rubocop:disable Documentation
-module ActiveInteraction
+module ActiveInteraction # rubocop:disable Documentation
   VERSION = Gem::Version.new('1.0.0')
 end
