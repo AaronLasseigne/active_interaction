@@ -2,9 +2,11 @@
 
 module ActiveInteraction
   # @private
-  module MethodMissing
+  module Missable
+    extend ActiveSupport::Concern
+
     def method_missing(slug, *args, &block)
-      super unless (klass = filter(slug))
+      return super unless (klass = filter(slug))
 
       options = args.last.is_a?(Hash) ? args.pop : {}
 
@@ -21,7 +23,7 @@ module ActiveInteraction
       nil
     end
 
-    def respond_to_missing?(slug, _)
+    def respond_to_missing?(slug, *)
       !!filter(slug)
     end
   end

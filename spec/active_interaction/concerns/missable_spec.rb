@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-describe ActiveInteraction::MethodMissing do
-  let(:klass) { Class.new { include ActiveInteraction::MethodMissing } }
+describe ActiveInteraction::Missable do
+  let(:klass) { Class.new { include ActiveInteraction::Missable } }
   subject(:instance) { klass.new }
 
   describe '#respond_to?(slug, include_all = false)' do

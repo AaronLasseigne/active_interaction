@@ -30,10 +30,9 @@ module ActiveInteraction
     include Modelable
     include Runnable
 
-    extend MethodMissing
-
     class << self
       include Hashable
+      include Missable
     end
 
     validate :input_errors

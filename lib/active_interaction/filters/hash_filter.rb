@@ -27,7 +27,7 @@ module ActiveInteraction
 
   # @private
   class HashFilter < Filter
-    include MethodMissing
+    include Missable
 
     def cast(value)
       case value
