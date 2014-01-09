@@ -21,6 +21,8 @@ describe ActiveRecord::Base do
 end
 
 describe ActiveInteraction::Runnable do
+  include_context 'concerns', ActiveInteraction::Runnable
+
   shared_context 'with an error' do
     before { instance.errors.add(:base) }
   end
@@ -33,17 +35,9 @@ describe ActiveInteraction::Runnable do
     before { klass.send(:define_method, :execute) { rand } }
   end
 
-  let(:klass) do
-    Class.new do
-      include ActiveInteraction::Runnable
-
-      def self.name
-        SecureRandom.hex
-      end
-    end
+  before do
+    allow(klass).to receive(:name).and_return(SecureRandom.hex)
   end
-
-  subject(:instance) { klass.new }
 
   context 'validations' do
     describe '#runtime_errors' do
