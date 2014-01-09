@@ -98,6 +98,16 @@ module ActiveInteraction
       end
     end
 
+    def run!
+      run
+
+      if valid?
+        result
+      else
+        fail InvalidInteractionError, errors.full_messages.join(', ')
+      end
+    end
+
     module ClassMethods
       # @param (see Runnable#initialize)
       #
@@ -112,13 +122,7 @@ module ActiveInteraction
       #
       # @raise [InvalidInteractionError]
       def run!(*args)
-        outcome = run(*args)
-
-        if outcome.valid?
-          outcome.result
-        else
-          fail InvalidInteractionError, outcome.errors.full_messages.join(', ')
-        end
+        new(*args).send(:run!)
       end
     end
   end
