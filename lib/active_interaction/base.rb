@@ -4,7 +4,7 @@ require 'active_support/core_ext/hash/indifferent_access'
 
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
-  #   ActiveInteraction class.
+  #   ActiveInteraction::Base class.
   #
   # @example
   #   class ExampleInteraction < ActiveInteraction::Base
@@ -28,12 +28,12 @@ module ActiveInteraction
   #   end
   class Base
     include ActiveModel
+    include Runnable
 
-    extend Core
     extend MethodMissing
     extend OverloadHash
 
-    validate :input_errors, :runtime_errors
+    validate :input_errors
 
     # @param inputs [Hash{Symbol => Object}] Attribute values to set.
     #
@@ -41,12 +41,20 @@ module ActiveInteraction
     def initialize(inputs = {})
       fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
-      @_interaction_errors = Errors.new(self)
-      @_interaction_result = nil
-      @_interaction_runtime_errors = nil
-
       process_inputs(inputs.symbolize_keys)
     end
+
+    # @!method execute
+    #   @abstract
+    #
+    #   Runs the business logic associated with the interaction. The method is
+    #     only run when there are no validation errors. The return value is
+    #     placed into {#result}. This method must be overridden in the
+    #     subclass. This method is run in a transaction if ActiveRecord is
+    #     available.
+    #
+    #   @raise (see ActiveInteraction::Runnable#execute)
+    loop
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
     #   on the filters in the class.
@@ -60,34 +68,30 @@ module ActiveInteraction
       end
     end
 
-    # Runs the business logic associated with the interaction. The method is
-    #   only run when there are no validation errors. The return value is
-    #   placed into {#result}. This method must be overridden in the subclass.
-    #   This method is run in a transaction if ActiveRecord is available.
+    # Get or set the description.
     #
-    # @raise [NotImplementedError] if the method is not defined.
+    # @example
+    #   core.desc
+    #   # => nil
+    #   core.desc('descriptive!')
+    #   core.desc
+    #   # => "descriptive!"
     #
-    # @abstract
-    def execute
-      fail NotImplementedError
-    end
-
-    # Returns the output from {#execute} if there are no validation errors or
-    #   `nil` otherwise.
+    # @param desc [String, nil] what to set the description to
     #
-    # @return [Object, nil] the output or nil if there were validation errors
-    def result
-      @_interaction_result
-    end
+    # @return [String, nil] the description
+    #
+    # @since 0.8.0
+    def self.desc(desc = nil)
+      if desc.nil?
+        unless instance_variable_defined?(:@_interaction_desc)
+          @_interaction_desc = nil
+        end
+      else
+        @_interaction_desc = desc
+      end
 
-    # @private
-    def errors
-      @_interaction_errors
-    end
-
-    # @private
-    def valid?(*args)
-      super(*args) || (@_interaction_result = nil)
+      @_interaction_desc
     end
 
     # Get all the filters defined on this interaction.
@@ -97,28 +101,6 @@ module ActiveInteraction
     # @since 0.6.0
     def self.filters
       @_interaction_filters ||= Filters.new
-    end
-
-    # Runs validations and if there are no errors it will call {#execute}.
-    #
-    # @param (see #initialize)
-    #
-    # @return [ActiveInteraction::Base] An instance of the class `run` is
-    #   called on.
-    def self.run(*args)
-      new(*args).tap do |interaction|
-        next if interaction.invalid?
-
-        result = transaction do
-          begin
-            interaction.execute
-          rescue Interrupt
-            # Inner interaction failed. #compose handles merging errors.
-          end
-        end
-
-        finish(interaction, result)
-      end
     end
 
     # @private
@@ -139,6 +121,25 @@ module ActiveInteraction
         end
       end
     end
+
+    # @!method self.run(*)
+    #   Runs validations and if there are no errors it will call {#execute}.
+    #
+    #   @param (see ActiveInteraction::Base#initialize)
+    #
+    #   @return (see ActiveInteraction::Runnable::ClassMethods#run)
+    loop
+
+    # @!method self.run!(*)
+    #   Like {.run} except that it returns the value of {#execute} or raises an
+    #     exception if there were any validation errors.
+    #
+    #   @param (see ActiveInteraction::Base#initialize)
+    #
+    #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
+    #
+    #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
+    loop
 
     private
 
@@ -164,40 +165,11 @@ module ActiveInteraction
       end
     end
 
-    def runtime_errors
-      if @_interaction_runtime_errors
-        errors.merge!(@_interaction_runtime_errors)
-      end
-    end
-
-    def compose(interaction, inputs = {})
-      outcome = interaction.run(inputs)
-      return outcome.result if outcome.valid?
-
-      # This can't use Errors#merge! because the errors have to be added to
-      # base.
-      outcome.errors.full_messages.each do |message|
-        errors.add(:base, message) unless errors.added?(:base, message)
-      end
-
-      fail Interrupt
-    end
-
     def self.inherited(klass)
       new_filters = Filters.new
       filters.each { |f| new_filters.add(f) }
 
       klass.instance_variable_set(:@_interaction_filters, new_filters)
-    end
-
-    def self.finish(interaction, result)
-      if interaction.errors.empty?
-        interaction.instance_variable_set(
-          :@_interaction_result, result)
-      else
-        interaction.instance_variable_set(
-          :@_interaction_runtime_errors, interaction.errors.dup)
-      end
     end
 
     def self.reserved?(symbol)
