@@ -35,10 +35,6 @@ describe ActiveInteraction::Runnable do
     before { klass.send(:define_method, :execute) { rand } }
   end
 
-  before do
-    allow(klass).to receive(:name).and_return(SecureRandom.hex)
-  end
-
   context 'validations' do
     describe '#runtime_errors' do
       include_context 'with an error'
