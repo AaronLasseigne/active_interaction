@@ -61,13 +61,14 @@ module ActiveInteraction
       if errors.empty?
         @_interaction_result = result
       else
+        @_interaction_result = nil
         @_interaction_runtime_errors = errors.dup
       end
     end
 
     # @return [Boolean]
     def valid?(*)
-      super || (@_interaction_result = nil)
+      super || (self.result = nil)
     end
 
     private
