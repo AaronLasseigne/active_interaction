@@ -2,7 +2,9 @@
 
 module ActiveInteraction
   # @private
-  module OverloadHash
+  module Hashable
+    extend ActiveSupport::Concern
+
     def hash(*args, &block)
       if args.empty? && !block_given?
         super

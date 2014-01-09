@@ -27,13 +27,101 @@ module ActiveInteraction
   #     p outcome.errors
   #   end
   class Base
-    include ActiveModel
+    include ActiveModelable
     include Runnable
 
-    extend MethodMissing
-    extend OverloadHash
-
     validate :input_errors
+
+    class << self
+      include Hashable
+      include Missable
+
+      # Get or set the description.
+      #
+      # @example
+      #   core.desc
+      #   # => nil
+      #   core.desc('descriptive!')
+      #   core.desc
+      #   # => "descriptive!"
+      #
+      # @param desc [String, nil] what to set the description to
+      #
+      # @return [String, nil] the description
+      #
+      # @since 0.8.0
+      def desc(desc = nil)
+        if desc.nil?
+          unless instance_variable_defined?(:@_interaction_desc)
+            @_interaction_desc = nil
+          end
+        else
+          @_interaction_desc = desc
+        end
+
+        @_interaction_desc
+      end
+
+      # Get all the filters defined on this interaction.
+      #
+      # @return [Filters]
+      #
+      # @since 0.6.0
+      def filters
+        @_interaction_filters ||= Filters.new
+      end
+
+      # @private
+      def method_missing(*args, &block)
+        super do |klass, names, options|
+          fail InvalidFilterError, 'missing attribute name' if names.empty?
+
+          names.each do |attribute|
+            fail InvalidFilterError, attribute.inspect if reserved?(attribute)
+
+            filter = klass.new(attribute, options, &block)
+            filters.add(filter)
+            attr_accessor filter.name
+
+            # This isn't required, but it makes invalid defaults raise errors
+            #   on class definition instead of on execution.
+            filter.default if filter.default?
+          end
+        end
+      end
+
+      # @!method run(*)
+      #   Runs validations and if there are no errors it will call {#execute}.
+      #
+      #   @param (see ActiveInteraction::Base#initialize)
+      #
+      #   @return (see ActiveInteraction::Runnable::ClassMethods#run)
+      loop
+
+      # @!method run!(*)
+      #   Like {.run} except that it returns the value of {#execute} or raises
+      #     an exception if there were any validation errors.
+      #
+      #   @param (see ActiveInteraction::Base#initialize)
+      #
+      #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
+      #
+      #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
+      loop
+
+      private
+
+      def inherited(klass)
+        new_filters = Filters.new
+        filters.each { |f| new_filters.add(f) }
+
+        klass.instance_variable_set(:@_interaction_filters, new_filters)
+      end
+
+      def reserved?(symbol)
+        symbol.to_s.start_with?('_interaction_')
+      end
+    end
 
     # @param inputs [Hash{Symbol => Object}] Attribute values to set.
     #
@@ -68,84 +156,11 @@ module ActiveInteraction
       end
     end
 
-    # Get or set the description.
-    #
-    # @example
-    #   core.desc
-    #   # => nil
-    #   core.desc('descriptive!')
-    #   core.desc
-    #   # => "descriptive!"
-    #
-    # @param desc [String, nil] what to set the description to
-    #
-    # @return [String, nil] the description
-    #
-    # @since 0.8.0
-    def self.desc(desc = nil)
-      if desc.nil?
-        unless instance_variable_defined?(:@_interaction_desc)
-          @_interaction_desc = nil
-        end
-      else
-        @_interaction_desc = desc
-      end
-
-      @_interaction_desc
-    end
-
-    # Get all the filters defined on this interaction.
-    #
-    # @return [Filters]
-    #
-    # @since 0.6.0
-    def self.filters
-      @_interaction_filters ||= Filters.new
-    end
-
-    # @private
-    def self.method_missing(*args, &block)
-      super do |klass, names, options|
-        fail InvalidFilterError, 'missing attribute name' if names.empty?
-
-        names.each do |attribute|
-          fail InvalidFilterError, attribute.inspect if reserved?(attribute)
-
-          filter = klass.new(attribute, options, &block)
-          filters.add(filter)
-          attr_accessor filter.name
-
-          # This isn't required, but it makes invalid defaults raise errors on
-          #   class definition instead of on execution.
-          filter.default if filter.default?
-        end
-      end
-    end
-
-    # @!method self.run(*)
-    #   Runs validations and if there are no errors it will call {#execute}.
-    #
-    #   @param (see ActiveInteraction::Base#initialize)
-    #
-    #   @return (see ActiveInteraction::Runnable::ClassMethods#run)
-    loop
-
-    # @!method self.run!(*)
-    #   Like {.run} except that it returns the value of {#execute} or raises an
-    #     exception if there were any validation errors.
-    #
-    #   @param (see ActiveInteraction::Base#initialize)
-    #
-    #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
-    #
-    #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
-    loop
-
     private
 
     def process_inputs(inputs)
       inputs.each do |key, value|
-        fail InvalidValueError, key.inspect if self.class.reserved?(key)
+        fail InvalidValueError, key.inspect if self.class.send(:reserved?, key)
 
         instance_variable_set("@#{key}", value)
       end
@@ -159,21 +174,12 @@ module ActiveInteraction
       end
     end
 
+    # @!group Validations
+
     def input_errors
       Validation.validate(self.class.filters, inputs).each do |error|
         errors.add_sym(*error)
       end
-    end
-
-    def self.inherited(klass)
-      new_filters = Filters.new
-      filters.each { |f| new_filters.add(f) }
-
-      klass.instance_variable_set(:@_interaction_filters, new_filters)
-    end
-
-    def self.reserved?(symbol)
-      symbol.to_s.start_with?('_interaction_')
     end
   end
 end

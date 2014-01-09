@@ -2,13 +2,13 @@
 
 module ActiveInteraction
   # @private
-  module ActiveModel
-    extend ::ActiveSupport::Concern
+  module ActiveModelable
+    extend ActiveSupport::Concern
 
-    include ::ActiveModel::Conversion
-    include ::ActiveModel::Validations
+    include ActiveModel::Conversion
+    include ActiveModel::Validations
 
-    extend ::ActiveModel::Naming
+    extend ActiveModel::Naming
 
     def i18n_scope
       self.class.i18n_scope

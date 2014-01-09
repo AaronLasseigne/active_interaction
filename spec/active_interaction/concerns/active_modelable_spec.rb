@@ -2,9 +2,8 @@
 
 require 'spec_helper'
 
-describe ActiveInteraction::ActiveModel do
-  let(:klass) { Class.new { include ActiveInteraction::ActiveModel } }
-  subject(:instance) { klass.new }
+describe ActiveInteraction::ActiveModelable do
+  include_context 'concerns', ActiveInteraction::ActiveModelable
 
   describe '.i18n_scope' do
     it 'returns the scope' do
