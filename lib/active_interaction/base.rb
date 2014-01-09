@@ -31,7 +31,10 @@ module ActiveInteraction
     include Runnable
 
     extend MethodMissing
-    extend OverloadHash
+
+    class << self
+      include Hashable
+    end
 
     validate :input_errors
 

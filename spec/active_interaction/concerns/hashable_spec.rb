@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-describe ActiveInteraction::OverloadHash do
-  let(:klass) { Class.new { include ActiveInteraction::OverloadHash } }
+describe ActiveInteraction::Hashable do
+  let(:klass) { Class.new { include ActiveInteraction::Hashable } }
   subject(:instance) { klass.new }
 
   describe '#hash(*args, &block)' do
