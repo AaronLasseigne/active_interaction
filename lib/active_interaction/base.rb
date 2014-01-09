@@ -4,7 +4,7 @@ require 'active_support/core_ext/hash/indifferent_access'
 
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
-  #   ActiveInteraction class.
+  #   ActiveInteraction::Base class.
   #
   # @example
   #   class ExampleInteraction < ActiveInteraction::Base
@@ -45,6 +45,10 @@ module ActiveInteraction
 
       super
     end
+
+    # @!method execute
+    #   @abstract
+    loop
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
     #   on the filters in the class.
@@ -111,6 +115,20 @@ module ActiveInteraction
         end
       end
     end
+
+    # @!method self.run(*)
+    #   @param (see ActiveInteraction::Base#initialize)
+    #
+    #   @return (see ActiveInteraction::Runnable::ClassMethods#run)
+    loop
+
+    # @!method self.run!(*)
+    #   @param (see ActiveInteraction::Base#initialize)
+    #
+    #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
+    #
+    #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
+    loop
 
     private
 

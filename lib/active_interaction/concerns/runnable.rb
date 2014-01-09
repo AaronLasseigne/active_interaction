@@ -13,7 +13,8 @@ rescue LoadError
 end
 
 module ActiveInteraction
-  # @abstract Include and override {#execute} for a concrete class.
+  # @abstract Include and override {#execute} to implement a custom Runnable
+  #   class.
   #
   # @note Must be included after `ActiveModel::Validations`.
   #
