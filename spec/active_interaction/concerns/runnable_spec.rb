@@ -53,6 +53,13 @@ describe ActiveInteraction::Runnable do
         instance.result = nil
         expect(instance).to_not be_valid
       end
+
+      it 'becomes valid if errors are cleared' do
+        instance.result = nil
+        instance.errors.clear
+        instance.result = nil
+        expect(instance).to be_valid
+      end
     end
   end
 

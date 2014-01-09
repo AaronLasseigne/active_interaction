@@ -60,6 +60,7 @@ module ActiveInteraction
     def result=(result)
       if errors.empty?
         @_interaction_result = result
+        @_interaction_runtime_errors = nil
       else
         @_interaction_result = nil
         @_interaction_runtime_errors = errors.dup
