@@ -3,6 +3,18 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Runnable do
+  shared_context 'with an error' do
+    before { instance.errors.add(:base) }
+  end
+
+  shared_context 'with a validator' do
+    before { klass.validate { errors.add(:base) } }
+  end
+
+  shared_context 'with #execute defined' do
+    before { klass.send(:define_method, :execute) { rand } }
+  end
+
   let(:klass) do
     Class.new do
       include ActiveModel::Validations
@@ -22,18 +34,12 @@ describe ActiveInteraction::Runnable do
     end
 
     context 'with a block' do
-      let(:block) { -> {} }
-
       it 'yields to the block' do
-        expect do |block|
-          ActiveRecord::Base.transaction(&block)
-        end.to yield_with_no_args
+        expect { |b| ActiveRecord::Base.transaction(&b) }.to yield_with_no_args
       end
 
       it 'accepts an argument' do
-        expect do
-          ActiveRecord::Base.transaction(nil, &block)
-        end.to_not raise_error
+        expect { ActiveRecord::Base.transaction(nil) {} }.to_not raise_error
       end
     end
   end
@@ -68,36 +74,49 @@ describe ActiveInteraction::Runnable do
       expect(instance.result).to eq result
     end
 
-    context 'invalid' do
-      before do
-        allow(instance.errors).to receive(:empty?).and_return(false)
-      end
+    context 'with an error' do
+      include_context 'with an error'
 
       it 'does not set the result' do
         instance.result = result
         expect(instance.result).to be_nil
       end
     end
+
+    context 'with a validator' do
+      include_context 'with a validator'
+
+      it 'sets the result' do
+        instance.result = result
+        expect(instance.result).to eq result
+      end
+    end
   end
 
   describe '#valid?' do
+    let(:result) { double }
+
     it 'returns true' do
       expect(instance.valid?).to be_true
     end
 
-    context 'invalid' do
-      let(:result) { double }
+    context 'with an error' do
+      include_context 'with an error'
 
-      before do
-        klass.validate { errors.add(:base) }
-        instance.result = result
+      it 'returns true' do
+        expect(instance.valid?).to be_true
       end
+    end
+
+    context 'with a validator' do
+      include_context 'with a validator'
 
       it 'returns nil' do
         expect(instance.valid?).to be_nil
       end
 
       it 'sets the result to nil' do
+        instance.result = result
         instance.valid?
         expect(instance.result).to be_nil
       end
@@ -111,35 +130,19 @@ describe ActiveInteraction::Runnable do
       expect { outcome }.to raise_error NotImplementedError
     end
 
-    context 'with #execute' do
-      let(:result) { double }
-
-      before do
-        allow_any_instance_of(klass).to receive(:execute).and_return(result)
-      end
-
-      it 'calls #execute' do
-        expect_any_instance_of(klass).to receive(:execute).with(no_args)
-        outcome
-      end
+    context 'with #execute defined' do
+      include_context 'with #execute defined'
 
       it 'returns an instance of Runnable' do
         expect(outcome).to be_a klass
       end
 
       it 'sets the result' do
-        expect(outcome.result).to eq result
+        expect(outcome.result).to_not be_nil
       end
 
-      context 'with #valid?' do
-        before do
-          allow_any_instance_of(klass).to receive(:valid?).and_return(false)
-        end
-
-        it 'calls #valid?' do
-          expect_any_instance_of(klass).to receive(:valid?).with(no_args)
-          outcome
-        end
+      context 'with a validator' do
+        include_context 'with a validator'
 
         it 'returns an instance of Runnable' do
           expect(outcome).to be_a klass
@@ -159,34 +162,15 @@ describe ActiveInteraction::Runnable do
       expect { result }.to raise_error NotImplementedError
     end
 
-    context 'with .run' do
-      let(:outcome) { instance }
-
-      before do
-        allow(klass).to receive(:run).and_return(outcome)
-      end
-
-      it 'calls .run' do
-        result
-        expect(klass).to have_received(:run).with(no_args)
-      end
+    context 'with #execute defined' do
+      include_context 'with #execute defined'
 
       it 'returns the result' do
-        expect(result).to eq instance.result
+        expect(result).to_not be_nil
       end
 
-      context 'with #valid?' do
-        before do
-          allow(instance).to receive(:valid?).and_return(false)
-        end
-
-        it 'calls #valid?' do
-          begin
-            result
-          rescue
-            expect(instance).to have_received(:valid?).with(no_args)
-          end
-        end
+      context 'with a validator' do
+        include_context 'with a validator'
 
         it 'raises an error' do
           expect do
