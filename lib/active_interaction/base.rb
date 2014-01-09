@@ -42,8 +42,6 @@ module ActiveInteraction
       fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
       process_inputs(inputs.symbolize_keys)
-
-      super
     end
 
     # @!method execute

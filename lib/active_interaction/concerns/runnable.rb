@@ -30,12 +30,6 @@ module ActiveInteraction
       validate :runtime_errors
     end
 
-    def initialize(*)
-      @_interaction_errors = Errors.new(self)
-      @_interaction_result = nil
-      @_interaction_runtime_errors = nil
-    end
-
     # @return [Errors]
     def errors
       @_interaction_errors
@@ -128,6 +122,19 @@ module ActiveInteraction
     end
 
     module ClassMethods
+      # @private
+      def new(*)
+        super.tap do |instance|
+          {
+            :@_interaction_errors => Errors.new(instance),
+            :@_interaction_result => nil,
+            :@_interaction_runtime_errors => nil
+          }.each do |symbol, obj|
+            instance.instance_variable_set(symbol, obj)
+          end
+        end
+      end
+
       # @param (see Runnable#initialize)
       #
       # @return [Runnable]
