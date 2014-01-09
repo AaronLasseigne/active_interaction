@@ -3,8 +3,7 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Missable do
-  let(:klass) { Class.new { include ActiveInteraction::Missable } }
-  subject(:instance) { klass.new }
+  include_context 'concerns', ActiveInteraction::Missable
 
   describe '#respond_to?(slug, include_all = false)' do
     context 'with invalid slug' do

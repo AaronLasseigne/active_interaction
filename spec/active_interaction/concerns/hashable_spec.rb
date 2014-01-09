@@ -3,8 +3,7 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Hashable do
-  let(:klass) { Class.new { include ActiveInteraction::Hashable } }
-  subject(:instance) { klass.new }
+  include_context 'concerns', ActiveInteraction::Hashable
 
   describe '#hash(*args, &block)' do
     context 'with no arguments' do
