@@ -1,7 +1,6 @@
 # coding: utf-8
 
-# rubocop:disable Documentation
-module ActiveInteraction
+module ActiveInteraction # rubocop:disable Documentation
   # Top-level error class. All other errors subclass this.
   Error = Class.new(StandardError)
 
