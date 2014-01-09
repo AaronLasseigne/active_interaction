@@ -35,7 +35,6 @@ describe ActiveInteraction::Runnable do
 
   let(:klass) do
     Class.new do
-      include ActiveModel::Validations
       include ActiveInteraction::Runnable
 
       def self.name

@@ -24,6 +24,7 @@ module ActiveInteraction
   # @since 1.0.0
   module Runnable
     extend ActiveSupport::Concern
+    include ::ActiveModel::Validations
 
     included do
       validate :runtime_errors
