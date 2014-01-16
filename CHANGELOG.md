@@ -2,6 +2,7 @@
 
 - Rename `Filter#has_default?` to `Filter#default?`.
 - Add `respond_to_missing?` to complement `method_missing` calls.
+- Require filter names to be unique.
 
 # [0.10.2][] (2014-01-02)
 
