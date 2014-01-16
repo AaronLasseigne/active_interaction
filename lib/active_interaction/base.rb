@@ -83,6 +83,8 @@ module ActiveInteraction
             filters.add(filter)
             attr_accessor filter.name
 
+            define_method("#{filter.name}?") { !public_send(filter.name).nil? }
+
             # This isn't required, but it makes invalid defaults raise errors
             #   on class definition instead of on execution.
             filter.default if filter.default?
