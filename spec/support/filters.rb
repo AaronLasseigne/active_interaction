@@ -174,8 +174,8 @@ shared_examples_for 'a filter' do
   end
 
   describe '#filters' do
-    it 'returns Filters' do
-      expect(filter.filters).to be_an ActiveInteraction::Filters
+    it 'returns Hash' do
+      expect(filter.filters).to be_a Hash
     end
   end
 

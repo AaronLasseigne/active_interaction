@@ -33,9 +33,9 @@ module ActiveInteraction
     def cast(value)
       case value
       when Array
-        return value if filters.none?
+        return value if filters.empty?
 
-        filter = filters.first
+        filter = filters.values.first
         value.map { |e| filter.clean(e) }
       else
         super
@@ -48,14 +48,14 @@ module ActiveInteraction
 
         validate(filter, names)
 
-        filters.add(filter)
+        filters[name] = filter
       end
     end
 
     private
 
     def validate(filter, names)
-      if filters.any?
+      unless filters.empty?
         fail InvalidFilterError, 'multiple filters in array block'
       end
 
