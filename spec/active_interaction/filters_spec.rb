@@ -20,4 +20,23 @@ describe ActiveInteraction::Filters do
       expect(subject.add(filter).to_a).to eql [filter]
     end
   end
+
+  describe '#[]' do
+    let(:filter) { double(name: name) }
+    let(:name) { SecureRandom.hex.to_sym }
+
+    it 'returns nil' do
+      expect(subject[name]).to be_nil
+    end
+
+    context 'with a filter' do
+      before do
+        subject.add(filter)
+      end
+
+      it 'returns the filter' do
+        expect(subject[name]).to eq filter
+      end
+    end
+  end
 end
