@@ -76,17 +76,7 @@ module ActiveInteraction
         super do |klass, names, options|
           fail InvalidFilterError, 'missing attribute name' if names.empty?
 
-          names.each do |attribute|
-            fail InvalidFilterError, attribute.inspect if reserved?(attribute)
-
-            filter = klass.new(attribute, options, &block)
-            filters.add(filter)
-            attr_accessor filter.name
-
-            # This isn't required, but it makes invalid defaults raise errors
-            #   on class definition instead of on execution.
-            filter.default if filter.default?
-          end
+          names.each { |name| add_filter(klass, name, options, &block) }
         end
       end
 
@@ -110,6 +100,19 @@ module ActiveInteraction
       loop
 
       private
+
+      def add_filter(klass, name, options, &block)
+        fail InvalidFilterError, name.inspect if reserved?(name)
+
+        filter = klass.new(name, options, &block)
+        filters.add(filter)
+        attr_accessor name
+        define_method("#{name}?") { !public_send(name).nil? }
+
+        # This isn't required, but it makes invalid defaults raise errors
+        #   on class definition instead of on execution.
+        filter.default if filter.default?
+      end
 
       def inherited(klass)
         new_filters = Filters.new

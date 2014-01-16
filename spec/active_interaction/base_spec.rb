@@ -361,4 +361,30 @@ describe ActiveInteraction::Base do
       expect(filters(described_class)).to_not include :other_thing
     end
   end
+
+  context 'predicates' do
+    let(:described_class) { InteractionWithFilter }
+
+    it 'responds to the predicate' do
+      expect(interaction.respond_to?(:thing?)).to be_true
+    end
+
+    context 'without a value' do
+      it 'returns false' do
+        expect(interaction.thing?).to be_false
+      end
+    end
+
+    context 'with a value' do
+      let(:thing) { rand }
+
+      before do
+        inputs.merge!(thing: thing)
+      end
+
+      it 'returns true' do
+        expect(interaction.thing?).to be_true
+      end
+    end
+  end
 end
