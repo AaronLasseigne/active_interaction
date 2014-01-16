@@ -20,6 +20,8 @@ module ActiveInteraction
     #
     # @return [Filters]
     def add(filter)
+      @filters.reject! { |f| f.name == filter.name }
+
       @filters << filter
 
       self

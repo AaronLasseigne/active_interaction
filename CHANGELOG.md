@@ -3,6 +3,8 @@
 - Rename `Filter#has_default?` to `Filter#default?`.
 - Add `respond_to_missing?` to complement `method_missing` calls.
 - Add predicate methods for checking if an input was passed.
+- When adding a filter that shares a name with an existing filter, it will now
+  replace the existing one instead of adding a duplicate.
 
 # [0.10.2][] (2014-01-02)
 

@@ -10,14 +10,19 @@ describe ActiveInteraction::Filters do
   end
 
   describe '#add(filter)' do
+    let(:filter) { double(name: name) }
+    let(:name) { SecureRandom.hex.to_sym }
+
     it 'returns self' do
-      expect(subject.add(double)).to equal subject
+      expect(subject.add(filter)).to equal subject
     end
 
     it 'adds the filter' do
-      filter = double
-
       expect(subject.add(filter).to_a).to eql [filter]
+    end
+
+    it 'replaces an existing filter' do
+      expect(subject.add(filter).add(filter).to_a).to eql [filter]
     end
   end
 end
