@@ -20,6 +20,10 @@ module ActiveInteraction
     #
     # @return [Filters]
     def add(filter)
+      if @filters.any? { |f| f.name == filter.name }
+        fail InvalidFilterError, "#{filter.name}: duplicate name"
+      end
+
       @filters << filter
 
       self

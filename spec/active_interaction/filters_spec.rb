@@ -10,14 +10,27 @@ describe ActiveInteraction::Filters do
   end
 
   describe '#add(filter)' do
+    let(:filter) { double(name: name) }
+    let(:name) { SecureRandom.hex.to_sym }
+
     it 'returns self' do
       expect(subject.add(double)).to equal subject
     end
 
     it 'adds the filter' do
-      filter = double
-
       expect(subject.add(filter).to_a).to eql [filter]
+    end
+
+    context 'with a filter' do
+      before do
+        subject.add(filter)
+      end
+
+      it 'raises an error' do
+        expect do
+          subject.add(filter)
+        end.to raise_error ActiveInteraction::InvalidFilterError
+      end
     end
   end
 end
