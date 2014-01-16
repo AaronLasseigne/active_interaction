@@ -26,5 +26,12 @@ module ActiveInteraction
 
       self
     end
+
+    # @param key [Symbol]
+    #
+    # @return Filter
+    def [](key)
+      @filters.find { |f| f.name == key }
+    end
   end
 end

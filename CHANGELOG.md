@@ -5,6 +5,7 @@
 - Add predicate methods for checking if an input was passed.
 - When adding a filter that shares a name with an existing filter, it will now
   replace the existing one instead of adding a duplicate.
+- Add `#[]` to `Filters` to allow fetching filters by name.
 
 # [0.10.2][] (2014-01-02)
 
