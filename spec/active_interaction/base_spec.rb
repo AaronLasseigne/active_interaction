@@ -348,7 +348,7 @@ describe ActiveInteraction::Base do
     let(:described_class) { InteractionWithFilter }
 
     def filters(klass)
-      klass.filters.map(&:name)
+      klass.filters.keys
     end
 
     it 'includes the filters from the superclass' do

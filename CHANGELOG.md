@@ -1,11 +1,13 @@
 # [1.0.0][]
 
+- **Replace `Filters` with a hash.** To iterate over `Filter` objects, use
+  `Interaction.filters.values`.
 - Rename `Filter#has_default?` to `Filter#default?`.
 - Add `respond_to_missing?` to complement `method_missing` calls.
 - Add predicate methods for checking if an input was passed.
 - When adding a filter that shares a name with an existing filter, it will now
   replace the existing one instead of adding a duplicate.
-- Add `#[]` to `Filters` to allow fetching filters by name.
+- Allow fetching filters by name.
 
 # [0.10.2][] (2014-01-02)
 

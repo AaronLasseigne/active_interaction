@@ -64,11 +64,11 @@ module ActiveInteraction
 
       # Get all the filters defined on this interaction.
       #
-      # @return [Filters]
+      # @return [Hash{Symbol => Filter}]
       #
       # @since 0.6.0
       def filters
-        @_interaction_filters ||= Filters.new
+        @_interaction_filters ||= {}
       end
 
       # @private
@@ -105,7 +105,7 @@ module ActiveInteraction
         fail InvalidFilterError, name.inspect if reserved?(name)
 
         filter = klass.new(name, options, &block)
-        filters.add(filter)
+        filters[name] = filter
         attr_accessor name
         define_method("#{name}?") { !public_send(name).nil? }
 
@@ -115,10 +115,7 @@ module ActiveInteraction
       end
 
       def inherited(klass)
-        new_filters = Filters.new
-        filters.each { |f| new_filters.add(f) }
-
-        klass.instance_variable_set(:@_interaction_filters, new_filters)
+        klass.instance_variable_set(:@_interaction_filters, filters.dup)
       end
 
       def reserved?(symbol)
@@ -154,8 +151,8 @@ module ActiveInteraction
     #
     # @since 0.6.0
     def inputs
-      self.class.filters.each_with_object({}) do |filter, h|
-        h[filter.name] = public_send(filter.name)
+      self.class.filters.keys.each_with_object({}) do |name, h|
+        h[name] = public_send(name)
       end
     end
 
@@ -168,9 +165,9 @@ module ActiveInteraction
         instance_variable_set("@#{key}", value)
       end
 
-      self.class.filters.each do |filter|
+      self.class.filters.each do |name, filter|
         begin
-          public_send("#{filter.name}=", filter.clean(inputs[filter.name]))
+          public_send("#{name}=", filter.clean(inputs[name]))
         rescue InvalidValueError, MissingValueError
           # Validators (#input_errors) will add errors if appropriate.
         end

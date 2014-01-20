@@ -22,7 +22,7 @@ module ActiveInteraction
     CLASSES = {}
     private_constant :CLASSES
 
-    # @return [Filters]
+    # @return [Hash{Symbol => Filter}]
     attr_reader :filters
 
     # @return [Symbol]
@@ -97,7 +97,7 @@ module ActiveInteraction
     def initialize(name, options = {}, &block)
       @name = name
       @options = options.dup
-      @filters = Filters.new
+      @filters = {}
 
       instance_eval(&block) if block_given?
     end

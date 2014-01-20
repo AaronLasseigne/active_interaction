@@ -33,9 +33,8 @@ module ActiveInteraction
       case value
       when Hash
         value = value.symbolize_keys
-        filters.each_with_object(strip? ? {} : value) do |filter, h|
-          k = filter.name
-          h[k] = filter.clean(value[k])
+        filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
+          h[name] = filter.clean(value[name])
         end
       else
         super
@@ -55,7 +54,7 @@ module ActiveInteraction
         fail InvalidFilterError, 'missing attribute name' if names.empty?
 
         names.each do |name|
-          filters.add(klass.new(name, options, &block))
+          filters[name] = klass.new(name, options, &block)
         end
       end
     end
