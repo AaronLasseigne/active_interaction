@@ -114,6 +114,28 @@ module ActiveInteraction
         filter.default if filter.default?
       end
 
+      # @param klass [Class]
+      # @param options [Hash]
+      #
+      # @option options [Array<Symbol>, nil] :only
+      # @option options [Array<Symbol>, nil] :except
+      #
+      # @return (see .filters)
+      def import_filters(klass, options = {})
+        if options.key?(:only) && options.key?(:except)
+          fail ArgumentError, 'given both :only and :except'
+        end
+
+        only = options[:only]
+        except = options[:except]
+
+        other_filters = klass.filters.dup
+        other_filters.select! { |k, _| only.include?(k) } if only
+        other_filters.reject! { |k, _| except.include?(k) } if except
+
+        filters.merge!(other_filters)
+      end
+
       def inherited(klass)
         klass.instance_variable_set(:@_interaction_filters, filters.dup)
       end

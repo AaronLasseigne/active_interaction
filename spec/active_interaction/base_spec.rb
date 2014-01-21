@@ -387,4 +387,66 @@ describe ActiveInteraction::Base do
       end
     end
   end
+
+  describe '.import_filters' do
+    let(:described_class) do
+      Class.new(TestInteraction) do
+        import_filters AddInteraction
+      end
+    end
+
+    it 'imports the filters' do
+      expect(described_class.filters).to eq AddInteraction.filters
+    end
+
+    context 'with :only' do
+      let(:described_class) do
+        Class.new(TestInteraction) do
+          import_filters AddInteraction, only: [:x]
+        end
+      end
+
+      it 'does not modify the source' do
+        filters = AddInteraction.filters.dup
+        described_class
+        expect(AddInteraction.filters).to eq filters
+      end
+
+      it 'imports the filters' do
+        expect(described_class.filters).to eq AddInteraction.filters
+          .select { |k, _| k == :x }
+      end
+    end
+
+    context 'with :except' do
+      let(:described_class) do
+        Class.new(TestInteraction) do
+          import_filters AddInteraction, except: [:x]
+        end
+      end
+
+      it 'does not modify the source' do
+        filters = AddInteraction.filters.dup
+        described_class
+        expect(AddInteraction.filters).to eq filters
+      end
+
+      it 'imports the filters' do
+        expect(described_class.filters).to eq AddInteraction.filters
+          .reject { |k, _| k == :x }
+      end
+    end
+
+    context 'with :only & :except' do
+      let(:described_class) do
+        Class.new(TestInteraction) do
+          import_filters AddInteraction, only: nil, except: nil
+        end
+      end
+
+      it 'raises an error' do
+        expect { described_class }.to raise_error ArgumentError
+      end
+    end
+  end
 end
