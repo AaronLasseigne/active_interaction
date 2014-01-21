@@ -115,11 +115,16 @@ module ActiveInteraction
       end
 
       # @param klass [Class]
-      # @param only [Array<Symbol>, nil]
-      # @param except [Array<Symbol>, nil]
+      # @param options [Hash]
+      #
+      # @option options [Array<Symbol>, nil] :only
+      # @option options [Array<Symbol>, nil] :except
       #
       # @return (see .filters)
-      def import(klass, only: nil, except: nil)
+      def import(klass, options = {})
+        only = options[:only]
+        except = options[:except]
+
         other_filters = klass.filters.dup
         other_filters.select! { |k, _| only.include?(k) } if only
         other_filters.reject! { |k, _| except.include?(k) } if except
