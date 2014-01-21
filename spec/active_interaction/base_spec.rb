@@ -388,10 +388,10 @@ describe ActiveInteraction::Base do
     end
   end
 
-  describe '.import' do
+  describe '.import_filters' do
     let(:described_class) do
       Class.new(TestInteraction) do
-        import AddInteraction
+        import_filters AddInteraction
       end
     end
 
@@ -402,7 +402,7 @@ describe ActiveInteraction::Base do
     context 'with :only' do
       let(:described_class) do
         Class.new(TestInteraction) do
-          import AddInteraction, only: [:x]
+          import_filters AddInteraction, only: [:x]
         end
       end
 
@@ -421,7 +421,7 @@ describe ActiveInteraction::Base do
     context 'with :except' do
       let(:described_class) do
         Class.new(TestInteraction) do
-          import AddInteraction, except: [:x]
+          import_filters AddInteraction, except: [:x]
         end
       end
 
@@ -440,7 +440,7 @@ describe ActiveInteraction::Base do
     context 'with :only & :except' do
       let(:described_class) do
         Class.new(TestInteraction) do
-          import AddInteraction, only: nil, except: nil
+          import_filters AddInteraction, only: nil, except: nil
         end
       end
 

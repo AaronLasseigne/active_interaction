@@ -121,7 +121,7 @@ module ActiveInteraction
       # @option options [Array<Symbol>, nil] :except
       #
       # @return (see .filters)
-      def import(klass, options = {})
+      def import_filters(klass, options = {})
         if options.key?(:only) && options.key?(:except)
           fail ArgumentError, 'given both :only and :except'
         end
