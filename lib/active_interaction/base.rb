@@ -122,6 +122,10 @@ module ActiveInteraction
       #
       # @return (see .filters)
       def import(klass, options = {})
+        if options.key?(:only) && options.key?(:except)
+          fail ArgumentError, 'given both :only and :except'
+        end
+
         only = options[:only]
         except = options[:except]
 

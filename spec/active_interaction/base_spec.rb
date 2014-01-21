@@ -436,5 +436,17 @@ describe ActiveInteraction::Base do
           .reject { |k, _| k == :x }
       end
     end
+
+    context 'with :only & :except' do
+      let(:described_class) do
+        Class.new(TestInteraction) do
+          import AddInteraction, only: nil, except: nil
+        end
+      end
+
+      it 'raises an error' do
+        expect { described_class }.to raise_error ArgumentError
+      end
+    end
   end
 end
