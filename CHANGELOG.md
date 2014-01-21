@@ -1,3 +1,5 @@
+# [Master][]
+
 # [1.0.0][]
 
 - **Replace `Filters` with a hash.** To iterate over `Filter` objects, use
@@ -8,6 +10,7 @@
 - When adding a filter that shares a name with an existing filter, it will now
   replace the existing one instead of adding a duplicate.
 - Allow fetching filters by name.
+- Allow import filters from another interaction with `import_filters`.
 
 # [0.10.2][] (2014-01-02)
 
@@ -115,7 +118,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v0.10.2...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.0...master
+  [1.0.0]: https://github.com/orgsync/active_interaction/compare/v0.10.2...v1.0.0
   [0.10.2]: https://github.com/orgsync/active_interaction/compare/v0.10.1...v0.10.2
   [0.10.1]: https://github.com/orgsync/active_interaction/compare/v0.10.0...v0.10.1
   [0.10.0]: https://github.com/orgsync/active_interaction/compare/v0.9.1...v0.10.0
