@@ -2,22 +2,18 @@
 
 module ActiveInteraction
   class Base
-    # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are Strings.
+    # @!method self.string(*attributes, options = {})
+    #   Creates accessors for the attributes and ensures that values passed to
+    #     the attributes are Strings.
     #
-    # @macro filter_method_params
-    # @option options [Boolean] :strip (true) strip leading and trailing
-    #   whitespace
+    #   @!macro filter_method_params
+    #   @option options [Boolean] :strip (true) strip leading and trailing
+    #     whitespace
     #
-    # @example
-    #   string :first_name
-    #
-    # @example
-    #   string :first_name, strip: false
-    #
-    # @since 0.1.0
-    #
-    # @method self.string(*attributes, options = {})
+    #   @example
+    #     string :first_name
+    #   @example
+    #     string :first_name, strip: false
   end
 
   # @private
@@ -33,6 +29,7 @@ module ActiveInteraction
 
     private
 
+    # @return [Boolean]
     def strip?
       options.fetch(:strip, true)
     end

@@ -2,28 +2,23 @@
 
 module ActiveInteraction
   class Base
-    # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are Arrays.
+    # @!method self.array(*attributes, options = {}, &block)
+    #   Creates accessors for the attributes and ensures that values passed to
+    #     the attributes are Arrays.
     #
-    # @macro filter_method_params
-    # @param block [Proc] filter method to apply to each element
+    #   @!macro filter_method_params
+    #   @param block [Proc] filter method to apply to each element
     #
-    # @example
-    #   array :ids
-    #
-    # @example An Array of Integers
-    #   array :ids do
-    #     integer
-    #   end
-    #
-    # @example An Array of Integers where some or all are nil
-    #   array :ids do
-    #     integer default: nil
-    #   end
-    #
-    # @since 0.1.0
-    #
-    # @method self.array(*attributes, options = {}, &block)
+    #   @example
+    #     array :ids
+    #   @example
+    #     array :ids do
+    #       integer
+    #     end
+    #   @example
+    #     array :ids do
+    #       integer default: nil
+    #     end
   end
 
   # @private
@@ -54,6 +49,10 @@ module ActiveInteraction
 
     private
 
+    # @param filter [Filter]
+    # @param names [Array<Symbol>]
+    #
+    # @raise [InvalidFilterError]
     def validate(filter, names)
       unless filters.empty?
         fail InvalidFilterError, 'multiple filters in array block'

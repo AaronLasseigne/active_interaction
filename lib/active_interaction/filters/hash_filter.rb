@@ -2,27 +2,21 @@
 
 module ActiveInteraction
   class Base
-    # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are Hashes.
+    # @!method self.hash(*attributes, options = {}, &block)
+    #   Creates accessors for the attributes and ensures that values passed to
+    #     the attributes are Hashes.
     #
-    # @macro filter_method_params
-    # @param block [Proc] filter methods to apply for select keys
-    # @option options [Boolean] :strip (true) strip unknown keys
+    #   @!macro filter_method_params
+    #   @param block [Proc] filter methods to apply for select keys
+    #   @option options [Boolean] :strip (true) strip unknown keys
     #
-    # @example
-    #   hash :order
-    #
-    # @example A Hash where certain keys also have their values ensured.
-    #   hash :order do
-    #     model :account
-    #     model :item
-    #     integer :quantity
-    #     boolean :delivered
-    #   end
-    #
-    # @since 0.1.0
-    #
-    # @method self.hash(*attributes, options = {}, &block)
+    #   @example
+    #     hash :order
+    #   @example
+    #     hash :order do
+    #       model :item
+    #       integer :quantity, default: 1
+    #     end
   end
 
   # @private
@@ -61,6 +55,7 @@ module ActiveInteraction
 
     private
 
+    # @return [Boolean]
     def strip?
       options.fetch(:strip, true)
     end

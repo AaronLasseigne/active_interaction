@@ -1,6 +1,11 @@
 # coding: utf-8
 
 module ActiveInteraction
+  # @abstract
+  #
+  # Common logic for filters that handle `Date`, `DateTime`, and `Time`
+  #   objects.
+  #
   # @private
   class AbstractDateTimeFilter < AbstractFilter
     alias_method :_cast, :cast
@@ -29,14 +34,17 @@ module ActiveInteraction
       _cast(value)
     end
 
+    # @return [String]
     def format
       options.fetch(:format)
     end
 
+    # @return [Boolean]
     def format?
       options.key?(:format)
     end
 
+    # @return [Array<Class>]
     def klasses
       [klass]
     end

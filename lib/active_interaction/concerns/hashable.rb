@@ -1,6 +1,8 @@
 # coding: utf-8
 
 module ActiveInteraction
+  # Allow `hash` to be overridden when given arguments and/or a block.
+  #
   # @private
   module Hashable
     extend ActiveSupport::Concern

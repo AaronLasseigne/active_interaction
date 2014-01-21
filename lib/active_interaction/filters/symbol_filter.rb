@@ -2,17 +2,14 @@
 
 module ActiveInteraction
   class Base
-    # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are Symbols. Strings will be converted to Symbols.
+    # @!method self.symbol(*attributes, options = {})
+    #   Creates accessors for the attributes and ensures that values passed to
+    #     the attributes are Symbols. Strings will be converted to Symbols.
     #
-    # @macro filter_method_params
+    #   @!macro filter_method_params
     #
-    # @example
-    #   symbol :condiment
-    #
-    # @since 0.6.0
-    #
-    # @method self.symbol(*attributes, options = {})
+    #   @example
+    #     symbol :condiment
   end
 
   # @private

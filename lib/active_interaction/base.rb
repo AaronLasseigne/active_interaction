@@ -6,25 +6,26 @@ module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
   #   ActiveInteraction::Base class.
   #
+  # Provides interaction functionality. Subclass this to create an interaction.
+  #
   # @example
   #   class ExampleInteraction < ActiveInteraction::Base
   #     # Required
-  #     integer :a, :b
+  #     boolean :a
   #
   #     # Optional
-  #     integer :c, default: nil
+  #     boolean :b, default: false
   #
   #     def execute
-  #       sum = a + b
-  #       c.nil? ? sum : sum + c
+  #       a && b
   #     end
   #   end
   #
-  #   outcome = ExampleInteraction.run(a: 1, b: 2, c: 3)
+  #   outcome = ExampleInteraction.run(a: true)
   #   if outcome.valid?
-  #     p outcome.result
+  #     outcome.result
   #   else
-  #     p outcome.errors
+  #     outcome.errors
   #   end
   class Base
     include ActiveModelable
@@ -41,15 +42,13 @@ module ActiveInteraction
       # @example
       #   core.desc
       #   # => nil
-      #   core.desc('descriptive!')
+      #   core.desc('Description!')
       #   core.desc
-      #   # => "descriptive!"
+      #   # => "Description!"
       #
-      # @param desc [String, nil] what to set the description to
+      # @param desc [String, nil] What to set the description to.
       #
-      # @return [String, nil] the description
-      #
-      # @since 0.8.0
+      # @return [String, nil] The description.
       def desc(desc = nil)
         if desc.nil?
           unless instance_variable_defined?(:@_interaction_desc)
@@ -65,8 +64,6 @@ module ActiveInteraction
       # Get all the filters defined on this interaction.
       #
       # @return [Hash{Symbol => Filter}]
-      #
-      # @since 0.6.0
       def filters
         @_interaction_filters ||= {}
       end
@@ -80,19 +77,19 @@ module ActiveInteraction
         end
       end
 
-      # @!method run(*)
+      # @!method run(inputs = {})
       #   Runs validations and if there are no errors it will call {#execute}.
       #
       #   @param (see ActiveInteraction::Base#initialize)
       #
-      #   @return (see ActiveInteraction::Runnable::ClassMethods#run)
+      #   @return [Base]
       loop
 
-      # @!method run!(*)
+      # @!method run!(inputs = {})
       #   Like {.run} except that it returns the value of {#execute} or raises
       #     an exception if there were any validation errors.
       #
-      #   @param (see ActiveInteraction::Base#initialize)
+      #   @param (see ActiveInteraction::Base.run)
       #
       #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
       #
@@ -101,6 +98,9 @@ module ActiveInteraction
 
       private
 
+      # @param klass [Class]
+      # @param name [Symbol]
+      # @param options [Hash]
       def add_filter(klass, name, options, &block)
         fail InvalidFilterError, name.inspect if reserved?(name)
 
@@ -109,18 +109,21 @@ module ActiveInteraction
         attr_accessor name
         define_method("#{name}?") { !public_send(name).nil? }
 
-        # This isn't required, but it makes invalid defaults raise errors
-        #   on class definition instead of on execution.
         filter.default if filter.default?
       end
 
-      # @param klass [Class]
+      # Import filters from another interaction.
+      #
+      # @param klass [Class] The other interaction.
       # @param options [Hash]
       #
-      # @option options [Array<Symbol>, nil] :only
-      # @option options [Array<Symbol>, nil] :except
+      # @option options [Array<Symbol>, nil] :only Import only these filters.
+      # @option options [Array<Symbol>, nil] :except Import all filters except
+      #   for these.
       #
       # @return (see .filters)
+      #
+      # @!visibility public
       def import_filters(klass, options = {})
         if options.key?(:only) && options.key?(:except)
           fail ArgumentError, 'given both :only and :except'
@@ -136,10 +139,14 @@ module ActiveInteraction
         filters.merge!(other_filters)
       end
 
+      # @param klass [Class]
       def inherited(klass)
         klass.instance_variable_set(:@_interaction_filters, filters.dup)
       end
 
+      # @param symbol [Symbol]
+      #
+      # @return [Boolean]
       def reserved?(symbol)
         symbol.to_s.start_with?('_interaction_')
       end
@@ -154,14 +161,23 @@ module ActiveInteraction
       process_inputs(inputs.symbolize_keys)
     end
 
+    # @!method compose(other, inputs = {})
+    #   Run another interaction and return its result. If the other interaction
+    #     fails, halt execution.
+    #
+    #   @param other (see ActiveInteraction::Runnable#compose)
+    #   @param inputs (see ActiveInteraction::Base#initialize)
+    #
+    #   @return (see ActiveInteraction::Base.run!)
+    loop
+
     # @!method execute
     #   @abstract
     #
-    #   Runs the business logic associated with the interaction. The method is
+    #   Runs the business logic associated with the interaction. This method is
     #     only run when there are no validation errors. The return value is
-    #     placed into {#result}. This method must be overridden in the
-    #     subclass. This method is run in a transaction if ActiveRecord is
-    #     available.
+    #     placed into {#result}. This method is run in a transaction if
+    #     ActiveRecord is available.
     #
     #   @raise (see ActiveInteraction::Runnable#execute)
     loop
@@ -170,8 +186,6 @@ module ActiveInteraction
     #   on the filters in the class.
     #
     # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
-    #
-    # @since 0.6.0
     def inputs
       self.class.filters.keys.each_with_object({}) do |name, h|
         h[name] = public_send(name)
@@ -180,6 +194,7 @@ module ActiveInteraction
 
     private
 
+    # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
       inputs.each do |key, value|
         fail InvalidValueError, key.inspect if self.class.send(:reserved?, key)

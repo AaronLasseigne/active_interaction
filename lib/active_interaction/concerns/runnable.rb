@@ -4,7 +4,8 @@ begin
   require 'active_record'
 rescue LoadError
   module ActiveRecord
-    class Base # rubocop:disable Documentation
+    #
+    class Base
       def self.transaction(*)
         yield
       end
@@ -21,7 +22,7 @@ module ActiveInteraction
   # Runs code in transactions and only provides the result if there are no
   #   validation errors.
   #
-  # @since 1.0.0
+  # @private
   module Runnable
     extend ActiveSupport::Concern
     include ActiveModel::Validations
@@ -42,8 +43,8 @@ module ActiveInteraction
       fail NotImplementedError
     end
 
-    # @return [Object]
-    # @return [nil]
+    # @return [Object] If there are no validation errors.
+    # @return [nil] If there are validation errors.
     def result
       @_interaction_result
     end
@@ -68,7 +69,7 @@ module ActiveInteraction
 
     private
 
-    # @param other [Class]
+    # @param other [Class] The other interaction.
     # @param (see ClassMethods.run)
     #
     # @return (see #result)
@@ -100,9 +101,9 @@ module ActiveInteraction
       end
     end
 
-    # @return (see #result)
+    # @return [Object]
     #
-    # @raise [InvalidInteractionError]
+    # @raise [InvalidInteractionError] If there are validation errors.
     def run!
       run
 
@@ -121,8 +122,8 @@ module ActiveInteraction
       end
     end
 
+    #
     module ClassMethods
-      # @private
       def new(*)
         super.tap do |instance|
           {

@@ -35,5 +35,12 @@ I18n.backend.load_translations(
   Dir[File.join(%w(lib active_interaction locale *.yml))]
 )
 
-# @since 0.1.0
+# Manage application specific business logic.
+#
+# @author Aaron Lasseigne <aaron.lasseigne@gmail.com>
+# @author Taylor Fausak <taylor@fausak.me>
+#
+# @since 1.0.0
+#
+# @version 1.0.0
 module ActiveInteraction end
