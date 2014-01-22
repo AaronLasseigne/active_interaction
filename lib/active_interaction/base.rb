@@ -37,6 +37,23 @@ module ActiveInteraction
       include Hashable
       include Missable
 
+      # @!method run(inputs = {})
+      #   Runs validations and if there are no errors it will call {#execute}.
+      #
+      #   @param (see ActiveInteraction::Base#initialize)
+      #
+      #   @return [Base]
+
+      # @!method run!(inputs = {})
+      #   Like {.run} except that it returns the value of {#execute} or raises
+      #     an exception if there were any validation errors.
+      #
+      #   @param (see ActiveInteraction::Base.run)
+      #
+      #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
+      #
+      #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
+
       # Get or set the description.
       #
       # @example
@@ -76,25 +93,6 @@ module ActiveInteraction
           names.each { |name| add_filter(klass, name, options, &block) }
         end
       end
-
-      # @!method run(inputs = {})
-      #   Runs validations and if there are no errors it will call {#execute}.
-      #
-      #   @param (see ActiveInteraction::Base#initialize)
-      #
-      #   @return [Base]
-      loop
-
-      # @!method run!(inputs = {})
-      #   Like {.run} except that it returns the value of {#execute} or raises
-      #     an exception if there were any validation errors.
-      #
-      #   @param (see ActiveInteraction::Base.run)
-      #
-      #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
-      #
-      #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
-      loop
 
       private
 
@@ -169,7 +167,6 @@ module ActiveInteraction
     #   @param inputs (see ActiveInteraction::Base#initialize)
     #
     #   @return (see ActiveInteraction::Base.run!)
-    loop
 
     # @!method execute
     #   @abstract
@@ -180,7 +177,6 @@ module ActiveInteraction
     #     ActiveRecord is available.
     #
     #   @raise (see ActiveInteraction::Runnable#execute)
-    loop
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
     #   on the filters in the class.
