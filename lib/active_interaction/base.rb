@@ -121,6 +121,8 @@ module ActiveInteraction
       #
       # @return (see .filters)
       #
+      # @raise [ArgumentError] If both `:only` and `:except` are given.
+      #
       # @!visibility public
       def import_filters(klass, options = {})
         if options.key?(:only) && options.key?(:except)
