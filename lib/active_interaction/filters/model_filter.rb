@@ -2,22 +2,18 @@
 
 module ActiveInteraction
   class Base
-    # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are the correct class.
+    # @!method self.model(*attributes, options = {})
+    #   Creates accessors for the attributes and ensures that values passed to
+    #     the attributes are the correct class.
     #
-    # @macro filter_method_params
-    # @option options [Class, String, Symbol] :class (use the attribute name)
-    #   Class name used to ensure the value.
+    #   @!macro filter_method_params
+    #   @option options [Class, String, Symbol] :class (use the attribute name)
+    #     Class name used to ensure the value.
     #
-    # @example Ensures that the class is `Account`
-    #   model :account
-    #
-    # @example Ensures that the class is `User`
-    #   model :account, class: User
-    #
-    # @since 0.1.0
-    #
-    # @method self.model(*attributes, options = {})
+    #   @example
+    #     model :account
+    #   @example
+    #     model :account, class: User
   end
 
   # @private
@@ -33,6 +29,9 @@ module ActiveInteraction
 
     private
 
+    # @return [Class]
+    #
+    # @raise [InvalidClassError]
     def klass
       klass_name = options.fetch(:class, name).to_s.classify
       klass_name.constantize

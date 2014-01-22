@@ -1,6 +1,10 @@
 # coding: utf-8
 
 module ActiveInteraction
+  # @abstract
+  #
+  # Common logic for filters that handle numeric objects.
+  #
   # @private
   class AbstractNumericFilter < AbstractFilter
     alias_method :_cast, :cast

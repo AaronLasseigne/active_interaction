@@ -1,22 +1,27 @@
 # coding: utf-8
 
 module ActiveInteraction
+  # Validates inputs using filters.
+  #
   # @private
   module Validation
+    # @param filters [Hash{Symbol => Filter}]
+    # @param inputs [Hash{Symbol => Object}]
     def self.validate(filters, inputs)
-      filters.each_with_object([]) do |filter, errors|
+      filters.each_with_object([]) do |(name, filter), errors|
         begin
-          filter.cast(inputs[filter.name])
+          filter.cast(inputs[name])
         rescue InvalidValueError
-          errors << [filter.name, :invalid, nil, type: type(filter)]
+          errors << [name, :invalid, nil, type: type(filter)]
         rescue MissingValueError
-          errors << [filter.name, :missing]
+          errors << [name, :missing]
         end
       end
     end
 
     private
 
+    # @param filter [Filter]
     def self.type(filter)
       I18n.translate("#{Base.i18n_scope}.types.#{filter.class.slug}")
     end

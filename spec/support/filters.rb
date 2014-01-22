@@ -174,17 +174,17 @@ shared_examples_for 'a filter' do
   end
 
   describe '#filters' do
-    it 'returns Filters' do
-      expect(filter.filters).to be_an ActiveInteraction::Filters
+    it 'returns Hash' do
+      expect(filter.filters).to be_a Hash
     end
   end
 
-  describe '#has_default?' do
+  describe '#default?' do
     context 'optional' do
       include_context 'optional'
 
       it 'returns true' do
-        expect(filter).to have_default
+        expect(filter).to be_default
       end
     end
 
@@ -192,7 +192,7 @@ shared_examples_for 'a filter' do
       include_context 'required'
 
       it 'returns false' do
-        expect(filter).to_not have_default
+        expect(filter).to_not be_default
       end
     end
   end

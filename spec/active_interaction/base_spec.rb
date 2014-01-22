@@ -118,6 +118,23 @@ describe ActiveInteraction::Base do
     end
   end
 
+  describe '.desc' do
+    let(:desc) { SecureRandom.hex }
+
+    it 'returns nil' do
+      expect(described_class.desc).to be_nil
+    end
+
+    it 'returns the description' do
+      expect(described_class.desc(desc)).to eq desc
+    end
+
+    it 'saves the description' do
+      described_class.desc(desc)
+      expect(described_class.desc).to eq desc
+    end
+  end
+
   describe '.method_missing(filter_type, *args, &block)' do
     it 'raises an error for an invalid filter type' do
       expect do
@@ -246,10 +263,10 @@ describe ActiveInteraction::Base do
           expect(result[:thing]).to eq thing
         end
 
-        it 'calls transaction' do
-          allow(described_class).to receive(:transaction)
+        it 'calls ActiveRecord::Base.transaction' do
+          allow(ActiveRecord::Base).to receive(:transaction)
           outcome
-          expect(described_class).to have_received(:transaction).once
+          expect(ActiveRecord::Base).to have_received(:transaction)
             .with(no_args)
         end
       end
@@ -331,7 +348,7 @@ describe ActiveInteraction::Base do
     let(:described_class) { InteractionWithFilter }
 
     def filters(klass)
-      klass.filters.map(&:name)
+      klass.filters.keys
     end
 
     it 'includes the filters from the superclass' do
@@ -342,6 +359,94 @@ describe ActiveInteraction::Base do
       Class.new(described_class) { float :other_thing }
 
       expect(filters(described_class)).to_not include :other_thing
+    end
+  end
+
+  context 'predicates' do
+    let(:described_class) { InteractionWithFilter }
+
+    it 'responds to the predicate' do
+      expect(interaction.respond_to?(:thing?)).to be_true
+    end
+
+    context 'without a value' do
+      it 'returns false' do
+        expect(interaction.thing?).to be_false
+      end
+    end
+
+    context 'with a value' do
+      let(:thing) { rand }
+
+      before do
+        inputs.merge!(thing: thing)
+      end
+
+      it 'returns true' do
+        expect(interaction.thing?).to be_true
+      end
+    end
+  end
+
+  describe '.import_filters' do
+    let(:described_class) do
+      Class.new(TestInteraction) do
+        import_filters AddInteraction
+      end
+    end
+
+    it 'imports the filters' do
+      expect(described_class.filters).to eq AddInteraction.filters
+    end
+
+    context 'with :only' do
+      let(:described_class) do
+        Class.new(TestInteraction) do
+          import_filters AddInteraction, only: [:x]
+        end
+      end
+
+      it 'does not modify the source' do
+        filters = AddInteraction.filters.dup
+        described_class
+        expect(AddInteraction.filters).to eq filters
+      end
+
+      it 'imports the filters' do
+        expect(described_class.filters).to eq AddInteraction.filters
+          .select { |k, _| k == :x }
+      end
+    end
+
+    context 'with :except' do
+      let(:described_class) do
+        Class.new(TestInteraction) do
+          import_filters AddInteraction, except: [:x]
+        end
+      end
+
+      it 'does not modify the source' do
+        filters = AddInteraction.filters.dup
+        described_class
+        expect(AddInteraction.filters).to eq filters
+      end
+
+      it 'imports the filters' do
+        expect(described_class.filters).to eq AddInteraction.filters
+          .reject { |k, _| k == :x }
+      end
+    end
+
+    context 'with :only & :except' do
+      let(:described_class) do
+        Class.new(TestInteraction) do
+          import_filters AddInteraction, only: nil, except: nil
+        end
+      end
+
+      it 'raises an error' do
+        expect { described_class }.to raise_error ArgumentError
+      end
     end
   end
 end

@@ -4,36 +4,153 @@ require 'active_support/core_ext/hash/indifferent_access'
 
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
-  #   ActiveInteraction class.
+  #   ActiveInteraction::Base class.
+  #
+  # Provides interaction functionality. Subclass this to create an interaction.
   #
   # @example
   #   class ExampleInteraction < ActiveInteraction::Base
   #     # Required
-  #     integer :a, :b
+  #     boolean :a
   #
   #     # Optional
-  #     integer :c, default: nil
+  #     boolean :b, default: false
   #
   #     def execute
-  #       sum = a + b
-  #       c.nil? ? sum : sum + c
+  #       a && b
   #     end
   #   end
   #
-  #   outcome = ExampleInteraction.run(a: 1, b: 2, c: 3)
+  #   outcome = ExampleInteraction.run(a: true)
   #   if outcome.valid?
-  #     p outcome.result
+  #     outcome.result
   #   else
-  #     p outcome.errors
+  #     outcome.errors
   #   end
   class Base
-    include ActiveModel
+    include ActiveModelable
+    include Runnable
 
-    extend Core
-    extend MethodMissing
-    extend OverloadHash
+    validate :input_errors
 
-    validate :input_errors, :runtime_errors
+    class << self
+      include Hashable
+      include Missable
+
+      # Get or set the description.
+      #
+      # @example
+      #   core.desc
+      #   # => nil
+      #   core.desc('Description!')
+      #   core.desc
+      #   # => "Description!"
+      #
+      # @param desc [String, nil] What to set the description to.
+      #
+      # @return [String, nil] The description.
+      def desc(desc = nil)
+        if desc.nil?
+          unless instance_variable_defined?(:@_interaction_desc)
+            @_interaction_desc = nil
+          end
+        else
+          @_interaction_desc = desc
+        end
+
+        @_interaction_desc
+      end
+
+      # Get all the filters defined on this interaction.
+      #
+      # @return [Hash{Symbol => Filter}]
+      def filters
+        @_interaction_filters ||= {}
+      end
+
+      # @private
+      def method_missing(*args, &block)
+        super do |klass, names, options|
+          fail InvalidFilterError, 'missing attribute name' if names.empty?
+
+          names.each { |name| add_filter(klass, name, options, &block) }
+        end
+      end
+
+      # @!method run(inputs = {})
+      #   Runs validations and if there are no errors it will call {#execute}.
+      #
+      #   @param (see ActiveInteraction::Base#initialize)
+      #
+      #   @return [Base]
+      loop
+
+      # @!method run!(inputs = {})
+      #   Like {.run} except that it returns the value of {#execute} or raises
+      #     an exception if there were any validation errors.
+      #
+      #   @param (see ActiveInteraction::Base.run)
+      #
+      #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
+      #
+      #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
+      loop
+
+      private
+
+      # @param klass [Class]
+      # @param name [Symbol]
+      # @param options [Hash]
+      def add_filter(klass, name, options, &block)
+        fail InvalidFilterError, name.inspect if reserved?(name)
+
+        filter = klass.new(name, options, &block)
+        filters[name] = filter
+        attr_accessor name
+        define_method("#{name}?") { !public_send(name).nil? }
+
+        filter.default if filter.default?
+      end
+
+      # Import filters from another interaction.
+      #
+      # @param klass [Class] The other interaction.
+      # @param options [Hash]
+      #
+      # @option options [Array<Symbol>, nil] :only Import only these filters.
+      # @option options [Array<Symbol>, nil] :except Import all filters except
+      #   for these.
+      #
+      # @return (see .filters)
+      #
+      # @!visibility public
+      def import_filters(klass, options = {})
+        if options.key?(:only) && options.key?(:except)
+          fail ArgumentError, 'given both :only and :except'
+        end
+
+        only = options[:only]
+        except = options[:except]
+
+        other_filters = klass.filters.dup
+        other_filters.select! { |k, _| only.include?(k) } if only
+        other_filters.reject! { |k, _| except.include?(k) } if except
+
+        filters.merge!(other_filters)
+      end
+
+      # @param klass [Class]
+      def inherited(klass)
+        klass.instance_variable_set(:@_interaction_filters, filters.dup)
+      end
+
+      # @param symbol [Symbol]
+      #
+      # @return [Boolean]
+      def reserved?(symbol)
+        symbol.to_s.start_with?('_interaction_')
+      end
+    end
 
     # @param inputs [Hash{Symbol => Object}] Attribute values to set.
     #
@@ -41,167 +158,65 @@ module ActiveInteraction
     def initialize(inputs = {})
       fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
-      @_interaction_errors = Errors.new(self)
-      @_interaction_result = nil
-      @_interaction_runtime_errors = nil
-
       process_inputs(inputs.symbolize_keys)
     end
+
+    # @!method compose(other, inputs = {})
+    #   Run another interaction and return its result. If the other interaction
+    #     fails, halt execution.
+    #
+    #   @param other (see ActiveInteraction::Runnable#compose)
+    #   @param inputs (see ActiveInteraction::Base#initialize)
+    #
+    #   @return (see ActiveInteraction::Base.run!)
+    loop
+
+    # @!method execute
+    #   @abstract
+    #
+    #   Runs the business logic associated with the interaction. This method is
+    #     only run when there are no validation errors. The return value is
+    #     placed into {#result}. This method is run in a transaction if
+    #     ActiveRecord is available.
+    #
+    #   @raise (see ActiveInteraction::Runnable#execute)
+    loop
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
     #   on the filters in the class.
     #
     # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
-    #
-    # @since 0.6.0
     def inputs
-      self.class.filters.each_with_object({}) do |filter, h|
-        h[filter.name] = public_send(filter.name)
-      end
-    end
-
-    # Runs the business logic associated with the interaction. The method is
-    #   only run when there are no validation errors. The return value is
-    #   placed into {#result}. This method must be overridden in the subclass.
-    #   This method is run in a transaction if ActiveRecord is available.
-    #
-    # @raise [NotImplementedError] if the method is not defined.
-    #
-    # @abstract
-    def execute
-      fail NotImplementedError
-    end
-
-    # Returns the output from {#execute} if there are no validation errors or
-    #   `nil` otherwise.
-    #
-    # @return [Object, nil] the output or nil if there were validation errors
-    def result
-      @_interaction_result
-    end
-
-    # @private
-    def errors
-      @_interaction_errors
-    end
-
-    # @private
-    def valid?(*args)
-      super(*args) || (@_interaction_result = nil)
-    end
-
-    # Get all the filters defined on this interaction.
-    #
-    # @return [Filters]
-    #
-    # @since 0.6.0
-    def self.filters
-      @_interaction_filters ||= Filters.new
-    end
-
-    # Runs validations and if there are no errors it will call {#execute}.
-    #
-    # @param (see #initialize)
-    #
-    # @return [ActiveInteraction::Base] An instance of the class `run` is
-    #   called on.
-    def self.run(*args)
-      new(*args).tap do |interaction|
-        next if interaction.invalid?
-
-        result = transaction do
-          begin
-            interaction.execute
-          rescue Interrupt
-            # Inner interaction failed. #compose handles merging errors.
-          end
-        end
-
-        finish(interaction, result)
-      end
-    end
-
-    # @private
-    def self.method_missing(*args, &block)
-      super do |klass, names, options|
-        fail InvalidFilterError, 'missing attribute name' if names.empty?
-
-        names.each do |attribute|
-          fail InvalidFilterError, attribute.inspect if reserved?(attribute)
-
-          filter = klass.new(attribute, options, &block)
-          filters.add(filter)
-          attr_accessor filter.name
-
-          # This isn't required, but it makes invalid defaults raise errors on
-          #   class definition instead of on execution.
-          filter.default if filter.has_default?
-        end
+      self.class.filters.keys.each_with_object({}) do |name, h|
+        h[name] = public_send(name)
       end
     end
 
     private
 
+    # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
       inputs.each do |key, value|
-        fail InvalidValueError, key.inspect if self.class.reserved?(key)
+        fail InvalidValueError, key.inspect if self.class.send(:reserved?, key)
 
         instance_variable_set("@#{key}", value)
       end
 
-      self.class.filters.each do |filter|
+      self.class.filters.each do |name, filter|
         begin
-          public_send("#{filter.name}=", filter.clean(inputs[filter.name]))
+          public_send("#{name}=", filter.clean(inputs[name]))
         rescue InvalidValueError, MissingValueError
           # Validators (#input_errors) will add errors if appropriate.
         end
       end
     end
 
+    # @!group Validations
+
     def input_errors
       Validation.validate(self.class.filters, inputs).each do |error|
         errors.add_sym(*error)
       end
-    end
-
-    def runtime_errors
-      if @_interaction_runtime_errors
-        errors.merge!(@_interaction_runtime_errors)
-      end
-    end
-
-    def compose(interaction, inputs = {})
-      outcome = interaction.run(inputs)
-      return outcome.result if outcome.valid?
-
-      # This can't use Errors#merge! because the errors have to be added to
-      # base.
-      outcome.errors.full_messages.each do |message|
-        errors.add(:base, message) unless errors.added?(:base, message)
-      end
-
-      fail Interrupt
-    end
-
-    def self.inherited(klass)
-      new_filters = Filters.new
-      filters.each { |f| new_filters.add(f) }
-
-      klass.instance_variable_set(:@_interaction_filters, new_filters)
-    end
-
-    def self.finish(interaction, result)
-      if interaction.errors.empty?
-        interaction.instance_variable_set(
-          :@_interaction_result, result)
-      else
-        interaction.instance_variable_set(
-          :@_interaction_runtime_errors, interaction.errors.dup)
-      end
-    end
-
-    def self.reserved?(symbol)
-      symbol.to_s.start_with?('_interaction_')
     end
   end
 end

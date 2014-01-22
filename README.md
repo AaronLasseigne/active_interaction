@@ -1,10 +1,10 @@
-# ActiveInteraction
+# [ActiveInteraction][0]
 
-[![Gem Version][]][1]
-[![Build Status][]][2]
-[![Coverage Status][]][3]
-[![Code Climate][]][4]
-[![Dependency Status][]][5]
+[![Gem Version][1]][2]
+[![Build Status][3]][4]
+[![Coverage Status][5]][6]
+[![Code Climate][7]][8]
+[![Dependency Status][9]][10]
 
 At first it seemed alright. A little business logic in a controller
 or model wasn't going to hurt anything. Then one day you wake up
@@ -15,17 +15,17 @@ to this.
 Take back control. Slim down models and wrangle monstrous controller
 methods with ActiveInteraction.
 
-Read more on the [project page][] or check out the full [documentation][]
+Read more on the [project page][11] or check out the full [documentation][12]
 on RubyDoc.info.
 
 ## Installation
 
-This project uses [semantic versioning][].
+This project uses [semantic versioning][13].
 
 Add it to your Gemfile:
 
 ```ruby
-gem 'active_interaction', '~> 0.10.2'
+gem 'active_interaction', '~> 1.0'
 ```
 
 And then execute:
@@ -198,11 +198,9 @@ end
     end
     ```
 
-Check out the [documentation][] for a full list of methods.
+Check out the [documentation][12] for a full list of methods.
 
 ## How do I compose interactions?
-
-(Note: this feature is experimental. See [#41][] & [#79][].)
 
 You can run interactions from within other interactions by calling `compose`.
 If the interaction is successful, it'll return the result (just like if you had
@@ -278,26 +276,25 @@ p Interaction.run.errors.messages
 
 ## Credits
 
-ActiveInteraction is brought to you by [@AaronLasseigne][] and
-[@tfausak][] from [@orgsync][]. We were inspired by the fantastic
-work done in [Mutations][].
+ActiveInteraction is brought to you by [@AaronLasseigne][14] and
+[@tfausak][15] from [@orgsync][16]. We were inspired by the fantastic
+work done in [Mutations][17].
 
-  [#41]: https://github.com/orgsync/active_interaction/issues/41
-  [#79]: https://github.com/orgsync/active_interaction/issues/79
-  [1]: https://badge.fury.io/rb/active_interaction "Gem Version"
-  [2]: https://travis-ci.org/orgsync/active_interaction "Build Status"
-  [3]: https://coveralls.io/r/orgsync/active_interaction "Coverage Status"
-  [4]: https://codeclimate.com/github/orgsync/active_interaction "Code Climate"
-  [5]: https://gemnasium.com/orgsync/active_interaction "Dependency Status"
-  [@AaronLasseigne]: https://github.com/AaronLasseigne
-  [@orgsync]: https://github.com/orgsync
-  [@tfausak]: https://github.com/tfausak
-  [build status]: https://travis-ci.org/orgsync/active_interaction.png
-  [code climate]: https://codeclimate.com/github/orgsync/active_interaction.png
-  [coverage status]: https://coveralls.io/repos/orgsync/active_interaction/badge.png
-  [dependency status]: https://gemnasium.com/orgsync/active_interaction.png
-  [documentation]: http://rubydoc.info/github/orgsync/active_interaction
-  [gem version]: https://badge.fury.io/rb/active_interaction.png
-  [mutations]: https://github.com/cypriss/mutations
-  [project page]: http://orgsync.github.io/active_interaction/
-  [semantic versioning]: http://semver.org/spec/v2.0.0.html
+  [0]: https://github.com/orgsync/active_interaction
+  [1]: https://badge.fury.io/rb/active_interaction.png
+  [2]: https://badge.fury.io/rb/active_interaction "Gem Version"
+  [3]: https://travis-ci.org/orgsync/active_interaction.png
+  [4]: https://travis-ci.org/orgsync/active_interaction "Build Status"
+  [5]: https://coveralls.io/repos/orgsync/active_interaction/badge.png
+  [6]: https://coveralls.io/r/orgsync/active_interaction "Coverage Status"
+  [7]: https://codeclimate.com/github/orgsync/active_interaction.png
+  [8]: https://codeclimate.com/github/orgsync/active_interaction "Code Climate"
+  [9]: https://gemnasium.com/orgsync/active_interaction.png
+  [10]: https://gemnasium.com/orgsync/active_interaction "Dependency Status"
+  [11]: http://orgsync.github.io/active_interaction/
+  [12]: http://rubydoc.info/github/orgsync/active_interaction
+  [13]: http://semver.org/spec/v2.0.0.html
+  [14]: https://github.com/AaronLasseigne
+  [15]: https://github.com/tfausak
+  [16]: https://github.com/orgsync
+  [17]: https://github.com/cypriss/mutations

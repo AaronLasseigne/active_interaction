@@ -1,6 +1,9 @@
 # coding: utf-8
 
-# rubocop:disable Documentation
+#
 module ActiveInteraction
-  VERSION = Gem::Version.new('0.10.2')
+  # The version number.
+  #
+  # @return [Gem::Version]
+  ActiveInteraction::VERSION = Gem::Version.new('1.0.0')
 end

@@ -2,9 +2,44 @@
 
 require 'spec_helper'
 
-describe ActiveInteraction::MethodMissing do
-  let(:klass) { Class.new { include ActiveInteraction::MethodMissing } }
-  subject(:instance) { klass.new }
+describe ActiveInteraction::Missable do
+  include_context 'concerns', ActiveInteraction::Missable
+
+  describe '#respond_to?(slug, include_all = false)' do
+    context 'with invalid slug' do
+      let(:slug) { :slug }
+
+      it 'returns false' do
+        expect(instance.respond_to?(slug)).to be_false
+      end
+    end
+
+    context 'with valid slug' do
+      let(:slug) { :boolean }
+
+      it 'returns true' do
+        expect(instance.respond_to?(slug)).to be_true
+      end
+    end
+  end
+
+  describe '#method(sym)' do
+    context 'with invalid slug' do
+      let(:slug) { :slug }
+
+      it 'returns false' do
+        expect { instance.method(slug) }.to raise_error NameError
+      end
+    end
+
+    context 'with valid slug' do
+      let(:slug) { :boolean }
+
+      it 'returns true' do
+        expect(instance.method(slug)).to be_a Method
+      end
+    end
+  end
 
   describe '#method_missing' do
     context 'with invalid slug' do

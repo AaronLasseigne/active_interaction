@@ -1,10 +1,22 @@
 # coding: utf-8
 
 require 'spec_helper'
+require 'test/unit/assertions'
 
-describe ActiveInteraction::ActiveModel do
-  let(:klass) { Class.new { include ActiveInteraction::ActiveModel } }
-  subject(:instance) { klass.new }
+shared_examples_for 'ActiveModel' do
+  include ActiveModel::Lint::Tests
+  include Test::Unit::Assertions
+
+  let(:model) { subject }
+
+  ActiveModel::Lint::Tests.public_instance_methods
+    .grep(/\Atest/) { |m| example(m) { public_send(m) } }
+end
+
+describe ActiveInteraction::ActiveModelable do
+  include_context 'concerns', ActiveInteraction::ActiveModelable
+
+  it_behaves_like 'ActiveModel'
 
   describe '.i18n_scope' do
     it 'returns the scope' do

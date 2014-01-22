@@ -2,19 +2,16 @@
 
 module ActiveInteraction
   class Base
-    # Creates accessors for the attributes and ensures that values passed to
-    #   the attributes are Booleans. The strings `"1"` and `"true"`
-    #   (case-insensitive) are converted to `true` while the strings `"0"` and
-    #   `"false"` are converted to `false`.
+    # @!method self.boolean(*attributes, options = {})
+    #   Creates accessors for the attributes and ensures that values passed to
+    #     the attributes are Booleans. The strings `"1"` and `"true"`
+    #     (case-insensitive) are converted to `true` while the strings `"0"`
+    #     and `"false"` are converted to `false`.
     #
-    # @macro filter_method_params
+    #   @!macro filter_method_params
     #
-    # @example
-    #   boolean :subscribed
-    #
-    # @since 0.1.0
-    #
-    # @method self.boolean(*attributes, options = {})
+    #   @example
+    #     boolean :subscribed
   end
 
   # @private

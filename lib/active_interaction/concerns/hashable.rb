@@ -1,8 +1,12 @@
 # coding: utf-8
 
 module ActiveInteraction
+  # Allow `hash` to be overridden when given arguments and/or a block.
+  #
   # @private
-  module OverloadHash
+  module Hashable
+    extend ActiveSupport::Concern
+
     def hash(*args, &block)
       if args.empty? && !block_given?
         super

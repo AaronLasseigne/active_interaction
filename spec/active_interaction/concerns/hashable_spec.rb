@@ -2,9 +2,8 @@
 
 require 'spec_helper'
 
-describe ActiveInteraction::OverloadHash do
-  let(:klass) { Class.new { include ActiveInteraction::OverloadHash } }
-  subject(:instance) { klass.new }
+describe ActiveInteraction::Hashable do
+  include_context 'concerns', ActiveInteraction::Hashable
 
   describe '#hash(*args, &block)' do
     context 'with no arguments' do

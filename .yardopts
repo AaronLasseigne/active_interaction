@@ -1,7 +1,6 @@
 --markup-provider=rdoc
 --markup=markdown
 --no-private
---protected
 --readme=README.md
 -
 CHANGELOG.md

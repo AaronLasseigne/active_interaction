@@ -6,11 +6,11 @@ describe ActiveInteraction::Validation do
   describe '.validate(filters, inputs)' do
     let(:inputs) { {} }
     let(:filter) { ActiveInteraction::Filter.new(:name, {}) }
-    let(:filters) { ActiveInteraction::Filters.new.add(filter) }
+    let(:filters) { { filter.name => filter } }
     let(:result) { described_class.validate(filters, inputs) }
 
     context 'no filters are given' do
-      let(:filters) { ActiveInteraction::Filters.new }
+      let(:filters) { {} }
 
       it 'returns no errors' do
         expect(result).to eq []

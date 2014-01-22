@@ -5,14 +5,14 @@ require 'active_model'
 require 'active_interaction/version'
 require 'active_interaction/errors'
 
-require 'active_interaction/modules/active_model'
-require 'active_interaction/modules/core'
-require 'active_interaction/modules/method_missing'
-require 'active_interaction/modules/overload_hash'
+require 'active_interaction/concerns/active_modelable'
+require 'active_interaction/concerns/hashable'
+require 'active_interaction/concerns/missable'
+require 'active_interaction/concerns/runnable'
+
 require 'active_interaction/modules/validation'
 
 require 'active_interaction/filter'
-require 'active_interaction/filters'
 require 'active_interaction/filters/abstract_filter'
 require 'active_interaction/filters/abstract_date_time_filter'
 require 'active_interaction/filters/abstract_numeric_filter'
@@ -35,5 +35,12 @@ I18n.backend.load_translations(
   Dir[File.join(%w(lib active_interaction locale *.yml))]
 )
 
-# @since 0.1.0
+# Manage application specific business logic.
+#
+# @author Aaron Lasseigne <aaron.lasseigne@gmail.com>
+# @author Taylor Fausak <taylor@fausak.me>
+#
+# @since 1.0.0
+#
+# @version 1.0.0
 module ActiveInteraction end

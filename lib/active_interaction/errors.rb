@@ -1,63 +1,90 @@
 # coding: utf-8
 
-# rubocop:disable Documentation
+#
 module ActiveInteraction
   # Top-level error class. All other errors subclass this.
+  #
+  # @return [Class]
   Error = Class.new(StandardError)
 
   # Raised if a class name is invalid.
+  #
+  # @return [Class]
   InvalidClassError = Class.new(Error)
 
   # Raised if a default value is invalid.
+  #
+  # @return [Class]
   InvalidDefaultError = Class.new(Error)
 
   # Raised if a filter has an invalid definition.
+  #
+  # @return [Class]
   InvalidFilterError = Class.new(Error)
 
   # Raised if an interaction is invalid.
+  #
+  # @return [Class]
   InvalidInteractionError = Class.new(Error)
 
   # Raised if a user-supplied value is invalid.
+  #
+  # @return [Class]
   InvalidValueError = Class.new(Error)
 
   # Raised if a filter cannot be found.
+  #
+  # @return [Class]
   MissingFilterError = Class.new(Error)
 
   # Raised if no value is given.
+  #
+  # @return [Class]
   MissingValueError = Class.new(Error)
 
   # Raised if there is no default value.
+  #
+  # @return [Class]
   NoDefaultError = Class.new(Error)
 
+  # Used by {Runnable} to signal a failure when composing.
+  #
   # @private
-  Interrupt = Class.new(::Interrupt)
+  class Interrupt < Error
+    attr_reader :outcome
+
+    # @param outcome [Runnable]
+    def initialize(outcome)
+      super()
+
+      @outcome = outcome
+    end
+  end
   private_constant :Interrupt
 
-  # A small extension to provide symbolic error messages to make introspecting
+  # An extension that provides symbolic error messages to make introspection
   #   and testing easier.
-  #
-  # @since 0.6.0
   class Errors < ActiveModel::Errors
-    # A hash mapping attributes to arrays of symbolic messages.
+    # Maps attributes to arrays of symbolic messages.
     #
     # @return [Hash{Symbol => Array<Symbol>}]
     attr_reader :symbolic
 
     # Adds a symbolic error message to an attribute.
     #
-    # @param attribute [Symbol] The attribute to add an error to.
-    # @param symbol [Symbol] The symbolic error to add.
-    # @param message [String, Symbol, Proc]
-    # @param options [Hash]
-    #
-    # @example Adding a symbolic error.
+    # @example
     #   errors.add_sym(:attribute)
     #   errors.symbolic
     #   # => {:attribute=>[:invalid]}
     #   errors.messages
     #   # => {:attribute=>["is invalid"]}
     #
-    # @return [Hash{Symbol => Array<Symbol>}]
+    # @param attribute [Symbol] The attribute to add an error to.
+    # @param symbol [Symbol, nil] The symbolic error to add.
+    # @param message [String, Symbol, Proc, nil] The message to add.
+    # @param options [Hash]
+    #
+    # @return (see #symbolic)
     #
     # @see ActiveModel::Errors#add
     def add_sym(attribute, symbol = :invalid, message = nil, options = {})
@@ -67,21 +94,30 @@ module ActiveInteraction
       symbolic[attribute] << symbol
     end
 
+    # @see ActiveModel::Errors#initialize
+    #
     # @private
-    def initialize(*args)
+    def initialize(*)
       @symbolic = {}.with_indifferent_access
+
       super
     end
 
+    # @see ActiveModel::Errors#initialize_dup
+    #
     # @private
     def initialize_dup(other)
       @symbolic = other.symbolic.with_indifferent_access
+
       super
     end
 
+    # @see ActiveModel::Errors#clear
+    #
     # @private
     def clear
       symbolic.clear
+
       super
     end
 
