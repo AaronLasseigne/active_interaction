@@ -208,27 +208,26 @@ called it with `run!`). If something went wrong, execution will halt
 immediately and the errors will be moved onto the caller.
 
 ```ruby
-class DoSomeMath < ActiveInteraction::Base
-  integer :x, :y
+class AddThree < ActiveInteraction::Base
+  integer :x
   def execute
-    sum = compose(Add, inputs)
-    square = compose(Square, x: sum)
-    compose(Add, x: square, y: square)
+    compose(Add, x: x, y: 3)
   end
 end
-DoSomeMath.run!(x: 3, y: 5)
-# 128 => ((3 + 5) ** 2) * 2
+AddThree.run!(x: 5)
+# => 8
 ```
 
+To bring in filters from another interaction, use `import_filters`. Combined
+with `inputs`, delegating to another interaction is a piece of cake.
+
 ```ruby
-class AddThree < ActiveInteraction::Base
-  integer :y
+class AddAndDouble < ActiveInteraction::Base
+  import_filters Add
   def execute
-    compose(Add, x: 3, y: y)
+    compose(Add, inputs) * 2
   end
 end
-AddThree.run!(y: nil)
-# => ActiveInteraction::InvalidInteractionError: Y is required
 ```
 
 ## How do I translate an interaction?
