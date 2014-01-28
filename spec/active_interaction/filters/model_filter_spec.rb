@@ -19,6 +19,16 @@ describe ActiveInteraction::ModelFilter, :filter do
       it 'returns the instance' do
         expect(filter.cast(value)).to eq value
       end
+
+      it 'handles reconstantizing' do
+        expect(filter.cast(value)).to eq value
+
+        Object.send(:remove_const, :Model)
+        Model = Class.new
+        value = Model.new
+
+        expect(filter.cast(value)).to eq value
+      end
     end
 
     context 'with class as a superclass' do
