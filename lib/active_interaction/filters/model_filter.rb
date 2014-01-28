@@ -24,15 +24,15 @@ module ActiveInteraction
       constantize
     end
 
-    def cast(value)
+    def cast(value, reload = true)
       case value
       when @klass
         value
       else
-        return super if value.class.name != @klass.name
+        return super(value) if !reload || value.class.name != @klass.name
 
         constantize
-        cast(value)
+        cast(value, false)
       end
     end
 
