@@ -21,7 +21,7 @@ module ActiveInteraction
     def initialize(*)
       super
 
-      constantize
+      @klass = klass
     end
 
     def cast(value, reload = true)
@@ -31,19 +31,12 @@ module ActiveInteraction
       else
         return super(value) if !reload || value.class.name != @klass.name
 
-        constantize
+        @klass = klass
         cast(value, false)
       end
     end
 
     private
-
-    # @return (see #klass)
-    #
-    # @raise (see #klass)
-    def constantize
-      @klass = klass
-    end
 
     # @return [Class]
     #
