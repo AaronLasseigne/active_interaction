@@ -129,8 +129,8 @@ module ActiveInteraction
         except = options[:except]
 
         other_filters = klass.filters.dup
-        other_filters.select! { |k, _| only.include?(k) } if only
-        other_filters.reject! { |k, _| except.include?(k) } if except
+        other_filters.select! { |k, _| [*only].include?(k) } if only
+        other_filters.reject! { |k, _| [*except].include?(k) } if except
 
         filters.merge!(other_filters)
       end

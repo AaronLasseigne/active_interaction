@@ -409,8 +409,8 @@ describe ActiveInteraction::Base do
 
       it 'imports the filters' do
         expect(described_class.filters).to eq klass.filters
-          .select { |k, _| only.nil? ? true : only.include?(k) }
-          .reject { |k, _| except.nil? ? false : except.include?(k) }
+          .select { |k, _| only.nil? ? true : [*only].include?(k) }
+          .reject { |k, _| except.nil? ? false : [*except].include?(k) }
       end
 
       it 'does not modify the source' do
@@ -421,15 +421,31 @@ describe ActiveInteraction::Base do
     end
 
     context 'with :only' do
-      include_examples 'import_filters examples'
+      context 'as an Array' do
+        include_examples 'import_filters examples'
 
-      let(:only) { [:x] }
+        let(:only) { [:x] }
+      end
+
+      context 'as an Symbol' do
+        include_examples 'import_filters examples'
+
+        let(:only) { :x }
+      end
     end
 
     context 'with :except' do
-      include_examples 'import_filters examples'
+      context 'as an Array' do
+        include_examples 'import_filters examples'
 
-      let(:except) { [:x] }
+        let(:except) { [:x] }
+      end
+
+      context 'as an Symbol' do
+        include_examples 'import_filters examples'
+
+        let(:except) { :x }
+      end
     end
 
     context 'with :only & :except' do
