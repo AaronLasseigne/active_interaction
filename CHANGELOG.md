@@ -1,5 +1,7 @@
 # [Master][]
 
+- Speed up model filters by caching class constants.
+
 # [1.0.0][]
 
 - **Replace `Filters` with a hash.** To iterate over `Filter` objects, use
