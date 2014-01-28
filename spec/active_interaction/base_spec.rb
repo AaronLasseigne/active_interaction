@@ -433,14 +433,10 @@ describe ActiveInteraction::Base do
     end
 
     context 'with :only & :except' do
-      include_context 'import_filters context'
+      include_examples 'import_filters examples'
 
-      let(:only) { [] }
-      let(:except) { [] }
-
-      it 'raises an error' do
-        expect { described_class }.to raise_error ArgumentError
-      end
+      let(:only) { [:x] }
+      let(:except) { [:x] }
     end
   end
 end

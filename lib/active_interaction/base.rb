@@ -125,10 +125,6 @@ module ActiveInteraction
       #
       # @!visibility public
       def import_filters(klass, options = {})
-        if options.key?(:only) && options.key?(:except)
-          fail ArgumentError, 'given both :only and :except'
-        end
-
         only = options[:only]
         except = options[:except]
 
