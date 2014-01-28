@@ -21,6 +21,16 @@ describe ActiveInteraction::ModelFilter, :filter do
       end
     end
 
+    context 'with class as a superclass' do
+      before do
+        options.merge!(class: Model.superclass)
+      end
+
+      it 'returns the instance' do
+        expect(filter.cast(value)).to eq value
+      end
+    end
+
     context 'with class as a String' do
       before do
         options.merge!(class: Model.name)
