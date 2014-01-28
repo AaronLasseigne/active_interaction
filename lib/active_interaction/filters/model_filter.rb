@@ -18,16 +18,32 @@ module ActiveInteraction
 
   # @private
   class ModelFilter < Filter
+    def initialize(*)
+      super
+
+      constantize
+    end
+
     def cast(value)
       case value
-      when klass
+      when @klass
         value
       else
-        super
+        return super if value.class.name != @klass.name
+
+        constantize
+        cast(value)
       end
     end
 
     private
+
+    # @return (see #klass)
+    #
+    # @raise (see #klass)
+    def constantize
+      @klass = klass
+    end
 
     # @return [Class]
     #
