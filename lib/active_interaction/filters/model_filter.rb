@@ -24,12 +24,12 @@ module ActiveInteraction
       @klass = klass
     end
 
-    def cast(value, reload = true)
+    def cast(value, reconstantize = true)
       case value
       when @klass
         value
       else
-        return super(value) if !reload || value.class.name != @klass.name
+        return super(value) unless reconstantize
 
         @klass = klass
         cast(value, false)
