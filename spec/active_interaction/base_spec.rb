@@ -389,64 +389,70 @@ describe ActiveInteraction::Base do
   end
 
   describe '.import_filters' do
-    let(:described_class) do
-      Class.new(TestInteraction) do
-        import_filters AddInteraction
+    shared_context 'import_filters context' do
+      let(:klass) { AddInteraction }
+      let(:only) { nil }
+      let(:except) { nil }
+
+      let(:described_class) do
+        interaction = klass
+        options = {}
+        options[:only] = only unless only.nil?
+        options[:except] = except unless except.nil?
+
+        Class.new(TestInteraction) { import_filters interaction, options }
       end
     end
 
-    it 'imports the filters' do
-      expect(described_class.filters).to eq AddInteraction.filters
-    end
+    shared_examples 'import_filters examples' do
+      include_context 'import_filters context'
 
-    context 'with :only' do
-      let(:described_class) do
-        Class.new(TestInteraction) do
-          import_filters AddInteraction, only: [:x]
-        end
+      it 'imports the filters' do
+        expect(described_class.filters).to eq klass.filters
+          .select { |k, _| only.nil? ? true : [*only].include?(k) }
+          .reject { |k, _| except.nil? ? false : [*except].include?(k) }
       end
 
       it 'does not modify the source' do
-        filters = AddInteraction.filters.dup
+        filters = klass.filters.dup
         described_class
-        expect(AddInteraction.filters).to eq filters
+        expect(klass.filters).to eq filters
+      end
+    end
+
+    context 'with :only' do
+      context 'as an Array' do
+        include_examples 'import_filters examples'
+
+        let(:only) { [:x] }
       end
 
-      it 'imports the filters' do
-        expect(described_class.filters).to eq AddInteraction.filters
-          .select { |k, _| k == :x }
+      context 'as an Symbol' do
+        include_examples 'import_filters examples'
+
+        let(:only) { :x }
       end
     end
 
     context 'with :except' do
-      let(:described_class) do
-        Class.new(TestInteraction) do
-          import_filters AddInteraction, except: [:x]
-        end
+      context 'as an Array' do
+        include_examples 'import_filters examples'
+
+        let(:except) { [:x] }
       end
 
-      it 'does not modify the source' do
-        filters = AddInteraction.filters.dup
-        described_class
-        expect(AddInteraction.filters).to eq filters
-      end
+      context 'as an Symbol' do
+        include_examples 'import_filters examples'
 
-      it 'imports the filters' do
-        expect(described_class.filters).to eq AddInteraction.filters
-          .reject { |k, _| k == :x }
+        let(:except) { :x }
       end
     end
 
     context 'with :only & :except' do
-      let(:described_class) do
-        Class.new(TestInteraction) do
-          import_filters AddInteraction, only: nil, except: nil
-        end
-      end
+      include_examples 'import_filters examples'
 
-      it 'raises an error' do
-        expect { described_class }.to raise_error ArgumentError
-      end
+      let(:only) { [:x] }
+      let(:except) { [:x] }
     end
   end
 end

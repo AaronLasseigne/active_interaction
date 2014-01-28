@@ -1,5 +1,10 @@
 # [Master][]
 
+- Support `:only` and `:except` options simultaneously with `import_filters`.
+  Previously this raised an `ArgumentError`.
+- Support passing a single symbol to `:only` and `:except`. Previously an Array
+  was required.
+
 # [1.0.0][]
 
 - **Replace `Filters` with a hash.** To iterate over `Filter` objects, use
