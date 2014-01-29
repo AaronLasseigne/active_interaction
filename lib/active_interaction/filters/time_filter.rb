@@ -21,6 +21,9 @@ module ActiveInteraction
 
   # @private
   class TimeFilter < AbstractDateTimeFilter
+    alias_method :_klass, :klass
+    private :_klass
+
     def cast(value)
       case value
       when Numeric
@@ -41,7 +44,7 @@ module ActiveInteraction
     end
 
     def klasses
-      [Time, klass.at(0).class]
+      [_klass, klass.at(0).class]
     end
   end
 end
