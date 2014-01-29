@@ -26,9 +26,9 @@ module ActiveInteraction
 
     def convert(value)
       if format?
-        klass.strptime(value, format)
+        @klass.strptime(value, format)
       else
-        klass.parse(value)
+        @klass.parse(value)
       end
     rescue ArgumentError
       _cast(value)
@@ -46,7 +46,7 @@ module ActiveInteraction
 
     # @return [Array<Class>]
     def klasses
-      [klass]
+      [@klass]
     end
   end
 end

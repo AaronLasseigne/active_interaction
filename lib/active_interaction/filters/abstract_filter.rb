@@ -8,10 +8,6 @@ module ActiveInteraction
   #
   # @private
   class AbstractFilter < Filter
-    # @return [Class]
-    attr_reader :klass
-    private :klass
-
     def initialize(*)
       super
 
