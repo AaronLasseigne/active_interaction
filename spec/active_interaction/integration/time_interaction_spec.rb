@@ -71,6 +71,12 @@ describe TimeInteraction do
       it 'returns the correct value' do
         expect(result[:a]).to eq a
       end
+
+      it 'handles time zone changes' do
+        outcome
+        allow(Time).to receive(:zone).and_return(nil)
+        expect(outcome).to be_invalid
+      end
     end
   end
 end
