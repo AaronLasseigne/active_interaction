@@ -4,7 +4,7 @@
   Previously this raised an `ArgumentError`.
 - Support passing a single symbol to `:only` and `:except`. Previously an Array
   was required.
-- Speed up model filters by caching class constants.
+- Speed up many filters by caching class constants.
 
 # [1.0.0][]
 
