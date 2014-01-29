@@ -11,9 +11,15 @@ module ActiveInteraction
     alias_method :_cast, :cast
     private :_cast
 
+    def initialize(*)
+      super
+
+      @klasses = [@klass]
+    end
+
     def cast(value)
       case value
-      when *klasses
+      when *@klasses
         value
       when String
         convert(value)
@@ -42,11 +48,6 @@ module ActiveInteraction
     # @return [Boolean]
     def format?
       options.key?(:format)
-    end
-
-    # @return [Array<Class>]
-    def klasses
-      [@klass]
     end
   end
 end

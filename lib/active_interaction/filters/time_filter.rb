@@ -24,7 +24,10 @@ module ActiveInteraction
     def initialize(*)
       super
 
-      @klass = Time.zone if Time.respond_to?(:zone) && !Time.zone.nil?
+      if Time.respond_to?(:zone) && !Time.zone.nil?
+        @klass = Time.zone
+        @klasses << @klass.at(0).class
+      end
     end
 
     def cast(value)
@@ -34,12 +37,6 @@ module ActiveInteraction
       else
         super
       end
-    end
-
-    private
-
-    def klasses
-      [Time, @klass.at(0).class]
     end
   end
 end
