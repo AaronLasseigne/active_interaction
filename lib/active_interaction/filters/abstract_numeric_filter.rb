@@ -12,7 +12,7 @@ module ActiveInteraction
 
     def cast(value)
       case value
-      when klass
+      when @klass
         value
       when Numeric, String
         convert(value)
@@ -24,7 +24,7 @@ module ActiveInteraction
     private
 
     def convert(value)
-      Kernel.public_send(klass.name, value)
+      Kernel.public_send(@klass.name, value)
     rescue ArgumentError
       _cast(value)
     end

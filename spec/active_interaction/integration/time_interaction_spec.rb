@@ -24,16 +24,13 @@ TimeWithZone = Class.new do
   end
 end
 
-TimeInteraction = Class.new(TestInteraction) do
-  time :a
-end
-
-describe TimeInteraction do
+describe 'TimeInteraction' do
   include_context 'interactions'
   it_behaves_like 'an interaction', :time, -> { Time.now }
 
   context 'with a time zone' do
     let(:a) { nil }
+    let(:described_class) { Class.new(TestInteraction) { time :a } }
 
     before do
       inputs.merge!(a: a)

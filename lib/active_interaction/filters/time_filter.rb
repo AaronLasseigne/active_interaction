@@ -21,27 +21,22 @@ module ActiveInteraction
 
   # @private
   class TimeFilter < AbstractDateTimeFilter
+    def initialize(*)
+      super
+
+      if Time.respond_to?(:zone) && !Time.zone.nil?
+        @klass = Time.zone
+        @klasses << @klass.at(0).class
+      end
+    end
+
     def cast(value)
       case value
       when Numeric
-        klass.at(value)
+        @klass.at(value)
       else
         super
       end
-    end
-
-    private
-
-    def klass
-      if Time.respond_to?(:zone) && !Time.zone.nil?
-        Time.zone
-      else
-        super
-      end
-    end
-
-    def klasses
-      [Time, klass.at(0).class]
     end
   end
 end
