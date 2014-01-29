@@ -8,11 +8,17 @@ module ActiveInteraction
   #
   # @private
   class AbstractFilter < Filter
+    def initialize(*)
+      super
+
+      @klass = self.class.slug.to_s.camelize.constantize
+    end
+
     private
 
     # @return [Class]
     def klass
-      @klass ||= self.class.slug.to_s.camelize.constantize
+      @klass
     end
   end
 end
