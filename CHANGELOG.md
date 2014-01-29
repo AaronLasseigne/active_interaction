@@ -1,6 +1,6 @@
 # [Master][]
 
-# [1.0.0][]
+# [1.0.0][] (2014-01-21)
 
 - **Replace `Filters` with a hash.** To iterate over `Filter` objects, use
   `Interaction.filters.values`.
