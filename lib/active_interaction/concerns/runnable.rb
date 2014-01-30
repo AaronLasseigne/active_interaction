@@ -28,6 +28,8 @@ module ActiveInteraction
     include ActiveModel::Validations
 
     included do
+      define_callbacks :execute
+
       validate :runtime_errors
     end
 
@@ -92,7 +94,7 @@ module ActiveInteraction
 
       self.result = ActiveRecord::Base.transaction do
         begin
-          execute
+          run_callbacks(:execute) { execute }
         rescue Interrupt => interrupt
           interrupt.outcome.errors.full_messages.each do |message|
             errors.add(:base, message) unless errors.added?(:base, message)
