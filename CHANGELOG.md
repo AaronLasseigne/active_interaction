@@ -1,5 +1,7 @@
 # [Master][]
 
+- Add support for callbacks around `execute`.
+
 # [1.0.0][] (2014-01-21)
 
 - **Replace `Filters` with a hash.** To iterate over `Filter` objects, use
