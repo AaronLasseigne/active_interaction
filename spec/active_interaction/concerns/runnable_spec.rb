@@ -53,6 +53,39 @@ describe ActiveInteraction::Runnable do
     end
   end
 
+  context 'callbacks' do
+    describe '.set_callback' do
+      include_context 'with #execute defined'
+
+      shared_examples 'set_callback examples' do |name|
+        context name do
+          it 'does not raise an error' do
+            expect do
+              klass.set_callback name, :before, -> _ {}
+            end.to_not raise_error
+          end
+
+          [:after, :around, :before].each do |type|
+            it type do
+              has_run = false
+
+              klass.set_callback name, type, lambda { |_, &block|
+                has_run = true
+                block.call unless block.nil?
+              }
+
+              klass.run
+              expect(has_run).to be_true
+            end
+          end
+        end
+      end
+
+      include_examples 'set_callback examples', :validate
+      include_examples 'set_callback examples', :execute
+    end
+  end
+
   describe '#errors' do
     it 'returns the errors' do
       expect(instance.errors).to be_an ActiveInteraction::Errors
