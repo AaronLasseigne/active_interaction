@@ -162,6 +162,29 @@ describe ActiveInteraction::Runnable do
         end
       end
     end
+
+    context 'with invalid post-execution state' do
+      before do
+        klass.class_exec do
+          attr_accessor :attribute
+
+          validate { errors.add(:attribute) if attribute }
+
+          def execute
+            self.attribute = true
+          end
+        end
+      end
+
+      it 'is valid' do
+        expect(outcome).to be_valid
+      end
+
+      it 'stays valid' do
+        outcome.attribute = true
+        expect(outcome).to be_valid
+      end
+    end
   end
 
   describe '.run!' do
