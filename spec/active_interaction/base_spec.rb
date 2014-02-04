@@ -419,8 +419,14 @@ describe ActiveInteraction::Base do
         expect(klass.filters).to eq filters
       end
 
-      it 'does not raise an error' do
-        expect { described_class.run }.to_not raise_error
+      it 'responds to readers, writers, and predicates' do
+        instance = described_class.new
+
+        described_class.filters.keys.each do |name|
+          [name, "#{name}=", "#{name}?"].each do |method|
+            expect(instance).to respond_to method
+          end
+        end
       end
     end
 
