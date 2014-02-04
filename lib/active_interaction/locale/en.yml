@@ -15,6 +15,5 @@ en:
     errors:
       messages:
         invalid: is invalid
-        invalid_nested: is invalid
         invalid_type: is not a valid %{type}
         missing: is required

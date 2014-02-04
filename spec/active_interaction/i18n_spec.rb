@@ -75,7 +75,6 @@ describe I18nInteraction do
       I18n.backend.store_translations('hsilgne', active_interaction: {
         errors: { messages: {
           invalid: 'is invalid'.reverse,
-          invalid_nested: 'invalid_nested'.reverse,
           invalid_type: "%{type} #{'is not a valid'.reverse}",
           missing: 'missing'.reverse
         } },
