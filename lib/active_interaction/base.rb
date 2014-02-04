@@ -102,12 +102,7 @@ module ActiveInteraction
       def add_filter(klass, name, options, &block)
         fail InvalidFilterError, name.inspect if reserved?(name)
 
-        filter = klass.new(name, options, &block)
-        filters[name] = filter
-        attr_accessor name
-        define_method("#{name}?") { !public_send(name).nil? }
-
-        filter.default if filter.default?
+        initialize_filter(klass.new(name, options, &block))
       end
 
       # Import filters from another interaction.
@@ -142,6 +137,16 @@ module ActiveInteraction
       # @param klass [Class]
       def inherited(klass)
         klass.instance_variable_set(:@_interaction_filters, filters.dup)
+      end
+
+      # @param filter [Filter]
+      def initialize_filter(filter)
+        filters[filter.name] = filter
+
+        attr_accessor filter.name
+        define_method("#{filter.name}?") { !public_send(filter.name).nil? }
+
+        filter.default if filter.default?
       end
 
       # @param symbol [Symbol]
