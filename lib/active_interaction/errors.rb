@@ -127,7 +127,7 @@ module ActiveInteraction
     # @return [Errors]
     def merge!(other)
       other.symbolic.each do |attribute, symbols|
-        symbols.each { |s| add_sym(attribute, s) }
+        symbols.each { |s| symbolic[attribute] += [s] }
       end
 
       other.messages.each do |attribute, messages|
