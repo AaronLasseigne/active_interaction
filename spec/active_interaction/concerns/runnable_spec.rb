@@ -123,12 +123,6 @@ describe ActiveInteraction::Runnable do
       it 'returns false' do
         expect(instance).to_not be_valid
       end
-
-      it 'sets the result to nil' do
-        instance.result = result
-        instance.valid?
-        expect(instance.result).to be_nil
-      end
     end
   end
 
