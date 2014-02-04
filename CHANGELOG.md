@@ -1,5 +1,6 @@
 # [Master][]
 
+- Fix a bug that prevented merging interpolated symbolic errors.
 - Use `:invalid_type` instead of `:invalid` as I18n key for type errors.
 - Fix a bug that skipped setting up accessors for imported filters.
 
