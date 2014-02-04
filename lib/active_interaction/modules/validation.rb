@@ -12,7 +12,7 @@ module ActiveInteraction
         begin
           filter.cast(inputs[name])
         rescue InvalidValueError
-          errors << [name, :invalid, nil, type: type(filter)]
+          errors << [name, :invalid_type, nil, type: type(filter)]
         rescue MissingValueError
           errors << [name, :missing]
         end

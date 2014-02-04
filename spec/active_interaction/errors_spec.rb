@@ -10,7 +10,7 @@ describe ActiveInteraction::Errors do
       attr_reader :attribute
 
       def self.name
-        SecureRandom.hex
+        @name ||= SecureRandom.hex
       end
     end
   end
@@ -127,6 +127,22 @@ describe ActiveInteraction::Errors do
       it 'adds the error' do
         errors.merge!(other)
         expect(errors.symbolic[:attribute]).to eq [:invalid]
+      end
+    end
+
+    context 'with an interpolated symbolic error' do
+      before do
+        I18n.backend.store_translations('en', activemodel: {
+          errors: { models: { klass.name => { attributes: { attribute: {
+            invalid_type: 'is not a valid %{type}'
+          } } } } }
+        })
+
+        other.add_sym(:attribute, :invalid_type, type: nil)
+      end
+
+      it 'does not raise an error' do
+        expect { errors.merge!(other) }.to_not raise_error
       end
     end
   end

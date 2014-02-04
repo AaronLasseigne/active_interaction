@@ -123,12 +123,6 @@ describe ActiveInteraction::Runnable do
       it 'returns false' do
         expect(instance).to_not be_valid
       end
-
-      it 'sets the result to nil' do
-        instance.result = result
-        instance.valid?
-        expect(instance.result).to be_nil
-      end
     end
   end
 
@@ -160,6 +154,29 @@ describe ActiveInteraction::Runnable do
         it 'sets the result to nil' do
           expect(outcome.result).to be_nil
         end
+      end
+    end
+
+    context 'with invalid post-execution state' do
+      before do
+        klass.class_exec do
+          attr_accessor :attribute
+
+          validate { errors.add(:attribute) if attribute }
+
+          def execute
+            self.attribute = true
+          end
+        end
+      end
+
+      it 'is valid' do
+        expect(outcome).to be_valid
+      end
+
+      it 'stays valid' do
+        outcome.attribute = true
+        expect(outcome).to be_valid
       end
     end
   end

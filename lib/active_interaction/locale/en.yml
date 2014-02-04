@@ -14,6 +14,6 @@ en:
       time: time
     errors:
       messages:
-        invalid_nested: is invalid
-        invalid: is not a valid %{type}
+        invalid: is invalid
+        invalid_type: is not a valid %{type}
         missing: is required

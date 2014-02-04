@@ -38,6 +38,10 @@ module ActiveInteraction
       include Missable
 
       # @!method run(inputs = {})
+      #   @note If the interaction inputs are valid and there are no runtime
+      #     errors and execution completed successfully, {#valid?} will always
+      #     return true.
+      #
       #   Runs validations and if there are no errors it will call {#execute}.
       #
       #   @param (see ActiveInteraction::Base#initialize)
@@ -102,12 +106,7 @@ module ActiveInteraction
       def add_filter(klass, name, options, &block)
         fail InvalidFilterError, name.inspect if reserved?(name)
 
-        filter = klass.new(name, options, &block)
-        filters[name] = filter
-        attr_accessor name
-        define_method("#{name}?") { !public_send(name).nil? }
-
-        filter.default if filter.default?
+        initialize_filter(klass.new(name, options, &block))
       end
 
       # Import filters from another interaction.
@@ -130,12 +129,22 @@ module ActiveInteraction
         other_filters.select! { |k, _| [*only].include?(k) } if only
         other_filters.reject! { |k, _| [*except].include?(k) } if except
 
-        filters.merge!(other_filters)
+        other_filters.values.each { |filter| initialize_filter(filter) }
       end
 
       # @param klass [Class]
       def inherited(klass)
         klass.instance_variable_set(:@_interaction_filters, filters.dup)
+      end
+
+      # @param filter [Filter]
+      def initialize_filter(filter)
+        filters[filter.name] = filter
+
+        attr_accessor filter.name
+        define_method("#{filter.name}?") { !public_send(filter.name).nil? }
+
+        filter.default if filter.default?
       end
 
       # @param symbol [Symbol]
