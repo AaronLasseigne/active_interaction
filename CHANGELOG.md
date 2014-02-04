@@ -1,5 +1,9 @@
 # [Master][]
 
+- Fix a bug that prevented merging interpolated symbolic errors.
+- Use `:invalid_type` instead of `:invalid` as I18n key for type errors.
+- Fix a bug that skipped setting up accessors for imported filters.
+
 # [1.0.0][] (2014-01-21)
 
 - **Replace `Filters` with a hash.** To iterate over `Filter` objects, use

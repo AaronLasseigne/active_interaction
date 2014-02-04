@@ -418,6 +418,20 @@ describe ActiveInteraction::Base do
         described_class
         expect(klass.filters).to eq filters
       end
+
+      it 'responds to readers, writers, and predicates' do
+        instance = described_class.new
+
+        described_class.filters.keys.each do |name|
+          [name, "#{name}=", "#{name}?"].each do |method|
+            expect(instance).to respond_to method
+          end
+        end
+      end
+    end
+
+    context 'with neither :only nor :except' do
+      include_examples 'import_filters examples'
     end
 
     context 'with :only' do

@@ -39,30 +39,24 @@ describe I18nInteraction do
       let(:translation) { I18n.translate(key, type: type, raise: true) }
       let(:type) { I18n.translate("#{described_class.i18n_scope}.types.hash") }
 
-      context ':invalid' do
-        let(:key) { "#{described_class.i18n_scope}.errors.messages.invalid" }
+      shared_examples 'translations' do |key, value|
+        context key.inspect do
+          let(:key) { "#{described_class.i18n_scope}.errors.messages.#{key}" }
 
-        it 'has a translation' do
-          expect { translation }.to_not raise_error
-        end
+          before { inputs[:a] = value }
 
-        it 'returns the translation' do
-          inputs.merge!(a: Object.new)
-          expect(outcome.errors[:a]).to eq [translation]
-        end
-      end
+          it 'has a translation' do
+            expect { translation }.to_not raise_error
+          end
 
-      context ':missing' do
-        let(:key) { "#{described_class.i18n_scope}.errors.messages.missing" }
-
-        it 'has a translation' do
-          expect { translation }.to_not raise_error
-        end
-
-        it 'returns the translation' do
-          expect(outcome.errors[:a]).to eq [translation]
+          it 'returns the translation' do
+            expect(outcome.errors[:a]).to include translation
+          end
         end
       end
+
+      include_examples 'translations', :invalid_type, Object.new
+      include_examples 'translations', :missing, nil
     end
   end
 
@@ -80,8 +74,8 @@ describe I18nInteraction do
     before do
       I18n.backend.store_translations('hsilgne', active_interaction: {
         errors: { messages: {
-          invalid: "%{type} #{'invalid'.reverse}",
-          invalid_nested: 'invalid_nested'.reverse,
+          invalid: 'is invalid'.reverse,
+          invalid_type: "%{type} #{'is not a valid'.reverse}",
           missing: 'missing'.reverse
         } },
         types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }

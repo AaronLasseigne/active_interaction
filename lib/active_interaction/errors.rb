@@ -90,15 +90,14 @@ module ActiveInteraction
     def add_sym(attribute, symbol = :invalid, message = nil, options = {})
       add(attribute, message || symbol, options)
 
-      symbolic[attribute] ||= []
-      symbolic[attribute] << symbol
+      symbolic[attribute] += [symbol]
     end
 
     # @see ActiveModel::Errors#initialize
     #
     # @private
     def initialize(*)
-      @symbolic = {}.with_indifferent_access
+      @symbolic = Hash.new([]).with_indifferent_access
 
       super
     end
@@ -128,7 +127,7 @@ module ActiveInteraction
     # @return [Errors]
     def merge!(other)
       other.symbolic.each do |attribute, symbols|
-        symbols.each { |s| add_sym(attribute, s) }
+        symbols.each { |s| symbolic[attribute] += [s] }
       end
 
       other.messages.each do |attribute, messages|

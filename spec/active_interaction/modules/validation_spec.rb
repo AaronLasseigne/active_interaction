@@ -38,18 +38,18 @@ describe ActiveInteraction::Validation do
         let(:exception) { ActiveInteraction::InvalidValueError }
         let(:filter) { ActiveInteraction::FloatFilter.new(:name, {}) }
 
-        it 'returns an :invalid_nested error' do
+        it 'returns an :invalid_type error' do
           type = I18n.translate(
             "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}")
 
-          expect(result).to eq [[filter.name, :invalid, nil, type: type]]
+          expect(result).to eq [[filter.name, :invalid_type, nil, type: type]]
         end
       end
 
       context 'MissingValueError' do
         let(:exception) { ActiveInteraction::MissingValueError }
 
-        it 'returns an :invalid_nested error' do
+        it 'returns an :msising error' do
           expect(result).to eq [[filter.name, :missing]]
         end
       end

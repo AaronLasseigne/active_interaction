@@ -257,7 +257,7 @@ hsilgne:
     errors:
       messages:
         invalid: dilavni si
-        invalid_nested: '%{type} dilav a ton si'
+        invalid_type: '%{type} dilav a ton si'
         missing: deriuqer si
 ```
 
