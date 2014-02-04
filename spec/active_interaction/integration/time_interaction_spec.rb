@@ -75,7 +75,7 @@ describe TimeInteraction do
       it 'handles time zone changes' do
         outcome
         allow(Time).to receive(:zone).and_return(nil)
-        expect(outcome).to be_invalid
+        expect(described_class.run(inputs)).to be_invalid
       end
     end
   end
