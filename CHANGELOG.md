@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.0.1][] (2014-02-04)
+
 - Short circuit `valid?` after successfully running an interaction.
 - Fix a bug that prevented merging interpolated symbolic errors.
 - Use `:invalid_type` instead of `:invalid` as I18n key for type errors.
@@ -123,7 +125,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.1...master
+  [1.0.0]: https://github.com/orgsync/active_interaction/compare/v1.0.0...v1.0.1
   [1.0.0]: https://github.com/orgsync/active_interaction/compare/v0.10.2...v1.0.0
   [0.10.2]: https://github.com/orgsync/active_interaction/compare/v0.10.1...v0.10.2
   [0.10.1]: https://github.com/orgsync/active_interaction/compare/v0.10.0...v0.10.1
