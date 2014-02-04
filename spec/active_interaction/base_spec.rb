@@ -420,6 +420,10 @@ describe ActiveInteraction::Base do
       end
     end
 
+    context 'with neither :only nor :except' do
+      include_examples 'import_filters examples'
+    end
+
     context 'with :only' do
       include_examples 'import_filters examples'
 
