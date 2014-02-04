@@ -38,6 +38,10 @@ module ActiveInteraction
       include Missable
 
       # @!method run(inputs = {})
+      #   @note If the interaction inputs are valid and there are no runtime
+      #     errors and execution completed successfully, {#valid?} will always
+      #     return true.
+      #
       #   Runs validations and if there are no errors it will call {#execute}.
       #
       #   @param (see ActiveInteraction::Base#initialize)
