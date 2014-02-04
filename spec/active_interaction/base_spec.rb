@@ -418,6 +418,10 @@ describe ActiveInteraction::Base do
         described_class
         expect(klass.filters).to eq filters
       end
+
+      it 'does not raise an error' do
+        expect { described_class.run }.to_not raise_error
+      end
     end
 
     context 'with neither :only nor :except' do

@@ -131,7 +131,7 @@ module ActiveInteraction
         other_filters.select! { |k, _| only.include?(k) } if only
         other_filters.reject! { |k, _| except.include?(k) } if except
 
-        filters.merge!(other_filters)
+        other_filters.values.each { |filter| initialize_filter(filter) }
       end
 
       # @param klass [Class]
