@@ -1,5 +1,7 @@
 # [Master][]
 
+- Fix a bug that skipped setting up accessors for imported filters.
+
 # [1.0.0][] (2014-01-21)
 
 - **Replace `Filters` with a hash.** To iterate over `Filter` objects, use
