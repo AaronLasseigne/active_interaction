@@ -66,11 +66,11 @@ module ActiveInteraction
 
     # @return [Boolean]
     def valid?(*)
-      unless instance_variable_defined?(:@_interaction_valid)
-        @_interaction_valid = false
+      if instance_variable_defined?(:@_interaction_valid)
+        return @_interaction_valid
       end
 
-      @_interaction_valid || super || (self.result = nil)
+      super || (self.result = nil)
     end
 
     private
