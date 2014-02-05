@@ -64,7 +64,7 @@ module ActiveInteraction
         return @_interaction_valid
       end
 
-      super || (self.result = nil)
+      super
     end
 
     private

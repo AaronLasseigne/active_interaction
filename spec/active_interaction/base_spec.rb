@@ -192,24 +192,6 @@ describe ActiveInteraction::Base do
         expect(outcome).to be_a described_class
       end
 
-      context 'setting the result' do
-        let(:described_class) do
-          Class.new(TestInteraction) do
-            boolean :attribute
-
-            validate do
-              @_interaction_result = SecureRandom.hex
-              errors.add(:attribute, SecureRandom.hex)
-            end
-          end
-        end
-
-        it 'sets the result to nil' do
-          expect(outcome).to be_invalid
-          expect(result).to be_nil
-        end
-      end
-
       context 'failing validations' do
         it 'returns an invalid outcome' do
           expect(outcome).to_not be_valid
