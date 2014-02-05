@@ -1,5 +1,7 @@
 # [Master][]
 
+- Stop creating duplicate errors on subsequent calls to `valid?`.
+
 # [1.0.1][] (2014-02-04)
 
 - Short circuit `valid?` after successfully running an interaction.
