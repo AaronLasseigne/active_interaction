@@ -126,8 +126,7 @@ describe ActiveInteraction::Runnable do
 
       it 'does not duplicate errors on subsequent calls' do
         instance.valid?
-        instance.valid?
-        expect(instance.errors).to have(1).error
+        expect { instance.valid? }.to_not change { instance.errors.count }.by 1
       end
     end
   end
