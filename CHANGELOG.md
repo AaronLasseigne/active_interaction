@@ -5,6 +5,7 @@
 - Support passing a single symbol to `:only` and `:except`. Previously an Array
   was required.
 - Speed up many filters by caching class constants.
+- Stop creating duplicate errors on subsequent calls to `valid?`.
 
 # [1.0.1][] (2014-02-04)
 
@@ -132,7 +133,7 @@
 - Initial release.
 
   [master]: https://github.com/orgsync/active_interaction/compare/v1.0.1...master
-  [1.0.0]: https://github.com/orgsync/active_interaction/compare/v1.0.0...v1.0.1
+  [1.0.1]: https://github.com/orgsync/active_interaction/compare/v1.0.0...v1.0.1
   [1.0.0]: https://github.com/orgsync/active_interaction/compare/v0.10.2...v1.0.0
   [0.10.2]: https://github.com/orgsync/active_interaction/compare/v0.10.1...v0.10.2
   [0.10.1]: https://github.com/orgsync/active_interaction/compare/v0.10.0...v0.10.1

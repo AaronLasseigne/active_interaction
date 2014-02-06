@@ -123,6 +123,11 @@ describe ActiveInteraction::Runnable do
       it 'returns false' do
         expect(instance).to_not be_valid
       end
+
+      it 'does not duplicate errors on subsequent calls' do
+        instance.valid?
+        expect { instance.valid? }.to_not change { instance.errors.count }.by 1
+      end
     end
   end
 

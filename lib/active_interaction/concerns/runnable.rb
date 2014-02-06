@@ -27,10 +27,6 @@ module ActiveInteraction
     extend ActiveSupport::Concern
     include ActiveModel::Validations
 
-    included do
-      validate :runtime_errors
-    end
-
     # @return [Errors]
     def errors
       @_interaction_errors
@@ -55,22 +51,20 @@ module ActiveInteraction
     def result=(result)
       if errors.empty?
         @_interaction_result = result
-        @_interaction_runtime_errors = nil
         @_interaction_valid = true
       else
         @_interaction_result = nil
-        @_interaction_runtime_errors = errors.dup
         @_interaction_valid = false
       end
     end
 
     # @return [Boolean]
     def valid?(*)
-      unless instance_variable_defined?(:@_interaction_valid)
-        @_interaction_valid = false
+      if instance_variable_defined?(:@_interaction_valid)
+        return @_interaction_valid
       end
 
-      @_interaction_valid || super || (self.result = nil)
+      super
     end
 
     private
@@ -120,22 +114,13 @@ module ActiveInteraction
       end
     end
 
-    # @!group Validations
-
-    def runtime_errors
-      if @_interaction_runtime_errors
-        errors.merge!(@_interaction_runtime_errors)
-      end
-    end
-
     #
     module ClassMethods
       def new(*)
         super.tap do |instance|
           {
             :@_interaction_errors => Errors.new(instance),
-            :@_interaction_result => nil,
-            :@_interaction_runtime_errors => nil
+            :@_interaction_result => nil
           }.each do |symbol, obj|
             instance.instance_variable_set(symbol, obj)
           end
