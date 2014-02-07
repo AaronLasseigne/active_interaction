@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # Usage: bundle exec ruby benchmarks/filters.rb
 
 # TODO: Benchmark errors.
