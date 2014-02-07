@@ -6,6 +6,7 @@
   was required.
 - Speed up many filters by caching class constants.
 - Stop creating duplicate errors on subsequent calls to `valid?`.
+- Add support for callbacks around `execute`.
 
 # [1.0.1][] (2014-02-04)
 
