@@ -1,12 +1,16 @@
+before_install: gem update bundler
 language: ruby
+notifications:
+  email: false
+  hipchat:
+  - secure: 'UXiSnDlm3hzEIzImCMtHriu1w9T8ZQi27WR0DxiA18OZ1swyHcRaFvOR/WGn
+
+      Q3JHLQ42o2utpc4IiMiKmD/2GIu5nququXqRYHF65Urrqrf1ymcGWlas5G6C
+
+      ivR5nEELqEsDgDZAcKGJtRgp70d6Geg5iFUfV9aP1ySy2U0AXBM='
 rvm:
 - 2.1.0
 - 2.0.0
 - 1.9.3
 - jruby
 - rbx
-before_install: gem update bundler
-notifications:
-  email: false
-  hipchat:
-  - secure: "UXiSnDlm3hzEIzImCMtHriu1w9T8ZQi27WR0DxiA18OZ1swyHcRaFvOR/WGn\nQ3JHLQ42o2utpc4IiMiKmD/2GIu5nququXqRYHF65Urrqrf1ymcGWlas5G6C\nivR5nEELqEsDgDZAcKGJtRgp70d6Geg5iFUfV9aP1ySy2U0AXBM="

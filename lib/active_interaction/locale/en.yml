@@ -1,5 +1,10 @@
 en:
   active_interaction:
+    errors:
+      messages:
+        invalid: is invalid
+        invalid_type: is not a valid %{type}
+        missing: is required
     types:
       array: array
       boolean: boolean
@@ -12,8 +17,3 @@ en:
       model: model
       string: string
       time: time
-    errors:
-      messages:
-        invalid: is invalid
-        invalid_type: is not a valid %{type}
-        missing: is required
