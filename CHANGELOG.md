@@ -1,5 +1,7 @@
 # [Master][]
 
+- Fix bug that prevented loading I18n translations.
+
 # [1.0.2][] (2014-02-07)
 
 - Stop creating duplicate errors on subsequent calls to `valid?`.

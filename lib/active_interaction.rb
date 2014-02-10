@@ -31,9 +31,8 @@ require 'active_interaction/filters/time_filter'
 
 require 'active_interaction/base'
 
-I18n.backend.load_translations(
-  Dir[File.join(%w(lib active_interaction locale *.yml))]
-)
+I18n.load_path << File.expand_path(
+  File.join(%w(active_interaction locale en.yml)), File.dirname(__FILE__))
 
 # Manage application specific business logic.
 #
