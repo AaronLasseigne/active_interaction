@@ -41,5 +41,5 @@ I18n.load_path << File.expand_path(
 #
 # @since 1.0.0
 #
-# @version 1.0.2
+# @version 1.0.3
 module ActiveInteraction end
