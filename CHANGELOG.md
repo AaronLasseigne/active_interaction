@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.0.4][] (2014-02-11)
+
 - Add translations to the gem specification.
 
 # [1.0.3][] (2014-02-11)
@@ -137,7 +139,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.3...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.4...master
+  [1.0.4]: https://github.com/orgsync/active_interaction/compare/v1.0.3...v1.0.4
   [1.0.3]: https://github.com/orgsync/active_interaction/compare/v1.0.2...v1.0.3
   [1.0.2]: https://github.com/orgsync/active_interaction/compare/v1.0.1...v1.0.2
   [1.0.1]: https://github.com/orgsync/active_interaction/compare/v1.0.0...v1.0.1
