@@ -4,7 +4,7 @@
 
 - Add translations to the gem specification.
 
-# [1.0.3][] (2014-02-11)
+# ~~[1.0.3][] (2014-02-11)~~
 
 - Fix a bug that caused invalid strings to be parsed as `nil` instead of
   raising an error when `Time.zone` was set.
@@ -74,7 +74,7 @@
 
 - Re-release. Forgot to merge into master.
 
-# [0.6.0][] (2013-11-14)
+# ~~[0.6.0][] (2013-11-14)~~
 
 - **Error class now end with `Error`.**
 - **By default, strip unlisted keys from hashes. To retain the old behavior,
@@ -135,7 +135,7 @@
 
 - Correct gemspec dependencies on activemodel.
 
-# [0.1.0][] (2013-07-12)
+# ~~[0.1.0][] (2013-07-12)~~
 
 - Initial release.
 
