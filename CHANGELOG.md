@@ -1,5 +1,7 @@
 # [Master][]
 
+- Add translations to the gem specification.
+
 # [1.0.3][] (2014-02-11)
 
 - Fix a bug that caused invalid strings to be parsed as `nil` instead of
