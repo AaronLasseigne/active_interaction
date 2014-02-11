@@ -1,5 +1,7 @@
 # [Master][]
 
+- Fix a bug that caused invalid strings to be parsed as `nil` instead of
+  raising an error when `Time.zone` was set.
 - Fix bug that prevented loading I18n translations.
 
 # [1.0.2][] (2014-02-07)
