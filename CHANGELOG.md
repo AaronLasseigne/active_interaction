@@ -7,6 +7,16 @@
 - Speed up many filters by caching class constants.
 - Add support for callbacks around `execute`.
 
+# [1.0.4][] (2014-02-11)
+
+- Add translations to the gem specification.
+
+# ~~[1.0.3][] (2014-02-11)~~
+
+- Fix a bug that caused invalid strings to be parsed as `nil` instead of
+  raising an error when `Time.zone` was set.
+- Fix bug that prevented loading I18n translations.
+
 # [1.0.2][] (2014-02-07)
 
 - Stop creating duplicate errors on subsequent calls to `valid?`.
@@ -71,7 +81,7 @@
 
 - Re-release. Forgot to merge into master.
 
-# [0.6.0][] (2013-11-14)
+# ~~[0.6.0][] (2013-11-14)~~
 
 - **Error class now end with `Error`.**
 - **By default, strip unlisted keys from hashes. To retain the old behavior,
@@ -132,11 +142,13 @@
 
 - Correct gemspec dependencies on activemodel.
 
-# [0.1.0][] (2013-07-12)
+# ~~[0.1.0][] (2013-07-12)~~
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.2...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.4...master
+  [1.0.4]: https://github.com/orgsync/active_interaction/compare/v1.0.3...v1.0.4
+  [1.0.3]: https://github.com/orgsync/active_interaction/compare/v1.0.2...v1.0.3
   [1.0.2]: https://github.com/orgsync/active_interaction/compare/v1.0.1...v1.0.2
   [1.0.1]: https://github.com/orgsync/active_interaction/compare/v1.0.0...v1.0.1
   [1.0.0]: https://github.com/orgsync/active_interaction/compare/v0.10.2...v1.0.0

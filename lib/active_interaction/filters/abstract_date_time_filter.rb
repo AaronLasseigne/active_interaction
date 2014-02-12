@@ -28,7 +28,8 @@ module ActiveInteraction
       if format?
         klass.strptime(value, format)
       else
-        klass.parse(value)
+        klass.parse(value) ||
+          (fail ArgumentError, "no time information in #{value.inspect}")
       end
     rescue ArgumentError
       _cast(value)

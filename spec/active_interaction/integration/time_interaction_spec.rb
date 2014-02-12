@@ -9,6 +9,7 @@ TimeZone = Class.new do
 
   def self.parse(*args)
     TimeWithZone.new(Time.parse(*args))
+  rescue ArgumentError
   end
 end
 
@@ -54,6 +55,14 @@ describe TimeInteraction do
 
       it 'returns the correct value' do
         expect(result[:a]).to eq TimeZone.parse(a)
+      end
+    end
+
+    context 'with an invalid String' do
+      let(:a) { 'invalid' }
+
+      it 'is invalid' do
+        expect(outcome).to be_invalid
       end
     end
 

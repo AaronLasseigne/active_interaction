@@ -1,12 +1,9 @@
-AllCops:
-  Excludes:
-    - tmp/*
-
 AlignParameters:
   Enabled: false
-
+AllCops:
+  Excludes:
+  - tmp/*
 HandleExceptions:
   Enabled: false
-
 TrivialAccessors:
   ExactNameMatch: true

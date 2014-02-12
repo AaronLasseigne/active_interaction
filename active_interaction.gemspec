@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
     CHANGELOG.md
     LICENSE.txt
     README.md
-  )
+  ) + Dir['lib/active_interaction/locale/**/*.yml']
 
   # Dependencies
   spec.required_ruby_version = '>= 1.9.3'
