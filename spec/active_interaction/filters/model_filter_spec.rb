@@ -29,6 +29,29 @@ describe ActiveInteraction::ModelFilter, :filter do
 
         expect(filter.cast(value)).to eq value
       end
+
+      it 'handles reconstantizing subclasses' do
+        filter
+
+        Object.send(:remove_const, :Model)
+        Model = Class.new
+        Submodel = Class.new(Model)
+        value = Submodel.new
+
+        expect(filter.cast(value)).to eq value
+      end
+
+      it 'does not overflow the stack' do
+        klass = Class.new do
+          def self.name
+            Model.name
+          end
+        end
+
+        expect do
+          filter.cast(klass.new)
+        end.to raise_error ActiveInteraction::InvalidValueError
+      end
     end
 
     context 'with class as a superclass' do

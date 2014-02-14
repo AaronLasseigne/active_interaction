@@ -120,20 +120,14 @@ module ActiveInteraction
       #
       # @return (see .filters)
       #
-      # @raise [ArgumentError] If both `:only` and `:except` are given.
-      #
       # @!visibility public
       def import_filters(klass, options = {})
-        if options.key?(:only) && options.key?(:except)
-          fail ArgumentError, 'given both :only and :except'
-        end
-
         only = options[:only]
         except = options[:except]
 
         other_filters = klass.filters.dup
-        other_filters.select! { |k, _| only.include?(k) } if only
-        other_filters.reject! { |k, _| except.include?(k) } if except
+        other_filters.select! { |k, _| [*only].include?(k) } if only
+        other_filters.reject! { |k, _| [*except].include?(k) } if except
 
         other_filters.values.each { |filter| initialize_filter(filter) }
       end
@@ -206,7 +200,7 @@ module ActiveInteraction
       inputs.each do |key, value|
         fail InvalidValueError, key.inspect if self.class.send(:reserved?, key)
 
-        instance_variable_set("@#{key}", value)
+        instance_variable_set("@#{key}", value) if respond_to?(key)
       end
 
       self.class.filters.each do |name, filter|

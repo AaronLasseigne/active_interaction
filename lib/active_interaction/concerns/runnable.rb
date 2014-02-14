@@ -27,6 +27,10 @@ module ActiveInteraction
     extend ActiveSupport::Concern
     include ActiveModel::Validations
 
+    included do
+      define_callbacks :execute
+    end
+
     # @return [Errors]
     def errors
       @_interaction_errors
@@ -92,7 +96,7 @@ module ActiveInteraction
 
       self.result = ActiveRecord::Base.transaction do
         begin
-          execute
+          run_callbacks(:execute) { execute }
         rescue Interrupt => interrupt
           interrupt.outcome.errors.full_messages.each do |message|
             errors.add(:base, message) unless errors.added?(:base, message)

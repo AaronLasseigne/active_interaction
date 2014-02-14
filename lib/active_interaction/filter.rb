@@ -49,9 +49,7 @@ module ActiveInteraction
       #
       # @see .slug
       def factory(slug)
-        CLASSES.fetch(slug)
-      rescue KeyError
-        raise MissingFilterError, slug.inspect
+        CLASSES.fetch(slug) { fail MissingFilterError, slug.inspect }
       end
 
       # Convert the class name into a short symbol.

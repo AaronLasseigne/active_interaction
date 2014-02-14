@@ -1,5 +1,12 @@
 # [Master][]
 
+- Support `:only` and `:except` options simultaneously with `import_filters`.
+  Previously this raised an `ArgumentError`.
+- Support passing a single symbol to `:only` and `:except`. Previously an Array
+  was required.
+- Speed up many filters by caching class constants.
+- Add support for callbacks around `execute`.
+
 # [1.0.4][] (2014-02-11)
 
 - Add translations to the gem specification.
