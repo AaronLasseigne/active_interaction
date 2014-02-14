@@ -64,6 +64,12 @@ describe ActiveInteraction::Base do
       end
       let(:thing) { SecureRandom.hex }
 
+      before { inputs.merge!(thing: thing) }
+
+      it 'sets the attribute' do
+        expect(interaction.thing).to eq thing
+      end
+
       context 'failing validations' do
         before { inputs.merge!(thing: nil) }
 
@@ -73,14 +79,8 @@ describe ActiveInteraction::Base do
       end
 
       context 'passing validations' do
-        before { inputs.merge!(thing: thing) }
-
         it 'returns a valid outcome' do
           expect(interaction).to be_valid
-        end
-
-        it 'sets the attribute' do
-          expect(interaction.thing).to eq thing
         end
       end
     end
