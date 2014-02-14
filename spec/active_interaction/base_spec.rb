@@ -54,7 +54,7 @@ describe ActiveInteraction::Base do
       end
     end
 
-    context 'with an attribute' do
+    context 'with a reader' do
       let(:described_class) do
         Class.new(TestInteraction) do
           attr_reader :thing
