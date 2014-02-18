@@ -144,7 +144,9 @@ module ActiveInteraction
     def default
       fail NoDefaultError, name unless default?
 
-      cast(options[:default])
+      value = options.fetch(:default)
+      value = value.call if value.is_a?(Proc)
+      cast(value)
     rescue InvalidValueError, MissingValueError
       raise InvalidDefaultError, "#{name}: #{options[:default].inspect}"
     end
