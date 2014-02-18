@@ -200,7 +200,7 @@ module ActiveInteraction
       inputs.each do |key, value|
         fail InvalidValueError, key.inspect if self.class.send(:reserved?, key)
 
-        instance_variable_set("@#{key}", value)
+        instance_variable_set("@#{key}", value) if respond_to?(key)
       end
 
       self.class.filters.each do |name, filter|
