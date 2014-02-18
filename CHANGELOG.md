@@ -1,5 +1,6 @@
 # [Master][]
 
+- Only set instance variables for attributes with readers defined.
 - Support `:only` and `:except` options simultaneously with `import_filters`.
   Previously this raised an `ArgumentError`.
 - Support passing a single symbol to `:only` and `:except`. Previously an Array
