@@ -13,7 +13,7 @@ describe ActiveRecord::Base do
         described_class.transaction do
           fail ActiveRecord::Rollback
         end
-      end.to_not raise_error ActiveRecord::Rollback
+      end.to_not raise_error
     end
 
     context 'with a block' do
