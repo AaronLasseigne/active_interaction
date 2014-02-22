@@ -3,8 +3,8 @@
 begin
   require 'active_record'
 rescue LoadError
+  # rubocop:disable Documentation
   module ActiveRecord
-    #
     class Base
       def self.transaction(*)
         yield
