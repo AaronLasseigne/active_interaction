@@ -5,9 +5,13 @@ begin
 rescue LoadError
   # rubocop:disable Documentation
   module ActiveRecord
+    Rollback = Class.new(ActiveInteraction::Error)
+
     class Base
       def self.transaction(*)
         yield
+      rescue Rollback
+        # rollbacks are silently swallowed
       end
     end
   end

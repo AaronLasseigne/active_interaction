@@ -8,6 +8,14 @@ describe ActiveRecord::Base do
       expect { described_class.transaction }.to raise_error LocalJumpError
     end
 
+    it 'silently rescues ActiveRecord::Rollback' do
+      expect do
+        described_class.transaction do
+          fail ActiveRecord::Rollback
+        end
+      end.to_not raise_error ActiveRecord::Rollback
+    end
+
     context 'with a block' do
       it 'yields to the block' do
         expect { |b| described_class.transaction(&b) }.to yield_with_no_args
