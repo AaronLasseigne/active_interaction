@@ -148,7 +148,7 @@ module ActiveInteraction
       value = value.call if value.is_a?(Proc)
       cast(value)
     rescue InvalidValueError, MissingValueError
-      raise InvalidDefaultError, "#{name}: #{options[:default].inspect}"
+      raise InvalidDefaultError, "#{name}: #{value.inspect}"
     end
 
     # Get the description.
