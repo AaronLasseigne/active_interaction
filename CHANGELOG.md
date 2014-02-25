@@ -1,5 +1,7 @@
 # [Master][]
 
+- Rollback database changes when `compose` fails.
+
 # [1.0.4][] (2014-02-11)
 
 - Add translations to the gem specification.
