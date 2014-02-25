@@ -98,10 +98,16 @@ module ActiveInteraction
         begin
           execute
         rescue Interrupt => interrupt
-          interrupt.outcome.errors.full_messages.each do |message|
-            errors.add(:base, message) unless errors.added?(:base, message)
-          end
+          merge_errors_onto_base(interrupt.outcome.errors)
+
+          raise ActiveRecord::Rollback
         end
+      end
+    end
+
+    def merge_errors_onto_base(new_errors)
+      new_errors.full_messages.each do |message|
+        errors.add(:base, message) unless errors.added?(:base, message)
       end
     end
 
