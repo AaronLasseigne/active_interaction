@@ -101,6 +101,8 @@ module ActiveInteraction
           interrupt.outcome.errors.full_messages.each do |message|
             errors.add(:base, message) unless errors.added?(:base, message)
           end
+
+          raise ActiveRecord::Rollback
         end
       end
     end

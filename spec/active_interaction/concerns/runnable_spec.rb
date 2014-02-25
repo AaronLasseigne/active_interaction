@@ -170,6 +170,26 @@ describe ActiveInteraction::Runnable do
       end
     end
 
+    context 'with an execute where composition fails' do
+      before do
+        CompositionFailure = Class.new(ActiveInteraction::Base) do
+          validate { errors.add(:base) }
+          def execute; end
+        end
+
+        klass.send(:define_method, :execute) { compose(CompositionFailure) }
+      end
+
+      it 'rolls back the transaction' do
+        instance = klass.new
+
+        allow(instance).to receive(:raise)
+        instance.send(:run)
+        expect(instance).to have_received(:raise)
+          .with(ActiveRecord::Rollback)
+      end
+    end
+
     context 'with invalid post-execution state' do
       before do
         klass.class_exec do
