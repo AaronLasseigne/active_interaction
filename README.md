@@ -5,6 +5,7 @@
 [![Coverage Status][5]][6]
 [![Code Climate][7]][8]
 [![Dependency Status][9]][10]
+[![Inline docs][18]][19]
 
 At first it seemed alright. A little business logic in a controller
 or model wasn't going to hurt anything. Then one day you wake up
@@ -297,3 +298,5 @@ work done in [Mutations][17].
   [15]: https://github.com/tfausak
   [16]: https://github.com/orgsync
   [17]: https://github.com/cypriss/mutations
+  [18]: http://inch-pages.github.io/github/orgsync/active_interaction.png
+  [19]: http://inch-pages.github.io/github/orgsync/active_interaction "Inline docs"
