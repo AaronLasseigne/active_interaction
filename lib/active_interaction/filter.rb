@@ -137,15 +137,12 @@ module ActiveInteraction
     #   ActiveInteraction::Filter.new(:example, default: 0).default
     #   # => ActiveInteraction::InvalidDefaultError: example: 0
     #
-    # @return [Object]
+    # @return (see #raw_default)
     #
-    # @raise [NoDefaultError] If the default is missing.
+    # @raise (see #raw_default)
     # @raise [InvalidDefaultError] If the default is invalid.
     def default
-      fail NoDefaultError, name unless default?
-
-      value = options.fetch(:default)
-      value = value.call if value.is_a?(Proc)
+      value = raw_default
       cast(value)
     rescue InvalidValueError, MissingValueError
       raise InvalidDefaultError, "#{name}: #{value.inspect}"
@@ -193,6 +190,23 @@ module ActiveInteraction
         nil
       else
         fail InvalidValueError, "#{name}: #{value.inspect}"
+      end
+    end
+
+    private
+
+    # @return [Object]
+    #
+    # @raise [NoDefaultError] If the default is missing.
+    def raw_default
+      fail NoDefaultError, name unless default?
+
+      value = options.fetch(:default)
+
+      if value.is_a?(Proc)
+        value.call
+      else
+        value
       end
     end
   end
