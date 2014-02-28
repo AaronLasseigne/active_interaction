@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.1.0][] (2014-02-28)
+
 - Only set instance variables for attributes with readers defined.
 - Support `:only` and `:except` options simultaneously with `import_filters`.
   Previously this raised an `ArgumentError`.
@@ -152,7 +154,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.5...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.1.0...master
+  [1.1.0]: https://github.com/orgsync/active_interaction/compare/v1.0.5...v1.1.0
   [1.0.5]: https://github.com/orgsync/active_interaction/compare/v1.0.4...v1.0.5
   [1.0.4]: https://github.com/orgsync/active_interaction/compare/v1.0.3...v1.0.4
   [1.0.3]: https://github.com/orgsync/active_interaction/compare/v1.0.2...v1.0.3
