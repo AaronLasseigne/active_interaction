@@ -8,6 +8,14 @@ describe ActiveRecord::Base do
       expect { described_class.transaction }.to raise_error LocalJumpError
     end
 
+    it 'silently rescues ActiveRecord::Rollback' do
+      expect do
+        described_class.transaction do
+          fail ActiveRecord::Rollback
+        end
+      end.to_not raise_error
+    end
+
     context 'with a block' do
       it 'yields to the block' do
         expect { |b| described_class.transaction(&b) }.to yield_with_no_args
@@ -192,6 +200,26 @@ describe ActiveInteraction::Runnable do
         it 'sets the result to nil' do
           expect(outcome.result).to be_nil
         end
+      end
+    end
+
+    context 'with an execute where composition fails' do
+      before do
+        CompositionFailure = Class.new(ActiveInteraction::Base) do
+          validate { errors.add(:base) }
+          def execute; end
+        end
+
+        klass.send(:define_method, :execute) { compose(CompositionFailure) }
+      end
+
+      it 'rolls back the transaction' do
+        instance = klass.new
+
+        allow(instance).to receive(:raise)
+        instance.send(:run)
+        expect(instance).to have_received(:raise)
+          .with(ActiveRecord::Rollback)
       end
     end
 
