@@ -139,9 +139,11 @@ module ActiveInteraction
     #
     # @return (see #raw_default)
     #
-    # @raise (see #raw_default)
+    # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
     def default
+      fail NoDefaultError, name unless default?
+
       value = raw_default
       cast(value)
     rescue InvalidValueError, MissingValueError
@@ -196,11 +198,7 @@ module ActiveInteraction
     private
 
     # @return [Object]
-    #
-    # @raise [NoDefaultError] If the default is missing.
     def raw_default
-      fail NoDefaultError, name unless default?
-
       value = options.fetch(:default)
 
       if value.is_a?(Proc)
