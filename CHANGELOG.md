@@ -1,6 +1,5 @@
 # [Master][]
 
-- Allow callable defaults.
 - Only set instance variables for attributes with readers defined.
 - Support `:only` and `:except` options simultaneously with `import_filters`.
   Previously this raised an `ArgumentError`.
@@ -8,6 +7,7 @@
   was required.
 - Speed up many filters by caching class constants.
 - Add support for callbacks around `execute`.
+- Allow callable defaults.
 
 # [1.0.5][] (2014-02-25)
 
