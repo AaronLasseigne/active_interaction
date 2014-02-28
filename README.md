@@ -168,8 +168,8 @@ end
       boolean :smoking
       boolean :view
     end
-    date :arrives_on, default: Date.today
-    date :departs_on, default: Date.tomorrow
+    date :arrives_on, default: -> { Date.today }
+    date :departs_on, default: -> { Date.tomorrow }
     ```
 
 3. Use any additional validations you need:

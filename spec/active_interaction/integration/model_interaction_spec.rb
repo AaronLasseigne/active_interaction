@@ -3,5 +3,5 @@
 require 'spec_helper'
 
 describe 'ModelInteraction' do
-  it_behaves_like 'an interaction', :model, -> { proc {} }, class: Proc
+  it_behaves_like 'an interaction', :model, -> { Object }, class: Class
 end

@@ -35,14 +35,6 @@ module ActiveInteraction
       end
     end
 
-    def default
-      if options[:default].is_a?(Hash) && !options[:default].empty?
-        fail InvalidDefaultError, "#{name}: #{options[:default].inspect}"
-      end
-
-      super
-    end
-
     def method_missing(*args, &block)
       super(*args) do |klass, names, options|
         fail InvalidFilterError, 'missing attribute name' if names.empty?
@@ -54,6 +46,16 @@ module ActiveInteraction
     end
 
     private
+
+    def raw_default
+      value = super
+
+      if value.is_a?(Hash) && !value.empty?
+        fail InvalidDefaultError, "#{name}: #{value.inspect}"
+      end
+
+      value
+    end
 
     # @return [Boolean]
     def strip?

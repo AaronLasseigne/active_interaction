@@ -153,6 +153,19 @@ shared_examples_for 'a filter' do
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
+
+    context 'with a callable default' do
+      include_context 'optional'
+
+      before do
+        default = options[:default]
+        options[:default] = -> { default }
+      end
+
+      it 'returns the default' do
+        expect(filter.default).to eq options[:default].call
+      end
+    end
   end
 
   describe '#desc' do
