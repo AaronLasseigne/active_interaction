@@ -8,6 +8,10 @@
 - Speed up many filters by caching class constants.
 - Add support for callbacks around `execute`.
 
+# [1.0.5][] (2014-02-25)
+
+- Rollback database changes when `compose` fails.
+
 # [1.0.4][] (2014-02-11)
 
 - Add translations to the gem specification.
@@ -147,7 +151,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.4...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.0.5...master
+  [1.0.5]: https://github.com/orgsync/active_interaction/compare/v1.0.4...v1.0.5
   [1.0.4]: https://github.com/orgsync/active_interaction/compare/v1.0.3...v1.0.4
   [1.0.3]: https://github.com/orgsync/active_interaction/compare/v1.0.2...v1.0.3
   [1.0.2]: https://github.com/orgsync/active_interaction/compare/v1.0.1...v1.0.2
