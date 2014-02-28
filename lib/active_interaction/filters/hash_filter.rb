@@ -36,8 +36,11 @@ module ActiveInteraction
     end
 
     def default
-      if options[:default].is_a?(Hash) && !options[:default].empty?
-        fail InvalidDefaultError, "#{name}: #{options[:default].inspect}"
+      # TODO: Don't repeat yourself! This same logic exists in Filter#default.
+      value = options[:default]
+      value = value.call if value.is_a?(Proc)
+      if value.is_a?(Hash) && !value.empty?
+        fail InvalidDefaultError, "#{name}: #{value.inspect}"
       end
 
       super
