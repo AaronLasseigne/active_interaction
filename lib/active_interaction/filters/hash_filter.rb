@@ -35,17 +35,6 @@ module ActiveInteraction
       end
     end
 
-    def default
-      # TODO: Don't repeat yourself! This same logic exists in Filter#default.
-      value = options[:default]
-      value = value.call if value.is_a?(Proc)
-      if value.is_a?(Hash) && !value.empty?
-        fail InvalidDefaultError, "#{name}: #{value.inspect}"
-      end
-
-      super
-    end
-
     def method_missing(*args, &block)
       super(*args) do |klass, names, options|
         fail InvalidFilterError, 'missing attribute name' if names.empty?
@@ -57,6 +46,16 @@ module ActiveInteraction
     end
 
     private
+
+    def raw_default
+      value = super
+
+      if value.is_a?(Hash) && !value.empty?
+        fail InvalidDefaultError, "#{name}: #{value.inspect}"
+      end
+
+      value
+    end
 
     # @return [Boolean]
     def strip?
