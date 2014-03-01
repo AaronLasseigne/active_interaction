@@ -4,11 +4,11 @@ Vagrant.configure('2') do |config|
 
   config.ssh.forward_agent = true
 
-  config.vm.provision 'shell', inline: <<-'SH'
+  config.vm.provision :shell, inline: <<-'SH'
     set -e -x
     update-locale LC_ALL=en_US.UTF-8
-    aptitude -q -y update
-    aptitude -y install libffi-dev make
+    apt-get update
+    apt-get -y install libffi-dev make
     if ! ruby -v | grep -F -q 2.1.1p76; then
       test -f ruby-2.1.1.tar.bz2 ||
         wget -q cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.1.tar.bz2
@@ -26,11 +26,11 @@ Vagrant.configure('2') do |config|
       gem update --no-document --system
   SH
 
-  config.vm.provision 'shell', inline: <<-'SH', privileged: false
+  config.vm.provision :shell, inline: <<-'SH', privileged: false
     set -e -x
     echo '{ gem: --no-document, install: --user-install }' > .gemrc
-    echo $'PATH="$(ruby -e \'puts Gem.user_dir\')/bin:$PATH"' > .bash_profile
-    . .bash_profile
+    echo 'PATH="$(ruby -e puts\(Gem.user_dir\))/bin:$PATH"' > .bash_profile
+    source .bash_profile
     gem install bundler
     cd /vagrant
     bundle install
