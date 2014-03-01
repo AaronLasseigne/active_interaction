@@ -8,7 +8,7 @@ Vagrant.configure('2') do |config|
     set -e -x
     update-locale LC_ALL=en_US.UTF-8
     aptitude -q -y update
-    aptitude -y install make
+    aptitude -y install libffi-dev make
     if ! ruby -v | grep -F -q 2.1.1p76; then
       test -f ruby-2.1.1.tar.bz2 ||
         wget -q cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.1.tar.bz2
@@ -22,7 +22,8 @@ Vagrant.configure('2') do |config|
       make install
       cd ..
     fi
-    gem update --no-document --system 2.1.11
+    gem --version | grep -F -q 2.2.2 ||
+      gem update --no-document --system
   SH
 
   config.vm.provision 'shell', inline: <<-'SH', privileged: false
