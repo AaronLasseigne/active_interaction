@@ -1,5 +1,8 @@
 # [Master][]
 
+- Allow merging ActiveModel errors into ActiveInteraction errors with
+  `ActiveInteraction::Errors#merge!`.
+
 # [1.1.0][] (2014-02-28)
 
 - Only set instance variables for attributes with readers defined.

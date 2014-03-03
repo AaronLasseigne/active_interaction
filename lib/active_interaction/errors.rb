@@ -127,7 +127,7 @@ module ActiveInteraction
     # @return [Errors]
     def merge!(other)
       merge_messages!(other)
-      merge_symbolic!(other)
+      merge_symbolic!(other) if other.respond_to?(:symbolic)
       self
     end
 

@@ -145,5 +145,13 @@ describe ActiveInteraction::Errors do
         expect { errors.merge!(other) }.to_not raise_error
       end
     end
+
+    context 'with ActiveModel errors' do
+      let(:other) { ActiveModel::Errors.new(klass.new) }
+
+      it 'does not raise an error' do
+        expect { errors.merge!(other) }.to_not raise_error
+      end
+    end
   end
 end
