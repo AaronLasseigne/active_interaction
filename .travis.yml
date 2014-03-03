@@ -9,7 +9,7 @@ notifications:
 
       ivR5nEELqEsDgDZAcKGJtRgp70d6Geg5iFUfV9aP1ySy2U0AXBM='
 rvm:
-- 2.1.0
+- 2.1.1
 - 2.0.0
 - 1.9.3
 - jruby
