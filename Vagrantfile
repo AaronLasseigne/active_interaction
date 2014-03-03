@@ -23,7 +23,7 @@ Vagrant.configure('2') do |config|
       cd ..
     fi
     gem --version | grep -F -q 2.2.2 ||
-      gem update --no-document --system
+      gem update --no-document --system 2.2.2
   SH
 
   config.vm.provision :shell, inline: <<-'SH', privileged: false
