@@ -145,7 +145,7 @@ module ActiveInteraction
       other.symbolic.each do |attribute, symbols|
         symbols.each do |symbol|
           unless symbolic[attribute].include?(symbol)
-            symbolic[attribute] << symbol
+            symbolic[attribute] += [symbol]
           end
         end
       end
