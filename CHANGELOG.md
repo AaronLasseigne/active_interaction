@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.1.1][] (2014-03-04)
+
 - Allow merging ActiveModel errors into ActiveInteraction errors with
   `ActiveInteraction::Errors#merge!`.
 
@@ -157,7 +159,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.1.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.1.1...master
+  [1.1.1]: https://github.com/orgsync/active_interaction/compare/v1.1.0...v1.1.1
   [1.1.0]: https://github.com/orgsync/active_interaction/compare/v1.0.5...v1.1.0
   [1.0.5]: https://github.com/orgsync/active_interaction/compare/v1.0.4...v1.0.5
   [1.0.4]: https://github.com/orgsync/active_interaction/compare/v1.0.3...v1.0.4
