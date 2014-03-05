@@ -1,5 +1,8 @@
 # [Master][]
 
+- Don't constantize classes for model filters on initialization. This fixes a
+  bug that made those filters dependent on load order.
+
 # [1.1.1][] (2014-03-04)
 
 - Allow merging ActiveModel errors into ActiveInteraction errors with

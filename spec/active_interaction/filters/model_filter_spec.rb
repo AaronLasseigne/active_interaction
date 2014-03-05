@@ -52,6 +52,15 @@ describe ActiveInteraction::ModelFilter, :filter do
           filter.cast(klass.new)
         end.to raise_error ActiveInteraction::InvalidValueError
       end
+
+      context 'without the class available' do
+        before { Object.send(:remove_const, :Model) }
+        after { class Model; end }
+
+        it 'does not raise an error on initialization' do
+          expect { filter }.to_not raise_error
+        end
+      end
     end
 
     context 'with class as a superclass' do
