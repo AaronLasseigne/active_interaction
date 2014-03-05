@@ -24,7 +24,7 @@ describe ActiveInteraction::ModelFilter, :filter do
         expect(filter.cast(value)).to eq value
 
         Object.send(:remove_const, :Model)
-        Model = Class.new
+        class Model; end
         value = Model.new
 
         expect(filter.cast(value)).to eq value
@@ -34,8 +34,8 @@ describe ActiveInteraction::ModelFilter, :filter do
         filter
 
         Object.send(:remove_const, :Model)
-        Model = Class.new
-        Submodel = Class.new(Model)
+        class Model; end
+        class Submodel < Model; end
         value = Submodel.new
 
         expect(filter.cast(value)).to eq value
