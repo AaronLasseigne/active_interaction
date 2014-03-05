@@ -168,7 +168,7 @@ end
       boolean :smoking
       boolean :view
     end
-    date :arrives_on, default: -> { Date.today }
+    date :arrives_on, default: -> { Date.current }
     date :departs_on, default: -> { Date.tomorrow }
     ```
 
