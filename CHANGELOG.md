@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.1.2][] (2014-03-05)
+
 - Don't constantize classes for model filters on initialization. This fixes a
   bug that made those filters dependent on load order.
 
@@ -162,7 +164,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.1.1...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.1.2...master
+  [1.1.2]: https://github.com/orgsync/active_interaction/compare/v1.1.1...v1.1.2
   [1.1.1]: https://github.com/orgsync/active_interaction/compare/v1.1.0...v1.1.1
   [1.1.0]: https://github.com/orgsync/active_interaction/compare/v1.0.5...v1.1.0
   [1.0.5]: https://github.com/orgsync/active_interaction/compare/v1.0.4...v1.0.5
