@@ -67,9 +67,9 @@ module ActiveInteraction
       #
       # @see .factory
       def slug
-        match = CLASS_REGEXP.match(name)
+        match = name[CLASS_REGEXP, 1]
         fail InvalidClassError, name unless match
-        match.captures.first.underscore.to_sym
+        match.underscore.to_sym
       end
 
       # @param klass [Class]
