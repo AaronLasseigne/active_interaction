@@ -15,6 +15,9 @@ module ActiveInteraction
           errors << [name, :invalid_type, nil, type: type(filter)]
         rescue MissingValueError
           errors << [name, :missing]
+        rescue InvalidNestedValueError => e
+          errors << [name, :invalid_nested, nil,
+                     name: e.name.inspect, value: e.value.inspect]
         end
       end
     end

@@ -28,7 +28,7 @@ module ActiveInteraction
       when Hash
         value = value.symbolize_keys
         filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
-          h[name] = filter.clean(value[name])
+          f(h, name, filter, value)
         end
       else
         super
@@ -46,6 +46,12 @@ module ActiveInteraction
     end
 
     private
+
+    def f(h, name, filter, value)
+      h[name] = filter.clean(value[name])
+    rescue InvalidValueError, MissingValueError
+      raise InvalidNestedValueError.new(name, value[name])
+    end
 
     def raw_default
       value = super

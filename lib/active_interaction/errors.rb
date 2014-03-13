@@ -47,6 +47,26 @@ module ActiveInteraction
   # @return [Class]
   NoDefaultError = Class.new(Error)
 
+  # TODO
+  #
+  # @return [Class]
+  class InvalidNestedValueError < Error
+    # @return [Symbol]
+    attr_reader :name
+
+    # @return [Object]
+    attr_reader :value
+
+    # @param name [Symbol]
+    # @param value [Object]
+    def initialize(name, value)
+      super()
+
+      @name = name
+      @value = value
+    end
+  end
+
   # Used by {Runnable} to signal a failure when composing.
   #
   # @private
