@@ -164,6 +164,11 @@ module ActiveInteraction
       process_inputs(inputs.symbolize_keys)
     end
 
+    def column_for_attribute(name)
+      filter = self.class.filters[name]
+      FilterColumn.new(filter.class.slug) if filter
+    end
+
     # @!method compose(other, inputs = {})
     #   Run another interaction and return its result. If the other interaction
     #     fails, halt execution.
