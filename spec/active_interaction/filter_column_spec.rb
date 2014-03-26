@@ -11,7 +11,9 @@ describe ActiveInteraction::FilterColumn do
       let(:type) { SecureRandom.hex }
 
       it 'fails' do
-        expect { column }.to raise_error
+        expect do
+          column
+        end.to raise_error ActiveInteraction::InvalidFilterColumnError
       end
     end
   end

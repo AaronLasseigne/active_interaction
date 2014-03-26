@@ -21,7 +21,9 @@ module ActiveInteraction
     attr_reader :limit, :type
 
     def initialize(type)
-      @type = TYPE_MAPPING.fetch(type)
+      @type = TYPE_MAPPING.fetch(type) do
+        fail InvalidFilterColumnError, "#{type} is not a valid type"
+      end
     end
 
     def number?
