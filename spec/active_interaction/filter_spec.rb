@@ -2,28 +2,26 @@
 
 require 'spec_helper'
 
-class ActiveInteraction::TestFilter < ActiveInteraction::Filter; end
-class TestFilter < ActiveInteraction::Filter; end
+class ActiveInteraction::ATestFilter < ActiveInteraction::Filter; end
+class ATestFilter < ActiveInteraction::Filter; end
 
 describe ActiveInteraction::Filter, :filter do
   include_context 'filters'
 
-  describe '.slug' do
-    it 'raises an error' do
-      expect do
-        described_class.slug
-      end.to raise_error ActiveInteraction::InvalidClassError
+  context ActiveInteraction::ATestFilter do
+    it_behaves_like 'a filter'
+
+    let(:described_class) { ActiveInteraction::ATestFilter }
+
+    describe '.slug' do
+      it 'returns a slug representing the class' do
+        expect(described_class.slug).to eql :a_test
+      end
     end
   end
 
-  context ActiveInteraction::TestFilter do
-    it_behaves_like 'a filter'
-
-    let(:described_class) { ActiveInteraction::TestFilter }
-  end
-
-  context TestFilter do
-    let(:described_class) { TestFilter }
+  context ATestFilter do
+    let(:described_class) { ATestFilter }
 
     describe '.factory' do
       it 'returns a Filter' do
