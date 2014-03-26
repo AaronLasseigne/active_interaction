@@ -25,7 +25,7 @@ module ActiveInteraction
     end
 
     def number?
-      %i[integer float].include?(type)
+      [:integer, :float].include?(type)
     end
 
     def text?
