@@ -10,7 +10,7 @@ module ActiveInteraction
     alias_method :_cast, :cast
     private :_cast
 
-    def cast(value, all_inputs = nil)
+    def cast(value)
       case value
       when klass
         value

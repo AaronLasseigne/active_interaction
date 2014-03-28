@@ -14,7 +14,7 @@ module ActiveInteraction
 
   # @private
   class SymbolFilter < Filter
-    def cast(value, all_inputs = nil)
+    def cast(value)
       case value
       when Symbol
         value

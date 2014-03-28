@@ -25,7 +25,7 @@ module ActiveInteraction
   class ArrayFilter < Filter
     include Missable
 
-    def cast(value, all_inputs = nil)
+    def cast(value)
       case value
       when Array
         return value if filters.empty?

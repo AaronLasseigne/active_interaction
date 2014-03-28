@@ -23,12 +23,12 @@ module ActiveInteraction
   class HashFilter < Filter
     include Missable
 
-    def cast(value, all_inputs = nil)
+    def cast(value)
       case value
       when Hash
         value = value.symbolize_keys
         filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
-          h[name] = filter.clean(value[name])
+          h[name] = filter.clean(value)
         end
       else
         super

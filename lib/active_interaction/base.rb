@@ -205,7 +205,7 @@ module ActiveInteraction
 
       self.class.filters.each do |name, filter|
         begin
-          public_send("#{name}=", filter.clean(inputs[name], inputs))
+          public_send("#{name}=", filter.clean(inputs))
         rescue InvalidValueError, MissingValueError
           # Validators (#input_errors) will add errors if appropriate.
         end

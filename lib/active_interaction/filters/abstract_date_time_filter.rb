@@ -11,8 +11,7 @@ module ActiveInteraction
     alias_method :_cast, :cast
     private :_cast
 
-    def cast(value, all_inputs = nil)
-      value ||= extract_rails_parameters(all_inputs)
+    def cast(value)
       case value
       when *klasses
         value
@@ -36,8 +35,16 @@ module ActiveInteraction
       _cast(value)
     end
 
-    def extract_rails_parameters(inputs)
-      return unless inputs.present?
+    def extract(raw_inputs)
+      case raw_inputs
+      when Hash
+        raw_inputs[name] || extract_rails_params(raw_inputs)
+      else
+        raw_inputs
+      end
+    end
+
+    def extract_rails_params(inputs)
       if inputs.has_key?(:"#{name}(1i)") && inputs.has_key?(:"#{name}(2i)") && inputs.has_key?(:"#{name}(3i)")
         year  = inputs[:"#{name}(1i)"].to_i
         month = inputs[:"#{name}(2i)"].to_i

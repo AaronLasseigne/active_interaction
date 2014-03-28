@@ -18,15 +18,15 @@ module ActiveInteraction
 
   # @private
   class ModelFilter < Filter
-    def cast(value, all_inputs = nil, reconstantize = true)
+    def cast(value, reconstantize = true)
       case value
       when @klass ||= klass
         value
       else
-        return super(value, all_inputs) unless reconstantize
+        return super(value) unless reconstantize
 
         @klass = klass
-        cast(value, all_inputs, false)
+        cast(value, false)
       end
     end
 
