@@ -28,7 +28,7 @@ module ActiveInteraction
       when Hash
         value = value.symbolize_keys
         filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
-          h[name] = filter.clean(value[name])
+          h[name] = filter.clean(value)
         end
       else
         super

@@ -116,8 +116,8 @@ module ActiveInteraction
     #
     # @raise (see #cast)
     # @raise (see #default)
-    def clean(value)
-      value = cast(value)
+    def clean(raw_inputs)
+      value = cast(extract(raw_inputs))
       if value.nil?
         default
       else
@@ -196,6 +196,16 @@ module ActiveInteraction
     end
 
     private
+
+    # @return [Object]
+    def extract(raw_inputs)
+      case raw_inputs
+      when Hash
+        raw_inputs[name]
+      else
+        raw_inputs
+      end
+    end
 
     # @return [Object]
     def raw_default

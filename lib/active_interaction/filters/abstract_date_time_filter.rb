@@ -35,6 +35,24 @@ module ActiveInteraction
       _cast(value)
     end
 
+    def extract(raw_inputs)
+      case raw_inputs
+      when Hash
+        raw_inputs[name] || extract_rails_params(raw_inputs)
+      else
+        raw_inputs
+      end
+    end
+
+    def extract_rails_params(inputs)
+      if inputs.has_key?(:"#{name}(1i)") && inputs.has_key?(:"#{name}(2i)") && inputs.has_key?(:"#{name}(3i)")
+        year  = inputs[:"#{name}(1i)"].to_i
+        month = inputs[:"#{name}(2i)"].to_i
+        day   = inputs[:"#{name}(3i)"].to_i
+        Date.new(year, month, day)
+      end
+    end
+
     # @return [String]
     def format
       options.fetch(:format)
