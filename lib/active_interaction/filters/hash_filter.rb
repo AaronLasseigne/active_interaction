@@ -23,7 +23,7 @@ module ActiveInteraction
   class HashFilter < Filter
     include Missable
 
-    def cast(value)
+    def cast(value, all_inputs = nil)
       case value
       when Hash
         value = value.symbolize_keys

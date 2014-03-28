@@ -24,7 +24,7 @@ module ActiveInteraction
     alias_method :_klass, :klass
     private :_klass
 
-    def cast(value)
+    def cast(value, all_inputs = nil)
       case value
       when Numeric
         klass.at(value)

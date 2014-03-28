@@ -116,8 +116,8 @@ module ActiveInteraction
     #
     # @raise (see #cast)
     # @raise (see #default)
-    def clean(value)
-      value = cast(value)
+    def clean(value, all_inputs = nil)
+      value = cast(value, all_inputs)
       if value.nil?
         default
       else
@@ -184,7 +184,7 @@ module ActiveInteraction
     # @raise [InvalidValueError] If the value is invalid.
     #
     # @private
-    def cast(value)
+    def cast(value, all_inputs = nil)
       case value
       when NilClass
         fail MissingValueError, name unless default?

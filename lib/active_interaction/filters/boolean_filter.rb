@@ -16,7 +16,7 @@ module ActiveInteraction
 
   # @private
   class BooleanFilter < Filter
-    def cast(value)
+    def cast(value, all_inputs = nil)
       case value
       when FalseClass, '0', /\Afalse\z/i
         false

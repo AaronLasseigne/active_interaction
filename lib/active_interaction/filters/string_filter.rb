@@ -18,7 +18,7 @@ module ActiveInteraction
 
   # @private
   class StringFilter < Filter
-    def cast(value)
+    def cast(value, all_inputs = nil)
       case value
       when String
         strip? ? value.strip : value

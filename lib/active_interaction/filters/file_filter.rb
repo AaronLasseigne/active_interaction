@@ -16,7 +16,7 @@ module ActiveInteraction
 
   # @private
   class FileFilter < Filter
-    def cast(value)
+    def cast(value, all_inputs = nil)
       value = extract_file(value)
 
       case value
