@@ -8,7 +8,11 @@ module ActiveInteraction
     #
     #   @!macro filter_method_params
     #   @param block [Proc] filter methods to apply for select keys
-    #   @option options [Boolean] :strip (true) strip unknown keys
+    #   @option options [Boolean] :strip (true) strip unknown keys (Note: All
+    #     keys are symbolized. Ruby does not GC symbols so this can cause
+    #     memory bloat. Setting this option to `false` and passing in non-safe
+    #     input (e.g. Rails `params`) opens your software to a denial of
+    #     service attack.)
     #
     #   @example
     #     hash :order
