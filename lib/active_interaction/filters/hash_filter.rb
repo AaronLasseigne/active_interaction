@@ -33,7 +33,7 @@ module ActiveInteraction
         value = value.transform_keys { |k| k.is_a?(Symbol) ? k.to_s : k }
 
         filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
-          name = name.to_s if name.is_a?(Symbol)
+          name = name.to_s
           h[name] = filter.clean(value[name])
         end.symbolize_keys
       else
