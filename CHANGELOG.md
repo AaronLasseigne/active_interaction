@@ -1,5 +1,9 @@
 # [Master][]
 
+# [1.1.5][] (2014-03-31)
+
+- The `transform_keys` method broke backwards compatibility because it's not available until Rails 4.0.2.
+
 # [1.1.4][] (2014-03-31)
 
 - Fix an issue where non-stripped hash keys would be incorrectly converted to strings.
@@ -174,7 +178,8 @@
 
 - Initial release.
 
-  [Master]: https://github.com/orgsync/active_interaction/compare/v1.1.4...master
+  [Master]: https://github.com/orgsync/active_interaction/compare/v1.1.5...master
+  [1.1.5]: https://github.com/orgsync/active_interaction/compare/v1.1.4...v1.1.5
   [1.1.4]: https://github.com/orgsync/active_interaction/compare/v1.1.3...v1.1.4
   [1.1.3]: https://github.com/orgsync/active_interaction/compare/v1.1.2...v1.1.3
   [1.1.2]: https://github.com/orgsync/active_interaction/compare/v1.1.1...v1.1.2
