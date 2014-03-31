@@ -1,5 +1,11 @@
 # [Master][]
 
+# [1.1.3][] (2014-03-31)
+
+- Fix Rubocop errors and pin the version to avoid future issues with new cops
+  breaking the build.
+- Fix some denial of service attacks via hash symbolization. (See [#163][] for details)
+
 # [1.1.2][] (2014-03-05)
 
 - Don't constantize classes for model filters on initialization. This fixes a
@@ -164,7 +170,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.1.2...master
+  [Master]: https://github.com/orgsync/active_interaction/compare/v1.1.3...master
+  [1.1.3]: https://github.com/orgsync/active_interaction/compare/v1.1.2...v1.1.3
   [1.1.2]: https://github.com/orgsync/active_interaction/compare/v1.1.1...v1.1.2
   [1.1.1]: https://github.com/orgsync/active_interaction/compare/v1.1.0...v1.1.1
   [1.1.0]: https://github.com/orgsync/active_interaction/compare/v1.0.5...v1.1.0
@@ -193,3 +200,5 @@
   [0.1.2]: https://github.com/orgsync/active_interaction/compare/v0.1.1...v0.1.2
   [0.1.1]: https://github.com/orgsync/active_interaction/compare/v0.1.0...v0.1.1
   [0.1.0]: https://github.com/orgsync/active_interaction/compare/62f999b...v0.1.0
+
+  [#163]: https://github.com/orgsync/active_interaction/pull/163
