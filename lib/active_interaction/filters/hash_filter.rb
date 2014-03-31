@@ -8,7 +8,11 @@ module ActiveInteraction
     #
     #   @!macro filter_method_params
     #   @param block [Proc] filter methods to apply for select keys
-    #   @option options [Boolean] :strip (true) strip unknown keys
+    #   @option options [Boolean] :strip (true) strip unknown keys (Note: All
+    #     keys are symbolized. Ruby does not GC symbols so this can cause
+    #     memory bloat. Setting this option to `false` and passing in non-safe
+    #     input (e.g. Rails `params`) opens your software to a denial of
+    #     service attack.)
     #
     #   @example
     #     hash :order
@@ -26,10 +30,12 @@ module ActiveInteraction
     def cast(value)
       case value
       when Hash
-        value = value.symbolize_keys
+        value = symbolize_the_string_keys(value)
+
         filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
+          name = name.to_s
           h[name] = filter.clean(value[name])
-        end
+        end.symbolize_keys
       else
         super
       end
@@ -60,6 +66,16 @@ module ActiveInteraction
     # @return [Boolean]
     def strip?
       options.fetch(:strip, true)
+    end
+
+    # Switch to `transform_keys` once we support only Rails 4.0.2+
+    def symbolize_the_string_keys(hash)
+      new_hash = {}
+      hash.each_key do |key|
+        new_key = key.is_a?(Symbol) ? key.to_s : key
+        new_hash[new_key] = hash[key]
+      end
+      new_hash
     end
   end
 end
