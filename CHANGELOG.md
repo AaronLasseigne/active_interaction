@@ -1,5 +1,9 @@
 # [Master][]
 
+# [1.1.4][] (2014-03-31)
+
+- Fix an issue where non-stripped hash keys would be incorrectly converted to strings.
+
 # [1.1.3][] (2014-03-31)
 
 - Fix Rubocop errors and pin the version to avoid future issues with new cops
@@ -170,7 +174,8 @@
 
 - Initial release.
 
-  [Master]: https://github.com/orgsync/active_interaction/compare/v1.1.3...master
+  [Master]: https://github.com/orgsync/active_interaction/compare/v1.1.4...master
+  [1.1.4]: https://github.com/orgsync/active_interaction/compare/v1.1.3...v1.1.4
   [1.1.3]: https://github.com/orgsync/active_interaction/compare/v1.1.2...v1.1.3
   [1.1.2]: https://github.com/orgsync/active_interaction/compare/v1.1.1...v1.1.2
   [1.1.1]: https://github.com/orgsync/active_interaction/compare/v1.1.0...v1.1.1
