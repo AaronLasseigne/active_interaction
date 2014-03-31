@@ -72,14 +72,18 @@ describe I18nInteraction do
     include_examples 'translation'
 
     before do
-      I18n.backend.store_translations('hsilgne', active_interaction: {
-        errors: { messages: {
-          invalid: 'is invalid'.reverse,
-          invalid_type: "%{type} #{'is not a valid'.reverse}",
-          missing: 'missing'.reverse
-        } },
-        types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }
-      })
+      I18n.backend.store_translations('hsilgne',
+        active_interaction: {
+          errors: {
+            messages: {
+              invalid: 'is invalid'.reverse,
+              invalid_type: "%{type} #{'is not a valid'.reverse}",
+              missing: 'missing'.reverse
+            }
+          },
+          types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }
+        }
+      )
 
       I18n.locale = 'hsilgne'
     end

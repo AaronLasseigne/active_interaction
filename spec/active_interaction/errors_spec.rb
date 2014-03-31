@@ -132,11 +132,21 @@ describe ActiveInteraction::Errors do
 
     context 'with an interpolated symbolic error' do
       before do
-        I18n.backend.store_translations('en', activemodel: {
-          errors: { models: { klass.name => { attributes: { attribute: {
-            invalid_type: 'is not a valid %{type}'
-          } } } } }
-        })
+        I18n.backend.store_translations('en',
+          activemodel: {
+            errors: {
+              models: {
+                klass.name => {
+                  attributes: {
+                    attribute: {
+                      invalid_type: 'is not a valid %{type}'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        )
 
         other.add_sym(:attribute, :invalid_type, type: nil)
       end
