@@ -2,7 +2,9 @@
 
 require 'spec_helper'
 
-class ActiveInteraction::ATestFilter < ActiveInteraction::Filter; end
+module ActiveInteraction
+  class ATestFilter < ActiveInteraction::Filter; end
+end
 class ATestFilter < ActiveInteraction::Filter; end
 
 describe ActiveInteraction::Filter, :filter do
