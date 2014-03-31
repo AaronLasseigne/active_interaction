@@ -30,7 +30,7 @@ module ActiveInteraction
     def cast(value)
       case value
       when Hash
-        value = value.transform_keys { |k| k.is_a?(Symbol) ? k.to_s : k }
+        value = symbolize_the_string_keys(value)
 
         filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
           name = name.to_s
@@ -66,6 +66,16 @@ module ActiveInteraction
     # @return [Boolean]
     def strip?
       options.fetch(:strip, true)
+    end
+
+    # Switch to `transform_keys` once we support only Rails 4.0.2+
+    def symbolize_the_string_keys(hash)
+      new_hash = {}
+      hash.each_key do |key|
+        new_key = key.is_a?(Symbol) ? key.to_s : key
+        new_hash[new_key] = hash[key]
+      end
+      new_hash
     end
   end
 end
