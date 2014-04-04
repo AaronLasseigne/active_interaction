@@ -22,11 +22,6 @@ module ActiveInteraction
   # @return [Class]
   InvalidFilterError = Class.new(Error)
 
-  # Raised if a filter has an invalid definition.
-  #
-  # @return [Class]
-  InvalidFilterColumnError = Class.new(Error)
-
   # Raised if an interaction is invalid.
   #
   # @return [Class]

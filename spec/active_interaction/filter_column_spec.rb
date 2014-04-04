@@ -3,24 +3,18 @@
 require 'spec_helper'
 
 describe ActiveInteraction::FilterColumn do
+  let(:type) { :float }
   subject(:column) { described_class.new(type) }
-  let(:type) { described_class::TYPE_MAPPING.keys.first }
-
-  describe '.new' do
-    context 'type is not in TYPE_MAPPING' do
-      let(:type) { SecureRandom.hex }
-
-      it 'fails' do
-        expect do
-          column
-        end.to raise_error ActiveInteraction::InvalidFilterColumnError
-      end
-    end
-  end
 
   describe '#limit' do
     it 'returns nil' do
       expect(column.limit).to be_nil
+    end
+  end
+
+  describe '#type' do
+    it 'returns the type' do
+      expect(column.type).to eql type
     end
   end
 

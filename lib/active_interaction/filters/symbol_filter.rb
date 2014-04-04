@@ -24,5 +24,9 @@ module ActiveInteraction
         super
       end
     end
+
+    def database_column_type
+      :string
+    end
   end
 end
