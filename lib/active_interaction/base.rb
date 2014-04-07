@@ -166,7 +166,7 @@ module ActiveInteraction
 
     def column_for_attribute(name)
       filter = self.class.filters[name]
-      FilterColumn.new(filter.database_column_type) if filter
+      FilterColumn.intern(filter.database_column_type) if filter
     end
 
     # @!method compose(other, inputs = {})

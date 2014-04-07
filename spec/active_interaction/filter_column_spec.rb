@@ -4,7 +4,23 @@ require 'spec_helper'
 
 describe ActiveInteraction::FilterColumn do
   let(:type) { :float }
-  subject(:column) { described_class.new(type) }
+  subject(:column) { described_class.intern(type) }
+
+  describe '.intern(type)' do
+    it 'returns the same object for each type' do
+      expect(described_class.intern(type)).to equal column
+    end
+
+    it 'returns different objects for different types' do
+      expect(described_class.intern(:integer)).to_not equal column
+    end
+  end
+
+  describe '.new(type)' do
+    it 'is private' do
+      expect { described_class.new(type) }.to raise_error NoMethodError
+    end
+  end
 
   describe '#limit' do
     it 'returns nil' do
