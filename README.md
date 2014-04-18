@@ -280,15 +280,15 @@ ActiveInteraction is brought to you by [@AaronLasseigne][14] and
 work done in [Mutations][17].
 
   [0]: https://github.com/orgsync/active_interaction
-  [1]: https://badge.fury.io/rb/active_interaction.png
+  [1]: https://badge.fury.io/rb/active_interaction.svg
   [2]: https://badge.fury.io/rb/active_interaction "Gem Version"
-  [3]: https://travis-ci.org/orgsync/active_interaction.png?branch=master
+  [3]: https://travis-ci.org/orgsync/active_interaction.svg?branch=master
   [4]: https://travis-ci.org/orgsync/active_interaction "Build Status"
   [5]: https://coveralls.io/repos/orgsync/active_interaction/badge.png?branch=master
   [6]: https://coveralls.io/r/orgsync/active_interaction?branch=master "Coverage Status"
   [7]: https://codeclimate.com/github/orgsync/active_interaction.png
   [8]: https://codeclimate.com/github/orgsync/active_interaction "Code Climate"
-  [9]: https://gemnasium.com/orgsync/active_interaction.png
+  [9]: https://gemnasium.com/orgsync/active_interaction.svg
   [10]: https://gemnasium.com/orgsync/active_interaction "Dependency Status"
   [11]: http://orgsync.github.io/active_interaction/
   [12]: http://rubydoc.info/github/orgsync/active_interaction
