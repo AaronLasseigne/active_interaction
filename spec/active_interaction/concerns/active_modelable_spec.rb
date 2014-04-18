@@ -1,16 +1,19 @@
 # coding: utf-8
 
 require 'spec_helper'
-require 'test/unit/assertions'
 
 shared_examples_for 'ActiveModel' do
-  include ActiveModel::Lint::Tests
-  include Test::Unit::Assertions
+  it 'includes ActiveModel::Conversion' do
+    expect(subject).to be_a_kind_of ActiveModel::Conversion
+  end
 
-  let(:model) { subject }
+  it 'includes ActiveModel::Validations' do
+    expect(subject).to be_a_kind_of ActiveModel::Validations
+  end
 
-  ActiveModel::Lint::Tests.public_instance_methods
-    .grep(/\Atest/) { |m| example(m) { public_send(m) } }
+  it 'extends ActiveModel::Naming' do
+    expect(subject.class).to be_a_kind_of ActiveModel::Naming
+  end
 end
 
 describe ActiveInteraction::ActiveModelable do
