@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ActiveInteraction
-  #
+  # @since 1.2.0
   class FilterColumn
     attr_reader :limit, :type
 
