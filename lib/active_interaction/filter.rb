@@ -201,7 +201,7 @@ module ActiveInteraction
     #   ActiveInteraction::DateTimeFilter.new(Time.now).database_column_type
     #   # => :datetime
     #
-    # @return [String]
+    # @return [Symbol]
     #
     # @since 1.2.0
     def database_column_type
