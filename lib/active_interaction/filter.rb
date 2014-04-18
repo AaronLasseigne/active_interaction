@@ -195,6 +195,13 @@ module ActiveInteraction
       end
     end
 
+    # Return the type of column this would be in a database.
+    #
+    # @example
+    #   ActiveInteraction::DateTimeFilter.new(Time.now).database_column_type
+    #   # => :datetime
+    #
+    # @return [String]
     def database_column_type
       self.class.slug
     end
