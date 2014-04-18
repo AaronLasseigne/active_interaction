@@ -202,6 +202,8 @@ module ActiveInteraction
     #   # => :datetime
     #
     # @return [String]
+    #
+    # @since 1.2.0
     def database_column_type
       self.class.slug
     end
