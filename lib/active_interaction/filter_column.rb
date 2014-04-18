@@ -5,7 +5,11 @@ module ActiveInteraction
   #
   # @since 1.2.0
   class FilterColumn
-    attr_reader :limit, :type
+    # @return [nil]
+    attr_reader :limit
+
+    # @return [Symbol]
+    attr_reader :type
 
     class << self
       # rubocop:disable LineLength
