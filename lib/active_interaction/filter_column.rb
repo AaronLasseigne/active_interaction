@@ -12,6 +12,8 @@ module ActiveInteraction
 
       # Find or create the `FilterColumn` for a specific type.
       #
+      # @param type [Symbol] A database column type.
+      #
       # @example
       #   FilterColumn.intern(:string)
       #   # => #<ActiveInteraction::FilterColumn:0x007feeaa649c18 @type=:string>
@@ -21,8 +23,6 @@ module ActiveInteraction
       #
       #   FilterColumn.intern(:boolean)
       #   # => #<ActiveInteraction::FilterColumn:0x007feeab8a0498 @type=:boolean>
-      #
-      # @param type [Symbol] A database column type.
       #
       # @return [FilterColumn]
       def intern(type)
