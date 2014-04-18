@@ -200,12 +200,15 @@ module ActiveInteraction
     # @example
     #   ActiveInteraction::DateTimeFilter.new(Time.now).database_column_type
     #   # => :datetime
+    # @example
+    #   ActiveInteraction::Filter.new(:example).database_column_type
+    #   # => :string
     #
     # @return [Symbol]
     #
     # @since 1.2.0
     def database_column_type
-      self.class.slug
+      :string
     end
 
     private

@@ -41,10 +41,6 @@ module ActiveInteraction
       end
     end
 
-    def database_column_type
-      :string
-    end
-
     def method_missing(*args, &block)
       super(*args) do |klass, names, options|
         fail InvalidFilterError, 'missing attribute name' if names.empty?

@@ -10,6 +10,12 @@ class ATestFilter < ActiveInteraction::Filter; end
 describe ActiveInteraction::Filter, :filter do
   include_context 'filters'
 
+  describe '#database_column_type' do
+    it 'returns `:string`' do
+      expect(subject.database_column_type).to eql :string
+    end
+  end
+
   context ActiveInteraction::ATestFilter do
     it_behaves_like 'a filter'
 

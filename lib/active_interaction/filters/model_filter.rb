@@ -30,10 +30,6 @@ module ActiveInteraction
       end
     end
 
-    def database_column_type
-      :string
-    end
-
     private
 
     # @return [Class]

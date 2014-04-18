@@ -37,10 +37,6 @@ module ActiveInteraction
       end
     end
 
-    def database_column_type
-      :string
-    end
-
     def method_missing(*, &block)
       super do |klass, names, options|
         filter = klass.new(name, options, &block)
