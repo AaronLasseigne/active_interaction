@@ -195,16 +195,17 @@ module ActiveInteraction
       end
     end
 
-    # Return the type of column this would be in a database.
+    # Gets the type of database column that would represent the filter data.
     #
     # @example
-    #   ActiveInteraction::DateTimeFilter.new(Time.now).database_column_type
+    #   ActiveInteraction::TimeFilter.new(Time.now).database_column_type
     #   # => :datetime
     # @example
     #   ActiveInteraction::Filter.new(:example).database_column_type
     #   # => :string
     #
-    # @return [Symbol]
+    # @return [Symbol] A database column type. If no sensible mapping exists,
+    #   returns `:string`.
     #
     # @since 1.2.0
     def database_column_type
