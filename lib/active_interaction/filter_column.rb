@@ -31,12 +31,7 @@ module ActiveInteraction
       # @return [FilterColumn]
       def intern(type)
         @columns ||= {}
-
-        if @columns[type]
-          @columns.fetch(type)
-        else
-          @columns[type] = new(type)
-        end
+        @columns[type] ||= new(type)
       end
       # rubocop:enable LineLength
 
