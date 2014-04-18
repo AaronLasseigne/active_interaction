@@ -12,28 +12,25 @@ module ActiveInteraction
     attr_reader :type
 
     class << self
-      # rubocop:disable LineLength
-
       # Find or create the `FilterColumn` for a specific type.
       #
       # @param type [Symbol] A database column type.
       #
       # @example
       #   FilterColumn.intern(:string)
-      #   # => #<ActiveInteraction::FilterColumn:0x007feeaa649c18 @type=:string>
+      #   # => #<ActiveInteraction::FilterColumn:0x007feeaa649c @type=:string>
       #
       #   FilterColumn.intern(:string)
-      #   # => #<ActiveInteraction::FilterColumn:0x007feeaa649c18 @type=:string>
+      #   # => #<ActiveInteraction::FilterColumn:0x007feeaa649c @type=:string>
       #
       #   FilterColumn.intern(:boolean)
-      #   # => #<ActiveInteraction::FilterColumn:0x007feeab8a0498 @type=:boolean>
+      #   # => #<ActiveInteraction::FilterColumn:0x007feeab8a08 @type=:boolean>
       #
       # @return [FilterColumn]
       def intern(type)
         @columns ||= {}
         @columns[type] ||= new(type)
       end
-      # rubocop:enable LineLength
 
       private :new
     end
