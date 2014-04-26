@@ -62,53 +62,67 @@ describe ActiveInteraction::Base do
           validates :thing, presence: true
         end
       end
-      let(:thing) { SecureRandom.hex }
 
-      before { inputs.merge!(thing: thing) }
+      context 'validation' do
+        context 'failing' do
+          it 'returns an invalid outcome' do
+            expect(interaction).to be_invalid
+          end
+        end
 
-      it 'sets the attribute' do
-        expect(interaction.thing).to eql thing
-      end
+        context 'passing' do
+          before { inputs.merge!(thing: SecureRandom.hex) }
 
-      context 'failing validations' do
-        before { inputs.merge!(thing: nil) }
-
-        it 'returns an invalid outcome' do
-          expect(interaction).to be_invalid
+          it 'returns a valid outcome' do
+            expect(interaction).to be_valid
+          end
         end
       end
 
-      context 'passing validations' do
-        it 'returns a valid outcome' do
-          expect(interaction).to be_valid
+      context 'with a single input' do
+        let(:thing) { SecureRandom.hex }
+        before { inputs.merge!(thing: thing) }
+
+        it 'sets the attribute' do
+          expect(interaction.thing).to eql thing
         end
       end
     end
 
-    describe 'with a filter' do
+    context 'with a filter' do
       let(:described_class) { InteractionWithFilter }
 
-      context 'failing validations' do
-        before { inputs.merge!(thing: thing) }
+      context 'validation' do
+        context 'failing' do
+          before { inputs.merge!(thing: thing) }
 
-        context 'with an invalid value' do
-          let(:thing) { 'a' }
+          context 'with an invalid value' do
+            let(:thing) { 'a' }
 
-          it 'sets the attribute to the filtered value' do
-            expect(interaction.thing).to equal thing
+            it 'sets the attribute to the filtered value' do
+              expect(interaction.thing).to equal thing
+            end
+          end
+
+          context 'without a value' do
+            let(:thing) { nil }
+
+            it 'sets the attribute to the filtered value' do
+              expect(interaction.thing).to equal thing
+            end
           end
         end
 
-        context 'without a value' do
-          let(:thing) { nil }
+        context 'passing' do
+          before { inputs.merge!(thing: 1) }
 
-          it 'sets the attribute to the filtered value' do
-            expect(interaction.thing).to equal thing
+          it 'returns a valid outcome' do
+            expect(interaction).to be_valid
           end
         end
       end
 
-      context 'passing validations' do
+      context 'with a single input' do
         before { inputs.merge!(thing: 1) }
 
         it 'sets the attribute to the filtered value' do
