@@ -12,7 +12,13 @@ module ActiveInteraction
   end
 
   # @private
-  class DecimalFilter < Filter
+  class DecimalFilter < AbstractNumericFilter
+    def initialize(*)
+      @klass = BigDecimal
+
+      super
+    end
+
     def cast(value)
       case value
       when Float
