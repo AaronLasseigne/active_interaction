@@ -24,5 +24,30 @@ module ActiveInteraction
     def transaction(options = {}, &block)
       ActiveRecord::Base.transaction(options, &block)
     end
+
+    module ClassMethods # rubocop:disable Documentation
+      def transaction(enable = true, options = {})
+        @_interaction_transaction_enabled = enable
+        @_interaction_transaction_options = options
+
+        nil
+      end
+
+      def transaction?
+        unless defined?(@_interaction_transaction_enabled)
+          @_interaction_transaction_enabled = true
+        end
+
+        @_interaction_transaction_enabled
+      end
+
+      def transaction_options
+        unless defined?(@_interaction_transaction_options)
+          @_interaction_transaction_options = {}
+        end
+
+        @_interaction_transaction_options
+      end
+    end
   end
 end
