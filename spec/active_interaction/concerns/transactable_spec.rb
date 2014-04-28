@@ -70,19 +70,45 @@ describe ActiveInteraction::Transactable do
 
   describe '#transaction' do
     let(:block) { -> { value } }
-    let(:options) { {} }
-    let(:result) { instance.transaction(options, &block) }
+    let(:result) { instance.transaction(&block) }
     let(:value) { double }
 
-    it 'returns the value from the block' do
-      expect(result).to eq value
+    before do
+      allow(ActiveRecord::Base).to receive(:transaction).and_call_original
     end
 
-    it 'calls ActiveRecord::Base.transaction' do
-      allow(ActiveRecord::Base).to receive(:transaction)
-      result
-      expect(ActiveRecord::Base).to have_received(:transaction)
-        .once.with(options, &block)
+    it 'returns nil' do
+      expect(instance.transaction).to be_nil
+    end
+
+    context 'with transactions disabled' do
+      before do
+        klass.transaction(false)
+      end
+
+      it 'returns the value of the block' do
+        expect(result).to eq value
+      end
+
+      it 'does not call ActiveRecord::Base.transaction' do
+        expect(ActiveRecord::Base).to_not have_received(:transaction)
+      end
+    end
+
+    context 'with transactions enabled' do
+      before do
+        klass.transaction(true)
+      end
+
+      it 'returns the value of the block' do
+        expect(result).to eq value
+      end
+
+      it 'calls ActiveRecord::Base.transaction' do
+        result
+        expect(ActiveRecord::Base).to have_received(:transaction)
+          .once.with(klass.transaction_options, &block)
+      end
     end
   end
 end

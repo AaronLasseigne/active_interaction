@@ -21,8 +21,16 @@ module ActiveInteraction
   module Transactable
     extend ActiveSupport::Concern
 
-    def transaction(options = {}, &block)
-      ActiveRecord::Base.transaction(options, &block)
+    def transaction
+      return unless block_given?
+
+      if self.class.transaction?
+        ActiveRecord::Base.transaction(self.class.transaction_options) do
+          yield
+        end
+      else
+        yield
+      end
     end
 
     module ClassMethods # rubocop:disable Documentation
