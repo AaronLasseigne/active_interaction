@@ -8,7 +8,7 @@ module ActiveInteraction
     #   @!macro filter_method_params
     #
     #   @example
-    #     decimal :amount
+    #     decimal :amount, digits: 4
   end
 
   # @private
@@ -21,14 +21,25 @@ module ActiveInteraction
 
     def cast(value)
       case value
-      when Float
-        BigDecimal.new(value.to_s)
-      when String, Numeric
-        Float(value) rescue fail(InvalidValueError, "Given value: #{value.inspect}")
-        BigDecimal.new(value)
+      when Numeric
+        BigDecimal.new(value, digits)
+      when String
+        begin
+          decimal_like_value = Float(value)
+          BigDecimal.new(value, digits)
+        rescue ArgumentError
+         raise InvalidValueError, "Given value: #{value.inspect}"
+        end
       else
         super
       end
+    end
+
+    private
+
+    # @return [Integer]
+    def digits
+      options.fetch(:digits, 0)
     end
   end
 end
