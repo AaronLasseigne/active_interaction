@@ -52,6 +52,21 @@ describe ActiveInteraction::HashFilter, :filter do
         end
       end
     end
+
+    context 'keys are symbolized' do
+      let(:value) { { 'a' => 'a', 1 => 1 } }
+      before do
+        options.merge!(strip: false)
+      end
+
+      it 'symbolizes String keys' do
+        expect(filter.cast(value)).to have_key :a
+      end
+
+      it 'leaves other keys alone' do
+        expect(filter.cast(value)).to have_key 1
+      end
+    end
   end
 
   describe '#default' do

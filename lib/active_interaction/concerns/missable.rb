@@ -41,7 +41,7 @@ module ActiveInteraction
     #
     # @return [Boolean]
     def respond_to_missing?(slug, *)
-      !!filter(slug)
+      filter(slug)
     end
   end
 end
