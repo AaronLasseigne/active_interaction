@@ -164,6 +164,31 @@ module ActiveInteraction
       process_inputs(inputs.symbolize_keys)
     end
 
+    # Returns the column object for the named filter.
+    #
+    # @param name [Symbol] The name of a filter.
+    #
+    # @example
+    #   class Interaction < ActiveInteraction::Base
+    #     string :email, default: nil
+    #
+    #     def execute; end
+    #   end
+    #
+    #   Interaction.new.column_for_attribute(:email)
+    #   # => #<ActiveInteraction::FilterColumn:0x007faebeb2a6c8 @type=:string>
+    #
+    #   Interaction.new.column_for_attribute(:not_a_filter)
+    #   # => nil
+    #
+    # @return [FilterColumn, nil]
+    #
+    # @since 1.2.0
+    def column_for_attribute(name)
+      filter = self.class.filters[name]
+      FilterColumn.intern(filter.database_column_type) if filter
+    end
+
     # @!method compose(other, inputs = {})
     #   Run another interaction and return its result. If the other interaction
     #     fails, halt execution.

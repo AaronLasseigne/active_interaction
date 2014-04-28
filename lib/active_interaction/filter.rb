@@ -67,9 +67,9 @@ module ActiveInteraction
       #
       # @see .factory
       def slug
-        match = CLASS_REGEXP.match(name)
+        match = name[CLASS_REGEXP, 1]
         fail InvalidClassError, name unless match
-        match.captures.first.underscore.to_sym
+        match.underscore.to_sym
       end
 
       # @param klass [Class]
@@ -193,6 +193,23 @@ module ActiveInteraction
       else
         fail InvalidValueError, "#{name}: #{value.inspect}"
       end
+    end
+
+    # Gets the type of database column that would represent the filter data.
+    #
+    # @example
+    #   ActiveInteraction::TimeFilter.new(Time.now).database_column_type
+    #   # => :datetime
+    # @example
+    #   ActiveInteraction::Filter.new(:example).database_column_type
+    #   # => :string
+    #
+    # @return [Symbol] A database column type. If no sensible mapping exists,
+    #   returns `:string`.
+    #
+    # @since 1.2.0
+    def database_column_type
+      :string
     end
 
     private

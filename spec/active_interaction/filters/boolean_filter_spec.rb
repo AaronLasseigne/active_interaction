@@ -23,4 +23,10 @@ describe ActiveInteraction::BooleanFilter, :filter do
       end
     end
   end
+
+  describe '#database_column_type' do
+    it 'returns :boolean' do
+      expect(filter.database_column_type).to eql :boolean
+    end
+  end
 end
