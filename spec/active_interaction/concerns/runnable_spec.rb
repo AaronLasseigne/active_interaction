@@ -2,32 +2,6 @@
 
 require 'spec_helper'
 
-describe ActiveRecord::Base do
-  describe '.transaction' do
-    it 'raises an error' do
-      expect { described_class.transaction }.to raise_error LocalJumpError
-    end
-
-    it 'silently rescues ActiveRecord::Rollback' do
-      expect do
-        described_class.transaction do
-          fail ActiveRecord::Rollback
-        end
-      end.to_not raise_error
-    end
-
-    context 'with a block' do
-      it 'yields to the block' do
-        expect { |b| described_class.transaction(&b) }.to yield_with_no_args
-      end
-
-      it 'accepts an argument' do
-        expect { described_class.transaction(nil) {} }.to_not raise_error
-      end
-    end
-  end
-end
-
 describe ActiveInteraction::Runnable do
   include_context 'concerns', ActiveInteraction::Runnable
 
