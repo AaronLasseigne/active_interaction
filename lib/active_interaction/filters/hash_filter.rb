@@ -33,8 +33,7 @@ module ActiveInteraction
         value = symbolize_the_string_keys(value)
 
         filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
-          name = name.to_s
-          f(h, name, filter, value)
+          f(h, name.to_s, filter, value)
         end.symbolize_keys
       else
         super
