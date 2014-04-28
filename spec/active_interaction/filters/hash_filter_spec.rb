@@ -51,10 +51,21 @@ describe ActiveInteraction::HashFilter, :filter do
           end
         end
       end
+
+      context 'without a Hash' do
+        let(:value) { { a: double } }
+
+        it 'raises an error' do
+          expect do
+            filter.cast(value)
+          end.to raise_error ActiveInteraction::InvalidNestedValueError
+        end
+      end
     end
 
     context 'keys are symbolized' do
       let(:value) { { 'a' => 'a', 1 => 1 } }
+
       before do
         options.merge!(strip: false)
       end
