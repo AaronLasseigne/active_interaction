@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module ActiveInteraction
   class Base
     # @!method self.decimal(*attributes, options = {})
@@ -24,12 +26,7 @@ module ActiveInteraction
       when Numeric
         BigDecimal.new(value, digits)
       when String
-        begin
-          decimal_like_value = Float(value)
-          BigDecimal.new(value, digits)
-        rescue ArgumentError
-         raise InvalidValueError, "Given value: #{value.inspect}"
-        end
+        decimal_from_string(value)
       else
         super
       end
@@ -40,6 +37,18 @@ module ActiveInteraction
     # @return [Integer]
     def digits
       options.fetch(:digits, 0)
+    end
+
+    # @param value [String] string that has to be converted
+    #
+    # @return [BigDecimal]
+    #
+    # @raise [InvalidValueError] if given value can not be converted
+    def decimal_from_string(value)
+      Float(value)
+      BigDecimal.new(value, digits)
+    rescue ArgumentError
+       raise InvalidValueError, "Given value: #{value.inspect}"
     end
   end
 end
