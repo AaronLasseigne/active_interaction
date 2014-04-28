@@ -1,4 +1,7 @@
 before_install: gem update bundler
+gemfiles:
+- Gemfile
+- gemfiles/activemodel3.rb
 language: ruby
 notifications:
   email: false
