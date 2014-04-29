@@ -15,8 +15,5 @@ module ActiveInteraction
 
   # @private
   class FloatFilter < AbstractNumericFilter
-    def database_column_type
-      :float
-    end
   end
 end

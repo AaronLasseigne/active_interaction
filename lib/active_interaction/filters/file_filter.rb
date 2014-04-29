@@ -28,7 +28,7 @@ module ActiveInteraction
     end
 
     def database_column_type
-      :file
+      self.class.slug
     end
 
     private

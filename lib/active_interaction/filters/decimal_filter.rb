@@ -26,10 +26,6 @@ module ActiveInteraction
       end
     end
 
-    def database_column_type
-      :decimal
-    end
-
     private
 
     # @return [Integer]

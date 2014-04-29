@@ -22,6 +22,10 @@ module ActiveInteraction
       end
     end
 
+    def database_column_type
+      self.class.slug
+    end
+
     private
 
     def convert(value)

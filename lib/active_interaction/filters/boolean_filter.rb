@@ -28,7 +28,7 @@ module ActiveInteraction
     end
 
     def database_column_type
-      :boolean
+      self.class.slug
     end
   end
 end
