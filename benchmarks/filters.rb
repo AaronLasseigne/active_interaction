@@ -21,6 +21,7 @@ VALUES = {
   boolean:   [false, '0', 'false', true, '1', 'true'],
   date:      [Date.new, Date.new.to_s],
   date_time: [DateTime.new, DateTime.new.to_s],
+  decimal:   [BigDecimal.new(0)],
   file:      [File.new(__FILE__), Struct.new(:tempfile).new(File.new(__FILE__))],
   float:     [0.0, '0.0', 0],
   hash:      [Hash.new], # TODO
