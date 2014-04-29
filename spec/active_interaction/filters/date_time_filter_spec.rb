@@ -118,4 +118,27 @@ describe ActiveInteraction::DateTimeFilter, :filter do
       expect(filter.database_column_type).to eql :datetime
     end
   end
+
+  describe '#default' do
+    context 'with a GroupedInput' do
+      before do
+        options.merge!(
+          default: ActiveInteraction::GroupedInput.new(
+            '1' => '2012',
+            '2' => '1',
+            '3' => '2',
+            '4' => '3',
+            '5' => '4',
+            '6' => '5'
+          )
+        )
+      end
+
+      it 'raises an error' do
+        expect do
+          filter.default
+        end.to raise_error ActiveInteraction::InvalidDefaultError
+      end
+    end
+  end
 end
