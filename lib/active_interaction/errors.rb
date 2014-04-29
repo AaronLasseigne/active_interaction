@@ -47,6 +47,26 @@ module ActiveInteraction
   # @return [Class]
   NoDefaultError = Class.new(Error)
 
+  # Raised if a user-supplied value to a nested hash input is invalid.
+  #
+  # @return [Class]
+  class InvalidNestedValueError < Error
+    # @return [Symbol]
+    attr_reader :filter_name
+
+    # @return [Object]
+    attr_reader :input_value
+
+    # @param filter_name [Symbol]
+    # @param input_value [Object]
+    def initialize(filter_name, input_value)
+      super()
+
+      @filter_name = filter_name
+      @input_value = input_value
+    end
+  end
+
   # Used by {Runnable} to signal a failure when composing.
   #
   # @private

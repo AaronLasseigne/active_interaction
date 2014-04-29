@@ -90,12 +90,12 @@ describe ActiveInteraction::Runnable do
     let(:result) { double }
 
     it 'returns the result' do
-      expect(instance.result = result).to eq result
+      expect(instance.result = result).to eql result
     end
 
     it 'sets the result' do
       instance.result = result
-      expect(instance.result).to eq result
+      expect(instance.result).to eql result
     end
 
     context 'with an error' do
@@ -112,7 +112,7 @@ describe ActiveInteraction::Runnable do
 
       it 'sets the result' do
         instance.result = result
-        expect(instance.result).to eq result
+        expect(instance.result).to eql result
       end
     end
   end
