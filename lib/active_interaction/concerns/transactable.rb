@@ -16,11 +16,16 @@ rescue LoadError
 end
 
 module ActiveInteraction
+  # @private
+  #
   # Execute code in a transaction. If ActiveRecord isn't available, don't do
   # anything special.
+  #
+  # @since 1.2.0
   module Transactable
     extend ActiveSupport::Concern
 
+    # @yield []
     def transaction
       return unless block_given?
 
@@ -34,6 +39,10 @@ module ActiveInteraction
     end
 
     module ClassMethods # rubocop:disable Documentation
+      # @param enable [Boolean]
+      # @param options [Hash]
+      #
+      # @return [nil]
       def transaction(enable = true, options = {})
         @_interaction_transaction_enabled = enable
         @_interaction_transaction_options = options
@@ -41,6 +50,7 @@ module ActiveInteraction
         nil
       end
 
+      # @return [Boolean]
       def transaction?
         unless defined?(@_interaction_transaction_enabled)
           @_interaction_transaction_enabled = true
@@ -49,6 +59,7 @@ module ActiveInteraction
         @_interaction_transaction_enabled
       end
 
+      # @return [Hash]
       def transaction_options
         unless defined?(@_interaction_transaction_options)
           @_interaction_transaction_options = {}
