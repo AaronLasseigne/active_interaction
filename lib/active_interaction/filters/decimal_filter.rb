@@ -15,12 +15,6 @@ module ActiveInteraction
 
   # @private
   class DecimalFilter < AbstractNumericFilter
-    def initialize(*)
-      @klass = BigDecimal
-
-      super
-    end
-
     def cast(value)
       case value
       when Numeric
@@ -49,6 +43,10 @@ module ActiveInteraction
       BigDecimal.new(value, digits)
     rescue ArgumentError
        raise InvalidValueError, "Given value: #{value.inspect}"
+    end
+
+    def klass
+      BigDecimal
     end
   end
 end
