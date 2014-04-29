@@ -15,5 +15,8 @@ module ActiveInteraction
 
   # @private
   class IntegerFilter < AbstractNumericFilter
+    def database_column_type
+      :integer
+    end
   end
 end

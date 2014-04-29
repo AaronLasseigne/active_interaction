@@ -1,5 +1,7 @@
 # [Master][]
 
+- Add support for `column_for_attribute` which provides better interoperability with gems like Formtastic and Simple Form.
+
 # [1.1.5][] (2014-03-31)
 
 - The `transform_keys` method broke backwards compatibility because it's not available until Rails 4.0.2.
