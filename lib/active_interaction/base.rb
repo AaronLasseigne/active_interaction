@@ -31,6 +31,9 @@ module ActiveInteraction
     include ActiveModelable
     include Runnable
 
+    GROUPED_INPUT_PATTERN = /\A(.+)\((\d+)i\)\z/
+    private_constant :GROUPED_INPUT_PATTERN
+
     validate :input_errors
 
     class << self
@@ -245,14 +248,24 @@ module ActiveInteraction
     # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
       inputs.each do |key, value|
-        fail InvalidValueError, key.inspect if self.class.send(:reserved?, key)
-
-        instance_variable_set("@#{key}", value) if respond_to?(key)
+        fail_if_reserved(key)
+        populate_reader(key, value)
       end
 
-      pattern = /\A(.+)\((\d+)i\)\z/
-      merged_inputs = inputs.sort.each_with_object({}) do |(k, v), h|
-        if (match = pattern.match(k))
+      populate_filters(merge_inputs(inputs))
+    end
+
+    def fail_if_reserved(key)
+      fail InvalidValueError, key.inspect if self.class.send(:reserved?, key)
+    end
+
+    def populate_reader(key, value)
+      instance_variable_set("@#{key}", value) if respond_to?(key)
+    end
+
+    def merge_inputs(inputs)
+      inputs.sort.each_with_object({}) do |(k, v), h|
+        if (match = GROUPED_INPUT_PATTERN.match(k))
           k, i = match.captures
 
           (h[k.to_sym] ||= GroupedInput.new)[i] = v
@@ -260,9 +273,12 @@ module ActiveInteraction
           h[k] = v
         end
       end
+    end
+
+    def populate_filters(inputs)
       self.class.filters.each do |name, filter|
         begin
-          public_send("#{name}=", filter.clean(merged_inputs[name]))
+          public_send("#{name}=", filter.clean(inputs[name]))
         rescue InvalidValueError, MissingValueError, InvalidNestedValueError
           # Validators (#input_errors) will add errors if appropriate.
         end
