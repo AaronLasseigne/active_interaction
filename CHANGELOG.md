@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.1.6][] (2014-04-29)
+
 - Fix a bug that caused nested hash error messages to be misleading.
 
 # [1.1.5][] (2014-03-31)
@@ -180,7 +182,8 @@
 
 - Initial release.
 
-  [Master]: https://github.com/orgsync/active_interaction/compare/v1.1.5...master
+  [Master]: https://github.com/orgsync/active_interaction/compare/v1.1.6...master
+  [1.1.6]: https://github.com/orgsync/active_interaction/compare/v1.1.5...v1.1.6
   [1.1.5]: https://github.com/orgsync/active_interaction/compare/v1.1.4...v1.1.5
   [1.1.4]: https://github.com/orgsync/active_interaction/compare/v1.1.3...v1.1.4
   [1.1.3]: https://github.com/orgsync/active_interaction/compare/v1.1.2...v1.1.3
