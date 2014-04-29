@@ -67,9 +67,11 @@ module ActiveInteraction
       #
       # @see .factory
       def slug
+        return @slug if defined?(@slug)
+
         match = name[CLASS_REGEXP, 1]
         fail InvalidClassError, name unless match
-        match.underscore.to_sym
+        @slug = match.underscore.to_sym
       end
 
       # @param klass [Class]
