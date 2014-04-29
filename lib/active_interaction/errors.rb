@@ -47,6 +47,11 @@ module ActiveInteraction
   # @return [Class]
   NoDefaultError = Class.new(Error)
 
+  # Raised if a reserved name is used.
+  #
+  # @return [Class]
+  ReservedNameError = Class.new(Error)
+
   # Raised if a user-supplied value to a nested hash input is invalid.
   #
   # @return [Class]
