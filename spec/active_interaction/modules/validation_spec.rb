@@ -13,7 +13,7 @@ describe ActiveInteraction::Validation do
       let(:filters) { {} }
 
       it 'returns no errors' do
-        expect(result).to eq []
+        expect(result).to eql []
       end
     end
 
@@ -25,7 +25,7 @@ describe ActiveInteraction::Validation do
       end
 
       it 'returns no errors' do
-        expect(result).to eq []
+        expect(result).to eql []
       end
     end
 
@@ -42,7 +42,7 @@ describe ActiveInteraction::Validation do
           type = I18n.translate(
             "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}")
 
-          expect(result).to eq [[filter.name, :invalid_type, nil, type: type]]
+          expect(result).to eql [[filter.name, :invalid_type, nil, type: type]]
         end
       end
 
@@ -50,7 +50,7 @@ describe ActiveInteraction::Validation do
         let(:exception) { ActiveInteraction::MissingValueError }
 
         it 'returns an :msising error' do
-          expect(result).to eq [[filter.name, :missing]]
+          expect(result).to eql [[filter.name, :missing]]
         end
       end
     end

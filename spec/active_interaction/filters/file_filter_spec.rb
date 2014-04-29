@@ -11,7 +11,7 @@ describe ActiveInteraction::FileFilter, :filter do
       let(:value) { File.new(__FILE__) }
 
       it 'returns the File' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 

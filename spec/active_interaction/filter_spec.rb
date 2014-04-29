@@ -30,7 +30,7 @@ describe ActiveInteraction::Filter, :filter do
     describe '.factory' do
       it 'returns a Filter' do
         expect(described_class.factory(described_class.name.to_sym))
-          .to eq described_class
+          .to eql described_class
       end
     end
 

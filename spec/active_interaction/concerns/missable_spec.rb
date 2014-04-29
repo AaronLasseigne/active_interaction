@@ -57,7 +57,7 @@ describe ActiveInteraction::Missable do
       let(:slug) { :boolean }
 
       it 'returns self' do
-        expect(instance.method_missing(slug)).to eq instance
+        expect(instance.method_missing(slug)).to eql instance
       end
 
       it 'yields' do

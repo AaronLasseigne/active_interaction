@@ -11,7 +11,7 @@ describe ActiveInteraction::SymbolFilter, :filter do
       let(:value) { SecureRandom.hex.to_sym }
 
       it 'returns the Symbol' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 
@@ -19,7 +19,7 @@ describe ActiveInteraction::SymbolFilter, :filter do
       let(:value) { SecureRandom.hex }
 
       it 'returns a Symbol' do
-        expect(filter.cast(value)).to eq value.to_sym
+        expect(filter.cast(value)).to eql value.to_sym
       end
     end
   end

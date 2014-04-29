@@ -70,7 +70,7 @@ describe TimeInteraction do
       let(:a) { Time.now }
 
       it 'returns the correct value' do
-        expect(result[:a]).to eq a
+        expect(result[:a]).to eql a
       end
     end
 
@@ -78,7 +78,7 @@ describe TimeInteraction do
       let(:a) { TimeWithZone.new(Time.now) }
 
       it 'returns the correct value' do
-        expect(result[:a]).to eq a
+        expect(result[:a]).to eql a
       end
 
       it 'handles time zone changes' do

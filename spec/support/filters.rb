@@ -36,7 +36,7 @@ shared_examples_for 'a filter' do
       it 'returns a Filter' do
         expect(
           described_class.factory(described_class.slug)
-        ).to eq described_class
+        ).to eql described_class
       end
     end
   end
@@ -86,7 +86,7 @@ shared_examples_for 'a filter' do
       include_context 'optional'
 
       it 'returns the default' do
-        expect(filter.clean(value)).to eq options[:default]
+        expect(filter.clean(value)).to eql options[:default]
       end
     end
 
@@ -128,7 +128,7 @@ shared_examples_for 'a filter' do
       include_context 'optional'
 
       it 'returns the default' do
-        expect(filter.default).to eq options[:default]
+        expect(filter.default).to eql options[:default]
       end
     end
 
@@ -163,7 +163,7 @@ shared_examples_for 'a filter' do
       end
 
       it 'returns the default' do
-        expect(filter.default).to eq options[:default].call
+        expect(filter.default).to eql options[:default].call
       end
     end
   end
@@ -181,7 +181,7 @@ shared_examples_for 'a filter' do
       end
 
       it 'returns the description' do
-        expect(filter.desc).to eq desc
+        expect(filter.desc).to eql desc
       end
     end
   end
@@ -212,13 +212,13 @@ shared_examples_for 'a filter' do
 
   describe '#name' do
     it 'returns the name' do
-      expect(filter.name).to eq name
+      expect(filter.name).to eql name
     end
   end
 
   describe '#options' do
     it 'returns the options' do
-      expect(filter.options).to eq options
+      expect(filter.options).to eql options
     end
   end
 end

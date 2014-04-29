@@ -40,7 +40,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
       let(:value) { [] }
 
       it 'returns the Array' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 
@@ -48,7 +48,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
       let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
       it 'returns the Array' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 
@@ -59,7 +59,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
         let(:value) { [] }
 
         it 'returns the Array' do
-          expect(filter.cast(value)).to eq value
+          expect(filter.cast(value)).to eql value
         end
       end
 
@@ -67,7 +67,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
         let(:value) { [[]] }
 
         it 'returns the Array' do
-          expect(filter.cast(value)).to eq value
+          expect(filter.cast(value)).to eql value
         end
       end
 

@@ -19,7 +19,7 @@ describe ActiveInteraction::HashFilter, :filter do
       let(:value) { {} }
 
       it 'returns the Hash' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 
@@ -27,7 +27,7 @@ describe ActiveInteraction::HashFilter, :filter do
       let(:value) { { a: {} } }
 
       it 'returns an empty Hash' do
-        expect(filter.cast(value)).to eq({})
+        expect(filter.cast(value)).to eql({})
       end
     end
 
@@ -38,7 +38,7 @@ describe ActiveInteraction::HashFilter, :filter do
         let(:value) { { a: {} } }
 
         it 'returns the Hash' do
-          expect(filter.cast(value)).to eq value
+          expect(filter.cast(value)).to eql value
         end
 
         context 'with String keys' do
@@ -67,8 +67,8 @@ describe ActiveInteraction::HashFilter, :filter do
           begin
             filter.cast(value)
           rescue ActiveInteraction::InvalidNestedValueError => e
-            expect(e.filter_name).to eq k
-            expect(e.input_value).to eq v
+            expect(e.filter_name).to eql k
+            expect(e.input_value).to eql v
           end
         end
       end
@@ -98,7 +98,7 @@ describe ActiveInteraction::HashFilter, :filter do
       end
 
       it 'returns the Hash' do
-        expect(filter.default).to eq options[:default]
+        expect(filter.default).to eql options[:default]
       end
     end
 

@@ -17,17 +17,17 @@ describe ActiveInteraction::ModelFilter, :filter do
 
     context 'with class as a Class' do
       it 'returns the instance' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
 
       it 'handles reconstantizing' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
 
         Object.send(:remove_const, :Model)
         class Model; end
         value = Model.new
 
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
 
       it 'handles reconstantizing subclasses' do
@@ -38,7 +38,7 @@ describe ActiveInteraction::ModelFilter, :filter do
         class Submodel < Model; end
         value = Submodel.new
 
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
 
       it 'does not overflow the stack' do
@@ -69,7 +69,7 @@ describe ActiveInteraction::ModelFilter, :filter do
       end
 
       it 'returns the instance' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 
@@ -79,7 +79,7 @@ describe ActiveInteraction::ModelFilter, :filter do
       end
 
       it 'returns the instance' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 
