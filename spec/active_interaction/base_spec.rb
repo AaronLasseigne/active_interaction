@@ -245,11 +245,10 @@ describe ActiveInteraction::Base do
           expect(result[:thing]).to eql thing
         end
 
-        it 'calls ActiveRecord::Base.transaction' do
-          allow(ActiveRecord::Base).to receive(:transaction)
+        it 'calls #transaction' do
+          expect_any_instance_of(described_class).to receive(:transaction)
+            .once.with(no_args)
           outcome
-          expect(ActiveRecord::Base).to have_received(:transaction)
-            .with(no_args)
         end
       end
     end
