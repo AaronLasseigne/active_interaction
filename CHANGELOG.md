@@ -1,5 +1,7 @@
 # [Master][]
 
+- Fix a bug that caused nested hash error messages to be misleading.
+
 # [1.1.5][] (2014-03-31)
 
 - The `transform_keys` method broke backwards compatibility because it's not available until Rails 4.0.2.

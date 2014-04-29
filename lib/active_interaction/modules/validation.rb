@@ -11,15 +11,27 @@ module ActiveInteraction
       filters.each_with_object([]) do |(name, filter), errors|
         begin
           filter.cast(inputs[name])
-        rescue InvalidValueError
-          errors << [name, :invalid_type, nil, type: type(filter)]
-        rescue MissingValueError
-          errors << [name, :missing]
+        rescue InvalidNestedValueError,
+               InvalidValueError,
+               MissingValueError => e
+          errors << error_args(filter, e)
         end
       end
     end
 
     private
+
+    def self.error_args(filter, error)
+      case error
+      when InvalidNestedValueError
+        [filter.name, :invalid_nested, nil,
+         name: e.filter_name.inspect, value: e.input_value.inspect]
+      when InvalidValueError
+        [filter.name, :invalid_type, nil, type: type(filter)]
+      when MissingValueError
+        [filter.name, :missing]
+      end
+    end
 
     # @param filter [Filter]
     def self.type(filter)
