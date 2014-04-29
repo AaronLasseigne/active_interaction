@@ -21,11 +21,11 @@ describe HashInteraction do
     before { inputs.merge!(a: a) }
 
     it 'returns the correct value for :a' do
-      expect(result[:a]).to eq a.symbolize_keys
+      expect(result[:a]).to eql a.symbolize_keys
     end
 
     it 'returns the correct value for :b' do
-      expect(result[:b]).to eq(x: {})
+      expect(result[:b]).to eql(x: {})
     end
   end
 

@@ -19,8 +19,5 @@ module ActiveInteraction
 
   # @private
   class DateFilter < AbstractDateTimeFilter
-    def database_column_type
-      :date
-    end
   end
 end

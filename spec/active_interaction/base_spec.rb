@@ -84,7 +84,7 @@ describe ActiveInteraction::Base do
         before { inputs.merge!(thing: thing) }
 
         it 'sets the attribute' do
-          expect(interaction.thing).to eq thing
+          expect(interaction.thing).to eql thing
         end
       end
     end
@@ -140,12 +140,12 @@ describe ActiveInteraction::Base do
     end
 
     it 'returns the description' do
-      expect(described_class.desc(desc)).to eq desc
+      expect(described_class.desc(desc)).to eql desc
     end
 
     it 'saves the description' do
       described_class.desc(desc)
-      expect(described_class.desc).to eq desc
+      expect(described_class.desc).to eql desc
     end
   end
 
@@ -243,11 +243,11 @@ describe ActiveInteraction::Base do
           end
 
           it 'has errors' do
-            expect(outcome.errors.messages[:thing]).to eq %w(error error)
+            expect(outcome.errors.messages[:thing]).to eql %w(error error)
           end
 
           it 'has symbolic errors' do
-            expect(outcome.errors.symbolic[:thing]).to eq [:error]
+            expect(outcome.errors.symbolic[:thing]).to eql [:error]
           end
         end
 
@@ -256,14 +256,13 @@ describe ActiveInteraction::Base do
         end
 
         it 'sets the result' do
-          expect(result[:thing]).to eq thing
+          expect(result[:thing]).to eql thing
         end
 
-        it 'calls ActiveRecord::Base.transaction' do
-          allow(ActiveRecord::Base).to receive(:transaction)
+        it 'calls #transaction' do
+          expect_any_instance_of(described_class).to receive(:transaction)
+            .once.with(no_args)
           outcome
-          expect(ActiveRecord::Base).to have_received(:transaction)
-            .with(no_args)
         end
       end
     end
@@ -283,7 +282,7 @@ describe ActiveInteraction::Base do
         before { inputs.merge!(thing: thing) }
 
         it 'returns the result' do
-          expect(result[:thing]).to eq thing
+          expect(result[:thing]).to eql thing
         end
       end
     end
@@ -343,7 +342,7 @@ describe ActiveInteraction::Base do
       end
 
       it 'returns the sum' do
-        expect(result).to eq x + y
+        expect(result).to eql x + y
       end
     end
 
@@ -429,7 +428,7 @@ describe ActiveInteraction::Base do
       include_context 'import_filters context'
 
       it 'imports the filters' do
-        expect(described_class.filters).to eq klass.filters
+        expect(described_class.filters).to eql klass.filters
           .select { |k, _| only.nil? ? true : [*only].include?(k) }
           .reject { |k, _| except.nil? ? false : [*except].include?(k) }
       end
@@ -437,7 +436,7 @@ describe ActiveInteraction::Base do
       it 'does not modify the source' do
         filters = klass.filters.dup
         described_class
-        expect(klass.filters).to eq filters
+        expect(klass.filters).to eql filters
       end
 
       it 'responds to readers, writers, and predicates' do

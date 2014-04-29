@@ -33,8 +33,7 @@ module ActiveInteraction
         value = stringify_the_symbol_keys(value)
 
         filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
-          name = name.to_s
-          h[name] = filter.clean(value[name])
+          clean_value(h, name.to_s, filter, value)
         end.symbolize_keys
       else
         super
@@ -52,6 +51,12 @@ module ActiveInteraction
     end
 
     private
+
+    def clean_value(h, name, filter, value)
+      h[name] = filter.clean(value[name])
+    rescue InvalidValueError, MissingValueError
+      raise InvalidNestedValueError.new(name, value[name])
+    end
 
     def raw_default
       value = super

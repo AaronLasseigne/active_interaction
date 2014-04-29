@@ -8,14 +8,11 @@ module ActiveInteraction
   #
   # @private
   class AbstractFilter < Filter
+    private
+
     # @return [Class]
-    attr_reader :klass
-    private :klass
-
-    def initialize(*)
-      super
-
-      @klass = self.class.slug.to_s.camelize.constantize
+    def klass
+      @klass ||= self.class.slug.to_s.camelize.constantize
     end
   end
 end

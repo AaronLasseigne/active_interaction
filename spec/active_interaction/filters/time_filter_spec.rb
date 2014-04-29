@@ -19,7 +19,7 @@ describe ActiveInteraction::TimeFilter, :filter do
       let(:value) { Time.new }
 
       it 'returns the Time' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 
@@ -27,7 +27,7 @@ describe ActiveInteraction::TimeFilter, :filter do
       let(:value) { '2011-12-13 14:15:16 +1718' }
 
       it 'returns a Time' do
-        expect(filter.cast(value)).to eq Time.parse(value)
+        expect(filter.cast(value)).to eql Time.parse(value)
       end
 
       context 'with format' do
@@ -36,7 +36,7 @@ describe ActiveInteraction::TimeFilter, :filter do
         let(:value) { '13/12/2011 14:15:16 +1718' }
 
         it 'returns a Time' do
-          expect(filter.cast(value)).to eq Time.strptime(value, format)
+          expect(filter.cast(value)).to eql Time.strptime(value, format)
         end
       end
     end

@@ -1,22 +1,5 @@
 # coding: utf-8
 
-begin
-  require 'active_record'
-rescue LoadError
-  # rubocop:disable Documentation
-  module ActiveRecord
-    Rollback = Class.new(ActiveInteraction::Error)
-
-    class Base
-      def self.transaction(*)
-        yield
-      rescue Rollback
-        # rollbacks are silently swallowed
-      end
-    end
-  end
-end
-
 module ActiveInteraction
   # @abstract Include and override {#execute} to implement a custom Runnable
   #   class.
@@ -30,6 +13,7 @@ module ActiveInteraction
   module Runnable
     extend ActiveSupport::Concern
     include ActiveModel::Validations
+    include ActiveInteraction::Transactable
 
     included do
       define_callbacks :execute
@@ -98,7 +82,7 @@ module ActiveInteraction
     def run
       return unless valid?
 
-      self.result = ActiveRecord::Base.transaction do
+      self.result = transaction do
         begin
           run_callbacks(:execute) { execute }
         rescue Interrupt => interrupt

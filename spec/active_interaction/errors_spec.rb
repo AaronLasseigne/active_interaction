@@ -20,22 +20,22 @@ describe ActiveInteraction::Errors do
   describe '#add_sym' do
     it 'defaults to :invalid' do
       errors.add_sym(:attribute)
-      expect(errors.symbolic[:attribute]).to eq [:invalid]
+      expect(errors.symbolic[:attribute]).to eql [:invalid]
     end
 
     it 'adds a symbol' do
       errors.add_sym(:attribute, :symbol)
-      expect(errors.symbolic[:attribute]).to eq [:symbol]
+      expect(errors.symbolic[:attribute]).to eql [:symbol]
     end
 
     it 'accepts a message' do
       errors.add_sym(:attribute, :symbol, 'message')
-      expect(errors.symbolic[:attribute]).to eq [:symbol]
+      expect(errors.symbolic[:attribute]).to eql [:symbol]
     end
 
     it 'accepts a message and options' do
       errors.add_sym(:attribute, :symbol, 'message', key: :value)
-      expect(errors.symbolic[:attribute]).to eq [:symbol]
+      expect(errors.symbolic[:attribute]).to eql [:symbol]
     end
 
     context 'calling #add' do
@@ -71,7 +71,7 @@ describe ActiveInteraction::Errors do
 
   describe '#initialize' do
     it 'sets symbolic to an empty hash' do
-      expect(errors.symbolic).to eq({})
+      expect(errors.symbolic).to eql({})
     end
   end
 
@@ -83,7 +83,7 @@ describe ActiveInteraction::Errors do
     end
 
     it 'dups symbolic' do
-      expect(errors_dup.symbolic).to eq errors.symbolic
+      expect(errors_dup.symbolic).to eql errors.symbolic
       expect(errors_dup.symbolic).to_not equal errors.symbolic
     end
   end
@@ -109,13 +109,13 @@ describe ActiveInteraction::Errors do
 
       it 'adds the error' do
         errors.merge!(other)
-        expect(errors.messages[:attribute]).to eq ['is invalid']
+        expect(errors.messages[:attribute]).to eql ['is invalid']
       end
 
       it 'does not add duplicate errors' do
         other.add(:attribute)
         errors.merge!(other)
-        expect(errors.messages[:attribute]).to eq ['is invalid']
+        expect(errors.messages[:attribute]).to eql ['is invalid']
       end
     end
 
@@ -126,7 +126,7 @@ describe ActiveInteraction::Errors do
 
       it 'adds the error' do
         errors.merge!(other)
-        expect(errors.symbolic[:attribute]).to eq [:invalid]
+        expect(errors.symbolic[:attribute]).to eql [:invalid]
       end
     end
 

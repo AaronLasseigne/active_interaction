@@ -8,6 +8,7 @@ require 'active_interaction/errors'
 require 'active_interaction/concerns/active_modelable'
 require 'active_interaction/concerns/hashable'
 require 'active_interaction/concerns/missable'
+require 'active_interaction/concerns/transactable'
 require 'active_interaction/concerns/runnable'
 
 require 'active_interaction/modules/validation'
@@ -21,6 +22,7 @@ require 'active_interaction/filters/array_filter'
 require 'active_interaction/filters/boolean_filter'
 require 'active_interaction/filters/date_filter'
 require 'active_interaction/filters/date_time_filter'
+require 'active_interaction/filters/decimal_filter'
 require 'active_interaction/filters/file_filter'
 require 'active_interaction/filters/float_filter'
 require 'active_interaction/filters/hash_filter'
@@ -42,5 +44,5 @@ I18n.load_path << File.expand_path(
 #
 # @since 1.0.0
 #
-# @version 1.1.5
+# @version 1.1.6
 module ActiveInteraction end
