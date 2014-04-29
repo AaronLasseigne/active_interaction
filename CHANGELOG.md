@@ -1,5 +1,6 @@
 # [Master][]
 
+- Add a decimal filter.
 - Add support for disabling and modifying transactions through the
   `transaction` helper method.
 - Add support for `column_for_attribute` which provides better interoperability with gems like Formtastic and Simple Form.
