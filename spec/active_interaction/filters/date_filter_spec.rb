@@ -19,7 +19,7 @@ describe ActiveInteraction::DateFilter, :filter do
       let(:value) { Date.new }
 
       it 'returns the Date' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 
@@ -27,7 +27,7 @@ describe ActiveInteraction::DateFilter, :filter do
       let(:value) { '2011-12-13' }
 
       it 'returns a Date' do
-        expect(filter.cast(value)).to eq Date.parse(value)
+        expect(filter.cast(value)).to eql Date.parse(value)
       end
 
       context 'with format' do
@@ -36,7 +36,7 @@ describe ActiveInteraction::DateFilter, :filter do
         let(:value) { '13/12/2011' }
 
         it 'returns a Date' do
-          expect(filter.cast(value)).to eq Date.strptime(value, format)
+          expect(filter.cast(value)).to eql Date.strptime(value, format)
         end
       end
     end

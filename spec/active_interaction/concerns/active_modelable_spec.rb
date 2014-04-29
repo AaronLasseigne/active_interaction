@@ -23,13 +23,13 @@ describe ActiveInteraction::ActiveModelable do
 
   describe '.i18n_scope' do
     it 'returns the scope' do
-      expect(klass.i18n_scope).to eq :active_interaction
+      expect(klass.i18n_scope).to eql :active_interaction
     end
   end
 
   describe '#i18n_scope' do
     it 'returns the scope' do
-      expect(instance.i18n_scope).to eq :active_interaction
+      expect(instance.i18n_scope).to eql :active_interaction
     end
   end
 

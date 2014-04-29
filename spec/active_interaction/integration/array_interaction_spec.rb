@@ -21,11 +21,11 @@ describe ArrayInteraction do
     before { inputs.merge!(a: a) }
 
     it 'returns the correct value for :a' do
-      expect(result[:a]).to eq a
+      expect(result[:a]).to eql a
     end
 
     it 'returns the correct value for :b' do
-      expect(result[:b]).to eq [[]]
+      expect(result[:b]).to eql [[]]
     end
   end
 

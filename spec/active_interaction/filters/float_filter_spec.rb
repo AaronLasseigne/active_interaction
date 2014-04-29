@@ -11,7 +11,7 @@ describe ActiveInteraction::FloatFilter, :filter do
       let(:value) { rand }
 
       it 'returns the Float' do
-        expect(filter.cast(value)).to eq value
+        expect(filter.cast(value)).to eql value
       end
     end
 
@@ -19,7 +19,7 @@ describe ActiveInteraction::FloatFilter, :filter do
       let(:value) { rand(1 << 16) }
 
       it 'returns a Float' do
-        expect(filter.cast(value)).to eq value.to_f
+        expect(filter.cast(value)).to eql value.to_f
       end
     end
 
@@ -27,7 +27,7 @@ describe ActiveInteraction::FloatFilter, :filter do
       let(:value) { rand.to_s }
 
       it 'returns a Float' do
-        expect(filter.cast(value)).to eq Float(value)
+        expect(filter.cast(value)).to eql Float(value)
       end
     end
 
