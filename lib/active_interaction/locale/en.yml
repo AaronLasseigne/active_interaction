@@ -11,6 +11,7 @@ en:
       boolean: boolean
       date: date
       date_time: date time
+      decimal: decimal
       file: file
       float: float
       hash: hash

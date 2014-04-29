@@ -247,6 +247,7 @@ hsilgne:
       boolean: naeloob
       date: etad
       date_time: emit etad
+      decimal: lamiced
       file: elif
       float: taolf
       hash: hsah
