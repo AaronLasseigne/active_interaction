@@ -60,6 +60,32 @@ describe ActiveInteraction::DateTimeFilter, :filter do
         end
       end
     end
+
+    context 'with an Array' do
+      let(:year) { 2014 }
+      let(:month) { 1 }
+      let(:day) { 2 }
+      let(:hour) { 3 }
+      let(:minute) { 4 }
+      let(:second) { 5 }
+      let(:value) { [year, month, day, hour, minute, second] }
+
+      it 'returns the Date' do
+        expect(filter.cast(value)).to eql DateTime.new(
+          year, month, day, hour, minute, second
+        )
+      end
+    end
+
+    context 'with an invalid Array' do
+      let(:value) { %w(a b c d e f) }
+
+      it 'raises an error' do
+        expect do
+          filter.cast(value)
+        end.to raise_error ActiveInteraction::InvalidValueError
+      end
+    end
   end
 
   describe '#database_column_type' do
