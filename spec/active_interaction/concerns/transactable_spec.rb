@@ -33,7 +33,7 @@ describe ActiveInteraction::Transactable do
 
   describe '.transaction' do
     it 'returns nil' do
-      expect(klass.transaction).to be_nil
+      expect(klass.transaction(true)).to be_nil
     end
 
     it 'accepts a flag parameter' do

@@ -43,7 +43,7 @@ module ActiveInteraction
       # @param options [Hash]
       #
       # @return [nil]
-      def transaction(enable = true, options = {})
+      def transaction(enable, options = {})
         @_interaction_transaction_enabled = enable
         @_interaction_transaction_options = options
 

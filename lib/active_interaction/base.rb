@@ -58,8 +58,7 @@ module ActiveInteraction
       #
       #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
 
-      # @!method transaction(enable = true, options = {})
-      #
+      # @!method transaction(enable, options = {})
       #   Configure transactions by enabling or disabling them and setting
       #   their options.
       #
