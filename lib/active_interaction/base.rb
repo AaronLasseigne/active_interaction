@@ -31,9 +31,6 @@ module ActiveInteraction
     include ActiveModelable
     include Runnable
 
-    GROUPED_INPUT_PATTERN = /\A(.+)\((\d+)i\)\z/
-    private_constant :GROUPED_INPUT_PATTERN
-
     validate :input_errors
 
     class << self
@@ -129,7 +126,7 @@ module ActiveInteraction
       # @param name [Symbol]
       # @param options [Hash]
       def add_filter(klass, name, options, &block)
-        fail InvalidFilterError, name.inspect if reserved?(name)
+        fail InvalidFilterError, name.inspect if InputProcessor.reserved?(name)
 
         initialize_filter(klass.new(name, options, &block))
       end
@@ -170,13 +167,6 @@ module ActiveInteraction
         define_method("#{filter.name}?") { !public_send(filter.name).nil? }
 
         filter.default if filter.default?
-      end
-
-      # @param symbol [Symbol]
-      #
-      # @return [Boolean]
-      def reserved?(symbol)
-        symbol.to_s.start_with?('_interaction_')
       end
     end
 
@@ -248,31 +238,16 @@ module ActiveInteraction
     # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
       inputs.each do |key, value|
-        fail_if_reserved(key)
+        fail InvalidValueError, key.inspect if InputProcessor.reserved?(key)
+
         populate_reader(key, value)
       end
 
-      populate_filters(merge_inputs(inputs))
-    end
-
-    def fail_if_reserved(key)
-      fail InvalidValueError, key.inspect if self.class.send(:reserved?, key)
+      populate_filters(InputProcessor.process(inputs))
     end
 
     def populate_reader(key, value)
       instance_variable_set("@#{key}", value) if respond_to?(key)
-    end
-
-    def merge_inputs(inputs)
-      inputs.sort.each_with_object({}) do |(k, v), h|
-        if (match = GROUPED_INPUT_PATTERN.match(k))
-          k, i = match.captures
-
-          (h[k.to_sym] ||= GroupedInput.new)[i] = v
-        else
-          h[k] = v
-        end
-      end
     end
 
     def populate_filters(inputs)
