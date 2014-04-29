@@ -58,13 +58,13 @@ describe ActiveInteraction::Transactable do
 
   describe '.transaction_options' do
     it 'defaults to an empty hash' do
-      expect(klass.transaction_options).to eq({})
+      expect(klass.transaction_options).to eql({})
     end
 
     it 'returns the stored value' do
       h = { rand => rand }
       klass.transaction(klass.transaction?, h)
-      expect(klass.transaction_options).to eq h
+      expect(klass.transaction_options).to eql h
     end
   end
 
@@ -87,7 +87,7 @@ describe ActiveInteraction::Transactable do
       end
 
       it 'returns the value of the block' do
-        expect(result).to eq value
+        expect(result).to eql value
       end
 
       it 'does not call ActiveRecord::Base.transaction' do
@@ -101,7 +101,7 @@ describe ActiveInteraction::Transactable do
       end
 
       it 'returns the value of the block' do
-        expect(result).to eq value
+        expect(result).to eql value
       end
 
       it 'calls ActiveRecord::Base.transaction' do
