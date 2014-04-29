@@ -17,6 +17,8 @@ module ActiveInteraction
         value
       when String
         convert(value)
+      when Array
+        convert(stringify(value))
       else
         super
       end
@@ -48,6 +50,10 @@ module ActiveInteraction
     # @return [Array<Class>]
     def klasses
       [klass]
+    end
+
+    def stringify(value)
+      "#{value[0, 3].join('-')} #{value[3, 3].join(':')}".strip
     end
   end
 end

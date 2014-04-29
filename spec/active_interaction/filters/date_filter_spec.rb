@@ -60,5 +60,26 @@ describe ActiveInteraction::DateFilter, :filter do
         end
       end
     end
+
+    context 'with an Array' do
+      let(:year) { 2014 }
+      let(:month) { 1 }
+      let(:day) { 2 }
+      let(:value) { [year, month, day] }
+
+      it 'returns the Date' do
+        expect(filter.cast(value)).to eql Date.new(year, month, day)
+      end
+    end
+
+    context 'with an invalid Array' do
+      let(:value) { %w(a b c) }
+
+      it 'raises an error' do
+        expect do
+          filter.cast(value)
+        end.to raise_error ActiveInteraction::InvalidValueError
+      end
+    end
   end
 end
