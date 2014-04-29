@@ -52,18 +52,18 @@ module ActiveInteraction
   # @return [Class]
   class InvalidNestedValueError < Error
     # @return [Symbol]
-    attr_reader :name
+    attr_reader :filter_name
 
     # @return [Object]
-    attr_reader :value
+    attr_reader :input_value
 
-    # @param name [Symbol]
-    # @param value [Object]
-    def initialize(name, value)
+    # @param filter_name [Symbol]
+    # @param input_value [Object]
+    def initialize(filter_name, input_value)
       super()
 
-      @name = name
-      @value = value
+      @filter_name = filter_name
+      @input_value = input_value
     end
   end
 

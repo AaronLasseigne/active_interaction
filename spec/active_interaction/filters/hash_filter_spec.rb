@@ -53,12 +53,23 @@ describe ActiveInteraction::HashFilter, :filter do
       end
 
       context 'without a Hash' do
-        let(:value) { { a: double } }
+        let(:k) { 'a' }
+        let(:v) { double }
+        let(:value) { { k => v } }
 
         it 'raises an error' do
           expect do
             filter.cast(value)
           end.to raise_error ActiveInteraction::InvalidNestedValueError
+        end
+
+        it 'populates the error' do
+          begin
+            filter.cast(value)
+          rescue ActiveInteraction::InvalidNestedValueError => e
+            expect(e.filter_name).to eq k
+            expect(e.input_value).to eq v
+          end
         end
       end
     end

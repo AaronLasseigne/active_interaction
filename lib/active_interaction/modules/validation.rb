@@ -25,7 +25,7 @@ module ActiveInteraction
       case error
       when InvalidNestedValueError
         [filter.name, :invalid_nested, nil,
-         name: e.name.inspect, value: e.value.inspect]
+         name: e.filter_name.inspect, value: e.input_value.inspect]
       when InvalidValueError
         [filter.name, :invalid_type, nil, type: type(filter)]
       when MissingValueError
