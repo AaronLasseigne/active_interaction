@@ -221,4 +221,10 @@ shared_examples_for 'a filter' do
       expect(filter.options).to eq options
     end
   end
+
+  describe '#database_column_type' do
+    it 'returns a symbol' do
+      expect(filter.database_column_type).to be_a Symbol
+    end
+  end
 end

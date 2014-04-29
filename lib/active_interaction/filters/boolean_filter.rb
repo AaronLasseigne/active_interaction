@@ -26,5 +26,9 @@ module ActiveInteraction
         super
       end
     end
+
+    def database_column_type
+      :boolean
+    end
   end
 end

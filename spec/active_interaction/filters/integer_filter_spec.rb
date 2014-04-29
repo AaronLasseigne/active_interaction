@@ -41,4 +41,10 @@ describe ActiveInteraction::IntegerFilter, :filter do
       end
     end
   end
+
+  describe '#database_column_type' do
+    it 'returns :integer' do
+      expect(filter.database_column_type).to eql :integer
+    end
+  end
 end

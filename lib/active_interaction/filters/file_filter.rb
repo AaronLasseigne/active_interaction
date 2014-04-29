@@ -27,6 +27,10 @@ module ActiveInteraction
       end
     end
 
+    def database_column_type
+      :file
+    end
+
     private
 
     # @param value [File, #tempfile]
