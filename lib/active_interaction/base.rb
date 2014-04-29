@@ -250,9 +250,19 @@ module ActiveInteraction
         instance_variable_set("@#{key}", value) if respond_to?(key)
       end
 
+      pattern = /\A(.+)\((\d+)i\)\z/
+      merged_inputs = inputs.sort.each_with_object({}) do |(k, v), h|
+        if (match = pattern.match(k))
+          k, i = match.captures
+
+          (h[k.to_sym] ||= GroupedInput.new)[i] = v
+        else
+          h[k] = v
+        end
+      end
       self.class.filters.each do |name, filter|
         begin
-          public_send("#{name}=", filter.clean(inputs[name]))
+          public_send("#{name}=", filter.clean(merged_inputs[name]))
         rescue InvalidValueError, MissingValueError, InvalidNestedValueError
           # Validators (#input_errors) will add errors if appropriate.
         end

@@ -6,6 +6,10 @@ InteractionWithFilter = Class.new(TestInteraction) do
   float :thing
 end
 
+InteractionWithDateFilter = Class.new(TestInteraction) do
+  date :thing
+end
+
 AddInteraction = Class.new(TestInteraction) do
   float :x, :y
 
@@ -127,6 +131,25 @@ describe ActiveInteraction::Base do
 
         it 'sets the attribute to the filtered value' do
           expect(interaction.thing).to eql 1.0
+        end
+      end
+
+      context 'with multiple inputs' do
+        let(:described_class) { InteractionWithDateFilter }
+        let(:year) { 2012 }
+        let(:month) { 1 }
+        let(:day) { 2 }
+
+        before do
+          inputs.merge!(
+            'thing(1i)' => year.to_s,
+            'thing(2i)' => month.to_s,
+            'thing(3i)' => day.to_s
+          )
+        end
+
+        it 'returns a Date' do
+          expect(interaction.thing).to eql Date.new(year, month, day)
         end
       end
     end
