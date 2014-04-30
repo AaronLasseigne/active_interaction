@@ -35,7 +35,7 @@ describe ActiveInteraction::InputProcessor do
         end
 
         it 'groups the inputs into a GroupedInput' do
-          expect(result).to eql(
+          expect(result).to eq(
             key: ActiveInteraction::GroupedInput.new(
               '1' => :value1,
               '2' => :value2
@@ -53,7 +53,7 @@ describe ActiveInteraction::InputProcessor do
         end
 
         it 'groups the inputs into a GroupedInput' do
-          expect(result).to eql(
+          expect(result).to eq(
             key: ActiveInteraction::GroupedInput.new(
               '1' => :value1
             )
