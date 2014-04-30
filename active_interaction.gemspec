@@ -12,17 +12,17 @@ Gem::Specification.new do |spec|
   spec.description = spec.summary
   spec.homepage = 'http://orgsync.github.io/active_interaction/'
   spec.authors = ['Aaron Lasseigne', 'Taylor Fausak']
-  spec.email = %w(aaron.lasseigne@gmail.com taylor@fausak.me)
+  spec.email = %w[aaron.lasseigne@gmail.com taylor@fausak.me]
   spec.license = 'MIT'
 
   # Files
   spec.require_path = 'lib'
   spec.test_files = Dir['spec/**/*.rb']
-  spec.files = Dir['lib/**/*.rb'] + spec.test_files + %w(
+  spec.files = Dir['lib/**/*.rb'] + spec.test_files + %w[
     CHANGELOG.md
     LICENSE.txt
     README.md
-  ) + Dir['lib/active_interaction/locale/**/*.yml']
+  ] + Dir['lib/active_interaction/locale/**/*.yml']
 
   # Dependencies
   spec.required_ruby_version = '>= 1.9.3'

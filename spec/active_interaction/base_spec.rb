@@ -171,7 +171,7 @@ describe ActiveInteraction::Base do
         end
       end
 
-      %w(thing1 thing2).each do |thing|
+      %w[thing1 thing2].each do |thing|
         it "adds an attr_reader for #{thing}" do
           expect(interaction).to respond_to thing
         end
@@ -229,7 +229,7 @@ describe ActiveInteraction::Base do
           end
 
           it 'has errors' do
-            expect(outcome.errors.messages[:thing]).to eql %w(error error)
+            expect(outcome.errors.messages[:thing]).to eql %w[error error]
           end
 
           it 'has symbolic errors' do
