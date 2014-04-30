@@ -6,11 +6,11 @@ module ActiveInteraction
   # @private
   module ActiveModelable
     extend ActiveSupport::Concern
-
-    include ActiveModel::Conversion
-    include ActiveModel::Validations
-
-    extend ActiveModel::Naming
+    included do
+      extend  ActiveModel::Naming
+      include ActiveModel::Validations
+      include ActiveModel::Conversion
+    end
 
     # @return (see ClassMethods#i18n_scope)
     #

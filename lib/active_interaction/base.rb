@@ -28,11 +28,6 @@ module ActiveInteraction
   #     outcome.errors
   #   end
   class Base
-    include ActiveModelable
-    include Runnable
-
-    validate :input_errors
-
     class << self
       include Hashable
       include Missable
@@ -134,6 +129,9 @@ module ActiveInteraction
 
       # @param klass [Class]
       def inherited(klass)
+        klass.send :include, ActiveModelable
+        klass.send :include, Runnable
+        klass.send :validate, :input_errors
         klass.instance_variable_set(:@_interaction_filters, filters.dup)
       end
 

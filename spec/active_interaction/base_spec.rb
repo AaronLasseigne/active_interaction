@@ -451,4 +451,19 @@ describe ActiveInteraction::Base do
       let(:except) { [:x] }
     end
   end
+
+  it 'does not leak _validators' do
+    first = Class.new(ActiveInteraction::Base) do
+      string :foo
+      validates_presence_of :foo
+    end
+
+    second = Class.new(ActiveInteraction::Base) do
+      string :bar
+      validates_presence_of :bar
+    end
+
+    expect(first._validators.keys).to eql [:foo]
+    expect(second._validators.keys).to eql [:bar]
+  end
 end
