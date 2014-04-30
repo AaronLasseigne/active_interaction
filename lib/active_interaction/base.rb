@@ -126,7 +126,7 @@ module ActiveInteraction
       # @param name [Symbol]
       # @param options [Hash]
       def add_filter(klass, name, options, &block)
-        fail InvalidFilterError, name.inspect if reserved?(name)
+        fail InvalidFilterError, name.inspect if InputProcessor.reserved?(name)
 
         initialize_filter(klass.new(name, options, &block))
       end
@@ -167,13 +167,6 @@ module ActiveInteraction
         define_method("#{filter.name}?") { !public_send(filter.name).nil? }
 
         filter.default if filter.default?
-      end
-
-      # @param symbol [Symbol]
-      #
-      # @return [Boolean]
-      def reserved?(symbol)
-        symbol.to_s.start_with?('_interaction_')
       end
     end
 
@@ -245,11 +238,19 @@ module ActiveInteraction
     # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
       inputs.each do |key, value|
-        fail InvalidValueError, key.inspect if self.class.send(:reserved?, key)
+        fail InvalidValueError, key.inspect if InputProcessor.reserved?(key)
 
-        instance_variable_set("@#{key}", value) if respond_to?(key)
+        populate_reader(key, value)
       end
 
+      populate_filters(InputProcessor.process(inputs))
+    end
+
+    def populate_reader(key, value)
+      instance_variable_set("@#{key}", value) if respond_to?(key)
+    end
+
+    def populate_filters(inputs)
       self.class.filters.each do |name, filter|
         begin
           public_send("#{name}=", filter.clean(inputs[name]))

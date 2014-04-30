@@ -147,6 +147,8 @@ module ActiveInteraction
       fail NoDefaultError, name unless default?
 
       value = raw_default
+      fail InvalidValueError if value.is_a?(GroupedInput)
+
       cast(value)
     rescue InvalidValueError, MissingValueError
       raise InvalidDefaultError, "#{name}: #{value.inspect}"

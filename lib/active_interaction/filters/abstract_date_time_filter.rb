@@ -17,6 +17,8 @@ module ActiveInteraction
         value
       when String
         convert(value)
+      when GroupedInput
+        convert(stringify(value))
       else
         super
       end
@@ -52,6 +54,14 @@ module ActiveInteraction
     # @return [Array<Class>]
     def klasses
       [klass]
+    end
+
+    # @return [String]
+    def stringify(value)
+      date = %w(1 2 3).map { |key| value[key] }.join('-')
+      time = %w(4 5 6).map { |key| value[key] }.join(':')
+
+      "#{date} #{time}"
     end
   end
 end

@@ -60,11 +60,74 @@ describe ActiveInteraction::DateFilter, :filter do
         end
       end
     end
+
+    context 'with a GroupedInput' do
+      let(:year) { 2012 }
+      let(:month) { 1 }
+      let(:day) { 2 }
+      let(:value) do
+        ActiveInteraction::GroupedInput.new(
+          '1' => year.to_s,
+          '2' => month.to_s,
+          '3' => day.to_s
+        )
+      end
+
+      it 'returns a Date' do
+        expect(filter.cast(value)).to eql Date.new(year, month, day)
+      end
+    end
+
+    context 'with an invalid GroupedInput' do
+      context 'empty' do
+        let(:value) { ActiveInteraction::GroupedInput.new }
+
+        it 'raises an error' do
+          expect do
+            filter.cast(value)
+          end.to raise_error ActiveInteraction::InvalidValueError
+        end
+      end
+
+      context 'partial inputs' do
+        let(:value) do
+          ActiveInteraction::GroupedInput.new(
+            '2' => '1'
+          )
+        end
+
+        it 'raises an error' do
+          expect do
+            filter.cast(value)
+          end.to raise_error ActiveInteraction::InvalidValueError
+        end
+      end
+    end
   end
 
   describe '#database_column_type' do
     it 'returns :date' do
       expect(filter.database_column_type).to eql :date
+    end
+  end
+
+  describe '#default' do
+    context 'with a GroupedInput' do
+      before do
+        options.merge!(
+          default: ActiveInteraction::GroupedInput.new(
+            '1' => '2012',
+            '2' => '1',
+            '3' => '2'
+          )
+        )
+      end
+
+      it 'raises an error' do
+        expect do
+          filter.default
+        end.to raise_error ActiveInteraction::InvalidDefaultError
+      end
     end
   end
 end

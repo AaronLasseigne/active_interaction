@@ -11,6 +11,9 @@ require 'active_interaction/concerns/missable'
 require 'active_interaction/concerns/transactable'
 require 'active_interaction/concerns/runnable'
 
+require 'active_interaction/grouped_input'
+
+require 'active_interaction/modules/input_processor'
 require 'active_interaction/modules/validation'
 
 require 'active_interaction/filter_column'
