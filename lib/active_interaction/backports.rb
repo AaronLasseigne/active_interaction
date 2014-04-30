@@ -1,7 +1,7 @@
 # coding: utf-8
 
+# rubocop:disable Documentation
 module ActiveInteraction
-  #
   class GroupedInput
     # Remove when Ruby > 1.9.3.
     def [](name)
@@ -15,7 +15,6 @@ module ActiveInteraction
   end
 end
 
-#
 class Hash
   # Remove when Rails > 4.0.2.
   def transform_keys
