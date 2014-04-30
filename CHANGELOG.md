@@ -1,5 +1,7 @@
 # [Master][]
 
+- Fix a bug that leaked validators among all child classes.
+
 # [1.1.6][] (2014-04-29)
 
 - Fix a bug that caused nested hash error messages to be misleading.
