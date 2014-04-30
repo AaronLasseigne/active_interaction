@@ -7,16 +7,16 @@ module ActiveInteraction
   #
   # @private
   class GroupedInput < OpenStruct
-    def [](name)
-      return super if self.class.superclass.method_defined?(:[])
-
-      send(name)
+    unless method_defined?(:[])
+      def [](name)
+        send(name)
+      end
     end
 
-    def []=(name, value)
-      return super if self.class.superclass.method_defined?(:[]=)
-
-      send("#{name}=", value)
+    unless method_defined?(:[]=)
+      def []=(name, value)
+        send("#{name}=", value)
+      end
     end
   end
 end
