@@ -9,16 +9,12 @@ module ActiveInteraction
   #
   # @private
   class GroupedInput < OpenStruct
-    unless method_defined?(:[])
-      def [](name)
-        send(name)
-      end
-    end
+    def [](name)
+      send(name)
+    end unless method_defined?(:[])
 
-    unless method_defined?(:[]=)
-      def []=(name, value)
-        send("#{name}=", value)
-      end
-    end
+    def []=(name, value)
+      send("#{name}=", value)
+    end unless method_defined?(:[]=)
   end
 end
