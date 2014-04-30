@@ -58,8 +58,8 @@ module ActiveInteraction
 
     # @return [String]
     def stringify(value)
-      date = %w(1 2 3).map { |key| value[key] }.join('-')
-      time = %w(4 5 6).map { |key| value[key] }.join(':')
+      date = %w[1 2 3].map { |key| value[key] }.join('-')
+      time = %w[4 5 6].map { |key| value[key] }.join(':')
 
       "#{date} #{time}"
     end
