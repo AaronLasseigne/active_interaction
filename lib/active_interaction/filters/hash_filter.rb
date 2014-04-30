@@ -73,14 +73,8 @@ module ActiveInteraction
       options.fetch(:strip, true)
     end
 
-    # Switch to `transform_keys` once we support only Rails 4.0.2+
     def stringify_the_symbol_keys(hash)
-      new_hash = {}
-      hash.each_key do |key|
-        new_key = key.is_a?(Symbol) ? key.to_s : key
-        new_hash[new_key] = hash[key]
-      end
-      new_hash
+      hash.transform_keys { |key| key.is_a?(Symbol) ? key.to_s : key }
     end
   end
 end
