@@ -24,9 +24,9 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       public_send(type, :required, filter_options)
       public_send(type, :optional, filter_options.merge(default: nil))
       public_send(type, :default,
-                  filter_options.merge(default: generator.call))
+        filter_options.merge(default: generator.call))
       public_send(type, :defaults_1, :defaults_2,
-                  filter_options.merge(default: generator.call))
+        filter_options.merge(default: generator.call))
     end
   end
 

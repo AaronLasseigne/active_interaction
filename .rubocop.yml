@@ -1,5 +1,5 @@
 AlignParameters:
-  Enabled: false
+  EnforcedStyle: with_fixed_indentation
 AllCops:
   Exclude:
   - tmp/*
