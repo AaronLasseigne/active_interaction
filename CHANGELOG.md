@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.1.7][] (2014-04-30)
+
 - Fix a bug that leaked validators among all child classes.
 
 # [1.1.6][] (2014-04-29)
@@ -184,7 +186,8 @@
 
 - Initial release.
 
-  [Master]: https://github.com/orgsync/active_interaction/compare/v1.1.6...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.1.7...master
+  [1.1.7]: https://github.com/orgsync/active_interaction/compare/v1.1.6...v1.1.7
   [1.1.6]: https://github.com/orgsync/active_interaction/compare/v1.1.5...v1.1.6
   [1.1.5]: https://github.com/orgsync/active_interaction/compare/v1.1.4...v1.1.5
   [1.1.4]: https://github.com/orgsync/active_interaction/compare/v1.1.3...v1.1.4
