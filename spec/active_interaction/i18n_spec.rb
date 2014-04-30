@@ -11,7 +11,7 @@ end
 describe I18nInteraction do
   include_context 'interactions'
 
-  TYPES = %w(
+  TYPES = %w[
     array
     boolean
     date
@@ -23,7 +23,7 @@ describe I18nInteraction do
     model
     string
     time
-  )
+  ]
 
   shared_examples 'translation' do
     context 'types' do

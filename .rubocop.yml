@@ -1,5 +1,5 @@
 AlignParameters:
-  Enabled: false
+  EnforcedStyle: with_fixed_indentation
 AllCops:
   Exclude:
   - tmp/*
@@ -7,5 +7,10 @@ HandleExceptions:
   Enabled: false
 NonNilCheck:
   Enabled: false
+PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%W': '[]'
+    '%i': '[]'
+    '%w': '[]'
 TrivialAccessors:
   ExactNameMatch: true

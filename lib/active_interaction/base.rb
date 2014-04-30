@@ -157,6 +157,8 @@ module ActiveInteraction
       # @param klass [Class]
       def inherited(klass)
         klass.instance_variable_set(:@_interaction_filters, filters.dup)
+
+        super
       end
 
       # @param filter [Filter]
