@@ -2,6 +2,7 @@
 
 # [1.2.0][] (2014-04-30)
 
+- Add support for Rails-style date and time parameters like `date(1i)`. 
 - Add a decimal filter.
 - Add support for disabling and modifying transactions through the
   `transaction` helper method.
