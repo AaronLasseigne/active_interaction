@@ -37,6 +37,8 @@ require 'active_interaction/filters/time_filter'
 
 require 'active_interaction/base'
 
+require 'active_interaction/backports'
+
 I18n.load_path << File.expand_path(
   File.join(%w[active_interaction locale en.yml]), File.dirname(__FILE__))
 
