@@ -15,6 +15,7 @@ module ActiveInteraction
   end
 end
 
+# @private
 class Hash
   # Required for Rails <= 4.0.2.
   def transform_keys
