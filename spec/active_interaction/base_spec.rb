@@ -327,20 +327,50 @@ describe ActiveInteraction::Base do
   end
 
   context 'inheritance' do
-    let(:described_class) { InteractionWithFilter }
+    context 'filters' do
+      let(:described_class) { InteractionWithFilter }
 
-    def filters(klass)
-      klass.filters.keys
+      def filters(klass)
+        klass.filters.keys
+      end
+
+      it 'includes the filters from the superclass' do
+        expect(filters(Class.new(described_class))).to include :thing
+      end
+
+      it 'does not mutate the filters on the superclass' do
+        Class.new(described_class) { float :other_thing }
+
+        expect(filters(described_class)).to_not include :other_thing
+      end
     end
 
-    it 'includes the filters from the superclass' do
-      expect(filters(Class.new(described_class))).to include :thing
-    end
+    context 'validators' do
+      it 'does not pollute validators' do
+        a = Class.new(ActiveInteraction::Base) do
+          string :a
+          validates_presence_of :a
+        end
 
-    it 'does not mutate the filters on the superclass' do
-      Class.new(described_class) { float :other_thing }
+        b = Class.new(ActiveInteraction::Base) do
+          string :b
+          validates_presence_of :b
+        end
 
-      expect(filters(described_class)).to_not include :other_thing
+        expect(a.validators).to_not eql b.validators
+      end
+
+      it 'gives duped validators to subclasses' do
+        a = Class.new(ActiveInteraction::Base) do
+          string :a
+          validates_presence_of :a
+        end
+
+        b = Class.new(a)
+
+        expect(a.validators).to eql b.validators
+        expect(a.validators).to_not equal b.validators
+      end
     end
   end
 
