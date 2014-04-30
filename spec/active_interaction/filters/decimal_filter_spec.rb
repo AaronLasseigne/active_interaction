@@ -15,11 +15,13 @@ describe ActiveInteraction::DecimalFilter, :filter do
   end
 
   describe '#cast' do
+    let(:result) { filter.cast(value) }
+
     context 'with a Float' do
       let(:value) { rand }
 
       it 'returns the BigDecimal' do
-        expect(filter.cast(value)).to eql BigDecimal.new(value, 0)
+        expect(result).to eql BigDecimal.new(value, 0)
       end
 
       context 'with :digits option' do
@@ -28,7 +30,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
         let(:value) { 1.23456789 }
 
         it 'returns BigDecimal with given digits' do
-          expect(filter.cast(value)).to eql BigDecimal.new('1.235')
+          expect(result).to eql BigDecimal.new('1.235')
         end
       end
     end
@@ -37,7 +39,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
       let(:value) { rand(1 << 16) }
 
       it 'returns a BigDecimal' do
-        expect(filter.cast(value)).to eql BigDecimal.new(value)
+        expect(result).to eql BigDecimal.new(value)
       end
     end
 
@@ -45,7 +47,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
       let(:value) { rand.to_s }
 
       it 'returns a BigDecimal' do
-        expect(filter.cast(value)).to eql BigDecimal.new(value)
+        expect(result).to eql BigDecimal.new(value)
       end
     end
 
@@ -54,7 +56,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.cast(value)
+          result
         end.to raise_error ActiveInteraction::InvalidValueError
       end
     end

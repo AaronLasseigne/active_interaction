@@ -7,11 +7,13 @@ describe ActiveInteraction::FloatFilter, :filter do
   it_behaves_like 'a filter'
 
   describe '#cast' do
+    let(:result) { filter.cast(value) }
+
     context 'with a Float' do
       let(:value) { rand }
 
       it 'returns the Float' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -19,7 +21,7 @@ describe ActiveInteraction::FloatFilter, :filter do
       let(:value) { rand(1 << 16) }
 
       it 'returns a Float' do
-        expect(filter.cast(value)).to eql value.to_f
+        expect(result).to eql value.to_f
       end
     end
 
@@ -27,7 +29,7 @@ describe ActiveInteraction::FloatFilter, :filter do
       let(:value) { rand.to_s }
 
       it 'returns a Float' do
-        expect(filter.cast(value)).to eql Float(value)
+        expect(result).to eql Float(value)
       end
     end
 
@@ -36,7 +38,7 @@ describe ActiveInteraction::FloatFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.cast(value)
+          result
         end.to raise_error ActiveInteraction::InvalidValueError
       end
     end

@@ -15,11 +15,13 @@ describe ActiveInteraction::HashFilter, :filter do
   end
 
   describe '#cast' do
+    let(:result) { filter.cast(value) }
+
     context 'with a Hash' do
       let(:value) { {} }
 
       it 'returns the Hash' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -27,7 +29,7 @@ describe ActiveInteraction::HashFilter, :filter do
       let(:value) { { a: {} } }
 
       it 'returns an empty Hash' do
-        expect(filter.cast(value)).to eql({})
+        expect(result).to eql({})
       end
     end
 
@@ -38,7 +40,7 @@ describe ActiveInteraction::HashFilter, :filter do
         let(:value) { { a: {} } }
 
         it 'returns the Hash' do
-          expect(filter.cast(value)).to eql value
+          expect(result).to eql value
         end
 
         context 'with String keys' do
@@ -47,7 +49,7 @@ describe ActiveInteraction::HashFilter, :filter do
           end
 
           it 'does not raise an error' do
-            expect { filter.cast(value) }.to_not raise_error
+            expect { result }.to_not raise_error
           end
         end
       end
@@ -59,13 +61,13 @@ describe ActiveInteraction::HashFilter, :filter do
 
         it 'raises an error' do
           expect do
-            filter.cast(value)
+            result
           end.to raise_error ActiveInteraction::InvalidNestedValueError
         end
 
         it 'populates the error' do
           begin
-            filter.cast(value)
+            result
           rescue ActiveInteraction::InvalidNestedValueError => e
             expect(e.filter_name).to eql k
             expect(e.input_value).to eql v
@@ -82,11 +84,11 @@ describe ActiveInteraction::HashFilter, :filter do
       end
 
       it 'symbolizes String keys' do
-        expect(filter.cast(value)).to have_key :a
+        expect(result).to have_key :a
       end
 
       it 'leaves other keys alone' do
-        expect(filter.cast(value)).to have_key 1
+        expect(result).to have_key 1
       end
     end
   end

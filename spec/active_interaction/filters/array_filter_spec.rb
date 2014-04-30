@@ -36,11 +36,13 @@ describe ActiveInteraction::ArrayFilter, :filter do
   end
 
   describe '#cast' do
+    let(:result) { filter.cast(value) }
+
     context 'with an Array' do
       let(:value) { [] }
 
       it 'returns the Array' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -48,7 +50,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
       let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
       it 'returns the Array' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -59,7 +61,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
         let(:value) { [] }
 
         it 'returns the Array' do
-          expect(filter.cast(value)).to eql value
+          expect(result).to eql value
         end
       end
 
@@ -67,7 +69,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
         let(:value) { [[]] }
 
         it 'returns the Array' do
-          expect(filter.cast(value)).to eql value
+          expect(result).to eql value
         end
       end
 
@@ -76,7 +78,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
 
         it 'raises an error' do
           expect do
-            filter.cast(value)
+            result
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end

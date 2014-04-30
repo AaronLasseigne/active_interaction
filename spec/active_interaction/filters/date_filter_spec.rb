@@ -15,11 +15,13 @@ describe ActiveInteraction::DateFilter, :filter do
   end
 
   describe '#cast' do
+    let(:result) { filter.cast(value) }
+
     context 'with a Date' do
       let(:value) { Date.new }
 
       it 'returns the Date' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -27,7 +29,7 @@ describe ActiveInteraction::DateFilter, :filter do
       let(:value) { '2011-12-13' }
 
       it 'returns a Date' do
-        expect(filter.cast(value)).to eql Date.parse(value)
+        expect(result).to eql Date.parse(value)
       end
 
       context 'with format' do
@@ -36,7 +38,7 @@ describe ActiveInteraction::DateFilter, :filter do
         let(:value) { '13/12/2011' }
 
         it 'returns a Date' do
-          expect(filter.cast(value)).to eql Date.strptime(value, format)
+          expect(result).to eql Date.strptime(value, format)
         end
       end
     end
@@ -46,7 +48,7 @@ describe ActiveInteraction::DateFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.cast(value)
+          result
         end.to raise_error ActiveInteraction::InvalidValueError
       end
 
@@ -55,7 +57,7 @@ describe ActiveInteraction::DateFilter, :filter do
 
         it 'raises an error' do
           expect do
-            filter.cast(value)
+            result
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
@@ -74,7 +76,7 @@ describe ActiveInteraction::DateFilter, :filter do
       end
 
       it 'returns a Date' do
-        expect(filter.cast(value)).to eql Date.new(year, month, day)
+        expect(result).to eql Date.new(year, month, day)
       end
     end
 
@@ -84,7 +86,7 @@ describe ActiveInteraction::DateFilter, :filter do
 
         it 'raises an error' do
           expect do
-            filter.cast(value)
+            result
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
@@ -98,7 +100,7 @@ describe ActiveInteraction::DateFilter, :filter do
 
         it 'raises an error' do
           expect do
-            filter.cast(value)
+            result
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end

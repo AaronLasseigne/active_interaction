@@ -14,14 +14,15 @@ describe ActiveInteraction::ModelFilter, :filter do
 
   describe '#cast' do
     let(:value) { Model.new }
+    let(:result) { filter.cast(value) }
 
     context 'with class as a Class' do
       it 'returns the instance' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
 
       it 'handles reconstantizing' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
 
         Object.send(:remove_const, :Model)
         class Model; end
@@ -69,7 +70,7 @@ describe ActiveInteraction::ModelFilter, :filter do
       end
 
       it 'returns the instance' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -79,7 +80,7 @@ describe ActiveInteraction::ModelFilter, :filter do
       end
 
       it 'returns the instance' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -90,7 +91,7 @@ describe ActiveInteraction::ModelFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.cast(value)
+          result
         end.to raise_error ActiveInteraction::InvalidClassError
       end
     end

@@ -7,11 +7,13 @@ describe ActiveInteraction::IntegerFilter, :filter do
   it_behaves_like 'a filter'
 
   describe '#cast' do
+    let(:result) { filter.cast(value) }
+
     context 'with an Integer' do
       let(:value) { rand(1 << 16) }
 
       it 'returns the Integer' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -19,7 +21,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
       let(:value) { rand(1 << 16) + rand }
 
       it 'returns an Integer' do
-        expect(filter.cast(value)).to eql value.to_i
+        expect(result).to eql value.to_i
       end
     end
 
@@ -27,7 +29,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
       let(:value) { rand(1 << 16).to_s }
 
       it 'returns an Integer' do
-        expect(filter.cast(value)).to eql Integer(value)
+        expect(result).to eql Integer(value)
       end
     end
 
@@ -36,7 +38,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.cast(value)
+          result
         end.to raise_error ActiveInteraction::InvalidValueError
       end
     end

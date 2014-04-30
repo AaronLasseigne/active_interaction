@@ -7,11 +7,13 @@ describe ActiveInteraction::FileFilter, :filter do
   it_behaves_like 'a filter'
 
   describe '#cast' do
+    let(:result) { filter.cast(value) }
+
     context 'with a File' do
       let(:value) { File.new(__FILE__) }
 
       it 'returns the File' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -19,7 +21,7 @@ describe ActiveInteraction::FileFilter, :filter do
       let(:value) { Tempfile.new(SecureRandom.hex) }
 
       it 'returns the Tempfile' do
-        expect(filter.cast(value)).to eq value
+        expect(result).to eq value
       end
     end
 
@@ -27,7 +29,7 @@ describe ActiveInteraction::FileFilter, :filter do
       let(:value) { double(tempfile: Tempfile.new(SecureRandom.hex)) }
 
       it 'returns the Tempfile' do
-        expect(filter.cast(value)).to eq value.tempfile
+        expect(result).to eq value.tempfile
       end
     end
   end

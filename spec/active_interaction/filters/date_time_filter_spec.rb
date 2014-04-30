@@ -15,11 +15,13 @@ describe ActiveInteraction::DateTimeFilter, :filter do
   end
 
   describe '#cast' do
+    let(:result) { filter.cast(value) }
+
     context 'with a Datetime' do
       let(:value) { DateTime.new }
 
       it 'returns the DateTime' do
-        expect(filter.cast(value)).to eql value
+        expect(result).to eql value
       end
     end
 
@@ -27,7 +29,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
       let(:value) { '2011-12-13T14:15:16+17:18' }
 
       it 'returns a DateTime' do
-        expect(filter.cast(value)).to eql DateTime.parse(value)
+        expect(result).to eql DateTime.parse(value)
       end
 
       context 'with format' do
@@ -36,7 +38,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
         let(:value) { '13/12/2011 14:15:16 +17:18' }
 
         it 'returns a DateTime' do
-          expect(filter.cast(value)).to eql DateTime.strptime(value, format)
+          expect(result).to eql DateTime.strptime(value, format)
         end
       end
     end
@@ -46,7 +48,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.cast(value)
+          result
         end.to raise_error ActiveInteraction::InvalidValueError
       end
 
@@ -55,7 +57,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
 
         it 'raises an error' do
           expect do
-            filter.cast(value)
+            result
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
@@ -81,7 +83,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
 
       it 'returns a DateTime' do
         expect(
-          filter.cast(value)
+          result
         ).to eql DateTime.new(year, month, day, hour, min, sec)
       end
     end
@@ -92,7 +94,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
 
         it 'raises an error' do
           expect do
-            filter.cast(value)
+            result
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
@@ -106,7 +108,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
 
         it 'raises an error' do
           expect do
-            filter.cast(value)
+            result
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
