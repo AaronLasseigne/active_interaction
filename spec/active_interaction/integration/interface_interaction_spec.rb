@@ -1,10 +1,12 @@
 # coding: utf-8
 
 require 'spec_helper'
+require 'json'
+require 'yaml'
 
 describe 'InterfaceInteraction' do
   it_behaves_like 'an interaction',
     :interface,
-    -> { [[], {}, (0..0)] },
-    methods: [:each]
+    -> { [JSON, YAML].sample },
+    methods: [:dump, :load]
 end

@@ -1,12 +1,14 @@
 # coding: utf-8
 
 require 'spec_helper'
+require 'json'
+require 'yaml'
 
 describe ActiveInteraction::InterfaceFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  before { options[:methods] = [:each] }
+  before { options[:methods] = [:dump, :load] }
 
   describe '#cast' do
     let(:result) { filter.cast(value) }
@@ -15,32 +17,22 @@ describe ActiveInteraction::InterfaceFilter, :filter do
       let(:value) { Object.new }
 
       it 'raises an error' do
-        expect do
-          result
-        end.to raise_error ActiveInteraction::InvalidValueError
+        expect { result }.to raise_error ActiveInteraction::InvalidValueError
       end
     end
 
-    context 'with an Array' do
-      let(:value) { [] }
+    context 'with JSON' do
+      let(:value) { JSON }
 
       it 'returns an Array' do
         expect(result).to eql value
       end
     end
 
-    context 'with an Hash' do
-      let(:value) { {} }
+    context 'with YAML' do
+      let(:value) { YAML }
 
       it 'returns an Hash' do
-        expect(result).to eql value
-      end
-    end
-
-    context 'with an Range' do
-      let(:value) { (0..0) }
-
-      it 'returns an Range' do
         expect(result).to eql value
       end
     end
