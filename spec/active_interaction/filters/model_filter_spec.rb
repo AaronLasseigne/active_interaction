@@ -62,6 +62,50 @@ describe ActiveInteraction::ModelFilter, :filter do
           expect { filter }.to_not raise_error
         end
       end
+
+      context 'inheritance shenanigans' do
+        let(:case_equality) { false }
+        let(:class_equality) { false }
+        let(:exact_equality) { false }
+
+        before do
+          allow(Model).to receive(:===).and_return(case_equality)
+          allow(value).to receive(:instance_of?).and_return(exact_equality)
+          allow(value).to receive(:is_a?).and_return(class_equality)
+        end
+
+        context 'without case or class or exact equality' do
+          it 'raises an error' do
+            expect do
+              result
+            end.to raise_error ActiveInteraction::InvalidValueError
+          end
+        end
+
+        context 'with case equality' do
+          let(:case_equality) { true }
+
+          it 'returns the instance' do
+            expect(result).to eql value
+          end
+        end
+
+        context 'with class equality' do
+          let(:class_equality) { true }
+
+          it 'returns the instance' do
+            expect(result).to eql value
+          end
+        end
+
+        context 'with exact equality' do
+          let(:exact_equality) { true }
+
+          it 'returns the instance' do
+            expect(result).to eql value
+          end
+        end
+      end
     end
 
     context 'with class as a superclass' do

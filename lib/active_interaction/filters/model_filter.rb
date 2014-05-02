@@ -19,8 +19,10 @@ module ActiveInteraction
   # @private
   class ModelFilter < Filter
     def cast(value, reconstantize = true)
-      case value
-      when @klass ||= klass
+      @klass ||= klass
+
+      # rubocop:disable CaseEquality
+      if @klass === value || value.is_a?(@klass) || value.instance_of?(@klass)
         value
       else
         return super(value) unless reconstantize
