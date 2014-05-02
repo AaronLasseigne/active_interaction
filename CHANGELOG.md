@@ -1,8 +1,11 @@
 # [Master][]
 
+- Fix a bug that marked model inputs as invalid even if they returned true for
+  `object.is_a?(klass)`.
+
 # [1.2.0][] (2014-04-30)
 
-- Add support for Rails-style date and time parameters like `date(1i)`. 
+- Add support for Rails-style date and time parameters like `date(1i)`.
 - Add a decimal filter.
 - Add support for disabling and modifying transactions through the
   `transaction` helper method.
