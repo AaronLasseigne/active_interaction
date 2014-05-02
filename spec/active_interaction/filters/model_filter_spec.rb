@@ -72,7 +72,7 @@ describe ActiveInteraction::ModelFilter, :filter do
           allow(value).to receive(:is_a?).and_return(class_equality)
         end
 
-        context 'without case or class or exact equality' do
+        context 'without case or class equality' do
           it 'raises an error' do
             expect do
               result
