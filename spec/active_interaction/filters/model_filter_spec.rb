@@ -63,7 +63,7 @@ describe ActiveInteraction::ModelFilter, :filter do
         end
       end
 
-      context 'inheritance shenanigans' do
+      context 'with bidirectional class comparisons' do
         let(:case_equality) { false }
         let(:class_equality) { false }
 
