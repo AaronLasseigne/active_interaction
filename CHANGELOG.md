@@ -1,8 +1,13 @@
 # [Master][]
 
+# [1.2.1][] (2014-05-02)
+
+- Fix a bug that marked model inputs as invalid even if they returned true for
+  `object.is_a?(klass)`.
+
 # [1.2.0][] (2014-04-30)
 
-- Add support for Rails-style date and time parameters like `date(1i)`. 
+- Add support for Rails-style date and time parameters like `date(1i)`.
 - Add a decimal filter.
 - Add support for disabling and modifying transactions through the
   `transaction` helper method.
@@ -194,7 +199,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.1...master
+  [1.2.1]: https://github.com/orgsync/active_interaction/compare/v1.2.0...v1.2.1
   [1.2.0]: https://github.com/orgsync/active_interaction/compare/v1.1.7...v1.2.0
   [1.1.7]: https://github.com/orgsync/active_interaction/compare/v1.1.6...v1.1.7
   [1.1.6]: https://github.com/orgsync/active_interaction/compare/v1.1.5...v1.1.6
