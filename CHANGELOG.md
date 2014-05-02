@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.2.1][] (2014-05-02)
+
 - Fix a bug that marked model inputs as invalid even if they returned true for
   `object.is_a?(klass)`.
 
@@ -197,7 +199,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.1...master
+  [1.2.1]: https://github.com/orgsync/active_interaction/compare/v1.2.0...v1.2.1
   [1.2.0]: https://github.com/orgsync/active_interaction/compare/v1.1.7...v1.2.0
   [1.1.7]: https://github.com/orgsync/active_interaction/compare/v1.1.6...v1.1.7
   [1.1.6]: https://github.com/orgsync/active_interaction/compare/v1.1.5...v1.1.6
