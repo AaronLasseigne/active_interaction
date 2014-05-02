@@ -66,11 +66,9 @@ describe ActiveInteraction::ModelFilter, :filter do
       context 'inheritance shenanigans' do
         let(:case_equality) { false }
         let(:class_equality) { false }
-        let(:exact_equality) { false }
 
         before do
           allow(Model).to receive(:===).and_return(case_equality)
-          allow(value).to receive(:instance_of?).and_return(exact_equality)
           allow(value).to receive(:is_a?).and_return(class_equality)
         end
 
@@ -92,14 +90,6 @@ describe ActiveInteraction::ModelFilter, :filter do
 
         context 'with class equality' do
           let(:class_equality) { true }
-
-          it 'returns the instance' do
-            expect(result).to eql value
-          end
-        end
-
-        context 'with exact equality' do
-          let(:exact_equality) { true }
 
           it 'returns the instance' do
             expect(result).to eql value
