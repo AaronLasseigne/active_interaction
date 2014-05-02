@@ -48,8 +48,7 @@ module ActiveInteraction
     # @return [Boolean]
     def matches?(value)
       @klass === value || # rubocop:disable CaseEquality
-        value.is_a?(@klass) ||
-        value.instance_of?(@klass)
+        value.is_a?(@klass)
     end
   end
 end
