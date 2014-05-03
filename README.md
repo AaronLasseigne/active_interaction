@@ -25,6 +25,7 @@ on RubyDoc.info.
 - [How do I define an interaction?](#how-do-i-define-an-interaction)
 - [How do I compose interactions?](#how-do-i-compose-interactions)
 - [How do I translate an interaction?](#how-do-i-translate-an-interaction)
+- [Changelog](#changelog)
 - [Credits](#credits)
 - [License](#license)
 
@@ -284,6 +285,10 @@ p Interaction.run.errors.messages
 # => {:a=>["deriuqer si"]}
 ```
 
+## Changelog
+
+See [CHANGELOG.md][19] for details.
+
 ## Credits
 
 ActiveInteraction is brought to you by [@AaronLasseigne][14] and
@@ -313,3 +318,4 @@ See [LICENSE.txt][18] for details.
   [16]: https://github.com/orgsync
   [17]: https://github.com/cypriss/mutations
   [18]: LICENSE.txt
+  [19]: CHANGELOG.md
