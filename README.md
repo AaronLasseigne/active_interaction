@@ -24,7 +24,8 @@ on RubyDoc.info.
 - [What can I pass to an interaction?](#what-can-i-pass-to-an-interaction)
 - [How do I define an interaction?](#how-do-i-define-an-interaction)
 - [How do I compose interactions?](#how-do-i-compose-interactions)
-- [How do I translate an interaction?](#how-do-i-translate-an-interaction)
+- [Advanced Usage](#advanced-usage)
+  - [Translation](#translation)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
 - [Credits](#credits)
@@ -242,7 +243,9 @@ class AddAndDouble < ActiveInteraction::Base
 end
 ```
 
-## How do I translate an interaction?
+## Advanced Usage
+
+### Translation
 
 ActiveInteraction is i18n-aware out of the box! All you have to do
 is add translations to your project. In Rails, they typically go
