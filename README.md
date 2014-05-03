@@ -26,6 +26,7 @@ on RubyDoc.info.
 - [How do I compose interactions?](#how-do-i-compose-interactions)
 - [How do I translate an interaction?](#how-do-i-translate-an-interaction)
 - [Credits](#credits)
+- [License](#license)
 
 ## Installation
 
@@ -289,6 +290,10 @@ ActiveInteraction is brought to you by [@AaronLasseigne][14] and
 [@tfausak][15] from [@orgsync][16]. We were inspired by the fantastic
 work done in [Mutations][17].
 
+## License
+
+See [LICENSE.txt][18] for details.
+
   [0]: https://github.com/orgsync/active_interaction
   [1]: https://badge.fury.io/rb/active_interaction.svg
   [2]: https://badge.fury.io/rb/active_interaction "Gem Version"
@@ -307,3 +312,4 @@ work done in [Mutations][17].
   [15]: https://github.com/tfausak
   [16]: https://github.com/orgsync
   [17]: https://github.com/cypriss/mutations
+  [18]: LICENSE.txt
