@@ -26,6 +26,7 @@ on RubyDoc.info.
 - [How do I compose interactions?](#how-do-i-compose-interactions)
 - [How do I translate an interaction?](#how-do-i-translate-an-interaction)
 - [Changelog](#changelog)
+- [Contributing](#contributing)
 - [Credits](#credits)
 - [License](#license)
 
@@ -289,6 +290,11 @@ p Interaction.run.errors.messages
 
 See [CHANGELOG.md][19] for details.
 
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md][20] for details on
+how to get started.
+
 ## Credits
 
 ActiveInteraction is brought to you by [@AaronLasseigne][14] and
@@ -319,3 +325,4 @@ See [LICENSE.txt][18] for details.
   [17]: https://github.com/cypriss/mutations
   [18]: LICENSE.txt
   [19]: CHANGELOG.md
+  [19]: CONTRIBUTING.md
