@@ -18,6 +18,15 @@ methods with ActiveInteraction.
 Read more on the [project page][11] or check out the full [documentation][12]
 on RubyDoc.info.
 
+- [Installation](#Installation)
+- [What do I get?](#what-do-i-get)
+- [How do I call an interaction?](#how-do-i-call-an-interaction)
+- [What can I pass to an interaction?](#what-can-i-pass-to-an-interaction)
+- [How do I define an interaction?](#how-do-i-define-an-interaction)
+- [How do I compose interactions?](#how-do-i-compose-interactions)
+- [How do I translate an interaction?](#how-do-i-translate-an-interaction)
+- [Credits](#credits)
+
 ## Installation
 
 This project uses [semantic versioning][13].
