@@ -299,7 +299,8 @@ how to get started.
 
 ActiveInteraction is brought to you by [@AaronLasseigne][14] and
 [@tfausak][15] from [@orgsync][16]. We were inspired by the fantastic
-work done in [Mutations][17].
+work done in [Mutations][17]. A full list of contributers can be found
+[here][21].
 
 ## License
 
@@ -326,3 +327,4 @@ See [LICENSE.txt][18] for details.
   [18]: LICENSE.txt
   [19]: CHANGELOG.md
   [20]: CONTRIBUTING.md
+  [21]: https://github.com/orgsync/active_interaction/graphs/contributors
