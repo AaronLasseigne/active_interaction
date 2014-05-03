@@ -23,8 +23,8 @@ on RubyDoc.info.
 - [How do I call an interaction?](#how-do-i-call-an-interaction)
 - [What can I pass to an interaction?](#what-can-i-pass-to-an-interaction)
 - [How do I define an interaction?](#how-do-i-define-an-interaction)
-- [How do I compose interactions?](#how-do-i-compose-interactions)
 - [Advanced Usage](#advanced-usage)
+  - [Composition](#composition)
   - [Translation](#translation)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
@@ -213,7 +213,9 @@ end
 
 Check out the [documentation][12] for a full list of methods.
 
-## How do I compose interactions?
+## Advanced Usage
+
+### Composition
 
 You can run interactions from within other interactions by calling `compose`.
 If the interaction is successful, it'll return the result (just like if you had
@@ -242,8 +244,6 @@ class AddAndDouble < ActiveInteraction::Base
   end
 end
 ```
-
-## Advanced Usage
 
 ### Translation
 
