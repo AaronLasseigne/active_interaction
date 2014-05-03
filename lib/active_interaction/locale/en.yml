@@ -18,4 +18,5 @@ en:
       integer: integer
       model: model
       string: string
+      symbol: symbol
       time: time

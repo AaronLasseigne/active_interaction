@@ -11,19 +11,12 @@ end
 describe I18nInteraction do
   include_context 'interactions'
 
-  TYPES = %w[
-    array
-    boolean
-    date
-    date_time
-    file
-    float
-    hash
-    integer
-    model
-    string
-    time
-  ]
+  pattern = ActiveInteraction::Filter.const_get(:CLASS_REGEXP)
+  TYPES = ActiveInteraction::Filter
+    .const_get(:CLASSES)
+    .select { |_, filter| filter.name =~ pattern }
+    .reject { |_, filter| filter.name =~ /\bAbstract[A-Z]/ }
+    .map { |slug, _| slug.to_s }
 
   shared_examples 'translation' do
     context 'types' do

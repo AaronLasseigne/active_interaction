@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 module ActiveInteraction
-  class ATestFilter < ActiveInteraction::Filter; end
+  class AbstractTestFilter < ActiveInteraction::Filter; end
 end
 class ATestFilter < ActiveInteraction::Filter; end
 
@@ -16,14 +16,14 @@ describe ActiveInteraction::Filter, :filter do
     end
   end
 
-  context ActiveInteraction::ATestFilter do
+  context ActiveInteraction::AbstractTestFilter do
     it_behaves_like 'a filter'
 
-    let(:described_class) { ActiveInteraction::ATestFilter }
+    let(:described_class) { ActiveInteraction::AbstractTestFilter }
 
     describe '.slug' do
       it 'returns a slug representing the class' do
-        expect(described_class.slug).to eql :a_test
+        expect(described_class.slug).to eql :abstract_test
       end
     end
   end

@@ -1,7 +1,7 @@
---markup-provider=rdoc
---markup=markdown
+--markup-provider rdoc
+--markup markdown
 --no-private
---readme=README.md
+--readme README.md
 -
 CHANGELOG.md
 LICENSE.txt
