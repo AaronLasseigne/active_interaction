@@ -1,5 +1,7 @@
 # [Master][]
 
+- Add missing translation for symbol filters.
+
 # [1.2.1][] (2014-05-02)
 
 - Fix a bug that marked model inputs as invalid even if they returned true for
