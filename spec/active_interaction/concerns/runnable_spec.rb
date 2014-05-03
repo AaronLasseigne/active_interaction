@@ -146,6 +146,14 @@ describe ActiveInteraction::Runnable do
     end
   end
 
+  describe '#when_invalid' do
+    it
+  end
+
+  describe '#when_valid' do
+    it
+  end
+
   describe '.run' do
     let(:outcome) { klass.run }
 

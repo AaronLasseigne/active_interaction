@@ -59,6 +59,28 @@ module ActiveInteraction
       super
     end
 
+    # @yield [outcome]
+    #
+    # @yieldparam outcome [Runnable]
+    #
+    # @return [Runnable]
+    def when_invalid
+      yield(self) if block_given? && invalid?
+
+      self
+    end
+
+    # @yield [result]
+    #
+    # @yieldparam result [Object]
+    #
+    # @return [Runnable]
+    def when_valid
+      yield(result) if block_given? && valid?
+
+      self
+    end
+
     private
 
     # @param other [Class] The other interaction.
