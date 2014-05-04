@@ -57,8 +57,8 @@ module ActiveInteraction
       # @param klass [Class]
       #
       # @return [Class]
-      def register(slug, klass = self)
-        CLASSES[@slug = slug] = klass
+      def register(slug)
+        CLASSES[@slug = slug] = self
       end
     end
 
