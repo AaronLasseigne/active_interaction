@@ -250,13 +250,13 @@ end
 
 ### Translation
 
-ActiveInteraction is i18n-aware out of the box! All you have to do
-is add translations to your project. In Rails, they typically go
-into `config/locales`. So, for example, let's say that (for whatever
-reason) you want to print out everything backwards. Simply add
-translations for ActiveInteraction to your `hsilgne` locale:
+ActiveInteraction is i18n aware out of the box! All you have to do is add
+translations to your project. In Rails, these typically go into
+`config/locales`. For example, let's say that for some reason you want to
+print everything out backwards. Simply add translations for ActiveInteraction
+to your `hsilgne` locale.
 
-```yaml
+``` yml
 # config/locales/hsilgne.yml
 hsilgne:
   active_interaction:
@@ -272,24 +272,29 @@ hsilgne:
       integer: regetni
       model: ledom
       string: gnirts
+      symbol: lobmys
       time: emit
     errors:
       messages:
         invalid: dilavni si
+        invalid_nested: (%{value} <= %{name}) eulav detsen dilavni na sah
         invalid_type: '%{type} dilav a ton si'
         missing: deriuqer si
 ```
 
-Then set your locale and run an interaction like normal:
+Then set your locale and run interactions like normal.
 
-```ruby
-I18n.locale = :hsilgne
-class Interaction < ActiveInteraction::Base
-  boolean :a
-  def execute; end
+``` rb
+class I18nInteraction < ActiveInteraction::Base
+  string :name
 end
-p Interaction.run.errors.messages
-# => {:a=>["deriuqer si"]}
+
+I18nInteraction.run(name: false).errors.messages[:name]
+# => ["is not a valid string"]
+
+I18n.locale = :hsilgne
+I18nInteraction.run(name: false).errors.messages[:name]
+# => ["gnirts dilav a ton si"]
 ```
 
 ## Changelog
