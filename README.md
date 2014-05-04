@@ -24,6 +24,20 @@ on RubyDoc.info.
   - [How do I call an interaction?](#how-do-i-call-an-interaction)
   - [What can I pass to an interaction?](#what-can-i-pass-to-an-interaction)
   - [How do I define an interaction?](#how-do-i-define-an-interaction)
+- [Filters](#filters)
+  - [Array](#array)
+  - [Boolean](#boolean)
+  - [Date](#date)
+  - [DateTime](#datetime)
+  - [Decimal](#decimal)
+  - [File](#file)
+  - [Float](#float)
+  - [Hash](#hash)
+  - [Integer](#integer)
+  - [Model](#model)
+  - [String](#string)
+  - [Symbol](#symbol)
+  - [Time](#time)
 - [Advanced Usage](#advanced-usage)
   - [Composition](#composition)
   - [Translation](#translation)
@@ -215,6 +229,34 @@ end
     ```
 
 Check out the [documentation][12] for a full list of methods.
+
+## Filters
+
+### Array
+
+### Boolean
+
+### Date
+
+### DateTime
+
+### Decimal
+
+### File
+
+### Float
+
+### Hash
+
+### Integer
+
+### Model
+
+### String
+
+### Symbol
+
+### Time
 
 ## Advanced Usage
 
