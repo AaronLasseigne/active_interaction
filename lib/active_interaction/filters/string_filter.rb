@@ -18,6 +18,8 @@ module ActiveInteraction
 
   # @private
   class StringFilter < Filter
+    register :string
+
     def cast(value)
       case value
       when String

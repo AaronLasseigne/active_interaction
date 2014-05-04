@@ -25,6 +25,8 @@ module ActiveInteraction
   class ArrayFilter < Filter
     include Missable
 
+    register :array
+
     def cast(value)
       case value
       when Array

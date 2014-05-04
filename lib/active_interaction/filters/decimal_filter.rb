@@ -17,6 +17,8 @@ module ActiveInteraction
 
   # @private
   class DecimalFilter < AbstractNumericFilter
+    register :decimal
+
     def cast(value)
       case value
       when Numeric
