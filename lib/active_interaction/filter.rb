@@ -12,10 +12,6 @@ module ActiveInteraction
 
   # Describes an input filter for an interaction.
   class Filter
-    # @return [Regexp]
-    CLASS_REGEXP = /\AActiveInteraction::([A-Z]\w*)Filter\z/
-    private_constant :CLASS_REGEXP
-
     # @return [Hash{Symbol => Class}]
     CLASSES = {}
     private_constant :CLASSES
@@ -32,6 +28,9 @@ module ActiveInteraction
     undef_method :hash
 
     class << self
+      # @return [Symbol]
+      attr_reader :slug
+
       # Get the filter associated with a symbol.
       #
       # @example
@@ -50,37 +49,6 @@ module ActiveInteraction
       # @see .slug
       def factory(slug)
         CLASSES.fetch(slug) { fail MissingFilterError, slug.inspect }
-      end
-
-      # Convert the class name into a short symbol.
-      #
-      # @example
-      #   ActiveInteraction::BooleanFilter.slug
-      #   # => :boolean
-      # @example
-      #   ActiveInteraction::Filter.slug
-      #   # => ActiveInteraction::InvalidClassError: ActiveInteraction::Filter
-      #
-      # @return [Symbol]
-      #
-      # @raise [InvalidClassError] If the filter doesn't have a valid slug.
-      #
-      # @see .factory
-      def slug
-        return @slug if defined?(@slug)
-
-        match = name[CLASS_REGEXP, 1]
-        fail InvalidClassError, name unless match
-        @slug = match.underscore.to_sym
-      end
-
-      # @param klass [Class]
-      #
-      # @private
-      def inherited(klass)
-        CLASSES[klass.slug] = klass
-      rescue InvalidClassError
-        CLASSES[klass.name.to_sym] = klass
       end
 
       private
