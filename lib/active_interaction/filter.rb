@@ -82,6 +82,16 @@ module ActiveInteraction
       rescue InvalidClassError
         CLASSES[klass.name.to_sym] = klass
       end
+
+      private
+
+      # @param slug [Symbol]
+      # @param klass [Class]
+      #
+      # @return [Class]
+      def register(slug, klass = self)
+        CLASSES[@slug = slug] = klass
+      end
     end
 
     # @param name [Symbol]
