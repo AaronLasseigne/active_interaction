@@ -19,10 +19,11 @@ Read more on the [project page][11] or check out the full [documentation][12]
 on RubyDoc.info.
 
 - [Installation](#installation)
-- [What do I get?](#what-do-i-get)
-- [How do I call an interaction?](#how-do-i-call-an-interaction)
-- [What can I pass to an interaction?](#what-can-i-pass-to-an-interaction)
-- [How do I define an interaction?](#how-do-i-define-an-interaction)
+- [Basic Usage](#basic-usage)
+  - [What do I get?](#what-do-i-get)
+  - [How do I call an interaction?](#how-do-i-call-an-interaction)
+  - [What can I pass to an interaction?](#what-can-i-pass-to-an-interaction)
+  - [How do I define an interaction?](#how-do-i-define-an-interaction)
 - [Advanced Usage](#advanced-usage)
   - [Composition](#composition)
   - [Translation](#translation)
@@ -53,7 +54,9 @@ Or install it yourself with:
 $ gem install active_interaction
 ```
 
-## What do I get?
+## Basic Usage
+
+### What do I get?
 
 ActiveInteraction::Base lets you create interaction models. These
 models ensure that certain inputs are provided and that those
@@ -111,7 +114,7 @@ and check option validity with `valid?`. Any errors are added to
 everything within the `execute` method is run in a transaction if
 ActiveRecord is available.
 
-## How do I call an interaction?
+### How do I call an interaction?
 
 There are two way to call an interaction. Given UserSignup, you can
 do this:
@@ -133,7 +136,7 @@ result = UserSignup.run!(params)
 # or raises ActiveInteraction::InvalidInteractionError
 ```
 
-## What can I pass to an interaction?
+### What can I pass to an interaction?
 
 Interactions only accept a Hash for `run` and `run!`.
 
@@ -157,7 +160,7 @@ def somewhere
 end
 ```
 
-## How do I define an interaction?
+### How do I define an interaction?
 
 1. Subclass ActiveInteraction::Base
 
