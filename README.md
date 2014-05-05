@@ -273,6 +273,21 @@ DateInteraction.run(birthday: Date.new(1989, 9, 1)).result
 
 ### Decimal
 
+``` rb
+class DecimalInteraction < ActiveInteraction::Base
+  decimal :price
+
+  def execute
+    price * 1.0825
+  end
+end
+
+DecimalInteraction.run(price: 'a lot').errors.messages[:price]
+# => ["is not a valid decimal"]
+DecimalInteraction.run(price: BigDecimal.new('0.99')).result
+# => #<BigDecimal:7f3f7a188cb8,'0.1071675E1',18(36)>
+```
+
 ### File
 
 ### Float
