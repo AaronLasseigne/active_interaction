@@ -271,6 +271,21 @@ DateInteraction.run(birthday: Date.new(1989, 9, 1)).result
 
 ### DateTime
 
+``` rb
+class DateTimeInteraction < ActiveInteraction::Base
+  date_time :now
+
+  def execute
+    now.iso8601
+  end
+end
+
+DateTimeInteraction.run(now: 'now').errors.messages[:now]
+# => ["is not a valid date time"]
+DateTimeInteraction.run(now: DateTime.now).result
+# => "2014-05-05T19:49:24+00:00"
+```
+
 ### Decimal
 
 ``` rb
