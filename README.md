@@ -237,6 +237,21 @@ Check out the [documentation][12] for a full list of methods.
 
 ### Boolean
 
+``` rb
+class BooleanInteraction < ActiveInteraction::Base
+  boolean :kool_aid
+
+  def execute
+    'Oh yeah!' if kool_aid
+  end
+end
+
+BooleanInteraction.run(kool_aid: 1).errors.messages[:kool_aid]
+# => ["is not a valid boolean"]
+BooleanInteraction.run(kool_aid: true).result
+# => "Oh yeah!"
+```
+
 ### Date
 
 ### DateTime
