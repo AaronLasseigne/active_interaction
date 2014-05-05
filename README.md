@@ -254,6 +254,21 @@ BooleanInteraction.run(kool_aid: true).result
 
 ### Date
 
+``` rb
+class DateInteraction < ActiveInteraction::Base
+  date :birthday
+
+  def execute
+    birthday + (18 * 365)
+  end
+end
+
+DateInteraction.run(birthday: 'yesterday').errors.messages[:birthday]
+# => ["is not a valid date"]
+DateInteraction.run(birthday: Date.new(1989, 9, 1)).result
+# => #<Date: 2007-08-28 ((2454341j,0s,0n),+0s,2299161j)>
+```
+
 ### DateTime
 
 ### Decimal
