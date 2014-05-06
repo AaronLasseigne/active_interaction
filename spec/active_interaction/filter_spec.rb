@@ -2,11 +2,6 @@
 
 require 'spec_helper'
 
-module ActiveInteraction
-  class AbstractTestFilter < ActiveInteraction::Filter; end
-end
-class ATestFilter < ActiveInteraction::Filter; end
-
 describe ActiveInteraction::Filter, :filter do
   include_context 'filters'
 
@@ -16,33 +11,30 @@ describe ActiveInteraction::Filter, :filter do
     end
   end
 
-  context ActiveInteraction::AbstractTestFilter do
-    it_behaves_like 'a filter'
-
-    let(:described_class) { ActiveInteraction::AbstractTestFilter }
+  context 'with an unregistered subclass' do
+    let(:described_class) { Class.new(ActiveInteraction::Filter) }
 
     describe '.slug' do
-      it 'returns a slug representing the class' do
-        expect(described_class.slug).to eql :abstract_test
+      it 'is nil' do
+        expect(described_class.slug).to be_nil
       end
     end
   end
 
-  context ATestFilter do
-    let(:described_class) { ATestFilter }
+  context 'with a registered subclass' do
+    it_behaves_like 'a filter'
 
-    describe '.factory' do
-      it 'returns a Filter' do
-        expect(described_class.factory(described_class.name.to_sym))
-          .to eql described_class
+    let(:described_class) do
+      s = slug
+      Class.new(ActiveInteraction::Filter) do
+        register s
       end
     end
+    let(:slug) { SecureRandom.hex.to_sym }
 
     describe '.slug' do
-      it 'raises an error' do
-        expect do
-          described_class.slug
-        end.to raise_error ActiveInteraction::InvalidClassError
+      it 'returns the registered slug' do
+        expect(described_class.slug).to eql slug
       end
     end
   end

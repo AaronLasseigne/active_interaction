@@ -18,6 +18,8 @@ module ActiveInteraction
 
   # @private
   class ModelFilter < Filter
+    register :model
+
     def cast(value, reconstantize = true)
       @klass ||= klass
 
