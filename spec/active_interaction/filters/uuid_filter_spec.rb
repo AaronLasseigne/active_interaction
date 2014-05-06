@@ -28,8 +28,8 @@ describe ActiveInteraction::UUIDFilter, :filter do
     end
 
     context 'with invalid input' do
-      context "with invalid string" do
-        let(:value) { SecureRandom.uuid + "a" }
+      context 'with invalid string' do
+        let(:value) { SecureRandom.uuid + 'a' }
 
         it 'returns the stripped string' do
           expect do
@@ -38,7 +38,7 @@ describe ActiveInteraction::UUIDFilter, :filter do
         end
       end
 
-      context "with integer" do
+      context 'with integer' do
         let(:value) { 123 }
 
         it 'returns the stripped string' do
@@ -48,7 +48,7 @@ describe ActiveInteraction::UUIDFilter, :filter do
         end
       end
 
-      context "with nil" do
+      context 'with nil' do
         let(:value) { nil }
 
         it 'returns the stripped string' do

@@ -19,8 +19,8 @@ module ActiveInteraction
     def cast(value)
       case value
       when String, Symbol, Integer
-        UUID_REGEXP.match(value.to_s){|uuid| uuid[0] } or
-          raise InvalidValueError, "Given value: #{value.inspect}"
+        UUID_REGEXP.match(value.to_s) { |uuid| uuid[0] } ||
+          (fail InvalidValueError, "Given value: #{value.inspect}")
       else
         super
       end
