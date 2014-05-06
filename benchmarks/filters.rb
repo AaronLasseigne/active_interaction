@@ -26,6 +26,7 @@ VALUES = {
   float:     [0.0, '0.0', 0],
   hash:      [Hash.new], # TODO
   integer:   [0, '0', 0.0],
+  interface: [Object.new],
   model:     [Object.new], # TODO: Reconstantizing.
   string:    [''], # TODO: Without strip.
   symbol:    [:'', ''],

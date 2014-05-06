@@ -1,5 +1,6 @@
 # [Master][]
 
+- Add an interface filter.
 - Add missing translation for symbol filters.
 
 # [1.2.1][] (2014-05-02)

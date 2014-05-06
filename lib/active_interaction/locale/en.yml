@@ -16,6 +16,7 @@ en:
       float: float
       hash: hash
       integer: integer
+      interface: interface
       model: model
       string: string
       symbol: symbol
