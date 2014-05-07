@@ -1,5 +1,7 @@
 # [Master][]
 
+- Fix a bug that raised `NameError`s when there were invalid nested hash
+  errors.
 - Add missing translation for symbol filters.
 
 # [1.2.1][] (2014-05-02)
