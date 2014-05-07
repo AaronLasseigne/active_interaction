@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.2.2][] (2014-05-07)
+
 - Fix a bug that raised `NameError`s when there were invalid nested hash
   errors.
 - Add missing translation for symbol filters.
@@ -203,7 +205,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.1...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.2...master
+  [1.2.2]: https://github.com/orgsync/active_interaction/compare/v1.2.1...v1.2.2
   [1.2.1]: https://github.com/orgsync/active_interaction/compare/v1.2.0...v1.2.1
   [1.2.0]: https://github.com/orgsync/active_interaction/compare/v1.1.7...v1.2.0
   [1.1.7]: https://github.com/orgsync/active_interaction/compare/v1.1.6...v1.1.7
