@@ -64,7 +64,7 @@ module ActiveInteraction
     # @yieldparam outcome [Runnable]
     #
     # @return [Runnable]
-    def when_invalid
+    def invalid
       yield(self) if block_given? && invalid?
 
       self
@@ -75,7 +75,7 @@ module ActiveInteraction
     # @yieldparam result [Object]
     #
     # @return [Runnable]
-    def when_valid
+    def valid
       yield(result) if block_given? && valid?
 
       self
