@@ -88,7 +88,7 @@ module ActiveInteraction
         rescue Interrupt => interrupt
           merge_errors_onto_base(interrupt.outcome.errors)
 
-          raise ActiveRecord::Rollback
+          raise ActiveRecord::Rollback if self.class.transaction?
         end
       end
     end
