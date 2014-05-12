@@ -1,5 +1,8 @@
 # [Master][]
 
+- Fix a bug that raised `ActiveRecord::Rollback` when composing even when not
+  in a transaction.
+
 # [1.2.2][] (2014-05-07)
 
 - Fix a bug that raised `NameError`s when there were invalid nested hash
