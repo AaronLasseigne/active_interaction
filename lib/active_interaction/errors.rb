@@ -177,8 +177,9 @@ module ActiveInteraction
 
     def merge_symbolic!(other)
       other.symbolic.each do |attribute, symbols|
+        next unless attribute?(attribute)
+
         symbols.each do |symbol|
-          next unless attribute?(attribute)
           next if symbolic[attribute].include?(symbol)
 
           symbolic[attribute] += [symbol]
