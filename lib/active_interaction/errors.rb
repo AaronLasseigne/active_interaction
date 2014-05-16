@@ -161,16 +161,16 @@ module ActiveInteraction
     private
 
     def merge_messages!(other)
-      other.messages.each do |attribute, messages|
-        attribute_ = attribute
+      other.messages.each do |source_attribute, messages|
+        attribute = source_attribute
 
         messages.each do |message|
-          unless attribute?(attribute)
-            message = full_message(attribute, message)
-            attribute_ = :base
+          unless attribute?(source_attribute)
+            message = full_message(source_attribute, message)
+            attribute = :base
           end
 
-          add(attribute_, message) unless added?(attribute_, message)
+          add(attribute, message) unless added?(attribute, message)
         end
       end
     end
