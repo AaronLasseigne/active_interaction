@@ -1,5 +1,5 @@
 before_install: gem update bundler
-gemfiles:
+gemfile:
 - Gemfile
 - gemfiles/activemodel3.rb
 language: ruby
