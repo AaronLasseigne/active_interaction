@@ -13,6 +13,11 @@ module ActiveInteraction
       send("#{name}=", value)
     end unless method_defined?(:[]=)
   end
+
+  class Errors
+    # Required for Rails < 3.2.13.
+    protected :initialize_dup
+  end
 end
 
 # @private
