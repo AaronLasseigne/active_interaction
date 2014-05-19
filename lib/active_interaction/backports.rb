@@ -17,7 +17,7 @@ end
 
 # @private
 class Hash
-  # Required for Rails <= 4.0.2.
+  # Required for Rails < 4.0.0.
   def transform_keys
     result = {}
     each_key do |key|
