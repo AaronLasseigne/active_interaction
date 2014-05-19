@@ -12,7 +12,7 @@ module ActiveInteraction
 
     # @return [Class]
     def klass
-      @klass ||= self.class.slug.to_s.camelize.constantize
+      @klass ||= Object.const_get(self.class.slug.to_s.camelize, false)
     end
   end
 end

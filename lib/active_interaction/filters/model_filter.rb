@@ -40,7 +40,7 @@ module ActiveInteraction
     # @raise [InvalidClassError]
     def klass
       klass_name = options.fetch(:class, name).to_s.classify
-      klass_name.constantize
+      Object.const_get(klass_name)
     rescue NameError
       raise InvalidClassError, klass_name.inspect
     end
