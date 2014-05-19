@@ -1,5 +1,7 @@
 # coding: utf-8
 
+require 'bigdecimal'
+
 module ActiveInteraction
   class Base
     # @!method self.decimal(*attributes, options = {})
