@@ -4,7 +4,9 @@ require 'coveralls'
 Coveralls.wear!
 
 require 'i18n'
-I18n.config.enforce_available_locales = true
+if I18n.config.respond_to?(:enforce_available_locales)
+  I18n.config.enforce_available_locales = true
+end
 
 require 'active_interaction'
 
