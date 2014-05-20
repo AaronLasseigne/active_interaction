@@ -5,7 +5,7 @@ require 'spec_helper'
 describe ActiveInteraction::Errors do
   let(:klass) do
     Class.new do
-      include ActiveModel::Model
+      include ActiveInteraction::ActiveModelable
 
       attr_reader :attribute
 

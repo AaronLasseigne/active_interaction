@@ -1,5 +1,5 @@
-# Vagrant 1.5.4 <http://www.vagrantup.com/downloads.html>
-# VirtualBox 4.3.10 <https://www.virtualbox.org/wiki/Downloads>
+# Vagrant 1.6.2 <http://www.vagrantup.com/downloads.html>
+# VirtualBox 4.3.12 <https://www.virtualbox.org/wiki/Downloads>
 
 Vagrant.require_version '~> 1.5'
 
@@ -13,14 +13,14 @@ Vagrant.configure('2') do |config|
     set -e -x
     apt-get update
     apt-get install --assume-yes libffi-dev make
-    if ! ruby --version | grep --fixed-strings 2.1.1p76; then
-      test -f ruby-2.1.1.tar.bz2 ||
-        wget cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.1.tar.bz2
-      test -f ruby-2.1.1.tar ||
-        bunzip2 --keep ruby-2.1.1.tar.bz2
-      test -d ruby-2.1.1 ||
-        tar --extract --file ruby-2.1.1.tar
-      cd ruby-2.1.1
+    if ! ruby --version | grep --fixed-strings 2.1.2; then
+      test -f ruby-2.1.2.tar.bz2 ||
+        wget cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.bz2
+      test -f ruby-2.1.2.tar ||
+        bunzip2 --keep ruby-2.1.2.tar.bz2
+      test -d ruby-2.1.2 ||
+        tar --extract --file ruby-2.1.2.tar
+      cd ruby-2.1.2
       ./configure --disable-install-doc
       make
       make install

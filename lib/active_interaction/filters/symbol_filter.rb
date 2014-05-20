@@ -14,6 +14,8 @@ module ActiveInteraction
 
   # @private
   class SymbolFilter < Filter
+    register :symbol
+
     def cast(value)
       case value
       when Symbol

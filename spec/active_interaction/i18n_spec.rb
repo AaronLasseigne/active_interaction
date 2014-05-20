@@ -11,19 +11,9 @@ end
 describe I18nInteraction do
   include_context 'interactions'
 
-  TYPES = %w[
-    array
-    boolean
-    date
-    date_time
-    file
-    float
-    hash
-    integer
-    model
-    string
-    time
-  ]
+  TYPES = ActiveInteraction::Filter
+    .const_get(:CLASSES)
+    .map { |slug, _| slug.to_s }
 
   shared_examples 'translation' do
     context 'types' do

@@ -16,6 +16,8 @@ module ActiveInteraction
 
   # @private
   class BooleanFilter < Filter
+    register :boolean
+
     def cast(value)
       case value
       when FalseClass, '0', /\Afalse\z/i

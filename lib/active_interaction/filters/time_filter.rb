@@ -21,6 +21,8 @@ module ActiveInteraction
 
   # @private
   class TimeFilter < AbstractDateTimeFilter
+    register :time
+
     alias_method :_klass, :klass
     private :_klass
 
