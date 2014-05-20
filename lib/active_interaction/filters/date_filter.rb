@@ -19,5 +19,6 @@ module ActiveInteraction
 
   # @private
   class DateFilter < AbstractDateTimeFilter
+    register :date
   end
 end

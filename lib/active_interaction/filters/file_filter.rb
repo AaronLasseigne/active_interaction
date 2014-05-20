@@ -16,6 +16,8 @@ module ActiveInteraction
 
   # @private
   class FileFilter < Filter
+    register :file
+
     def cast(value)
       value = extract_file(value)
 

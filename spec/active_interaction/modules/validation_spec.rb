@@ -49,8 +49,25 @@ describe ActiveInteraction::Validation do
       context 'MissingValueError' do
         let(:exception) { ActiveInteraction::MissingValueError }
 
-        it 'returns an :msising error' do
+        it 'returns a :missing error' do
           expect(result).to eql [[filter.name, :missing]]
+        end
+      end
+
+      context 'InvalidNestedValueError' do
+        let(:exception) do
+          ActiveInteraction::InvalidNestedValueError.new(name, value)
+        end
+        let(:name) { SecureRandom.hex.to_sym }
+        let(:value) { double }
+
+        it 'returns an :invalid_nested error' do
+          expect(result).to eql [[
+            filter.name,
+            :invalid_nested,
+            nil,
+            { name: name.inspect, value: value.inspect }
+          ]]
         end
       end
     end

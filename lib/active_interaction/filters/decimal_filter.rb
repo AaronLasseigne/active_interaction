@@ -1,5 +1,7 @@
 # coding: utf-8
 
+require 'bigdecimal'
+
 module ActiveInteraction
   class Base
     # @!method self.decimal(*attributes, options = {})
@@ -17,6 +19,8 @@ module ActiveInteraction
 
   # @private
   class DecimalFilter < AbstractNumericFilter
+    register :decimal
+
     def cast(value)
       case value
       when Numeric

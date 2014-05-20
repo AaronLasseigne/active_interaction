@@ -15,5 +15,6 @@ module ActiveInteraction
 
   # @private
   class FloatFilter < AbstractNumericFilter
+    register :float
   end
 end

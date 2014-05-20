@@ -1,5 +1,5 @@
 before_install: gem update bundler
-gemfiles:
+gemfile:
 - Gemfile
 - gemfiles/activemodel3.rb
 language: ruby
@@ -12,8 +12,8 @@ notifications:
 
       ivR5nEELqEsDgDZAcKGJtRgp70d6Geg5iFUfV9aP1ySy2U0AXBM='
 rvm:
-- 2.1.1
-- 2.0.0
-- 1.9.3
+- 2.1
+- 2.0
+- 1.9
 - jruby
-- rbx
+- rbx-2

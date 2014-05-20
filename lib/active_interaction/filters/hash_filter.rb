@@ -27,6 +27,8 @@ module ActiveInteraction
   class HashFilter < Filter
     include Missable
 
+    register :hash
+
     def cast(value)
       case value
       when Hash

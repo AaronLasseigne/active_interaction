@@ -179,12 +179,11 @@ describe ActiveInteraction::Runnable do
 
     context 'with an execute where composition fails' do
       before do
-        CompositionFailure = Class.new(ActiveInteraction::Base) do
+        interaction = Class.new(TestInteraction) do
           validate { errors.add(:base) }
-          def execute; end
         end
 
-        klass.send(:define_method, :execute) { compose(CompositionFailure) }
+        klass.send(:define_method, :execute) { compose(interaction) }
       end
 
       it 'rolls back the transaction' do
@@ -194,6 +193,19 @@ describe ActiveInteraction::Runnable do
         instance.send(:run)
         expect(instance).to have_received(:raise)
           .with(ActiveRecord::Rollback)
+      end
+
+      context 'without a transaction' do
+        before { klass.transaction(false) }
+
+        it 'does not roll back' do
+          instance = klass.new
+
+          allow(instance).to receive(:raise)
+          instance.send(:run)
+          expect(instance).to_not have_received(:raise)
+            .with(ActiveRecord::Rollback)
+        end
       end
     end
 
