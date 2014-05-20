@@ -2,7 +2,7 @@ AlignParameters:
   EnforcedStyle: with_fixed_indentation
 AllCops:
   Exclude:
-  - tmp/*
+  - tmp/**/*
 HandleExceptions:
   Enabled: false
 NonNilCheck:

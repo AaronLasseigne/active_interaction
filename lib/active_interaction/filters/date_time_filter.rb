@@ -19,6 +19,8 @@ module ActiveInteraction
 
   # @private
   class DateTimeFilter < AbstractDateTimeFilter
+    register :date_time
+
     def database_column_type
       :datetime
     end

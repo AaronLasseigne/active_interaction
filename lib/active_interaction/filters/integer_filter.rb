@@ -15,5 +15,6 @@ module ActiveInteraction
 
   # @private
   class IntegerFilter < AbstractNumericFilter
+    register :integer
   end
 end

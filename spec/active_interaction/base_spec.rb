@@ -462,10 +462,8 @@ describe ActiveInteraction::Base do
   end
 
   describe '.import_filters' do
-    shared_context 'import_filters context' do
+    shared_context 'import_filters context' do |only, except|
       let(:klass) { AddInteraction }
-      let(:only) { nil }
-      let(:except) { nil }
 
       let(:described_class) do
         interaction = klass
@@ -477,8 +475,8 @@ describe ActiveInteraction::Base do
       end
     end
 
-    shared_examples 'import_filters examples' do
-      include_context 'import_filters context'
+    shared_examples 'import_filters examples' do |only, except|
+      include_context 'import_filters context', only, except
 
       it 'imports the filters' do
         expect(described_class.filters).to eql klass.filters
@@ -504,42 +502,31 @@ describe ActiveInteraction::Base do
     end
 
     context 'with neither :only nor :except' do
-      include_examples 'import_filters examples'
+      include_examples 'import_filters examples', nil, nil
     end
 
     context 'with :only' do
       context 'as an Array' do
-        include_examples 'import_filters examples'
-
-        let(:only) { [:x] }
+        include_examples 'import_filters examples', [:x], nil
       end
 
       context 'as an Symbol' do
-        include_examples 'import_filters examples'
-
-        let(:only) { :x }
+        include_examples 'import_filters examples', :x, nil
       end
     end
 
     context 'with :except' do
       context 'as an Array' do
-        include_examples 'import_filters examples'
-
-        let(:except) { [:x] }
+        include_examples 'import_filters examples', nil, [:x]
       end
 
       context 'as an Symbol' do
-        include_examples 'import_filters examples'
-
-        let(:except) { :x }
+        include_examples 'import_filters examples', nil, :x
       end
     end
 
     context 'with :only & :except' do
-      include_examples 'import_filters examples'
-
-      let(:only) { [:x] }
-      let(:except) { [:x] }
+      include_examples 'import_filters examples', [:x], [:x]
     end
   end
 end
