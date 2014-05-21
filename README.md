@@ -233,9 +233,41 @@ Check out the [documentation][12] for a full list of methods.
 
 ## Filters
 
+#### Valid Inputs
+
+All filters accept their native type and typically a narrow set of
+alternatives to coerce based on Rails parameter values.
+
+#### Filter Parameters
+ * attributes (`Array<Symbol>`) — Attributes to create.
+ * options (`Hash{Symbol => Object}`) (defaults to: `{}`)
+     * `:default` (`Object`) — Fallback value if `nil` is given.
+     * `:desc` (`String`) — Human-readable description of this input.
+
+``` rb
+class Interaction < ActiveInteraction::Base
+  string :a, :b,
+    default: '',
+    desc: 'Strings!'
+
+  def execute
+    puts a
+    puts b
+  end
+end
+```
+
 ### Array
 
 ### Boolean
+
+#### Additional Valid Inputs
+
+The strings `"1"` and `"true"` (case-insensitive) are converted to `true`
+while the strings `"0"` and `"false"` (case-insensitive) are converted to
+`false`.
+
+#### Example
 
 ``` rb
 class BooleanInteraction < ActiveInteraction::Base
@@ -253,6 +285,17 @@ BooleanInteraction.run(kool_aid: true).result
 ```
 
 ### Date
+
+#### Additional Valid Inputs
+
+String values are processed using `parse` unless the `:format` option is given,
+in which case they will be processed with `strptime`.
+
+#### Additional Filter Options
+
+ * `:format` (`String`) —  Parse strings using this format string.
+
+#### Example
 
 ``` rb
 class DateInteraction < ActiveInteraction::Base
