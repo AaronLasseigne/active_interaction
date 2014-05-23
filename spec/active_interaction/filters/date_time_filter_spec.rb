@@ -32,6 +32,10 @@ describe ActiveInteraction::DateTimeFilter, :filter do
         expect(result).to eql DateTime.parse(value)
       end
 
+      it 'returns nil if string is empty' do
+        expect(filter.cast('')).to be_nil
+      end
+
       context 'with format' do
         include_context 'with format'
 
