@@ -31,6 +31,8 @@ module ActiveInteraction
     private
 
     def convert(value)
+      return nil if value.blank?
+
       if format?
         klass.strptime(value, format)
       else
