@@ -529,4 +529,19 @@ describe ActiveInteraction::Base do
       include_examples 'import_filters examples', [:x], [:x]
     end
   end
+
+  context 'callbacks' do
+    describe '.set_callback' do
+      after { described_class.reset_callbacks :type_check }
+
+      %i[after around before].each do |type|
+        it "runs the #{type} callback" do
+          called = false
+          described_class.set_callback :type_check, type, -> { called = true }
+          interaction.valid?
+          expect(called).to be_true
+        end
+      end
+    end
+  end
 end
