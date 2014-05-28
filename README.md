@@ -239,10 +239,11 @@ All filters accept their native type and typically a narrow set of
 alternatives to coerce based on Rails parameter values.
 
 #### Filter Parameters
- * attributes (`Array<Symbol>`) — Attributes to create.
- * options (`Hash{Symbol => Object}`) (defaults to: `{}`)
-     * `:default` (`Object`) — Fallback value if `nil` is given.
-     * `:desc` (`String`) — Human-readable description of this input.
+
+- attributes (`Array<Symbol>`) — Attributes to create.
+- options (`Hash{Symbol => Object}`) (defaults to: `{}`)
+  - `:default` (`Object`) — Fallback value if `nil` is given.
+  - `:desc` (`String`) — Human-readable description of this input.
 
 ``` rb
 class Interaction < ActiveInteraction::Base
@@ -293,7 +294,7 @@ in which case they will be processed with `strptime`.
 
 #### Additional Filter Options
 
- * `:format` (`String`) —  Parse strings using this format string.
+- `:format` (`String`) —  Parse strings using this format string.
 
 #### Example
 
