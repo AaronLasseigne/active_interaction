@@ -364,6 +364,21 @@ DecimalInteraction.run(price: BigDecimal.new('0.99')).result
 
 ### File
 
+``` rb
+class FileInteraction < ActiveInteraction::Base
+  file :readme
+
+  def execute
+    readme.size
+  end
+end
+
+FileInteraction.run(readme: 'please').errors.messages[:readme]
+# => ["is not a valid file"]
+FileInteraction.run(readme: File.open('README.md')).result
+# => 12947
+```
+
 ### Float
 
 ### Hash
