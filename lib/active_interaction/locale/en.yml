@@ -22,6 +22,7 @@ en:
       interface: interface
       io: input/output
       model: model
+      range: range
       string: string
       symbol: symbol
       time: time
