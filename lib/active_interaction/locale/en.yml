@@ -23,6 +23,7 @@ en:
       io: input/output
       model: model
       range: range
+      rational: rational number
       string: string
       symbol: symbol
       time: time
