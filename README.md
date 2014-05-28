@@ -415,6 +415,21 @@ HashInteraction.run(options: {}).result
 
 ### Integer
 
+``` rb
+class IntegerInteraction < ActiveInteraction::Base
+  integer :limit
+
+  def execute
+    limit.downto(0).to_a
+  end
+end
+
+IntegerInteraction.run(limit: 'ten').errors.messages[:limit]
+# => ["is not a valid integer"]
+IntegerInteraction.run(limit: 10).result
+# => [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+```
+
 ### Model
 
 ### String
