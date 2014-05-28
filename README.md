@@ -285,7 +285,7 @@ work done in [Mutations][17].
   [2]: https://badge.fury.io/rb/active_interaction "Gem Version"
   [3]: https://travis-ci.org/orgsync/active_interaction.svg?branch=master
   [4]: https://travis-ci.org/orgsync/active_interaction "Build Status"
-  [5]: https://coveralls.io/repos/orgsync/active_interaction/badge.png?branch=master
+  [5]: http://img.shields.io/coveralls/orgsync/active_interaction/master.svg
   [6]: https://coveralls.io/r/orgsync/active_interaction?branch=master "Coverage Status"
   [7]: https://codeclimate.com/github/orgsync/active_interaction.png
   [8]: https://codeclimate.com/github/orgsync/active_interaction "Code Climate"

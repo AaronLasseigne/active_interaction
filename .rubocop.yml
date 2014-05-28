@@ -5,8 +5,6 @@ AllCops:
   - tmp/**/*
 HandleExceptions:
   Enabled: false
-NonNilCheck:
-  Enabled: false
 PercentLiteralDelimiters:
   PreferredDelimiters:
     '%W': '[]'
