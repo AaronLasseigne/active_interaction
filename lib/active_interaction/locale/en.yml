@@ -9,6 +9,7 @@ en:
     types:
       array: array
       boolean: boolean
+      complex: complex number
       date: date
       date_time: date time
       decimal: decimal
