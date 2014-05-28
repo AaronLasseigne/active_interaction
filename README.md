@@ -260,6 +260,21 @@ end
 
 ### Array
 
+``` rb
+class ArrayInteraction < ActiveInteraction::Base
+  array :toppings
+
+  def execute
+    toppings.length
+  end
+end
+
+ArrayInteraction.run(toppings: 'everything').errors.messages[:toppings]
+# => ["is not a valid array"]
+ArrayInteraction.run(toppings: [:cheese, 'pepperoni']).result
+# => 2
+```
+
 ### Boolean
 
 #### Additional Valid Inputs
