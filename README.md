@@ -449,6 +449,21 @@ ModelInteraction.run(logger: Logger.new(STDOUT))
 
 ### String
 
+``` rb
+class StringInteraction < ActiveInteraction::Base
+  string :name
+
+  def execute
+    name.upcase
+  end
+end
+
+StringInteraction.run(name: 0xdeadbeef).errors.messages[:name]
+# => ["is not a valid string"]
+StringInteraction.run(name: 'taylor').result
+# => "TAYLOR"
+```
+
 ### Symbol
 
 ### Time
