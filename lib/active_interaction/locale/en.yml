@@ -24,6 +24,7 @@ en:
       model: model
       range: range
       rational: rational number
+      regexp: regular expression
       string: string
       symbol: symbol
       time: time
