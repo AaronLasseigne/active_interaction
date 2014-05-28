@@ -483,6 +483,21 @@ SymbolInteraction.run(method: :object_id).result
 
 ### Time
 
+``` rb
+class TimeInteraction < ActiveInteraction::Base
+  time :epoch
+
+  def execute
+    Time.now - epoch
+  end
+end
+
+TimeInteraction.run(epoch: 'a long, long time ago').errors.messages[:epoch]
+# => ["is not a valid time"]
+TimeInteraction.run(epoch: Time.new(1970)).result
+# => 1401307376.3133254
+```
+
 ## Advanced Usage
 
 ### Composition
