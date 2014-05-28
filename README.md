@@ -398,6 +398,21 @@ FloatInteraction.run(n: 3.0).result
 
 ### Hash
 
+``` rb
+class HashInteraction < ActiveInteraction::Base
+  hash :options
+
+  def execute
+    options.merge(strip: true)
+  end
+end
+
+HashInteraction.run(options: 'none').errors.messages[:options]
+# => ["is not a valid hash"]
+HashInteraction.run(options: {}).result
+# => {:strip=>true}
+```
+
 ### Integer
 
 ### Model
