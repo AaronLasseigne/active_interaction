@@ -238,9 +238,7 @@ module ActiveInteraction
     protected
 
     def run_validations!
-      run_callbacks :type_check do
-        type_check_inputs
-      end
+      run_callbacks(:type_check) { type_check }
 
       super if errors.empty?
     end
@@ -267,12 +265,12 @@ module ActiveInteraction
         begin
           public_send("#{name}=", filter.clean(inputs[name]))
         rescue InvalidValueError, MissingValueError, InvalidNestedValueError
-          # #type_check_inputs will add errors if appropriate.
+          # #type_check will add errors if appropriate.
         end
       end
     end
 
-    def type_check_inputs
+    def type_check
       Validation.validate(self.class.filters, inputs).each do |error|
         errors.add_sym(*error)
       end
