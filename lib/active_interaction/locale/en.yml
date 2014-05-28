@@ -14,6 +14,7 @@ en:
       date_time: date time
       decimal: decimal
       dir: directory
+      enumerator: enumerator
       file: file
       float: float
       hash: hash
