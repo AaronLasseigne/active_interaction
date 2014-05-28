@@ -381,6 +381,21 @@ FileInteraction.run(readme: File.open('README.md')).result
 
 ### Float
 
+``` rb
+class FloatInteraction < ActiveInteraction::Base
+  float :n
+
+  def execute
+    n**2
+  end
+end
+
+FloatInteraction.run(n: 'three').errors.messages[:n]
+# => ["is not a valid float"]
+FloatInteraction.run(n: 3.0).result
+# => 9.0
+```
+
 ### Hash
 
 ### Integer
