@@ -13,6 +13,7 @@ en:
       date: date
       date_time: date time
       decimal: decimal
+      dir: directory
       file: file
       float: float
       hash: hash
