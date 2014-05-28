@@ -466,6 +466,21 @@ StringInteraction.run(name: 'taylor').result
 
 ### Symbol
 
+``` rb
+class SymbolInteraction < ActiveInteraction::Base
+  symbol :method
+
+  def execute
+    method.to_proc
+  end
+end
+
+SymbolInteraction.run(method: -> {}).errors.messages[:method]
+# => ["is not a valid symbol"]
+SymbolInteraction.run(method: :object_id).result
+# => #<Proc:0x007f1c6a6d7a58>
+```
+
 ### Time
 
 ## Advanced Usage
