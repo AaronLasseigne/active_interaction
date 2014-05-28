@@ -533,8 +533,8 @@ describe ActiveInteraction::Base do
   context 'callbacks' do
     let(:described_class) { Class.new(TestInteraction) }
 
-    %i[type_check validate execute].each do |name|
-      %i[before after around].each do |type|
+    %w[type_check validate execute].each do |name|
+      %w[before after around].map(&:to_sym).each do |type|
         it "runs the #{type} #{name} callback" do
           called = false
           described_class.set_callback(name, type) { called = true }
