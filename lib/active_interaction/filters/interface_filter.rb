@@ -19,6 +19,8 @@ module ActiveInteraction
 
   # @private
   class InterfaceFilter < Filter
+    register :interface
+
     def cast(value)
       matches?(value) ? value : super
     end
