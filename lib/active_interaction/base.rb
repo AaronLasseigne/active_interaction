@@ -31,7 +31,7 @@ module ActiveInteraction
     include ActiveModelable
     include Runnable
 
-    validate :input_errors
+    define_callbacks :type_check
 
     class << self
       include Hashable
@@ -235,6 +235,16 @@ module ActiveInteraction
       end
     end
 
+    protected
+
+    def run_validations!
+      run_callbacks :type_check do
+        type_check_inputs
+      end
+
+      super if errors.empty?
+    end
+
     private
 
     # @param inputs [Hash{Symbol => Object}]
@@ -257,14 +267,12 @@ module ActiveInteraction
         begin
           public_send("#{name}=", filter.clean(inputs[name]))
         rescue InvalidValueError, MissingValueError, InvalidNestedValueError
-          # Validators (#input_errors) will add errors if appropriate.
+          # #type_check_inputs will add errors if appropriate.
         end
       end
     end
 
-    # @!group Validations
-
-    def input_errors
+    def type_check_inputs
       Validation.validate(self.class.filters, inputs).each do |error|
         errors.add_sym(*error)
       end
