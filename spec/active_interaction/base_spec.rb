@@ -531,16 +531,73 @@ describe ActiveInteraction::Base do
   end
 
   context 'callbacks' do
-    describe '.set_callback' do
-      after { described_class.reset_callbacks :type_check }
+    let(:described_class) { Class.new(TestInteraction) }
 
-      %i[after around before].each do |type|
-        it "runs the #{type} callback" do
+    %i[type_check validate execute].each do |name|
+      %i[before after around].each do |type|
+        it "runs the #{type} #{name} callback" do
           called = false
-          described_class.set_callback :type_check, type, -> { called = true }
-          interaction.valid?
+          described_class.set_callback(name, type) { called = true }
+          outcome
           expect(called).to be_true
         end
+      end
+    end
+
+    context 'with errors during type_check' do
+      before do
+        described_class.set_callback(:type_check, :before) do
+          errors.add(:base)
+        end
+      end
+
+      it 'is invalid' do
+        expect(outcome).to be_invalid
+      end
+
+      it 'does not run validate callbacks' do
+        called = false
+        described_class.set_callback(:validate, :before) { called = true }
+        outcome
+        expect(called).to be_false
+      end
+
+      it 'does not run execute callbacks' do
+        called = false
+        described_class.set_callback(:execute, :before) { called = true }
+        outcome
+        expect(called).to be_false
+      end
+    end
+
+    context 'with errors during validate' do
+      before do
+        described_class.set_callback(:validate, :before) do
+          errors.add(:base)
+        end
+      end
+
+      it 'is invalid' do
+        expect(outcome).to be_invalid
+      end
+
+      it 'does not run execute callbacks' do
+        called = false
+        described_class.set_callback(:execute, :before) { called = true }
+        outcome
+        expect(called).to be_false
+      end
+    end
+
+    context 'with errors during execute' do
+      before do
+        described_class.set_callback(:execute, :before) do
+          errors.add(:base)
+        end
+      end
+
+      it 'is invalid' do
+        expect(outcome).to be_invalid
       end
     end
   end
