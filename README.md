@@ -432,6 +432,21 @@ IntegerInteraction.run(limit: 10).result
 
 ### Model
 
+``` rb
+class ModelInteraction < ActiveInteraction::Base
+  model :logger
+
+  def execute
+    logger.debug('Executing...')
+  end
+end
+
+ModelInteraction.run(logger: 'lumberjack').errors.messages[:logger]
+# => ["is not a valid model"]
+ModelInteraction.run(logger: Logger.new(STDOUT))
+# D, [2014-05-28T19:53:51.814709 #1965] DEBUG -- : Executing...
+```
+
 ### String
 
 ### Symbol
