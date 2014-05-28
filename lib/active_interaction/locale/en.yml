@@ -20,6 +20,7 @@ en:
       hash: hash
       integer: integer
       interface: interface
+      io: input/output
       model: model
       string: string
       symbol: symbol
