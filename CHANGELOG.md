@@ -1,5 +1,7 @@
 # [Master][]
 
+- Add an interface filter.
+
 # [1.2.3][] (2014-05-12)
 
 - Fix a bug that raised `ActiveRecord::Rollback` when composing even when not
