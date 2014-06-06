@@ -57,7 +57,7 @@ describe ActiveInteraction::Runnable do
               }
 
               klass.run
-              expect(has_run).to be_true
+              expect(has_run).to be_truthy
             end
           end
         end
@@ -141,7 +141,10 @@ describe ActiveInteraction::Runnable do
 
       it 'does not duplicate errors on subsequent calls' do
         instance.valid?
-        expect { instance.valid? }.to_not change { instance.errors.count }.by 1
+        count = instance.errors.count
+        instance.valid?
+
+        expect(instance.errors.count).to eql count
       end
     end
   end
