@@ -9,15 +9,22 @@ en:
     types:
       array: array
       boolean: boolean
+      complex: complex number
       date: date
       date_time: date time
       decimal: decimal
+      dir: directory
+      enumerator: enumerator
       file: file
       float: float
       hash: hash
       integer: integer
       interface: interface
+      io: input/output
       model: model
+      range: range
+      rational: rational number
+      regexp: regular expression
       string: string
       symbol: symbol
       time: time
