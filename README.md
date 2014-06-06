@@ -242,7 +242,8 @@ alternatives to coerce based on Rails parameter values.
 
 - **attributes** (`Array<Symbol>`) - Attributes to create.
 - **options** (`Hash{Symbol => Object}`) (defaults to: `{}`)
-  - `:default` (`Object`) - Fallback value if `nil` is given.
+  - `:default` (`Object`) - Fallback value if `nil` is given. May be set to
+                            `nil` to make a filter optional.
   - `:desc` (`String`) - Human-readable description of this input.
 
 ``` rb
