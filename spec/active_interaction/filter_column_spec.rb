@@ -42,7 +42,7 @@ describe ActiveInteraction::FilterColumn do
         let(:type) { :integer }
 
         it 'returns true' do
-          expect(number?).to be_true
+          expect(number?).to be_truthy
         end
       end
 
@@ -50,7 +50,7 @@ describe ActiveInteraction::FilterColumn do
         let(:type) { :float }
 
         it 'returns true' do
-          expect(number?).to be_true
+          expect(number?).to be_truthy
         end
       end
 
@@ -58,7 +58,7 @@ describe ActiveInteraction::FilterColumn do
         let(:type) { :string }
 
         it 'returns false' do
-          expect(number?).to be_false
+          expect(number?).to be_falsey
         end
       end
     end
@@ -72,7 +72,7 @@ describe ActiveInteraction::FilterColumn do
         let(:type) { :string }
 
         it 'returns true' do
-          expect(text?).to be_true
+          expect(text?).to be_truthy
         end
       end
 
@@ -80,7 +80,7 @@ describe ActiveInteraction::FilterColumn do
         let(:type) { :float }
 
         it 'returns false' do
-          expect(text?).to be_false
+          expect(text?).to be_falsey
         end
       end
     end

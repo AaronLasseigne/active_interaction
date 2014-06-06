@@ -47,12 +47,12 @@ describe ActiveInteraction::Transactable do
 
   describe '.transaction?' do
     it 'defaults to true' do
-      expect(klass.transaction?).to be_true
+      expect(klass.transaction?).to be_truthy
     end
 
     it 'returns the stored value' do
       klass.transaction(false)
-      expect(klass.transaction?).to be_false
+      expect(klass.transaction?).to be_falsey
     end
   end
 
