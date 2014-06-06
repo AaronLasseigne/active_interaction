@@ -261,6 +261,17 @@ end
 
 ### Array
 
+#### Additional Parameters
+
+- **block** (`Proc`) - Filter method to apply to each element of the Array.
+
+#### Modified Filter Options
+
+- `:default` (`[]` or `nil`) - Fallback value if `nil` is given. May be set
+                               to `nil` to make the filter optional.
+
+#### Examples
+
 ``` rb
 class ArrayInteraction < ActiveInteraction::Base
   array :toppings
@@ -274,6 +285,14 @@ ArrayInteraction.run(toppings: 'everything').errors.messages[:toppings]
 # => ["is not a valid array"]
 ArrayInteraction.run(toppings: [:cheese, 'pepperoni']).result
 # => 2
+```
+
+Array of Strings:
+
+```ruby
+array :toppings do
+  string
+end
 ```
 
 ### Boolean
