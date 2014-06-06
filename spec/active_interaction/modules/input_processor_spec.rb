@@ -5,11 +5,11 @@ require 'spec_helper'
 describe ActiveInteraction::InputProcessor do
   describe '.reserved?(name)' do
     it 'returns true for anything starting with "_interaction_"' do
-      expect(described_class.reserved?('_interaction_')).to be_true
+      expect(described_class.reserved?('_interaction_')).to be_truthy
     end
 
     it 'returns false for anything else' do
-      expect(described_class.reserved?(SecureRandom.hex)).to be_false
+      expect(described_class.reserved?(SecureRandom.hex)).to be_falsey
     end
   end
 

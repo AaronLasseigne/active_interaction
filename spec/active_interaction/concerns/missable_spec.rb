@@ -10,7 +10,7 @@ describe ActiveInteraction::Missable do
       let(:slug) { :slug }
 
       it 'returns false' do
-        expect(instance.respond_to?(slug)).to be_false
+        expect(instance.respond_to?(slug)).to be_falsey
       end
     end
 
@@ -18,7 +18,7 @@ describe ActiveInteraction::Missable do
       let(:slug) { :boolean }
 
       it 'returns true' do
-        expect(instance.respond_to?(slug)).to be_true
+        expect(instance.respond_to?(slug)).to be_truthy
       end
     end
   end
