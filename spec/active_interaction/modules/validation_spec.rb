@@ -21,7 +21,7 @@ describe ActiveInteraction::Validation do
       let(:inputs) { { name: 1 } }
 
       before do
-        filter.stub(:cast).and_return(1)
+        allow(filter).to receive(:cast).and_return(1)
       end
 
       it 'returns no errors' do
@@ -31,7 +31,7 @@ describe ActiveInteraction::Validation do
 
     context 'filter throws' do
       before do
-        filter.stub(:cast).and_raise(exception)
+        allow(filter).to receive(:cast).and_raise(exception)
       end
 
       context 'InvalidValueError' do
