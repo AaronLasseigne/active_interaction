@@ -475,19 +475,52 @@ FloatInteraction.run(n: 3.0).result
 
 ### Hash
 
+#### Additional Parameters
+
+- **block** (`Proc`) - Filter methods to apply for select keys.
+
+#### Modified Filter Options
+
+- `:default` (`{}` or `nil`) - Fallback value if `nil` is given. May be set
+                               to `nil` to make the filter optional.
+
+#### Additional Filter Options
+
+- `:strip` (`Boolean`) - default: `true` - Remove unknown keys. *Note: All keys
+                                           are symbolized. Ruby does not GC
+                                           symbols so this can cause memory
+                                           bloat. Setting this option to
+                                           `false` and passing in non-safe
+                                           input (e.g. Rails params) opens
+                                           your software to a denial of
+                                           service attack.*
+
+#### Example
+
 ```ruby
 class HashInteraction < ActiveInteraction::Base
-  hash :options
+  hash :options do
+    boolean :fuzzy
+    integer :count, default: 1
+  end
 
   def execute
-    options.merge(strip: true)
+    options.merge(a: true)
   end
 end
 
 HashInteraction.run(options: 'none').errors.messages[:options]
 # => ["is not a valid hash"]
-HashInteraction.run(options: {}).result
-# => {:strip=>true}
+HashInteraction.run(options: {}).errors.messages[:options]
+# => ["has an invalid nested value (\"fuzzy\" => nil)"]
+HashInteraction.run(options: {fuzzy: true}).result
+# => {:fuzzy=>true, :count=>1, :a=>true}
+```
+
+Allow all keys:
+
+```ruby
+hash :wildcards, strip: false
 ```
 
 ### Integer
