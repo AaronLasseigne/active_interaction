@@ -439,12 +439,12 @@ describe ActiveInteraction::Base do
     let(:described_class) { InteractionWithFilter }
 
     it 'responds to the predicate' do
-      expect(interaction.respond_to?(:thing?)).to be_true
+      expect(interaction.respond_to?(:thing?)).to be_truthy
     end
 
     context 'without a value' do
       it 'returns false' do
-        expect(interaction.thing?).to be_false
+        expect(interaction.thing?).to be_falsey
       end
     end
 
@@ -456,7 +456,7 @@ describe ActiveInteraction::Base do
       end
 
       it 'returns true' do
-        expect(interaction.thing?).to be_true
+        expect(interaction.thing?).to be_truthy
       end
     end
   end
