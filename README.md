@@ -357,6 +357,18 @@ date :birthday, format: '%m-%d-%Y'
 
 ### DateTime
 
+#### Additional Valid Inputs
+
+String values are processed using `parse` unless the `:format` option is given,
+in which case they will be processed with `strptime`.
+
+#### Additional Filter Options
+
+- `:format` (`String`) - A template for parsing the date and time `String`
+                         that matches the format passed to `strptime`.
+
+#### Example
+
 ```ruby
 class DateTimeInteraction < ActiveInteraction::Base
   date_time :now
@@ -370,6 +382,12 @@ DateTimeInteraction.run(now: 'now').errors.messages[:now]
 # => ["is not a valid date time"]
 DateTimeInteraction.run(now: DateTime.now).result
 # => "2014-05-05T19:49:24+00:00"
+```
+
+A formatted date and time:
+
+```ruby
+date_time :start_date, format: '%Y-%m-%dT%H:%M:%SZ'
 ```
 
 ### Decimal
