@@ -525,6 +525,12 @@ hash :wildcards, strip: false
 
 ### Integer
 
+#### Additional Valid Inputs
+
+Numerics and String values will be converted.
+
+#### Example
+
 ```ruby
 class IntegerInteraction < ActiveInteraction::Base
   integer :limit
