@@ -1,6 +1,7 @@
 # [Master][]
 
 - Add an interface filter.
+- Add a `type_check` callback that happens before the `validation` callback.
 
 # [1.2.3][] (2014-05-12)
 
