@@ -548,6 +548,19 @@ IntegerInteraction.run(limit: 10).result
 
 ### Model
 
+#### Additional Filter Options
+
+- `:class` (`Class`, `String`, `Symbol`) - default: the attribute name - Ensures the object passed matches
+                                                                         the class using `is_a?` or `===`.
+                                                                         If a String or Symbol is provided
+                                                                         it will have `classify` called on
+                                                                         it. *Note: Modules included are
+                                                                         part of the ancestry of a class and
+                                                                         can also be matched against.*
+
+
+#### Example
+
 ```ruby
 class ModelInteraction < ActiveInteraction::Base
   model :logger
@@ -561,6 +574,12 @@ ModelInteraction.run(logger: 'lumberjack').errors.messages[:logger]
 # => ["is not a valid model"]
 ModelInteraction.run(logger: Logger.new(STDOUT))
 # D, [2014-05-28T19:53:51.814709 #1965] DEBUG -- : Executing...
+```
+
+An object which is a `User` or a subclass of `User`:
+
+```ruby
+model :creator, class: User
 ```
 
 ### String
