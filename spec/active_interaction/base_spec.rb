@@ -539,7 +539,7 @@ describe ActiveInteraction::Base do
           called = false
           described_class.set_callback(name, type) { called = true }
           outcome
-          expect(called).to be_true
+          expect(called).to be_truthy
         end
       end
     end
@@ -559,14 +559,14 @@ describe ActiveInteraction::Base do
         called = false
         described_class.set_callback(:validate, :before) { called = true }
         outcome
-        expect(called).to be_false
+        expect(called).to be_falsey
       end
 
       it 'does not run execute callbacks' do
         called = false
         described_class.set_callback(:execute, :before) { called = true }
         outcome
-        expect(called).to be_false
+        expect(called).to be_falsey
       end
     end
 
@@ -585,7 +585,7 @@ describe ActiveInteraction::Base do
         called = false
         described_class.set_callback(:execute, :before) { called = true }
         outcome
-        expect(called).to be_false
+        expect(called).to be_falsey
       end
     end
 
