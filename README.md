@@ -392,6 +392,18 @@ date_time :start_date, format: '%Y-%m-%dT%H:%M:%SZ'
 
 ### Decimal
 
+#### Additional Valid Inputs
+
+Numerics and String values will be converted.
+
+#### Additional Filter Options
+
+- `:digits` (`Fixnum`) - The number of significant digits. If omitted or 0,
+                         the number of significant digits is determined from
+                         the initial value.
+
+#### Example
+
 ```ruby
 class DecimalInteraction < ActiveInteraction::Base
   decimal :price
@@ -405,6 +417,12 @@ DecimalInteraction.run(price: 'a lot').errors.messages[:price]
 # => ["is not a valid decimal"]
 DecimalInteraction.run(price: BigDecimal.new('0.99')).result
 # => #<BigDecimal:7f3f7a188cb8,'0.1071675E1',18(36)>
+```
+
+Having 4 significant digits:
+
+```ruby
+decimal :roughly, digits: 4
 ```
 
 ### File
