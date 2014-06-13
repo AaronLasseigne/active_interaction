@@ -287,11 +287,11 @@ ArrayInteraction.run(toppings: [:cheese, 'pepperoni']).result
 # => 2
 ```
 
-Array of Strings:
+An `Array` of `Date`s with a particular format:
 
 ```ruby
-array :toppings do
-  string
+array :birthdays do
+  date format: '%Y-%m-%d'
 end
 ```
 
