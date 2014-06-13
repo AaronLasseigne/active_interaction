@@ -427,6 +427,14 @@ decimal :roughly, digits: 4
 
 ### File
 
+#### Additional Valid Inputs
+
+Tempfile and anything that responds to `tempfile` with a File or Tempfile.
+This means that file uploads via forms in Rails `params` can be directly
+passed in.
+
+#### Example
+
 ```ruby
 class FileInteraction < ActiveInteraction::Base
   file :readme
