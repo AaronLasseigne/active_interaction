@@ -246,7 +246,7 @@ alternatives to coerce based on Rails parameter values.
                             `nil` to make a filter optional.
   - `:desc` (`String`) - Human-readable description of this input.
 
-``` rb
+```ruby
 class Interaction < ActiveInteraction::Base
   string :a, :b,
     default: '',
@@ -272,7 +272,7 @@ end
 
 #### Examples
 
-``` rb
+```ruby
 class ArrayInteraction < ActiveInteraction::Base
   array :toppings
 
@@ -305,7 +305,7 @@ while the strings `"0"` and `"false"` (case-insensitive) are converted to
 
 #### Example
 
-``` rb
+```ruby
 class BooleanInteraction < ActiveInteraction::Base
   boolean :kool_aid
 
@@ -333,7 +333,7 @@ in which case they will be processed with `strptime`.
 
 #### Example
 
-``` rb
+```ruby
 class DateInteraction < ActiveInteraction::Base
   date :birthday
 
@@ -350,7 +350,7 @@ DateInteraction.run(birthday: Date.new(1989, 9, 1)).result
 
 ### DateTime
 
-``` rb
+```ruby
 class DateTimeInteraction < ActiveInteraction::Base
   date_time :now
 
@@ -367,7 +367,7 @@ DateTimeInteraction.run(now: DateTime.now).result
 
 ### Decimal
 
-``` rb
+```ruby
 class DecimalInteraction < ActiveInteraction::Base
   decimal :price
 
@@ -384,7 +384,7 @@ DecimalInteraction.run(price: BigDecimal.new('0.99')).result
 
 ### File
 
-``` rb
+```ruby
 class FileInteraction < ActiveInteraction::Base
   file :readme
 
@@ -401,7 +401,7 @@ FileInteraction.run(readme: File.open('README.md')).result
 
 ### Float
 
-``` rb
+```ruby
 class FloatInteraction < ActiveInteraction::Base
   float :n
 
@@ -418,7 +418,7 @@ FloatInteraction.run(n: 3.0).result
 
 ### Hash
 
-``` rb
+```ruby
 class HashInteraction < ActiveInteraction::Base
   hash :options
 
@@ -435,7 +435,7 @@ HashInteraction.run(options: {}).result
 
 ### Integer
 
-``` rb
+```ruby
 class IntegerInteraction < ActiveInteraction::Base
   integer :limit
 
@@ -452,7 +452,7 @@ IntegerInteraction.run(limit: 10).result
 
 ### Model
 
-``` rb
+```ruby
 class ModelInteraction < ActiveInteraction::Base
   model :logger
 
@@ -469,7 +469,7 @@ ModelInteraction.run(logger: Logger.new(STDOUT))
 
 ### String
 
-``` rb
+```ruby
 class StringInteraction < ActiveInteraction::Base
   string :name
 
@@ -486,7 +486,7 @@ StringInteraction.run(name: 'taylor').result
 
 ### Symbol
 
-``` rb
+```ruby
 class SymbolInteraction < ActiveInteraction::Base
   symbol :method
 
@@ -503,7 +503,7 @@ SymbolInteraction.run(method: :object_id).result
 
 ### Time
 
-``` rb
+```ruby
 class TimeInteraction < ActiveInteraction::Base
   time :epoch
 
@@ -555,7 +555,7 @@ end
 By default, every interaction is run inside a transaction if ActiveRecord is
 available.
 
-``` rb
+```ruby
 class TransactionalInteraction < ActiveInteraction::Base
   def execute
     puts 'Transactional!'
@@ -571,7 +571,7 @@ TransactionalInteraction.run!
 
 You can disable this behavior using the `transaction` class method.
 
-``` rb
+```ruby
 class NotTransactionalInteraction < ActiveInteraction::Base
   transaction false
 
@@ -587,7 +587,7 @@ NotTransactionalInteraction.run!
 You can also customize the transaction with the `transaction` class method. Any
 options will be passed through to ActiveRecord.
 
-``` rb
+```ruby
 class CustomTransactionalInteraction < ActiveInteraction::Base
   transaction true,
     isolation: :serializable,
@@ -632,7 +632,7 @@ hsilgne:
 
 Then set your locale and run interactions like normal.
 
-``` rb
+```ruby
 class I18nInteraction < ActiveInteraction::Base
   string :name
 end
