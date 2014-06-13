@@ -349,6 +349,12 @@ DateInteraction.run(birthday: Date.new(1989, 9, 1)).result
 # => #<Date: 2007-08-28 ((2454341j,0s,0n),+0s,2299161j)>
 ```
 
+A formatted date:
+
+```ruby
+date :birthday, format: '%m-%d-%Y'
+```
+
 ### DateTime
 
 ```ruby
