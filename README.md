@@ -452,6 +452,12 @@ FileInteraction.run(readme: File.open('README.md')).result
 
 ### Float
 
+#### Additional Valid Inputs
+
+Numerics and String values will be converted.
+
+#### Example
+
 ```ruby
 class FloatInteraction < ActiveInteraction::Base
   float :n
