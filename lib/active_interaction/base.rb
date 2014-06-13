@@ -238,7 +238,7 @@ module ActiveInteraction
     protected
 
     def run_validations!
-      run_callbacks(:type_check) { type_check }
+      type_check
 
       super if errors.empty?
     end
@@ -271,8 +271,10 @@ module ActiveInteraction
     end
 
     def type_check
-      Validation.validate(self.class.filters, inputs).each do |error|
-        errors.add_sym(*error)
+      run_callbacks(:type_check) do
+        Validation.validate(self.class.filters, inputs).each do |error|
+          errors.add_sym(*error)
+        end
       end
     end
   end
