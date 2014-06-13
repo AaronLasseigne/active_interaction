@@ -329,7 +329,8 @@ in which case they will be processed with `strptime`.
 
 #### Additional Filter Options
 
-- `:format` (`String`) - Parse strings using this format string.
+- `:format` (`String`) - A template for parsing the date `String` that matches
+                         the format passed to `strptime`.
 
 #### Example
 
