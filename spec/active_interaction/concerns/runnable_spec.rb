@@ -149,6 +149,54 @@ describe ActiveInteraction::Runnable do
     end
   end
 
+  describe '#invalid' do
+    include_context 'with #execute defined'
+
+    let(:outcome) { klass.run }
+
+    it 'returns self' do
+      expect(outcome.invalid).to equal outcome
+    end
+
+    context 'valid' do
+      it 'does not yield' do
+        expect { |b| outcome.invalid(&b) }.to_not yield_control
+      end
+    end
+
+    context 'invalid' do
+      include_context 'with a validator'
+
+      it 'yields' do
+        expect { |b| outcome.invalid(&b) }.to yield_with_args outcome
+      end
+    end
+  end
+
+  describe '#valid' do
+    include_context 'with #execute defined'
+
+    let(:outcome) { klass.run }
+
+    it 'returns self' do
+      expect(outcome.valid).to equal outcome
+    end
+
+    context 'invalid' do
+      include_context 'with a validator'
+
+      it 'does not yield' do
+        expect { |b| outcome.valid(&b) }.to_not yield_control
+      end
+    end
+
+    context 'valid' do
+      it 'yields' do
+        expect { |b| outcome.valid(&b) }.to yield_with_args outcome.result
+      end
+    end
+  end
+
   describe '.run' do
     let(:outcome) { klass.run }
 
