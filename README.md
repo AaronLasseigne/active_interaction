@@ -607,6 +607,12 @@ StringInteraction.run(name: 'taylor').result
 
 ### Symbol
 
+#### Additional Valid Inputs
+
+String values will be converted.
+
+#### Example
+
 ```ruby
 class SymbolInteraction < ActiveInteraction::Base
   symbol :method
