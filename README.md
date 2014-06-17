@@ -584,6 +584,12 @@ model :creator, class: User
 
 ### String
 
+#### Additional Filter Options
+
+- `:strip` (`Boolean`) - default: `true` - Strip leading and trailing whitespace.
+
+#### Example
+
 ```ruby
 class StringInteraction < ActiveInteraction::Base
   string :name
