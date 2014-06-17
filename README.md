@@ -630,6 +630,20 @@ SymbolInteraction.run(method: :object_id).result
 
 ### Time
 
+#### Additional Valid Inputs
+
+Numeric values are processed using `at`. Strings are processed using `parse`
+unless the format option is given, in which case they will be processed with
+`strptime`. If `Time.zone` is available it will be used so that the values are
+time zone aware.
+
+#### Additional Filter Options
+
+- `:format` (`String`) - A template for parsing the date `String` that matches
+                         the format passed to `strptime`.
+
+#### Example
+
 ```ruby
 class TimeInteraction < ActiveInteraction::Base
   time :epoch
@@ -643,6 +657,12 @@ TimeInteraction.run(epoch: 'a long, long time ago').errors.messages[:epoch]
 # => ["is not a valid time"]
 TimeInteraction.run(epoch: Time.new(1970)).result
 # => 1401307376.3133254
+```
+
+A formatted time:
+
+```ruby
+time :start_date, format: '%Y-%m-%dT%H:%M:%S%Z'
 ```
 
 ## Advanced Usage
