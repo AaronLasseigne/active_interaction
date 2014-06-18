@@ -19,18 +19,18 @@
 
 ## Bugs Fixed
 
-- Fix a bug that marked model inputs as invalid even if they returned true for
-  `object.is_a?(klass)`.
+- [#179][]: Fix a bug that marked model inputs as invalid even if they returned true
+  for `object.is_a?(klass)`.
 
 # [1.2.0][] (2014-04-30)
 
 ## New Features
 
 - Add support for Rails-style date and time parameters like `date(1i)`.
-- Add a decimal filter.
+- [#173][]: Add a decimal filter.
 - Add support for disabling and modifying transactions through the
   `transaction` helper method.
-- Add support for `column_for_attribute` which provides better
+- [#140][]: Add support for `column_for_attribute` which provides better
   interoperability with gems like Formtastic and Simple Form.
 
 # [1.1.7][] (2014-04-30)
@@ -301,5 +301,8 @@
   [0.1.1]: https://github.com/orgsync/active_interaction/compare/v0.1.0...v0.1.1
   [0.1.0]: https://github.com/orgsync/active_interaction/compare/62f999b...v0.1.0
 
+  [#140]: https://github.com/orgsync/active_interaction/issues/140
   [#163]: https://github.com/orgsync/active_interaction/issues/163
+  [#173]: https://github.com/orgsync/active_interaction/issues/173
+  [#179]: https://github.com/orgsync/active_interaction/issues/179
   [#192]: https://github.com/orgsync/active_interaction/issues/192
