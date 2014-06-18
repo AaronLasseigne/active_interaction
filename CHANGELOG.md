@@ -4,8 +4,8 @@
 
 ## Bugs Fixed
 
-- Fix a bug that raised `ActiveRecord::Rollback` when composing even when not
-  in a transaction.
+- [#192][]: Fix a bug that raised `ActiveRecord::Rollback` when composing even
+  when not in a transaction.
 
 # [1.2.2][] (2014-05-07)
 
@@ -301,4 +301,5 @@
   [0.1.1]: https://github.com/orgsync/active_interaction/compare/v0.1.0...v0.1.1
   [0.1.0]: https://github.com/orgsync/active_interaction/compare/62f999b...v0.1.0
 
-  [#163]: https://github.com/orgsync/active_interaction/pull/163
+  [#163]: https://github.com/orgsync/active_interaction/issues/163
+  [#192]: https://github.com/orgsync/active_interaction/issues/192
