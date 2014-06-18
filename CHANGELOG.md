@@ -2,14 +2,10 @@
 
 # [1.2.3][] (2014-05-12)
 
-## Bugs Fixed
-
 - Fix a bug that raised `ActiveRecord::Rollback` when composing even when not
   in a transaction.
 
 # [1.2.2][] (2014-05-07)
-
-## Bugs Fixed
 
 - Fix a bug that raised `NameError`s when there were invalid nested hash
   errors.
@@ -17,58 +13,40 @@
 
 # [1.2.1][] (2014-05-02)
 
-## Bugs Fixed
-
 - Fix a bug that marked model inputs as invalid even if they returned true for
   `object.is_a?(klass)`.
 
 # [1.2.0][] (2014-04-30)
 
-## New Features
-
 - Add support for Rails-style date and time parameters like `date(1i)`.
 - Add a decimal filter.
 - Add support for disabling and modifying transactions through the
   `transaction` helper method.
-- Add support for `column_for_attribute` which provides better
-  interoperability with gems like Formtastic and Simple Form.
+- Add support for `column_for_attribute` which provides better interoperability with gems like Formtastic and Simple Form.
 
 # [1.1.7][] (2014-04-30)
-
-## Bugs Fixed
 
 - Fix a bug that leaked validators among all child classes.
 
 # [1.1.6][] (2014-04-29)
 
-## Bugs Fixed
-
 - Fix a bug that caused nested hash error messages to be misleading.
 
 # [1.1.5][] (2014-03-31)
 
-## Bugs Fixed
-
-- The `transform_keys` method broke backwards compatibility because it's not
-  available until Rails 4.0.2.
+- The `transform_keys` method broke backwards compatibility because it's not available until Rails 4.0.2.
 
 # [1.1.4][] (2014-03-31)
-
-## Bugs Fixed
 
 - Fix an issue where non-stripped hash keys would be incorrectly converted to strings.
 
 # [1.1.3][] (2014-03-31)
-
-## Bugs Fixed
 
 - Fix Rubocop errors and pin the version to avoid future issues with new cops
   breaking the build.
 - Fix some denial of service attacks via hash symbolization. (See [#163][] for details)
 
 # [1.1.2][] (2014-03-05)
-
-## Bugs Fixed
 
 - Don't constantize classes for model filters on initialization. This fixes a
   bug that made those filters dependent on load order.
@@ -99,8 +77,6 @@
 
 # ~~[1.0.3][] (2014-02-11)~~
 
-## Bugs Fixed
-
 - Fix a bug that caused invalid strings to be parsed as `nil` instead of
   raising an error when `Time.zone` was set.
 - Fix bug that prevented loading I18n translations.
@@ -130,13 +106,9 @@
 
 # [0.10.2][] (2014-01-02)
 
-## Bugs Fixed
-
 - Fix a bug that marked Time instances as invalid if Time.zone was set.
 
 # [0.10.1][] (2013-12-20)
-
-## Bugs Fixed
 
 - Fix bug that prevented parsing strings as times when ActiveSupport was
   available.
@@ -144,14 +116,9 @@
 # [0.10.0][] (2013-12-19)
 
 - Support casting "true" and "false" as booleans.
-
-## Bugs Fixed
-
 - Fix bug that allowed subclasses to mutate the filters on their superclasses.
 
 # [0.9.1][] (2013-12-17)
-
-## Bugs Fixed
 
 - Fix I18n deprecation warning.
 - Raise `ArgumentError` when running an interaction with non-hash inputs.
@@ -161,13 +128,8 @@
 
 # [0.9.0][] (2013-12-02)
 
-## New Features
-
 - Add experimental composition implementation
   (`ActiveInteraction::Base#compose`).
-
-## Changes
-
 - Remove `ActiveInteraction::Pipeline`.
 
 # [0.8.0][] (2013-11-14)
@@ -175,8 +137,6 @@
 - Add ability to document interactions and filters.
 
 # [0.7.0][] (2013-11-14)
-
-## New Features
 
 - Add ability to chain a series of interactions together with
   `ActiveInteraction::Pipeline`.
@@ -209,13 +169,9 @@
 
 # [0.4.0][] (2013-08-15)
 
-## New Features
-
 - Support i18n translations.
 
 # [0.3.0][] (2013-08-07)
-
-## New Features
 
 - Give better error messages for nested attributes.
 - Use default value when given an explicit `nil`.
@@ -223,13 +179,9 @@
 
 # [0.2.2][] (2013-08-07)
 
-## Bugs Fixed
-
 - Fix support for `ActiveSupport::TimeWithZone`.
 
 # [0.2.1][] (2013-08-06)
-
-## Bugs Fixed
 
 - Fix setting a default value on more than one attribute at a time.
 
@@ -241,8 +193,6 @@
 
 # [0.1.3][] (2013-07-16)
 
-## Bugs Fixed
-
 - Fix bug that prevented `attr_accessor`s from working.
 - Handle unconfigured timezones.
 - Use RDoc as YARD's Markdown provider instead of kramdown.
@@ -253,8 +203,6 @@
   to `run` or `run!` as was intended.
 
 # [0.1.1][] (2013-07-13)
-
-## Bugs Fixed
 
 - Correct gemspec dependencies on activemodel.
 
