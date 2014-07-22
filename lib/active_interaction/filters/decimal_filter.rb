@@ -48,7 +48,7 @@ module ActiveInteraction
       Float(value)
       BigDecimal.new(value, digits)
     rescue ArgumentError
-       raise InvalidValueError, "Given value: #{value.inspect}"
+      raise InvalidValueError, "Given value: #{value.inspect}"
     end
 
     def klass
