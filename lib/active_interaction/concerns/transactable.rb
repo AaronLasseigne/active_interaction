@@ -39,6 +39,13 @@ module ActiveInteraction
     end
 
     module ClassMethods # rubocop:disable Documentation
+      # @param klass [Class]
+      def inherited(klass)
+        klass.transaction(transaction?, transaction_options.dup)
+
+        super
+      end
+
       # @param enable [Boolean]
       # @param options [Hash]
       #
