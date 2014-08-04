@@ -54,17 +54,38 @@ describe ActiveInteraction::Transactable do
       klass.transaction(false)
       expect(klass.transaction?).to be_falsey
     end
+
+    context 'with a subclass' do
+      before { klass.transaction(false) }
+
+      let(:subclass) { Class.new(klass) }
+
+      it 'inherits from the superclass' do
+        expect(subclass.transaction?).to be_falsey
+      end
+    end
   end
 
   describe '.transaction_options' do
+    let(:h) { { rand => rand } }
+
     it 'defaults to an empty hash' do
       expect(klass.transaction_options).to eql({})
     end
 
     it 'returns the stored value' do
-      h = { rand => rand }
       klass.transaction(klass.transaction?, h)
       expect(klass.transaction_options).to eql h
+    end
+
+    context 'with a subclass' do
+      before { klass.transaction(klass.transaction?, h) }
+
+      let(:subclass) { Class.new(klass) }
+
+      it 'inherits from the superclass' do
+        expect(subclass.transaction_options).to eql h
+      end
     end
   end
 
