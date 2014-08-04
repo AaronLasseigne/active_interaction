@@ -1,5 +1,7 @@
 # [Master][]
 
+## Fixed
+
 - [#203][]: Fix a bug that prevented transaction options from being passed to
   subclasses.
 
