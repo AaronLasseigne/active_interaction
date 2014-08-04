@@ -1,5 +1,8 @@
 # [Master][]
 
+- [#203][]: Fix a bug that prevented transaction options from being passed to
+  subclasses.
+
 # [1.2.3][] (2014-05-12)
 
 ## Fixed
@@ -421,3 +424,4 @@
   [#175]: https://github.com/orgsync/active_interaction/issues/175
   [#179]: https://github.com/orgsync/active_interaction/issues/179
   [#192]: https://github.com/orgsync/active_interaction/issues/192
+  [#203]: https://github.com/orgsync/active_interaction/issues/203
