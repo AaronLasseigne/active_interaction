@@ -2,6 +2,7 @@ before_install: gem update bundler
 gemfile:
 - Gemfile
 - gemfiles/activemodel3.rb
+install: bundle install --jobs=1 # rubygems/rubygems#982
 language: ruby
 notifications:
   email: false
