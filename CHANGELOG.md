@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.2.4][] (2014-08-07)
+
 ## Fixed
 
 - [#203][]: Fix a bug that prevented transaction options from being passed to
@@ -326,7 +328,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.3...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.4...master
+  [1.2.4]: https://github.com/orgsync/active_interaction/compare/v1.2.3...v1.2.4
   [1.2.3]: https://github.com/orgsync/active_interaction/compare/v1.2.2...v1.2.3
   [1.2.2]: https://github.com/orgsync/active_interaction/compare/v1.2.1...v1.2.2
   [1.2.1]: https://github.com/orgsync/active_interaction/compare/v1.2.0...v1.2.1

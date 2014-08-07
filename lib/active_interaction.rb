@@ -50,5 +50,5 @@ I18n.default_locale = :en
 #
 # @since 1.0.0
 #
-# @version 1.2.3
+# @version 1.2.4
 module ActiveInteraction end
