@@ -41,7 +41,6 @@ require 'active_interaction/backports'
 
 I18n.load_path += Dir[File.expand_path(
   File.join(%w[active_interaction locale *.yml]), File.dirname(__FILE__))]
-I18n.default_locale = :en
 
 # Manage application specific business logic.
 #
