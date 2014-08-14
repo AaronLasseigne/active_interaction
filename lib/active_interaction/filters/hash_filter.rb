@@ -36,7 +36,7 @@ module ActiveInteraction
 
         filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
           clean_value(h, name.to_s, filter, value)
-        end.symbolize_keys
+        end.with_indifferent_access
       else
         super
       end
