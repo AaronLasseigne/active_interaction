@@ -54,8 +54,11 @@ describe I18nInteraction do
     include_examples 'translation'
 
     before do
+      @locale = I18n.locale
       I18n.locale = :en
     end
+
+    after { I18n.locale = @locale }
   end
 
   context 'hsilgne' do
@@ -75,7 +78,10 @@ describe I18nInteraction do
         }
       )
 
+      @locale = I18n.locale
       I18n.locale = 'hsilgne'
     end
+
+    after { I18n.locale = @locale }
   end
 end

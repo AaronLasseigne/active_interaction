@@ -162,13 +162,15 @@ describe ActiveInteraction::Base do
       expect(described_class.desc).to be_nil
     end
 
-    it 'returns the description' do
-      expect(described_class.desc(desc)).to eql desc
-    end
+    context 'with a description' do
+      it 'returns the description' do
+        expect(described_class.desc(desc)).to eql desc
+      end
 
-    it 'saves the description' do
-      described_class.desc(desc)
-      expect(described_class.desc).to eql desc
+      it 'saves the description' do
+        described_class.desc(desc)
+        expect(described_class.desc).to eql desc
+      end
     end
   end
 
