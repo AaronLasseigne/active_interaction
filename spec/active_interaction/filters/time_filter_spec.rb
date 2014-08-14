@@ -14,6 +14,26 @@ describe ActiveInteraction::TimeFilter, :filter do
     end
   end
 
+  describe '#initialize' do
+    context 'with a format' do
+      before { options[:format] = '%T' }
+
+      context 'with a time zone' do
+        before do
+          time_zone = double
+          allow(Time).to receive(:zone).and_return(time_zone)
+
+          time_with_zone = double
+          allow(time_zone).to receive(:at).and_return(time_with_zone)
+        end
+
+        it 'raises an error' do
+          expect { filter }.to raise_error(ActiveInteraction::InvalidFilterError)
+        end
+      end
+    end
+  end
+
   describe '#cast' do
     let(:result) { filter.cast(value) }
 
