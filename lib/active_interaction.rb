@@ -8,7 +8,6 @@ require 'active_interaction/errors'
 require 'active_interaction/concerns/active_modelable'
 require 'active_interaction/concerns/hashable'
 require 'active_interaction/concerns/missable'
-require 'active_interaction/concerns/transactable'
 require 'active_interaction/concerns/runnable'
 
 require 'active_interaction/grouped_input'
