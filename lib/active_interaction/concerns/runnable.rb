@@ -41,13 +41,8 @@ module ActiveInteraction
     #
     # @return (see #result)
     def result=(result)
-      if errors.empty?
-        @_interaction_result = result
-        @_interaction_valid = true
-      else
-        @_interaction_result = nil
-        @_interaction_valid = false
-      end
+      @_interaction_result = result
+      @_interaction_valid = errors.empty?
     end
 
     # @return [Boolean]
