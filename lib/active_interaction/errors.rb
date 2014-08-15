@@ -161,8 +161,15 @@ module ActiveInteraction
     private
 
     def merge_messages!(other)
-      other.messages.each do |attribute, messages|
+      other.messages.each do |source_attribute, messages|
+        attribute = source_attribute
+
         messages.each do |message|
+          unless attribute?(source_attribute)
+            message = full_message(source_attribute, message)
+            attribute = :base
+          end
+
           add(attribute, message) unless added?(attribute, message)
         end
       end
@@ -170,12 +177,22 @@ module ActiveInteraction
 
     def merge_symbolic!(other)
       other.symbolic.each do |attribute, symbols|
+        next unless attribute?(attribute)
+
         symbols.each do |symbol|
           next if symbolic[attribute].include?(symbol)
 
           symbolic[attribute] += [symbol]
         end
       end
+    end
+
+    # REVIEW: This is probably wrong. However, I don't know if there's anything
+    #   else we can use considering this class has to work for all classes that
+    #   include ActiveModel::Model. I originally tried to use `#inputs`, but
+    #   that's specific to interactions.
+    def attribute?(attribute)
+      @base.respond_to?(attribute)
     end
   end
 end

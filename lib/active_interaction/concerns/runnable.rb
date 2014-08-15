@@ -86,16 +86,10 @@ module ActiveInteraction
         begin
           run_callbacks(:execute) { execute }
         rescue Interrupt => interrupt
-          merge_errors_onto_base(interrupt.outcome.errors)
+          errors.merge!(interrupt.outcome.errors)
 
           raise ActiveRecord::Rollback if self.class.transaction?
         end
-      end
-    end
-
-    def merge_errors_onto_base(new_errors)
-      new_errors.full_messages.each do |message|
-        errors.add(:base, message) unless errors.added?(:base, message)
       end
     end
 

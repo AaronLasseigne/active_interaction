@@ -377,8 +377,9 @@ describe ActiveInteraction::Base do
       end
 
       it 'has the correct errors' do
-        expect(outcome.errors[:base])
-          .to match_array ['X is required', 'Y is required']
+        expect(outcome.errors.symbolic[:x]).to include :missing
+        expect(outcome.errors.symbolic[:y]).to include :missing
+        expect(outcome.errors.symbolic[:base]).to be_empty
       end
     end
   end
