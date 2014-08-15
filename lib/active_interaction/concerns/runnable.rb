@@ -6,8 +6,7 @@ module ActiveInteraction
   #
   # @note Must be included after `ActiveModel::Validations`.
   #
-  # Runs code in transactions and only provides the result if there are no
-  #   validation errors.
+  # Runs code in transactions and provides the result.
   #
   # @private
   module Runnable
