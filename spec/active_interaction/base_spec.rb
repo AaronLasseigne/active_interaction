@@ -250,6 +250,7 @@ describe ActiveInteraction::Base do
             described_class.send(:define_method, :execute) do
               errors.add(:thing, 'error')
               errors.add_sym(:thing, :error, 'error')
+              true
             end
           end
 
@@ -263,8 +264,8 @@ describe ActiveInteraction::Base do
             expect(outcome).to be_invalid
           end
 
-          it 'sets the result to nil' do
-            expect(result).to be_nil
+          it 'sets the result' do
+            expect(result).to be true
           end
 
           it 'has errors' do

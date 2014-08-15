@@ -37,7 +37,7 @@ describe ActiveInteraction::HashFilter, :filter do
       let(:block) { proc { hash :a } }
 
       context 'with a Hash' do
-        let(:value) { { a: {} } }
+        let(:value) { { 'a' => {} } }
 
         it 'returns the Hash' do
           expect(result).to eql value

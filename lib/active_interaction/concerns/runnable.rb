@@ -6,7 +6,7 @@ module ActiveInteraction
   #
   # @note Must be included after `ActiveModel::Validations`.
   #
-  # Runs code and only provides the result if there are no validation errors.
+  # Runs code and provides the result.
   #
   # @private
   module Runnable
@@ -39,13 +39,8 @@ module ActiveInteraction
     #
     # @return (see #result)
     def result=(result)
-      if errors.empty?
-        @_interaction_result = result
-        @_interaction_valid = true
-      else
-        @_interaction_result = nil
-        @_interaction_valid = false
-      end
+      @_interaction_result = result
+      @_interaction_valid = errors.empty?
     end
 
     # @return [Boolean]

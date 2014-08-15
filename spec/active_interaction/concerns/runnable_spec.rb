@@ -101,9 +101,9 @@ describe ActiveInteraction::Runnable do
     context 'with an error' do
       include_context 'with an error'
 
-      it 'does not set the result' do
+      it 'sets the result' do
         instance.result = result
-        expect(instance.result).to be_nil
+        expect(instance.result).to eql result
       end
     end
 
