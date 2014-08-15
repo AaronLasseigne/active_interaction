@@ -1,5 +1,13 @@
 # [Master][]
 
+## Fixed
+
+- [#207][]: Fix a bug that incorrectly converted plural class names
+  to their singular form.
+- [#206][]: Fix a bug that caused an i18n deprecation warning.
+- [#201][]: Prevented time filters from being initialized with the
+  format option when time zones are available.
+
 # [1.2.4][] (2014-08-07)
 
 ## Fixed
@@ -429,4 +437,7 @@
   [#175]: https://github.com/orgsync/active_interaction/issues/175
   [#179]: https://github.com/orgsync/active_interaction/issues/179
   [#192]: https://github.com/orgsync/active_interaction/issues/192
+  [#201]: https://github.com/orgsync/active_interaction/issues/201
   [#203]: https://github.com/orgsync/active_interaction/issues/203
+  [#206]: https://github.com/orgsync/active_interaction/issues/206
+  [#207]: https://github.com/orgsync/active_interaction/issues/207
