@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.3.0][] (2014-08-15)
+
 ## Added
 
 - [#178][]: Add an interface filter.
@@ -344,7 +346,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.5...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.3.0...master
+  [1.3.0]: https://github.com/orgsync/active_interaction/compare/v1.2.5...v1.3.0
   [1.2.5]: https://github.com/orgsync/active_interaction/compare/v1.2.4...v1.2.5
   [1.2.4]: https://github.com/orgsync/active_interaction/compare/v1.2.3...v1.2.4
   [1.2.3]: https://github.com/orgsync/active_interaction/compare/v1.2.2...v1.2.3
