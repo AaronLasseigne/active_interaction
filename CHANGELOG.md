@@ -1,7 +1,10 @@
 # [Master][]
 
-- Add an interface filter.
-- Add a `type_check` callback that happens before the `validation` callback.
+## Added
+
+- [#178][]: Add an interface filter.
+- [#196][]: Add a `type_check` callback that happens before the `validation`
+  callback.
 
 # [1.2.5][] (2014-08-15)
 
@@ -441,8 +444,10 @@
   [#173]: https://github.com/orgsync/active_interaction/issues/173
   [#174]: https://github.com/orgsync/active_interaction/issues/174
   [#175]: https://github.com/orgsync/active_interaction/issues/175
+  [#178]: https://github.com/orgsync/active_interaction/issues/178
   [#179]: https://github.com/orgsync/active_interaction/issues/179
   [#192]: https://github.com/orgsync/active_interaction/issues/192
+  [#196]: https://github.com/orgsync/active_interaction/issues/196
   [#201]: https://github.com/orgsync/active_interaction/issues/201
   [#203]: https://github.com/orgsync/active_interaction/issues/203
   [#206]: https://github.com/orgsync/active_interaction/issues/206
