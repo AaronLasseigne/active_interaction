@@ -283,12 +283,6 @@ describe ActiveInteraction::Base do
         it 'sets the result' do
           expect(result[:thing]).to eql thing
         end
-
-        it 'calls #transaction' do
-          expect_any_instance_of(described_class).to receive(:transaction)
-            .once.with(no_args)
-          outcome
-        end
       end
     end
 
