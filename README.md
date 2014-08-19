@@ -40,7 +40,6 @@ on RubyDoc.info.
   - [Time](#time)
 - [Advanced Usage](#advanced-usage)
   - [Composition](#composition)
-  - [Transactions](#transactions)
   - [Translation](#translation)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
@@ -692,52 +691,6 @@ class AddAndDouble < ActiveInteraction::Base
   def execute
     compose(Add, inputs) * 2
   end
-end
-```
-
-### Transactions
-
-By default, every interaction is run inside a transaction if ActiveRecord is
-available.
-
-```ruby
-class TransactionalInteraction < ActiveInteraction::Base
-  def execute
-    puts 'Transactional!'
-  end
-end
-
-ActiveRecord::Base.logger = Logger.new(STDOUT)
-TransactionalInteraction.run!
-# D, [2014-05-04T22:30:25.842310 #2172] DEBUG -- :    (0.2ms)  begin transaction
-# Transactional!
-# D, [2014-05-04T22:30:25.843563 #2172] DEBUG -- :    (0.1ms)  commit transaction
-```
-
-You can disable this behavior using the `transaction` class method.
-
-```ruby
-class NotTransactionalInteraction < ActiveInteraction::Base
-  transaction false
-
-  def execute
-    puts 'Not transactional!'
-  end
-end
-
-NotTransactionalInteraction.run!
-# Not transactional!
-```
-
-You can also customize the transaction with the `transaction` class method. Any
-options will be passed through to ActiveRecord.
-
-```ruby
-class CustomTransactionalInteraction < ActiveInteraction::Base
-  transaction true,
-    isolation: :serializable,
-    joinable: true,
-    requires_new: true
 end
 ```
 
