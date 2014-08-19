@@ -34,6 +34,7 @@ on RubyDoc.info.
   - [Float](#float)
   - [Hash](#hash)
   - [Integer](#integer)
+  - [Interface](#interface)
   - [Model](#model)
   - [String](#string)
   - [Symbol](#symbol)
@@ -545,6 +546,34 @@ IntegerInteraction.run(limit: 10).result
 # => [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 ```
 
+### Interface
+
+#### Additional Filter Options
+
+- `:methods` (`Array<String,Symbol>`) - default: `[]` - The methods that objects conforming to this interface
+                                                        should respond to.
+
+#### Example
+
+```ruby
+class InterfaceInteraction < ActiveInteraction::Base
+  hash :json,
+    strip: false
+  interface :serializer,
+    methods: [:dump]
+
+  def execute
+    serializer.dump(json)
+  end
+end
+
+require 'yaml'
+InterfaceInteraction.run(json: {one: 1}, serializer: Object).errors.messages[:serializer]
+# => ["is not a valid interface"]
+InterfaceInteraction.run(json: {one: 1}, serializer: YAML).result
+# => "--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\none: 1\n"
+```
+
 ### Model
 
 #### Additional Filter Options
@@ -719,6 +748,7 @@ hsilgne:
       float: taolf
       hash: hsah
       integer: regetni
+      interface: ecafretni
       model: ledom
       string: gnirts
       symbol: lobmys
