@@ -526,4 +526,76 @@ describe ActiveInteraction::Base do
       include_examples 'import_filters examples', [:x], [:x]
     end
   end
+
+  context 'callbacks' do
+    let(:described_class) { Class.new(TestInteraction) }
+
+    %w[type_check validate execute].each do |name|
+      %w[before after around].map(&:to_sym).each do |type|
+        it "runs the #{type} #{name} callback" do
+          called = false
+          described_class.set_callback(name, type) { called = true }
+          outcome
+          expect(called).to be_truthy
+        end
+      end
+    end
+
+    context 'with errors during type_check' do
+      before do
+        described_class.set_callback(:type_check, :before) do
+          errors.add(:base)
+        end
+      end
+
+      it 'is invalid' do
+        expect(outcome).to be_invalid
+      end
+
+      it 'does not run validate callbacks' do
+        called = false
+        described_class.set_callback(:validate, :before) { called = true }
+        outcome
+        expect(called).to be_falsey
+      end
+
+      it 'does not run execute callbacks' do
+        called = false
+        described_class.set_callback(:execute, :before) { called = true }
+        outcome
+        expect(called).to be_falsey
+      end
+    end
+
+    context 'with errors during validate' do
+      before do
+        described_class.set_callback(:validate, :before) do
+          errors.add(:base)
+        end
+      end
+
+      it 'is invalid' do
+        expect(outcome).to be_invalid
+      end
+
+      it 'does not run execute callbacks' do
+        called = false
+        described_class.set_callback(:execute, :before) { called = true }
+        outcome
+        expect(called).to be_falsey
+      end
+    end
+
+    context 'with errors during execute' do
+      before do
+        described_class.set_callback(:execute, :before) do
+          errors.add(:base)
+        end
+      end
+
+      it 'is invalid' do
+        expect(outcome).to be_invalid
+      end
+    end
+  end
 end

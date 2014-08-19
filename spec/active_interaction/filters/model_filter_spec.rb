@@ -3,6 +3,7 @@
 require 'spec_helper'
 
 class Model; end
+class Things; end
 
 describe ActiveInteraction::ModelFilter, :filter do
   include_context 'filters'
@@ -112,6 +113,16 @@ describe ActiveInteraction::ModelFilter, :filter do
       before do
         options.merge!(class: Model.name)
       end
+
+      it 'returns the instance' do
+        expect(result).to eql value
+      end
+    end
+
+    context 'with a plural class' do
+      let(:value) { Things.new }
+
+      before { options[:class] = Things }
 
       it 'returns the instance' do
         expect(result).to eql value

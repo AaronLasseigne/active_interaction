@@ -29,6 +29,7 @@ require 'active_interaction/filters/file_filter'
 require 'active_interaction/filters/float_filter'
 require 'active_interaction/filters/hash_filter'
 require 'active_interaction/filters/integer_filter'
+require 'active_interaction/filters/interface_filter'
 require 'active_interaction/filters/model_filter'
 require 'active_interaction/filters/string_filter'
 require 'active_interaction/filters/symbol_filter'
@@ -40,7 +41,6 @@ require 'active_interaction/backports'
 
 I18n.load_path += Dir[File.expand_path(
   File.join(%w[active_interaction locale *.yml]), File.dirname(__FILE__))]
-I18n.default_locale = :en
 
 # Manage application specific business logic.
 #
@@ -49,5 +49,5 @@ I18n.default_locale = :en
 #
 # @since 1.0.0
 #
-# @version 1.2.4
+# @version 1.3.0
 module ActiveInteraction end

@@ -1,5 +1,23 @@
 # [Master][]
 
+# [1.3.0][] (2014-08-15)
+
+## Added
+
+- [#178][]: Add an interface filter.
+- [#196][]: Add a `type_check` callback that happens before the `validation`
+  callback.
+
+# [1.2.5][] (2014-08-15)
+
+## Fixed
+
+- [#207][]: Fix a bug that incorrectly converted plural class names
+  to their singular form.
+- [#206][]: Fix a bug that caused an i18n deprecation warning.
+- [#201][]: Prevented time filters from being initialized with the
+  format option when time zones are available.
+
 # [1.2.4][] (2014-08-07)
 
 ## Fixed
@@ -328,7 +346,9 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.2.4...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.3.0...master
+  [1.3.0]: https://github.com/orgsync/active_interaction/compare/v1.2.5...v1.3.0
+  [1.2.5]: https://github.com/orgsync/active_interaction/compare/v1.2.4...v1.2.5
   [1.2.4]: https://github.com/orgsync/active_interaction/compare/v1.2.3...v1.2.4
   [1.2.3]: https://github.com/orgsync/active_interaction/compare/v1.2.2...v1.2.3
   [1.2.2]: https://github.com/orgsync/active_interaction/compare/v1.2.1...v1.2.2
@@ -427,6 +447,11 @@
   [#173]: https://github.com/orgsync/active_interaction/issues/173
   [#174]: https://github.com/orgsync/active_interaction/issues/174
   [#175]: https://github.com/orgsync/active_interaction/issues/175
+  [#178]: https://github.com/orgsync/active_interaction/issues/178
   [#179]: https://github.com/orgsync/active_interaction/issues/179
   [#192]: https://github.com/orgsync/active_interaction/issues/192
+  [#196]: https://github.com/orgsync/active_interaction/issues/196
+  [#201]: https://github.com/orgsync/active_interaction/issues/201
   [#203]: https://github.com/orgsync/active_interaction/issues/203
+  [#206]: https://github.com/orgsync/active_interaction/issues/206
+  [#207]: https://github.com/orgsync/active_interaction/issues/207
