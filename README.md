@@ -639,7 +639,8 @@ time zone aware.
 #### Additional Filter Options
 
 - `:format` (`String`) - A template for parsing the date `String` that matches
-                         the format passed to `strptime`.
+                         the format passed to `strptime`. This is not available
+                         for `ActiveSupport::TimeZone` objects.
 
 #### Example
 
