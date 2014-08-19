@@ -1,3 +1,5 @@
+# coding: utf-8
+
 guard 'rspec', cmd: 'bundle exec rspec', all_after_pass: false do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^spec/support/.+\.rb$}) { 'spec' }
