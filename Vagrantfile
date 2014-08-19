@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # Vagrant 1.6.2 <http://www.vagrantup.com/downloads.html>
 # VirtualBox 4.3.12 <https://www.virtualbox.org/wiki/Downloads>
 
