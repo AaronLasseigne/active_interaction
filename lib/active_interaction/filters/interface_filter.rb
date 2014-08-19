@@ -7,7 +7,7 @@ module ActiveInteraction
     #   the attributes implement an interface.
     #
     #   @!macro filter_method_params
-    #   @option options [Array<Symbol>] :methods ([]) the methods that objects
+    #   @option options [Array<String,Symbol>] :methods ([]) the methods that objects
     #     conforming to this interface should respond to
     #
     #   @example
