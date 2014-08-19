@@ -200,6 +200,8 @@ end
     date :departs_on, default: -> { Date.tomorrow }
     ```
 
+    [A full list of attribute filters can be found below.](#filters)
+
 3. Use any additional validations you need:
 
     ```ruby
