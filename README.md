@@ -42,10 +42,7 @@ on RubyDoc.info.
 - [Advanced Usage](#advanced-usage)
   - [Composition](#composition)
   - [Translation](#translation)
-- [Changelog](#changelog)
-- [Contributing](#contributing)
 - [Credits](#credits)
-- [License](#license)
 
 ## Installation
 
@@ -776,25 +773,12 @@ I18nInteraction.run(name: false).errors.messages[:name]
 # => ["gnirts dilav a ton si"]
 ```
 
-## Changelog
-
-See [CHANGELOG.md][19] for details.
-
-## Contributing
-
-Contributions are welcome. See [CONTRIBUTING.md][20] for details on
-how to get started.
-
 ## Credits
 
 ActiveInteraction is brought to you by [@AaronLasseigne][14] and
 [@tfausak][15] from [@orgsync][16]. We were inspired by the fantastic
 work done in [Mutations][17]. A full list of contributers can be found
 [here][21].
-
-## License
-
-See [LICENSE.txt][18] for details.
 
   [0]: https://github.com/orgsync/active_interaction
   [1]: https://badge.fury.io/rb/active_interaction.svg
@@ -814,7 +798,4 @@ See [LICENSE.txt][18] for details.
   [15]: https://github.com/tfausak
   [16]: https://github.com/orgsync
   [17]: https://github.com/cypriss/mutations
-  [18]: LICENSE.txt
-  [19]: CHANGELOG.md
-  [20]: CONTRIBUTING.md
   [21]: https://github.com/orgsync/active_interaction/graphs/contributors
