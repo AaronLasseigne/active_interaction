@@ -554,20 +554,20 @@ IntegerInteraction.run(limit: 10).result
 
 ```ruby
 class InterfaceInteraction < ActiveInteraction::Base
-  hash :json,
+  hash :data,
     strip: false
   interface :serializer,
     methods: [:dump]
 
   def execute
-    serializer.dump(json)
+    serializer.dump(data)
   end
 end
 
 require 'yaml'
-InterfaceInteraction.run(json: {one: 1}, serializer: Object).errors.messages[:serializer]
+InterfaceInteraction.run(data: {one: 1}, serializer: Object).errors.messages[:serializer]
 # => ["is not a valid interface"]
-InterfaceInteraction.run(json: {one: 1}, serializer: YAML).result
+InterfaceInteraction.run(data: {one: 1}, serializer: YAML).result
 # => "--- !ruby/hash:ActiveSupport::HashWithIndifferentAccess\none: 1\n"
 ```
 
