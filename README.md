@@ -472,6 +472,8 @@ FloatInteraction.run(n: 3.0).result
 
 ### Hash
 
+Hashes are converted to `ActiveSupport::HashWithIndifferentAccess`.
+
 #### Additional Parameters
 
 - **block** (`Proc`) - Filter methods to apply for select keys.
@@ -483,14 +485,7 @@ FloatInteraction.run(n: 3.0).result
 
 #### Additional Filter Options
 
-- `:strip` (`Boolean`) - default: `true` - Remove unknown keys. *Note: All keys
-                                           are symbolized. Ruby does not GC
-                                           symbols so this can cause memory
-                                           bloat. Setting this option to
-                                           `false` and passing in non-safe
-                                           input (e.g. Rails params) opens
-                                           your software to a denial of
-                                           service attack.*
+- `:strip` (`Boolean`) - default: `true` - Remove unknown keys.
 
 #### Example
 
