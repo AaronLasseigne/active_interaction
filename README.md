@@ -265,7 +265,8 @@ end
 #### Modified Filter Options
 
 - `:default` (`[]` or `nil`) - Fallback value if `nil` is given. May be set
-                               to `nil` to make the filter optional.
+                               to `nil` to make the filter optional. Note
+                               that the only valid Array is an empty Array.
 
 #### Examples
 
@@ -481,7 +482,8 @@ Hashes are converted to `ActiveSupport::HashWithIndifferentAccess`.
 #### Modified Filter Options
 
 - `:default` (`{}` or `nil`) - Fallback value if `nil` is given. May be set
-                               to `nil` to make the filter optional.
+                               to `nil` to make the filter optional. Note
+                               that the only valid Hash is an empty Hash.
 
 #### Additional Filter Options
 
