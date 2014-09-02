@@ -168,7 +168,7 @@ module ActiveInteraction
         attr_accessor filter.name
         define_method("#{filter.name}?") { !public_send(filter.name).nil? }
 
-        filter.default if filter.default?
+        filter.validate_default!
       end
     end
 
@@ -263,7 +263,7 @@ module ActiveInteraction
     def populate_filters(inputs)
       self.class.filters.each do |name, filter|
         begin
-          public_send("#{name}=", filter.clean(inputs[name]))
+          public_send("#{name}=", filter.clean(inputs[name] || (filter.default if filter.default?)))
         rescue InvalidValueError, MissingValueError, InvalidNestedValueError
           # #type_check will add errors if appropriate.
         end

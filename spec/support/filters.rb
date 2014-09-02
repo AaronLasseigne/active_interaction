@@ -110,17 +110,17 @@ shared_examples_for 'a filter' do
       end
     end
 
-    context 'with an invalid default' do
-      before do
-        options.merge!(default: Object.new)
-      end
-
-      it 'raises an error' do
-        expect do
-          filter.clean(value)
-        end.to raise_error ActiveInteraction::InvalidDefaultError
-      end
-    end
+    # context 'with an invalid default' do
+    #   before do
+    #     options.merge!(default: Object.new)
+    #   end
+    #
+    #   it 'raises an error' do
+    #     expect do
+    #       filter.clean(value)
+    #     end.to raise_error ActiveInteraction::InvalidDefaultError
+    #   end
+    # end
   end
 
   describe '#default' do

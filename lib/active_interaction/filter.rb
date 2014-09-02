@@ -97,12 +97,11 @@ module ActiveInteraction
     # @raise (see #cast)
     # @raise (see #default)
     def clean(value)
-      value = cast(value)
-      if value.nil?
-        default
-      else
-        value
-      end
+      cast(value)
+    end
+
+    def validate_default!
+      default if default? && !options.fetch(:default).is_a?(Proc)
     end
 
     # Get the default value.
