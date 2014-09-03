@@ -159,12 +159,27 @@ shared_examples_for 'a filter' do
       include_context 'optional'
 
       before do
-        default = options[:default]
-        options[:default] = -> { default }
+        @default = options[:default]
+        allow(instance).to receive(:instance_default) { @default }
+        options[:default] = -> { instance_default }
       end
 
       it 'returns the default' do
-        expect(filter.default(instance)).to eql options[:default].call
+        expect(filter.default(instance)).to eql @default
+      end
+    end
+
+    context 'with a symbol default' do
+      include_context 'optional'
+
+      before do
+        @default = options[:default]
+        allow(instance).to receive(:instance_default) { @default }
+        options[:default] = :instance_default
+      end
+
+      it 'returns the default' do
+        expect(filter.default(instance)).to eql @default
       end
     end
   end

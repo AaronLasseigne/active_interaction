@@ -135,6 +135,7 @@ module ActiveInteraction
     def validate_default
       return unless default?
       return if options.fetch(:default).is_a? Proc
+      return if options.fetch(:default).is_a? Symbol
       default(:no_instance)
     end
 
@@ -207,7 +208,9 @@ module ActiveInteraction
       value = options.fetch(:default)
 
       if value.is_a?(Proc)
-        value.call
+        instance.instance_exec(&value)
+      elsif value.is_a?(Symbol) && instance.respond_to?(value)
+        instance.instance_eval(&value)
       else
         value
       end
