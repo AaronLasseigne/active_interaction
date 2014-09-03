@@ -209,8 +209,6 @@ module ActiveInteraction
 
       if value.is_a?(Proc)
         instance.instance_exec(&value)
-      elsif value.is_a?(Symbol) && instance.respond_to?(value)
-        instance.instance_eval(&value)
       else
         value
       end
