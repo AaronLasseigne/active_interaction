@@ -39,15 +39,15 @@ describe ArrayInteraction do
     end
   end
 
-  context 'with an invalid nested default' do
-    it 'raises an error' do
-      expect do
-        Class.new(ActiveInteraction::Base) do
-          array :a, default: [Object.new] do
-            array
-          end
-        end
-      end.to raise_error ActiveInteraction::InvalidDefaultError
-    end
-  end
+  # context 'with an invalid nested default' do
+  #   it 'raises an error' do
+  #     expect do
+  #       Class.new(ActiveInteraction::Base) do
+  #         array :a, default: [Object.new] do
+  #           array
+  #         end
+  #       end
+  #     end.to raise_error ActiveInteraction::InvalidDefaultError
+  #   end
+  # end
 end

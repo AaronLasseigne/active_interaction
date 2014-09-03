@@ -35,8 +35,8 @@ describe ActiveInteraction::ArrayFilter, :filter do
     end
   end
 
-  describe '#cast' do
-    let(:result) { filter.cast(value) }
+  describe '#clean' do
+    let(:result) { filter.clean(value, instance) }
 
     context 'with an Array' do
       let(:value) { [] }

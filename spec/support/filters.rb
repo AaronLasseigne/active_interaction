@@ -4,6 +4,7 @@ shared_context 'filters' do
   let(:block) { nil }
   let(:name) { SecureRandom.hex.to_sym }
   let(:options) { {} }
+  let(:instance) { Object.new }
 
   subject(:filter) { described_class.new(name, options, &block) }
 
@@ -86,7 +87,7 @@ shared_examples_for 'a filter' do
       include_context 'optional'
 
       it 'returns the default' do
-        expect(filter.clean(value)).to eql options[:default]
+        expect(filter.clean(value, instance)).to eql options[:default]
       end
     end
 
@@ -95,7 +96,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.clean(value)
+          filter.clean(value, instance)
         end.to raise_error ActiveInteraction::MissingValueError
       end
 
@@ -104,7 +105,7 @@ shared_examples_for 'a filter' do
 
         it 'raises an error' do
           expect do
-            filter.clean(value)
+            filter.clean(value, instance)
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
@@ -117,7 +118,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.clean(value)
+          filter.clean(value, instance)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
@@ -128,7 +129,7 @@ shared_examples_for 'a filter' do
       include_context 'optional'
 
       it 'returns the default' do
-        expect(filter.default).to eql options[:default]
+        expect(filter.default(instance)).to eql options[:default]
       end
     end
 
@@ -137,7 +138,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(instance)
         end.to raise_error ActiveInteraction::NoDefaultError
       end
     end
@@ -149,7 +150,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(instance)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
@@ -163,7 +164,7 @@ shared_examples_for 'a filter' do
       end
 
       it 'returns the default' do
-        expect(filter.default).to eql options[:default].call
+        expect(filter.default(instance)).to eql options[:default].call
       end
     end
   end

@@ -29,14 +29,21 @@ module ActiveInteraction
 
     register :hash
 
+    def clean(value, instance)
+      value = super
+
+      return value unless value.is_a? Hash
+
+      value = stringify_the_symbol_keys(value)
+      filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
+        clean_value(h, name.to_s, filter, value, instance)
+      end.symbolize_keys
+    end
+
     def cast(value)
       case value
       when Hash
-        value = stringify_the_symbol_keys(value)
-
-        filters.each_with_object(strip? ? {} : value) do |(name, filter), h|
-          clean_value(h, name.to_s, filter, value)
-        end.symbolize_keys
+        value
       else
         super
       end
@@ -54,13 +61,13 @@ module ActiveInteraction
 
     private
 
-    def clean_value(h, name, filter, value)
-      h[name] = filter.clean(value[name])
+    def clean_value(h, name, filter, value, instance)
+      h[name] = filter.clean(value[name], instance)
     rescue InvalidValueError, MissingValueError
       raise InvalidNestedValueError.new(name, value[name])
     end
 
-    def raw_default
+    def raw_default(instance)
       value = super
 
       if value.is_a?(Hash) && !value.empty?

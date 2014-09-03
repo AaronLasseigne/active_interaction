@@ -27,13 +27,20 @@ module ActiveInteraction
 
     register :array
 
+    def clean(value, instance)
+      value = super
+
+      return value unless value.is_a? Array
+      return value if filters.empty?
+
+      filter = filters.values.first
+      value.map { |e| filter.clean(e, instance) }
+    end
+
     def cast(value)
       case value
       when Array
-        return value if filters.empty?
-
-        filter = filters.values.first
-        value.map { |e| filter.clean(e) }
+        value
       else
         super
       end
