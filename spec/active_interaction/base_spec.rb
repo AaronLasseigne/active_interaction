@@ -18,6 +18,16 @@ AddInteraction = Class.new(TestInteraction) do
   end
 end
 
+ProxyInteraction = Class.new(TestInteraction) do
+  float :x, :y
+
+  proxy :add_interaction, %i[x y]
+
+  def execute
+    add_interaction.run!
+  end
+end
+
 InterruptInteraction = Class.new(TestInteraction) do
   model :x, :y,
     class: Object,
@@ -250,6 +260,7 @@ describe ActiveInteraction::Base do
             described_class.send(:define_method, :execute) do
               errors.add(:thing, 'error')
               errors.add_sym(:thing, :error, 'error')
+              true
             end
           end
 
@@ -263,8 +274,8 @@ describe ActiveInteraction::Base do
             expect(outcome).to be_invalid
           end
 
-          it 'sets the result to nil' do
-            expect(result).to be_nil
+          it 'sets the result' do
+            expect(result).to be true
           end
 
           it 'has errors' do
@@ -282,12 +293,6 @@ describe ActiveInteraction::Base do
 
         it 'sets the result' do
           expect(result[:thing]).to eql thing
-        end
-
-        it 'calls #transaction' do
-          expect_any_instance_of(described_class).to receive(:transaction)
-            .once.with(no_args)
-          outcome
         end
       end
     end
@@ -349,6 +354,17 @@ describe ActiveInteraction::Base do
 
     it 'strips non-filtered inputs' do
       expect(interaction.inputs).to_not have_key(:other)
+    end
+  end
+
+  describe '#proxy' do
+    let(:described_class) { ProxyInteraction }
+    let(:x) { rand }
+    let(:y) { rand }
+    let(:inputs) { { x: x, y: y } }
+
+    it 'works' do
+      expect(result).to eql x + y
     end
   end
 

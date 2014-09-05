@@ -6,14 +6,12 @@ module ActiveInteraction
   #
   # @note Must be included after `ActiveModel::Validations`.
   #
-  # Runs code in transactions and only provides the result if there are no
-  #   validation errors.
+  # Runs code and provides the result.
   #
   # @private
   module Runnable
     extend ActiveSupport::Concern
     include ActiveModel::Validations
-    include ActiveInteraction::Transactable
 
     included do
       define_callbacks :execute
@@ -41,13 +39,8 @@ module ActiveInteraction
     #
     # @return (see #result)
     def result=(result)
-      if errors.empty?
-        @_interaction_result = result
-        @_interaction_valid = true
-      else
-        @_interaction_result = nil
-        @_interaction_valid = false
-      end
+      @_interaction_result = result
+      @_interaction_valid = errors.empty?
     end
 
     # @return [Boolean]
@@ -57,6 +50,32 @@ module ActiveInteraction
       end
 
       super
+    end
+
+    # @return (see #result=)
+    # @return [nil]
+    def run
+      return unless valid?
+
+      self.result =
+        begin
+          run_callbacks(:execute) { execute }
+        rescue Interrupt => interrupt
+          merge_errors_onto_base(interrupt.outcome.errors)
+        end
+    end
+
+    # @return [Object]
+    #
+    # @raise [InvalidInteractionError] If there are validation errors.
+    def run!
+      run
+
+      if valid?
+        result
+      else
+        fail InvalidInteractionError, errors.full_messages.join(', ')
+      end
     end
 
     private
@@ -77,38 +96,9 @@ module ActiveInteraction
       end
     end
 
-    # @return (see #result=)
-    # @return [nil]
-    def run
-      return unless valid?
-
-      self.result = transaction do
-        begin
-          run_callbacks(:execute) { execute }
-        rescue Interrupt => interrupt
-          merge_errors_onto_base(interrupt.outcome.errors)
-
-          raise ActiveRecord::Rollback if self.class.transaction?
-        end
-      end
-    end
-
     def merge_errors_onto_base(new_errors)
       new_errors.full_messages.each do |message|
         errors.add(:base, message) unless errors.added?(:base, message)
-      end
-    end
-
-    # @return [Object]
-    #
-    # @raise [InvalidInteractionError] If there are validation errors.
-    def run!
-      run
-
-      if valid?
-        result
-      else
-        fail InvalidInteractionError, errors.full_messages.join(', ')
       end
     end
 

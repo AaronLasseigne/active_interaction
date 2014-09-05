@@ -58,28 +58,6 @@ module ActiveInteraction
       #
       #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
 
-      # @!method transaction(enable, options = {})
-      #   Configure transactions by enabling or disabling them and setting
-      #   their options.
-      #
-      #   @example Disable transactions
-      #     Class.new(ActiveInteraction::Base) do
-      #       transaction false
-      #     end
-      #
-      #   @example Use different transaction options
-      #     Class.new(ActiveInteraction::Base) do
-      #       transaction true, isolation: :serializable
-      #     end
-      #
-      #   @param enable [Boolean] Should transactions be enabled?
-      #   @param options [Hash] Options to pass to
-      #     `ActiveRecord::Base.transaction`.
-      #
-      #   @return [nil]
-      #
-      #   @since 1.2.0
-
       # Get or set the description.
       #
       # @example
@@ -131,6 +109,23 @@ module ActiveInteraction
         initialize_filter(klass.new(name, options, &block))
       end
 
+      # @since 2.0.0
+      def proxy(name, inputs)
+        (@_proxies ||= Set.new).add(name)
+
+        attr_reader name
+
+        inputs.each do |input|
+          define_method(input) do
+            send(name).send(input)
+          end
+
+          define_method("#{input}=") do |value|
+            send(name).send("#{input}=", value)
+          end
+        end
+      end
+
       # Import filters from another interaction.
       #
       # @param klass [Class] The other interaction.
@@ -178,6 +173,7 @@ module ActiveInteraction
     def initialize(inputs = {})
       fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
+      process_proxies(self.class.instance_variable_get(:@_proxies) || Set.new)
       process_inputs(inputs.symbolize_keys)
     end
 
@@ -220,8 +216,7 @@ module ActiveInteraction
     #
     #   Runs the business logic associated with the interaction. This method is
     #   only run when there are no validation errors. The return value is
-    #   placed into {#result}. By default, this method is run in a transaction
-    #   if ActiveRecord is available (see {.transaction}).
+    #   placed into {#result}.
     #
     #   @raise (see ActiveInteraction::Runnable#execute)
 
@@ -275,6 +270,13 @@ module ActiveInteraction
         Validation.validate(self.class.filters, inputs).each do |error|
           errors.add_sym(*error)
         end
+      end
+    end
+
+    def process_proxies(proxies)
+      proxies.each do |name|
+        klass = name.to_s.camelize.constantize.new
+        instance_variable_set("@#{name}", klass)
       end
     end
   end
