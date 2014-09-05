@@ -52,6 +52,32 @@ module ActiveInteraction
       super
     end
 
+    # @return (see #result=)
+    # @return [nil]
+    def run
+      return unless valid?
+
+      self.result =
+        begin
+          run_callbacks(:execute) { execute }
+        rescue Interrupt => interrupt
+          merge_errors_onto_base(interrupt.outcome.errors)
+        end
+    end
+
+    # @return [Object]
+    #
+    # @raise [InvalidInteractionError] If there are validation errors.
+    def run!
+      run
+
+      if valid?
+        result
+      else
+        fail InvalidInteractionError, errors.full_messages.join(', ')
+      end
+    end
+
     private
 
     # @param other [Class] The other interaction.
@@ -70,35 +96,9 @@ module ActiveInteraction
       end
     end
 
-    # @return (see #result=)
-    # @return [nil]
-    def run
-      return unless valid?
-
-      self.result =
-        begin
-          run_callbacks(:execute) { execute }
-        rescue Interrupt => interrupt
-          merge_errors_onto_base(interrupt.outcome.errors)
-        end
-    end
-
     def merge_errors_onto_base(new_errors)
       new_errors.full_messages.each do |message|
         errors.add(:base, message) unless errors.added?(:base, message)
-      end
-    end
-
-    # @return [Object]
-    #
-    # @raise [InvalidInteractionError] If there are validation errors.
-    def run!
-      run
-
-      if valid?
-        result
-      else
-        fail InvalidInteractionError, errors.full_messages.join(', ')
       end
     end
 
