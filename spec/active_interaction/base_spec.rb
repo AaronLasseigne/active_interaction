@@ -21,7 +21,7 @@ end
 ProxyInteraction = Class.new(TestInteraction) do
   float :x, :y
 
-  proxy :add_interaction, %i[x y]
+  proxy :add_interaction, [:x, :y]
 
   def execute
     add_interaction.run!
