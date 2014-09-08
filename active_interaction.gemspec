@@ -37,7 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rdoc', '~> 4.1'
   spec.add_development_dependency 'rubocop', '0.25.0'
   spec.add_development_dependency 'yard', '~> 0.8'
-  spec.add_development_dependency 'rspec', '3.0.0'
+  spec.add_development_dependency 'rspec', '3.1.0'
 
   if RUBY_ENGINE == 'rbx'
     spec.add_development_dependency 'parser', '~> 2.1'
