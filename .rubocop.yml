@@ -3,6 +3,7 @@ AlignParameters:
 AllCops:
   Exclude:
   - tmp/**/*
+  - vendor/**/*
 HandleExceptions:
   Enabled: false
 PercentLiteralDelimiters:
