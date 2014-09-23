@@ -1,4 +1,5 @@
 # coding: utf-8
+# rubocop:disable Style/RegexpLiteral
 
 guard 'rspec', cmd: 'bundle exec rspec', all_after_pass: false do
   watch(%r{^spec/.+_spec\.rb$})
