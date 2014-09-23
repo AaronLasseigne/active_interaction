@@ -83,6 +83,24 @@ describe ActiveInteraction::ArrayFilter, :filter do
         end
       end
     end
+
+    context 'with a nested model filter' do
+      let(:block) { proc { model } }
+      let(:name) { :objects }
+      let(:value) { [Object.new] }
+
+      it 'does not raise an error' do
+        expect { result }.to_not raise_error
+      end
+
+      it 'has a filter with the right key' do
+        expect(filter.filters).to have_key(:object)
+      end
+
+      it 'has a filter with the right name' do
+        expect(filter.filters[:object].name).to eql(:object)
+      end
+    end
   end
 
   describe '#database_column_type' do
