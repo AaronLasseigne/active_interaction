@@ -54,7 +54,6 @@ module ActiveInteraction
       private
 
       # @param slug [Symbol]
-      # @param klass [Class]
       #
       # @return [Class]
       def register(slug)
