@@ -6,14 +6,14 @@ install: bundle install --jobs=1 # rubygems/rubygems#982
 language: ruby
 matrix:
   exclude:
-    - rvm: 2.0
-      gemfile: gemfiles/activemodel3.rb
-    - rvm: 1.9
-      gemfile: gemfiles/activemodel3.rb
-    - rvm: jruby
-      gemfile: gemfiles/activemodel3.rb
-    - rvm: rbx-2
-      gemfile: gemfiles/activemodel3.rb
+  - gemfile: gemfiles/activemodel3.rb
+    rvm: 2.0
+  - gemfile: gemfiles/activemodel3.rb
+    rvm: 1.9
+  - gemfile: gemfiles/activemodel3.rb
+    rvm: jruby
+  - gemfile: gemfiles/activemodel3.rb
+    rvm: rbx-2
 notifications:
   email: false
   hipchat:
