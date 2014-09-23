@@ -41,11 +41,11 @@ module ActiveInteraction
 
     def method_missing(*, &block)
       super do |klass, names, options|
-        filter = klass.new(name, options, &block)
+        filter = klass.new(name.to_s.singularize.to_sym, options, &block)
 
         validate(filter, names)
 
-        filters[name] = filter
+        filters[filter.name] = filter
       end
     end
 
