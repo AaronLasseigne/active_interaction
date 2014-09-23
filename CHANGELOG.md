@@ -1,5 +1,10 @@
 # [Master][]
 
+## Fixed
+
+- [#224][]: Fix a bug that incorrectly inferred plural class names for filters
+  inside arrays.
+
 # [1.3.0][] (2014-08-15)
 
 ## Added
@@ -455,3 +460,4 @@
   [#203]: https://github.com/orgsync/active_interaction/issues/203
   [#206]: https://github.com/orgsync/active_interaction/issues/206
   [#207]: https://github.com/orgsync/active_interaction/issues/207
+  [#224]: https://github.com/orgsync/active_interaction/issues/224
