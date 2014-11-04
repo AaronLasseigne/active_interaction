@@ -6,6 +6,8 @@ AllCops:
   - vendor/**/*
 HandleExceptions:
   Enabled: false
+MultilineOperationIndentation:
+  Enabled: false
 PercentLiteralDelimiters:
   PreferredDelimiters:
     '%W': '[]'
