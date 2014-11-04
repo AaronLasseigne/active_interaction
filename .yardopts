@@ -1,4 +1,4 @@
---markup-provider rdoc
+--markup-provider kramdown
 --markup markdown
 --no-private
 --readme README.md
