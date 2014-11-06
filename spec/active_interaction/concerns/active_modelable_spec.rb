@@ -32,16 +32,4 @@ describe ActiveInteraction::ActiveModelable do
       expect(instance.i18n_scope).to eql :active_interaction
     end
   end
-
-  describe '#new_record?' do
-    it 'returns true' do
-      expect(instance).to be_new_record
-    end
-  end
-
-  describe '#persisted?' do
-    it 'returns false' do
-      expect(instance).to_not be_persisted
-    end
-  end
 end
