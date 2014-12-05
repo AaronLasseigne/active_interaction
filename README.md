@@ -42,7 +42,7 @@ inputs are in the format you want them in. If the inputs are valid
 it will call `execute`, store the return value of that method in
 `result`, and return an instance of your ActiveInteraction::Base
 subclass. Let's look at a simple example:
-
+```ruby
     # Define an interaction that signs up a user.
     class UserSignup < ActiveInteraction::Base
       # required
@@ -82,7 +82,7 @@ subclass. Let's look at a simple example:
         render action: :new
       end
     end
-
+```
 You may have noticed that ActiveInteraction::Base quacks like
 ActiveRecord::Base. It can use validations from your Rails application
 and check option validity with `valid?`. Any errors are added to
@@ -94,24 +94,24 @@ ActiveRecord is available.
 
 There are two way to call an interaction. Given UserSignup, you can
 do this:
-
+```ruby
     outcome = UserSignup.run(params)
     if outcome.valid?
       # Do something with outcome.result...
     else
       # Do something with outcome.errors...
     end
-
+```
 Or, you can do this:
-
+```ruby
     result = UserSignup.run!(params)
     # Either returns the result of execute,
     # or raises ActiveInteraction::InvalidInteractionError
-
+```
 ## What can I pass to an interaction?
 
 Interactions only accept a Hash for `run` and `run!`.
-
+```ruby
     # A user comments on an article
     class CreateComment < ActiveInteraction::Base
       model :article, :user
@@ -129,17 +129,17 @@ Interactions only accept a Hash for `run` and `run!`.
         user: current_user
       )
     end
-
+```
 ## How do I define an interaction?
 
 1. Subclass ActiveInteraction::Base
-
+```ruby
         class YourInteraction < ActiveInteraction::Base
           # ...
         end
-
+```
 2. Define your attributes:
-
+```ruby
         string :name, :state
         integer :age
         boolean :is_special
@@ -153,9 +153,9 @@ Interactions only accept a Hash for `run` and `run!`.
         end
         date :arrives_on, default: -> { Date.current }
         date :departs_on, default: -> { Date.tomorrow }
-
+```
 3. Use any additional validations you need:
-
+```ruby
         validates :name, length: { maximum: 10 }
         validates :state, inclusion: { in: %w(AL AK AR ... WY) }
         validate :arrives_before_departs
@@ -167,15 +167,15 @@ Interactions only accept a Hash for `run` and `run!`.
             errors.add(:departs_on, 'must come after the arrival time')
           end
         end
-
+```
 4. Define your execute method. It can return whatever you like:
-
+```ruby
         def execute
           record = do_thing(...)
           # ...
           record
         end
-
+```
 Check out the [documentation][12] for a full list of methods.
 
 ## How do I compose interactions?
@@ -184,7 +184,7 @@ You can run interactions from within other interactions by calling `compose`.
 If the interaction is successful, it'll return the result (just like if you had
 called it with `run!`). If something went wrong, execution will halt
 immediately and the errors will be moved onto the caller.
-
+```ruby
     class AddThree < ActiveInteraction::Base
       integer :x
       def execute
@@ -193,17 +193,17 @@ immediately and the errors will be moved onto the caller.
     end
     AddThree.run!(x: 5)
     # => 8
-
+```
 To bring in filters from another interaction, use `import_filters`. Combined
 with `inputs`, delegating to another interaction is a piece of cake.
-
+```ruby
     class AddAndDouble < ActiveInteraction::Base
       import_filters Add
       def execute
         compose(Add, inputs) * 2
       end
     end
-
+```
 ## How do I translate an interaction?
 
 ActiveInteraction is i18n-aware out of the box! All you have to do
@@ -211,7 +211,7 @@ is add translations to your project. In Rails, they typically go
 into `config/locales`. So, for example, let's say that (for whatever
 reason) you want to print out everything backwards. Simply add
 translations for ActiveInteraction to your `hsilgne` locale:
-
+```ruby
     # config/locales/hsilgne.yml
     hsilgne:
       active_interaction:
@@ -233,9 +233,9 @@ translations for ActiveInteraction to your `hsilgne` locale:
             invalid: dilavni si
             invalid_type: '%{type} dilav a ton si'
             missing: deriuqer si
-
+```
 Then set your locale and run an interaction like normal:
-
+```ruby
     I18n.locale = :hsilgne
     class Interaction < ActiveInteraction::Base
       boolean :a
@@ -243,7 +243,7 @@ Then set your locale and run an interaction like normal:
     end
     p Interaction.run.errors.messages
     # => {:a=>["deriuqer si"]}
-
+```
 ## Credits
 
 ActiveInteraction is brought to you by [@AaronLasseigne][14] and
