@@ -172,7 +172,7 @@ module ActiveInteraction
 
         nil
       else
-        fail InvalidValueError, "#{name}: #{value.inspect}"
+        fail InvalidValueError, "#{name}: #{describe(value)}"
       end
     end
 
@@ -194,6 +194,14 @@ module ActiveInteraction
     end
 
     private
+
+    # @param value [Object]
+    # @return [String]
+    def describe(value)
+      value.inspect
+    rescue NoMethodError
+      '?'
+    end
 
     # @return [Object]
     def raw_default
