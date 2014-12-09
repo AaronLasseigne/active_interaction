@@ -251,15 +251,15 @@ ActiveInteraction is brought to you by [@AaronLasseigne][14] and
 work done in [Mutations][17].
 
   [0]: https://github.com/orgsync/active_interaction
-  [1]: https://badge.fury.io/rb/active_interaction.svg
+  [1]: https://img.shields.io/gem/v/active_interaction.svg?style=flat
   [2]: http://rubygems.org/gems/active_interaction "Gem Version"
-  [3]: https://travis-ci.org/orgsync/active_interaction.svg?branch=master
+  [3]: https://img.shields.io/travis/orgsync/active_interaction/master.svg?style=flat
   [4]: https://travis-ci.org/orgsync/active_interaction "Build Status"
-  [5]: https://img.shields.io/coveralls/orgsync/active_interaction/master.svg
+  [5]: https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?style=flat
   [6]: https://coveralls.io/r/orgsync/active_interaction?branch=master "Coverage Status"
-  [7]: https://codeclimate.com/github/orgsync/active_interaction/badges/gpa.svg
+  [7]: https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?style=flat
   [8]: https://codeclimate.com/github/orgsync/active_interaction "Code Climate"
-  [9]: https://gemnasium.com/orgsync/active_interaction.svg
+  [9]: https://img.shields.io/gemnasium/orgsync/active_interaction.svg?style=flat
   [10]: https://gemnasium.com/orgsync/active_interaction "Dependency Status"
   [11]: http://orgsync.github.io/active_interaction/
   [12]: http://rubydoc.info/github/orgsync/active_interaction
