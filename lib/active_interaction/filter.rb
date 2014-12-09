@@ -200,7 +200,7 @@ module ActiveInteraction
     def describe(value)
       value.inspect
     rescue NoMethodError
-      '?'
+      "(Object doesn't support #inspect)"
     end
 
     # @return [Object]
