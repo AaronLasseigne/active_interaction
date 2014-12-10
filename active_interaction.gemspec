@@ -43,7 +43,7 @@ Gem::Specification.new do |spec|
     spec.add_development_dependency 'parser', '~> 2.1'
     spec.add_development_dependency 'racc', '~> 1.4'
     spec.add_development_dependency 'rubinius-coverage', '~> 2.0'
-    spec.add_development_dependency 'rubysl', '~> 2.0'
+    spec.add_development_dependency 'rubysl', '~> 2.1'
     spec.add_development_dependency 'rubysl-test-unit', '~> 2.0'
   end
 end
