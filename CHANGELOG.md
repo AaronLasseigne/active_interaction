@@ -1,5 +1,7 @@
 # [Master][]
 
+# [1.3.1][] (2014-12-10)
+
 ## Fixed
 
 - [#235][]: Fix a bug that prevented custom translations from loading.
@@ -352,7 +354,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.3.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.3.1...master
+  [1.3.1]: https://github.com/orgsync/active_interaction/compare/v1.3.0...v1.3.1
   [1.3.0]: https://github.com/orgsync/active_interaction/compare/v1.2.5...v1.3.0
   [1.2.5]: https://github.com/orgsync/active_interaction/compare/v1.2.4...v1.2.5
   [1.2.4]: https://github.com/orgsync/active_interaction/compare/v1.2.3...v1.2.4
