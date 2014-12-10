@@ -3,7 +3,7 @@ env: RAKE_TASK=spec
 language: ruby
 matrix:
   include:
-  - env: RAKE_TASK='spec rubocop'
+  - env: RAKE_TASK=rubocop
     rvm: 2.1
   - gemfile: gemfiles/activemodel3.rb
     rvm: 2.1
