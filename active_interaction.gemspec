@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'kramdown', '~> 1.5'
   spec.add_development_dependency 'rake', '~> 10.3'
   spec.add_development_dependency 'rspec', '~> 3.1'
-  spec.add_development_dependency 'rubocop', '~> 0.27'
+  spec.add_development_dependency 'rubocop', '~> 0.28'
   spec.add_development_dependency 'yard', '~> 0.8'
 
   if RUBY_ENGINE == 'rbx'
