@@ -24,15 +24,21 @@ This project uses [semantic versioning][13].
 
 Add it to your Gemfile:
 
-    gem 'active_interaction', '~> 1.3'
+``` ruby
+gem 'active_interaction', '~> 1.3'
+```
 
 And then execute:
 
-    $ bundle
+``` sh
+$ bundle
+```
 
 Or install it yourself with:
 
-    $ gem install active_interaction
+``` sh
+$ gem install active_interaction
+```
 
 ## What do I get?
 
