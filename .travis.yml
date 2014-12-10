@@ -1,21 +1,11 @@
 before_install: gem update bundler
 env: RAKE_TASK=spec
-gemfile:
-- Gemfile
-- gemfiles/activemodel3.rb
 language: ruby
 matrix:
-  exclude:
-  - gemfile: gemfiles/activemodel3.rb
-    rvm: 2.0
-  - gemfile: gemfiles/activemodel3.rb
-    rvm: 1.9
-  - gemfile: gemfiles/activemodel3.rb
-    rvm: jruby
-  - gemfile: gemfiles/activemodel3.rb
-    rvm: rbx-2
   include:
   - env: RAKE_TASK='spec rubocop'
+    rvm: 2.1
+  - gemfile: gemfiles/activemodel3.rb
     rvm: 2.1
 notifications:
   email: false
