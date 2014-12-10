@@ -238,7 +238,7 @@ into `config/locales`. So, for example, let's say that (for whatever
 reason) you want to print out everything backwards. Simply add
 translations for ActiveInteraction to your `hsilgne` locale:
 
-```ruby
+```yaml
 # config/locales/hsilgne.yml
 hsilgne:
   active_interaction:
