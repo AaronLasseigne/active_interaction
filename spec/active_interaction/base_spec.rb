@@ -28,6 +28,13 @@ InterruptInteraction = Class.new(TestInteraction) do
   end
 end
 
+InteractionWithChainedDefaults = Class.new(TestInteraction) do
+  string :first, default: "first"
+  string :second, default: -> { "#{first} second #{third} #{fourth}" }
+  string :third, default: -> { "third" }
+  string :fourth, default: "fourth"
+end
+
 describe ActiveInteraction::Base do
   include_context 'interactions'
 
@@ -601,6 +608,13 @@ describe ActiveInteraction::Base do
       it 'is invalid' do
         expect(outcome).to be_invalid
       end
+    end
+  end
+
+  describe 'defaults' do
+    it 'evaluates defaults on demand if needed' do
+      interaction = InteractionWithChainedDefaults.new
+      expect(interaction.second).to eq "first second third fourth"
     end
   end
 end

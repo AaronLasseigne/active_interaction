@@ -95,10 +95,10 @@ module ActiveInteraction
     #
     # @raise (see #cast)
     # @raise (see #default)
-    def clean(value)
+    def clean(value, instance)
       value = cast(value)
       if value.nil?
-        default
+        default(instance)
       else
         value
       end
@@ -120,15 +120,22 @@ module ActiveInteraction
     #
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
-    def default
+    def default(instance)
       fail NoDefaultError, name unless default?
 
-      value = raw_default
+      value = raw_default(instance)
       fail InvalidValueError if value.is_a?(GroupedInput)
 
       cast(value)
     rescue InvalidValueError, MissingValueError
       raise InvalidDefaultError, "#{name}: #{value.inspect}"
+    end
+
+    def validate_default
+      return unless default?
+      return if options.fetch(:default).is_a? Proc
+      return if options.fetch(:default).is_a? Symbol
+      default(:no_instance)
     end
 
     # Get the description.
@@ -204,11 +211,11 @@ module ActiveInteraction
     end
 
     # @return [Object]
-    def raw_default
+    def raw_default(instance)
       value = options.fetch(:default)
 
       if value.is_a?(Proc)
-        value.call
+        instance.instance_exec(&value)
       else
         value
       end

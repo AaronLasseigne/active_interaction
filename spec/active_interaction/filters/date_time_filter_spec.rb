@@ -138,7 +138,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(instance)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end

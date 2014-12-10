@@ -165,10 +165,19 @@ module ActiveInteraction
       def initialize_filter(filter)
         filters[filter.name] = filter
 
-        attr_accessor filter.name
+        attr_writer filter.name
+
+        define_method(filter.name) do
+          if instance_variable_defined?("@#{filter.name}")
+            return instance_variable_get("@#{filter.name}")
+          end
+
+          populate_reader(filter.name, raw_inputs[filter.name])
+        end
+
         define_method("#{filter.name}?") { !public_send(filter.name).nil? }
 
-        filter.default if filter.default?
+        filter.validate_default
       end
     end
 
@@ -245,8 +254,11 @@ module ActiveInteraction
 
     private
 
+    attr_reader :raw_inputs
+
     # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
+      @raw_inputs = inputs
       inputs.each do |key, value|
         fail InvalidValueError, key.inspect if InputProcessor.reserved?(key)
 
@@ -257,13 +269,24 @@ module ActiveInteraction
     end
 
     def populate_reader(key, value)
-      instance_variable_set("@#{key}", value) if respond_to?(key)
+      return unless respond_to?(key)
+
+      filter = self.class.filters[key]
+      if filter
+        begin
+          value = filter.clean(value, self)
+        rescue InvalidValueError, MissingValueError, InvalidNestedValueError
+          # #type_check will add errors if appropriate.
+        end
+      end
+
+      instance_variable_set("@#{key}", value)
     end
 
     def populate_filters(inputs)
       self.class.filters.each do |name, filter|
         begin
-          public_send("#{name}=", filter.clean(inputs[name]))
+          public_send("#{name}=", filter.clean(inputs[name], self))
         rescue InvalidValueError, MissingValueError, InvalidNestedValueError
           # #type_check will add errors if appropriate.
         end
