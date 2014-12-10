@@ -54,7 +54,6 @@ module ActiveInteraction
       private
 
       # @param slug [Symbol]
-      # @param klass [Class]
       #
       # @return [Class]
       def register(slug)
@@ -173,7 +172,7 @@ module ActiveInteraction
 
         nil
       else
-        fail InvalidValueError, "#{name}: #{value.inspect}"
+        fail InvalidValueError, "#{name}: #{describe(value)}"
       end
     end
 
@@ -195,6 +194,14 @@ module ActiveInteraction
     end
 
     private
+
+    # @param value [Object]
+    # @return [String]
+    def describe(value)
+      value.inspect
+    rescue NoMethodError
+      "(Object doesn't support #inspect)"
+    end
 
     # @return [Object]
     def raw_default
