@@ -168,7 +168,18 @@ module ActiveInteraction
         attr_accessor filter.name
         define_method("#{filter.name}?") { !public_send(filter.name).nil? }
 
-        filter.default if filter.default?
+        initialize_default(filter)
+      end
+
+      def initialize_default(filter)
+        return unless filter.default?
+
+        default = filter.options.fetch(:default)
+        return filter.default unless default.is_a?(Proc)
+
+        filter.options[:default] = nil
+        callback = -> { send("#{filter.name}=", instance_exec(&default)) }
+        set_callback(:type_check, :after, callback)
       end
     end
 
