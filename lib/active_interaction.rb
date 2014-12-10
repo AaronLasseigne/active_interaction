@@ -50,5 +50,5 @@ I18n.load_path.unshift(Dir[File.expand_path(
 #
 # @since 1.0.0
 #
-# @version 1.3.1
+# @version 1.4.0
 module ActiveInteraction end
