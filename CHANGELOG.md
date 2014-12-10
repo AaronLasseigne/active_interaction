@@ -2,6 +2,7 @@
 
 ## Fixed
 
+- [#235][]: Fix a bug that prevented custom translations from loading.
 - [#224][]: Fix a bug that incorrectly inferred plural class names for filters
   inside arrays.
 
@@ -461,3 +462,4 @@
   [#206]: https://github.com/orgsync/active_interaction/issues/206
   [#207]: https://github.com/orgsync/active_interaction/issues/207
   [#224]: https://github.com/orgsync/active_interaction/issues/224
+  [#235]: https://github.com/orgsync/active_interaction/issues/235
