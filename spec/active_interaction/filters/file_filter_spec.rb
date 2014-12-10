@@ -25,11 +25,11 @@ describe ActiveInteraction::FileFilter, :filter do
       end
     end
 
-    context 'with an object that responds to #tempfile' do
-      let(:value) { double(tempfile: Tempfile.new(SecureRandom.hex)) }
+    context 'with an object that responds to #eof?' do
+      let(:value) { double(eof?: true) }
 
-      it 'returns the Tempfile' do
-        expect(result).to eq value.tempfile
+      it 'returns the object' do
+        expect(result).to eq value
       end
     end
   end
