@@ -3,7 +3,6 @@ env: RAKE_TASK=spec
 gemfile:
 - Gemfile
 - gemfiles/activemodel3.rb
-install: bundle install --jobs=1 # rubygems/rubygems#982
 language: ruby
 matrix:
   exclude:
