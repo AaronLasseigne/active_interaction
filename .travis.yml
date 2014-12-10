@@ -1,4 +1,5 @@
 before_install: gem update bundler
+env: RAKE_TASK=spec
 gemfile:
 - Gemfile
 - gemfiles/activemodel3.rb
@@ -14,6 +15,9 @@ matrix:
     rvm: jruby
   - gemfile: gemfiles/activemodel3.rb
     rvm: rbx-2
+  include:
+  - env: RAKE_TASK='spec rubocop'
+    rvm: 2.1
 notifications:
   email: false
   hipchat:
@@ -28,3 +32,4 @@ rvm:
 - 1.9
 - jruby
 - rbx-2
+script: bundle exec rake $RAKE_TASK
