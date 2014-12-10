@@ -1,5 +1,9 @@
 # [Master][]
 
+## Changed
+
+- [#239][]: Accept `ActiveRecord::Relation` objects as `array` inputs.
+
 # [1.3.1][] (2014-12-10)
 
 ## Fixed
@@ -466,3 +470,4 @@
   [#207]: https://github.com/orgsync/active_interaction/issues/207
   [#224]: https://github.com/orgsync/active_interaction/issues/224
   [#235]: https://github.com/orgsync/active_interaction/issues/235
+  [#239]: https://github.com/orgsync/active_interaction/issues/239
