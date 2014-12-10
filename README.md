@@ -49,7 +49,7 @@ it will call `execute`, store the return value of that method in
 `result`, and return an instance of your ActiveInteraction::Base
 subclass. Let's look at a simple example:
 
-```ruby
+``` ruby
 # Define an interaction that signs up a user.
 class UserSignup < ActiveInteraction::Base
   # required
@@ -103,7 +103,7 @@ ActiveRecord is available.
 There are two way to call an interaction. Given UserSignup, you can
 do this:
 
-```ruby
+``` ruby
 outcome = UserSignup.run(params)
 if outcome.valid?
   # Do something with outcome.result...
@@ -114,7 +114,7 @@ end
 
 Or, you can do this:
 
-```ruby
+``` ruby
 result = UserSignup.run!(params)
 # Either returns the result of execute,
 # or raises ActiveInteraction::InvalidInteractionError
@@ -124,7 +124,7 @@ result = UserSignup.run!(params)
 
 Interactions only accept a Hash for `run` and `run!`.
 
-```ruby
+``` ruby
 # A user comments on an article
 class CreateComment < ActiveInteraction::Base
   model :article, :user
@@ -148,7 +148,7 @@ end
 
 1. Subclass ActiveInteraction::Base
 
-    ```ruby
+    ``` ruby
     class YourInteraction < ActiveInteraction::Base
       # ...
     end
@@ -156,7 +156,7 @@ end
 
 2. Define your attributes:
 
-    ```ruby
+    ``` ruby
     string :name, :state
     integer :age
     boolean :is_special
@@ -174,7 +174,7 @@ end
 
 3. Use any additional validations you need:
 
-    ```ruby
+    ``` ruby
     validates :name, length: { maximum: 10 }
     validates :state, inclusion: { in: %w(AL AK AR ... WY) }
     validate :arrives_before_departs
@@ -190,7 +190,7 @@ end
 
 4. Define your execute method. It can return whatever you like:
 
-    ```ruby
+    ``` ruby
     def execute
       record = do_thing(...)
       # ...
@@ -207,7 +207,7 @@ If the interaction is successful, it'll return the result (just like if you had
 called it with `run!`). If something went wrong, execution will halt
 immediately and the errors will be moved onto the caller.
 
-```ruby
+``` ruby
 class AddThree < ActiveInteraction::Base
   integer :x
   def execute
@@ -221,7 +221,7 @@ AddThree.run!(x: 5)
 To bring in filters from another interaction, use `import_filters`. Combined
 with `inputs`, delegating to another interaction is a piece of cake.
 
-```ruby
+``` ruby
 class AddAndDouble < ActiveInteraction::Base
   import_filters Add
   def execute
@@ -238,7 +238,7 @@ into `config/locales`. So, for example, let's say that (for whatever
 reason) you want to print out everything backwards. Simply add
 translations for ActiveInteraction to your `hsilgne` locale:
 
-```yaml
+``` yaml
 # config/locales/hsilgne.yml
 hsilgne:
   active_interaction:
@@ -264,7 +264,7 @@ hsilgne:
 
 Then set your locale and run an interaction like normal:
 
-```ruby
+``` ruby
 I18n.locale = :hsilgne
 class Interaction < ActiveInteraction::Base
   boolean :a
