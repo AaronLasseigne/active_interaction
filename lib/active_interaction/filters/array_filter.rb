@@ -1,5 +1,10 @@
 # coding: utf-8
 
+begin
+  require 'active_record'
+rescue LoadError
+end
+
 module ActiveInteraction
   class Base
     # @!method self.array(*attributes, options = {}, &block)
@@ -29,7 +34,7 @@ module ActiveInteraction
 
     def cast(value)
       case value
-      when Array
+      when *classes
         return value if filters.empty?
 
         filter = filters.values.first
@@ -50,6 +55,17 @@ module ActiveInteraction
     end
 
     private
+
+    # @return [Array<Class>]
+    def classes
+      result = [Array]
+
+      if ActiveRecord.const_defined?(:Relation)
+        result.push(ActiveRecord::Relation)
+      end
+
+      result
+    end
 
     # @param filter [Filter]
     # @param names [Array<Symbol>]
