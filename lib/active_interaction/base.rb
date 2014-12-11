@@ -110,18 +110,18 @@ module ActiveInteraction
       end
 
       # @since 2.0.0
-      def proxy(name, inputs)
+      def proxy(name, mapping)
         (@_proxies ||= Set.new).add(name)
 
         attr_reader name
 
-        inputs.each do |input|
-          define_method(input) do
-            send(name).send(input)
+        mapping.each do |to, from|
+          define_method(from) do
+            send(name).send(to)
           end
 
-          define_method("#{input}=") do |value|
-            send(name).send("#{input}=", value)
+          define_method("#{from}=") do |value|
+            send(name).send("#{to}=", value)
           end
         end
       end

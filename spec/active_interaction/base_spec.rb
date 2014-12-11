@@ -19,9 +19,11 @@ AddInteraction = Class.new(TestInteraction) do
 end
 
 ProxyInteraction = Class.new(TestInteraction) do
-  float :x, :y
+  float :a, :b
 
-  proxy :add_interaction, [:x, :y]
+  proxy :add_interaction,
+    x: :a,
+    y: :b
 
   def execute
     add_interaction.run!
@@ -359,12 +361,12 @@ describe ActiveInteraction::Base do
 
   describe '#proxy' do
     let(:described_class) { ProxyInteraction }
-    let(:x) { rand }
-    let(:y) { rand }
-    let(:inputs) { { x: x, y: y } }
+    let(:a) { rand }
+    let(:b) { rand }
+    let(:inputs) { { a: a, b: b } }
 
     it 'works' do
-      expect(result).to eql x + y
+      expect(result).to eql a + b
     end
   end
 
