@@ -6,6 +6,8 @@ AllCops:
   - vendor/**/*
 HandleExceptions:
   Enabled: false
+Metrics/ClassLength:
+  Max: 150
 MultilineOperationIndentation:
   Enabled: false
 PercentLiteralDelimiters:
