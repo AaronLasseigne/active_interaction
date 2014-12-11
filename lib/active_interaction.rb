@@ -40,8 +40,8 @@ require 'active_interaction/base'
 
 require 'active_interaction/backports'
 
-I18n.load_path += Dir[File.expand_path(
-  File.join(%w[active_interaction locale *.yml]), File.dirname(__FILE__))]
+I18n.load_path.unshift(Dir[File.expand_path(
+  File.join(%w[active_interaction locale *.yml]), File.dirname(__FILE__))])
 
 # Manage application specific business logic.
 #
@@ -50,5 +50,5 @@ I18n.load_path += Dir[File.expand_path(
 #
 # @since 1.0.0
 #
-# @version 1.3.0
+# @version 1.4.0
 module ActiveInteraction end

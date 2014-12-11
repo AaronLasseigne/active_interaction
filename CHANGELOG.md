@@ -1,7 +1,16 @@
 # [Master][]
 
+# [1.4.0][] (2014-12-10)
+
+## Changed
+
+- [#239][]: Accept `ActiveRecord::Relation` objects as `array` inputs.
+
+# [1.3.1][] (2014-12-10)
+
 ## Fixed
 
+- [#235][]: Fix a bug that prevented custom translations from loading.
 - [#224][]: Fix a bug that incorrectly inferred plural class names for filters
   inside arrays.
 
@@ -351,7 +360,9 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.3.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.4.0...master
+  [1.4.0]: https://github.com/orgsync/active_interaction/compare/v1.3.1...v1.4.0
+  [1.3.1]: https://github.com/orgsync/active_interaction/compare/v1.3.0...v1.3.1
   [1.3.0]: https://github.com/orgsync/active_interaction/compare/v1.2.5...v1.3.0
   [1.2.5]: https://github.com/orgsync/active_interaction/compare/v1.2.4...v1.2.5
   [1.2.4]: https://github.com/orgsync/active_interaction/compare/v1.2.3...v1.2.4
@@ -461,3 +472,5 @@
   [#206]: https://github.com/orgsync/active_interaction/issues/206
   [#207]: https://github.com/orgsync/active_interaction/issues/207
   [#224]: https://github.com/orgsync/active_interaction/issues/224
+  [#235]: https://github.com/orgsync/active_interaction/issues/235
+  [#239]: https://github.com/orgsync/active_interaction/issues/239

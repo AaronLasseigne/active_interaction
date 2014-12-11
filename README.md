@@ -24,15 +24,21 @@ This project uses [semantic versioning][13].
 
 Add it to your Gemfile:
 
-    gem 'active_interaction', '~> 1.3'
+``` ruby
+gem 'active_interaction', '~> 1.4'
+```
 
 And then execute:
 
-    $ bundle
+``` sh
+$ bundle
+```
 
 Or install it yourself with:
 
-    $ gem install active_interaction
+``` sh
+$ gem install active_interaction
+```
 
 ## What do I get?
 
@@ -43,45 +49,47 @@ it will call `execute`, store the return value of that method in
 `result`, and return an instance of your ActiveInteraction::Base
 subclass. Let's look at a simple example:
 
-    # Define an interaction that signs up a user.
-    class UserSignup < ActiveInteraction::Base
-      # required
-      string :email, :name
+``` ruby
+# Define an interaction that signs up a user.
+class UserSignup < ActiveInteraction::Base
+  # required
+  string :email, :name
 
-      # optional
-      boolean :newsletter_subscribe, default: nil
+  # optional
+  boolean :newsletter_subscribe, default: nil
 
-      # ActiveRecord validations
-      validates :email, format: EMAIL_REGEX
+  # ActiveRecord validations
+  validates :email, format: EMAIL_REGEX
 
-      # The execute method is called only if the inputs validate. It
-      # does your business action. The return value will be stored in
-      # `result`.
-      def execute
-        user = User.create!(email: email, name: name)
-        if newsletter_subscribe
-          NewsletterSubscriptions.create(email: email, user_id: user.id)
-        end
-        UserMailer.async(:deliver_welcome, user.id)
-        user
-      end
+  # The execute method is called only if the inputs validate. It
+  # does your business action. The return value will be stored in
+  # `result`.
+  def execute
+    user = User.create!(email: email, name: name)
+    if newsletter_subscribe
+      NewsletterSubscriptions.create(email: email, user_id: user.id)
     end
+    UserMailer.async(:deliver_welcome, user.id)
+    user
+  end
+end
 
-    # In a controller action (for instance), you can run it:
-    def new
-      @signup = UserSignup.new
-    end
+# In a controller action (for instance), you can run it:
+def new
+  @signup = UserSignup.new
+end
 
-    def create
-      @signup = UserSignup.run(params[:user])
+def create
+  @signup = UserSignup.run(params[:user])
 
-      # Then check to see if it worked:
-      if @signup.valid?
-        redirect_to welcome_path(user_id: signup.result.id)
-      else
-        render action: :new
-      end
-    end
+  # Then check to see if it worked:
+  if @signup.valid?
+    redirect_to welcome_path(user_id: signup.result.id)
+  else
+    render action: :new
+  end
+end
+```
 
 You may have noticed that ActiveInteraction::Base quacks like
 ActiveRecord::Base. It can use validations from your Rails application
@@ -95,86 +103,100 @@ ActiveRecord is available.
 There are two way to call an interaction. Given UserSignup, you can
 do this:
 
-    outcome = UserSignup.run(params)
-    if outcome.valid?
-      # Do something with outcome.result...
-    else
-      # Do something with outcome.errors...
-    end
+``` ruby
+outcome = UserSignup.run(params)
+if outcome.valid?
+  # Do something with outcome.result...
+else
+  # Do something with outcome.errors...
+end
+```
 
 Or, you can do this:
 
-    result = UserSignup.run!(params)
-    # Either returns the result of execute,
-    # or raises ActiveInteraction::InvalidInteractionError
+``` ruby
+result = UserSignup.run!(params)
+# Either returns the result of execute,
+# or raises ActiveInteraction::InvalidInteractionError
+```
 
 ## What can I pass to an interaction?
 
 Interactions only accept a Hash for `run` and `run!`.
 
-    # A user comments on an article
-    class CreateComment < ActiveInteraction::Base
-      model :article, :user
-      string :comment
+``` ruby
+# A user comments on an article
+class CreateComment < ActiveInteraction::Base
+  model :article, :user
+  string :comment
 
-      validates :comment, length: { maximum: 500 }
+  validates :comment, length: { maximum: 500 }
 
-      def execute; ...; end
-    end
+  def execute; ...; end
+end
 
-    def somewhere
-      outcome = CreateComment.run(
-        comment: params[:comment],
-        article: Article.find(params[:article_id]),
-        user: current_user
-      )
-    end
+def somewhere
+  outcome = CreateComment.run(
+    comment: params[:comment],
+    article: Article.find(params[:article_id]),
+    user: current_user
+  )
+end
+```
 
 ## How do I define an interaction?
 
 1. Subclass ActiveInteraction::Base
 
-        class YourInteraction < ActiveInteraction::Base
-          # ...
-        end
+    ``` ruby
+    class YourInteraction < ActiveInteraction::Base
+      # ...
+    end
+    ```
 
 2. Define your attributes:
 
-        string :name, :state
-        integer :age
-        boolean :is_special
-        model :account
-        array :tags, default: nil do
-          string
-        end
-        hash :prefs, default: nil do
-          boolean :smoking
-          boolean :view
-        end
-        date :arrives_on, default: -> { Date.current }
-        date :departs_on, default: -> { Date.tomorrow }
+    ``` ruby
+    string :name, :state
+    integer :age
+    boolean :is_special
+    model :account
+    array :tags, default: nil do
+      string
+    end
+    hash :prefs, default: nil do
+      boolean :smoking
+      boolean :view
+    end
+    date :arrives_on, default: -> { Date.current }
+    date :departs_on, default: -> { Date.tomorrow }
+    ```
 
 3. Use any additional validations you need:
 
-        validates :name, length: { maximum: 10 }
-        validates :state, inclusion: { in: %w(AL AK AR ... WY) }
-        validate :arrives_before_departs
+    ``` ruby
+    validates :name, length: { maximum: 10 }
+    validates :state, inclusion: { in: %w(AL AK AR ... WY) }
+    validate :arrives_before_departs
 
-        private
+    private
 
-        def arrive_before_departs
-          if departs_on <= arrives_on
-            errors.add(:departs_on, 'must come after the arrival time')
-          end
-        end
+    def arrive_before_departs
+      if departs_on <= arrives_on
+        errors.add(:departs_on, 'must come after the arrival time')
+      end
+    end
+    ```
 
 4. Define your execute method. It can return whatever you like:
 
-        def execute
-          record = do_thing(...)
-          # ...
-          record
-        end
+    ``` ruby
+    def execute
+      record = do_thing(...)
+      # ...
+      record
+    end
+    ```
 
 Check out the [documentation][12] for a full list of methods.
 
@@ -185,24 +207,28 @@ If the interaction is successful, it'll return the result (just like if you had
 called it with `run!`). If something went wrong, execution will halt
 immediately and the errors will be moved onto the caller.
 
-    class AddThree < ActiveInteraction::Base
-      integer :x
-      def execute
-        compose(Add, x: x, y: 3)
-      end
-    end
-    AddThree.run!(x: 5)
-    # => 8
+``` ruby
+class AddThree < ActiveInteraction::Base
+  integer :x
+  def execute
+    compose(Add, x: x, y: 3)
+  end
+end
+AddThree.run!(x: 5)
+# => 8
+```
 
 To bring in filters from another interaction, use `import_filters`. Combined
 with `inputs`, delegating to another interaction is a piece of cake.
 
-    class AddAndDouble < ActiveInteraction::Base
-      import_filters Add
-      def execute
-        compose(Add, inputs) * 2
-      end
-    end
+``` ruby
+class AddAndDouble < ActiveInteraction::Base
+  import_filters Add
+  def execute
+    compose(Add, inputs) * 2
+  end
+end
+```
 
 ## How do I translate an interaction?
 
@@ -212,37 +238,41 @@ into `config/locales`. So, for example, let's say that (for whatever
 reason) you want to print out everything backwards. Simply add
 translations for ActiveInteraction to your `hsilgne` locale:
 
-    # config/locales/hsilgne.yml
-    hsilgne:
-      active_interaction:
-        types:
-          array: yarra
-          boolean: naeloob
-          date: etad
-          date_time: emit etad
-          decimal: lamiced
-          file: elif
-          float: taolf
-          hash: hsah
-          integer: regetni
-          model: ledom
-          string: gnirts
-          time: emit
-        errors:
-          messages:
-            invalid: dilavni si
-            invalid_type: '%{type} dilav a ton si'
-            missing: deriuqer si
+``` yaml
+# config/locales/hsilgne.yml
+hsilgne:
+  active_interaction:
+    types:
+      array: yarra
+      boolean: naeloob
+      date: etad
+      date_time: emit etad
+      decimal: lamiced
+      file: elif
+      float: taolf
+      hash: hsah
+      integer: regetni
+      model: ledom
+      string: gnirts
+      time: emit
+    errors:
+      messages:
+        invalid: dilavni si
+        invalid_type: '%{type} dilav a ton si'
+        missing: deriuqer si
+```
 
 Then set your locale and run an interaction like normal:
 
-    I18n.locale = :hsilgne
-    class Interaction < ActiveInteraction::Base
-      boolean :a
-      def execute; end
-    end
-    p Interaction.run.errors.messages
-    # => {:a=>["deriuqer si"]}
+``` ruby
+I18n.locale = :hsilgne
+class Interaction < ActiveInteraction::Base
+  boolean :a
+  def execute; end
+end
+p Interaction.run.errors.messages
+# => {:a=>["deriuqer si"]}
+```
 
 ## Credits
 
