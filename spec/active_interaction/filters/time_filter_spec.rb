@@ -28,7 +28,9 @@ describe ActiveInteraction::TimeFilter, :filter do
         end
 
         it 'raises an error' do
-          expect { filter }.to raise_error(ActiveInteraction::InvalidFilterError)
+          expect do
+            filter
+          end.to raise_error(ActiveInteraction::InvalidFilterError)
         end
       end
     end

@@ -11,6 +11,20 @@
 - [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
   This takes care of potential but unlikely DoS attacks noted in [#163][].
 
+# [1.4.0][] (2014-12-10)
+
+## Changed
+
+- [#239][]: Accept `ActiveRecord::Relation` objects as `array` inputs.
+
+# [1.3.1][] (2014-12-10)
+
+## Fixed
+
+- [#235][]: Fix a bug that prevented custom translations from loading.
+- [#224][]: Fix a bug that incorrectly inferred plural class names for filters
+  inside arrays.
+
 # [1.3.0][] (2014-08-15)
 
 ## Added
@@ -357,7 +371,9 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.3.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.4.0...master
+  [1.4.0]: https://github.com/orgsync/active_interaction/compare/v1.3.1...v1.4.0
+  [1.3.1]: https://github.com/orgsync/active_interaction/compare/v1.3.0...v1.3.1
   [1.3.0]: https://github.com/orgsync/active_interaction/compare/v1.2.5...v1.3.0
   [1.2.5]: https://github.com/orgsync/active_interaction/compare/v1.2.4...v1.2.5
   [1.2.4]: https://github.com/orgsync/active_interaction/compare/v1.2.3...v1.2.4
@@ -469,3 +485,6 @@
   [#213]: https://github.com/orgsync/active_interaction/issues/213
   [#214]: https://github.com/orgsync/active_interaction/issues/214
   [#215]: https://github.com/orgsync/active_interaction/issues/215
+  [#224]: https://github.com/orgsync/active_interaction/issues/224
+  [#235]: https://github.com/orgsync/active_interaction/issues/235
+  [#239]: https://github.com/orgsync/active_interaction/issues/239

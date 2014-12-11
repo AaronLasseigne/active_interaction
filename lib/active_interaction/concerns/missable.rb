@@ -16,7 +16,7 @@ module ActiveInteraction
     # @yieldparam options [Hash]
     #
     # @return [Missable]
-    def method_missing(slug, *args, &block)
+    def method_missing(slug, *args)
       return super unless (klass = filter(slug))
 
       options = args.last.is_a?(Hash) ? args.pop : {}

@@ -51,19 +51,19 @@ This project uses [semantic versioning][13].
 
 Add it to your Gemfile:
 
-```ruby
+``` ruby
 gem 'active_interaction', '~> 2.0'
 ```
 
 And then execute:
 
-```sh
+``` sh
 $ bundle
 ```
 
 Or install it yourself with:
 
-```sh
+``` sh
 $ gem install active_interaction
 ```
 
@@ -78,7 +78,7 @@ it will call `execute`, store the return value of that method in
 `result`, and return an instance of your ActiveInteraction::Base
 subclass. Let's look at a simple example:
 
-```ruby
+``` ruby
 # Define an interaction that signs up a user.
 class UserSignup < ActiveInteraction::Base
   # required
@@ -130,7 +130,7 @@ and check option validity with `valid?`. Any errors are added to
 There are two way to call an interaction. Given UserSignup, you can
 do this:
 
-```ruby
+``` ruby
 outcome = UserSignup.run(params)
 if outcome.valid?
   # Do something with outcome.result...
@@ -141,7 +141,7 @@ end
 
 Or, you can do this:
 
-```ruby
+``` ruby
 result = UserSignup.run!(params)
 # Either returns the result of execute,
 # or raises ActiveInteraction::InvalidInteractionError
@@ -151,7 +151,7 @@ result = UserSignup.run!(params)
 
 Interactions only accept a Hash for `run` and `run!`.
 
-```ruby
+``` ruby
 # A user comments on an article
 class CreateComment < ActiveInteraction::Base
   model :article, :user
@@ -175,7 +175,7 @@ end
 
 1. Subclass ActiveInteraction::Base
 
-    ```ruby
+    ``` ruby
     class YourInteraction < ActiveInteraction::Base
       # ...
     end
@@ -183,7 +183,7 @@ end
 
 2. Define your attributes:
 
-    ```ruby
+    ``` ruby
     string :name, :state
     integer :age
     boolean :is_special
@@ -203,7 +203,7 @@ end
 
 3. Use any additional validations you need:
 
-    ```ruby
+    ``` ruby
     validates :name, length: { maximum: 10 }
     validates :state, inclusion: { in: %w(AL AK AR ... WY) }
     validate :arrives_before_departs
@@ -219,7 +219,7 @@ end
 
 4. Define your execute method. It can return whatever you like:
 
-    ```ruby
+    ``` ruby
     def execute
       record = do_thing(...)
       # ...
@@ -700,7 +700,7 @@ If the interaction is successful, it'll return the result (just like if you had
 called it with `run!`). If something went wrong, execution will halt
 immediately and the errors will be moved onto the caller.
 
-```ruby
+``` ruby
 class AddThree < ActiveInteraction::Base
   integer :x
   def execute
@@ -714,7 +714,7 @@ AddThree.run!(x: 5)
 To bring in filters from another interaction, use `import_filters`. Combined
 with `inputs`, delegating to another interaction is a piece of cake.
 
-```ruby
+``` ruby
 class AddAndDouble < ActiveInteraction::Base
   import_filters Add
   def execute
@@ -816,7 +816,7 @@ hsilgne:
 
 Then set your locale and run interactions like normal.
 
-```ruby
+``` ruby
 class I18nInteraction < ActiveInteraction::Base
   string :name
 end
@@ -837,15 +837,15 @@ work done in [Mutations][17]. A full list of contributers can be found
 [here][21].
 
   [0]: https://github.com/orgsync/active_interaction
-  [1]: https://badge.fury.io/rb/active_interaction.svg
+  [1]: https://img.shields.io/gem/v/active_interaction.svg?style=flat
   [2]: http://rubygems.org/gems/active_interaction "Gem Version"
-  [3]: https://travis-ci.org/orgsync/active_interaction.svg?branch=master
+  [3]: https://img.shields.io/travis/orgsync/active_interaction/master.svg?style=flat
   [4]: https://travis-ci.org/orgsync/active_interaction "Build Status"
-  [5]: https://img.shields.io/coveralls/orgsync/active_interaction/master.svg
+  [5]: https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?style=flat
   [6]: https://coveralls.io/r/orgsync/active_interaction?branch=master "Coverage Status"
-  [7]: https://codeclimate.com/github/orgsync/active_interaction/badges/gpa.svg
+  [7]: https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?style=flat
   [8]: https://codeclimate.com/github/orgsync/active_interaction "Code Climate"
-  [9]: https://gemnasium.com/orgsync/active_interaction.svg
+  [9]: https://img.shields.io/gemnasium/orgsync/active_interaction.svg?style=flat
   [10]: https://gemnasium.com/orgsync/active_interaction "Dependency Status"
   [11]: http://orgsync.github.io/active_interaction/
   [12]: http://rubydoc.info/github/orgsync/active_interaction

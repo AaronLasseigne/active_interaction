@@ -1,5 +1,10 @@
 # coding: utf-8
 
+begin
+  require 'active_record'
+rescue LoadError
+end
+
 module ActiveInteraction
   class Base
     # @!method self.array(*attributes, options = {}, &block)
@@ -29,7 +34,7 @@ module ActiveInteraction
 
     def cast(value)
       case value
-      when Array
+      when *classes
         return value if filters.empty?
 
         filter = filters.values.first
@@ -41,15 +46,24 @@ module ActiveInteraction
 
     def method_missing(*, &block)
       super do |klass, names, options|
-        filter = klass.new(name, options, &block)
+        filter = klass.new(name.to_s.singularize.to_sym, options, &block)
 
         validate(filter, names)
 
-        filters[name] = filter
+        filters[filter.name] = filter
       end
     end
 
     private
+
+    # @return [Array<Class>]
+    def classes
+      result = [Array]
+      return result unless Object.const_defined?(:ActiveRecord)
+      return result unless ActiveRecord.const_defined?(:Relation)
+
+      result.push(ActiveRecord::Relation)
+    end
 
     # @param filter [Filter]
     # @param names [Array<Symbol>]

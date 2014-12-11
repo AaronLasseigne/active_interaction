@@ -18,6 +18,7 @@ require 'active_interaction/modules/validation'
 require 'active_interaction/filter_column'
 require 'active_interaction/filter'
 require 'active_interaction/filters/abstract_filter'
+require 'active_interaction/filters/interface_filter'
 require 'active_interaction/filters/abstract_date_time_filter'
 require 'active_interaction/filters/abstract_numeric_filter'
 require 'active_interaction/filters/array_filter'
@@ -29,7 +30,6 @@ require 'active_interaction/filters/file_filter'
 require 'active_interaction/filters/float_filter'
 require 'active_interaction/filters/hash_filter'
 require 'active_interaction/filters/integer_filter'
-require 'active_interaction/filters/interface_filter'
 require 'active_interaction/filters/model_filter'
 require 'active_interaction/filters/string_filter'
 require 'active_interaction/filters/symbol_filter'
@@ -39,8 +39,8 @@ require 'active_interaction/base'
 
 require 'active_interaction/backports'
 
-I18n.load_path += Dir[File.expand_path(
-  File.join(%w[active_interaction locale *.yml]), File.dirname(__FILE__))]
+I18n.load_path.unshift(Dir[File.expand_path(
+  File.join(%w[active_interaction locale *.yml]), File.dirname(__FILE__))])
 
 # Manage application specific business logic.
 #
@@ -49,5 +49,5 @@ I18n.load_path += Dir[File.expand_path(
 #
 # @since 1.0.0
 #
-# @version 1.3.0
+# @version 1.4.0
 module ActiveInteraction end
