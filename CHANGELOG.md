@@ -1,5 +1,9 @@
 # [Master][]
 
+# [1.4.1][] (2014-12-12)
+
+## Fixed
+
 - [#244][]: Fix improperly adding load paths to I18n.
 
 # [1.4.0][] (2014-12-10)
@@ -362,7 +366,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.4.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.4.1...master
+  [1.4.1]: https://github.com/orgsync/active_interaction/compare/v1.4.0...v1.4.1
   [1.4.0]: https://github.com/orgsync/active_interaction/compare/v1.3.1...v1.4.0
   [1.3.1]: https://github.com/orgsync/active_interaction/compare/v1.3.0...v1.3.1
   [1.3.0]: https://github.com/orgsync/active_interaction/compare/v1.2.5...v1.3.0
