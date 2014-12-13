@@ -1,5 +1,7 @@
 # [Master][]
 
+- [#244][]: Fix improperly adding load paths to I18n.
+
 # [1.4.0][] (2014-12-10)
 
 ## Changed
@@ -474,3 +476,4 @@
   [#224]: https://github.com/orgsync/active_interaction/issues/224
   [#235]: https://github.com/orgsync/active_interaction/issues/235
   [#239]: https://github.com/orgsync/active_interaction/issues/239
+  [#244]: https://github.com/orgsync/active_interaction/issues/244
