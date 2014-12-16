@@ -701,6 +701,13 @@ called it with `run!`). If something went wrong, execution will halt
 immediately and the errors will be moved onto the caller.
 
 ``` ruby
+class Add < ActiveInteraction::Base
+  integer :x, :y
+  def execute
+    x + y
+  end
+end
+
 class AddThree < ActiveInteraction::Base
   integer :x
   def execute
