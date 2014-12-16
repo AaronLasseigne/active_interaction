@@ -259,6 +259,10 @@ end
 
 ### Array
 
+#### Additional Valid Inputs
+
+ActiveRecord::Relation objects passed in will be converted to Arrays.
+
 #### Additional Parameters
 
 - **block** (`Proc`) - Filter method to apply to each element of the Array.
