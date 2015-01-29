@@ -29,6 +29,7 @@ module ActiveInteraction
   #   end
   class Base
     include ActiveModelable
+    include ActiveRecordable
     include Runnable
 
     define_callbacks :type_check
@@ -157,31 +158,6 @@ module ActiveInteraction
       fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
       process_inputs(inputs.symbolize_keys)
-    end
-
-    # Returns the column object for the named filter.
-    #
-    # @param name [Symbol] The name of a filter.
-    #
-    # @example
-    #   class Interaction < ActiveInteraction::Base
-    #     string :email, default: nil
-    #
-    #     def execute; end
-    #   end
-    #
-    #   Interaction.new.column_for_attribute(:email)
-    #   # => #<ActiveInteraction::FilterColumn:0x007faebeb2a6c8 @type=:string>
-    #
-    #   Interaction.new.column_for_attribute(:not_a_filter)
-    #   # => nil
-    #
-    # @return [FilterColumn, nil]
-    #
-    # @since 1.2.0
-    def column_for_attribute(name)
-      filter = self.class.filters[name]
-      FilterColumn.intern(filter.database_column_type) if filter
     end
 
     # @!method compose(other, inputs = {})

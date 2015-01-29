@@ -11,6 +11,12 @@
 - [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
   This takes care of potential but unlikely DoS attacks noted in [#163][].
 
+# [1.4.1][] (2014-12-12)
+
+## Fixed
+
+- [#244][]: Fix improperly adding load paths to I18n.
+
 # [1.4.0][] (2014-12-10)
 
 ## Changed
@@ -371,7 +377,8 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.4.0...master
+  [master]: https://github.com/orgsync/active_interaction/compare/v1.4.1...master
+  [1.4.1]: https://github.com/orgsync/active_interaction/compare/v1.4.0...v1.4.1
   [1.4.0]: https://github.com/orgsync/active_interaction/compare/v1.3.1...v1.4.0
   [1.3.1]: https://github.com/orgsync/active_interaction/compare/v1.3.0...v1.3.1
   [1.3.0]: https://github.com/orgsync/active_interaction/compare/v1.2.5...v1.3.0
@@ -488,3 +495,4 @@
   [#224]: https://github.com/orgsync/active_interaction/issues/224
   [#235]: https://github.com/orgsync/active_interaction/issues/235
   [#239]: https://github.com/orgsync/active_interaction/issues/239
+  [#244]: https://github.com/orgsync/active_interaction/issues/244
