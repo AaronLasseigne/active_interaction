@@ -1,6 +1,6 @@
 <p align="center">
   <img alt="briefcase" src="briefcase.png" height="100">
-  <h1 align="center" border="0">ActiveInteraction</h1>
+  <h1 align="center">ActiveInteraction</h1>
 
   <p align="center">Manage application specific business logic.</p>
   
@@ -19,7 +19,7 @@
   <a href="https://gemnasium.com/orgsync/active_interaction">
     <img alt="Dependency Status" src="https://img.shields.io/gemnasium/orgsync/active_interaction.svg?style=flat">
   </a>
-  
+
   <hr>
 </p>
 
