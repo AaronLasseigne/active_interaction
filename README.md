@@ -1,9 +1,12 @@
 <p align="center">
-  <img alt="briefcase" src="briefcase.png" height="100">
-  <h1 align="center">ActiveInteraction</h1>
+  <img alt="briefcase" src="briefcase.png">
+</p>
 
-  <p align="center">Manage application specific business logic.</p>
-  
+<h1 align="center">ActiveInteraction</h1>
+
+<p align="center">Manage application specific business logic.</p>
+
+<p align="center"> 
   <a href="https://rubygems.org/gems/active_interaction">
     <img alt="Gem Version" src="https://img.shields.io/gem/v/active_interaction.svg?style=flat">
   </a>
