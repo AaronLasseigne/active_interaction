@@ -300,6 +300,8 @@ ActiveInteraction is brought to you by [@AaronLasseigne][4] and
 [@tfausak][5] from [@orgsync][6]. We were inspired by the fantastic
 work done in [Mutations][7].
 
+Logo provided free by [Emoji One][8].
+
   [1]: http://orgsync.github.io/active_interaction/
   [2]: http://rubydoc.info/github/orgsync/active_interaction
   [3]: http://semver.org/spec/v2.0.0.html
@@ -307,3 +309,4 @@ work done in [Mutations][7].
   [5]: https://github.com/tfausak
   [6]: https://github.com/orgsync
   [7]: https://github.com/cypriss/mutations
+  [8]: http://emojione.com/
