@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="briefcase" src="briefcase.svg" height="100">
+  <img alt="briefcase" src="briefcase.png" height="100">
   <h1>ActiveInteraction</h1>
 
   Manage application specific business logic. 
