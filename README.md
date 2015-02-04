@@ -300,6 +300,7 @@ ActiveInteraction is brought to you by [@AaronLasseigne][14] and
 [@tfausak][15] from [@orgsync][16]. We were inspired by the fantastic
 work done in [Mutations][17].
 
+  [11]: http://orgsync.github.io/active_interaction/
   [12]: http://rubydoc.info/github/orgsync/active_interaction
   [13]: http://semver.org/spec/v2.0.0.html
   [14]: https://github.com/AaronLasseigne
