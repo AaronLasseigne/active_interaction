@@ -1,4 +1,11 @@
-# [ActiveInteraction][0]
+<p align="center">
+  <img alt="briefcase" src="briefcase.svg" height="100">
+  <h1>ActiveInteraction</h1>
+
+  Manage application specific business logic. 
+  
+  <hr>
+</p>
 
 [![Gem Version][1]][2]
 [![Build Status][3]][4]
