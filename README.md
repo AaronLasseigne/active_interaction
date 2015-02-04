@@ -35,12 +35,12 @@ to this.
 Take back control. Slim down models and wrangle monstrous controller
 methods with ActiveInteraction.
 
-Read more on the [project page][11] or check out the full [documentation][12]
+Read more on the [project page][1] or check out the full [documentation][2]
 on RubyDoc.info.
 
 ## Installation
 
-This project uses [semantic versioning][13].
+This project uses [semantic versioning][3].
 
 Add it to your Gemfile:
 
@@ -296,14 +296,14 @@ p Interaction.run.errors.messages
 
 ## Credits
 
-ActiveInteraction is brought to you by [@AaronLasseigne][14] and
-[@tfausak][15] from [@orgsync][16]. We were inspired by the fantastic
-work done in [Mutations][17].
+ActiveInteraction is brought to you by [@AaronLasseigne][4] and
+[@tfausak][5] from [@orgsync][6]. We were inspired by the fantastic
+work done in [Mutations][7].
 
-  [11]: http://orgsync.github.io/active_interaction/
-  [12]: http://rubydoc.info/github/orgsync/active_interaction
-  [13]: http://semver.org/spec/v2.0.0.html
-  [14]: https://github.com/AaronLasseigne
-  [15]: https://github.com/tfausak
-  [16]: https://github.com/orgsync
-  [17]: https://github.com/cypriss/mutations
+  [1]: http://orgsync.github.io/active_interaction/
+  [2]: http://rubydoc.info/github/orgsync/active_interaction
+  [3]: http://semver.org/spec/v2.0.0.html
+  [4]: https://github.com/AaronLasseigne
+  [5]: https://github.com/tfausak
+  [6]: https://github.com/orgsync
+  [7]: https://github.com/cypriss/mutations
