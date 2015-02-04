@@ -4,14 +4,24 @@
 
   <p align="center">Manage application specific business logic.</p>
   
+  <a href="https://rubygems.org/gems/active_interaction">
+    <img alt="Gem Version" src="https://img.shields.io/gem/v/active_interaction.svg?style=flat">
+  </a>
+  <a href="https://travis-ci.org/orgsync/active_interaction">
+    <img alt="Build Status" src="https://img.shields.io/travis/orgsync/active_interaction/master.svg?style=flat">
+  </a>
+  <a href="https://coveralls.io/r/orgsync/active_interaction?branch=master">
+    <img alt="Coverage Status" src="https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?style=flat">
+  </a>
+  <a href="https://codeclimate.com/github/orgsync/active_interaction">
+    <img alt="Code Climate" src="https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?style=flat">
+  </a>
+  <a href="https://gemnasium.com/orgsync/active_interaction">
+    <img alt="Dependency Status" src="https://img.shields.io/gemnasium/orgsync/active_interaction.svg?style=flat">
+  </a>
+  
   <hr>
 </p>
-
-[![Gem Version][1]][2]
-[![Build Status][3]][4]
-[![Coverage Status][5]][6]
-[![Code Climate][7]][8]
-[![Dependency Status][9]][10]
 
 At first it seemed alright. A little business logic in a controller
 or model wasn't going to hurt anything. Then one day you wake up
@@ -287,18 +297,6 @@ ActiveInteraction is brought to you by [@AaronLasseigne][14] and
 [@tfausak][15] from [@orgsync][16]. We were inspired by the fantastic
 work done in [Mutations][17].
 
-  [0]: https://github.com/orgsync/active_interaction
-  [1]: https://img.shields.io/gem/v/active_interaction.svg?style=flat
-  [2]: http://rubygems.org/gems/active_interaction "Gem Version"
-  [3]: https://img.shields.io/travis/orgsync/active_interaction/master.svg?style=flat
-  [4]: https://travis-ci.org/orgsync/active_interaction "Build Status"
-  [5]: https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?style=flat
-  [6]: https://coveralls.io/r/orgsync/active_interaction?branch=master "Coverage Status"
-  [7]: https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?style=flat
-  [8]: https://codeclimate.com/github/orgsync/active_interaction "Code Climate"
-  [9]: https://img.shields.io/gemnasium/orgsync/active_interaction.svg?style=flat
-  [10]: https://gemnasium.com/orgsync/active_interaction "Dependency Status"
-  [11]: http://orgsync.github.io/active_interaction/
   [12]: http://rubydoc.info/github/orgsync/active_interaction
   [13]: http://semver.org/spec/v2.0.0.html
   [14]: https://github.com/AaronLasseigne
