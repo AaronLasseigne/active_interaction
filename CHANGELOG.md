@@ -6,7 +6,7 @@
 
 ## Fixed
 
-- [#248] Fix support for simple_form gem.
+- [#248][]: Fix support for simple_form gem.
 
 # [1.4.1][] (2014-12-12)
 
