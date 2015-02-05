@@ -50,9 +50,7 @@ module ActiveInteraction
     # @return [Boolean]
     #
     # @since 1.5.0
-    #
-    # rubocop:disable PredicateName
-    def has_attribute?(name)
+    def has_attribute?(name) # rubocop:disable PredicateName
       self.class.filters.key?(name.to_sym)
     end
     # rubocop:enable PredicateName
