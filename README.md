@@ -45,7 +45,7 @@ This project uses [semantic versioning][3].
 Add it to your Gemfile:
 
 ``` ruby
-gem 'active_interaction', '~> 1.4'
+gem 'active_interaction', '~> 1.5'
 ```
 
 And then execute:
