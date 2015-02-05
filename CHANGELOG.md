@@ -1,5 +1,13 @@
 # [Master][]
 
+## Added
+
+- [#248][]: Add `has_attribute?` support to an instance of an interaction.
+
+## Fixed
+
+- [#248] Fix support for simple_form gem.
+
 # [1.4.1][] (2014-12-12)
 
 ## Fixed
