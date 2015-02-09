@@ -67,7 +67,7 @@ module ActiveInteraction
     # @param filter_name [Symbol]
     # @param input_value [Object]
     def initialize(filter_name, input_value)
-      super()
+      super("#{filter_name}: #{input_value.inspect}")
 
       @filter_name = filter_name
       @input_value = input_value
