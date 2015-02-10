@@ -95,10 +95,10 @@ module ActiveInteraction
     #
     # @raise (see #cast)
     # @raise (see #default)
-    def clean(value)
+    def clean(value, interaction = nil)
       value = cast(value)
       if value.nil?
-        default
+        default(interaction)
       else
         value
       end
@@ -120,10 +120,10 @@ module ActiveInteraction
     #
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
-    def default
+    def default(interaction = nil)
       fail NoDefaultError, name unless default?
 
-      value = raw_default
+      value = raw_default(interaction)
       fail InvalidValueError if value.is_a?(GroupedInput)
 
       cast(value)
@@ -204,11 +204,15 @@ module ActiveInteraction
     end
 
     # @return [Object]
-    def raw_default
+    def raw_default(interaction)
       value = options.fetch(:default)
 
       if value.is_a?(Proc)
-        value.call
+        if value.arity == 1
+          value.call(interaction) if interaction
+        else
+          value.call
+        end
       else
         value
       end

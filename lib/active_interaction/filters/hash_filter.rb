@@ -60,7 +60,7 @@ module ActiveInteraction
       raise InvalidNestedValueError.new(name, value[name])
     end
 
-    def raw_default
+    def raw_default(*)
       value = super
 
       if value.is_a?(Hash) && !value.empty?
