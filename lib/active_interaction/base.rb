@@ -146,8 +146,6 @@ module ActiveInteraction
 
         attr_accessor filter.name
         define_method("#{filter.name}?") { !public_send(filter.name).nil? }
-
-        filter.default if filter.default?
       end
     end
 

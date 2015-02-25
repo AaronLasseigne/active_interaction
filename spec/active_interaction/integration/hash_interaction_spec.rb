@@ -28,26 +28,4 @@ describe HashInteraction do
       expect(result[:b]).to eql('x' => {})
     end
   end
-
-  context 'with an invalid default' do
-    it 'raises an error' do
-      expect do
-        Class.new(ActiveInteraction::Base) do
-          hash :a, default: Object.new
-        end
-      end.to raise_error ActiveInteraction::InvalidDefaultError
-    end
-  end
-
-  context 'with an invalid nested default' do
-    it 'raises an error' do
-      expect do
-        Class.new(ActiveInteraction::Base) do
-          hash :a, default: { x: Object.new } do
-            hash :x
-          end
-        end
-      end.to raise_error ActiveInteraction::InvalidDefaultError
-    end
-  end
 end
