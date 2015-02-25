@@ -8,5 +8,5 @@ describe 'InterfaceInteraction' do
   it_behaves_like 'an interaction',
     :interface,
     -> { [JSON, YAML].sample },
-    methods: [:dump, :load]
+    methods: %i[dump load]
 end
