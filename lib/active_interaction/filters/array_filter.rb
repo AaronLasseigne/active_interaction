@@ -38,7 +38,7 @@ module ActiveInteraction
         return value if filters.empty?
 
         filter = filters.values.first
-        value.map { |e| filter.clean(e, nil) } # TODO
+        value.map { |e| filter.cast(e) }
       else
         super
       end
