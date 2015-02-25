@@ -52,12 +52,12 @@ module ActiveInteraction
     private
 
     def clean_value(h, name, filter, value)
-      h[name] = filter.clean(value[name])
+      h[name] = filter.clean(value[name], nil) # TODO
     rescue InvalidValueError, MissingValueError
       raise InvalidNestedValueError.new(name, value[name])
     end
 
-    def raw_default
+    def raw_default(*)
       value = super
 
       if value.is_a?(Hash) && !value.empty?

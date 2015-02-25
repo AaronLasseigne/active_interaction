@@ -160,7 +160,7 @@ describe ActiveInteraction::TimeFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(nil)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end

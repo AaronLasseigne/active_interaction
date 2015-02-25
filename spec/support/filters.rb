@@ -80,13 +80,15 @@ shared_examples_for 'a filter' do
   end
 
   describe '#clean' do
+    let(:result) { filter.clean(value, interaction) }
     let(:value) { nil }
+    let(:interaction) { nil }
 
     context 'optional' do
       include_context 'optional'
 
       it 'returns the default' do
-        expect(filter.clean(value)).to eql options[:default]
+        expect(result).to eql options[:default]
       end
     end
 
@@ -95,7 +97,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.clean(value)
+          result
         end.to raise_error ActiveInteraction::MissingValueError
       end
 
@@ -104,7 +106,7 @@ shared_examples_for 'a filter' do
 
         it 'raises an error' do
           expect do
-            filter.clean(value)
+            result
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
@@ -117,18 +119,21 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.clean(value)
+          result
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
   end
 
   describe '#default' do
+    let(:result) { filter.default(interaction) }
+    let(:interaction) { nil }
+
     context 'optional' do
       include_context 'optional'
 
       it 'returns the default' do
-        expect(filter.default).to eql options[:default]
+        expect(result).to eql options[:default]
       end
     end
 
@@ -137,7 +142,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.default
+          result
         end.to raise_error ActiveInteraction::NoDefaultError
       end
     end
@@ -149,7 +154,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.default
+          result
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
@@ -163,7 +168,7 @@ shared_examples_for 'a filter' do
       end
 
       it 'returns the default' do
-        expect(filter.default).to eql options[:default].call
+        expect(result).to eql options[:default].call
       end
     end
   end
