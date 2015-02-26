@@ -33,6 +33,11 @@
 
 <hr>
 
+ActiveInteraction gives you a place to put your business logic. It also helps
+you write safer code by validating that your inputs conform to your
+expectations. If ActiveModel deals with your nouns, then ActiveInteraction
+handles your verbs.
+
 Read more on [the project page][] or check out [the full documentation][].
 
 - [Installation](#installation)
