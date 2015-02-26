@@ -90,6 +90,22 @@ and ActiveModel (3.2 through 4.2).
 
 ## Basic usage
 
+To define an interaction, create a subclass of `ActiveInteraction::Base`. Then
+you need to do two things:
+
+1.  Define your inputs. Use class methods to define what you expect your
+    parameters to look like. For instance, if you need a boolean flag for
+    pepperoni, use `boolean :wants_pepperoni`. Check out [the filters
+    section](#filters) for all the available options.
+
+2.  Define your business logic. Do this by implementing the `#execute` method.
+    Each input you defined will be available as the type you specified. If any
+    of the inputs are invalid, `#execute` won't be run. Check out [the
+    validations section](#validations) if you need more than type checking.
+
+That covers the basics. Let's put it all together into a simple example that
+squares a number.
+
 ``` rb
 require 'active_interaction'
 
@@ -101,6 +117,12 @@ class Square < ActiveInteraction::Base
   end
 end
 ```
+
+Call `.run` on your interaction to execute it. You must pass a single hash to
+`.run`. It will return an instance of your interaction. By convention, we call
+this an outcome. You can use the `#valid?` method to ask the outcome if it's
+valid. If it's invalid, take a look at its errors with `#errors`. If it's
+valid, you can get the result through `#result`.
 
 ``` rb
 outcome = Square.run(x: 'two point three')
@@ -115,6 +137,11 @@ outcome.valid?
 outcome.result
 # => 5.289999999999999
 ```
+
+You can also use `.run!` to execute interactions. It's like `.run` but more
+dangerous. It doesn't return an outcome. If the outcome would be invalid, it
+will instead raise an error. But if the outcome would be valid, it simply
+returns the result.
 
 ``` rb
 Square.run!(x: 'two point three')
@@ -187,7 +214,7 @@ ActiveInteraction is licensed under [the MIT License][].
 [the project page]: http://orgsync.github.io/active_interaction/
 [the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
-[the changelog]: CHANGELOG.md
+[the change log]: CHANGELOG.md
 [aaron lasseigne]: https://github.com/AaronLasseigne
 [taylor fausak]: https://github.com/tfausak
 [orgsync]: https://github.com/orgsync
