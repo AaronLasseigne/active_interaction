@@ -184,8 +184,6 @@ available on GitHub.
 
 ActiveInteraction is licensed under [the MIT License][].
 
-Logo provided free by [Emoji One][].
-
 [the project page]: http://orgsync.github.io/active_interaction/
 [the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
@@ -198,4 +196,3 @@ Logo provided free by [Emoji One][].
 [our contribution guidelines]: CONTRIBUTING.md
 [complete list of contributors]: https://github.com/orgsync/active_interaction/graphs/contributors
 [the mit license]: LICENSE.txt
-[emoji one]: http://emojione.com/
