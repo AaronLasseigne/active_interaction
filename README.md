@@ -525,6 +525,58 @@ end
 
 ### Errors
 
+ActiveInteraction provides symbolic errors for easier introspection and testing
+of errors. Symbolic errors improve on regular errors by adding a symbol that
+represents the type of error that has occurred. Let's look at an example where
+an item is purchased using a credit card.
+
+``` rb
+class BuyItem < ActiveInteraction::Base
+  model :credit_card, :item
+  hash :options do
+    boolean :gift_wrapped
+  end
+
+  def execute
+    order = credit_card.purchase(item)
+    notify(credit_card.account)
+    order
+  end
+
+  def notify(account)
+    # ...
+  end
+end
+```
+
+Having missing or invalid inputs causes the interaction to fail and return
+errors.
+
+``` rb
+outcome = BuyItem.run({item: 'Thing', options: {gift_wrapped: 'yes'}})
+outcome.errors.messages
+# => {:credit_card=>["is required"], :item=>["is not a valid model"], :options=>["has an invalid nested value (\"gift_wrapped\" => \"yes\")"]}
+```
+
+Determining the type of error based on the string is difficult if not
+impossible. Calling `#symbolic` instead of `#messages` on `errors` gives you
+the same list of errors with a testable label representing the error.
+
+``` rb
+outcome.errors.symbolic
+# => {"credit_card"=>[:missing], "item"=>[:invalid_type], "options"=>[:invalid_nested]}
+```
+
+Symbolic errors can also be manually added during the execute call by calling
+`#add_sym` instead of `#add` on `errors`. It works the same way as `add` except
+that the second argument is the error label.
+
+``` rb
+def execute
+  errors.add_sym(:monster, :no_passage, 'You shall not pass!')
+end
+```
+
 ### Forms
 
 ### Translations
