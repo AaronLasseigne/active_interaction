@@ -446,41 +446,79 @@ helpful to group them by model. That way you can look in
 
 ## Filters
 
+TODO
+
 ### Array
+
+TODO
 
 ### Boolean
 
+TODO
+
 ### Decimal
+
+TODO
 
 ### File
 
+TODO
+
 ### Hash
+
+TODO
 
 ### Interface
 
+TODO
+
 ### Model
+
+TODO
 
 ### String
 
+TODO
+
 ### Symbol
+
+TODO
 
 ### Dates and times
 
+TODO
+
 #### Date
+
+TODO
 
 #### Date and time
 
+TODO
+
 #### Time
+
+TODO
 
 ### Numbers
 
+TODO
+
 #### Float
+
+TODO
 
 #### Integer
 
+TODO
+
 ## Advanced usage
 
+TODO
+
 ### Callbacks
+
+TODO
 
 ### Composition
 
@@ -577,7 +615,11 @@ def execute
 end
 ```
 
+TODO: Merging errors.
+
 ### Forms
+
+TODO
 
 ### Translations
 
