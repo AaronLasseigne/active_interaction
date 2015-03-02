@@ -446,7 +446,38 @@ helpful to group them by model. That way you can look in
 
 ## Filters
 
-TODO
+You can define filters inside an interaction using the appropriate class method.
+Each method has the same signature:
+
+- Some symbolic names. These are the attributes to create.
+
+- An optional hash of options. Each filter supports at least these two options:
+
+  - `default` is the fallback value to use if `nil` is give. To make a filter
+    optional, set `default: nil`.
+
+  - `desc` is a human-readable description of the input. This can be useful for
+    generating documentation.
+
+- An optional block of sub-filters. Only [array](#array) and [hash](#hash)
+  filters support this. Other filters will ignore blocks when given to them.
+
+Let's take a look at an example filter. It defines three inputs: `x`, `y`, and
+`z`. Those inputs are optional and they all share the same description ("an
+example filter").
+
+``` rb
+filter :x, :y, :z,
+  default: nil,
+  desc: 'an example filter' do
+    # Some filters support sub-filters here.
+  end
+```
+
+In general, filters accept values of the type the correspond to, plus a few
+alternatives that can be reasonably coerced. Typically the coercions come from
+Rails, so `"1"` can be interpreted as the boolean value `true`, the string
+`"1"`, or the number `1`.
 
 ### Array
 
