@@ -481,7 +481,35 @@ Rails, so `"1"` can be interpreted as the boolean value `true`, the string
 
 ### Array
 
-TODO
+In addition to accepting arrays, array inputs will convert
+`ActiveRecord::Relation`s into arrays.
+
+``` rb
+class ArrayInteraction < ActiveInteraction::Base
+  array :toppings
+
+  def execute
+    toppings.size
+  end
+end
+
+ArrayInteraction.run!(toppings: 'everything')
+# ActiveInteraction::InvalidInteractionError: Toppings is not a valid array
+
+ArrayInteraction.run!(toppings: [:cheese, 'pepperoni'])
+# => 2
+```
+
+Use a block to constrain the types of elements an array can contain.
+
+``` rb
+array :birthdays do
+  date
+end
+```
+
+Note that filters inside an array block don't have names. Also you can only
+have one filter inside an array block.
 
 ### Boolean
 
