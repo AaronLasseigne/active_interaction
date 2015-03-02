@@ -591,7 +591,7 @@ Having missing or invalid inputs causes the interaction to fail and return
 errors.
 
 ``` rb
-outcome = BuyItem.run({item: 'Thing', options: {gift_wrapped: 'yes'}})
+outcome = BuyItem.run(item: 'Thing', options: { gift_wrapped: 'yes' })
 outcome.errors.messages
 # => {:credit_card=>["is required"], :item=>["is not a valid model"], :options=>["has an invalid nested value (\"gift_wrapped\" => \"yes\")"]}
 ```
