@@ -484,6 +484,45 @@ helpful to group them by model. That way you can look in
 
 ### Composition
 
+You can run interactions from within other interactions with `#compose`. If the
+interaction is successful, it'll return the result (just like if you had called
+it with `.run!`). If something went wrong, execution will halt immediately and
+the errors will be moved onto the caller.
+
+``` rb
+class Add < ActiveInteraction::Base
+  integer :x, :y
+
+  def execute
+    x + y
+  end
+end
+
+class AddThree < ActiveInteraction::Base
+  integer :x
+
+  def execute
+    compose(Add, x: x, y: 3)
+  end
+end
+
+AddThree.run!(x: 5)
+# => 8
+```
+
+To bring in filters from another interaction, use `.import_filters`. Combined
+with inputs, delegating to another interaction is a piece of cake.
+
+``` rb
+class AddAndDouble < ActiveInteraction::Base
+  import_filters Add
+
+  def execute
+    compose(Add, inputs) * 2
+  end
+end
+```
+
 ### Errors
 
 ### Forms
