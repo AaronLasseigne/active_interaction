@@ -615,7 +615,24 @@ def execute
 end
 ```
 
-TODO: Merging errors.
+ActiveInteraction also supports merging errors. This is useful if you want to
+delegate validation to some other object. For example, if you have an
+interaction that updates a record, you might want that record to validate
+itself. By using the `#merge!` helper on `errors`, you can do exactly that.
+
+``` rb
+class UpdateThing < ActiveInteraction::Base
+  model :thing
+
+  def execute
+    if thing.save
+      thing
+    else
+      errors.merge!(thing.errors)
+    end
+  end
+end
+```
 
 ### Forms
 
