@@ -295,10 +295,14 @@ in [the errors section](#errors).
 
 #### Create
 
+The create action has a lot in common with the new action. Both of them use the
+`CreateAccount` interaction. And if creating the account fails, this action
+falls back to rendering the new action.
+
 ``` rb
 # POST /accounts
 def create
-  outcome = CreateAccount.run(params[:account])
+  outcome = CreateAccount.run(params.fetch(:account, {}))
 
   if outcome.valid?
     redirect_to(outcome.result)
@@ -309,7 +313,12 @@ def create
 end
 ```
 
+Note that we have to pass a hash to `.run`. Passing `nil` is an error.
+
 #### Destroy
+
+The destroy action will reuse the `#find_account!` helper method we wrote
+earlier.
 
 ``` rb
 # DELETE /accounts/:id
@@ -319,6 +328,11 @@ def destroy
   redirect_to(accounts_url)
 end
 ```
+
+In this simple example, the destroy interaction doesn't do much. It's not clear
+that you gain anything by putting it in an interaction. But in the future, when
+you need to do more than `account.destroy`, you'll only have to update one
+spot.
 
 ``` rb
 class DestroyAccount < ActiveInteraction::Base
@@ -332,32 +346,26 @@ end
 
 #### Edit
 
+Just like the destroy action, editing uses the `#find_account!` helper. Then it
+creates a new interaction instance to use as a form object.
+
 ``` rb
 # GET /accounts/:id/edit
 def edit
   account = find_account!
-  inputs = account.attributes.merge(account: account)
-  @account = UpdateAccount.new(inputs)
+  @account = UpdateAccount.new(
+    account: account,
+    first_name: account.first_name,
+    last_name: account.last_name)
 end
 ```
 
-#### Update
+The interaction that updates accounts is more complicated than the others. It
+requires an account to update, but the other inputs are optional. If they're
+missing, it'll ignore those attributes. If they're present, it'll update them.
 
-``` rb
-# PUT /accounts/:id
-def update
-  account = find_account!
-  inputs = params.fetch(:account, {}).merge(account: account)
-  outcome = UpdateAccount.run(inputs)
-
-  if outcome.valid?
-    redirect_to(outcome.result)
-  else
-    @account = outcome
-    render(:edit)
-  end
-end
-```
+ActiveInteraction generates predicate methods (like `#first_name?`) for your
+inputs. They will return `false` if the input is `nil` and `true` otherwise.
 
 ``` rb
 class UpdateAccount < ActiveInteraction::Base
@@ -382,6 +390,29 @@ class UpdateAccount < ActiveInteraction::Base
     else
       errors.merge(account.errors)
     end
+  end
+end
+```
+
+#### Update
+
+Hopefully you've gotten the hang of this by now. We'll use `#find_account!` to
+get the account. Then we'll build up the inputs for `UpdateAccount`. Then we'll
+run the interaction and either redirect to the updated account or back to the
+edit page.
+
+``` rb
+# PUT /accounts/:id
+def update
+  account = find_account!
+  inputs = { account: account }.reverse_merge(params[:account])
+  outcome = UpdateAccount.run(inputs)
+
+  if outcome.valid?
+    redirect_to(outcome.result)
+  else
+    @account = outcome
+    render(:edit)
   end
 end
 ```
