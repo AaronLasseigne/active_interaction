@@ -514,8 +514,6 @@ TODO
 
 ## Advanced usage
 
-TODO
-
 ### Callbacks
 
 ActiveModel provides a powerful framework for defining callbacks.
