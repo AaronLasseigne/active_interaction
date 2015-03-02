@@ -518,7 +518,44 @@ TODO
 
 ### Callbacks
 
-TODO
+ActiveModel provides a powerful framework for defining callbacks.
+ActiveInteraction hooks into that framework to allow hooking into various parts
+of an interaction's lifecycle.
+
+``` rb
+class Increment < ActiveInteraction::Base
+  set_callback :type_check, :before, -> { puts 'before type check' }
+
+  integer :x
+
+  set_callback :validate, :after, -> { puts 'after validate' }
+
+  validates :x,
+    numericality: { greater_than_or_equal_to: 0 }
+
+  set_callback :execute, :around, lambda { |_, block|
+    puts '>>>'
+    block.call
+    puts '<<<'
+  }
+
+  def execute
+    puts 'executing'
+    x + 1
+  end
+end
+
+Increment.run!(x: 1)
+# before type check
+# after validate
+# >>>
+# executing
+# <<<
+# => 2
+```
+
+In order, the available callbacks are `type_check`, `validate`, and `execute`.
+You can set `before`, `after`, or `around` on any of them.
 
 ### Composition
 
