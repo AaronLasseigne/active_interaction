@@ -54,7 +54,6 @@ Read more on [the project page][] or check out [the full documentation][].
 - [Filters](#filters)
   - [Array](#array)
   - [Boolean](#boolean)
-  - [Decimal](#decimal)
   - [File](#file)
   - [Hash](#hash)
   - [Interface](#interface)
@@ -66,6 +65,7 @@ Read more on [the project page][] or check out [the full documentation][].
     - [Date and time](#date-and-time)
     - [Time](#time)
   - [Numbers](#numbers)
+    - [Decimal](#decimal)
     - [Float](#float)
     - [Integer](#integer)
 - [Advanced usage](#advanced-usage)
@@ -456,10 +456,6 @@ TODO
 
 TODO
 
-### Decimal
-
-TODO
-
 ### File
 
 TODO
@@ -501,6 +497,10 @@ TODO
 TODO
 
 ### Numbers
+
+TODO
+
+#### Decimal
 
 TODO
 
