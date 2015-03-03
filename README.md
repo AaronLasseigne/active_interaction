@@ -534,7 +534,25 @@ BooleanInteraction.run!(kool_aid: true)
 
 ### File
 
-TODO
+File inputs also accept tempfiles and anything that responds to `#tempfile`.
+That means that you can pass the `params` from uploading files via forms in
+Rails.
+
+``` rb
+class FileInteraction < ActiveInteraction::Base
+  file :readme
+
+  def execute
+    readme.size
+  end
+end
+
+FileInteraction.run!(readme: 'README.md')
+# ActiveInteraction::InvalidInteractionError: Readme is not a valid file
+
+FileInteraction.run!(readme: File.open('README.md'))
+# => 21563
+```
 
 ### Hash
 
