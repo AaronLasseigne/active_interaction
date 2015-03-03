@@ -513,7 +513,24 @@ have one filter inside an array block.
 
 ### Boolean
 
-TODO
+Boolean inputs convert the strings `"1"` and `"true"` (case-insensitive) into
+`true`. They also convert `"0"` and `"false"` into `false`.
+
+``` rb
+class BooleanInteraction < ActiveInteraction::Base
+  boolean :kool_aid
+
+  def execute
+    'Oh yeah!' if kool_aid
+  end
+end
+
+BooleanInteraction.run!(kool_aid: 1)
+# ActiveInteraction::InvalidInteractionError: Kool aid is not a valid boolean
+
+BooleanInteraction.run!(kool_aid: true)
+# => "Oh yeah!"
+```
 
 ### File
 
