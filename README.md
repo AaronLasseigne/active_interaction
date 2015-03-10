@@ -556,7 +556,56 @@ FileInteraction.run!(readme: File.open('README.md'))
 
 ### Hash
 
-TODO
+Hash inputs accept hashes. They require keys to be either strings or symbols.
+The expected value types are given by passing a block and nesting other inputs.
+You can have any number of inputs inside a hash, including other hashes.
+
+``` rb
+class HashInteraction < ActiveInteraction::Base
+  hash :preferences do
+    boolean :newsletter
+    boolean :sweepstakes
+  end
+
+  def execute
+    puts 'Thanks for joining the newsletter!' if preferences[:newsletter]
+    puts 'Good luck in the sweepstakes!' if preferences[:sweepstakes]
+  end
+end
+
+HashInteraction.run!(preferences: 'yes, no')
+# ActiveInteraction::InvalidInteractionError: Preferences is not a valid hash
+
+HashInteraction.run!(preferences: { newsletter: true, 'sweepstakes' => false })
+# Thanks for joining the newsletter!
+# => nil
+```
+
+Setting default hash values can be tricky. The default value has to be either
+`nil` or `{}`. Use `nil` to make the hash optional. Use `{}` if you want to set
+some defaults for values inside the hash.
+
+``` rb
+hash :optional,
+  default: nil
+# => {:optional=>nil}
+
+hash :with_defaults,
+  default: {} do
+    boolean :likes_cookies,
+      default: true
+  end
+# => {:with_defaults=>{:likes_cookies=>true}}
+```
+
+By default, hashes remove any keys that aren't given as nested inputs. To allow
+all hash keys, set `strip: false`. In general we don't recommend doing this,
+but it's sometimes necessary.
+
+``` rb
+hash :stuff,
+  strip: false
+```
 
 ### Interface
 
