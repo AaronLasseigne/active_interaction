@@ -513,7 +513,7 @@ have one filter inside an array block.
 
 ### Boolean
 
-Boolean inputs convert the strings `"1"` and `"true"` (case-insensitive) into
+Boolean filters convert the strings `"1"` and `"true"` (case-insensitive) into
 `true`. They also convert `"0"` and `"false"` into `false`.
 
 ``` rb
@@ -534,7 +534,7 @@ BooleanInteraction.run!(kool_aid: true)
 
 ### File
 
-File inputs also accept tempfiles and anything that responds to `#tempfile`.
+File filters also accept tempfiles and anything that responds to `#tempfile`.
 That means that you can pass the `params` from uploading files via forms in
 Rails.
 
@@ -556,9 +556,10 @@ FileInteraction.run!(readme: File.open('README.md'))
 
 ### Hash
 
-Hash inputs accept hashes. They require keys to be either strings or symbols.
-The expected value types are given by passing a block and nesting other inputs.
-You can have any number of inputs inside a hash, including other hashes.
+Hash filters accept hashes. They require keys to be either strings or symbols.
+The expected value types are given by passing a block and nesting other
+filters. You can have any number of filters inside a hash, including other
+hashes.
 
 ``` rb
 class HashInteraction < ActiveInteraction::Base
@@ -598,9 +599,9 @@ hash :with_defaults,
 # => {:with_defaults=>{:likes_cookies=>true}}
 ```
 
-By default, hashes remove any keys that aren't given as nested inputs. To allow
-all hash keys, set `strip: false`. In general we don't recommend doing this,
-but it's sometimes necessary.
+By default, hashes remove any keys that aren't given as nested filters. To
+allow all hash keys, set `strip: false`. In general we don't recommend doing
+this, but it's sometimes necessary.
 
 ``` rb
 hash :stuff,
@@ -609,11 +610,11 @@ hash :stuff,
 
 ### Interface
 
-Interface inputs allow you to specify that an object must respond to a certain
+Interface filters allow you to specify that an object must respond to a certain
 set of methods. This allows you to do duck typing with interactions.
 
 ``` rb
-class InterfaceFilter < ActiveInteraction::Base
+class InterfaceInteraction < ActiveInteraction::Base
   interface :serializer,
     methods: %i[dump load]
 
@@ -626,17 +627,17 @@ class InterfaceFilter < ActiveInteraction::Base
   end
 end
 
-InterfaceFilter.run!(serializer: Object.new)
+InterfaceInteraction.run!(serializer: Object.new)
 # ActiveInteraction::InvalidInteractionError: Serializer is not a valid interface
 
 require 'json'
-InterfaceFilter.run!(serializer: JSON)
+InterfaceInteraction.run!(serializer: JSON)
 # => "{\"is_json\":true}"
 ```
 
 ### Model
 
-Model inputs allow you to require an instance of a particular class. It checks
+Model filters allow you to require an instance of a particular class. It checks
 either `#is_a?` on the instance or `.===` on the class.
 
 ``` rb
@@ -646,7 +647,7 @@ class Cow
   end
 end
 
-class ModelFilter < ActiveInteraction::Base
+class ModelInteraction < ActiveInteraction::Base
   model :cow
 
   def execute
@@ -654,13 +655,13 @@ class ModelFilter < ActiveInteraction::Base
   end
 end
 
-ModelFilter.run!(cow: Object.new)
+ModelInteraction.run!(cow: Object.new)
 # ActiveInteraction::InvalidInteractionError: Cow is not a valid model
-ModelFilter.run!(cow: Cow.new)
+ModelInteraction.run!(cow: Cow.new)
 # => "Moo!"
 ```
 
-The class name is automatically determined by the input name. If your input
+The class name is automatically determined by the filter name. If your filter
 name is different than your class name, use the `class` option. It can be
 either the class, a string, or a symbol.
 
@@ -785,7 +786,7 @@ AddThree.run!(x: 5)
 ```
 
 To bring in filters from another interaction, use `.import_filters`. Combined
-with inputs, delegating to another interaction is a piece of cake.
+with `inputs`, delegating to another interaction is a piece of cake.
 
 ``` rb
 class AddAndDouble < ActiveInteraction::Base
