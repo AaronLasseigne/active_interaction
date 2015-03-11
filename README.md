@@ -800,19 +800,66 @@ time :start,
 
 ### Numbers
 
-TODO
+All numeric filters accept numeric input. They will also convert strings using
+the appropriate method from `Kernel` (like `.Float`).
 
 #### Decimal
 
-TODO
+``` rb
+class DecimalInteraction < ActiveInteraction::Base
+  decimal :price
+
+  def execute
+    price * 1.0825
+  end
+end
+
+DecimalInteraction.run!(price: 'one ninety-nine')
+# ActiveInteraction::InvalidInteractionError: Price is not a valid decimal
+DecimalInteraction.run!(price: BigDecimal.new(1.99, 2))
+# => #<BigDecimal:7fe792a42028,'0.2165E1',18(45)>
+```
+
+To specify the number of significant digits, use the `digits` option.
+
+``` rb
+decimal :dollars,
+  digits: 2
+```
 
 #### Float
 
-TODO
+``` rb
+class FloatInteraction < ActiveInteraction::Base
+  float :x
+
+  def execute
+    x**2
+  end
+end
+
+FloatInteraction.run!(x: 'two point one')
+# ActiveInteraction::InvalidInteractionError: X is not a valid float
+FloatInteraction.run!(x: 2.1)
+# => 4.41
+```
 
 #### Integer
 
-TODO
+``` rb
+class IntegerInteraction < ActiveInteraction::Base
+  integer :limit
+
+  def execute
+    limit.downto(0).to_a
+  end
+end
+
+IntegerInteraction.run!(limit: 'ten')
+# ActiveInteraction::InvalidInteractionError: Limit is not a valid integer
+IntegerInteraction.run!(limit: 10)
+# => [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+```
 
 ## Advanced usage
 
