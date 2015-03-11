@@ -73,6 +73,7 @@ Read more on [the project page][] or check out [the full documentation][].
 - [Advanced usage](#advanced-usage)
   - [Callbacks](#callbacks)
   - [Composition](#composition)
+  - [Descriptions](#descriptions)
   - [Errors](#errors)
   - [Forms](#forms)
   - [Predicates](#predicates)
@@ -210,7 +211,8 @@ Each method has the same signature:
     optional, set `default: nil`.
 
   - `desc` is a human-readable description of the input. This can be useful for
-    generating documentation.
+    generating documentation. For more information about this, read [the
+    descriptions section](#descriptions).
 
 - An optional block of sub-filters. Only [array](#array) and [hash](#hash)
   filters support this. Other filters will ignore blocks when given to them.
@@ -969,6 +971,28 @@ class AddAndDouble < ActiveInteraction::Base
     compose(Add, inputs) * 2
   end
 end
+```
+
+### Descriptions
+
+Use the `desc` option to provide human-readable descriptions of filters. You
+should prefer these to comments because they can be used to generate
+documentation. The interaction class has a `.filters` method that returns a
+hash of filters. Each filter has a `#desc` method that returns the description.
+
+``` rb
+class Descriptive < ActiveInteraction::Base
+  string :first_name,
+    desc: 'your first name'
+  string :last_name,
+    desc: 'your last name'
+end
+
+Descriptive.filters.each do |name, filter|
+  puts "#{name}: #{filter.desc}"
+end
+# first_name: your first name
+# last_name: your last name
 ```
 
 ### Errors
