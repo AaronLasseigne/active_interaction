@@ -103,15 +103,16 @@ and ActiveModel (3.2 through 4.2).
 To define an interaction, create a subclass of `ActiveInteraction::Base`. Then
 you need to do two things:
 
-1.  Define your inputs. Use class methods to define what you expect your
-    parameters to look like. For instance, if you need a boolean flag for
-    pepperoni, use `boolean :wants_pepperoni`. Check out [the filters
+1.  **Define your inputs.** Use class filter methods to define what you expect
+    your inputs to look like. For instance, if you need a boolean flag for
+    pepperoni, use `boolean :pepperoni`. Check out [the filters
     section](#filters) for all the available options.
 
-2.  Define your business logic. Do this by implementing the `#execute` method.
-    Each input you defined will be available as the type you specified. If any
-    of the inputs are invalid, `#execute` won't be run. Check out [the
-    validations section](#validations) if you need more than type checking.
+2.  **Define your business logic.** Do this by implementing the `#execute`
+    method. Each input you defined will be available as the type you specified.
+    If any of the inputs are invalid, `#execute` won't be run. Filters are
+    responsible for type checking your inputs. Check out [the validations
+    section](#validations) if you need more than that.
 
 That covers the basics. Let's put it all together into a simple example that
 squares a number.
@@ -132,20 +133,20 @@ Call `.run` on your interaction to execute it. You must pass a single hash to
 `.run`. It will return an instance of your interaction. By convention, we call
 this an outcome. You can use the `#valid?` method to ask the outcome if it's
 valid. If it's invalid, take a look at its errors with `#errors`. If it's
-valid, you can get the result through `#result`.
+valid, `#result` will be the value returned from `#execute`.
 
 ``` rb
-outcome = Square.run(x: 'two point three')
+outcome = Square.run(x: 'two point one')
 outcome.valid?
 # => nil
 outcome.errors.messages
 # => {:x=>["is not a valid float"]}
 
-outcome = Square.run(x: 2.3)
+outcome = Square.run(x: 2.1)
 outcome.valid?
 # => true
 outcome.result
-# => 5.289999999999999
+# => 4.41
 ```
 
 You can also use `.run!` to execute interactions. It's like `.run` but more
@@ -154,18 +155,13 @@ will instead raise an error. But if the outcome would be valid, it simply
 returns the result.
 
 ``` rb
-Square.run!(x: 'two point three')
+Square.run!(x: 'two point one')
 # ActiveInteraction::InvalidInteractionError: X is not a valid float
-
-Square.run!(x: 2.3)
-# => 5.289999999999999
+Square.run!(x: 2.1)
+# => 4.41
 ```
 
 ### Rails
-
-ActiveInteraction is designed to work well with Rails. Use interactions to
-handle your business logic instead of models or controllers. Let's take a look
-at a complete example of a controller with the typical resourceful actions.
 
 ActiveInteraction plays nicely with Rails. You can use interactions to handle
 your business logic instead of models or controllers. To see how it all works,
@@ -173,8 +169,6 @@ let's take a look at a complete example of a controller with the typical
 resourceful actions.
 
 #### Index
-
-The index action is as good a place as any to start.
 
 ``` rb
 # GET /accounts
@@ -224,7 +218,7 @@ end
 
 Inside the interaction, we could use `#find` instead of `#find_by_id`. That way
 we wouldn't need the `#find_account!` helper method in the controller because
-the error would bubble all the way up. However you should try to avoid raising
+the error would bubble all the way up. However, you should try to avoid raising
 errors from interactions. If you do, you'll have to deal with raised exceptions
 as well as the validity of the outcome.
 
@@ -324,8 +318,7 @@ earlier.
 ``` rb
 # DELETE /accounts/:id
 def destroy
-  account = find_account!
-  DestroyAccount.run!(account: account)
+  DestroyAccount.run!(account: find_account!)
   redirect_to(accounts_url)
 end
 ```
@@ -405,8 +398,7 @@ edit page.
 ``` rb
 # PUT /accounts/:id
 def update
-  account = find_account!
-  inputs = { account: account }.reverse_merge(params[:account])
+  inputs = { account: find_account! }.reverse_merge(params[:account])
   outcome = UpdateAccount.run(inputs)
 
   if outcome.valid?
@@ -468,7 +460,7 @@ Let's take a look at an example filter. It defines three inputs: `x`, `y`, and
 example filter").
 
 ``` rb
-filter :x, :y, :z,
+array :x, :y, :z,
   default: nil,
   desc: 'an example filter' do
     # Some filters support sub-filters here.
@@ -496,7 +488,6 @@ end
 
 ArrayInteraction.run!(toppings: 'everything')
 # ActiveInteraction::InvalidInteractionError: Toppings is not a valid array
-
 ArrayInteraction.run!(toppings: [:cheese, 'pepperoni'])
 # => 2
 ```
@@ -528,14 +519,13 @@ end
 
 BooleanInteraction.run!(kool_aid: 1)
 # ActiveInteraction::InvalidInteractionError: Kool aid is not a valid boolean
-
 BooleanInteraction.run!(kool_aid: true)
 # => "Oh yeah!"
 ```
 
 ### File
 
-File filters also accept tempfiles and anything that responds to `#tempfile`.
+File filters also accept `TempFile`s and anything that responds to `#tempfile`.
 That means that you can pass the `params` from uploading files via forms in
 Rails.
 
@@ -550,17 +540,15 @@ end
 
 FileInteraction.run!(readme: 'README.md')
 # ActiveInteraction::InvalidInteractionError: Readme is not a valid file
-
 FileInteraction.run!(readme: File.open('README.md'))
 # => 21563
 ```
 
 ### Hash
 
-Hash filters accept hashes. They require keys to be either strings or symbols.
-The expected value types are given by passing a block and nesting other
-filters. You can have any number of filters inside a hash, including other
-hashes.
+Hash filters accept hashes. The expected value types are given by passing a
+block and nesting other filters. You can have any number of filters inside a
+hash, including other hashes.
 
 ``` rb
 class HashInteraction < ActiveInteraction::Base
@@ -577,7 +565,6 @@ end
 
 HashInteraction.run!(preferences: 'yes, no')
 # ActiveInteraction::InvalidInteractionError: Preferences is not a valid hash
-
 HashInteraction.run!(preferences: { newsletter: true, 'sweepstakes' => false })
 # Thanks for joining the newsletter!
 # => nil
@@ -628,10 +615,10 @@ class InterfaceInteraction < ActiveInteraction::Base
   end
 end
 
+require 'json'
+
 InterfaceInteraction.run!(serializer: Object.new)
 # ActiveInteraction::InvalidInteractionError: Serializer is not a valid interface
-
-require 'json'
 InterfaceInteraction.run!(serializer: JSON)
 # => "{\"is_json\":true}"
 ```
@@ -881,7 +868,7 @@ class Increment < ActiveInteraction::Base
   validates :x,
     numericality: { greater_than_or_equal_to: 0 }
 
-  set_callback :execute, :around, lambda { |_, block|
+  set_callback :execute, :around, lambda { |_interaction, block|
     puts '>>>'
     block.call
     puts '<<<'
@@ -966,7 +953,7 @@ class BuyItem < ActiveInteraction::Base
     order
   end
 
-  def notify(account)
+  private def notify(account)
     # ...
   end
 end
