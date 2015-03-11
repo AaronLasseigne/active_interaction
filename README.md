@@ -62,7 +62,7 @@ Read more on [the project page][] or check out [the full documentation][].
   - [Symbol](#symbol)
   - [Dates and times](#dates-and-times)
     - [Date](#date)
-    - [Date and time](#date-and-time)
+    - [DateTime](#datetime)
     - [Time](#time)
   - [Numbers](#numbers)
     - [Decimal](#decimal)
@@ -752,7 +752,7 @@ date :birthday,
   format: '%Y-%m-%d'
 ```
 
-#### Date and time
+#### DateTime
 
 ``` rb
 class DateTimeInteraction < ActiveInteraction::Base
