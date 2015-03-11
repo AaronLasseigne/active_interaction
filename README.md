@@ -73,6 +73,7 @@ Read more on [the project page][] or check out [the full documentation][].
   - [Composition](#composition)
   - [Errors](#errors)
   - [Forms](#forms)
+  - [Predicates](#predicates)
   - [Translations](#translations)
   - [Validations](#validations)
 - [Credits](#credits)
@@ -1021,6 +1022,30 @@ end
 ### Forms
 
 TODO
+
+### Predicates
+
+ActiveInteraction creates a predicate method for every input defined by a filter. So if you have an input called `foo`, there will be a predicate method called `#foo?`. That method will tell you if the input was given (that is, if it was not `nil`).
+
+``` rb
+class SayHello < ActiveInteraction::Base
+  string :name,
+    default: nil
+
+  def execute
+    if name?
+      "Hello, #{name}!"
+    else
+      "Howdy, stranger!"
+    end
+  end
+end
+
+SayHello.run!(name: nil)
+# => "Howdy, stranger!"
+SayHello.run!(name: 'Taylor')
+# => "Hello, Taylor!"
+```
 
 ### Translations
 
