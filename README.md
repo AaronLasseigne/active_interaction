@@ -42,6 +42,7 @@ Read more on [the project page][] or check out [the full documentation][].
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
+  - [Validations](#validations)
   - [Rails](#rails)
     - [Index](#index)
     - [Show](#show)
@@ -75,7 +76,6 @@ Read more on [the project page][] or check out [the full documentation][].
   - [Forms](#forms)
   - [Predicates](#predicates)
   - [Translations](#translations)
-  - [Validations](#validations)
 - [Credits](#credits)
 
 ## Installation
@@ -159,6 +159,41 @@ Square.run!(x: 'two point one')
 # ActiveInteraction::InvalidInteractionError: X is not a valid float
 Square.run!(x: 2.1)
 # => 4.41
+```
+
+### Validations
+
+ActiveInteraction type checks your inputs. Often you'll want more than that.
+For instance, you may want an input to be a string with at least one
+non-whitespace character. Instead of writing your own validation for that, you
+can use validations from ActiveModel.
+
+``` rb
+class SayHello < ActiveInteraction::Base
+  string :name
+
+  validates :name,
+    presence: true
+
+  def execute
+    "Hello, #{name}!"
+  end
+end
+```
+
+When you run this interaction, two things will happen. First ActiveInteraction
+will type check your inputs. Then ActiveModel will validate them. If both of
+those are happy, it will be executed.
+
+``` rb
+SayHello.run!(name: nil)
+# ActiveInteraction::InvalidInteractionError: Name is required
+
+SayHello.run!(name: '')
+# ActiveInteraction::InvalidInteractionError: Name can't be blank
+
+SayHello.run!(name: 'Taylor')
+# => "Hello, Taylor!"
 ```
 
 ### Rails
@@ -1082,41 +1117,6 @@ I18nInteraction.run(name: false).errors.messages[:name]
 I18n.locale = :hsilgne
 I18nInteraction.run(name: false).errors.messages[:name]
 # => ["gnirts dilav a ton si"]
-```
-
-### Validation
-
-ActiveInteraction type checks your inputs. Often you'll want more than that.
-For instance, you may want an input to be a string with at least one
-non-whitespace character. Instead of writing your own validation for that, you
-can use validations from ActiveModel.
-
-``` rb
-class SayHello < ActiveInteraction::Base
-  string :name
-
-  validates :name,
-    presence: true
-
-  def execute
-    "Hello, #{name}!"
-  end
-end
-```
-
-When you run this interaction, two things will happen. First ActiveInteraction
-will type check your inputs. Then ActiveModel will validate them. If both of
-those are happy, it will be executed.
-
-``` rb
-SayHello.run!(name: nil)
-# ActiveInteraction::InvalidInteractionError: Name is required
-
-SayHello.run!(name: '')
-# ActiveInteraction::InvalidInteractionError: Name can't be blank
-
-SayHello.run!(name: 'Taylor')
-# => "Hello, Taylor!"
 ```
 
 ## Credits
