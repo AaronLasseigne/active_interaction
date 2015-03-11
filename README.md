@@ -676,7 +676,30 @@ model :dolly3,
 
 ### String
 
-TODO
+String filters define inputs that only accept strings.
+
+``` rb
+class StringInteraction < ActiveInteraction::Base
+  string :name
+
+  def execute
+    "Hello, #{name}!"
+  end
+end
+
+StringInteraction.run!(name: 0xDEADBEEF)
+# ActiveInteraction::InvalidInteractionError: Name is not a valid string
+StringInteraction.run!(name: 'Taylor')
+# => "Hello, Taylor!"
+```
+
+If you want to strip leading and trailing whitespace from a string, set the
+`strip` option to `true`.
+
+``` rb
+string :comment,
+  strip: true
+```
 
 ### Symbol
 
