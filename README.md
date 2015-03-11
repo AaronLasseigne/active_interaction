@@ -636,7 +636,42 @@ InterfaceFilter.run!(serializer: JSON)
 
 ### Model
 
-TODO
+Model inputs allow you to require an instance of a particular class. It checks
+either `#is_a?` on the instance or `.===` on the class.
+
+``` rb
+class Cow
+  def moo
+    'Moo!'
+  end
+end
+
+class ModelFilter < ActiveInteraction::Base
+  model :cow
+
+  def execute
+    cow.moo
+  end
+end
+
+ModelFilter.run!(cow: Object.new)
+# ActiveInteraction::InvalidInteractionError: Cow is not a valid model
+ModelFilter.run!(cow: Cow.new)
+# => "Moo!"
+```
+
+The class name is automatically determined by the input name. If your input
+name is different than your class name, use the `class` option. It can be
+either the class, a string, or a symbol.
+
+``` rb
+model :dolly1,
+  class: Sheep
+model :dolly2,
+  class: 'Sheep'
+model :dolly3,
+  class: :Sheep
+```
 
 ### String
 
