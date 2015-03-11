@@ -95,7 +95,7 @@ $ gem install active_interaction --version '~> 1.5'
 This project uses [Semantic Versioning][]. Check out [the change log][] for a
 detailed list of changes.
 
-ActiveInteraction works will all supported versions of Ruby (2.0 through 2.2)
+ActiveInteraction works with all supported versions of Ruby (2.0 through 2.2)
 and ActiveModel (3.2 through 4.2).
 
 ## Basic usage
