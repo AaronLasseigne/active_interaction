@@ -723,19 +723,80 @@ SymbolInteraction.run!(method: :object_id)
 
 ### Dates and times
 
-TODO
+Filters that work with dates and times behave similarly. By default, they all
+convert strings into their expected data types using `.parse`. If you give the
+`format` option, they will instead convert strings using `.strptime`. Note that
+formats won't work if time zones are available (through
+`ActiveSupport::TimeWithZone`).
 
 #### Date
 
-TODO
+``` rb
+class DateInteraction < ActiveInteraction::Base
+  date :birthday
+
+  def execute
+    birthday + (18 * 365)
+  end
+end
+
+DateInteraction.run!(birthday: 'yesterday')
+# ActiveInteraction::InvalidInteractionError: Birthday is not a valid date
+DateInteraction.run!(birthday: Date.new(1989, 9, 1))
+# => #<Date: 2007-08-28 ((2454341j,0s,0n),+0s,2299161j)>
+```
+
+``` rb
+date :birthday,
+  format: '%Y-%m-%d'
+```
 
 #### Date and time
 
-TODO
+``` rb
+class DateTimeInteraction < ActiveInteraction::Base
+  date_time :now
+
+  def execute
+    now.iso8601
+  end
+end
+
+DateTimeInteraction.run!(now: 'now')
+# ActiveInteraction::InvalidInteractionError: Now is not a valid date time
+DateTimeInteraction.run!(now: DateTime.now)
+# => "2015-03-11T11:04:40-05:00"
+```
+
+``` rb
+date_time :start,
+  format: '%Y-%m-%dT%H:%M:%S'
+```
 
 #### Time
 
-TODO
+In addition to converting strings with `.parse` (or `.strptime`), time filters
+convert numbers with `.at`.
+
+``` rb
+class TimeInteraction < ActiveInteraction::Base
+  time :epoch
+
+  def execute
+    Time.now - epoch
+  end
+end
+
+TimeInteraction.run!(epoch: 'a long, long time ago')
+# ActiveInteraction::InvalidInteractionError: Epoch is not a valid time
+TimeInteraction.run!(epoch: Time.new(1970))
+# => 1426068362.5136619
+```
+
+``` rb
+time :start,
+  format: '%Y-%m-%dT%H:%M:%S'
+```
 
 ### Numbers
 
