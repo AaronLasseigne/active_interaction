@@ -609,7 +609,30 @@ hash :stuff,
 
 ### Interface
 
-TODO
+Interface inputs allow you to specify that an object must respond to a certain
+set of methods. This allows you to do duck typing with interactions.
+
+``` rb
+class InterfaceFilter < ActiveInteraction::Base
+  interface :serializer,
+    methods: %i[dump load]
+
+  def execute
+    input = '{ "is_json" : true }'
+    object = serializer.load(input)
+    output = serializer.dump(object)
+
+    output
+  end
+end
+
+InterfaceFilter.run!(serializer: Object.new)
+# ActiveInteraction::InvalidInteractionError: Serializer is not a valid interface
+
+require 'json'
+InterfaceFilter.run!(serializer: JSON)
+# => "{\"is_json\":true}"
+```
 
 ### Model
 
