@@ -703,7 +703,23 @@ string :comment,
 
 ### Symbol
 
-TODO
+Symbol filters define inputs that accept symbols. Strings will be converted
+into symbols.
+
+``` rb
+class SymbolInteraction < ActiveInteraction::Base
+  symbol :method
+
+  def execute
+    method.to_proc
+  end
+end
+
+SymbolInteraction.run!(method: -> {})
+# ActiveInteraction::InvalidInteractionError: Method is not a valid symbol
+SymbolInteraction.run!(method: :object_id)
+# => #<Proc:0x007fdc9ba94118>
+```
 
 ### Dates and times
 
