@@ -1087,7 +1087,7 @@ end
 
 ### Forms
 
-The result of calling `.new` on an ActiveInteraction and the outcome returned by `.run` can both be used in forms as though they were ActiveModel objects.
+The outcome returned by `.run` can be used in forms as though it were an ActiveModel object. You can also create a form object by calling `.new` on the interaction.
 
 Given an application with an `Account` model we'll create a new `Account` using the `CreateAccount` interaction.
 
