@@ -1087,7 +1087,61 @@ end
 
 ### Forms
 
-TODO
+The result of calling `.new` on an ActiveInteraction and the outcome returned by `.run` can both be used in forms as though they were ActiveModel objects.
+
+Given an application with an `Account` model we'll create a new `Account` using the `CreateAccount` interaction.
+
+```rb
+# GET /accounts/new
+def new
+  @account = CreateAccount.new
+end
+
+# POST /accounts
+def create
+  outcome = CreateAccount.run(params.fetch(:account, {}))
+
+  if outcome.valid?
+    redirect_to(outcome.result)
+  else
+    @account = outcome
+    render(:new)
+  end
+end
+```
+
+The form used to create a new `Account` has slightly more information on the `form_for` call than you might expect.
+
+```rb
+<%= form_for @account, as: :account, url: accounts_path do |f| %>
+  <%= f.text_field :first_name %>
+  <%= f.text_field :last_name %>
+  <%= f.submit 'Create' %>
+<% end %>
+```
+
+This is necessary because we want the form to act like it is creating a new `Account`. Defining `to_model` on the `CreateAccount` interaction tells the form to treat our interaction like an `Account`.
+
+```rb
+class CreateAccount < ActiveInteraction::Base
+  ...
+
+  def to_model
+    Account.new
+  end
+end
+```
+
+Now our `form_for` call knows how to generate the correct URL and param name (i.e. `params[:account]`).
+
+```rb
+# app/views/accounts/new.html.erb
+<%= form_for @account do |f| %>
+  ...
+<% end %>
+```
+
+ActiveInteraction also supports [formtastic][] and [simple_form][]. The filters used to define the inputs on your interaction will relay type information to these gems. As a result, form fields will automatically use the appropriate input type.
 
 ### Predicates
 
@@ -1187,3 +1241,5 @@ ActiveInteraction is licensed under [the MIT License][].
 [our contribution guidelines]: CONTRIBUTING.md
 [complete list of contributors]: https://github.com/orgsync/active_interaction/graphs/contributors
 [the mit license]: LICENSE.txt
+[formtastic]: https://rubygems.org/gems/formtastic
+[simple_form]: https://rubygems.org/gems/simple_form
