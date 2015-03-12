@@ -170,6 +170,10 @@ For instance, you may want an input to be a string with at least one
 non-whitespace character. Instead of writing your own validation for that, you
 can use validations from ActiveModel.
 
+These validations aren't provided by ActiveInteraction. They're from
+ActiveModel. You can also use any custom validations you wrote yourself in your
+interactions.
+
 ``` rb
 class SayHello < ActiveInteraction::Base
   string :name
@@ -388,7 +392,8 @@ InterfaceInteraction.run!(serializer: JSON)
 ### Model
 
 Model filters allow you to require an instance of a particular class. It checks
-either `#is_a?` on the instance or `.===` on the class.
+either `#is_a?` on the instance or `.===` on the class. Because of that, it
+also works with classes that have mixed modules in with `include`.
 
 ``` rb
 class Cow
@@ -476,8 +481,7 @@ SymbolInteraction.run!(method: :object_id)
 Filters that work with dates and times behave similarly. By default, they all
 convert strings into their expected data types using `.parse`. If you give the
 `format` option, they will instead convert strings using `.strptime`. Note that
-formats won't work if time zones are available (through
-`ActiveSupport::TimeWithZone`).
+formats won't work with `DateTime` and `Time` filters if a time zone is set.
 
 #### Date
 
@@ -668,6 +672,13 @@ def find_account!
 end
 ```
 
+This probably looks a little different than you're used to. Rails commonly
+handles this with a `before_filter` that sets the `@account` instance variable.
+Why is all this interaction code better? Two reasons: One, you can reuse the
+`FindAccount` interaction in other places, like your API controller or a Resque
+task. And two, if you want to change how accounts are found, you only have to
+change one place.
+
 Inside the interaction, we could use `#find` instead of `#find_by_id`. That way
 we wouldn't need the `#find_account!` helper method in the controller because
 the error would bubble all the way up. However, you should try to avoid raising
@@ -762,6 +773,11 @@ end
 
 Note that we have to pass a hash to `.run`. Passing `nil` is an error.
 
+Since we're using an interaction, we don't need strong parameters. The
+interaction will ignore any inputs that weren't defined by filters. So you can
+forget about `params.require` and `params.permit` because interactions handle
+that for you.
+
 #### Destroy
 
 The destroy action will reuse the `#find_account!` helper method we wrote
@@ -812,6 +828,7 @@ missing, it'll ignore those attributes. If they're present, it'll update them.
 
 ActiveInteraction generates predicate methods (like `#first_name?`) for your
 inputs. They will return `false` if the input is `nil` and `true` otherwise.
+Skip to [the predicates section](#predicates) for more information about them.
 
 ``` rb
 class UpdateAccount < ActiveInteraction::Base
