@@ -15,7 +15,7 @@ describe InterfaceInteraction do
     -> { [JSON, YAML].sample },
     methods: [:dump, :load]
 
-  it 'does not raise an error' do
+  it 'succeeds when given nil' do
     expect { result }.to_not raise_error
   end
 end
