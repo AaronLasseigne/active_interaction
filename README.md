@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="" src="https://a.pomf.se/rfetgu.svg">
+  <img alt="" src="https://a.pomf.se/rfetgu.svg" width="250">
 </p>
 
 <h1 align="center">
