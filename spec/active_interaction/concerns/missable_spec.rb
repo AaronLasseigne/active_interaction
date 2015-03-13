@@ -67,7 +67,7 @@ describe ActiveInteraction::Missable do
       end
 
       context 'with names' do
-        let(:names) { [:a, :b, :c] }
+        let(:names) { %i[a b c] }
 
         it 'yields' do
           expect do |b|
@@ -87,7 +87,7 @@ describe ActiveInteraction::Missable do
       end
 
       context 'with names & options' do
-        let(:names) { [:a, :b, :c] }
+        let(:names) {  %i[a b c] }
         let(:options) { { a: nil, b: false, c: true } }
 
         it 'yields' do

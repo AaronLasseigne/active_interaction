@@ -272,7 +272,7 @@ describe ActiveInteraction::Base do
           end
 
           it 'has symbolic errors' do
-            expect(outcome.errors.symbolic[:thing]).to eql [:error]
+            expect(outcome.errors.symbolic[:thing]).to eql %i[error]
           end
         end
 
@@ -484,7 +484,7 @@ describe ActiveInteraction::Base do
 
     context 'with :only' do
       context 'as an Array' do
-        include_examples 'import_filters examples', [:x], nil
+        include_examples 'import_filters examples', %i[x], nil
       end
 
       context 'as an Symbol' do
@@ -494,7 +494,7 @@ describe ActiveInteraction::Base do
 
     context 'with :except' do
       context 'as an Array' do
-        include_examples 'import_filters examples', nil, [:x]
+        include_examples 'import_filters examples', nil, %i[x]
       end
 
       context 'as an Symbol' do
@@ -503,7 +503,7 @@ describe ActiveInteraction::Base do
     end
 
     context 'with :only & :except' do
-      include_examples 'import_filters examples', [:x], [:x]
+      include_examples 'import_filters examples', %i[x], %i[x]
     end
   end
 

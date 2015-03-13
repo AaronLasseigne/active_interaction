@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   ] + Dir['lib/active_interaction/locale/**/*.yml']
 
   # Dependencies
-  spec.required_ruby_version = '>= 1.9.3'
+  spec.required_ruby_version = '>= 2.0.0'
 
   spec.add_dependency 'activemodel', '>= 3.2', '< 5'
 

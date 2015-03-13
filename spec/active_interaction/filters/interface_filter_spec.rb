@@ -8,7 +8,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  before { options[:methods] = [:dump, :load] }
+  before { options[:methods] = %i[dump load] }
 
   describe '#cast' do
     let(:result) { filter.cast(value) }
