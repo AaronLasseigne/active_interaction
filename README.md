@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="" src="https://a.pomf.se/frhpuf.svg">
+  <img alt="" src="https://a.pomf.se/rfetgu.svg">
 </p>
 
 <h1 align="center">
@@ -1229,6 +1229,8 @@ available on GitHub.
 
 ActiveInteraction is licensed under [the MIT License][].
 
+Logo design by [Tyler Lee][].
+
 [the project page]: http://orgsync.github.io/active_interaction/
 [the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
@@ -1243,3 +1245,4 @@ ActiveInteraction is licensed under [the MIT License][].
 [the mit license]: LICENSE.txt
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
+[tyler lee]: https://github.com/tylerlee
