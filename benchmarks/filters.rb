@@ -27,7 +27,7 @@ VALUES = {
   hash:      [Hash.new], # TODO
   integer:   [0, '0', 0.0],
   interface: [Object.new],
-  model:     [Object.new], # TODO: Reconstantizing.
+  object:    [Object.new], # TODO: Reconstantizing.
   string:    [''], # TODO: Without strip.
   symbol:    [:'', ''],
   time:      [Time.at(0), Time.at(0).to_s, 0] # TODO: TimeWithZone
