@@ -1,3 +1,7 @@
+## Changed
+
+- [#264][]: Renamed `model` filter to `object`.
+
 # [1.5.0][] (2015-02-05)
 
 ## Added
@@ -491,3 +495,4 @@
   [#239]: https://github.com/orgsync/active_interaction/issues/239
   [#244]: https://github.com/orgsync/active_interaction/issues/244
   [#248]: https://github.com/orgsync/active_interaction/issues/248
+  [#264]: https://github.com/orgsync/active_interaction/issues/264
