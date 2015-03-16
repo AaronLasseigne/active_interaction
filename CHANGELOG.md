@@ -1,4 +1,12 @@
-# [Master][]
+# [1.5.0][] (2015-02-05)
+
+## Added
+
+- [#248][]: Add `has_attribute?` support to an instance of an interaction.
+
+## Fixed
+
+- [#248][]: Fix support for simple_form gem.
 
 ## Changed
 
@@ -377,7 +385,7 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.4.1...master
+  [1.5.0]: https://github.com/orgsync/active_interaction/compare/v1.4.1...1.5.0
   [1.4.1]: https://github.com/orgsync/active_interaction/compare/v1.4.0...v1.4.1
   [1.4.0]: https://github.com/orgsync/active_interaction/compare/v1.3.1...v1.4.0
   [1.3.1]: https://github.com/orgsync/active_interaction/compare/v1.3.0...v1.3.1
@@ -496,3 +504,4 @@
   [#235]: https://github.com/orgsync/active_interaction/issues/235
   [#239]: https://github.com/orgsync/active_interaction/issues/239
   [#244]: https://github.com/orgsync/active_interaction/issues/244
+  [#248]: https://github.com/orgsync/active_interaction/issues/248
