@@ -49,7 +49,7 @@ Read more on [the project page][] or check out [the full documentation][].
   - [File](#file)
   - [Hash](#hash)
   - [Interface](#interface)
-  - [Model](#model)
+  - [Object](#object)
   - [String](#string)
   - [Symbol](#symbol)
   - [Dates and times](#dates-and-times)
@@ -389,11 +389,11 @@ InterfaceInteraction.run!(serializer: JSON)
 # => "{\"is_json\":true}"
 ```
 
-### Model
+### Object
 
-Model filters allow you to require an instance of a particular class. It checks
-either `#is_a?` on the instance or `.===` on the class. Because of that, it
-also works with classes that have mixed modules in with `include`.
+Object filters allow you to require an instance of a particular class. It
+checks either `#is_a?` on the instance or `.===` on the class. Because of that,
+it also works with classes that have mixed modules in with `include`.
 
 ``` rb
 class Cow
@@ -403,7 +403,7 @@ class Cow
 end
 
 class ModelInteraction < ActiveInteraction::Base
-  model :cow
+  object :cow
 
   def execute
     cow.moo
@@ -411,7 +411,7 @@ class ModelInteraction < ActiveInteraction::Base
 end
 
 ModelInteraction.run!(cow: Object.new)
-# ActiveInteraction::InvalidInteractionError: Cow is not a valid model
+# ActiveInteraction::InvalidInteractionError: Cow is not a valid object
 ModelInteraction.run!(cow: Cow.new)
 # => "Moo!"
 ```
@@ -421,11 +421,11 @@ name is different than your class name, use the `class` option. It can be
 either the class, a string, or a symbol.
 
 ``` rb
-model :dolly1,
+object :dolly1,
   class: Sheep
-model :dolly2,
+object :dolly2,
   class: 'Sheep'
-model :dolly3,
+object :dolly3,
   class: :Sheep
 ```
 
@@ -798,7 +798,7 @@ spot.
 
 ``` rb
 class DestroyAccount < ActiveInteraction::Base
-  model :account
+  object :account
 
   def execute
     account.destroy
@@ -832,7 +832,7 @@ Skip to [the predicates section](#predicates) for more information about them.
 
 ``` rb
 class UpdateAccount < ActiveInteraction::Base
-  model :account
+  object :account
 
   string :first_name, :last_name,
     default: nil
@@ -1021,7 +1021,7 @@ an item is purchased using a credit card.
 
 ``` rb
 class BuyItem < ActiveInteraction::Base
-  model :credit_card, :item
+  object :credit_card, :item
   hash :options do
     boolean :gift_wrapped
   end
@@ -1044,7 +1044,7 @@ errors.
 ``` rb
 outcome = BuyItem.run(item: 'Thing', options: { gift_wrapped: 'yes' })
 outcome.errors.messages
-# => {:credit_card=>["is required"], :item=>["is not a valid model"], :options=>["has an invalid nested value (\"gift_wrapped\" => \"yes\")"]}
+# => {:credit_card=>["is required"], :item=>["is not a valid object"], :options=>["has an invalid nested value (\"gift_wrapped\" => \"yes\")"]}
 ```
 
 Determining the type of error based on the string is difficult if not
@@ -1073,7 +1073,7 @@ itself. By using the `#merge!` helper on `errors`, you can do exactly that.
 
 ``` rb
 class UpdateThing < ActiveInteraction::Base
-  model :thing
+  object :thing
 
   def execute
     if thing.save
@@ -1190,7 +1190,7 @@ hsilgne:
       hash: hsah
       integer: regetni
       interface: ecafretni
-      model: ledom
+      object: tcejbo
       string: gnirts
       symbol: lobmys
       time: emit

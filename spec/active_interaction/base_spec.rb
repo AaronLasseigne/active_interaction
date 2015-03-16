@@ -19,7 +19,7 @@ AddInteraction = Class.new(TestInteraction) do
 end
 
 InterruptInteraction = Class.new(TestInteraction) do
-  model :x, :y,
+  object :x, :y,
     class: Object,
     default: nil
 
