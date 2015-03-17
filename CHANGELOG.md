@@ -12,6 +12,17 @@
 
 - [#248][]: Fix support for simple_form gem.
 
+## Changed
+
+- [#213][]: Remove transaction support. Database transactions will need to be
+  handled manually now.
+- [#214][]: Results are returned from invalid outcomes.
+
+## Security
+
+- [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
+  This takes care of potential but unlikely DoS attacks noted in [#163][].
+
 # [1.4.1][] (2014-12-12)
 
 ## Fixed
@@ -490,6 +501,9 @@
   [#203]: https://github.com/orgsync/active_interaction/issues/203
   [#206]: https://github.com/orgsync/active_interaction/issues/206
   [#207]: https://github.com/orgsync/active_interaction/issues/207
+  [#213]: https://github.com/orgsync/active_interaction/issues/213
+  [#214]: https://github.com/orgsync/active_interaction/issues/214
+  [#215]: https://github.com/orgsync/active_interaction/issues/215
   [#224]: https://github.com/orgsync/active_interaction/issues/224
   [#235]: https://github.com/orgsync/active_interaction/issues/235
   [#239]: https://github.com/orgsync/active_interaction/issues/239
