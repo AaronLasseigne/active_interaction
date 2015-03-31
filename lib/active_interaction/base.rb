@@ -147,7 +147,8 @@ module ActiveInteraction
         attr_accessor filter.name
         define_method("#{filter.name}?") { !public_send(filter.name).nil? }
 
-        filter.default if filter.default?
+        default = filter.options[:default]
+        filter.default if default && !default.is_a?(Proc)
       end
     end
 
