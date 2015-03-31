@@ -739,7 +739,7 @@ class CreateAccount < ActiveInteraction::Base
     if account.save
       account
     else
-      errors.merge(account.errors)
+      errors.merge!(account.errors)
     end
   end
 end
@@ -851,7 +851,7 @@ class UpdateAccount < ActiveInteraction::Base
     if account.save
       account
     else
-      errors.merge(account.errors)
+      errors.merge!(account.errors)
     end
   end
 end
