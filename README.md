@@ -736,11 +736,11 @@ class CreateAccount < ActiveInteraction::Base
   def execute
     account = Account.new(inputs)
 
-    if account.save
-      account
-    else
+    unless account.save
       errors.merge!(account.errors)
     end
+
+    account
   end
 end
 ```
@@ -848,11 +848,11 @@ class UpdateAccount < ActiveInteraction::Base
     account.first_name = first_name if first_name?
     account.last_name = last_name if last_name?
 
-    if account.save
-      account
-    else
+    unless account.save
       errors.merge!(account.errors)
     end
+
+    account
   end
 end
 ```
@@ -1076,11 +1076,11 @@ class UpdateThing < ActiveInteraction::Base
   model :thing
 
   def execute
-    if thing.save
-      thing
-    else
+    unless thing.save
       errors.merge!(thing.errors)
     end
+
+    thing
   end
 end
 ```
