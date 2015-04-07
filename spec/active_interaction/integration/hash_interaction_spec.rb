@@ -39,6 +39,16 @@ describe HashInteraction do
     end
   end
 
+  context 'with an invalid default as a proc' do
+    it 'does not raise an error' do
+      expect do
+        Class.new(ActiveInteraction::Base) do
+          array :a, default: -> { Object.new }
+        end
+      end.to_not raise_error
+    end
+  end
+
   context 'with an invalid nested default' do
     it 'raises an error' do
       expect do
