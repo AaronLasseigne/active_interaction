@@ -145,8 +145,7 @@ describe ActiveInteraction::Errors do
                 }
               }
             }
-          }
-        )
+          })
 
         other.add_sym(:attribute, :invalid_type, type: nil)
       end

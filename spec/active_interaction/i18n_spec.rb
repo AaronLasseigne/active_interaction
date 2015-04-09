@@ -85,8 +85,7 @@ describe I18nInteraction do
             }
           },
           types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }
-        }
-      )
+        })
 
       @locale = I18n.locale
       I18n.locale = 'hsilgne'
