@@ -108,7 +108,7 @@ module ActiveInteraction
       if valid?
         result
       else
-        fail InvalidInteractionError, errors.full_messages.join(', ')
+        fail InvalidInteractionError.new(nil, errors)
       end
     end
 
