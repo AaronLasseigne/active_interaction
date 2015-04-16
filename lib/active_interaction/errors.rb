@@ -22,11 +22,6 @@ module ActiveInteraction
   # @return [Class]
   InvalidFilterError = Class.new(Error)
 
-  # Raised if an interaction is invalid.
-  #
-  # @return [Class]
-  InvalidInteractionError = Class.new(Error)
-
   # Raised if a user-supplied value is invalid.
   #
   # @return [Class]
@@ -53,6 +48,21 @@ module ActiveInteraction
   #
   # @since 1.2.0
   ReservedNameError = Class.new(Error)
+
+  # Raised if an interaction is invalid.
+  #
+  # @return [Class]
+  class InvalidInteractionError < Error
+    # @return [Errors]
+    attr_reader :errors
+
+    # @param message [String, nil]
+    # @param errors [Errors]
+    def initialize(message = nil, errors)
+      @errors = errors
+      @message = message ? message : errors.full_messages.join(', ')
+    end
+  end
 
   # Raised if a user-supplied value to a nested hash input is invalid.
   #
