@@ -248,8 +248,8 @@ describe ActiveInteraction::Base do
           before do
             @execute = described_class.instance_method(:execute)
             described_class.send(:define_method, :execute) do
-              errors.add(:thing, 'error')
-              errors.add_sym(:thing, :error, 'error')
+              errors.add(:thing, 'is invalid')
+              errors.add(:thing, :invalid)
               true
             end
           end
@@ -269,11 +269,17 @@ describe ActiveInteraction::Base do
           end
 
           it 'has errors' do
-            expect(outcome.errors.messages[:thing]).to eql %w[error error]
+            expect(outcome.errors.messages[:thing]).to eql [
+              'is invalid',
+              'is invalid'
+            ]
           end
 
-          it 'has symbolic errors' do
-            expect(outcome.errors.symbolic[:thing]).to eql [:error]
+          it 'has detailed errors' do
+            expect(outcome.errors.details[:thing]).to eql [
+              { error: 'is invalid' },
+              { error: :invalid }
+            ]
           end
         end
 

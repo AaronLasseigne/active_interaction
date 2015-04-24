@@ -232,7 +232,7 @@ module ActiveInteraction
     def type_check
       run_callbacks(:type_check) do
         Validation.validate(self.class.filters, inputs).each do |error|
-          errors.add_sym(*error)
+          errors.add(*error)
         end
       end
     end
