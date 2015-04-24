@@ -37,8 +37,8 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
         Object.send(:remove_const, :Thing)
         class Thing; end
-        class Submodel < Thing; end
-        value = Submodel.new
+        class SubThing < Thing; end
+        value = SubThing.new
 
         expect(filter.cast(value)).to eql value
       end

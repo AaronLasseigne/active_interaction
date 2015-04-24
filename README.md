@@ -402,7 +402,7 @@ class Cow
   end
 end
 
-class ModelInteraction < ActiveInteraction::Base
+class ObjectInteraction < ActiveInteraction::Base
   object :cow
 
   def execute
@@ -410,9 +410,9 @@ class ModelInteraction < ActiveInteraction::Base
   end
 end
 
-ModelInteraction.run!(cow: Object.new)
+ObjectInteraction.run!(cow: Object.new)
 # ActiveInteraction::InvalidInteractionError: Cow is not a valid object
-ModelInteraction.run!(cow: Cow.new)
+ObjectInteraction.run!(cow: Cow.new)
 # => "Moo!"
 ```
 
