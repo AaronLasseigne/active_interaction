@@ -2,6 +2,14 @@
 
 - [#269][]: Prevented proc defaults from being eagerly evaluated.
 - [#264][]: Renamed `model` filter to `object`.
+- [#213][]: Remove transaction support. Database transactions will need to be
+  handled manually now.
+- [#214][]: Results are returned from invalid outcomes.
+
+## Security
+
+- [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
+  This takes care of potential but unlikely DoS attacks noted in [#163][].
 
 # [1.5.0][] (2015-02-05)
 
@@ -12,17 +20,6 @@
 ## Fixed
 
 - [#248][]: Fix support for simple_form gem.
-
-## Changed
-
-- [#213][]: Remove transaction support. Database transactions will need to be
-  handled manually now.
-- [#214][]: Results are returned from invalid outcomes.
-
-## Security
-
-- [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
-  This takes care of potential but unlikely DoS attacks noted in [#163][].
 
 # [1.4.1][] (2014-12-12)
 
