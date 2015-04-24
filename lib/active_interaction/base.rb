@@ -223,7 +223,7 @@ module ActiveInteraction
       self.class.filters.each do |name, filter|
         begin
           public_send("#{name}=", filter.clean(inputs[name]))
-        rescue InvalidValueError, MissingValueError, InvalidNestedValueError
+        rescue Error
           # #type_check will add errors if appropriate.
         end
       end

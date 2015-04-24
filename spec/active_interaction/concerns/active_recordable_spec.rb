@@ -2,14 +2,14 @@
 
 require 'spec_helper'
 
-InteractionWithFilter = Class.new(TestInteraction) do
+InteractionWithFloatFilter = Class.new(TestInteraction) do
   float :thing
 end
 
 describe ActiveInteraction::ActiveRecordable do
   include_context 'interactions'
 
-  let(:described_class) { InteractionWithFilter }
+  let(:described_class) { InteractionWithFloatFilter }
 
   describe '#column_for_attribute(name)' do
     let(:column) { outcome.column_for_attribute(name) }
