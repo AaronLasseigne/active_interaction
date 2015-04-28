@@ -48,7 +48,7 @@ module ActiveInteraction
       super do |klass, names, options|
         filter = klass.new(name.to_s.singularize.to_sym, options, &block)
 
-        validate(filter, names)
+        validate!(filter, names)
 
         filters[filter.name] = filter
       end
@@ -71,7 +71,7 @@ module ActiveInteraction
     # @param names [Array<Symbol>]
     #
     # @raise [InvalidFilterError]
-    def validate(filter, names)
+    def validate!(filter, names)
       unless filters.empty?
         fail InvalidFilterError, 'multiple filters in array block'
       end
