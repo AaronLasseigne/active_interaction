@@ -100,7 +100,7 @@ module ActiveInteraction
       if other.respond_to?(:details)
         merge_details!(other)
       else
-        merge_message!(other)
+        merge_messages!(other)
       end
 
       self
