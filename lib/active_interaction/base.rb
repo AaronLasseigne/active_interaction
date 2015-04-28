@@ -121,6 +121,11 @@ module ActiveInteraction
         end
       end
 
+      def model(*)
+        super
+      end
+      deprecate model: 'use `object` instead', deprecator: Deprecator
+
       private
 
       # @param klass [Class]
