@@ -41,7 +41,8 @@ module ActiveInteraction
     module ClassMethods # rubocop:disable Documentation
       # @param klass [Class]
       def inherited(klass)
-        klass.transaction(transaction?, transaction_options.dup)
+        klass.transaction_without_deprecation(
+          transaction?, transaction_options.dup)
 
         super
       end
@@ -56,6 +57,7 @@ module ActiveInteraction
 
         nil
       end
+      deprecate :transaction, deprecator: Deprecator
 
       # @return [Boolean]
       def transaction?
