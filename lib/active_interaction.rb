@@ -1,7 +1,6 @@
 # coding: utf-8
 
 require 'active_model'
-require 'active_model/errors_details'
 
 require 'active_interaction/version'
 require 'active_interaction/errors'
