@@ -1,7 +1,7 @@
 ## Fixed
 
-- #265: Allow `nil` inputs for interface and model filters.
-- #256: Improve error messages for nested invalid values.
+- [#265][]: Allow `nil` inputs for interface and model filters.
+- [#256][]: Improve error messages for nested invalid values.
 
 # [1.5.0][] (2015-02-05)
 
@@ -379,7 +379,7 @@
 
 - Initial release.
 
-  [1.5.0]: https://github.com/orgsync/active_interaction/compare/v1.4.1...1.5.0
+  [1.5.0]: https://github.com/orgsync/active_interaction/compare/v1.4.1...v1.5.0
   [1.4.1]: https://github.com/orgsync/active_interaction/compare/v1.4.0...v1.4.1
   [1.4.0]: https://github.com/orgsync/active_interaction/compare/v1.3.1...v1.4.0
   [1.3.1]: https://github.com/orgsync/active_interaction/compare/v1.3.0...v1.3.1
@@ -422,7 +422,7 @@
   [0.1.3]: https://github.com/orgsync/active_interaction/compare/v0.1.2...v0.1.3
   [0.1.2]: https://github.com/orgsync/active_interaction/compare/v0.1.1...v0.1.2
   [0.1.1]: https://github.com/orgsync/active_interaction/compare/v0.1.0...v0.1.1
-  [0.1.0]: https://github.com/orgsync/active_interaction/compare/62f999b...v0.1.0
+  [0.1.0]: https://github.com/orgsync/active_interaction/compare/v0.0.0...v0.1.0
 
   [#20]: https://github.com/orgsync/active_interaction/issues/20
   [#23]: https://github.com/orgsync/active_interaction/issues/23
@@ -496,3 +496,5 @@
   [#239]: https://github.com/orgsync/active_interaction/issues/239
   [#244]: https://github.com/orgsync/active_interaction/issues/244
   [#248]: https://github.com/orgsync/active_interaction/issues/248
+  [#256]: https://github.com/orgsync/active_interaction/issues/256
+  [#265]: https://github.com/orgsync/active_interaction/issues/265
