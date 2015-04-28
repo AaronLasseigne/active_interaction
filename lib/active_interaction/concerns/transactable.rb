@@ -3,10 +3,10 @@
 begin
   require 'active_record'
 rescue LoadError
-  module ActiveRecord # rubocop:disable Documentation
+  module ActiveRecord # rubocop:disable Style/Documentation
     Rollback = Class.new(ActiveInteraction::Error)
 
-    class Base # rubocop:disable Documentation
+    class Base # rubocop:disable Style/Documentation
       def self.transaction(*)
         yield
       rescue Rollback
@@ -38,7 +38,7 @@ module ActiveInteraction
       end
     end
 
-    module ClassMethods # rubocop:disable Documentation
+    module ClassMethods # rubocop:disable Style/Documentation
       # @param klass [Class]
       def inherited(klass)
         klass.transaction(transaction?, transaction_options.dup)

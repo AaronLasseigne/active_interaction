@@ -80,11 +80,11 @@ module ActiveInteraction
         fail InvalidFilterError, 'attribute names in array block'
       end
 
-      # rubocop:disable GuardClause
       if filter.default?
         fail InvalidDefaultError, 'default values in array block'
       end
-      # rubocop:enable GuardClause
+
+      nil
     end
   end
 end
