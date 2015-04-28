@@ -124,7 +124,7 @@ module ActiveInteraction
       def model(*)
         super
       end
-      deprecate model: 'use `object` instead', deprecator: Deprecator
+      ActiveInteraction.deprecate self, :model, 'use `object` instead'
 
       private
 

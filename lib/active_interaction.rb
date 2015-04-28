@@ -11,7 +11,17 @@ require 'active_model'
 #
 # @version 1.5.0
 module ActiveInteraction
-  Deprecator = ::ActiveSupport::Deprecation.new('2', 'ActiveInteraction')
+  DEPRECATOR =
+    if ::ActiveSupport::Deprecation.respond_to?(:new)
+      ::ActiveSupport::Deprecation.new('2', 'ActiveInteraction')
+    end
+  private_constant :DEPRECATOR
+
+  def self.deprecate(klass, method, message = nil)
+    options = { method => message }
+    options.merge(deprecator: DEPRECATOR) if DEPRECATOR
+    klass.deprecate(options)
+  end
 end
 
 require 'active_interaction/version'

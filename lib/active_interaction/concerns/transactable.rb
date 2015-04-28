@@ -57,7 +57,7 @@ module ActiveInteraction
 
         nil
       end
-      deprecate :transaction, deprecator: Deprecator
+      ActiveInteraction.deprecate self, :transaction
 
       # @return [Boolean]
       def transaction?

@@ -127,7 +127,7 @@ module ActiveInteraction
 
       symbolic[attribute] += [symbol]
     end
-    deprecate add_sym: 'use `add` instead', deprecator: Deprecator
+    ActiveInteraction.deprecate self, :add_sym, 'use `add` instead'
 
     # @see ActiveModel::Errors#initialize
     #
