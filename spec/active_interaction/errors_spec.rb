@@ -40,30 +40,30 @@ describe ActiveInteraction::Errors do
 
     context 'calling #add' do
       before do
-        allow(errors).to receive(:add)
+        allow(errors).to receive(:add_without_details)
       end
 
       it 'with the default' do
         errors.add_sym(:attribute)
-        expect(errors).to have_received(:add).once
+        expect(errors).to have_received(:add_without_details).once
           .with(:attribute, :invalid, {})
       end
 
       it 'with a symbol' do
         errors.add_sym(:attribute, :symbol)
-        expect(errors).to have_received(:add).once
+        expect(errors).to have_received(:add_without_details).once
           .with(:attribute, :symbol, {})
       end
 
       it 'with a symbol and message' do
         errors.add_sym(:attribute, :symbol, 'message')
-        expect(errors).to have_received(:add).once
+        expect(errors).to have_received(:add_without_details).once
           .with(:attribute, 'message', {})
       end
 
       it 'with a symbol, message and options' do
         errors.add_sym(:attribute, :symbol, 'message', key: :value)
-        expect(errors).to have_received(:add).once
+        expect(errors).to have_received(:add_without_details).once
           .with(:attribute, 'message', key: :value)
       end
     end

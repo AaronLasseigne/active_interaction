@@ -123,7 +123,7 @@ module ActiveInteraction
     #
     # @see ActiveModel::Errors#add
     def add_sym(attribute, symbol = :invalid, message = nil, options = {})
-      add(attribute, message || symbol, options)
+      add_without_details(attribute, message || symbol, options)
 
       symbolic[attribute] += [symbol]
     end

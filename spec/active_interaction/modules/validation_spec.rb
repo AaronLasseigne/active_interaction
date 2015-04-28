@@ -42,7 +42,7 @@ describe ActiveInteraction::Validation do
           type = I18n.translate(
             "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}")
 
-          expect(result).to eql [[filter.name, :invalid_type, nil, type: type]]
+          expect(result).to eql [[filter.name, :invalid_type, type: type]]
         end
       end
 
@@ -65,7 +65,6 @@ describe ActiveInteraction::Validation do
           expect(result).to eql [[
             filter.name,
             :invalid_nested,
-            nil,
             { name: name.inspect, value: value.inspect }
           ]]
         end
