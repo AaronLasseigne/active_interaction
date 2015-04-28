@@ -1,3 +1,8 @@
+## Fixed
+
+- #265: Allow `nil` inputs for interface and model filters.
+- #256: Improve error messages for nested invalid values.
+
 # [1.5.0][] (2015-02-05)
 
 ## Added
