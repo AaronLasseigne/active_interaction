@@ -97,6 +97,14 @@ module ActiveInteraction
     # @return [Hash{Symbol => Array<Symbol>}]
     attr_reader :symbolic
 
+    alias_method :add_without_details, :add
+    def add_with_details(attribute, message = :invalid, options = {})
+      message = message.call if message.respond_to?(:call)
+      symbolic[attribute] += [message] if message.is_a?(Symbol)
+      add_without_details(attribute, message, options)
+    end
+    alias_method :add, :add_with_details
+
     # Adds a symbolic error message to an attribute.
     #
     # @example
@@ -119,6 +127,7 @@ module ActiveInteraction
 
       symbolic[attribute] += [symbol]
     end
+    deprecate add_sym: 'use `add` instead', deprecator: Deprecator
 
     # @see ActiveModel::Errors#initialize
     #
