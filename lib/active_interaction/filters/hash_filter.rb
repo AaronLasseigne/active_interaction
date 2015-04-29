@@ -76,7 +76,7 @@ module ActiveInteraction
     end
 
     def stringify_the_symbol_keys(hash)
-      hash.transform_keys { |key| key.is_a?(Symbol) ? key.to_s : key }
+      self.class.transform_keys(hash) { |k| k.is_a?(Symbol) ? k.to_s : k }
     end
   end
 end
