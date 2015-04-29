@@ -32,8 +32,7 @@ module ActiveInteraction
         attr_reader :details
 
         %w[initialize initialize_dup add clear delete].each do |method|
-          alias_method "#{method}_without_details", method
-          alias_method method, "#{method}_with_details"
+          alias_method_chain method, :details
         end
       end
 
