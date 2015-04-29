@@ -134,8 +134,8 @@ end
 Call `.run` on your interaction to execute it. You must pass a single hash to
 `.run`. It will return an instance of your interaction. By convention, we call
 this an outcome. You can use the `#valid?` method to ask the outcome if it's
-valid. If it's invalid, take a look at its errors with `#errors`. If it's
-valid, `#result` will be the value returned from `#execute`.
+valid. If it's invalid, take a look at its errors with `#errors`. In either
+case, the value returned from `#execute` will be stored in `#result`.
 
 ``` rb
 outcome = Square.run(x: 'two point one')
@@ -1014,8 +1014,8 @@ end
 
 ### Errors
 
-ActiveInteraction provides symbolic errors for easier introspection and testing
-of errors. Symbolic errors improve on regular errors by adding a symbol that
+ActiveInteraction provides detailed errors for easier introspection and testing
+of errors. Detailed errors improve on regular errors by adding a symbol that
 represents the type of error that has occurred. Let's look at an example where
 an item is purchased using a credit card.
 
@@ -1048,23 +1048,25 @@ outcome.errors.messages
 ```
 
 Determining the type of error based on the string is difficult if not
-impossible. Calling `#symbolic` instead of `#messages` on `errors` gives you
+impossible. Calling `#details` instead of `#messages` on `errors` gives you
 the same list of errors with a testable label representing the error.
 
 ``` rb
-outcome.errors.symbolic
-# => {"credit_card"=>[:missing], "item"=>[:invalid_type], "options"=>[:invalid_nested]}
+outcome.errors.details
+# => {:credit_card=>[{:error=>:missing}], :item=>[{:type=>"object", :error=>:invalid_type}], :options=>[{:name=>"\"gift_wrapped\"", :value=>"\"yes\"", :error=>:invalid_nested}]}
 ```
 
-Symbolic errors can also be manually added during the execute call by calling
-`#add_sym` instead of `#add` on `errors`. It works the same way as `add` except
-that the second argument is the error label.
+Detailed errors can also be manually added during the execute call by passing a
+symbol to `#add` instead of a string.
 
 ``` rb
 def execute
-  errors.add_sym(:monster, :no_passage, 'You shall not pass!')
+  errors.add(:monster, :no_passage)
 end
 ```
+
+These types of errors will become standard with Rails 5. ActiveInteraction's
+implementation is based off of [active_model-errors_details][].
 
 ActiveInteraction also supports merging errors. This is useful if you want to
 delegate validation to some other object. For example, if you have an
@@ -1235,6 +1237,7 @@ Logo design by [Tyler Lee][].
 [the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
 [the change log]: CHANGELOG.md
+[active_model-errors_details]: https://github.com/cowbell/active_model-errors_details
 [aaron lasseigne]: https://github.com/AaronLasseigne
 [taylor fausak]: https://github.com/tfausak
 [orgsync]: https://github.com/orgsync
