@@ -117,10 +117,8 @@ module ActiveInteraction
       def new(*)
         super.tap do |instance|
           {
-            # rubocop:disable Style/HashSyntax
             :@_interaction_errors => Errors.new(instance),
             :@_interaction_result => nil
-            # rubocop:enable Style/HashSyntax
           }.each do |symbol, obj|
             instance.instance_variable_set(symbol, obj)
           end

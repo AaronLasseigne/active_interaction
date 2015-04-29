@@ -1,8 +1,7 @@
 # coding: utf-8
 
-# rubocop:disable Documentation
 module ActiveInteraction
-  class GroupedInput
+  class GroupedInput # rubocop:disable Style/Documentation
     # Required for Ruby <= 1.9.3.
     def [](name)
       send(name)
@@ -14,20 +13,19 @@ module ActiveInteraction
     end unless method_defined?(:[]=)
   end
 
-  class Errors
+  class Errors # rubocop:disable Style/Documentation
     # Required for Rails < 3.2.13.
     protected :initialize_dup
   end
-end
 
-# @private
-class Hash
-  # Required for Rails < 4.0.0.
-  def transform_keys
-    result = {}
-    each_key do |key|
-      result[yield(key)] = self[key]
+  class HashFilter # rubocop:disable Style/Documentation
+    # Required for Rails < 4.0.0.
+    def self.transform_keys(hash, &block)
+      return hash.transform_keys(&block) if hash.respond_to?(:transform_keys)
+
+      result = {}
+      hash.each_key { |key| result[block.call(key)] = hash[key] }
+      result
     end
-    result
-  end unless method_defined?(:transform_keys)
+  end
 end
