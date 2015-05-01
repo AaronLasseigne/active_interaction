@@ -96,11 +96,16 @@ module ActiveInteraction
     #
     # @return [Hash{Symbol => Array<Symbol>}]
     attr_reader :symbolic
+    ActiveInteraction.deprecate self, :symbolic, 'use `details` instead'
+
+    def details
+      @symbolic
+    end
 
     alias_method :add_without_details, :add
     def add_with_details(attribute, message = :invalid, options = {})
       message = message.call if message.respond_to?(:call)
-      symbolic[attribute] += [message] if message.is_a?(Symbol)
+      details[attribute] += [message] if message.is_a?(Symbol)
       add_without_details(attribute, message, options)
     end
     alias_method :add, :add_with_details
@@ -109,7 +114,7 @@ module ActiveInteraction
     #
     # @example
     #   errors.add_sym(:attribute)
-    #   errors.symbolic
+    #   errors.details
     #   # => {:attribute=>[:invalid]}
     #   errors.messages
     #   # => {:attribute=>["is invalid"]}
@@ -125,7 +130,7 @@ module ActiveInteraction
     def add_sym(attribute, symbol = :invalid, message = nil, options = {})
       add_without_details(attribute, message || symbol, options)
 
-      symbolic[attribute] += [symbol]
+      details[attribute] += [symbol]
     end
     ActiveInteraction.deprecate self, :add_sym, 'use `add` instead'
 
@@ -142,7 +147,7 @@ module ActiveInteraction
     #
     # @private
     def initialize_dup(other)
-      @symbolic = other.symbolic.with_indifferent_access
+      @symbolic = other.details.with_indifferent_access
 
       super
     end
@@ -151,7 +156,7 @@ module ActiveInteraction
     #
     # @private
     def clear
-      symbolic.clear
+      details.clear
 
       super
     end
@@ -163,7 +168,7 @@ module ActiveInteraction
     # @return [Errors]
     def merge!(other)
       merge_messages!(other)
-      merge_symbolic!(other) if other.respond_to?(:symbolic)
+      merge_details!(other) if other.respond_to?(:details)
       self
     end
 
@@ -177,12 +182,12 @@ module ActiveInteraction
       end
     end
 
-    def merge_symbolic!(other)
-      other.symbolic.each do |attribute, symbols|
+    def merge_details!(other)
+      other.details.each do |attribute, symbols|
         symbols.each do |symbol|
-          next if symbolic[attribute].include?(symbol)
+          next if details[attribute].include?(symbol)
 
-          symbolic[attribute] += [symbol]
+          details[attribute] += [symbol]
         end
       end
     end
