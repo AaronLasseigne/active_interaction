@@ -99,13 +99,15 @@ module ActiveInteraction
     ActiveInteraction.deprecate self, :symbolic, 'use `details` instead'
 
     def details
-      @symbolic
+      @symbolic.each_with_object(Hash.new([])) do |(k, vs), h|
+        vs.each { |v| h[k] += [{ error: v }] }
+      end
     end
 
     alias_method :add_without_details, :add
     def add_with_details(attribute, message = :invalid, options = {})
       message = message.call if message.respond_to?(:call)
-      details[attribute] += [message] if message.is_a?(Symbol)
+      @symbolic[attribute] += [message] if message.is_a?(Symbol)
       add_without_details(attribute, message, options)
     end
     alias_method :add, :add_with_details
@@ -115,7 +117,7 @@ module ActiveInteraction
     # @example
     #   errors.add_sym(:attribute)
     #   errors.details
-    #   # => {:attribute=>[:invalid]}
+    #   # => {:attribute=>[{:error=>:invalid}]}
     #   errors.messages
     #   # => {:attribute=>["is invalid"]}
     #
@@ -130,7 +132,7 @@ module ActiveInteraction
     def add_sym(attribute, symbol = :invalid, message = nil, options = {})
       add_without_details(attribute, message || symbol, options)
 
-      details[attribute] += [symbol]
+      @symbolic[attribute] += [symbol]
     end
     ActiveInteraction.deprecate self, :add_sym, 'use `add` instead'
 
@@ -147,7 +149,8 @@ module ActiveInteraction
     #
     # @private
     def initialize_dup(other)
-      @symbolic = other.details.with_indifferent_access
+      @symbolic = Hash.new([]).with_indifferent_access
+      other.details.each { |k, vs| vs.each { |v| @symbolic[k] += [v[:error]] } }
 
       super
     end
@@ -156,7 +159,7 @@ module ActiveInteraction
     #
     # @private
     def clear
-      details.clear
+      @symbolic.clear
 
       super
     end
@@ -183,11 +186,12 @@ module ActiveInteraction
     end
 
     def merge_details!(other)
-      other.details.each do |attribute, symbols|
-        symbols.each do |symbol|
-          next if details[attribute].include?(symbol)
+      other.details.each do |attribute, hashes|
+        hashes.each do |hash|
+          error = hash[:error]
+          next if @symbolic[attribute].include?(error)
 
-          details[attribute] += [symbol]
+          @symbolic[attribute] += [error]
         end
       end
     end
