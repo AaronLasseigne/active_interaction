@@ -19,7 +19,7 @@ module ActiveInteraction
 
   def self.deprecate(klass, method, message = nil)
     options = { method => message }
-    options.merge(deprecator: DEPRECATOR) if DEPRECATOR
+    options.merge!(deprecator: DEPRECATOR) if DEPRECATOR
     klass.deprecate(options)
   end
 end
