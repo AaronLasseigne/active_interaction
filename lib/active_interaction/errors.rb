@@ -99,9 +99,9 @@ module ActiveInteraction
     ActiveInteraction.deprecate self, :symbolic, 'use `details` instead'
 
     def details
-      @symbolic.each_with_object(Hash.new([])) do |(k, vs), h|
-        vs.each { |v| h[k] += [{ error: v }] }
-      end
+      h = Hash.new([]).with_indifferent_access
+      @symbolic.each { |k, vs| vs.each { |v| h[k] += [{ error: v }] } }
+      h
     end
 
     alias_method :add_without_details, :add
