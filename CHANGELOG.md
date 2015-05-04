@@ -1,3 +1,16 @@
+## Added
+
+- Added `object` as an alias for `model`.
+- Added symbol support to `add`.
+- Added `details` as an alternative to `symbolic`.
+
+## Changed
+
+- Deprecated `model` in favor of `object`.
+- Deprecated `add_sym` in favor of `add`.
+- Deprecated `transaction`.
+- Deprecated `symbolic` in favor of `details`.
+
 # [1.5.1][] (2015-04-28)
 
 ## Fixed
