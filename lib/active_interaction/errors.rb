@@ -119,6 +119,7 @@ module ActiveInteraction
     def merge_details!(other)
       other.details.each do |attribute, details|
         details.each do |detail|
+          detail = detail.dup
           error = detail.delete(:error)
           add(attribute, error, detail) unless added?(attribute, error, detail)
         end
