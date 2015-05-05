@@ -1,49 +1,61 @@
 # coding: utf-8
 
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+lib = File.expand_path('lib', File.dirname(__FILE__))
+$LOAD_PATH.push(lib) unless $LOAD_PATH.include?(lib)
 
 require 'active_interaction/version'
 
-Gem::Specification.new do |spec|
-  spec.name = 'active_interaction'
-  spec.version = ActiveInteraction::VERSION.to_s
-  spec.summary = 'Manage application specific business logic.'
-  spec.description = spec.summary
-  spec.homepage = 'http://orgsync.github.io/active_interaction/'
-  spec.authors = ['Aaron Lasseigne', 'Taylor Fausak']
-  spec.email = %w[aaron.lasseigne@gmail.com taylor@fausak.me]
-  spec.license = 'MIT'
+Gem::Specification.new do |gem|
+  gem.name = 'active_interaction'
+  gem.version = ActiveInteraction::VERSION
+  gem.summary = 'Manage application specific business logic.'
+  gem.description = <<-'TEXT'
+    ActiveInteraction manages application-specific business logic. It is an
+    implementation of the command pattern in Ruby.
+  TEXT
+  gem.homepage = 'http://devblog.orgsync.com/active_interaction/'
+  gem.licenses = %w[MIT]
 
-  # Files
-  spec.require_path = 'lib'
-  spec.test_files = Dir['spec/**/*.rb']
-  spec.files = Dir['lib/**/*.rb'] + spec.test_files + %w[
-    CHANGELOG.md
-    LICENSE.txt
-    README.md
-  ] + Dir['lib/active_interaction/locale/**/*.yml']
+  gem.required_ruby_version = '>= 1.9.3'
 
-  # Dependencies
-  spec.required_ruby_version = '>= 1.9.3'
+  {
+    'Aaron Lasseigne' => 'aaron.lasseigne@gmail.com',
+    'Taylor Fausak' => 'taylor@fausak.me'
+  }.tap do |hash|
+    gem.authors = hash.keys
+    gem.email = hash.values
+  end
 
-  spec.add_dependency 'activemodel', '>= 3.2', '< 5'
+  gem.files = %w[CHANGELOG.md CONTRIBUTING.md LICENSE.txt README.md] +
+    Dir.glob(File.join('lib', '**', '*.rb')) +
+    Dir.glob(File.join('lib', 'active_interaction', 'locale', '*.yml'))
+  gem.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
 
-  spec.add_development_dependency 'bundler', '~> 1.7'
-  spec.add_development_dependency 'coveralls', '~> 0.7'
-  spec.add_development_dependency 'guard-rspec', '~> 4.3'
-  spec.add_development_dependency 'guard-rubocop', '~> 1.1'
-  spec.add_development_dependency 'kramdown', '~> 1.5'
-  spec.add_development_dependency 'rake', '~> 10.3'
-  spec.add_development_dependency 'rspec', '~> 3.1'
-  spec.add_development_dependency 'rubocop', '~> 0.28'
-  spec.add_development_dependency 'yard', '~> 0.8'
+  gem.add_dependency 'activemodel', '>= 3.2', '<5'
+
+  {
+    'bundler' => '~> 1.9',
+    'coveralls' => '~> 0.8',
+    'guard-rspec' => '~> 4.5',
+    'guard-rubocop' => '~> 1.2',
+    'kramdown' => '~> 1.7',
+    'rake' => '~> 10.4',
+    'rspec' => '~> 3.2',
+    'rubocop' => '~> 0.30',
+    'yard' => '~> 0.8'
+  }.each do |name, version|
+    gem.add_development_dependency name, version
+  end
 
   if RUBY_ENGINE == 'rbx'
-    spec.add_development_dependency 'parser', '~> 2.1'
-    spec.add_development_dependency 'racc', '~> 1.4'
-    spec.add_development_dependency 'rubinius-coverage', '~> 2.0'
-    spec.add_development_dependency 'rubysl', '~> 2.1'
-    spec.add_development_dependency 'rubysl-test-unit', '~> 2.0'
+    {
+      'parser' => '~> 2.1',
+      'racc' => '~> 1.4',
+      'rubinius-coverage' => '~> 2.0',
+      'rubysl' => '~> 2.1',
+      'rubysl-test-unit' => '~> 2.0'
+    }.each do |name, version|
+      gem.add_development_dependency name, version
+    end
   end
 end

@@ -99,6 +99,11 @@ module ActiveInteraction
         end
       end
 
+      def model(*)
+        super
+      end
+      ActiveInteraction.deprecate self, :model, 'use `object` instead'
+
       private
 
       # @param klass [Class]

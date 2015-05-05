@@ -2,6 +2,28 @@
 
 require 'active_model'
 
+# Manage application specific business logic.
+#
+# @author Aaron Lasseigne <aaron.lasseigne@gmail.com>
+# @author Taylor Fausak <taylor@fausak.me>
+#
+# @since 1.0.0
+#
+# @version 1.5.1
+module ActiveInteraction
+  DEPRECATOR =
+    if ::ActiveSupport::Deprecation.respond_to?(:new)
+      ::ActiveSupport::Deprecation.new('2', 'ActiveInteraction')
+    end
+  private_constant :DEPRECATOR
+
+  def self.deprecate(klass, method, message = nil)
+    options = { method => message }
+    options.merge!(deprecator: DEPRECATOR) if DEPRECATOR
+    klass.deprecate(options)
+  end
+end
+
 require 'active_interaction/version'
 require 'active_interaction/errors'
 
@@ -42,13 +64,3 @@ require 'active_interaction/backports'
 
 I18n.load_path.unshift(*Dir[File.expand_path(
   File.join(%w[active_interaction locale *.yml]), File.dirname(__FILE__))])
-
-# Manage application specific business logic.
-#
-# @author Aaron Lasseigne <aaron.lasseigne@gmail.com>
-# @author Taylor Fausak <taylor@fausak.me>
-#
-# @since 1.0.0
-#
-# @version 1.5.0
-module ActiveInteraction end

@@ -15,16 +15,18 @@ filters = ActiveInteraction::Filter
   .send(:const_get, :CLASSES)
   .reject { |_, v| v.name =~ /\bAbstract/ }
 
-# rubocop:disable all
 VALUES = {
-  array:     [Array.new], # TODO
+  array:     [[]], # TODO
   boolean:   [false, '0', 'false', true, '1', 'true'],
   date:      [Date.new, Date.new.to_s],
   date_time: [DateTime.new, DateTime.new.to_s],
   decimal:   [BigDecimal.new(0)],
-  file:      [File.new(__FILE__), Struct.new(:tempfile).new(File.new(__FILE__))],
+  file:      [
+    File.new(__FILE__),
+    Struct.new(:tempfile).new(File.new(__FILE__))
+  ],
   float:     [0.0, '0.0', 0],
-  hash:      [Hash.new], # TODO
+  hash:      [{}], # TODO
   integer:   [0, '0', 0.0],
   interface: [Object.new],
   object:    [Object.new], # TODO: Reconstantizing.
@@ -32,7 +34,6 @@ VALUES = {
   symbol:    [:'', ''],
   time:      [Time.at(0), Time.at(0).to_s, 0] # TODO: TimeWithZone
 }
-# rubocop:enable all
 
 missing_filters = filters.keys - VALUES.keys
 fail "Missing filters: #{missing_filters}" unless missing_filters.empty?

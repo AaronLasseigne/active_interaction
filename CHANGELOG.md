@@ -12,6 +12,28 @@
 - [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
   This takes care of potential but unlikely DoS attacks noted in [#163][].
 
+# [1.6.0][] (TODO)
+
+## Added
+
+- Added `object` as an alias for `model`.
+- Added symbol support to `add`.
+- Added `details` as an alternative to `symbolic`.
+
+## Changed
+
+- Deprecated `model` in favor of `object`.
+- Deprecated `add_sym` in favor of `add`.
+- Deprecated `transaction`.
+- Deprecated `symbolic` in favor of `details`.
+
+# [1.5.1][] (2015-04-28)
+
+## Fixed
+
+- [#265][]: Allow `nil` inputs for interface and model filters.
+- [#256][]: Improve error messages for nested invalid values.
+
 # [1.5.0][] (2015-02-05)
 
 ## Added
@@ -388,7 +410,9 @@
 
 - Initial release.
 
-  [1.5.0]: https://github.com/orgsync/active_interaction/compare/v1.4.1...1.5.0
+  [1.6.0]: https://github.com/orgsync/active_interaction/compare/v1.5.1...v1.6.0
+  [1.5.1]: https://github.com/orgsync/active_interaction/compare/v1.5.0...v1.5.1
+  [1.5.0]: https://github.com/orgsync/active_interaction/compare/v1.4.1...v1.5.0
   [1.4.1]: https://github.com/orgsync/active_interaction/compare/v1.4.0...v1.4.1
   [1.4.0]: https://github.com/orgsync/active_interaction/compare/v1.3.1...v1.4.0
   [1.3.1]: https://github.com/orgsync/active_interaction/compare/v1.3.0...v1.3.1
@@ -431,7 +455,7 @@
   [0.1.3]: https://github.com/orgsync/active_interaction/compare/v0.1.2...v0.1.3
   [0.1.2]: https://github.com/orgsync/active_interaction/compare/v0.1.1...v0.1.2
   [0.1.1]: https://github.com/orgsync/active_interaction/compare/v0.1.0...v0.1.1
-  [0.1.0]: https://github.com/orgsync/active_interaction/compare/62f999b...v0.1.0
+  [0.1.0]: https://github.com/orgsync/active_interaction/compare/v0.0.0...v0.1.0
 
   [#20]: https://github.com/orgsync/active_interaction/issues/20
   [#23]: https://github.com/orgsync/active_interaction/issues/23
@@ -509,5 +533,7 @@
   [#244]: https://github.com/orgsync/active_interaction/issues/244
   [#248]: https://github.com/orgsync/active_interaction/issues/248
   [#250]: https://github.com/orgsync/active_interaction/issues/250
+  [#256]: https://github.com/orgsync/active_interaction/issues/256
   [#264]: https://github.com/orgsync/active_interaction/issues/264
+  [#265]: https://github.com/orgsync/active_interaction/issues/265
   [#269]: https://github.com/orgsync/active_interaction/issues/269
