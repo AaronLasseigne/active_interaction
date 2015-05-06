@@ -5,5 +5,5 @@ module ActiveInteraction
   # The version number.
   #
   # @return [Gem::Version]
-  VERSION = Gem::Version.new('1.6.0')
+  VERSION = Gem::Version.new('2.0.0')
 end

@@ -1,3 +1,5 @@
+# [2.0.0][] (2015-05-06)
+
 ## Changed
 
 - [#250][]: Replaced symbolic errors with Rails 5-style detailed errors.
@@ -412,6 +414,7 @@
 
 - Initial release.
 
+  [2.0.0]: https://github.com/orgsync/active_interaction/compare/v1.6.0...v2.0.0
   [1.6.0]: https://github.com/orgsync/active_interaction/compare/v1.5.1...v1.6.0
   [1.5.1]: https://github.com/orgsync/active_interaction/compare/v1.5.0...v1.5.1
   [1.5.0]: https://github.com/orgsync/active_interaction/compare/v1.4.1...v1.5.0

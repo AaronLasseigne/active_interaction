@@ -9,7 +9,7 @@ require 'active_model'
 #
 # @since 1.0.0
 #
-# @version 1.6.0
+# @version 2.0.0
 module ActiveInteraction
   DEPRECATOR =
     if ::ActiveSupport::Deprecation.respond_to?(:new)
