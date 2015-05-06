@@ -6,6 +6,8 @@
 - [#213][]: Remove transaction support. Database transactions will need to be
   handled manually now.
 - [#214][]: Results are returned from invalid outcomes.
+- [#164][]: Changed the `hash` filter to use hashes with indifferent access.
+- [#236][]: Changed the `file` filter to accept anything that responds to `eof?`.
 
 ## Security
 
@@ -512,6 +514,7 @@
   [#155]: https://github.com/orgsync/active_interaction/issues/155
   [#156]: https://github.com/orgsync/active_interaction/issues/156
   [#163]: https://github.com/orgsync/active_interaction/issues/163
+  [#164]: https://github.com/orgsync/active_interaction/issues/164
   [#165]: https://github.com/orgsync/active_interaction/issues/165
   [#173]: https://github.com/orgsync/active_interaction/issues/173
   [#174]: https://github.com/orgsync/active_interaction/issues/174
@@ -529,6 +532,7 @@
   [#215]: https://github.com/orgsync/active_interaction/issues/215
   [#224]: https://github.com/orgsync/active_interaction/issues/224
   [#235]: https://github.com/orgsync/active_interaction/issues/235
+  [#236]: https://github.com/orgsync/active_interaction/issues/236
   [#239]: https://github.com/orgsync/active_interaction/issues/239
   [#244]: https://github.com/orgsync/active_interaction/issues/244
   [#248]: https://github.com/orgsync/active_interaction/issues/248
