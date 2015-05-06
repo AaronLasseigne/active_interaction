@@ -1,8 +1,10 @@
 # coding: utf-8
 
-begin
-  require 'active_record'
-rescue LoadError
+if !defined?(::Mongoid)
+  begin
+    require 'active_record'
+  rescue LoadError
+  end
 end
 
 module ActiveInteraction
@@ -65,7 +67,7 @@ module ActiveInteraction
     def classes
       result = [Array]
 
-      if ActiveRecord.const_defined?(:Relation)
+      if !defined?(::Mongoid) and ActiveRecord.const_defined?(:Relation)
         result.push(ActiveRecord::Relation)
       end
 

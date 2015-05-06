@@ -1,8 +1,6 @@
 # coding: utf-8
 
-begin
-  require 'active_record'
-rescue LoadError
+if defined?(::Mongoid)
   module ActiveRecord # rubocop:disable Style/Documentation
     Rollback = Class.new(ActiveInteraction::Error)
 
@@ -13,7 +11,13 @@ rescue LoadError
       end
     end
   end
+else
+  begin
+    require 'active_record'
+  rescue LoadError
+  end
 end
+
 
 module ActiveInteraction
   # @private
