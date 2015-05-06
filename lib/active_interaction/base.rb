@@ -59,28 +59,6 @@ module ActiveInteraction
       #
       #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
 
-      # @!method transaction(enable, options = {})
-      #   Configure transactions by enabling or disabling them and setting
-      #   their options.
-      #
-      #   @example Disable transactions
-      #     Class.new(ActiveInteraction::Base) do
-      #       transaction false
-      #     end
-      #
-      #   @example Use different transaction options
-      #     Class.new(ActiveInteraction::Base) do
-      #       transaction true, isolation: :serializable
-      #     end
-      #
-      #   @param enable [Boolean] Should transactions be enabled?
-      #   @param options [Hash] Options to pass to
-      #     `ActiveRecord::Base.transaction`.
-      #
-      #   @return [nil]
-      #
-      #   @since 1.2.0
-
       # Get or set the description.
       #
       # @example
@@ -174,7 +152,13 @@ module ActiveInteraction
         attr_accessor filter.name
         define_method("#{filter.name}?") { !public_send(filter.name).nil? }
 
-        filter.default if filter.default?
+        eagerly_evaluate_default(filter)
+      end
+
+      # @param filter [Filter]
+      def eagerly_evaluate_default(filter)
+        default = filter.options[:default]
+        filter.default if default && !default.is_a?(Proc)
       end
     end
 
@@ -201,8 +185,7 @@ module ActiveInteraction
     #
     #   Runs the business logic associated with the interaction. This method is
     #   only run when there are no validation errors. The return value is
-    #   placed into {#result}. By default, this method is run in a transaction
-    #   if ActiveRecord is available (see {.transaction}).
+    #   placed into {#result}.
     #
     #   @raise (see ActiveInteraction::Runnable#execute)
 

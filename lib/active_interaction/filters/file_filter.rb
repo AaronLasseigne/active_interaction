@@ -4,9 +4,8 @@ module ActiveInteraction
   class Base
     # @!method self.file(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
-    #     the attributes are Files or Tempfiles. It will also extract a file
-    #     from any object with a `tempfile` method. This is useful when passing
-    #     in Rails params that include a file upload.
+    #   the attributes respond to the `eof?` method. This is useful when passing
+    #   in Rails params that include a file upload or another generic IO object.
     #
     #   @!macro filter_method_params
     #
@@ -15,19 +14,8 @@ module ActiveInteraction
   end
 
   # @private
-  class FileFilter < Filter
+  class FileFilter < InterfaceFilter
     register :file
-
-    def cast(value)
-      value = extract_file(value)
-
-      case value
-      when File, Tempfile
-        value
-      else
-        super
-      end
-    end
 
     def database_column_type
       self.class.slug
@@ -35,15 +23,8 @@ module ActiveInteraction
 
     private
 
-    # @param value [File, #tempfile]
-    #
-    # @return [File]
-    def extract_file(value)
-      if value.respond_to?(:tempfile)
-        value.tempfile
-      else
-        value
-      end
+    def methods
+      [:eof?]
     end
   end
 end

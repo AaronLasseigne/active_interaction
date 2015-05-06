@@ -19,7 +19,7 @@ AddInteraction = Class.new(TestInteraction) do
 end
 
 InterruptInteraction = Class.new(TestInteraction) do
-  model :x, :y,
+  object :x, :y,
     class: Object,
     default: nil
 
@@ -248,8 +248,9 @@ describe ActiveInteraction::Base do
           before do
             @execute = described_class.instance_method(:execute)
             described_class.send(:define_method, :execute) do
-              errors.add(:thing, 'error')
-              errors.add_sym(:thing, :error, 'error')
+              errors.add(:thing, 'is invalid')
+              errors.add(:thing, :invalid)
+              true
             end
           end
 
@@ -263,16 +264,22 @@ describe ActiveInteraction::Base do
             expect(outcome).to be_invalid
           end
 
-          it 'sets the result to nil' do
-            expect(result).to be_nil
+          it 'sets the result' do
+            expect(result).to be true
           end
 
           it 'has errors' do
-            expect(outcome.errors.messages[:thing]).to eql %w[error error]
+            expect(outcome.errors.messages[:thing]).to eql [
+              'is invalid',
+              'is invalid'
+            ]
           end
 
-          it 'has symbolic errors' do
-            expect(outcome.errors.symbolic[:thing]).to eql [:error]
+          it 'has detailed errors' do
+            expect(outcome.errors.details[:thing]).to eql [
+              { error: 'is invalid' },
+              { error: :invalid }
+            ]
           end
         end
 
@@ -282,12 +289,6 @@ describe ActiveInteraction::Base do
 
         it 'sets the result' do
           expect(result[:thing]).to eql thing
-        end
-
-        it 'calls #transaction' do
-          expect_any_instance_of(described_class).to receive(:transaction)
-            .once.with(no_args)
-          outcome
         end
       end
     end

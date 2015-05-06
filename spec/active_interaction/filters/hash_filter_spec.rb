@@ -37,7 +37,7 @@ describe ActiveInteraction::HashFilter, :filter do
       let(:block) { proc { hash :a } }
 
       context 'with a Hash' do
-        let(:value) { { a: {} } }
+        let(:value) { { 'a' => {} } }
 
         it 'returns the Hash' do
           expect(result).to eql value
@@ -73,22 +73,6 @@ describe ActiveInteraction::HashFilter, :filter do
             expect(e.input_value).to eql v
           end
         end
-      end
-    end
-
-    context 'keys are symbolized' do
-      let(:value) { { 'a' => 'a', 1 => 1 } }
-
-      before do
-        options.merge!(strip: false)
-      end
-
-      it 'symbolizes String keys' do
-        expect(result).to have_key :a
-      end
-
-      it 'leaves other keys alone' do
-        expect(result).to have_key 1
       end
     end
   end

@@ -2,19 +2,19 @@
 
 require 'spec_helper'
 
-class Model; end
+class Thing; end
 class Things; end
 
-describe ActiveInteraction::ModelFilter, :filter do
+describe ActiveInteraction::ObjectFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
   before do
-    options.merge!(class: Model)
+    options.merge!(class: Thing)
   end
 
   describe '#cast' do
-    let(:value) { Model.new }
+    let(:value) { Thing.new }
     let(:result) { filter.cast(value) }
 
     context 'with class as a Class' do
@@ -25,9 +25,9 @@ describe ActiveInteraction::ModelFilter, :filter do
       it 'handles reconstantizing' do
         expect(result).to eql value
 
-        Object.send(:remove_const, :Model)
-        class Model; end
-        value = Model.new
+        Object.send(:remove_const, :Thing)
+        class Thing; end
+        value = Thing.new
 
         expect(filter.cast(value)).to eql value
       end
@@ -35,10 +35,10 @@ describe ActiveInteraction::ModelFilter, :filter do
       it 'handles reconstantizing subclasses' do
         filter
 
-        Object.send(:remove_const, :Model)
-        class Model; end
-        class Submodel < Model; end
-        value = Submodel.new
+        Object.send(:remove_const, :Thing)
+        class Thing; end
+        class SubThing < Thing; end
+        value = SubThing.new
 
         expect(filter.cast(value)).to eql value
       end
@@ -46,7 +46,7 @@ describe ActiveInteraction::ModelFilter, :filter do
       it 'does not overflow the stack' do
         klass = Class.new do
           def self.name
-            Model.name
+            Thing.name
           end
         end
 
@@ -56,8 +56,8 @@ describe ActiveInteraction::ModelFilter, :filter do
       end
 
       context 'without the class available' do
-        before { Object.send(:remove_const, :Model) }
-        after { class Model; end }
+        before { Object.send(:remove_const, :Thing) }
+        after { class Thing; end }
 
         it 'does not raise an error on initialization' do
           expect { filter }.to_not raise_error
@@ -69,7 +69,7 @@ describe ActiveInteraction::ModelFilter, :filter do
         let(:class_equality) { false }
 
         before do
-          allow(Model).to receive(:===).and_return(case_equality)
+          allow(Thing).to receive(:===).and_return(case_equality)
           allow(value).to receive(:is_a?).and_return(class_equality)
         end
 
@@ -101,7 +101,7 @@ describe ActiveInteraction::ModelFilter, :filter do
 
     context 'with class as a superclass' do
       before do
-        options.merge!(class: Model.superclass)
+        options.merge!(class: Thing.superclass)
       end
 
       it 'returns the instance' do
@@ -111,7 +111,7 @@ describe ActiveInteraction::ModelFilter, :filter do
 
     context 'with class as a String' do
       before do
-        options.merge!(class: Model.name)
+        options.merge!(class: Thing.name)
       end
 
       it 'returns the instance' do

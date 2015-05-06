@@ -1,3 +1,19 @@
+## Changed
+
+- [#250][]: Replaced symbolic errors with Rails 5-style detailed errors.
+- [#269][]: Prevented proc defaults from being eagerly evaluated.
+- [#264][]: Renamed `model` filter to `object`.
+- [#213][]: Remove transaction support. Database transactions will need to be
+  handled manually now.
+- [#214][]: Results are returned from invalid outcomes.
+- [#164][]: Changed the `hash` filter to use hashes with indifferent access.
+- [#236][]: Changed the `file` filter to accept anything that responds to `eof?`.
+
+## Security
+
+- [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
+  This takes care of potential but unlikely DoS attacks noted in [#163][].
+
 # [1.6.0][] (2015-05-06)
 
 ## Added
@@ -498,6 +514,7 @@
   [#155]: https://github.com/orgsync/active_interaction/issues/155
   [#156]: https://github.com/orgsync/active_interaction/issues/156
   [#163]: https://github.com/orgsync/active_interaction/issues/163
+  [#164]: https://github.com/orgsync/active_interaction/issues/164
   [#165]: https://github.com/orgsync/active_interaction/issues/165
   [#173]: https://github.com/orgsync/active_interaction/issues/173
   [#174]: https://github.com/orgsync/active_interaction/issues/174
@@ -510,10 +527,17 @@
   [#203]: https://github.com/orgsync/active_interaction/issues/203
   [#206]: https://github.com/orgsync/active_interaction/issues/206
   [#207]: https://github.com/orgsync/active_interaction/issues/207
+  [#213]: https://github.com/orgsync/active_interaction/issues/213
+  [#214]: https://github.com/orgsync/active_interaction/issues/214
+  [#215]: https://github.com/orgsync/active_interaction/issues/215
   [#224]: https://github.com/orgsync/active_interaction/issues/224
   [#235]: https://github.com/orgsync/active_interaction/issues/235
+  [#236]: https://github.com/orgsync/active_interaction/issues/236
   [#239]: https://github.com/orgsync/active_interaction/issues/239
   [#244]: https://github.com/orgsync/active_interaction/issues/244
   [#248]: https://github.com/orgsync/active_interaction/issues/248
+  [#250]: https://github.com/orgsync/active_interaction/issues/250
   [#256]: https://github.com/orgsync/active_interaction/issues/256
+  [#264]: https://github.com/orgsync/active_interaction/issues/264
   [#265]: https://github.com/orgsync/active_interaction/issues/265
+  [#269]: https://github.com/orgsync/active_interaction/issues/269

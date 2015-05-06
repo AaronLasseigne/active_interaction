@@ -39,7 +39,7 @@ Read more on [the project page][] or check out [the full documentation][].
   - [File](#file)
   - [Hash](#hash)
   - [Interface](#interface)
-  - [Model](#model)
+  - [Object](#object)
   - [String](#string)
   - [Symbol](#symbol)
   - [Dates and times](#dates-and-times)
@@ -124,8 +124,8 @@ end
 Call `.run` on your interaction to execute it. You must pass a single hash to
 `.run`. It will return an instance of your interaction. By convention, we call
 this an outcome. You can use the `#valid?` method to ask the outcome if it's
-valid. If it's invalid, take a look at its errors with `#errors`. If it's
-valid, `#result` will be the value returned from `#execute`.
+valid. If it's invalid, take a look at its errors with `#errors`. In either
+case, the value returned from `#execute` will be stored in `#result`.
 
 ``` rb
 outcome = Square.run(x: 'two point one')
@@ -379,11 +379,11 @@ InterfaceInteraction.run!(serializer: JSON)
 # => "{\"is_json\":true}"
 ```
 
-### Model
+### Object
 
-Model filters allow you to require an instance of a particular class. It checks
-either `#is_a?` on the instance or `.===` on the class. Because of that, it
-also works with classes that have mixed modules in with `include`.
+Object filters allow you to require an instance of a particular class. It
+checks either `#is_a?` on the instance or `.===` on the class. Because of that,
+it also works with classes that have mixed modules in with `include`.
 
 ``` rb
 class Cow
@@ -392,17 +392,17 @@ class Cow
   end
 end
 
-class ModelInteraction < ActiveInteraction::Base
-  model :cow
+class ObjectInteraction < ActiveInteraction::Base
+  object :cow
 
   def execute
     cow.moo
   end
 end
 
-ModelInteraction.run!(cow: Object.new)
-# ActiveInteraction::InvalidInteractionError: Cow is not a valid model
-ModelInteraction.run!(cow: Cow.new)
+ObjectInteraction.run!(cow: Object.new)
+# ActiveInteraction::InvalidInteractionError: Cow is not a valid object
+ObjectInteraction.run!(cow: Cow.new)
 # => "Moo!"
 ```
 
@@ -411,11 +411,11 @@ name is different than your class name, use the `class` option. It can be
 either the class, a string, or a symbol.
 
 ``` rb
-model :dolly1,
+object :dolly1,
   class: Sheep
-model :dolly2,
+object :dolly2,
   class: 'Sheep'
-model :dolly3,
+object :dolly3,
   class: :Sheep
 ```
 
@@ -788,7 +788,7 @@ spot.
 
 ``` rb
 class DestroyAccount < ActiveInteraction::Base
-  model :account
+  object :account
 
   def execute
     account.destroy
@@ -822,7 +822,7 @@ Skip to [the predicates section](#predicates) for more information about them.
 
 ``` rb
 class UpdateAccount < ActiveInteraction::Base
-  model :account
+  object :account
 
   string :first_name, :last_name,
     default: nil
@@ -1004,14 +1004,14 @@ end
 
 ### Errors
 
-ActiveInteraction provides symbolic errors for easier introspection and testing
-of errors. Symbolic errors improve on regular errors by adding a symbol that
+ActiveInteraction provides detailed errors for easier introspection and testing
+of errors. Detailed errors improve on regular errors by adding a symbol that
 represents the type of error that has occurred. Let's look at an example where
 an item is purchased using a credit card.
 
 ``` rb
 class BuyItem < ActiveInteraction::Base
-  model :credit_card, :item
+  object :credit_card, :item
   hash :options do
     boolean :gift_wrapped
   end
@@ -1034,27 +1034,29 @@ errors.
 ``` rb
 outcome = BuyItem.run(item: 'Thing', options: { gift_wrapped: 'yes' })
 outcome.errors.messages
-# => {:credit_card=>["is required"], :item=>["is not a valid model"], :options=>["has an invalid nested value (\"gift_wrapped\" => \"yes\")"]}
+# => {:credit_card=>["is required"], :item=>["is not a valid object"], :options=>["has an invalid nested value (\"gift_wrapped\" => \"yes\")"]}
 ```
 
 Determining the type of error based on the string is difficult if not
-impossible. Calling `#symbolic` instead of `#messages` on `errors` gives you
+impossible. Calling `#details` instead of `#messages` on `errors` gives you
 the same list of errors with a testable label representing the error.
 
 ``` rb
-outcome.errors.symbolic
-# => {"credit_card"=>[:missing], "item"=>[:invalid_type], "options"=>[:invalid_nested]}
+outcome.errors.details
+# => {:credit_card=>[{:error=>:missing}], :item=>[{:type=>"object", :error=>:invalid_type}], :options=>[{:name=>"\"gift_wrapped\"", :value=>"\"yes\"", :error=>:invalid_nested}]}
 ```
 
-Symbolic errors can also be manually added during the execute call by calling
-`#add_sym` instead of `#add` on `errors`. It works the same way as `add` except
-that the second argument is the error label.
+Detailed errors can also be manually added during the execute call by passing a
+symbol to `#add` instead of a string.
 
 ``` rb
 def execute
-  errors.add_sym(:monster, :no_passage, 'You shall not pass!')
+  errors.add(:monster, :no_passage)
 end
 ```
+
+These types of errors will become standard with Rails 5. ActiveInteraction's
+implementation is based off of [active_model-errors_details][].
 
 ActiveInteraction also supports merging errors. This is useful if you want to
 delegate validation to some other object. For example, if you have an
@@ -1063,7 +1065,7 @@ itself. By using the `#merge!` helper on `errors`, you can do exactly that.
 
 ``` rb
 class UpdateThing < ActiveInteraction::Base
-  model :thing
+  object :thing
 
   def execute
     unless thing.save
@@ -1180,7 +1182,7 @@ hsilgne:
       hash: hsah
       integer: regetni
       interface: ecafretni
-      model: ledom
+      object: tcejbo
       string: gnirts
       symbol: lobmys
       time: emit
@@ -1225,6 +1227,7 @@ Logo design by [Tyler Lee][].
 [the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
 [the change log]: CHANGELOG.md
+[active_model-errors_details]: https://github.com/cowbell/active_model-errors_details
 [aaron lasseigne]: https://github.com/AaronLasseigne
 [taylor fausak]: https://github.com/tfausak
 [orgsync]: https://github.com/orgsync

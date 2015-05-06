@@ -2,7 +2,7 @@
 
 module ActiveInteraction
   class Base
-    # @!method self.model(*attributes, options = {})
+    # @!method self.object(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are the correct class.
     #
@@ -11,14 +11,13 @@ module ActiveInteraction
     #     Class name used to ensure the value.
     #
     #   @example
-    #     model :account
+    #     object :account
     #   @example
-    #     model :account, class: User
+    #     object :account, class: User
   end
 
   # @private
-  class ModelFilter < Filter
-    register :model
+  class ObjectFilter < Filter
     register :object
 
     def cast(value, reconstantize = true)

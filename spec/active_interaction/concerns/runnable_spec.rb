@@ -101,9 +101,9 @@ describe ActiveInteraction::Runnable do
     context 'with an error' do
       include_context 'with an error'
 
-      it 'does not set the result' do
+      it 'sets the result' do
         instance.result = result
-        expect(instance.result).to be_nil
+        expect(instance.result).to eql result
       end
     end
 
@@ -176,38 +176,6 @@ describe ActiveInteraction::Runnable do
 
         it 'sets the result to nil' do
           expect(outcome.result).to be_nil
-        end
-      end
-    end
-
-    context 'with an execute where composition fails' do
-      before do
-        interaction = Class.new(TestInteraction) do
-          validate { errors.add(:base) }
-        end
-
-        klass.send(:define_method, :execute) { compose(interaction) }
-      end
-
-      it 'rolls back the transaction' do
-        instance = klass.new
-
-        allow(instance).to receive(:raise)
-        instance.send(:run)
-        expect(instance).to have_received(:raise)
-          .with(ActiveRecord::Rollback)
-      end
-
-      context 'without a transaction' do
-        before { klass.transaction(false) }
-
-        it 'does not roll back' do
-          instance = klass.new
-
-          allow(instance).to receive(:raise)
-          instance.send(:run)
-          expect(instance).to_not have_received(:raise)
-            .with(ActiveRecord::Rollback)
         end
       end
     end

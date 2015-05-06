@@ -89,89 +89,20 @@ module ActiveInteraction
   end
   private_constant :Interrupt
 
-  # An extension that provides symbolic error messages to make introspection
-  #   and testing easier.
+  # An extension that provides the ability to merge other errors into itself.
   class Errors < ActiveModel::Errors
-    # Maps attributes to arrays of symbolic messages.
-    #
-    # @return [Hash{Symbol => Array<Symbol>}]
-    attr_reader :symbolic
-    ActiveInteraction.deprecate self, :symbolic, 'use `details` instead'
-
-    def details
-      h = Hash.new([]).with_indifferent_access
-      @symbolic.each { |k, vs| vs.each { |v| h[k] += [{ error: v }] } }
-      h
-    end
-
-    alias_method :add_without_details, :add
-    def add_with_details(attribute, message = :invalid, options = {})
-      message = message.call if message.respond_to?(:call)
-      @symbolic[attribute] += [message] if message.is_a?(Symbol)
-      add_without_details(attribute, message, options)
-    end
-    alias_method :add, :add_with_details
-
-    # Adds a symbolic error message to an attribute.
-    #
-    # @example
-    #   errors.add_sym(:attribute)
-    #   errors.details
-    #   # => {:attribute=>[{:error=>:invalid}]}
-    #   errors.messages
-    #   # => {:attribute=>["is invalid"]}
-    #
-    # @param attribute [Symbol] The attribute to add an error to.
-    # @param symbol [Symbol, nil] The symbolic error to add.
-    # @param message [String, Symbol, Proc, nil] The message to add.
-    # @param options [Hash]
-    #
-    # @return (see #symbolic)
-    #
-    # @see ActiveModel::Errors#add
-    def add_sym(attribute, symbol = :invalid, message = nil, options = {})
-      add_without_details(attribute, message || symbol, options)
-
-      @symbolic[attribute] += [symbol]
-    end
-    ActiveInteraction.deprecate self, :add_sym, 'use `add` instead'
-
-    # @see ActiveModel::Errors#initialize
-    #
-    # @private
-    def initialize(*)
-      @symbolic = Hash.new([]).with_indifferent_access
-
-      super
-    end
-
-    # @see ActiveModel::Errors#initialize_dup
-    #
-    # @private
-    def initialize_dup(other)
-      @symbolic = Hash.new([]).with_indifferent_access
-      other.details.each { |k, vs| vs.each { |v| @symbolic[k] += [v[:error]] } }
-
-      super
-    end
-
-    # @see ActiveModel::Errors#clear
-    #
-    # @private
-    def clear
-      @symbolic.clear
-
-      super
-    end
-
     # Merge other errors into this one.
     #
     # @param other [Errors]
     #
     # @return [Errors]
     def merge!(other)
-      merge_messages!(other)
-      merge_details!(other) if other.respond_to?(:details)
+      if other.respond_to?(:details)
+        merge_details!(other)
+      else
+        merge_messages!(other)
+      end
+
       self
     end
 
@@ -186,12 +117,11 @@ module ActiveInteraction
     end
 
     def merge_details!(other)
-      other.details.each do |attribute, hashes|
-        hashes.each do |hash|
-          error = hash[:error]
-          next if @symbolic[attribute].include?(error)
-
-          @symbolic[attribute] += [error]
+      other.details.each do |attribute, details|
+        details.each do |detail|
+          detail = detail.dup
+          error = detail.delete(:error)
+          add(attribute, error, detail) unless added?(attribute, error, detail)
         end
       end
     end
