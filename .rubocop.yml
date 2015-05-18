@@ -2,6 +2,7 @@ AlignParameters:
   EnforcedStyle: with_fixed_indentation
 AllCops:
   Exclude:
+  - example/db/schema.rb
   - tmp/**/*
   - vendor/**/*
 HandleExceptions:
