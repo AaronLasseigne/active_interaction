@@ -1140,6 +1140,21 @@ Now our `form_for` call knows how to generate the correct URL and param name
 <% end %>
 ```
 
+If you have an interaction that updates an `Account`, you can define `to_model`
+to return the object you're updating.
+
+```rb
+class UpdateAccount < ActiveInteraction::Base
+  # ...
+
+  object :account
+
+  def to_model
+    account
+  end
+end
+```
+
 ActiveInteraction also supports [formtastic][] and [simple_form][]. The filters
 used to define the inputs on your interaction will relay type information to
 these gems. As a result, form fields will automatically use the appropriate
