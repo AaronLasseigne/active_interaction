@@ -1,0 +1,7 @@
+# coding: utf-8
+
+source 'https://rubygems.org'
+
+gem 'active_interaction', '~> 2.0'
+gem 'rails', '~> 4.2'
+gem 'sqlite3', '~> 1.3'
