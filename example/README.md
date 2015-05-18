@@ -28,5 +28,5 @@ you need to know. That being said, there are a few gotchas:
 
 [the documentation]: ../README.md#rails
 [the application]: config/application.rb#L15
-[`creatething`](app/interactions/things/create_thing.rb#L12-15)
-[`updatething`](app/interactions/things/update_thing.rb#L16-19)
+[`creatething`]: app/interactions/things/create_thing.rb#L12-15
+[`updatething`]: app/interactions/things/update_thing.rb#L16-19
