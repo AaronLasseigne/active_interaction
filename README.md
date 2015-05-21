@@ -85,7 +85,8 @@ $ gem install active_interaction --version '~> 2.0'
 ```
 
 This project uses [Semantic Versioning][]. Check out [the change log][] for a
-detailed list of changes.
+detailed list of changes. For help upgrading to version 2, please read [the
+announcement post][].
 
 ActiveInteraction works with all supported versions of Ruby (2.0 through 2.2)
 and ActiveModel (3.2 through 4.2).
@@ -1252,6 +1253,7 @@ Logo design by [Tyler Lee][].
 [the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
 [the change log]: CHANGELOG.md
+[the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
 [active_model-errors_details]: https://github.com/cowbell/active_model-errors_details
 [aaron lasseigne]: https://github.com/AaronLasseigne
 [taylor fausak]: https://github.com/tfausak

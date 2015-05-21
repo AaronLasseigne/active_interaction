@@ -1,5 +1,7 @@
 # [2.0.0][] (2015-05-06)
 
+For help upgrading to version 2, please read [the announcement post][].
+
 ## Changed
 
 - [#250][]: Replaced symbolic errors with Rails 5-style detailed errors.
@@ -544,3 +546,5 @@
   [#264]: https://github.com/orgsync/active_interaction/issues/264
   [#265]: https://github.com/orgsync/active_interaction/issues/265
   [#269]: https://github.com/orgsync/active_interaction/issues/269
+
+  [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
