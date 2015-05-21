@@ -14,11 +14,11 @@
 </p>
 
 <p align="center">
-  <a href="https://rubygems.org/gems/active_interaction"><img alt="" src="https://img.shields.io/gem/v/active_interaction.svg?label=version&amp;style=flat-square"></a>
-  <a href="https://travis-ci.org/orgsync/active_interaction"><img alt="" src="https://img.shields.io/travis/orgsync/active_interaction/master.svg?label=build&amp;style=flat-square"></a>
-  <a href="https://coveralls.io/r/orgsync/active_interaction"><img alt="" src="https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?label=coverage&amp;style=flat-square"></a>
-  <a href="https://codeclimate.com/github/orgsync/active_interaction"><img alt="" src="https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?label=climate&amp;style=flat-square"></a>
-  <a href="https://gemnasium.com/orgsync/active_interaction"><img alt="" src="https://img.shields.io/gemnasium/orgsync/active_interaction.svg?label=dependencies&amp;style=flat-square"></a>
+  <a href="https://rubygems.org/gems/active_interaction"><img alt="Version" src="https://img.shields.io/gem/v/active_interaction.svg?label=version&amp;style=flat-square"></a>
+  <a href="https://travis-ci.org/orgsync/active_interaction"><img alt="Build" src="https://img.shields.io/travis/orgsync/active_interaction/master.svg?label=build&amp;style=flat-square"></a>
+  <a href="https://coveralls.io/r/orgsync/active_interaction"><img alt="Coverage" src="https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?label=coverage&amp;style=flat-square"></a>
+  <a href="https://codeclimate.com/github/orgsync/active_interaction"><img alt="Climate" src="https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?label=climate&amp;style=flat-square"></a>
+  <a href="https://gemnasium.com/orgsync/active_interaction"><img alt="Dependencies" src="https://img.shields.io/gemnasium/orgsync/active_interaction.svg?label=dependencies&amp;style=flat-square"></a>
 </p>
 
 <hr>
