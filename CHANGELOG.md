@@ -1,4 +1,4 @@
-## Changed
+## Fixed
 
 - [#286][]: Change `file` filter to check for `rewind` instead of `eof?`.
 
