@@ -34,17 +34,18 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'activemodel', '>= 3.2', '<5'
 
   {
-    'bundler' => '~> 1.9',
-    'coveralls' => '~> 0.8',
-    'guard-rspec' => '~> 4.5',
-    'guard-rubocop' => '~> 1.2',
-    'kramdown' => '~> 1.7',
-    'rake' => '~> 10.4',
-    'rspec' => '~> 3.2',
-    'rubocop' => '~> 0.30',
-    'yard' => '~> 0.8'
-  }.each do |name, version|
-    gem.add_development_dependency name, version
+    'actionpack' => ['>= 3.2', '< 5'],
+    'bundler' => ['~> 1.9'],
+    'coveralls' => ['~> 0.8'],
+    'guard-rspec' => ['~> 4.5'],
+    'guard-rubocop' => ['~> 1.2'],
+    'kramdown' => ['~> 1.7'],
+    'rake' => ['~> 10.4'],
+    'rspec' => ['~> 3.2'],
+    'rubocop' => ['~> 0.30'],
+    'yard' => ['~> 0.8']
+  }.each do |name, versions|
+    gem.add_development_dependency name, *versions
   end
 
   if RUBY_ENGINE == 'rbx'

@@ -1,3 +1,7 @@
+## Fixed
+
+- [#286][]: Change `file` filter to check for `rewind` instead of `eof?`.
+
 # [2.0.0][] (2015-05-06)
 
 For help upgrading to version 2, please read [the announcement post][].
@@ -546,5 +550,6 @@ For help upgrading to version 2, please read [the announcement post][].
   [#264]: https://github.com/orgsync/active_interaction/issues/264
   [#265]: https://github.com/orgsync/active_interaction/issues/265
   [#269]: https://github.com/orgsync/active_interaction/issues/269
+  [#286]: https://github.com/orgsync/active_interaction/issues/286
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
