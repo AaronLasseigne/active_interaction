@@ -25,8 +25,8 @@ describe ActiveInteraction::FileFilter, :filter do
       end
     end
 
-    context 'with an object that responds to #eof?' do
-      let(:value) { double(eof?: true) }
+    context 'with an object that responds to #rewind' do
+      let(:value) { double(rewind: nil) }
 
       it 'returns the object' do
         expect(result).to eq value
