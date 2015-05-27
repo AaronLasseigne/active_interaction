@@ -1,4 +1,4 @@
-Copyright (c) 2013 Aaron Lasseigne and Taylor Fausak
+Copyright (c) 2013 to 2015 Aaron Lasseigne and Taylor Fausak
 
 MIT License
 
