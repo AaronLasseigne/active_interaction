@@ -49,11 +49,6 @@ module ActiveInteraction
       end
     end
 
-    def model(*)
-      super
-    end
-    ActiveInteraction.deprecate self, :model, 'use `object` instead'
-
     private
 
     def clean_value(h, name, filter, value)
