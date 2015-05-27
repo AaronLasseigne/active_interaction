@@ -1262,7 +1262,7 @@ Logo design by [Tyler Lee][].
 [mutations]: https://github.com/cypriss/mutations
 [our contribution guidelines]: CONTRIBUTING.md
 [complete list of contributors]: https://github.com/orgsync/active_interaction/graphs/contributors
-[the mit license]: LICENSE.txt
+[the mit license]: LICENSE.md
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
 [tyler lee]: https://github.com/tylerlee
