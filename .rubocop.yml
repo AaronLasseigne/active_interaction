@@ -5,6 +5,9 @@ AllCops:
   - example/db/schema.rb
   - tmp/**/*
   - vendor/**/*
+FileName:
+  Exclude:
+  - gemfiles/*
 HandleExceptions:
   Enabled: false
 MultilineOperationIndentation:
