@@ -1,3 +1,5 @@
+# [2.0.1][] (2015-05-27)
+
 ## Fixed
 
 - [#286][]: Change `file` filter to check for `rewind` instead of `eof?`.
@@ -421,6 +423,7 @@ For help upgrading to version 2, please read [the announcement post][].
 
 - Initial release.
 
+  [2.0.1]: https://github.com/orgsync/active_interaction/compare/v2.0.0...v2.0.1
   [2.0.0]: https://github.com/orgsync/active_interaction/compare/v1.6.0...v2.0.0
   [1.6.0]: https://github.com/orgsync/active_interaction/compare/v1.5.1...v1.6.0
   [1.5.1]: https://github.com/orgsync/active_interaction/compare/v1.5.0...v1.5.1
