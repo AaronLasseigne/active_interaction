@@ -34,6 +34,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'activemodel', '>= 3.2', '<5'
 
   {
+    'actionpack' => ['>= 3.2', '< 5'],
     'bundler' => ['~> 1.9'],
     'coveralls' => ['~> 0.8'],
     'guard-rspec' => ['~> 4.5'],
