@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-ArrayInteraction = Class.new(TestInteraction) do
+class ArrayInteraction < TestInteraction
   array :a do
     array
   end

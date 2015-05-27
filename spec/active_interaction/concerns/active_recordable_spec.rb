@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-InteractionWithFloatFilter = Class.new(TestInteraction) do
+class InteractionWithFloatFilter < TestInteraction
   float :thing
 end
 

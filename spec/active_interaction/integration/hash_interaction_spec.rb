@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-HashInteraction = Class.new(TestInteraction) do
+class HashInteraction < TestInteraction
   hash :a do
     hash :x
   end

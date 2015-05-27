@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-ObjectInteraction = Class.new(TestInteraction) do
+class ObjectInteraction < TestInteraction
   object :object
 end
 
