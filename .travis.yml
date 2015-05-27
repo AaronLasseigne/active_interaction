@@ -5,7 +5,7 @@ matrix:
   include:
   - env: RAKE_TASK=rubocop
     rvm: 2.2
-  - gemfile: gemfiles/activemodel3.rb
+  - gemfile: gemfiles/activemodel-3.2.rb
     rvm: 2.2
 notifications:
   email: false
