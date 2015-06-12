@@ -1,7 +1,3 @@
-<p align="center">
-  <img alt="" src="https://a.pomf.se/auvctt.svg" width="250">
-</p>
-
 <h1 align="center">
   <a href="https://github.com/orgsync/active_interaction">
     ActiveInteraction
