@@ -253,8 +253,14 @@ array :birthdays do
 end
 ```
 
-Note that filters inside an array block don't have names. Also you can only
-have one filter inside an array block.
+Note that you can only have one filter inside an array block, and it must not
+have a name.
+
+``` rb
+array :cows do
+  object class: Cow
+end
+```
 
 ### Boolean
 
