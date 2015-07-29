@@ -197,11 +197,24 @@ module ActiveInteraction
       end
     end
 
-    # TODO
+    # Returns `true` if the given key was in the hash passed to {.run}.
+    # Otherwise returns `false`. Use this to figure out if an input was given,
+    # even if it was `nil`.
+    #
+    # @example
+    #   class Example < ActiveInteraction::Base
+    #     integer :x, default: nil
+    #     def execute; given?(:x) end
+    #   end
+    #   Example.run!()        # => false
+    #   Example.run!(x: nil)  # => true
+    #   Example.run!(x: rand) # => true
     #
     # @param input [#to_sym]
     #
     # @return [Boolean]
+    #
+    # @since 2.1.0
     def given?(input)
       @_interaction_keys.include?(input.to_sym)
     end
