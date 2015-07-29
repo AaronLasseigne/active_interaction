@@ -401,6 +401,17 @@ describe ActiveInteraction::Base do
       inputs[:x] = rand
       expect(result).to be true
     end
+
+    it 'only tracks inputs with filters' do
+      described_class.class_exec do
+        def execute
+          given?(:y)
+        end
+      end
+
+      inputs[:y] = rand
+      expect(result).to be false
+    end
   end
 
   context 'inheritance' do

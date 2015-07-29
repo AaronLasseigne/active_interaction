@@ -164,9 +164,7 @@ module ActiveInteraction
     def initialize(inputs = {})
       fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
-      symbolized_inputs = inputs.symbolize_keys
-      @_interaction_keys = symbolized_inputs.keys.to_set
-      process_inputs(symbolized_inputs)
+      process_inputs(inputs.symbolize_keys)
     end
 
     # @!method compose(other, inputs = {})
@@ -231,6 +229,8 @@ module ActiveInteraction
 
     # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
+      @_interaction_keys = inputs.keys.to_set & self.class.filters.keys
+
       inputs.each do |key, value|
         fail InvalidValueError, key.inspect if InputProcessor.reserved?(key)
 
