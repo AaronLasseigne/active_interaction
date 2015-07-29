@@ -365,6 +365,28 @@ describe ActiveInteraction::Base do
     end
   end
 
+  describe '#given?' do
+    let(:described_class) do
+      Class.new(TestInteraction) do
+        float :x,
+          default: nil
+
+        def execute
+          given?(:x)
+        end
+      end
+    end
+
+    it do
+      expect(result).to be_falsey
+    end
+
+    it do
+      inputs[:x] = nil
+      expect(result).to be_truthy
+    end
+  end
+
   context 'inheritance' do
     context 'filters' do
       let(:described_class) { InteractionWithFilter }

@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'active_support/core_ext/hash/indifferent_access'
+require 'set'
 
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
@@ -163,7 +164,9 @@ module ActiveInteraction
     def initialize(inputs = {})
       fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
-      process_inputs(inputs.symbolize_keys)
+      symbolized_inputs = inputs.symbolize_keys
+      @_interaction_keys = symbolized_inputs.keys.to_set
+      process_inputs(symbolized_inputs)
     end
 
     # @!method compose(other, inputs = {})
@@ -192,6 +195,15 @@ module ActiveInteraction
       self.class.filters.keys.each_with_object({}) do |name, h|
         h[name] = public_send(name)
       end
+    end
+
+    # TODO
+    #
+    # @param input [#to_sym]
+    #
+    # @return [Boolean]
+    def given?(input)
+      @_interaction_keys.include?(input.to_sym)
     end
 
     protected
