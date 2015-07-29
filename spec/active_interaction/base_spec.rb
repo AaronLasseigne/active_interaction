@@ -377,13 +377,29 @@ describe ActiveInteraction::Base do
       end
     end
 
-    it do
-      expect(result).to be_falsey
+    it 'is false when the input is not given' do
+      expect(result).to be false
     end
 
-    it do
+    it 'is true when the input is nil' do
       inputs[:x] = nil
-      expect(result).to be_truthy
+      expect(result).to be true
+    end
+
+    it 'is true when the input is given' do
+      inputs[:x] = rand
+      expect(result).to be true
+    end
+
+    it 'symbolizes its argument' do
+      described_class.class_exec do
+        def execute
+          given?('x')
+        end
+      end
+
+      inputs[:x] = rand
+      expect(result).to be true
     end
   end
 
