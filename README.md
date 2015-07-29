@@ -1166,11 +1166,13 @@ input type.
 
 ### Optional inputs
 
-[The filters section][] shows you how to define optional inputs with the
-`default` option. For inputs with a default, [the predicates section][] shows
-you how to test for `nil`. What if you have an optional input where `nil` is a
-valid value? For example, you may optionally track your users' birthdays. You
-can use the `given?` predicate to see if an input was even passed to `run`.
+Optional inputs can be defined by using the `:default` option as described in
+[the Filters section][#filters]. Within the interaction, provided and default
+values are merged to create `inputs`. There are times where it is useful to
+know whether a value was passed to `run` or the result of a filter default. In
+particular, it is useful when `nil` is an acceptable value. For example, you
+may optionally track your users' birthdays. You can use the `given?`` predicate
+to see if an input was even passed to `run`.
 
 ``` rb
 class UpdateUser < ActiveInteraction::Base
