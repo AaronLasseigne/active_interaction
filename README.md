@@ -1167,9 +1167,9 @@ input type.
 ### Optional inputs
 
 Optional inputs can be defined by using the `:default` option as described in
-[the Filters section][#filters]. Within the interaction, provided and default
-values are merged to create `inputs`. There are times where it is useful to
-know whether a value was passed to `run` or the result of a filter default. In
+[the Filters section][]. Within the interaction, provided and default values
+are merged to create `inputs`. There are times where it is useful to know
+whether a value was passed to `run` or the result of a filter default. In
 particular, it is useful when `nil` is an acceptable value. For example, you
 may optionally track your users' birthdays. You can use the `given?` predicate
 to see if an input was even passed to `run`.
@@ -1307,5 +1307,4 @@ Logo design by [Tyler Lee][].
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
 [the filters section]: #filters
-[the predicates section]: #predicates
 [tyler lee]: https://github.com/tylerlee
