@@ -31,18 +31,18 @@ Gem::Specification.new do |gem|
     Dir.glob(File.join('lib', 'active_interaction', 'locale', '*.yml'))
   gem.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
 
-  gem.add_dependency 'activemodel', '>= 3.2', '<5'
+  gem.add_dependency 'activemodel', '>= 3.2', '< 5'
 
   {
     'actionpack' => ['>= 3.2', '< 5'],
-    'bundler' => ['~> 1.9'],
+    'bundler' => ['~> 1.10'],
     'coveralls' => ['~> 0.8'],
-    'guard-rspec' => ['~> 4.5'],
+    'guard-rspec' => ['~> 4.6'],
     'guard-rubocop' => ['~> 1.2'],
-    'kramdown' => ['~> 1.7'],
+    'kramdown' => ['~> 1.8'],
     'rake' => ['~> 10.4'],
-    'rspec' => ['~> 3.2'],
-    'rubocop' => ['~> 0.30'],
+    'rspec' => ['~> 3.3'],
+    'rubocop' => ['~> 0.32'],
     'yard' => ['~> 0.8']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions
@@ -50,13 +50,13 @@ Gem::Specification.new do |gem|
 
   if RUBY_ENGINE == 'rbx'
     {
-      'parser' => '~> 2.1',
-      'racc' => '~> 1.4',
-      'rubinius-coverage' => '~> 2.0',
-      'rubysl' => '~> 2.1',
-      'rubysl-test-unit' => '~> 2.0'
+      'parser' => '2.2',
+      'racc' => '1.4',
+      'rubinius-coverage' => '2.0',
+      'rubysl' => '2.1',
+      'rubysl-test-unit' => '2.0'
     }.each do |name, version|
-      gem.add_development_dependency name, version
+      gem.add_development_dependency name, "~> #{version}"
     end
   end
 end
