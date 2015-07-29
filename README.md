@@ -62,6 +62,7 @@ Read more on [the project page][] or check out [the full documentation][].
   - [Descriptions](#descriptions)
   - [Errors](#errors)
   - [Forms](#forms)
+  - [Optional inputs](#optional-inputs)
   - [Predicates](#predicates)
   - [Translations](#translations)
 - [Credits](#credits)
@@ -1163,6 +1164,42 @@ used to define the inputs on your interaction will relay type information to
 these gems. As a result, form fields will automatically use the appropriate
 input type.
 
+### Optional inputs
+
+[The filters section][] shows you how to define optional inputs with the
+`default` option. For inputs with a default, [the predicates section][] shows
+you how to test for `nil`. What if you have an optional input where `nil` is a
+valid value? For example, you may optionally track your users' birthdays. You
+can use the `given?` predicate to see if an input was even passed to `run`.
+
+``` rb
+class UpdateUser < ActiveInteraction::Base
+  object :user
+  date :birthday,
+    default: nil
+
+  def execute
+    user.birthday = birthday if given?(:birthday)
+    errors.merge!(user) unless user.save
+    user
+  end
+end
+```
+
+Now you have a few options. If you don't want to update their birthday, leave
+it out of the hash. If you want to remove their birthday, set `birthday: nil`.
+And if you want to update it, pass in the new value as usual.
+
+``` rb
+user = User.find(...)
+# Don't update their birthday.
+UpdateUser.run!(user: user)
+# Remove their birthday.
+UpdateUser.run!(user: user, birthday: nil)
+# Update their birthday.
+UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
+```
+
 ### Predicates
 
 ActiveInteraction creates a predicate method for every input defined by a filter. So if you have an input called `foo`, there will be a predicate method called `#foo?`. That method will tell you if the input was given (that is, if it was not `nil`).
@@ -1267,4 +1304,6 @@ Logo design by [Tyler Lee][].
 [the mit license]: LICENSE.md
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
+[the filters section]: #filters
+[the predicates section]: #predicates
 [tyler lee]: https://github.com/tylerlee
