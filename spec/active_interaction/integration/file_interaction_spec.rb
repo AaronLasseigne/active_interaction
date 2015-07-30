@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'action_dispatch'
 
-class FileInteraction < TestInteraction
+FileInteraction = Class.new(TestInteraction) do
   file :a
 end
 

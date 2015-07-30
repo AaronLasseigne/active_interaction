@@ -25,7 +25,7 @@ TimeWithZone = Class.new do
   end
 end
 
-class TimeInteraction < TestInteraction
+TimeInteraction = Class.new(TestInteraction) do
   time :a
 end
 

@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'json'
 require 'yaml'
 
-class InterfaceInteraction < TestInteraction
+InterfaceInteraction = Class.new(TestInteraction) do
   interface :anything
 end
 

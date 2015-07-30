@@ -2,15 +2,15 @@
 
 require 'spec_helper'
 
-class InteractionWithFilter < TestInteraction
+InteractionWithFilter = Class.new(TestInteraction) do
   float :thing
 end
 
-class InteractionWithDateFilter < TestInteraction
+InteractionWithDateFilter = Class.new(TestInteraction) do
   date :thing
 end
 
-class AddInteraction < TestInteraction
+AddInteraction = Class.new(TestInteraction) do
   float :x, :y
 
   def execute
@@ -18,7 +18,7 @@ class AddInteraction < TestInteraction
   end
 end
 
-class InterruptInteraction < TestInteraction
+InterruptInteraction = Class.new(TestInteraction) do
   object :x, :y,
     class: Object,
     default: nil

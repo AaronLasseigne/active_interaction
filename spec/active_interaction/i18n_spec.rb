@@ -12,7 +12,7 @@ describe ActiveInteraction do
   end
 end
 
-class I18nInteraction < TestInteraction
+I18nInteraction = Class.new(TestInteraction) do
   hash :a do
     hash :x
   end
