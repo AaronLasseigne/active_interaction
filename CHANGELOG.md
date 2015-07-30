@@ -1,3 +1,8 @@
+## Fixed
+
+- [#296][]: Fixed a bug that silently converted invalid lazy default values to
+  `nil` instead of raising an `InvalidDefaultError`.
+
 # [2.1.0][] (2015-07-30)
 
 ## Added
@@ -565,5 +570,6 @@ For help upgrading to version 2, please read [the announcement post][].
   [#286]: https://github.com/orgsync/active_interaction/issues/286
   [#289]: https://github.com/orgsync/active_interaction/issues/289
   [#295]: https://github.com/orgsync/active_interaction/issues/295
+  [#296]: https://github.com/orgsync/active_interaction/issues/296
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
