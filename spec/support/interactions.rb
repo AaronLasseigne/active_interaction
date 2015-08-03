@@ -30,6 +30,19 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
     end
   end
 
+  context 'with an invalid lazy default' do
+    let(:described_class) do
+      Class.new(TestInteraction) do
+        public_send(type, :default,
+          filter_options.merge(default: -> { Object.new }))
+      end
+    end
+
+    it 'raises an error' do
+      expect { outcome }.to raise_error ActiveInteraction::InvalidDefaultError
+    end
+  end
+
   context 'without required inputs' do
     it 'is invalid' do
       expect(outcome).to be_invalid

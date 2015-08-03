@@ -248,7 +248,7 @@ module ActiveInteraction
       self.class.filters.each do |name, filter|
         begin
           public_send("#{name}=", filter.clean(inputs[name]))
-        rescue Error
+        rescue InvalidValueError, MissingValueError, NoDefaultError
           # #type_check will add errors if appropriate.
         end
       end
