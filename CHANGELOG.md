@@ -1,3 +1,8 @@
+## Fixed
+
+- [#298][]: Fixed a bug that raised exceptions when passing invalid nested
+  values.
+
 # [2.1.1][] (2015-08-04)
 
 ## Fixed
@@ -574,5 +579,6 @@ For help upgrading to version 2, please read [the announcement post][].
   [#289]: https://github.com/orgsync/active_interaction/issues/289
   [#295]: https://github.com/orgsync/active_interaction/issues/295
   [#296]: https://github.com/orgsync/active_interaction/issues/296
+  [#298]: https://github.com/orgsync/active_interaction/issues/298
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/

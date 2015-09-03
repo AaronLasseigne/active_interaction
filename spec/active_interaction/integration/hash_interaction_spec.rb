@@ -27,6 +27,11 @@ describe HashInteraction do
     it 'returns the correct value for :b' do
       expect(result[:b]).to eql('x' => {})
     end
+
+    it 'does not raise an error with an invalid nested value' do
+      inputs[:a] = { x: false }
+      expect { outcome }.to_not raise_error
+    end
   end
 
   context 'with an invalid default' do

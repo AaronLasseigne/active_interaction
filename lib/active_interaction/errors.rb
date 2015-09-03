@@ -57,7 +57,7 @@ module ActiveInteraction
   # Raised if a user-supplied value to a nested hash input is invalid.
   #
   # @return [Class]
-  class InvalidNestedValueError < Error
+  class InvalidNestedValueError < InvalidValueError
     # @return [Symbol]
     attr_reader :filter_name
 

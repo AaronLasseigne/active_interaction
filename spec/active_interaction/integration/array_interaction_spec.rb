@@ -27,6 +27,11 @@ describe ArrayInteraction do
     it 'returns the correct value for :b' do
       expect(result[:b]).to eql [[]]
     end
+
+    it 'does not raise an error with an invalid nested value' do
+      inputs[:a] = [false]
+      expect { outcome }.to_not raise_error
+    end
   end
 
   context 'with an invalid default' do
