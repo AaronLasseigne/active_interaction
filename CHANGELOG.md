@@ -1,3 +1,5 @@
+# [2.1.2][] (2015-09-03)
+
 ## Fixed
 
 - [#298][]: Fixed a bug that raised exceptions when passing invalid nested
@@ -442,6 +444,7 @@ For help upgrading to version 2, please read [the announcement post][].
 
 - Initial release.
 
+  [2.1.2]: https://github.com/orgsync/active_interaction/compare/v2.1.1...v2.1.2
   [2.1.1]: https://github.com/orgsync/active_interaction/compare/v2.1.0...v2.1.1
   [2.1.0]: https://github.com/orgsync/active_interaction/compare/v2.0.1...v2.1.0
   [2.0.1]: https://github.com/orgsync/active_interaction/compare/v2.0.0...v2.0.1

@@ -9,7 +9,7 @@ require 'active_model'
 #
 # @since 1.0.0
 #
-# @version 2.1.1
+# @version 2.1.2
 module ActiveInteraction
 end
 
