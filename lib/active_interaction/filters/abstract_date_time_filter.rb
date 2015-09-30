@@ -13,12 +13,12 @@ module ActiveInteraction
 
     def cast(value)
       case value
-      when *klasses
-        value
       when String
         convert(value)
       when GroupedInput
         convert(stringify(value))
+      when *klasses
+        value
       else
         super
       end
