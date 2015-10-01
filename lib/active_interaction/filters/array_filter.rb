@@ -60,26 +60,15 @@ module ActiveInteraction
     def classes
       result = [Array]
 
-      [
-        [:ActiveRecord, :Relation],
-        [:ActiveRecord, :Associations, :CollectionProxy]
-      ].each do |names|
-        if (klass = safe_constant(names))
-          result.push(klass)
-        end
+      %w[
+        ActiveRecord::Relation
+        ActiveRecord::Associations::CollectionProxy
+      ].each do |name|
+        next unless (klass = name.safe_constantize)
+        result.push(klass)
       end
 
       result
-    end
-
-    # @param names [Array<Symbol>]
-    # @return [Object, nil]
-    def safe_constant(names)
-      names.reduce(Object) do |object, name|
-        next unless object
-        next unless object.const_defined?(name)
-        object.const_get(name)
-      end
     end
 
     # @param filter [Filter]
