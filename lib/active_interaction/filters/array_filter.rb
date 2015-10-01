@@ -59,10 +59,19 @@ module ActiveInteraction
     # @return [Array<Class>]
     def classes
       result = [Array]
-      return result unless Object.const_defined?(:ActiveRecord)
-      return result unless ActiveRecord.const_defined?(:Relation)
 
-      result.push(ActiveRecord::Relation)
+      if Object.const_defined?(:ActiveRecord)
+        if ActiveRecord.const_defined?(:Relation)
+          result.push(ActiveRecord::Relation)
+        end
+        if ActiveRecord.const_defined?(:Associations)
+          if ActiveRecord::Associations.const_defined?(:CollectionProxy)
+            result.push(ActiveRecord::Associations::CollectionProxy)
+          end
+        end
+      end
+
+      result
     end
 
     # @param filter [Filter]
