@@ -2,6 +2,24 @@
 
 require 'spec_helper'
 
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: ':memory:'
+)
+
+ActiveRecord::Schema.define do
+  create_table(:lists)
+  create_table(:elements) { |t| t.column(:list_id, :integer) }
+end
+
+class List < ActiveRecord::Base
+  has_many :elements
+end
+
+class Element < ActiveRecord::Base
+  belongs_to :list
+end
+
 ArrayInteraction = Class.new(TestInteraction) do
   array :a do
     array
@@ -14,6 +32,8 @@ end
 describe ArrayInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction', :array, -> { [] }
+  it_behaves_like 'an interaction', :array, -> { Element.where('TRUE') }
+  it_behaves_like 'an interaction', :array, -> { List.create!.elements }
 
   context 'with inputs[:a]' do
     let(:a) { [[]] }
