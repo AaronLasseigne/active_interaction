@@ -1,3 +1,7 @@
+## Fixed
+
+- [#303][]: Allowed ActiveRecord associations as inputs to array filters.
+
 # [1.6.0][] (2015-05-06)
 
 ## Added
@@ -517,3 +521,4 @@
   [#248]: https://github.com/orgsync/active_interaction/issues/248
   [#256]: https://github.com/orgsync/active_interaction/issues/256
   [#265]: https://github.com/orgsync/active_interaction/issues/265
+  [#303]: https://github.com/orgsync/active_interaction/issues/303
