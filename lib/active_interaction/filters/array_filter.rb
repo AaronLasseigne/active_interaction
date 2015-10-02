@@ -65,8 +65,12 @@ module ActiveInteraction
     def classes
       result = [Array]
 
-      if ActiveRecord.const_defined?(:Relation)
-        result.push(ActiveRecord::Relation)
+      %w[
+        ActiveRecord::Relation
+        ActiveRecord::Associations::CollectionProxy
+      ].each do |name|
+        next unless (klass = name.safe_constantize)
+        result.push(klass)
       end
 
       result
