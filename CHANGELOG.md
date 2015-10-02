@@ -1,3 +1,5 @@
+# [2.0.2][] (2015-10-02)
+
 ## Fixed
 
 - [#303][]: Allowed ActiveRecord associations as inputs to array filters.
@@ -427,6 +429,7 @@ For help upgrading to version 2, please read [the announcement post][].
 
 - Initial release.
 
+  [2.0.2]: https://github.com/orgsync/active_interaction/compare/v2.0.1...v2.0.2
   [2.0.1]: https://github.com/orgsync/active_interaction/compare/v2.0.0...v2.0.1
   [2.0.0]: https://github.com/orgsync/active_interaction/compare/v1.6.0...v2.0.0
   [1.6.0]: https://github.com/orgsync/active_interaction/compare/v1.5.1...v1.6.0
