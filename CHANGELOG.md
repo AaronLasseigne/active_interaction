@@ -57,6 +57,12 @@ For help upgrading to version 2, please read [the announcement post][].
 - [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
   This takes care of potential but unlikely DoS attacks noted in [#163][].
 
+# [1.6.1][] (2015-10-02)
+
+## Fixed
+
+- [#303][]: Allowed ActiveRecord associations as inputs to array filters.
+
 # [1.6.0][] (2015-05-06)
 
 ## Added
@@ -461,6 +467,7 @@ For help upgrading to version 2, please read [the announcement post][].
   [2.1.0]: https://github.com/orgsync/active_interaction/compare/v2.0.1...v2.1.0
   [2.0.1]: https://github.com/orgsync/active_interaction/compare/v2.0.0...v2.0.1
   [2.0.0]: https://github.com/orgsync/active_interaction/compare/v1.6.0...v2.0.0
+  [1.6.1]: https://github.com/orgsync/active_interaction/compare/v1.6.0...v1.6.1
   [1.6.0]: https://github.com/orgsync/active_interaction/compare/v1.5.1...v1.6.0
   [1.5.1]: https://github.com/orgsync/active_interaction/compare/v1.5.0...v1.5.1
   [1.5.0]: https://github.com/orgsync/active_interaction/compare/v1.4.1...v1.5.0
