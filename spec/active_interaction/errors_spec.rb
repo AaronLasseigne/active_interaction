@@ -17,6 +17,25 @@ describe ActiveInteraction::Errors do
 
   subject(:errors) { described_class.new(klass.new) }
 
+  context 'backports' do
+    describe '#delete' do
+      it 'deletes the detailed error' do
+        errors.add(:attribute)
+        errors.delete(:attribute)
+        expect(errors.details).to_not have_key :attribute
+      end
+    end
+
+    describe '#initialize_dup' do
+      it 'duplicates the detailed errors' do
+        errors.add(:attribute)
+        other = errors.dup
+        expect(other.details).to eql errors.details
+        expect(other.details).to_not be errors.details
+      end
+    end
+  end
+
   describe '#merge!' do
     let(:other) { described_class.new(klass.new) }
 
