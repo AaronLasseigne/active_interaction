@@ -1167,7 +1167,7 @@ input type.
 ### Optional inputs
 
 Optional inputs can be defined by using the `:default` option as described in
-[the Filters section][]. Within the interaction, provided and default values
+[the filters section][]. Within the interaction, provided and default values
 are merged to create `inputs`. There are times where it is useful to know
 whether a value was passed to `run` or the result of a filter default. In
 particular, it is useful when `nil` is an acceptable value. For example, you
@@ -1194,10 +1194,13 @@ And if you want to update it, pass in the new value as usual.
 
 ``` rb
 user = User.find(...)
+
 # Don't update their birthday.
 UpdateUser.run!(user: user)
+
 # Remove their birthday.
 UpdateUser.run!(user: user, birthday: nil)
+
 # Update their birthday.
 UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
 ```
