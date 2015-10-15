@@ -5,6 +5,8 @@ AllCops:
   - example/db/schema.rb
   - tmp/**/*
   - vendor/**/*
+ClassLength:
+  Max: 120
 Documentation:
   Exclude:
   - spec/**/*
