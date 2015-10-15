@@ -20,5 +20,3 @@ PercentLiteralDelimiters:
     '%W': '[]'
     '%i': '[]'
     '%w': '[]'
-TrivialAccessors:
-  ExactNameMatch: true
