@@ -143,10 +143,14 @@ module ActiveInteraction
 
       # @param filter [Filter]
       def initialize_filter(filter)
-        filters[filter.name] = filter
+        attribute = filter.name
+        if filters.key?(attribute)
+          warn "WARNING: Redefining #{name}##{attribute} filter!"
+        end
+        filters[attribute] = filter
 
-        attr_accessor filter.name
-        define_method("#{filter.name}?") { !public_send(filter.name).nil? }
+        attr_accessor attribute
+        define_method("#{attribute}?") { !public_send(attribute).nil? }
 
         eagerly_evaluate_default(filter)
       end
