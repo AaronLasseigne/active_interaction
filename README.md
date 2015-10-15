@@ -1207,7 +1207,10 @@ UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
 
 ### Predicates
 
-ActiveInteraction creates a predicate method for every input defined by a filter. So if you have an input called `foo`, there will be a predicate method called `#foo?`. That method will tell you if the input was given (that is, if it was not `nil`).
+ActiveInteraction creates a predicate method for every input defined by a
+filter. So if you have an input called `foo`, there will be a predicate method
+called `#foo?`. That method will tell you if the input was given (that is, if
+it was not `nil`).
 
 ``` rb
 class SayHello < ActiveInteraction::Base
@@ -1228,6 +1231,9 @@ SayHello.run!(name: nil)
 SayHello.run!(name: 'Taylor')
 # => "Hello, Taylor!"
 ```
+
+See [the optional inputs section][] for help on determining if an input was
+present in the input hash instead of just `nil`.
 
 ### Translations
 
@@ -1308,3 +1314,4 @@ ActiveInteraction is licensed under [the MIT License][].
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
 [the filters section]: #filters
+[the optional inputs section]: #optional-inputs
