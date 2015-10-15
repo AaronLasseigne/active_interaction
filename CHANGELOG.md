@@ -1,3 +1,7 @@
+## Added
+
+- [#310][]: Added a warning when a filter is redefined.
+
 # [2.1.3][] (2015-10-02)
 
 ## Fixed
@@ -604,5 +608,6 @@ For help upgrading to version 2, please read [the announcement post][].
   [#298]: https://github.com/orgsync/active_interaction/issues/298
   [#303]: https://github.com/orgsync/active_interaction/issues/303
   [#304]: https://github.com/orgsync/active_interaction/issues/304
+  [#310]: https://github.com/orgsync/active_interaction/issues/310
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
