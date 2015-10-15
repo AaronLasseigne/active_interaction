@@ -145,7 +145,7 @@ module ActiveInteraction
       def initialize_filter(filter)
         attribute = filter.name
         if filters.key?(attribute)
-          warn "WARNING: Redefining #{name}##{attribute} filter!"
+          warn "WARNING: Redefining #{name}##{attribute} filter"
         end
         filters[attribute] = filter
 
