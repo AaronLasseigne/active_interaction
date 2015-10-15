@@ -285,7 +285,7 @@ BooleanInteraction.run!(kool_aid: true)
 
 ### File
 
-File filters also accept `TempFile`s and anything that responds to `#tempfile`.
+File filters also accept `TempFile`s and anything that responds to `#rewind`.
 That means that you can pass the `params` from uploading files via forms in
 Rails.
 
