@@ -55,10 +55,20 @@ describe HashInteraction do
   end
 
   context 'with an invalid nested default' do
-    it 'raises an error' do
+    it 'raises an error with a non-empty hash' do
       expect do
         Class.new(ActiveInteraction::Base) do
           hash :a, default: { x: Object.new } do
+            hash :x
+          end
+        end
+      end.to raise_error ActiveInteraction::InvalidDefaultError
+    end
+
+    it 'raises an error' do
+      expect do
+        Class.new(ActiveInteraction::Base) do
+          hash :a, default: {} do
             hash :x
           end
         end
