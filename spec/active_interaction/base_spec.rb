@@ -226,6 +226,12 @@ describe ActiveInteraction::Base do
     let(:described_class) { InteractionWithFilter }
     let(:thing) { rand }
 
+    it 'warns when redefining a filter' do
+      klass = Class.new(described_class)
+      expect(klass).to receive(:warn).with(/\AWARNING:/)
+      klass.boolean :thing
+    end
+
     describe '.run(inputs = {})' do
       it "returns an instance of #{described_class}" do
         expect(outcome).to be_a described_class
