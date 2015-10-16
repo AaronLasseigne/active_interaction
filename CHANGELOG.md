@@ -614,5 +614,6 @@ For help upgrading to version 2, please read [the announcement post][].
   [#303]: https://github.com/orgsync/active_interaction/issues/303
   [#304]: https://github.com/orgsync/active_interaction/issues/304
   [#310]: https://github.com/orgsync/active_interaction/issues/310
+  [#311]: https://github.com/orgsync/active_interaction/issues/311
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
