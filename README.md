@@ -285,7 +285,7 @@ BooleanInteraction.run!(kool_aid: true)
 
 ### File
 
-File filters also accept `TempFile`s and anything that responds to `#tempfile`.
+File filters also accept `TempFile`s and anything that responds to `#rewind`.
 That means that you can pass the `params` from uploading files via forms in
 Rails.
 
@@ -614,7 +614,8 @@ IntegerInteraction.run!(limit: 10)
 ActiveInteraction plays nicely with Rails. You can use interactions to handle
 your business logic instead of models or controllers. To see how it all works,
 let's take a look at a complete example of a controller with the typical
-resourceful actions.
+resourceful actions. For a complete working example, check out [Aire][], our
+example Rails application.
 
 ### Controller
 
@@ -1315,3 +1316,4 @@ ActiveInteraction is licensed under [the MIT License][].
 [simple_form]: https://rubygems.org/gems/simple_form
 [the filters section]: #filters
 [the optional inputs section]: #optional-inputs
+[aire]: example
