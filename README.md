@@ -285,7 +285,7 @@ BooleanInteraction.run!(kool_aid: true)
 
 ### File
 
-File filters also accept `TempFile`s and anything that responds to `#tempfile`.
+File filters also accept `TempFile`s and anything that responds to `#rewind`.
 That means that you can pass the `params` from uploading files via forms in
 Rails.
 
@@ -614,7 +614,8 @@ IntegerInteraction.run!(limit: 10)
 ActiveInteraction plays nicely with Rails. You can use interactions to handle
 your business logic instead of models or controllers. To see how it all works,
 let's take a look at a complete example of a controller with the typical
-resourceful actions.
+resourceful actions. For a complete working example, check out [Aire][], our
+example Rails application.
 
 ### Controller
 
@@ -1167,7 +1168,7 @@ input type.
 ### Optional inputs
 
 Optional inputs can be defined by using the `:default` option as described in
-[the Filters section][]. Within the interaction, provided and default values
+[the filters section][]. Within the interaction, provided and default values
 are merged to create `inputs`. There are times where it is useful to know
 whether a value was passed to `run` or the result of a filter default. In
 particular, it is useful when `nil` is an acceptable value. For example, you
@@ -1194,10 +1195,13 @@ And if you want to update it, pass in the new value as usual.
 
 ``` rb
 user = User.find(...)
+
 # Don't update their birthday.
 UpdateUser.run!(user: user)
+
 # Remove their birthday.
 UpdateUser.run!(user: user, birthday: nil)
+
 # Update their birthday.
 UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
 ```
@@ -1288,8 +1292,6 @@ available on GitHub.
 
 ActiveInteraction is licensed under [the MIT License][].
 
-Logo design by [Tyler Lee][].
-
 [the project page]: http://orgsync.github.io/active_interaction/
 [the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
@@ -1307,4 +1309,4 @@ Logo design by [Tyler Lee][].
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
 [the filters section]: #filters
-[tyler lee]: https://github.com/tylerlee
+[aire]: example

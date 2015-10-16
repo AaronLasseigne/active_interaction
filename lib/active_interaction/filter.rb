@@ -127,6 +127,8 @@ module ActiveInteraction
       fail InvalidValueError if value.is_a?(GroupedInput)
 
       cast(value)
+    rescue InvalidNestedValueError => error
+      raise InvalidDefaultError, "#{name}: #{value.inspect} (#{error})"
     rescue InvalidValueError, MissingValueError
       raise InvalidDefaultError, "#{name}: #{value.inspect}"
     end

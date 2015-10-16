@@ -2,6 +2,11 @@
 
 - [#310][]: Added a warning when a filter is redefined.
 
+## Changed
+
+- [#311][]: Changed the error message when defining the default value for a
+  hash.
+
 # [2.1.3][] (2015-10-02)
 
 ## Fixed
