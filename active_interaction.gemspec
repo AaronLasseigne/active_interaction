@@ -39,10 +39,10 @@ Gem::Specification.new do |gem|
     'coveralls' => ['~> 0.8'],
     'guard-rspec' => ['~> 4.6'],
     'guard-rubocop' => ['~> 1.2'],
-    'kramdown' => ['~> 1.8'],
+    'kramdown' => ['~> 1.9'],
     'rake' => ['~> 10.4'],
     'rspec' => ['~> 3.3'],
-    'rubocop' => ['~> 0.33'],
+    'rubocop' => ['~> 0.34'],
     'yard' => ['~> 0.8']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions
