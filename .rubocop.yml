@@ -6,7 +6,7 @@ AllCops:
   - tmp/**/*
   - vendor/**/*
 ClassLength:
-  Max: 120
+  Max: 150
 Documentation:
   Exclude:
   - spec/**/*
