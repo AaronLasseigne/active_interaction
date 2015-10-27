@@ -31,7 +31,7 @@ ProxyInteraction = Class.new(TestInteraction) do
 end
 
 InterruptInteraction = Class.new(TestInteraction) do
-  model :x, :y,
+  object :x, :y,
     class: Object,
     default: nil
 
@@ -238,6 +238,12 @@ describe ActiveInteraction::Base do
     let(:described_class) { InteractionWithFilter }
     let(:thing) { rand }
 
+    it 'warns when redefining a filter' do
+      klass = Class.new(described_class)
+      expect(klass).to receive(:warn).with(/\AWARNING:/)
+      klass.boolean :thing
+    end
+
     describe '.run(inputs = {})' do
       it "returns an instance of #{described_class}" do
         expect(outcome).to be_a described_class
@@ -260,8 +266,8 @@ describe ActiveInteraction::Base do
           before do
             @execute = described_class.instance_method(:execute)
             described_class.send(:define_method, :execute) do
-              errors.add(:thing, 'error')
-              errors.add_sym(:thing, :error, 'error')
+              errors.add(:thing, 'is invalid')
+              errors.add(:thing, :invalid)
               true
             end
           end
@@ -281,11 +287,17 @@ describe ActiveInteraction::Base do
           end
 
           it 'has errors' do
-            expect(outcome.errors.messages[:thing]).to eql %w[error error]
+            expect(outcome.errors.messages[:thing]).to eql [
+              'is invalid',
+              'is invalid'
+            ]
           end
 
-          it 'has symbolic errors' do
-            expect(outcome.errors.symbolic[:thing]).to eql [:error]
+          it 'has detailed errors' do
+            expect(outcome.errors.details[:thing]).to eql [
+              { error: 'is invalid' },
+              { error: :invalid }
+            ]
           end
         end
 
@@ -316,31 +328,6 @@ describe ActiveInteraction::Base do
         it 'returns the result' do
           expect(result[:thing]).to eql thing
         end
-      end
-    end
-  end
-
-  describe '#column_for_attribute(name)' do
-    let(:described_class) { InteractionWithFilter }
-    let(:column) { outcome.column_for_attribute(name) }
-
-    context 'name is not an input name' do
-      let(:name) { SecureRandom.hex }
-
-      it 'returns nil if the attribute cannot be found' do
-        expect(column).to be_nil
-      end
-    end
-
-    context 'name is an input name' do
-      let(:name) { InteractionWithFilter.filters.keys.first }
-
-      it 'returns a FilterColumn' do
-        expect(column).to be_a ActiveInteraction::FilterColumn
-      end
-
-      it 'returns a FilterColumn of type boolean' do
-        expect(column.type).to eql :float
       end
     end
   end
@@ -404,6 +391,55 @@ describe ActiveInteraction::Base do
   describe '#execute' do
     it 'raises an error' do
       expect { interaction.execute }.to raise_error NotImplementedError
+    end
+  end
+
+  describe '#given?' do
+    let(:described_class) do
+      Class.new(TestInteraction) do
+        float :x,
+          default: nil
+
+        def execute
+          given?(:x)
+        end
+      end
+    end
+
+    it 'is false when the input is not given' do
+      expect(result).to be false
+    end
+
+    it 'is true when the input is nil' do
+      inputs[:x] = nil
+      expect(result).to be true
+    end
+
+    it 'is true when the input is given' do
+      inputs[:x] = rand
+      expect(result).to be true
+    end
+
+    it 'symbolizes its argument' do
+      described_class.class_exec do
+        def execute
+          given?('x')
+        end
+      end
+
+      inputs[:x] = rand
+      expect(result).to be true
+    end
+
+    it 'only tracks inputs with filters' do
+      described_class.class_exec do
+        def execute
+          given?(:y)
+        end
+      end
+
+      inputs[:y] = rand
+      expect(result).to be false
     end
   end
 

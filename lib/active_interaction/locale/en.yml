@@ -17,7 +17,7 @@ en:
       hash: hash
       integer: integer
       interface: interface
-      model: model
+      object: object
       string: string
       symbol: symbol
       time: time

@@ -17,85 +17,22 @@ describe ActiveInteraction::Errors do
 
   subject(:errors) { described_class.new(klass.new) }
 
-  describe '#add_sym' do
-    it 'defaults to :invalid' do
-      errors.add_sym(:attribute)
-      expect(errors.symbolic[:attribute]).to eql [:invalid]
-    end
-
-    it 'adds a symbol' do
-      errors.add_sym(:attribute, :symbol)
-      expect(errors.symbolic[:attribute]).to eql [:symbol]
-    end
-
-    it 'accepts a message' do
-      errors.add_sym(:attribute, :symbol, 'message')
-      expect(errors.symbolic[:attribute]).to eql [:symbol]
-    end
-
-    it 'accepts a message and options' do
-      errors.add_sym(:attribute, :symbol, 'message', key: :value)
-      expect(errors.symbolic[:attribute]).to eql [:symbol]
-    end
-
-    context 'calling #add' do
-      before do
-        allow(errors).to receive(:add)
-      end
-
-      it 'with the default' do
-        errors.add_sym(:attribute)
-        expect(errors).to have_received(:add).once
-          .with(:attribute, :invalid, {})
-      end
-
-      it 'with a symbol' do
-        errors.add_sym(:attribute, :symbol)
-        expect(errors).to have_received(:add).once
-          .with(:attribute, :symbol, {})
-      end
-
-      it 'with a symbol and message' do
-        errors.add_sym(:attribute, :symbol, 'message')
-        expect(errors).to have_received(:add).once
-          .with(:attribute, 'message', {})
-      end
-
-      it 'with a symbol, message and options' do
-        errors.add_sym(:attribute, :symbol, 'message', key: :value)
-        expect(errors).to have_received(:add).once
-          .with(:attribute, 'message', key: :value)
+  context 'backports' do
+    describe '#delete' do
+      it 'deletes the detailed error' do
+        errors.add(:attribute)
+        errors.delete(:attribute)
+        expect(errors.details).to_not have_key :attribute
       end
     end
-  end
 
-  describe '#initialize' do
-    it 'sets symbolic to an empty hash' do
-      expect(errors.symbolic).to eql({})
-    end
-  end
-
-  describe '#initialize_dup' do
-    let(:errors_dup) { errors.dup }
-
-    before do
-      errors.add_sym(:attribute)
-    end
-
-    it 'dups symbolic' do
-      expect(errors_dup.symbolic).to eql errors.symbolic
-      expect(errors_dup.symbolic).to_not equal errors.symbolic
-    end
-  end
-
-  describe '#clear' do
-    before do
-      errors.add_sym(:attribute)
-    end
-
-    it 'clears symbolic' do
-      errors.clear
-      expect(errors.symbolic).to be_empty
+    describe '#initialize_dup' do
+      it 'duplicates the detailed errors' do
+        errors.add(:attribute)
+        other = errors.dup
+        expect(other.details).to eql errors.details
+        expect(other.details).to_not be errors.details
+      end
     end
   end
 
@@ -119,18 +56,18 @@ describe ActiveInteraction::Errors do
       end
     end
 
-    context 'with a symbolic error' do
+    context 'with a detailed error' do
       before do
-        other.add_sym(:attribute)
+        other.add(:attribute)
       end
 
       it 'adds the error' do
         errors.merge!(other)
-        expect(errors.symbolic[:attribute]).to eql [:invalid]
+        expect(errors.details[:attribute]).to eql [{ error: :invalid }]
       end
     end
 
-    context 'with an interpolated symbolic error' do
+    context 'with an interpolated detailed error' do
       before do
         I18n.backend.store_translations('en',
           activemodel: {
@@ -145,10 +82,9 @@ describe ActiveInteraction::Errors do
                 }
               }
             }
-          }
-        )
+          })
 
-        other.add_sym(:attribute, :invalid_type, type: nil)
+        other.add(:attribute, :invalid_type, type: nil)
       end
 
       it 'does not raise an error' do

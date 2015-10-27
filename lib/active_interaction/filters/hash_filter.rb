@@ -14,7 +14,7 @@ module ActiveInteraction
     #     hash :order
     #   @example
     #     hash :order do
-    #       model :item
+    #       object :item
     #       integer :quantity, default: 1
     #     end
   end

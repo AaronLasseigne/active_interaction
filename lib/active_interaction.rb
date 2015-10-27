@@ -2,10 +2,22 @@
 
 require 'active_model'
 
+# Manage application specific business logic.
+#
+# @author Aaron Lasseigne <aaron.lasseigne@gmail.com>
+# @author Taylor Fausak <taylor@fausak.me>
+#
+# @since 1.0.0
+#
+# @version 2.1.3
+module ActiveInteraction
+end
+
 require 'active_interaction/version'
 require 'active_interaction/errors'
 
 require 'active_interaction/concerns/active_modelable'
+require 'active_interaction/concerns/active_recordable'
 require 'active_interaction/concerns/hashable'
 require 'active_interaction/concerns/missable'
 require 'active_interaction/concerns/runnable'
@@ -30,7 +42,7 @@ require 'active_interaction/filters/file_filter'
 require 'active_interaction/filters/float_filter'
 require 'active_interaction/filters/hash_filter'
 require 'active_interaction/filters/integer_filter'
-require 'active_interaction/filters/model_filter'
+require 'active_interaction/filters/object_filter'
 require 'active_interaction/filters/string_filter'
 require 'active_interaction/filters/symbol_filter'
 require 'active_interaction/filters/time_filter'
@@ -39,15 +51,5 @@ require 'active_interaction/base'
 
 require 'active_interaction/backports'
 
-I18n.load_path.unshift(Dir[File.expand_path(
+I18n.load_path.unshift(*Dir[File.expand_path(
   File.join(%w[active_interaction locale *.yml]), File.dirname(__FILE__))])
-
-# Manage application specific business logic.
-#
-# @author Aaron Lasseigne <aaron.lasseigne@gmail.com>
-# @author Taylor Fausak <taylor@fausak.me>
-#
-# @since 1.0.0
-#
-# @version 1.4.0
-module ActiveInteraction end

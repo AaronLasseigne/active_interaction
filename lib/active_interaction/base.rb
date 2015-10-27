@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'active_support/core_ext/hash/indifferent_access'
+require 'set'
 
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
@@ -29,6 +30,7 @@ module ActiveInteraction
   #   end
   class Base
     include ActiveModelable
+    include ActiveRecordable
     include Runnable
 
     define_callbacks :type_check
@@ -158,12 +160,22 @@ module ActiveInteraction
 
       # @param filter [Filter]
       def initialize_filter(filter)
-        filters[filter.name] = filter
+        attribute = filter.name
+        if filters.key?(attribute)
+          warn "WARNING: Redefining #{name}##{attribute} filter"
+        end
+        filters[attribute] = filter
 
-        attr_accessor filter.name
-        define_method("#{filter.name}?") { !public_send(filter.name).nil? }
+        attr_accessor attribute
+        define_method("#{attribute}?") { !public_send(attribute).nil? }
 
-        filter.default if filter.default?
+        eagerly_evaluate_default(filter)
+      end
+
+      # @param filter [Filter]
+      def eagerly_evaluate_default(filter)
+        default = filter.options[:default]
+        filter.default if default && !default.is_a?(Proc)
       end
     end
 
@@ -175,31 +187,6 @@ module ActiveInteraction
 
       process_proxies(self.class.instance_variable_get(:@_proxies) || Set.new)
       process_inputs(inputs.symbolize_keys)
-    end
-
-    # Returns the column object for the named filter.
-    #
-    # @param name [Symbol] The name of a filter.
-    #
-    # @example
-    #   class Interaction < ActiveInteraction::Base
-    #     string :email, default: nil
-    #
-    #     def execute; end
-    #   end
-    #
-    #   Interaction.new.column_for_attribute(:email)
-    #   # => #<ActiveInteraction::FilterColumn:0x007faebeb2a6c8 @type=:string>
-    #
-    #   Interaction.new.column_for_attribute(:not_a_filter)
-    #   # => nil
-    #
-    # @return [FilterColumn, nil]
-    #
-    # @since 1.2.0
-    def column_for_attribute(name)
-      filter = self.class.filters[name]
-      FilterColumn.intern(filter.database_column_type) if filter
     end
 
     # @!method compose(other, inputs = {})
@@ -230,6 +217,28 @@ module ActiveInteraction
       end
     end
 
+    # Returns `true` if the given key was in the hash passed to {.run}.
+    # Otherwise returns `false`. Use this to figure out if an input was given,
+    # even if it was `nil`.
+    #
+    # @example
+    #   class Example < ActiveInteraction::Base
+    #     integer :x, default: nil
+    #     def execute; given?(:x) end
+    #   end
+    #   Example.run!()        # => false
+    #   Example.run!(x: nil)  # => true
+    #   Example.run!(x: rand) # => true
+    #
+    # @param input [#to_sym]
+    #
+    # @return [Boolean]
+    #
+    # @since 2.1.0
+    def given?(input)
+      @_interaction_keys.include?(input.to_sym)
+    end
+
     protected
 
     def run_validations!
@@ -242,6 +251,8 @@ module ActiveInteraction
 
     # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
+      @_interaction_keys = inputs.keys.to_set & self.class.filters.keys
+
       inputs.each do |key, value|
         fail InvalidValueError, key.inspect if InputProcessor.reserved?(key)
 
@@ -259,7 +270,7 @@ module ActiveInteraction
       self.class.filters.each do |name, filter|
         begin
           public_send("#{name}=", filter.clean(inputs[name]))
-        rescue InvalidValueError, MissingValueError, InvalidNestedValueError
+        rescue InvalidValueError, MissingValueError, NoDefaultError
           # #type_check will add errors if appropriate.
         end
       end
@@ -268,7 +279,7 @@ module ActiveInteraction
     def type_check
       run_callbacks(:type_check) do
         Validation.validate(self.class.filters, inputs).each do |error|
-          errors.add_sym(*error)
+          errors.add(*error)
         end
       end
     end

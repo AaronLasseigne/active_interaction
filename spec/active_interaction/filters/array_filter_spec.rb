@@ -84,8 +84,8 @@ describe ActiveInteraction::ArrayFilter, :filter do
       end
     end
 
-    context 'with a nested model filter' do
-      let(:block) { proc { model } }
+    context 'with a nested object filter' do
+      let(:block) { proc { object } }
       let(:name) { :objects }
       let(:value) { [Object.new] }
 

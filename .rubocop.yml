@@ -2,8 +2,17 @@ AlignParameters:
   EnforcedStyle: with_fixed_indentation
 AllCops:
   Exclude:
+  - example/db/schema.rb
   - tmp/**/*
   - vendor/**/*
+ClassLength:
+  Max: 120
+Documentation:
+  Exclude:
+  - spec/**/*
+FileName:
+  Exclude:
+  - gemfiles/*
 HandleExceptions:
   Enabled: false
 Metrics/ClassLength:
@@ -15,5 +24,3 @@ PercentLiteralDelimiters:
     '%W': '[]'
     '%i': '[]'
     '%w': '[]'
-TrivialAccessors:
-  ExactNameMatch: true

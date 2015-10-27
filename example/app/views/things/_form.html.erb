@@ -1,0 +1,16 @@
+<%= form_for(@thing) do |f| %>
+  <% if @thing.errors.present? %>
+    <ul>
+      <% @thing.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div>
+    <%= f.label(:name) %>
+    <%= f.text_field(:name) %>
+  </div>
+
+  <%= f.submit %>
+<% end %>

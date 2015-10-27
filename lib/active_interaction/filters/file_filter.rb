@@ -4,8 +4,9 @@ module ActiveInteraction
   class Base
     # @!method self.file(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
-    #   the attributes respond to the `eof?` method. This is useful when passing
-    #   in Rails params that include a file upload or another generic IO object.
+    #   the attributes respond to the `rewind` method. This is useful when
+    #   passing in Rails params that include a file upload or another generic
+    #   IO object.
     #
     #   @!macro filter_method_params
     #
@@ -24,7 +25,7 @@ module ActiveInteraction
     private
 
     def methods
-      [:eof?]
+      [:rewind]
     end
   end
 end

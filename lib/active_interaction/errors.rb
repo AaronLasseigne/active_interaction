@@ -57,7 +57,7 @@ module ActiveInteraction
   # Raised if a user-supplied value to a nested hash input is invalid.
   #
   # @return [Class]
-  class InvalidNestedValueError < Error
+  class InvalidNestedValueError < InvalidValueError
     # @return [Symbol]
     attr_reader :filter_name
 
@@ -67,7 +67,7 @@ module ActiveInteraction
     # @param filter_name [Symbol]
     # @param input_value [Object]
     def initialize(filter_name, input_value)
-      super()
+      super("#{filter_name}: #{input_value.inspect}")
 
       @filter_name = filter_name
       @input_value = input_value
@@ -89,72 +89,20 @@ module ActiveInteraction
   end
   private_constant :Interrupt
 
-  # An extension that provides symbolic error messages to make introspection
-  #   and testing easier.
+  # An extension that provides the ability to merge other errors into itself.
   class Errors < ActiveModel::Errors
-    # Maps attributes to arrays of symbolic messages.
-    #
-    # @return [Hash{Symbol => Array<Symbol>}]
-    attr_reader :symbolic
-
-    # Adds a symbolic error message to an attribute.
-    #
-    # @example
-    #   errors.add_sym(:attribute)
-    #   errors.symbolic
-    #   # => {:attribute=>[:invalid]}
-    #   errors.messages
-    #   # => {:attribute=>["is invalid"]}
-    #
-    # @param attribute [Symbol] The attribute to add an error to.
-    # @param symbol [Symbol, nil] The symbolic error to add.
-    # @param message [String, Symbol, Proc, nil] The message to add.
-    # @param options [Hash]
-    #
-    # @return (see #symbolic)
-    #
-    # @see ActiveModel::Errors#add
-    def add_sym(attribute, symbol = :invalid, message = nil, options = {})
-      add(attribute, message || symbol, options)
-
-      symbolic[attribute] += [symbol]
-    end
-
-    # @see ActiveModel::Errors#initialize
-    #
-    # @private
-    def initialize(*)
-      @symbolic = Hash.new([]).with_indifferent_access
-
-      super
-    end
-
-    # @see ActiveModel::Errors#initialize_dup
-    #
-    # @private
-    def initialize_dup(other)
-      @symbolic = other.symbolic.with_indifferent_access
-
-      super
-    end
-
-    # @see ActiveModel::Errors#clear
-    #
-    # @private
-    def clear
-      symbolic.clear
-
-      super
-    end
-
     # Merge other errors into this one.
     #
     # @param other [Errors]
     #
     # @return [Errors]
     def merge!(other)
-      merge_messages!(other)
-      merge_symbolic!(other) if other.respond_to?(:symbolic)
+      if other.respond_to?(:details)
+        merge_details!(other)
+      else
+        merge_messages!(other)
+      end
+
       self
     end
 
@@ -168,12 +116,12 @@ module ActiveInteraction
       end
     end
 
-    def merge_symbolic!(other)
-      other.symbolic.each do |attribute, symbols|
-        symbols.each do |symbol|
-          next if symbolic[attribute].include?(symbol)
-
-          symbolic[attribute] += [symbol]
+    def merge_details!(other)
+      other.details.each do |attribute, details|
+        details.each do |detail|
+          detail = detail.dup
+          error = detail.delete(:error)
+          add(attribute, error, detail) unless added?(attribute, error, detail)
         end
       end
     end

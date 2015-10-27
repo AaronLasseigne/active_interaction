@@ -2,7 +2,7 @@
 
 module ActiveInteraction
   class Base
-    # @!method self.model(*attributes, options = {})
+    # @!method self.object(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are the correct class.
     #
@@ -11,14 +11,14 @@ module ActiveInteraction
     #     Class name used to ensure the value.
     #
     #   @example
-    #     model :account
+    #     object :account
     #   @example
-    #     model :account, class: User
+    #     object :account, class: User
   end
 
   # @private
-  class ModelFilter < Filter
-    register :model
+  class ObjectFilter < Filter
+    register :object
 
     def cast(value, reconstantize = true)
       @klass ||= klass
@@ -42,14 +42,14 @@ module ActiveInteraction
       klass_name = options.fetch(:class, name).to_s.camelize
       Object.const_get(klass_name)
     rescue NameError
-      raise InvalidClassError, klass_name.inspect
+      raise InvalidClassError, "class #{klass_name.inspect} does not exist"
     end
 
     # @param value [Object]
     #
     # @return [Boolean]
     def matches?(value)
-      @klass === value || # rubocop:disable CaseEquality
+      @klass === value || # rubocop:disable Style/CaseEquality
         value.is_a?(@klass)
     end
   end

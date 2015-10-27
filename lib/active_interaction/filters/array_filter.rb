@@ -48,7 +48,7 @@ module ActiveInteraction
       super do |klass, names, options|
         filter = klass.new(name.to_s.singularize.to_sym, options, &block)
 
-        validate(filter, names)
+        validate!(filter, names)
 
         filters[filter.name] = filter
       end
@@ -59,17 +59,23 @@ module ActiveInteraction
     # @return [Array<Class>]
     def classes
       result = [Array]
-      return result unless Object.const_defined?(:ActiveRecord)
-      return result unless ActiveRecord.const_defined?(:Relation)
 
-      result.push(ActiveRecord::Relation)
+      %w[
+        ActiveRecord::Relation
+        ActiveRecord::Associations::CollectionProxy
+      ].each do |name|
+        next unless (klass = name.safe_constantize)
+        result.push(klass)
+      end
+
+      result
     end
 
     # @param filter [Filter]
     # @param names [Array<Symbol>]
     #
     # @raise [InvalidFilterError]
-    def validate(filter, names)
+    def validate!(filter, names)
       unless filters.empty?
         fail InvalidFilterError, 'multiple filters in array block'
       end
@@ -78,11 +84,11 @@ module ActiveInteraction
         fail InvalidFilterError, 'attribute names in array block'
       end
 
-      # rubocop:disable GuardClause
       if filter.default?
         fail InvalidDefaultError, 'default values in array block'
       end
-      # rubocop:enable GuardClause
+
+      nil
     end
   end
 end

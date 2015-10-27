@@ -2,6 +2,16 @@
 
 require 'spec_helper'
 
+describe ActiveInteraction do
+  context 'I18n.load_path' do
+    it 'contains localization file paths at the beginning' do
+      expect(
+        I18n.load_path.first
+      ).to match %r{active_interaction/locale/en.yml\z}
+    end
+  end
+end
+
 I18nInteraction = Class.new(TestInteraction) do
   hash :a do
     hash :x
@@ -75,8 +85,7 @@ describe I18nInteraction do
             }
           },
           types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }
-        }
-      )
+        })
 
       @locale = I18n.locale
       I18n.locale = 'hsilgne'

@@ -1,15 +1,114 @@
-# [Master][]
+## Added
+
+- [#310][]: Added a warning when a filter is redefined.
 
 ## Changed
 
+- [#311][]: Changed the error message when defining the default value for a
+  hash.
+
+# [2.1.3][] (2015-10-02)
+
+## Fixed
+
+- [#303][]: Allowed ActiveRecord associations as inputs to array filters.
+
+## Changed
+
+- [#304][]: Improved the error message for object filters when the class does
+  not exist.
+
+# [2.1.2][] (2015-09-03)
+
+## Fixed
+
+- [#298][]: Fixed a bug that raised exceptions when passing invalid nested
+  values.
+
+# [2.1.1][] (2015-08-04)
+
+## Fixed
+
+- [#296][]: Fixed a bug that silently converted invalid lazy default values to
+  `nil` instead of raising an `InvalidDefaultError`.
+
+# [2.1.0][] (2015-07-30)
+
+## Added
+
+- [#295][]: Added `given?` predicate method to see if an input was passed to
+  `run`.
+
+# [2.0.1][] (2015-05-27)
+
+## Fixed
+
+- [#286][]: Change `file` filter to check for `rewind` instead of `eof?`.
+- [#289][]: Actually removed `model` filter, which was deprecated in v1.6.0.
+
+# [2.0.0][] (2015-05-06)
+
+For help upgrading to version 2, please read [the announcement post][].
+
+## Changed
+
+- [#250][]: Replaced symbolic errors with Rails 5-style detailed errors.
+- [#269][]: Prevented proc defaults from being eagerly evaluated.
+- [#264][]: Renamed `model` filter to `object`.
 - [#213][]: Remove transaction support. Database transactions will need to be
   handled manually now.
 - [#214][]: Results are returned from invalid outcomes.
+- [#164][]: Changed the `hash` filter to use hashes with indifferent access.
+- [#236][]: Changed the `file` filter to accept anything that responds to `eof?`.
 
 ## Security
 
 - [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
   This takes care of potential but unlikely DoS attacks noted in [#163][].
+
+# [1.6.1][] (2015-10-02)
+
+## Fixed
+
+- [#303][]: Allowed ActiveRecord associations as inputs to array filters.
+
+# [1.6.0][] (2015-05-06)
+
+## Added
+
+- Added `object` as an alias for `model`.
+- Added symbol support to `add`.
+- Added `details` as an alternative to `symbolic`.
+
+## Changed
+
+- Deprecated `model` in favor of `object`.
+- Deprecated `add_sym` in favor of `add`.
+- Deprecated `transaction`.
+- Deprecated `symbolic` in favor of `details`.
+
+# [1.5.1][] (2015-04-28)
+
+## Fixed
+
+- [#265][]: Allow `nil` inputs for interface and model filters.
+- [#256][]: Improve error messages for nested invalid values.
+
+# [1.5.0][] (2015-02-05)
+
+## Added
+
+- [#248][]: Add `has_attribute?` support to an instance of an interaction.
+
+## Fixed
+
+- [#248][]: Fix support for simple_form gem.
+
+# [1.4.1][] (2014-12-12)
+
+## Fixed
+
+- [#244][]: Fix improperly adding load paths to I18n.
 
 # [1.4.0][] (2014-12-10)
 
@@ -371,7 +470,17 @@
 
 - Initial release.
 
-  [master]: https://github.com/orgsync/active_interaction/compare/v1.4.0...master
+  [2.1.3]: https://github.com/orgsync/active_interaction/compare/v2.1.2...v2.1.3
+  [2.1.2]: https://github.com/orgsync/active_interaction/compare/v2.1.1...v2.1.2
+  [2.1.1]: https://github.com/orgsync/active_interaction/compare/v2.1.0...v2.1.1
+  [2.1.0]: https://github.com/orgsync/active_interaction/compare/v2.0.1...v2.1.0
+  [2.0.1]: https://github.com/orgsync/active_interaction/compare/v2.0.0...v2.0.1
+  [2.0.0]: https://github.com/orgsync/active_interaction/compare/v1.6.0...v2.0.0
+  [1.6.1]: https://github.com/orgsync/active_interaction/compare/v1.6.0...v1.6.1
+  [1.6.0]: https://github.com/orgsync/active_interaction/compare/v1.5.1...v1.6.0
+  [1.5.1]: https://github.com/orgsync/active_interaction/compare/v1.5.0...v1.5.1
+  [1.5.0]: https://github.com/orgsync/active_interaction/compare/v1.4.1...v1.5.0
+  [1.4.1]: https://github.com/orgsync/active_interaction/compare/v1.4.0...v1.4.1
   [1.4.0]: https://github.com/orgsync/active_interaction/compare/v1.3.1...v1.4.0
   [1.3.1]: https://github.com/orgsync/active_interaction/compare/v1.3.0...v1.3.1
   [1.3.0]: https://github.com/orgsync/active_interaction/compare/v1.2.5...v1.3.0
@@ -413,7 +522,7 @@
   [0.1.3]: https://github.com/orgsync/active_interaction/compare/v0.1.2...v0.1.3
   [0.1.2]: https://github.com/orgsync/active_interaction/compare/v0.1.1...v0.1.2
   [0.1.1]: https://github.com/orgsync/active_interaction/compare/v0.1.0...v0.1.1
-  [0.1.0]: https://github.com/orgsync/active_interaction/compare/62f999b...v0.1.0
+  [0.1.0]: https://github.com/orgsync/active_interaction/compare/v0.0.0...v0.1.0
 
   [#20]: https://github.com/orgsync/active_interaction/issues/20
   [#23]: https://github.com/orgsync/active_interaction/issues/23
@@ -470,6 +579,7 @@
   [#155]: https://github.com/orgsync/active_interaction/issues/155
   [#156]: https://github.com/orgsync/active_interaction/issues/156
   [#163]: https://github.com/orgsync/active_interaction/issues/163
+  [#164]: https://github.com/orgsync/active_interaction/issues/164
   [#165]: https://github.com/orgsync/active_interaction/issues/165
   [#173]: https://github.com/orgsync/active_interaction/issues/173
   [#174]: https://github.com/orgsync/active_interaction/issues/174
@@ -487,4 +597,23 @@
   [#215]: https://github.com/orgsync/active_interaction/issues/215
   [#224]: https://github.com/orgsync/active_interaction/issues/224
   [#235]: https://github.com/orgsync/active_interaction/issues/235
+  [#236]: https://github.com/orgsync/active_interaction/issues/236
   [#239]: https://github.com/orgsync/active_interaction/issues/239
+  [#244]: https://github.com/orgsync/active_interaction/issues/244
+  [#248]: https://github.com/orgsync/active_interaction/issues/248
+  [#250]: https://github.com/orgsync/active_interaction/issues/250
+  [#256]: https://github.com/orgsync/active_interaction/issues/256
+  [#264]: https://github.com/orgsync/active_interaction/issues/264
+  [#265]: https://github.com/orgsync/active_interaction/issues/265
+  [#269]: https://github.com/orgsync/active_interaction/issues/269
+  [#286]: https://github.com/orgsync/active_interaction/issues/286
+  [#289]: https://github.com/orgsync/active_interaction/issues/289
+  [#295]: https://github.com/orgsync/active_interaction/issues/295
+  [#296]: https://github.com/orgsync/active_interaction/issues/296
+  [#298]: https://github.com/orgsync/active_interaction/issues/298
+  [#303]: https://github.com/orgsync/active_interaction/issues/303
+  [#304]: https://github.com/orgsync/active_interaction/issues/304
+  [#310]: https://github.com/orgsync/active_interaction/issues/310
+  [#311]: https://github.com/orgsync/active_interaction/issues/311
+
+  [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
