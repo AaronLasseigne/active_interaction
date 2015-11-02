@@ -1,10 +1,5 @@
 # coding: utf-8
 
-begin
-  require 'active_record'
-rescue LoadError
-end
-
 module ActiveInteraction
   class Base
     # @!method self.array(*attributes, options = {}, &block)
