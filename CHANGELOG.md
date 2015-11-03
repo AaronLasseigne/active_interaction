@@ -1,3 +1,5 @@
+# [2.1.4][] (2015-11-03)
+
 ## Fixed
 
 - [#320][]: Stopped requiring ActiveRecord.
@@ -474,6 +476,7 @@ For help upgrading to version 2, please read [the announcement post][].
 
 - Initial release.
 
+  [2.1.4]: https://github.com/orgsync/active_interaction/compare/v2.1.3...v2.1.4
   [2.1.3]: https://github.com/orgsync/active_interaction/compare/v2.1.2...v2.1.3
   [2.1.2]: https://github.com/orgsync/active_interaction/compare/v2.1.1...v2.1.2
   [2.1.1]: https://github.com/orgsync/active_interaction/compare/v2.1.0...v2.1.1
