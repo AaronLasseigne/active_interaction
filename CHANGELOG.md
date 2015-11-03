@@ -1,3 +1,7 @@
+## Fixed
+
+- [#320][]: Stopped requiring ActiveRecord.
+
 ## Added
 
 - [#310][]: Added a warning when a filter is redefined.
@@ -615,5 +619,6 @@ For help upgrading to version 2, please read [the announcement post][].
   [#304]: https://github.com/orgsync/active_interaction/issues/304
   [#310]: https://github.com/orgsync/active_interaction/issues/310
   [#311]: https://github.com/orgsync/active_interaction/issues/311
+  [#320]: https://github.com/orgsync/active_interaction/issues/320
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
