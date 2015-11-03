@@ -55,6 +55,7 @@ Read more on [the project page][] or check out [the full documentation][].
   - [Descriptions](#descriptions)
   - [Errors](#errors)
   - [Forms](#forms)
+  - [Grouped inputs](#grouped-inputs)
   - [Optional inputs](#optional-inputs)
   - [Predicates](#predicates)
   - [Translations](#translations)
@@ -1158,6 +1159,20 @@ used to define the inputs on your interaction will relay type information to
 these gems. As a result, form fields will automatically use the appropriate
 input type.
 
+### Grouped inputs
+
+It can be convenient to apply the same options to a bunch of inputs. One common
+use case is making many inputs optional. Instead of setting `default: nil` on
+each one of them, you can use [`with_options`][] to reduce duplication.
+
+``` rb
+with_options default: nil do
+  date :birthday
+  string :name
+  boolean :wants_cake
+end
+```
+
 ### Optional inputs
 
 Optional inputs can be defined by using the `:default` option as described in
@@ -1311,3 +1326,4 @@ ActiveInteraction is licensed under [the MIT License][].
 [the filters section]: #filters
 [the optional inputs section]: #optional-inputs
 [aire]: example
+[`with_options`]: http://api.rubyonrails.org/classes/Object.html#method-i-with_options
