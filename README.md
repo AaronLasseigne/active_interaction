@@ -1,23 +1,15 @@
-<h1 align="center">
-  <a href="https://github.com/orgsync/active_interaction">
-    ActiveInteraction
-  </a>
-</h1>
+# [ActiveInteraction][]
 
-<p align="center">
-  ActiveInteraction manages application-specific business logic.
-  It's an implementation of the command pattern in Ruby.
-</p>
+ActiveInteraction manages application-specific business logic.
+It's an implementation of the command pattern in Ruby.
 
-<p align="center">
-  <a href="https://rubygems.org/gems/active_interaction"><img alt="Version" src="https://img.shields.io/gem/v/active_interaction.svg?label=version&amp;style=flat-square"></a>
-  <a href="https://travis-ci.org/orgsync/active_interaction"><img alt="Build" src="https://img.shields.io/travis/orgsync/active_interaction/master.svg?label=build&amp;style=flat-square"></a>
-  <a href="https://coveralls.io/r/orgsync/active_interaction"><img alt="Coverage" src="https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?label=coverage&amp;style=flat-square"></a>
-  <a href="https://codeclimate.com/github/orgsync/active_interaction"><img alt="Climate" src="https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?label=climate&amp;style=flat-square"></a>
-  <a href="https://gemnasium.com/orgsync/active_interaction"><img alt="Dependencies" src="https://img.shields.io/gemnasium/orgsync/active_interaction.svg?label=dependencies&amp;style=flat-square"></a>
-</p>
+[![Version](https://img.shields.io/gem/v/active_interaction.svg?label=version)](https://rubygems.org/gems/active_interaction)
+[![Build](https://img.shields.io/travis/orgsync/active_interaction/master.svg?label=build)](https://travis-ci.org/orgsync/active_interaction)
+[![Coverage](https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?label=coverage)](https://coveralls.io/r/orgsync/active_interaction)
+[![Climate](https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?label=climate)](https://codeclimate.com/github/orgsync/active_interaction)
+[![Dependencies](https://img.shields.io/gemnasium/orgsync/active_interaction.svg?label=dependencies)](https://gemnasium.com/orgsync/active_interaction)
 
-<hr>
+---
 
 ActiveInteraction gives you a place to put your business logic. It also helps
 you write safer code by validating that your inputs conform to your
@@ -1298,6 +1290,7 @@ available on GitHub.
 
 ActiveInteraction is licensed under [the MIT License][].
 
+[activeinteraction]: https://github.com/orgsync/active_interaction
 [the project page]: http://orgsync.github.io/active_interaction/
 [the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
