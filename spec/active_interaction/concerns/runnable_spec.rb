@@ -43,7 +43,7 @@ describe ActiveInteraction::Runnable do
         context name do
           it 'does not raise an error' do
             expect do
-              klass.set_callback name, :before, -> _ {}
+              klass.set_callback name, :before, -> (_) {}
             end.to_not raise_error
           end
 
