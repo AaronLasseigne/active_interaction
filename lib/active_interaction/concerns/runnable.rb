@@ -58,15 +58,13 @@ module ActiveInteraction
     # @param (see ClassMethods.run)
     #
     # @return (see #result)
-    #
-    # @raise [Interrupt]
     def compose(other, *args)
       outcome = other.run(*args)
 
       if outcome.valid?
         outcome.result
       else
-        fail Interrupt, outcome
+        throw :interrupt, outcome.errors
       end
     end
 
@@ -75,11 +73,15 @@ module ActiveInteraction
     def run
       return unless valid?
 
+      result_or_errors = catch(:interrupt) do
+        run_callbacks(:execute) { execute }
+      end
+
       self.result =
-        begin
-          run_callbacks(:execute) { execute }
-        rescue Interrupt => interrupt
-          merge_errors_onto_base(interrupt.outcome.errors)
+        if result_or_errors.is_a?(ActiveInteraction::Errors)
+          merge_errors_onto_base(result_or_errors)
+        else
+          result_or_errors
         end
     end
 
