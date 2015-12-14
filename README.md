@@ -1192,7 +1192,7 @@ class UpdateUser < ActiveInteraction::Base
 
   def execute
     user.birthday = birthday if given?(:birthday)
-    errors.merge!(user) unless user.save
+    errors.merge!(user.errors) unless user.save
     user
   end
 end
