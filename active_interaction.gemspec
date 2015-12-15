@@ -47,16 +47,4 @@ Gem::Specification.new do |gem|
   }.each do |name, versions|
     gem.add_development_dependency name, *versions
   end
-
-  if RUBY_ENGINE == 'rbx'
-    {
-      'parser' => '2.2',
-      'racc' => '1.4',
-      'rubinius-coverage' => '2.0',
-      'rubysl' => '2.1',
-      'rubysl-test-unit' => '2.0'
-    }.each do |name, version|
-      gem.add_development_dependency name, "~> #{version}"
-    end
-  end
 end
