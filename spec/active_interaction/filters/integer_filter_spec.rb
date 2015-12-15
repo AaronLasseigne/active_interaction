@@ -7,7 +7,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
   it_behaves_like 'a filter'
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with an Integer' do
       let(:value) { rand(1 << 16) }

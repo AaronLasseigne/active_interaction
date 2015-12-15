@@ -3,14 +3,19 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Validation do
-  describe '.validate(filters, inputs)' do
+  describe '.validate(interaction, inputs)' do
     let(:inputs) { {} }
     let(:filter) { ActiveInteraction::Filter.new(:name, {}) }
-    let(:filters) { { filter.name => filter } }
-    let(:result) { described_class.validate(filters, inputs) }
+    let(:interaction) do
+      name = filter.name
+      klass = Class.new(ActiveInteraction::Base) { attr_writer(name) }
+      klass.filters[name] = filter
+      klass.new
+    end
+    let(:result) { described_class.validate(interaction, inputs) }
 
     context 'no filters are given' do
-      let(:filters) { {} }
+      let(:interaction) { Class.new(ActiveInteraction::Base).new }
 
       it 'returns no errors' do
         expect(result).to eql []

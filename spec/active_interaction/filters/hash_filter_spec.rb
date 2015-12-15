@@ -25,7 +25,7 @@ describe ActiveInteraction::HashFilter, :filter do
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with a Hash' do
       let(:value) { {} }
@@ -94,7 +94,7 @@ describe ActiveInteraction::HashFilter, :filter do
       end
 
       it 'returns the Hash' do
-        expect(filter.default).to eql options[:default]
+        expect(filter.default(nil)).to eql options[:default]
       end
     end
 
@@ -105,7 +105,7 @@ describe ActiveInteraction::HashFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(nil)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
