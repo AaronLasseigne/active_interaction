@@ -21,7 +21,7 @@ module ActiveInteraction
   class DecimalFilter < AbstractNumericFilter
     register :decimal
 
-    def cast(value)
+    def cast(value, _interaction)
       case value
       when Numeric
         BigDecimal.new(value, digits)

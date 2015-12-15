@@ -95,10 +95,10 @@ module ActiveInteraction
     #
     # @raise (see #cast)
     # @raise (see #default)
-    def clean(value)
-      value = cast(value)
+    def clean(value, interaction)
+      value = cast(value, interaction)
       if value.nil?
-        default
+        default(interaction)
       else
         value
       end
@@ -120,13 +120,13 @@ module ActiveInteraction
     #
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
-    def default
+    def default(interaction)
       fail NoDefaultError, name unless default?
 
-      value = raw_default
+      value = raw_default(interaction)
       fail InvalidValueError if value.is_a?(GroupedInput)
 
-      cast(value)
+      cast(value, interaction)
     rescue InvalidNestedValueError => error
       raise InvalidDefaultError, "#{name}: #{value.inspect} (#{error})"
     rescue InvalidValueError, MissingValueError
@@ -167,7 +167,7 @@ module ActiveInteraction
     # @raise [InvalidValueError] If the value is invalid.
     #
     # @private
-    def cast(value)
+    def cast(value, _interaction)
       case value
       when NilClass
         fail MissingValueError, name unless default?
@@ -206,11 +206,11 @@ module ActiveInteraction
     end
 
     # @return [Object]
-    def raw_default
+    def raw_default(interaction)
       value = options.fetch(:default)
 
       if value.is_a?(Proc)
-        value.call
+        interaction.instance_exec(&value) if interaction
       else
         value
       end

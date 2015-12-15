@@ -34,7 +34,7 @@ module ActiveInteraction
       super
     end
 
-    def cast(value)
+    def cast(value, _interaction)
       case value
       when Numeric
         klass.at(value)

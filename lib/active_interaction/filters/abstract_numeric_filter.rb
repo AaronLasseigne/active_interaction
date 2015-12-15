@@ -10,12 +10,12 @@ module ActiveInteraction
     alias_method :_cast, :cast
     private :_cast
 
-    def cast(value)
+    def cast(value, interaction)
       case value
       when klass
         value
       when Numeric, String
-        convert(value)
+        convert(value, interaction)
       else
         super
       end
@@ -27,10 +27,10 @@ module ActiveInteraction
 
     private
 
-    def convert(value)
+    def convert(value, interaction)
       Kernel.public_send(klass.name, value)
     rescue ArgumentError
-      _cast(value)
+      _cast(value, interaction)
     end
   end
 end
