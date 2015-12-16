@@ -96,6 +96,10 @@ module ActiveInteraction
     def merge_messages!(other)
       other.messages.each do |attribute, messages|
         messages.each do |message|
+          unless attribute?(attribute)
+            message = full_message(attribute, message)
+            attribute = :base
+          end
           add(attribute, message) unless added?(attribute, message)
         end
       end
@@ -106,9 +110,25 @@ module ActiveInteraction
         details.each do |detail|
           detail = detail.dup
           error = detail.delete(:error)
-          add(attribute, error, detail) unless added?(attribute, error, detail)
+
+          merge_detail!(other, attribute, detail, error)
         end
       end
+    end
+
+    def merge_detail!(other, attribute, detail, error)
+      if attribute?(attribute)
+        add(attribute, error, detail) unless added?(attribute, error, detail)
+      else
+        message = full_message(
+          attribute, other.generate_message(attribute, error))
+        attribute = :base
+        add(attribute, message) unless added?(attribute, message)
+      end
+    end
+
+    def attribute?(attribute)
+      @base.respond_to?(attribute)
     end
   end
 end

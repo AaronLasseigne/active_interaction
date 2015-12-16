@@ -79,16 +79,10 @@ module ActiveInteraction
 
       self.result =
         if result_or_errors.is_a?(ActiveInteraction::Errors)
-          merge_errors_onto_base(result_or_errors)
+          errors.merge!(result_or_errors)
         else
           result_or_errors
         end
-    end
-
-    def merge_errors_onto_base(new_errors)
-      new_errors.full_messages.each do |message|
-        errors.add(:base, message) unless errors.added?(:base, message)
-      end
     end
 
     # @return [Object]
