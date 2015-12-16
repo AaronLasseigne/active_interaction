@@ -19,12 +19,12 @@ AddInteraction = Class.new(TestInteraction) do
 end
 
 InterruptInteraction = Class.new(TestInteraction) do
-  object :x, :y,
+  object :x, :z,
     class: Object,
     default: nil
 
   def execute
-    compose(AddInteraction, inputs)
+    compose(AddInteraction, x: x, y: z)
   end
 end
 
@@ -337,11 +337,11 @@ describe ActiveInteraction::Base do
   describe '#compose' do
     let(:described_class) { InterruptInteraction }
     let(:x) { rand }
-    let(:y) { rand }
+    let(:z) { rand }
 
     context 'with valid composition' do
       before do
-        inputs.merge!(x: x, y: y)
+        inputs.merge!(x: x, z: z)
       end
 
       it 'is valid' do
@@ -349,7 +349,7 @@ describe ActiveInteraction::Base do
       end
 
       it 'returns the sum' do
-        expect(result).to eql x + y
+        expect(result).to eql x + z
       end
     end
 
@@ -360,7 +360,7 @@ describe ActiveInteraction::Base do
 
       it 'has the correct errors' do
         expect(outcome.errors.details)
-          .to eql(x: [{ error: :missing }], y: [{ error: :missing }])
+          .to eql(x: [{ error: :missing }], base: [{ error: 'Y is required' }])
       end
     end
   end
