@@ -6,7 +6,7 @@ module ActiveInteraction
   # @private
   module Validation
     class << self
-      # @param filters [Hash{Symbol => Filter}]
+      # @param interaction [Base]
       # @param inputs [Hash{Symbol => Object}]
       def validate(interaction, inputs)
         filters = interaction.class.filters

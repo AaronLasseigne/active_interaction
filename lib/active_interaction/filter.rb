@@ -90,6 +90,7 @@ module ActiveInteraction
     #   # => ActiveInteraction::InvalidDefaultError: example: 0
     #
     # @param value [Object]
+    # @param interaction [Base, nil]
     #
     # @return [Object]
     #
@@ -115,6 +116,8 @@ module ActiveInteraction
     # @example
     #   ActiveInteraction::Filter.new(:example, default: 0).default
     #   # => ActiveInteraction::InvalidDefaultError: example: 0
+    #
+    # @param interaction [Base, nil]
     #
     # @return (see #raw_default)
     #
@@ -159,6 +162,7 @@ module ActiveInteraction
     end
 
     # @param value [Object]
+    # @param _interaction [Base, nil]
     #
     # @return [Object]
     #
@@ -205,6 +209,8 @@ module ActiveInteraction
       "(Object doesn't support #inspect)"
     end
 
+    # @param interaction [Base, nil]
+    #
     # @return [Object]
     def raw_default(interaction)
       value = options.fetch(:default)
