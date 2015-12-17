@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Validation do
-  describe '.validate(interaction, inputs)' do
+  describe '.validate(context, filters, inputs)' do
     let(:inputs) { {} }
     let(:filter) { ActiveInteraction::Filter.new(:name, {}) }
     let(:interaction) do

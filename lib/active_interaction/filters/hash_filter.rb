@@ -25,14 +25,14 @@ module ActiveInteraction
 
     register :hash
 
-    def cast(value, interaction)
+    def cast(value, context)
       case value
       when Hash
         value = value.with_indifferent_access
         initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
 
         filters.each_with_object(initial) do |(name, filter), h|
-          clean_value(h, name.to_s, filter, value, interaction)
+          clean_value(h, name.to_s, filter, value, context)
         end
       else
         super
@@ -51,8 +51,8 @@ module ActiveInteraction
 
     private
 
-    def clean_value(h, name, filter, value, interaction)
-      h[name] = filter.clean(value[name], interaction)
+    def clean_value(h, name, filter, value, context)
+      h[name] = filter.clean(value[name], context)
     rescue InvalidValueError, MissingValueError
       raise InvalidNestedValueError.new(name, value[name])
     end

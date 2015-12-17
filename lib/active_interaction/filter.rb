@@ -90,16 +90,16 @@ module ActiveInteraction
     #   # => ActiveInteraction::InvalidDefaultError: example: 0
     #
     # @param value [Object]
-    # @param interaction [Base, nil]
+    # @param context [Base, nil]
     #
     # @return [Object]
     #
     # @raise (see #cast)
     # @raise (see #default)
-    def clean(value, interaction)
-      value = cast(value, interaction)
+    def clean(value, context)
+      value = cast(value, context)
       if value.nil?
-        default(interaction)
+        default(context)
       else
         value
       end
@@ -117,19 +117,19 @@ module ActiveInteraction
     #   ActiveInteraction::Filter.new(:example, default: 0).default
     #   # => ActiveInteraction::InvalidDefaultError: example: 0
     #
-    # @param interaction [Base, nil]
+    # @param context [Base, nil]
     #
     # @return (see #raw_default)
     #
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
-    def default(interaction = nil)
+    def default(context = nil)
       fail NoDefaultError, name unless default?
 
-      value = raw_default(interaction)
+      value = raw_default(context)
       fail InvalidValueError if value.is_a?(GroupedInput)
 
-      cast(value, interaction)
+      cast(value, context)
     rescue InvalidNestedValueError => error
       raise InvalidDefaultError, "#{name}: #{value.inspect} (#{error})"
     rescue InvalidValueError, MissingValueError
@@ -209,14 +209,14 @@ module ActiveInteraction
       "(Object doesn't support #inspect)"
     end
 
-    # @param interaction [Base, nil]
+    # @param context [Base, nil]
     #
     # @return [Object]
-    def raw_default(interaction)
+    def raw_default(context)
       value = options.fetch(:default)
 
       if value.is_a?(Proc)
-        interaction.instance_exec(&value)
+        context.instance_exec(&value)
       else
         value
       end

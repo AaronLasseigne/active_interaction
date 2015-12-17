@@ -6,13 +6,13 @@ module ActiveInteraction
   # @private
   module Validation
     class << self
-      # @param interaction [Base]
+      # @param context [Base]
       # @param filters [Hash{Symbol => Filter}]
       # @param inputs [Hash{Symbol => Object}]
-      def validate(interaction, filters, inputs)
+      def validate(context, filters, inputs)
         filters.each_with_object([]) do |(name, filter), errors|
           begin
-            filter.cast(inputs[name], interaction)
+            filter.cast(inputs[name], context)
           rescue InvalidNestedValueError,
                  InvalidValueError,
                  MissingValueError => e

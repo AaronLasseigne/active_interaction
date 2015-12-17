@@ -27,13 +27,13 @@ module ActiveInteraction
 
     register :array
 
-    def cast(value, interaction)
+    def cast(value, context)
       case value
       when *classes
         return value if filters.empty?
 
         filter = filters.values.first
-        value.map { |e| filter.clean(e, interaction) }
+        value.map { |e| filter.clean(e, context) }
       else
         super
       end

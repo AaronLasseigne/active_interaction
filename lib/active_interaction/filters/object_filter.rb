@@ -20,16 +20,16 @@ module ActiveInteraction
   class ObjectFilter < Filter
     register :object
 
-    def cast(value, interaction, reconstantize = true)
+    def cast(value, context, reconstantize = true)
       @klass ||= klass
 
       if matches?(value)
         value
       else
-        return super(value, interaction) unless reconstantize
+        return super(value, context) unless reconstantize
 
         @klass = klass
-        cast(value, interaction, false)
+        cast(value, context, false)
       end
     end
 
