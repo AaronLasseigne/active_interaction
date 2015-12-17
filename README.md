@@ -980,6 +980,9 @@ class AddAndDouble < ActiveInteraction::Base
 end
 ```
 
+Note that errors in composed interactions have a few tricky cases. See [the
+errors section][] for more information about them.
+
 ### Descriptions
 
 Use the `desc` option to provide human-readable descriptions of filters. You
@@ -1076,6 +1079,42 @@ class UpdateThing < ActiveInteraction::Base
   end
 end
 ```
+
+When a composed interaction fails, its errors are merged onto the caller. This
+generally produces good error messages, but there are a few cases to look out
+for.
+
+``` rb
+class Inner < ActiveInteraction::Base
+  boolean :x, :y
+end
+
+class Outer < ActiveInteraction::Base
+  string :x
+  boolean :z, default: nil
+
+  def execute
+    compose(Inner, x: x, y: z)
+  end
+end
+
+outcome = Outer.run(x: 'yes')
+outcome.errors.details
+# => { :x    => [{ :error => :invalid_type, :type => "boolean" }],
+#      :base => [{ :error => "Y is required" }] }
+outcome.errors.full_messages.join(' and ')
+# => "X is not a valid boolean and Y is required"
+```
+
+Since both interactions have an input called `x`, the inner error for that
+input is moved to the `x` error on the outer interaction. This results in a
+misleading error that claims the input `x` is not a valid boolean even though
+it's a string on the outer interaction.
+
+Since only the inner interaction has an input called `y`, the inner error for
+that input is moved to the `base` error on the outer interaction. This results
+in a confusing error that claims the input `y` is required even though it's not
+present on the outer interaction.
 
 ### Forms
 
@@ -1325,6 +1364,7 @@ ActiveInteraction is licensed under [the MIT License][].
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
 [the filters section]: #filters
+[the errors section]: #errors
 [the optional inputs section]: #optional-inputs
 [aire]: example
 [`with_options`]: http://api.rubyonrails.org/classes/Object.html#method-i-with_options
