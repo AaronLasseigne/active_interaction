@@ -158,7 +158,7 @@ module ActiveInteraction
       # @param filter [Filter]
       def eagerly_evaluate_default(filter)
         default = filter.options[:default]
-        filter.default(nil) if default && !default.is_a?(Proc)
+        filter.default if default && !default.is_a?(Proc)
       end
     end
 
@@ -260,7 +260,7 @@ module ActiveInteraction
 
     def type_check
       run_callbacks(:type_check) do
-        Validation.validate(self, inputs).each do |error|
+        Validation.validate(self, self.class.filters, inputs).each do |error|
           errors.add(*error)
         end
       end

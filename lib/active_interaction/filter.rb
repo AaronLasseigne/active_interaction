@@ -123,7 +123,7 @@ module ActiveInteraction
     #
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
-    def default(interaction)
+    def default(interaction = nil)
       fail NoDefaultError, name unless default?
 
       value = raw_default(interaction)
@@ -216,7 +216,7 @@ module ActiveInteraction
       value = options.fetch(:default)
 
       if value.is_a?(Proc)
-        interaction.instance_exec(&value) if interaction
+        interaction.instance_exec(&value)
       else
         value
       end

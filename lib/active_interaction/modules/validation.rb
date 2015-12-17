@@ -7,9 +7,9 @@ module ActiveInteraction
   module Validation
     class << self
       # @param interaction [Base]
+      # @param filters [Hash{Symbol => Filter}]
       # @param inputs [Hash{Symbol => Object}]
-      def validate(interaction, inputs)
-        filters = interaction.class.filters
+      def validate(interaction, filters, inputs)
         filters.each_with_object([]) do |(name, filter), errors|
           begin
             filter.cast(inputs[name], interaction)

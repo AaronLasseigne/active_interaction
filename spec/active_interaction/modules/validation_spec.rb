@@ -12,7 +12,9 @@ describe ActiveInteraction::Validation do
       klass.filters[name] = filter
       klass.new
     end
-    let(:result) { described_class.validate(interaction, inputs) }
+    let(:result) do
+      described_class.validate(interaction, interaction.class.filters, inputs)
+    end
 
     context 'no filters are given' do
       let(:interaction) { Class.new(ActiveInteraction::Base).new }
