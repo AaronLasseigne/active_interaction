@@ -252,7 +252,7 @@ module ActiveInteraction
     def populate_filters(inputs)
       self.class.filters.each do |name, filter|
         begin
-          public_send("#{name}=", filter.clean(inputs[name]))
+          public_send("#{name}=", filter.clean(inputs[name], self))
         rescue InvalidValueError, MissingValueError, NoDefaultError
           # #type_check will add errors if appropriate.
         end
@@ -261,7 +261,7 @@ module ActiveInteraction
 
     def type_check
       run_callbacks(:type_check) do
-        Validation.validate(self.class.filters, inputs).each do |error|
+        Validation.validate(self, self.class.filters, inputs).each do |error|
           errors.add(*error)
         end
       end

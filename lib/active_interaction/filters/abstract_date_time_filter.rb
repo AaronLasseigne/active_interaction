@@ -12,12 +12,12 @@ module ActiveInteraction
     alias_method :_cast, :cast
     private :_cast
 
-    def cast(value)
+    def cast(value, context)
       case value
       when String
-        convert(value)
+        convert(value, context)
       when GroupedInput
-        convert(stringify(value))
+        convert(stringify(value), context)
       when *klasses
         value
       else
@@ -31,7 +31,7 @@ module ActiveInteraction
 
     private
 
-    def convert(value)
+    def convert(value, context)
       if format?
         klass.strptime(value, format)
       else
@@ -39,7 +39,7 @@ module ActiveInteraction
           (fail ArgumentError, "no time information in #{value.inspect}")
       end
     rescue ArgumentError
-      _cast(value)
+      _cast(value, context)
     end
 
     # @return [String]

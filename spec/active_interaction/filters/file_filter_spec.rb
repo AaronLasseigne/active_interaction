@@ -7,7 +7,7 @@ describe ActiveInteraction::FileFilter, :filter do
   it_behaves_like 'a filter'
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with a File' do
       let(:value) { File.new(__FILE__) }

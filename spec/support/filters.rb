@@ -54,7 +54,7 @@ shared_examples_for 'a filter' do
       include_context 'optional'
 
       it 'returns nil' do
-        expect(filter.cast(value)).to be_nil
+        expect(filter.cast(value, nil)).to be_nil
       end
     end
 
@@ -63,7 +63,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.cast(value)
+          filter.cast(value, nil)
         end.to raise_error ActiveInteraction::MissingValueError
       end
 
@@ -72,7 +72,7 @@ shared_examples_for 'a filter' do
 
         it 'raises an error' do
           expect do
-            filter.cast(value)
+            filter.cast(value, nil)
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
@@ -86,7 +86,7 @@ shared_examples_for 'a filter' do
       include_context 'optional'
 
       it 'returns the default' do
-        expect(filter.clean(value)).to eql options[:default]
+        expect(filter.clean(value, nil)).to eql options[:default]
       end
     end
 
@@ -95,7 +95,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.clean(value)
+          filter.clean(value, nil)
         end.to raise_error ActiveInteraction::MissingValueError
       end
 
@@ -104,7 +104,7 @@ shared_examples_for 'a filter' do
 
         it 'raises an error' do
           expect do
-            filter.clean(value)
+            filter.clean(value, nil)
           end.to raise_error ActiveInteraction::InvalidValueError
         end
       end
@@ -117,7 +117,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.clean(value)
+          filter.clean(value, nil)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
@@ -128,7 +128,7 @@ shared_examples_for 'a filter' do
       include_context 'optional'
 
       it 'returns the default' do
-        expect(filter.default).to eql options[:default]
+        expect(filter.default(nil)).to eql options[:default]
       end
     end
 
@@ -137,7 +137,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(nil)
         end.to raise_error ActiveInteraction::NoDefaultError
       end
     end
@@ -149,7 +149,7 @@ shared_examples_for 'a filter' do
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(nil)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end
@@ -163,7 +163,7 @@ shared_examples_for 'a filter' do
       end
 
       it 'returns the default' do
-        expect(filter.default).to eql options[:default].call
+        expect(filter.default(nil)).to eql options[:default].call
       end
     end
   end

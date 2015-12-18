@@ -7,7 +7,7 @@ describe ActiveInteraction::FloatFilter, :filter do
   it_behaves_like 'a filter'
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with a Float' do
       let(:value) { rand }

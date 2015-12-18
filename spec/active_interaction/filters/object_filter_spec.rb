@@ -15,7 +15,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
   describe '#cast' do
     let(:value) { Thing.new }
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with class as a Class' do
       it 'returns the instance' do
@@ -29,7 +29,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         class Thing; end
         value = Thing.new
 
-        expect(filter.cast(value)).to eql value
+        expect(filter.cast(value, nil)).to eql value
       end
 
       it 'handles reconstantizing subclasses' do
@@ -40,7 +40,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         class SubThing < Thing; end
         value = SubThing.new
 
-        expect(filter.cast(value)).to eql value
+        expect(filter.cast(value, nil)).to eql value
       end
 
       it 'does not overflow the stack' do
@@ -51,7 +51,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         end
 
         expect do
-          filter.cast(klass.new)
+          filter.cast(klass.new, nil)
         end.to raise_error ActiveInteraction::InvalidValueError
       end
 
