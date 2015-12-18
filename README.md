@@ -67,13 +67,13 @@ Read more on [the project page][] or check out [the full documentation][].
 Add it to your Gemfile:
 
 ``` rb
-gem 'active_interaction', '~> 2.1'
+gem 'active_interaction', '~> 2.2'
 ```
 
 Or install it manually:
 
 ``` sh
-$ gem install active_interaction --version '~> 2.1'
+$ gem install active_interaction --version '~> 2.2'
 ```
 
 This project uses [Semantic Versioning][]. Check out [the change log][] for a

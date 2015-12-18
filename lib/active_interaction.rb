@@ -9,8 +9,6 @@ require 'active_model'
 # @author Taylor Fausak <taylor@fausak.me>
 #
 # @since 1.0.0
-#
-# @version 2.1.5
 module ActiveInteraction
 end
 

@@ -1,3 +1,14 @@
+# [2.2.0][] (2015-12-18)
+
+## Added
+
+- [#336][]: Added frozen string pragma for Ruby 2.3.
+
+## Changed
+
+- [#332][]: Changed default lambdas to be evaluated in the interaction's
+  binding.
+
 # [2.1.5][] (2015-12-11)
 
 ## Added
@@ -482,6 +493,7 @@ For help upgrading to version 2, please read [the announcement post][].
 
 - Initial release.
 
+  [2.2.0]: https://github.com/orgsync/active_interaction/compare/v2.1.5...v2.2.0
   [2.1.5]: https://github.com/orgsync/active_interaction/compare/v2.1.4...v2.1.5
   [2.1.4]: https://github.com/orgsync/active_interaction/compare/v2.1.3...v2.1.4
   [2.1.3]: https://github.com/orgsync/active_interaction/compare/v2.1.2...v2.1.3
@@ -631,5 +643,7 @@ For help upgrading to version 2, please read [the announcement post][].
   [#311]: https://github.com/orgsync/active_interaction/issues/311
   [#320]: https://github.com/orgsync/active_interaction/issues/320
   [#330]: https://github.com/orgsync/active_interaction/pull/330
+  [#332]: https://github.com/orgsync/active_interaction/pull/332
+  [#336]: https://github.com/orgsync/active_interaction/pull/336
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
