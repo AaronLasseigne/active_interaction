@@ -17,9 +17,6 @@ module ActiveInteraction
   end
 
   class Errors # rubocop:disable Style/Documentation
-    # Required for Rails < 3.2.13.
-    protected :initialize_dup
-
     # Required for Rails < 5.
     #
     # Extracted from active_model-errors_details 1.2.0. Modified to add support
