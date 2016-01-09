@@ -52,6 +52,7 @@ Read more on [the project page][] or check out [the full documentation][].
 - [Advanced usage](#advanced-usage)
   - [Callbacks](#callbacks)
   - [Composition](#composition)
+  - [Defaults](#defaults)
   - [Descriptions](#descriptions)
   - [Errors](#errors)
   - [Forms](#forms)
@@ -66,13 +67,13 @@ Read more on [the project page][] or check out [the full documentation][].
 Add it to your Gemfile:
 
 ``` rb
-gem 'active_interaction', '~> 2.1'
+gem 'active_interaction', '~> 2.2'
 ```
 
 Or install it manually:
 
 ``` sh
-$ gem install active_interaction --version '~> 2.1'
+$ gem install active_interaction --version '~> 2.2'
 ```
 
 This project uses [Semantic Versioning][]. Check out [the change log][] for a
@@ -982,6 +983,28 @@ end
 
 Note that errors in composed interactions have a few tricky cases. See [the
 errors section][] for more information about them.
+
+### Defaults
+
+The default value for an input can take on many different forms. Setting the
+default to `nil` makes the input optional. Setting it to some value makes that
+the default value for that input. Setting it to a lambda will lazily set the
+default value for that input. That means the value will be computed when the
+interaction is run, as opposed to when it is defined.
+
+Lambda defaults are evaluated in the context of the interaction, so you can use
+the values of other inputs in them.
+
+``` rb
+# This input is optional.
+time :a, default: nil
+# This input defaults to `Time.at(123)`.
+time :b, default: Time.at(123)
+# This input lazily defaults to `Time.now`.
+time :c, default: -> { Time.now }
+# This input defaults to the value of `c` plus 10 seconds.
+time :d, default: -> { c + 10 }
+```
 
 ### Descriptions
 

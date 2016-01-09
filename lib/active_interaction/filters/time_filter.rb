@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   class Base
@@ -34,7 +35,7 @@ module ActiveInteraction
       super
     end
 
-    def cast(value)
+    def cast(value, _interaction)
       case value
       when Numeric
         klass.at(value)

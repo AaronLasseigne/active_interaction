@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   # @abstract Include and override {#execute} to implement a custom Runnable

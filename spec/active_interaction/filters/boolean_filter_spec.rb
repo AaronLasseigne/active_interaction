@@ -10,7 +10,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
     context 'falsey' do
       [false, '0', 'false', 'FALSE'].each do |value|
         it "returns false for #{value.inspect}" do
-          expect(filter.cast(value)).to be_falsey
+          expect(filter.cast(value, nil)).to be_falsey
         end
       end
     end
@@ -18,7 +18,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
     context 'truthy' do
       [true, '1', 'true', 'TRUE'].each do |value|
         it "returns true for #{value.inspect}" do
-          expect(filter.cast(value)).to be_truthy
+          expect(filter.cast(value, nil)).to be_truthy
         end
       end
     end

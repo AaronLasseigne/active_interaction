@@ -37,7 +37,7 @@ describe ActiveInteraction::TimeFilter, :filter do
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with a Time' do
       let(:value) { Time.new }
@@ -160,7 +160,7 @@ describe ActiveInteraction::TimeFilter, :filter do
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(nil)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end

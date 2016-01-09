@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   class Base
@@ -16,7 +17,7 @@ module ActiveInteraction
   class SymbolFilter < Filter
     register :symbol
 
-    def cast(value)
+    def cast(value, _interaction)
       case value
       when Symbol
         value

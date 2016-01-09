@@ -1,20 +1,9 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 require 'active_support/core_ext'
 
 module ActiveInteraction
-  class GroupedInput # rubocop:disable Style/Documentation
-    # Required for Ruby <= 1.9.3.
-    def [](name)
-      send(name)
-    end unless method_defined?(:[])
-
-    # Required for Ruby <= 1.9.3.
-    def []=(name, value)
-      send("#{name}=", value)
-    end unless method_defined?(:[]=)
-  end
-
   class Errors # rubocop:disable Style/Documentation
     # Required for Rails < 3.2.13.
     protected :initialize_dup

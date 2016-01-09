@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   class Base
@@ -27,13 +28,13 @@ module ActiveInteraction
 
     register :array
 
-    def cast(value)
+    def cast(value, context)
       case value
       when *classes
         return value if filters.empty?
 
         filter = filters.values.first
-        value.map { |e| filter.clean(e) }
+        value.map { |e| filter.clean(e, context) }
       else
         super
       end

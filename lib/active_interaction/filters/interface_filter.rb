@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   class Base
@@ -21,7 +22,7 @@ module ActiveInteraction
   class InterfaceFilter < Filter
     register :interface
 
-    def cast(value)
+    def cast(value, _interaction)
       matches?(value) ? value : super
     end
 

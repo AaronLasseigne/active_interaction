@@ -11,7 +11,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
   before { options[:methods] = [:dump, :load] }
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with a BasicObject' do
       let(:value) { BasicObject.new }
