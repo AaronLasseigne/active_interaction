@@ -28,7 +28,6 @@ rvm:
 - 2.2
 - 2.1
 - 2.0
-- 1.9
-- jruby
+- jruby-9
 - rbx-2
 script: bundle exec rake $RAKE_TASK

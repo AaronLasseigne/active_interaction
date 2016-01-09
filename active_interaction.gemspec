@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.homepage = 'http://devblog.orgsync.com/active_interaction/'
   gem.licenses = %w[MIT]
 
-  gem.required_ruby_version = '>= 1.9.3'
+  gem.required_ruby_version = '>= 2'
 
   {
     'Aaron Lasseigne' => 'aaron.lasseigne@gmail.com',
