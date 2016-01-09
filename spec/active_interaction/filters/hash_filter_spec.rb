@@ -6,16 +6,6 @@ describe ActiveInteraction::HashFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  context 'backports' do
-    describe '.transform_keys' do
-      it 'transforms keys' do
-        original = { 'key' => 'value' }
-        transformed = described_class.transform_keys(original, &:to_sym)
-        expect(transformed).to eql(key: 'value')
-      end
-    end
-  end
-
   context 'with a nested nameless filter' do
     let(:block) { proc { hash } }
 

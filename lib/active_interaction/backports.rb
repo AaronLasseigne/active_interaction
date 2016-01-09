@@ -64,15 +64,4 @@ module ActiveInteraction
     end
     include Details unless method_defined?(:details)
   end
-
-  class HashFilter # rubocop:disable Style/Documentation
-    # Required for Rails < 4.0.0.
-    def self.transform_keys(hash, &block)
-      return hash.transform_keys(&block) if hash.respond_to?(:transform_keys)
-
-      result = {}
-      hash.each_key { |key| result[block.call(key)] = hash[key] }
-      result
-    end
-  end
 end
