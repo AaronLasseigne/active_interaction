@@ -31,10 +31,10 @@ Gem::Specification.new do |gem|
     Dir.glob(File.join('lib', 'active_interaction', 'locale', '*.yml'))
   gem.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
 
-  gem.add_dependency 'activemodel', '>= 3.2', '< 6'
+  gem.add_dependency 'activemodel', '>= 4', '< 6'
 
   {
-    'actionpack' => ['>= 3.2', '< 6'],
+    'actionpack' => [],
     'benchmark-ips' => ['~> 2.3'],
     'bundler' => ['~> 1.10'],
     'coveralls' => ['~> 0.8'],

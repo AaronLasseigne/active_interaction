@@ -81,7 +81,7 @@ detailed list of changes. For help upgrading to version 2, please read [the
 announcement post][].
 
 ActiveInteraction works with all supported versions of Ruby (2.0 through 2.2)
-and ActiveModel (3.2 through 4.2).
+and ActiveModel (4.0 through 4.2).
 
 ## Basic usage
 

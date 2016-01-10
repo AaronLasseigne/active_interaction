@@ -5,9 +5,6 @@ require 'active_support/core_ext'
 
 module ActiveInteraction
   class Errors # rubocop:disable Style/Documentation
-    # Required for Rails < 3.2.13.
-    protected :initialize_dup
-
     # Required for Rails < 5.
     #
     # Extracted from active_model-errors_details 1.2.0. Modified to add support
@@ -54,16 +51,5 @@ module ActiveInteraction
       end
     end
     include Details unless method_defined?(:details)
-  end
-
-  class HashFilter # rubocop:disable Style/Documentation
-    # Required for Rails < 4.0.0.
-    def self.transform_keys(hash, &block)
-      return hash.transform_keys(&block) if hash.respond_to?(:transform_keys)
-
-      result = {}
-      hash.each_key { |key| result[block.call(key)] = hash[key] }
-      result
-    end
   end
 end

@@ -6,8 +6,6 @@ matrix:
   include:
   - env: RAKE_TASK=rubocop
     rvm: 2.2
-  - gemfile: gemfiles/activemodel-3.2.rb
-    rvm: 2.2
   - gemfile: gemfiles/activemodel-4.0.rb
     rvm: 2.2
   - gemfile: gemfiles/activemodel-4.1.rb
