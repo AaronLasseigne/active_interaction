@@ -80,7 +80,7 @@ This project uses [Semantic Versioning][]. Check out [the change log][] for a
 detailed list of changes. For help upgrading to version 2, please read [the
 announcement post][].
 
-ActiveInteraction works with all supported versions of Ruby (2.0 through 2.2)
+ActiveInteraction works with all supported versions of Ruby (2.0 through 2.3)
 and ActiveModel (4.0 through 4.2).
 
 ## Basic usage
