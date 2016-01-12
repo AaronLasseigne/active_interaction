@@ -47,7 +47,7 @@ module ActiveInteraction
     #
     # @return [Boolean]
     def number?
-      [:integer, :float].include?(type)
+      %i[integer float].include?(type)
     end
 
     # Returns `true` if the column is of type :string.

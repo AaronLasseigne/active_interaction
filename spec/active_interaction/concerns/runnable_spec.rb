@@ -47,7 +47,7 @@ describe ActiveInteraction::Runnable do
             end.to_not raise_error
           end
 
-          [:after, :around, :before].each do |type|
+          %i[after around before].each do |type|
             it type do
               has_run = false
 

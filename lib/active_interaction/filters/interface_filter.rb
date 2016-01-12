@@ -15,7 +15,7 @@ module ActiveInteraction
     #     interface :anything
     #   @example
     #     interface :serializer,
-    #       methods: [:dump, :load]
+    #       methods: %i[dump load]
   end
 
   # @private
