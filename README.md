@@ -67,13 +67,13 @@ Read more on [the project page][] or check out [the full documentation][].
 Add it to your Gemfile:
 
 ``` rb
-gem 'active_interaction', '~> 2.2'
+gem 'active_interaction', '~> 3.0'
 ```
 
 Or install it manually:
 
 ``` sh
-$ gem install active_interaction --version '~> 2.2'
+$ gem install active_interaction --version '~> 3.0'
 ```
 
 This project uses [Semantic Versioning][]. Check out [the change log][] for a
@@ -82,6 +82,8 @@ announcement post][].
 
 ActiveInteraction works with all supported versions of Ruby (2.0 through 2.3)
 and ActiveModel (4.0 through 4.2).
+
+If you want to use ActiveInteraction with Ruby < 2.0.0 or ActiveModel < 4.0.0, use ActiveInteraction < 3.0.0.
 
 ## Basic usage
 
@@ -873,7 +875,7 @@ end
 
 We recommend putting your interactions in `app/interactions`. It's also very
 helpful to group them by model. That way you can look in
-`app/interactions/accounts` for all the ways you can interact with accounts.  
+`app/interactions/accounts` for all the ways you can interact with accounts.
 In order to use this structure add `config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")` in your `application.rb`
 
 ```
