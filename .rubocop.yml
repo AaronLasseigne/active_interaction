@@ -13,6 +13,8 @@ Documentation:
 FileName:
   Exclude:
   - gemfiles/*
+MultilineMethodCallIndentation:
+  EnforcedStyle: indented
 MultilineOperationIndentation:
   Enabled: false
 PercentLiteralDelimiters:
