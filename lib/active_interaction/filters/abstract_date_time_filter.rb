@@ -9,7 +9,7 @@ module ActiveInteraction
   #
   # @private
   class AbstractDateTimeFilter < AbstractFilter
-    alias_method :_cast, :cast
+    alias _cast cast
     private :_cast
 
     def cast(value, context)
