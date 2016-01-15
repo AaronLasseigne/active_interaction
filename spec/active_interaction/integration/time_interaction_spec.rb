@@ -10,6 +10,7 @@ TimeZone = Class.new do
   def self.parse(*args)
     TimeWithZone.new(Time.parse(*args))
   rescue ArgumentError
+    nil
   end
 end
 

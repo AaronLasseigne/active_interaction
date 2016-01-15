@@ -254,7 +254,7 @@ module ActiveInteraction
         begin
           public_send("#{name}=", filter.clean(inputs[name], self))
         rescue InvalidValueError, MissingValueError, NoDefaultError
-          # #type_check will add errors if appropriate.
+          nil # #type_check will add errors if appropriate.
         end
       end
     end
