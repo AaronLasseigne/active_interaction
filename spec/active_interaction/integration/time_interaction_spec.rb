@@ -37,7 +37,7 @@ describe TimeInteraction do
     let(:a) { nil }
 
     before do
-      inputs.merge!(a: a)
+      inputs[:a] = a
 
       allow(Time).to receive(:zone).and_return(TimeZone)
     end
