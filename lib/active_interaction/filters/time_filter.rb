@@ -24,7 +24,7 @@ module ActiveInteraction
   class TimeFilter < AbstractDateTimeFilter
     register :time
 
-    alias_method :_klass, :klass
+    alias _klass klass
     private :_klass
 
     def initialize(name, options = {}, &block)

@@ -31,7 +31,7 @@ describe ArrayInteraction do
   context 'with inputs[:a]' do
     let(:a) { [[]] }
 
-    before { inputs.merge!(a: a) }
+    before { inputs[:a] = a }
 
     it 'returns the correct value for :a' do
       expect(result[:a]).to eql a

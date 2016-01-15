@@ -10,6 +10,7 @@ TimeZone = Class.new do
   def self.parse(*args)
     TimeWithZone.new(Time.parse(*args))
   rescue ArgumentError
+    nil
   end
 end
 
@@ -37,7 +38,7 @@ describe TimeInteraction do
     let(:a) { nil }
 
     before do
-      inputs.merge!(a: a)
+      inputs[:a] = a
 
       allow(Time).to receive(:zone).and_return(TimeZone)
     end

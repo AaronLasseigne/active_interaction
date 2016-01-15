@@ -9,7 +9,7 @@ shared_context 'filters' do
 
   shared_context 'optional' do
     before do
-      options.merge!(default: nil)
+      options[:default] = nil
     end
   end
 
@@ -112,7 +112,7 @@ shared_examples_for 'a filter' do
 
     context 'with an invalid default' do
       before do
-        options.merge!(default: Object.new)
+        options[:default] = Object.new
       end
 
       it 'raises an error' do
@@ -144,7 +144,7 @@ shared_examples_for 'a filter' do
 
     context 'with an invalid default' do
       before do
-        options.merge!(default: Object.new)
+        options[:default] = Object.new
       end
 
       it 'raises an error' do
@@ -177,7 +177,7 @@ shared_examples_for 'a filter' do
       let(:desc) { SecureRandom.hex }
 
       before do
-        options.merge!(desc: desc)
+        options[:desc] = desc
       end
 
       it 'returns the description' do

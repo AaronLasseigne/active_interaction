@@ -10,7 +10,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
     let(:digits) { 4 }
 
     before do
-      options.merge!(digits: digits)
+      options[:digits] = digits
     end
   end
 

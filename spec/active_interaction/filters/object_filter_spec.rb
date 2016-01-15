@@ -10,7 +10,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
   it_behaves_like 'a filter'
 
   before do
-    options.merge!(class: Thing)
+    options[:class] = Thing
   end
 
   describe '#cast' do
@@ -101,7 +101,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
     context 'with class as a superclass' do
       before do
-        options.merge!(class: Thing.superclass)
+        options[:class] = Thing.superclass
       end
 
       it 'returns the instance' do
@@ -111,7 +111,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
     context 'with class as a String' do
       before do
-        options.merge!(class: Thing.name)
+        options[:class] = Thing.name
       end
 
       it 'returns the instance' do
@@ -131,7 +131,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
     context 'with class as an invalid String' do
       before do
-        options.merge!(class: 'invalid')
+        options[:class] = 'invalid'
       end
 
       it 'raises an error' do

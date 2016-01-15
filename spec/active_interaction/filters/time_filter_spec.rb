@@ -10,7 +10,7 @@ describe ActiveInteraction::TimeFilter, :filter do
     let(:format) { '%d/%m/%Y %H:%M:%S %z' }
 
     before do
-      options.merge!(format: format)
+      options[:format] = format
     end
   end
 
@@ -146,15 +146,13 @@ describe ActiveInteraction::TimeFilter, :filter do
   describe '#default' do
     context 'with a GroupedInput' do
       before do
-        options.merge!(
-          default: ActiveInteraction::GroupedInput.new(
-            '1' => '2012',
-            '2' => '1',
-            '3' => '2',
-            '4' => '3',
-            '5' => '4',
-            '6' => '5'
-          )
+        options[:default] = ActiveInteraction::GroupedInput.new(
+          '1' => '2012',
+          '2' => '1',
+          '3' => '2',
+          '4' => '3',
+          '5' => '4',
+          '6' => '5'
         )
       end
 

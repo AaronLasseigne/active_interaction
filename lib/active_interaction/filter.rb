@@ -14,7 +14,7 @@ module ActiveInteraction
   # Describes an input filter for an interaction.
   class Filter
     # @return [Hash{Symbol => Class}]
-    CLASSES = {}
+    CLASSES = {} # rubocop:disable Style/MutableConstant
     private_constant :CLASSES
 
     # @return [Hash{Symbol => Filter}]
