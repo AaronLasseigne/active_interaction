@@ -1,3 +1,9 @@
+# [3.0.1][] (2016-01-15)
+
+## Fixed
+
+- [#349][]: Merging errors on `:base` with a message that was a `String` attempted to translate it.
+
 # [3.0.0][] (2016-01-13)
 
 ## Changed
@@ -504,6 +510,7 @@ For help upgrading to version 2, please read [the announcement post][].
 
 - Initial release.
 
+  [3.0.1]: https://github.com/orgsync/active_interaction/compare/v3.0.0...v3.0.1
   [3.0.0]: https://github.com/orgsync/active_interaction/compare/v2.2.0...v3.0.0
   [2.2.0]: https://github.com/orgsync/active_interaction/compare/v2.1.5...v2.2.0
   [2.1.5]: https://github.com/orgsync/active_interaction/compare/v2.1.4...v2.1.5
@@ -660,5 +667,6 @@ For help upgrading to version 2, please read [the announcement post][].
   [#336]: https://github.com/orgsync/active_interaction/pull/336
   [#344]: https://github.com/orgsync/active_interaction/pull/344
   [#346]: https://github.com/orgsync/active_interaction/pull/346
+  [#349]: https://github.com/orgsync/active_interaction/pull/349
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
