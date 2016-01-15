@@ -8,7 +8,7 @@ describe ActiveInteraction::StringFilter, :filter do
 
   shared_context 'without strip' do
     before do
-      options.merge!(strip: false)
+      options[:strip] = false
     end
   end
 

@@ -18,7 +18,7 @@ describe HashInteraction do
   context 'with inputs[:a]' do
     let(:a) { { x: {} } }
 
-    before { inputs.merge!(a: a) }
+    before { inputs[:a] = a }
 
     it 'returns the correct value for :a' do
       expect(result[:a]).to eql a.with_indifferent_access

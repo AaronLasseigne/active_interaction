@@ -18,7 +18,7 @@ VALUES = {
   string: '',
   symbol: :'',
   time: Time.at(0)
-}
+}.freeze
 
 Benchmark.ips do |bm|
   bm.report('lambda') { -> {}.call }

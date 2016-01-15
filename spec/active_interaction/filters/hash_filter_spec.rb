@@ -80,7 +80,7 @@ describe ActiveInteraction::HashFilter, :filter do
   describe '#default' do
     context 'with a Hash' do
       before do
-        options.merge!(default: {})
+        options[:default] = {}
       end
 
       it 'returns the Hash' do
@@ -90,7 +90,7 @@ describe ActiveInteraction::HashFilter, :filter do
 
     context 'with a non-empty Hash' do
       before do
-        options.merge!(default: { a: {} })
+        options[:default] = { a: {} }
       end
 
       it 'raises an error' do

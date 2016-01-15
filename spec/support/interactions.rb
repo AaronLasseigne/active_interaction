@@ -54,7 +54,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
   context 'with inputs[:required]' do
     let(:required) { generator.call }
 
-    before { inputs.merge!(required: required) }
+    before { inputs[:required] = required }
 
     it 'is valid' do
       expect(outcome).to be_valid
@@ -73,7 +73,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
     end
 
     it 'does not return nil for :default when given nil' do
-      inputs.merge!(default: nil)
+      inputs[:default] = nil
       expect(result[:default]).to_not be_nil
     end
 
@@ -92,7 +92,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
     context 'with inputs[:optional]' do
       let(:optional) { generator.call }
 
-      before { inputs.merge!(optional: optional) }
+      before { inputs[:optional] = optional }
 
       it 'returns the correct value for :optional' do
         expect(result[:optional]).to eql optional
@@ -102,7 +102,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
     context 'with inputs[:default]' do
       let(:default) { generator.call }
 
-      before { inputs.merge!(default: default) }
+      before { inputs[:default] = default }
 
       it 'returns the correct value for :default' do
         expect(result[:default]).to eql default

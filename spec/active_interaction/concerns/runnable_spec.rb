@@ -90,7 +90,7 @@ describe ActiveInteraction::Runnable do
     let(:result) { double }
 
     it 'returns the result' do
-      expect(instance.result = result).to eql result
+      expect((instance.result = result)).to eql result
     end
 
     it 'sets the result' do
