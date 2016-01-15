@@ -31,12 +31,12 @@ ProxyInteraction = Class.new(TestInteraction) do
 end
 
 InterruptInteraction = Class.new(TestInteraction) do
-  object :x, :y,
+  object :x, :z,
     class: Object,
     default: nil
 
   def execute
-    compose(AddInteraction, inputs)
+    compose(AddInteraction, x: x, y: z)
   end
 end
 
@@ -48,7 +48,7 @@ describe ActiveInteraction::Base do
   describe '.new(inputs = {})' do
     it 'does not allow :_interaction_* as an option' do
       key = :"_interaction_#{SecureRandom.hex}"
-      inputs.merge!(key => nil)
+      inputs[key] = nil
       expect do
         interaction
       end.to raise_error ActiveInteraction::InvalidValueError
@@ -56,7 +56,7 @@ describe ActiveInteraction::Base do
 
     it 'does not allow "_interaction_*" as an option' do
       key = "_interaction_#{SecureRandom.hex}"
-      inputs.merge!(key => nil)
+      inputs[key] = nil
       expect do
         interaction
       end.to raise_error ActiveInteraction::InvalidValueError
@@ -87,7 +87,7 @@ describe ActiveInteraction::Base do
         end
 
         context 'passing' do
-          before { inputs.merge!(thing: SecureRandom.hex) }
+          before { inputs[:thing] = SecureRandom.hex }
 
           it 'returns a valid outcome' do
             expect(interaction).to be_valid
@@ -97,7 +97,7 @@ describe ActiveInteraction::Base do
 
       context 'with a single input' do
         let(:thing) { SecureRandom.hex }
-        before { inputs.merge!(thing: thing) }
+        before { inputs[:thing] = thing }
 
         it 'sets the attribute' do
           expect(interaction.thing).to eql thing
@@ -110,7 +110,7 @@ describe ActiveInteraction::Base do
 
       context 'validation' do
         context 'failing' do
-          before { inputs.merge!(thing: thing) }
+          before { inputs[:thing] = thing }
 
           context 'with an invalid value' do
             let(:thing) { 'a' }
@@ -130,7 +130,7 @@ describe ActiveInteraction::Base do
         end
 
         context 'passing' do
-          before { inputs.merge!(thing: 1) }
+          before { inputs[:thing] = 1 }
 
           it 'returns a valid outcome' do
             expect(interaction).to be_valid
@@ -139,7 +139,7 @@ describe ActiveInteraction::Base do
       end
 
       context 'with a single input' do
-        before { inputs.merge!(thing: 1) }
+        before { inputs[:thing] = 1 }
 
         it 'sets the attribute to the filtered value' do
           expect(interaction.thing).to eql 1.0
@@ -260,7 +260,7 @@ describe ActiveInteraction::Base do
       end
 
       context 'passing validations' do
-        before { inputs.merge!(thing: thing) }
+        before { inputs[:thing] = thing }
 
         context 'failing runtime validations' do
           before do
@@ -323,7 +323,7 @@ describe ActiveInteraction::Base do
       end
 
       context 'passing validations' do
-        before { inputs.merge!(thing: thing) }
+        before { inputs[:thing] = thing }
 
         it 'returns the result' do
           expect(result[:thing]).to eql thing
@@ -360,11 +360,12 @@ describe ActiveInteraction::Base do
   describe '#compose' do
     let(:described_class) { InterruptInteraction }
     let(:x) { rand }
-    let(:y) { rand }
+    let(:z) { rand }
 
     context 'with valid composition' do
       before do
-        inputs.merge!(x: x, y: y)
+        inputs[:x] = x
+        inputs[:z] = z
       end
 
       it 'is valid' do
@@ -372,7 +373,7 @@ describe ActiveInteraction::Base do
       end
 
       it 'returns the sum' do
-        expect(result).to eql x + y
+        expect(result).to eql x + z
       end
     end
 
@@ -382,8 +383,8 @@ describe ActiveInteraction::Base do
       end
 
       it 'has the correct errors' do
-        expect(outcome.errors[:base])
-          .to match_array ['X is required', 'Y is required']
+        expect(outcome.errors.details)
+          .to eql(x: [{ error: :missing }], base: [{ error: 'Y is required' }])
       end
     end
   end
@@ -508,7 +509,7 @@ describe ActiveInteraction::Base do
       let(:thing) { rand }
 
       before do
-        inputs.merge!(thing: thing)
+        inputs[:thing] = thing
       end
 
       it 'returns true' do

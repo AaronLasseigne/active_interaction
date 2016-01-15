@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.homepage = 'http://devblog.orgsync.com/active_interaction/'
   gem.licenses = %w[MIT]
 
-  gem.required_ruby_version = '>= 1.9.3'
+  gem.required_ruby_version = '>= 2'
 
   {
     'Aaron Lasseigne' => 'aaron.lasseigne@gmail.com',
@@ -31,32 +31,21 @@ Gem::Specification.new do |gem|
     Dir.glob(File.join('lib', 'active_interaction', 'locale', '*.yml'))
   gem.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
 
-  gem.add_dependency 'activemodel', '>= 3.2', '< 5'
+  gem.add_dependency 'activemodel', '>= 4', '< 6'
 
   {
-    'actionpack' => ['>= 3.2', '< 5'],
+    'actionpack' => [],
+    'benchmark-ips' => ['~> 2.3'],
     'bundler' => ['~> 1.10'],
     'coveralls' => ['~> 0.8'],
     'guard-rspec' => ['~> 4.6'],
     'guard-rubocop' => ['~> 1.2'],
     'kramdown' => ['~> 1.9'],
     'rake' => ['~> 10.4'],
-    'rspec' => ['~> 3.3'],
-    'rubocop' => ['~> 0.34'],
+    'rspec' => ['~> 3.4'],
+    'rubocop' => ['~> 0.36.0'],
     'yard' => ['~> 0.8']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions
-  end
-
-  if RUBY_ENGINE == 'rbx'
-    {
-      'parser' => '2.2',
-      'racc' => '1.4',
-      'rubinius-coverage' => '2.0',
-      'rubysl' => '2.1',
-      'rubysl-test-unit' => '2.0'
-    }.each do |name, version|
-      gem.add_development_dependency name, "~> #{version}"
-    end
   end
 end

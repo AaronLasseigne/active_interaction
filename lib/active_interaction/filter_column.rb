@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   # A minimal implementation of an `ActiveRecord::ConnectionAdapters::Column`.
@@ -46,7 +47,7 @@ module ActiveInteraction
     #
     # @return [Boolean]
     def number?
-      [:integer, :float].include?(type)
+      %i[integer float].include?(type)
     end
 
     # Returns `true` if the column is of type :string.

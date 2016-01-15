@@ -1,23 +1,16 @@
-<h1 align="center">
-  <a href="https://github.com/orgsync/active_interaction">
-    ActiveInteraction
-  </a>
-</h1>
+# [ActiveInteraction][]
 
-<p align="center">
-  ActiveInteraction manages application-specific business logic.
-  It's an implementation of the command pattern in Ruby.
-</p>
+ActiveInteraction manages application-specific business logic.
+It's an implementation of the command pattern in Ruby.
 
-<p align="center">
-  <a href="https://rubygems.org/gems/active_interaction"><img alt="Version" src="https://img.shields.io/gem/v/active_interaction.svg?label=version&amp;style=flat-square"></a>
-  <a href="https://travis-ci.org/orgsync/active_interaction"><img alt="Build" src="https://img.shields.io/travis/orgsync/active_interaction/master.svg?label=build&amp;style=flat-square"></a>
-  <a href="https://coveralls.io/r/orgsync/active_interaction"><img alt="Coverage" src="https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?label=coverage&amp;style=flat-square"></a>
-  <a href="https://codeclimate.com/github/orgsync/active_interaction"><img alt="Climate" src="https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?label=climate&amp;style=flat-square"></a>
-  <a href="https://gemnasium.com/orgsync/active_interaction"><img alt="Dependencies" src="https://img.shields.io/gemnasium/orgsync/active_interaction.svg?label=dependencies&amp;style=flat-square"></a>
-</p>
+[![Version](https://img.shields.io/gem/v/active_interaction.svg?label=version)](https://rubygems.org/gems/active_interaction)
+[![Build](https://img.shields.io/travis/orgsync/active_interaction/master.svg?label=build)](https://travis-ci.org/orgsync/active_interaction)
+[![Coverage](https://img.shields.io/coveralls/orgsync/active_interaction/master.svg?label=coverage)](https://coveralls.io/r/orgsync/active_interaction)
+[![Climate](https://img.shields.io/codeclimate/github/orgsync/active_interaction.svg?label=climate)](https://codeclimate.com/github/orgsync/active_interaction)
+[![Grade](https://img.shields.io/badge/grade-A-brightgreen.svg)](http://www.libgrader.com/libraries/ruby/active_interaction)
+[![Dependencies](https://img.shields.io/gemnasium/orgsync/active_interaction.svg?label=dependencies)](https://gemnasium.com/orgsync/active_interaction)
 
-<hr>
+---
 
 ActiveInteraction gives you a place to put your business logic. It also helps
 you write safer code by validating that your inputs conform to your
@@ -59,9 +52,11 @@ Read more on [the project page][] or check out [the full documentation][].
 - [Advanced usage](#advanced-usage)
   - [Callbacks](#callbacks)
   - [Composition](#composition)
+  - [Defaults](#defaults)
   - [Descriptions](#descriptions)
   - [Errors](#errors)
   - [Forms](#forms)
+  - [Grouped inputs](#grouped-inputs)
   - [Optional inputs](#optional-inputs)
   - [Predicates](#predicates)
   - [Translations](#translations)
@@ -72,21 +67,23 @@ Read more on [the project page][] or check out [the full documentation][].
 Add it to your Gemfile:
 
 ``` rb
-gem 'active_interaction', '~> 2.1'
+gem 'active_interaction', '~> 3.0'
 ```
 
 Or install it manually:
 
 ``` sh
-$ gem install active_interaction --version '~> 2.1'
+$ gem install active_interaction --version '~> 3.0'
 ```
 
 This project uses [Semantic Versioning][]. Check out [the change log][] for a
 detailed list of changes. For help upgrading to version 2, please read [the
 announcement post][].
 
-ActiveInteraction works with all supported versions of Ruby (2.0 through 2.2)
-and ActiveModel (3.2 through 4.2).
+ActiveInteraction works with all supported versions of Ruby (2.0 through 2.3)
+and ActiveModel (4.0 through 4.2).
+
+If you want to use ActiveInteraction with Ruby < 2.0.0 or ActiveModel < 4.0.0, use ActiveInteraction < 3.0.0.
 
 ## Basic usage
 
@@ -879,6 +876,7 @@ end
 We recommend putting your interactions in `app/interactions`. It's also very
 helpful to group them by model. That way you can look in
 `app/interactions/accounts` for all the ways you can interact with accounts.
+In order to use this structure add `config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")` in your `application.rb`
 
 ```
 - app/
@@ -985,6 +983,31 @@ class AddAndDouble < ActiveInteraction::Base
 end
 ```
 
+Note that errors in composed interactions have a few tricky cases. See [the
+errors section][] for more information about them.
+
+### Defaults
+
+The default value for an input can take on many different forms. Setting the
+default to `nil` makes the input optional. Setting it to some value makes that
+the default value for that input. Setting it to a lambda will lazily set the
+default value for that input. That means the value will be computed when the
+interaction is run, as opposed to when it is defined.
+
+Lambda defaults are evaluated in the context of the interaction, so you can use
+the values of other inputs in them.
+
+``` rb
+# This input is optional.
+time :a, default: nil
+# This input defaults to `Time.at(123)`.
+time :b, default: Time.at(123)
+# This input lazily defaults to `Time.now`.
+time :c, default: -> { Time.now }
+# This input defaults to the value of `c` plus 10 seconds.
+time :d, default: -> { c + 10 }
+```
+
 ### Descriptions
 
 Use the `desc` option to provide human-readable descriptions of filters. You
@@ -1082,6 +1105,42 @@ class UpdateThing < ActiveInteraction::Base
 end
 ```
 
+When a composed interaction fails, its errors are merged onto the caller. This
+generally produces good error messages, but there are a few cases to look out
+for.
+
+``` rb
+class Inner < ActiveInteraction::Base
+  boolean :x, :y
+end
+
+class Outer < ActiveInteraction::Base
+  string :x
+  boolean :z, default: nil
+
+  def execute
+    compose(Inner, x: x, y: z)
+  end
+end
+
+outcome = Outer.run(x: 'yes')
+outcome.errors.details
+# => { :x    => [{ :error => :invalid_type, :type => "boolean" }],
+#      :base => [{ :error => "Y is required" }] }
+outcome.errors.full_messages.join(' and ')
+# => "X is not a valid boolean and Y is required"
+```
+
+Since both interactions have an input called `x`, the inner error for that
+input is moved to the `x` error on the outer interaction. This results in a
+misleading error that claims the input `x` is not a valid boolean even though
+it's a string on the outer interaction.
+
+Since only the inner interaction has an input called `y`, the inner error for
+that input is moved to the `base` error on the outer interaction. This results
+in a confusing error that claims the input `y` is required even though it's not
+present on the outer interaction.
+
 ### Forms
 
 The outcome returned by `.run` can be used in forms as though it were an
@@ -1165,6 +1224,20 @@ used to define the inputs on your interaction will relay type information to
 these gems. As a result, form fields will automatically use the appropriate
 input type.
 
+### Grouped inputs
+
+It can be convenient to apply the same options to a bunch of inputs. One common
+use case is making many inputs optional. Instead of setting `default: nil` on
+each one of them, you can use [`with_options`][] to reduce duplication.
+
+``` rb
+with_options default: nil do
+  date :birthday
+  string :name
+  boolean :wants_cake
+end
+```
+
 ### Optional inputs
 
 Optional inputs can be defined by using the `:default` option as described in
@@ -1183,7 +1256,7 @@ class UpdateUser < ActiveInteraction::Base
 
   def execute
     user.birthday = birthday if given?(:birthday)
-    errors.merge!(user) unless user.save
+    errors.merge!(user.errors) unless user.save
     user
   end
 end
@@ -1298,6 +1371,7 @@ available on GitHub.
 
 ActiveInteraction is licensed under [the MIT License][].
 
+[activeinteraction]: https://github.com/orgsync/active_interaction
 [the project page]: http://orgsync.github.io/active_interaction/
 [the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
@@ -1315,5 +1389,7 @@ ActiveInteraction is licensed under [the MIT License][].
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
 [the filters section]: #filters
+[the errors section]: #errors
 [the optional inputs section]: #optional-inputs
 [aire]: example
+[`with_options`]: http://api.rubyonrails.org/classes/Object.html#method-i-with_options

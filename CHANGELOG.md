@@ -1,3 +1,37 @@
+# [3.0.0][] (2016-01-13)
+
+## Changed
+
+- [#333][]: Copy symbolic errors when using `compose`.
+
+## Removed
+
+- [#344][]: Support for Ruby 1.9.3.
+- [#346][]: Support for ActiveModel 3.2.
+
+# [2.2.0][] (2015-12-18)
+
+## Added
+
+- [#336][]: Added frozen string pragma for Ruby 2.3.
+
+## Changed
+
+- [#332][]: Changed default lambdas to be evaluated in the interaction's
+  binding.
+
+# [2.1.5][] (2015-12-11)
+
+## Added
+
+- [#330][]: Added a French translation.
+
+# [2.1.4][] (2015-11-03)
+
+## Fixed
+
+- [#320][]: Stopped requiring ActiveRecord.
+
 ## Added
 
 - [#310][]: Added a warning when a filter is redefined.
@@ -470,6 +504,10 @@ For help upgrading to version 2, please read [the announcement post][].
 
 - Initial release.
 
+  [3.0.0]: https://github.com/orgsync/active_interaction/compare/v2.2.0...v3.0.0
+  [2.2.0]: https://github.com/orgsync/active_interaction/compare/v2.1.5...v2.2.0
+  [2.1.5]: https://github.com/orgsync/active_interaction/compare/v2.1.4...v2.1.5
+  [2.1.4]: https://github.com/orgsync/active_interaction/compare/v2.1.3...v2.1.4
   [2.1.3]: https://github.com/orgsync/active_interaction/compare/v2.1.2...v2.1.3
   [2.1.2]: https://github.com/orgsync/active_interaction/compare/v2.1.1...v2.1.2
   [2.1.1]: https://github.com/orgsync/active_interaction/compare/v2.1.0...v2.1.1
@@ -615,5 +653,12 @@ For help upgrading to version 2, please read [the announcement post][].
   [#304]: https://github.com/orgsync/active_interaction/issues/304
   [#310]: https://github.com/orgsync/active_interaction/issues/310
   [#311]: https://github.com/orgsync/active_interaction/issues/311
+  [#320]: https://github.com/orgsync/active_interaction/issues/320
+  [#330]: https://github.com/orgsync/active_interaction/pull/330
+  [#332]: https://github.com/orgsync/active_interaction/pull/332
+  [#333]: https://github.com/orgsync/active_interaction/pull/333
+  [#336]: https://github.com/orgsync/active_interaction/pull/336
+  [#344]: https://github.com/orgsync/active_interaction/pull/344
+  [#346]: https://github.com/orgsync/active_interaction/pull/346
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/

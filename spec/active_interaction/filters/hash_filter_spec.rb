@@ -6,16 +6,6 @@ describe ActiveInteraction::HashFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  context 'backports' do
-    describe '.transform_keys' do
-      it 'transforms keys' do
-        original = { 'key' => 'value' }
-        transformed = described_class.transform_keys(original, &:to_sym)
-        expect(transformed).to eql(key: 'value')
-      end
-    end
-  end
-
   context 'with a nested nameless filter' do
     let(:block) { proc { hash } }
 
@@ -25,7 +15,7 @@ describe ActiveInteraction::HashFilter, :filter do
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with a Hash' do
       let(:value) { {} }
@@ -90,22 +80,22 @@ describe ActiveInteraction::HashFilter, :filter do
   describe '#default' do
     context 'with a Hash' do
       before do
-        options.merge!(default: {})
+        options[:default] = {}
       end
 
       it 'returns the Hash' do
-        expect(filter.default).to eql options[:default]
+        expect(filter.default(nil)).to eql options[:default]
       end
     end
 
     context 'with a non-empty Hash' do
       before do
-        options.merge!(default: { a: {} })
+        options[:default] = { a: {} }
       end
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(nil)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end

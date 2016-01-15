@@ -10,12 +10,12 @@ describe ActiveInteraction::DecimalFilter, :filter do
     let(:digits) { 4 }
 
     before do
-      options.merge!(digits: digits)
+      options[:digits] = digits
     end
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with a Float' do
       let(:value) { rand }

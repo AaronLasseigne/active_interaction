@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 #
 module ActiveInteraction
@@ -74,21 +75,6 @@ module ActiveInteraction
     end
   end
 
-  # Used by {Runnable} to signal a failure when composing.
-  #
-  # @private
-  class Interrupt < Error
-    attr_reader :outcome
-
-    # @param outcome [Runnable]
-    def initialize(outcome)
-      super()
-
-      @outcome = outcome
-    end
-  end
-  private_constant :Interrupt
-
   # An extension that provides the ability to merge other errors into itself.
   class Errors < ActiveModel::Errors
     # Merge other errors into this one.
@@ -111,6 +97,10 @@ module ActiveInteraction
     def merge_messages!(other)
       other.messages.each do |attribute, messages|
         messages.each do |message|
+          unless attribute?(attribute)
+            message = full_message(attribute, message)
+            attribute = :base
+          end
           add(attribute, message) unless added?(attribute, message)
         end
       end
@@ -121,9 +111,25 @@ module ActiveInteraction
         details.each do |detail|
           detail = detail.dup
           error = detail.delete(:error)
-          add(attribute, error, detail) unless added?(attribute, error, detail)
+
+          merge_detail!(other, attribute, detail, error)
         end
       end
+    end
+
+    def merge_detail!(other, attribute, detail, error)
+      if attribute?(attribute)
+        add(attribute, error, detail) unless added?(attribute, error, detail)
+      else
+        message = full_message(
+          attribute, other.generate_message(attribute, error))
+        attribute = :base
+        add(attribute, message) unless added?(attribute, message)
+      end
+    end
+
+    def attribute?(attribute)
+      @base.respond_to?(attribute)
     end
   end
 end

@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   class Base
@@ -20,16 +21,16 @@ module ActiveInteraction
   class ObjectFilter < Filter
     register :object
 
-    def cast(value, reconstantize = true)
+    def cast(value, context, reconstantize = true)
       @klass ||= klass
 
       if matches?(value)
         value
       else
-        return super(value) unless reconstantize
+        return super(value, context) unless reconstantize
 
         @klass = klass
-        cast(value, false)
+        cast(value, context, false)
       end
     end
 

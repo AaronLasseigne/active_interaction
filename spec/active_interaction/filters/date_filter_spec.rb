@@ -10,12 +10,12 @@ describe ActiveInteraction::DateFilter, :filter do
     let(:format) { '%d/%m/%Y' }
 
     before do
-      options.merge!(format: format)
+      options[:format] = format
     end
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with a Date' do
       let(:value) { Date.new }
@@ -116,18 +116,16 @@ describe ActiveInteraction::DateFilter, :filter do
   describe '#default' do
     context 'with a GroupedInput' do
       before do
-        options.merge!(
-          default: ActiveInteraction::GroupedInput.new(
-            '1' => '2012',
-            '2' => '1',
-            '3' => '2'
-          )
+        options[:default] = ActiveInteraction::GroupedInput.new(
+          '1' => '2012',
+          '2' => '1',
+          '3' => '2'
         )
       end
 
       it 'raises an error' do
         expect do
-          filter.default
+          filter.default(nil)
         end.to raise_error ActiveInteraction::InvalidDefaultError
       end
     end

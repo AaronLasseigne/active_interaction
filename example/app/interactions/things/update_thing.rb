@@ -20,7 +20,7 @@ class UpdateThing < ActiveInteraction::Base
 
   def execute
     thing.name = name if name?
-    errors.merge!(thing) unless thing.save
+    errors.merge!(thing.errors) unless thing.save
     thing
   end
 end

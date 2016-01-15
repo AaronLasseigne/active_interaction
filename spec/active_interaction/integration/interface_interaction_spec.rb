@@ -13,7 +13,7 @@ describe InterfaceInteraction do
   it_behaves_like 'an interaction',
     :interface,
     -> { [JSON, YAML].sample },
-    methods: [:dump, :load]
+    methods: %i[dump load]
 
   it 'succeeds when given nil' do
     expect { result }.to_not raise_error

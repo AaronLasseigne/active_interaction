@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 require 'active_support/core_ext/hash/indifferent_access'
 require 'set'
@@ -269,16 +270,16 @@ module ActiveInteraction
     def populate_filters(inputs)
       self.class.filters.each do |name, filter|
         begin
-          public_send("#{name}=", filter.clean(inputs[name]))
+          public_send("#{name}=", filter.clean(inputs[name], self))
         rescue InvalidValueError, MissingValueError, NoDefaultError
-          # #type_check will add errors if appropriate.
+          nil # #type_check will add errors if appropriate.
         end
       end
     end
 
     def type_check
       run_callbacks(:type_check) do
-        Validation.validate(self.class.filters, inputs).each do |error|
+        Validation.validate(self, self.class.filters, inputs).each do |error|
           errors.add(*error)
         end
       end

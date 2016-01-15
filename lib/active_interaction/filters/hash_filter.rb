@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   class Base
@@ -25,14 +26,14 @@ module ActiveInteraction
 
     register :hash
 
-    def cast(value)
+    def cast(value, context)
       case value
       when Hash
         value = value.with_indifferent_access
         initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
 
         filters.each_with_object(initial) do |(name, filter), h|
-          clean_value(h, name.to_s, filter, value)
+          clean_value(h, name.to_s, filter, value, context)
         end
       else
         super
@@ -51,13 +52,13 @@ module ActiveInteraction
 
     private
 
-    def clean_value(h, name, filter, value)
-      h[name] = filter.clean(value[name])
+    def clean_value(h, name, filter, value, context)
+      h[name] = filter.clean(value[name], context)
     rescue InvalidValueError, MissingValueError
       raise InvalidNestedValueError.new(name, value[name])
     end
 
-    def raw_default
+    def raw_default(*)
       value = super
 
       if value.is_a?(Hash) && !value.empty?

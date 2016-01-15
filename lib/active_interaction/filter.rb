@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 require 'active_support/inflector'
 
@@ -13,7 +14,7 @@ module ActiveInteraction
   # Describes an input filter for an interaction.
   class Filter
     # @return [Hash{Symbol => Class}]
-    CLASSES = {}
+    CLASSES = {} # rubocop:disable Style/MutableConstant
     private_constant :CLASSES
 
     # @return [Hash{Symbol => Filter}]
@@ -90,15 +91,16 @@ module ActiveInteraction
     #   # => ActiveInteraction::InvalidDefaultError: example: 0
     #
     # @param value [Object]
+    # @param context [Base, nil]
     #
     # @return [Object]
     #
     # @raise (see #cast)
     # @raise (see #default)
-    def clean(value)
-      value = cast(value)
+    def clean(value, context)
+      value = cast(value, context)
       if value.nil?
-        default
+        default(context)
       else
         value
       end
@@ -116,17 +118,19 @@ module ActiveInteraction
     #   ActiveInteraction::Filter.new(:example, default: 0).default
     #   # => ActiveInteraction::InvalidDefaultError: example: 0
     #
+    # @param context [Base, nil]
+    #
     # @return (see #raw_default)
     #
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
-    def default
+    def default(context = nil)
       fail NoDefaultError, name unless default?
 
-      value = raw_default
+      value = raw_default(context)
       fail InvalidValueError if value.is_a?(GroupedInput)
 
-      cast(value)
+      cast(value, context)
     rescue InvalidNestedValueError => error
       raise InvalidDefaultError, "#{name}: #{value.inspect} (#{error})"
     rescue InvalidValueError, MissingValueError
@@ -159,6 +163,7 @@ module ActiveInteraction
     end
 
     # @param value [Object]
+    # @param _interaction [Base, nil]
     #
     # @return [Object]
     #
@@ -167,7 +172,7 @@ module ActiveInteraction
     # @raise [InvalidValueError] If the value is invalid.
     #
     # @private
-    def cast(value)
+    def cast(value, _interaction)
       case value
       when NilClass
         fail MissingValueError, name unless default?
@@ -205,12 +210,14 @@ module ActiveInteraction
       "(Object doesn't support #inspect)"
     end
 
+    # @param context [Base, nil]
+    #
     # @return [Object]
-    def raw_default
+    def raw_default(context)
       value = options.fetch(:default)
 
       if value.is_a?(Proc)
-        value.call
+        context.instance_exec(&value)
       else
         value
       end

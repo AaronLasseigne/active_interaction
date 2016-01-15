@@ -43,11 +43,11 @@ describe ActiveInteraction::Runnable do
         context name do
           it 'does not raise an error' do
             expect do
-              klass.set_callback name, :before, -> _ {}
+              klass.set_callback name, :before, -> {}
             end.to_not raise_error
           end
 
-          [:after, :around, :before].each do |type|
+          %i[after around before].each do |type|
             it type do
               has_run = false
 
@@ -90,7 +90,7 @@ describe ActiveInteraction::Runnable do
     let(:result) { double }
 
     it 'returns the result' do
-      expect(instance.result = result).to eql result
+      expect((instance.result = result)).to eql result
     end
 
     it 'sets the result' do

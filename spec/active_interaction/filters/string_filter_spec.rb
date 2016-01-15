@@ -8,12 +8,12 @@ describe ActiveInteraction::StringFilter, :filter do
 
   shared_context 'without strip' do
     before do
-      options.merge!(strip: false)
+      options[:strip] = false
     end
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value) }
+    let(:result) { filter.cast(value, nil) }
 
     context 'with a String' do
       let(:value) { SecureRandom.hex }

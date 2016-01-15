@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   class Base
@@ -20,7 +21,7 @@ module ActiveInteraction
   class StringFilter < Filter
     register :string
 
-    def cast(value)
+    def cast(value, _interaction)
       case value
       when String
         strip? ? value.strip : value

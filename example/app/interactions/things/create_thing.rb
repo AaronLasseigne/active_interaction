@@ -16,7 +16,7 @@ class CreateThing < ActiveInteraction::Base
 
   def execute
     thing = Thing.new(inputs)
-    errors.merge!(thing) unless thing.save
+    errors.merge!(thing.errors) unless thing.save
     thing
   end
 end

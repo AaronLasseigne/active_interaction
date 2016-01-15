@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 require 'bigdecimal'
 
@@ -21,7 +22,7 @@ module ActiveInteraction
   class DecimalFilter < AbstractNumericFilter
     register :decimal
 
-    def cast(value)
+    def cast(value, _interaction)
       case value
       when Numeric
         BigDecimal.new(value, digits)

@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 require 'active_model'
 
@@ -8,8 +9,6 @@ require 'active_model'
 # @author Taylor Fausak <taylor@fausak.me>
 #
 # @since 1.0.0
-#
-# @version 2.1.3
 module ActiveInteraction
 end
 

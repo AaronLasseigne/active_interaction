@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   # @abstract Include and override {#execute} to implement a custom Runnable
@@ -57,11 +58,15 @@ module ActiveInteraction
     def run
       return unless valid?
 
+      result_or_errors = catch(:interrupt) do
+        run_callbacks(:execute) { execute }
+      end
+
       self.result =
-        begin
-          run_callbacks(:execute) { execute }
-        rescue Interrupt => interrupt
-          merge_errors_onto_base(interrupt.outcome.errors)
+        if result_or_errors.is_a?(ActiveInteraction::Errors)
+          errors.merge!(result_or_errors)
+        else
+          result_or_errors
         end
     end
 

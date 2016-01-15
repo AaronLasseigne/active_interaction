@@ -13,10 +13,8 @@ Documentation:
 FileName:
   Exclude:
   - gemfiles/*
-HandleExceptions:
-  Enabled: false
-Metrics/ClassLength:
-  Max: 150
+MultilineMethodCallIndentation:
+  EnforcedStyle: indented
 MultilineOperationIndentation:
   Enabled: false
 PercentLiteralDelimiters:

@@ -1,4 +1,5 @@
 # coding: utf-8
+# frozen_string_literal: true
 
 module ActiveInteraction
   class Base
@@ -18,7 +19,7 @@ module ActiveInteraction
   class BooleanFilter < Filter
     register :boolean
 
-    def cast(value)
+    def cast(value, _interaction)
       case value
       when FalseClass, '0', /\Afalse\z/i
         false
