@@ -57,13 +57,28 @@ describe ActiveInteraction::Errors do
     end
 
     context 'with a detailed error' do
-      before do
-        other.add(:attribute)
+      context 'that is a symbol' do
+        before do
+          other.add(:attribute)
+        end
+
+        it 'adds the error' do
+          errors.merge!(other)
+          expect(errors.details[:attribute]).to eql [{ error: :invalid }]
+        end
       end
 
-      it 'adds the error' do
-        errors.merge!(other)
-        expect(errors.details[:attribute]).to eql [{ error: :invalid }]
+      context 'that is a string' do
+        let(:message) { SecureRandom.hex }
+
+        before do
+          other.add(:base, message)
+        end
+
+        it 'adds the error' do
+          errors.merge!(other)
+          expect(errors.details[:base]).to eql [{ error: message }]
+        end
       end
     end
 
