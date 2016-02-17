@@ -172,8 +172,8 @@ class SayHello < ActiveInteraction::Base
 end
 ```
 
-When you run this interaction, two things will happen. First ActiveInteraction
-will type check your inputs. Then ActiveModel will validate them. If both of
+When you run this interaction, two things will happen. **First ActiveInteraction
+will type check your inputs. Then ActiveModel will validate them.** If both of
 those are happy, it will be executed.
 
 ``` rb
