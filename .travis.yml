@@ -23,7 +23,7 @@ notifications:
 
       ivR5nEELqEsDgDZAcKGJtRgp70d6Geg5iFUfV9aP1ySy2U0AXBM='
 rvm:
-- 2.3
+- 2.3.0
 - 2.2
 - 2.1
 - 2.0
