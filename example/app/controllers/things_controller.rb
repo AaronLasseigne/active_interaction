@@ -62,7 +62,7 @@ class ThingsController < ActionController::Base
     if outcome.valid?
       outcome.result
     else
-      fail ActiveRecord::RecordNotFound,
+      raise ActiveRecord::RecordNotFound,
         outcome.errors.full_messages.to_sentence
     end
   end

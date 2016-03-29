@@ -29,7 +29,7 @@ module ActiveInteraction
 
     def initialize(name, options = {}, &block)
       if options.key?(:format) && klass != Time
-        fail InvalidFilterError, 'format option unsupported with time zones'
+        raise InvalidFilterError, 'format option unsupported with time zones'
       end
 
       super

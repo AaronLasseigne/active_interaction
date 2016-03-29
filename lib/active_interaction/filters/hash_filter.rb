@@ -42,7 +42,7 @@ module ActiveInteraction
 
     def method_missing(*args, &block)
       super(*args) do |klass, names, options|
-        fail InvalidFilterError, 'missing attribute name' if names.empty?
+        raise InvalidFilterError, 'missing attribute name' if names.empty?
 
         names.each do |name|
           filters[name] = klass.new(name, options, &block)
@@ -62,7 +62,7 @@ module ActiveInteraction
       value = super
 
       if value.is_a?(Hash) && !value.empty?
-        fail InvalidDefaultError, "#{name}: #{value.inspect}"
+        raise InvalidDefaultError, "#{name}: #{value.inspect}"
       end
 
       value

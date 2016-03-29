@@ -95,7 +95,7 @@ module ActiveInteraction
       # @private
       def method_missing(*args, &block)
         super do |klass, names, options|
-          fail InvalidFilterError, 'missing attribute name' if names.empty?
+          raise InvalidFilterError, 'missing attribute name' if names.empty?
 
           names.each { |name| add_filter(klass, name, options, &block) }
         end
@@ -107,7 +107,7 @@ module ActiveInteraction
       # @param name [Symbol]
       # @param options [Hash]
       def add_filter(klass, name, options, &block)
-        fail InvalidFilterError, name.inspect if InputProcessor.reserved?(name)
+        raise InvalidFilterError, name.inspect if InputProcessor.reserved?(name)
 
         initialize_filter(klass.new(name, options, &block))
       end
@@ -167,7 +167,7 @@ module ActiveInteraction
     #
     # @private
     def initialize(inputs = {})
-      fail ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
+      raise ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
       process_inputs(inputs.symbolize_keys)
     end
@@ -237,7 +237,7 @@ module ActiveInteraction
       @_interaction_keys = inputs.keys.to_set & self.class.filters.keys
 
       inputs.each do |key, value|
-        fail InvalidValueError, key.inspect if InputProcessor.reserved?(key)
+        raise InvalidValueError, key.inspect if InputProcessor.reserved?(key)
 
         populate_reader(key, value)
       end

@@ -49,7 +49,7 @@ module ActiveInteraction
       #
       # @see .slug
       def factory(slug)
-        CLASSES.fetch(slug) { fail MissingFilterError, slug.inspect }
+        CLASSES.fetch(slug) { raise MissingFilterError, slug.inspect }
       end
 
       private
@@ -125,10 +125,10 @@ module ActiveInteraction
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
     def default(context = nil)
-      fail NoDefaultError, name unless default?
+      raise NoDefaultError, name unless default?
 
       value = raw_default(context)
-      fail InvalidValueError if value.is_a?(GroupedInput)
+      raise InvalidValueError if value.is_a?(GroupedInput)
 
       cast(value, context)
     rescue InvalidNestedValueError => error
@@ -175,11 +175,11 @@ module ActiveInteraction
     def cast(value, _interaction)
       case value
       when NilClass
-        fail MissingValueError, name unless default?
+        raise MissingValueError, name unless default?
 
         nil
       else
-        fail InvalidValueError, "#{name}: #{describe(value)}"
+        raise InvalidValueError, "#{name}: #{describe(value)}"
       end
     end
 

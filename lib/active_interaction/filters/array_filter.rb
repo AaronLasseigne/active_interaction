@@ -73,15 +73,15 @@ module ActiveInteraction
     # @raise [InvalidFilterError]
     def validate!(filter, names)
       unless filters.empty?
-        fail InvalidFilterError, 'multiple filters in array block'
+        raise InvalidFilterError, 'multiple filters in array block'
       end
 
       unless names.empty?
-        fail InvalidFilterError, 'attribute names in array block'
+        raise InvalidFilterError, 'attribute names in array block'
       end
 
       if filter.default?
-        fail InvalidDefaultError, 'default values in array block'
+        raise InvalidDefaultError, 'default values in array block'
       end
 
       nil

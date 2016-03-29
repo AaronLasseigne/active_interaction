@@ -27,7 +27,7 @@ module ActiveInteraction
     #
     # @raise [NotImplementedError]
     def execute
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     # @return [Object] If there are no validation errors.
@@ -95,7 +95,7 @@ module ActiveInteraction
       if valid?
         result
       else
-        fail InvalidInteractionError, errors.full_messages.join(', ')
+        raise InvalidInteractionError, errors.full_messages.join(', ')
       end
     end
 
