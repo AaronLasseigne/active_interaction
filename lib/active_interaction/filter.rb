@@ -215,12 +215,9 @@ module ActiveInteraction
     # @return [Object]
     def raw_default(context)
       value = options.fetch(:default)
+      return value unless value.is_a?(Proc)
 
-      if value.is_a?(Proc)
-        context.instance_exec(&value)
-      else
-        value
-      end
+      context.instance_exec(&value)
     end
   end
 end
