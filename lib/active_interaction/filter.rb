@@ -217,7 +217,10 @@ module ActiveInteraction
       value = options.fetch(:default)
       return value unless value.is_a?(Proc)
 
-      context.instance_exec(&value)
+      case value.arity
+      when 1 then context.instance_exec(self, &value)
+      else context.instance_exec(&value)
+      end
     end
   end
 end
