@@ -41,7 +41,7 @@ Gem::Specification.new do |gem|
     'guard-rspec' => ['~> 4.6'],
     'guard-rubocop' => ['~> 1.2'],
     'kramdown' => ['~> 1.9'],
-    'rake' => ['~> 10.4'],
+    'rake' => ['~> 11.1'],
     'rspec' => ['~> 3.4'],
     'rubocop' => ['~> 0.39.0'],
     'yard' => ['~> 0.8']
