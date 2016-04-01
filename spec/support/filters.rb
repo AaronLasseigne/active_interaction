@@ -166,6 +166,23 @@ shared_examples_for 'a filter' do
         expect(filter.default(nil)).to eql options[:default].call
       end
     end
+
+    context 'with a callable default that takes an argument' do
+      include_context 'optional'
+
+      it 'returns the default' do
+        default = options[:default]
+
+        spec = self
+        filter # Necessary to bring into scope for lambda.
+        options[:default] = lambda do |this|
+          spec.expect(this).to be filter
+          default
+        end
+
+        expect(filter.default(nil)).to be default
+      end
+    end
   end
 
   describe '#desc' do
