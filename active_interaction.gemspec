@@ -38,8 +38,6 @@ Gem::Specification.new do |gem|
     'benchmark-ips' => ['~> 2.3'],
     'bundler' => ['~> 1.10'],
     'coveralls' => ['~> 0.8'],
-    'guard-rspec' => ['~> 4.6'],
-    'guard-rubocop' => ['~> 1.2'],
     'kramdown' => ['~> 1.9'],
     'rake' => ['~> 11.1'],
     'rspec' => ['~> 3.4'],
