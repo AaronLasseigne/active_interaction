@@ -113,6 +113,13 @@ describe ActiveInteraction::Errors do
       it 'does not raise an error' do
         expect { errors.merge!(other) }.to_not raise_error
       end
+
+      it 'merges messages' do
+        message = SecureRandom.hex
+        other.add(:base, message)
+        errors.merge!(other)
+        expect(errors.messages[:base]).to include message
+      end
     end
   end
 end
