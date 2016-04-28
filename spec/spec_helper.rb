@@ -1,7 +1,10 @@
 # coding: utf-8
 
-require 'coveralls'
-Coveralls.wear!
+# Disable code coverage for JRuby because it always reports 0% coverage.
+if RUBY_ENGINE != 'jruby'
+  require 'coveralls'
+  Coveralls.wear!
+end
 
 require 'i18n'
 if I18n.config.respond_to?(:enforce_available_locales)
