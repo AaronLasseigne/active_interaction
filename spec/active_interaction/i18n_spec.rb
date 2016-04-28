@@ -4,10 +4,9 @@ require 'spec_helper'
 
 describe ActiveInteraction do
   context 'I18n.load_path' do
-    it 'contains localization file paths at the beginning (second in list)' do
-      expect(
-        I18n.load_path.second
-      ).to match %r{active_interaction/locale/en.yml\z}
+    it 'contains localization file paths' do
+      expect(I18n.load_path)
+        .to include a_string_ending_with('active_interaction/locale/en.yml')
     end
   end
 end
