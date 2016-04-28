@@ -6,7 +6,7 @@ Coveralls.wear!
 require 'i18n'
 if I18n.config.respond_to?(:enforce_available_locales)
   I18n.config.enforce_available_locales = true
-  I18n.config.available_locales = %w[en hsilgne]
+  I18n.config.available_locales = %w[en hsilgne pt-BR]
 end
 
 require 'active_interaction'
