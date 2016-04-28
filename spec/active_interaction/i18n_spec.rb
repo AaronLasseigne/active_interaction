@@ -79,6 +79,15 @@ describe I18nInteraction do
   end
 
   context 'hsilgne' do
+    before do
+      # This must appear before including the translation examples so that the
+      # locale is available before it is assigned.
+      locale = :hsilgne
+      unless I18n.locale_available?(locale)
+        I18n.config.available_locales = I18n.config.available_locales + [locale]
+      end
+    end
+
     include_examples 'translation', :hsilgne
 
     before do
