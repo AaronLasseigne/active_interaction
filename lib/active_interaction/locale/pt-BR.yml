@@ -1,0 +1,23 @@
+pt-BR:
+  active_interaction:
+    errors:
+      messages:
+        invalid: é inválido
+        invalid_nested: possui um valor aninhado inválido (%{name} => %{value})
+        invalid_type: não é um(a) %{type} válido(a)
+        missing: é obrigatório
+    types:
+      array: array
+      boolean: boolean
+      date: date
+      date_time: date time
+      decimal: decimal
+      file: file
+      float: float
+      hash: hash
+      integer: integer
+      interface: interface
+      object: object
+      string: string
+      symbol: symbol
+      time: time

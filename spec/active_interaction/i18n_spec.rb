@@ -4,9 +4,9 @@ require 'spec_helper'
 
 describe ActiveInteraction do
   context 'I18n.load_path' do
-    it 'contains localization file paths at the beginning' do
+    it 'contains localization file paths at the beginning (second in list)' do
       expect(
-        I18n.load_path.first
+        I18n.load_path.second
       ).to match %r{active_interaction/locale/en.yml\z}
     end
   end
@@ -66,6 +66,17 @@ describe I18nInteraction do
     before do
       @locale = I18n.locale
       I18n.locale = :en
+    end
+
+    after { I18n.locale = @locale }
+  end
+
+  context 'brazilian portuguese' do
+    include_examples 'translation'
+
+    before do
+      @locale = I18n.locale
+      I18n.locale = :'pt-BR'
     end
 
     after { I18n.locale = @locale }
