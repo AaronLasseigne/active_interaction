@@ -24,7 +24,14 @@ describe I18nInteraction do
     .const_get(:CLASSES)
     .map { |slug, _| slug.to_s }
 
-  shared_examples 'translation' do
+  shared_examples 'translation' do |locale|
+    before do
+      @locale = I18n.locale
+      I18n.locale = locale
+    end
+
+    after { I18n.locale = @locale }
+
     context 'types' do
       TYPES.each do |type|
         it "has a translation for #{type}" do
@@ -60,40 +67,19 @@ describe I18nInteraction do
   end
 
   context 'english' do
-    include_examples 'translation'
-
-    before do
-      @locale = I18n.locale
-      I18n.locale = :en
-    end
-
-    after { I18n.locale = @locale }
+    include_examples 'translation', :en
   end
 
   context 'brazilian portuguese' do
-    include_examples 'translation'
-
-    before do
-      @locale = I18n.locale
-      I18n.locale = :'pt-BR'
-    end
-
-    after { I18n.locale = @locale }
+    include_examples 'translation', :'pt-BR'
   end
 
   context 'french' do
-    include_examples 'translation'
-
-    before do
-      @locale = I18n.locale
-      I18n.locale = :fr
-    end
-
-    after { I18n.locale = @locale }
+    include_examples 'translation', :fr
   end
 
   context 'hsilgne' do
-    include_examples 'translation'
+    include_examples 'translation', :hsilgne
 
     before do
       I18n.backend.store_translations('hsilgne',
@@ -107,11 +93,6 @@ describe I18nInteraction do
           },
           types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }
         })
-
-      @locale = I18n.locale
-      I18n.locale = 'hsilgne'
     end
-
-    after { I18n.locale = @locale }
   end
 end
