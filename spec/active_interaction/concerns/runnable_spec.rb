@@ -51,10 +51,7 @@ describe ActiveInteraction::Runnable do
             it type do
               has_run = false
 
-              klass.set_callback name, type, lambda { |_, &block|
-                has_run = true
-                block.call unless block.nil?
-              }
+              klass.set_callback name, type, -> { has_run = true }
 
               klass.run
               expect(has_run).to be_truthy
@@ -65,6 +62,49 @@ describe ActiveInteraction::Runnable do
 
       include_examples 'set_callback examples', :validate
       include_examples 'set_callback examples', :execute
+
+      context 'execute with composed interaction' do
+        class InnerInteraction
+          include ActiveInteraction::Runnable
+
+          def execute
+            errors.add(:base)
+          end
+        end
+
+        class OuterInteraction
+          include ActiveInteraction::Runnable
+
+          def execute
+            compose(InnerInteraction)
+          end
+        end
+
+        context 'around' do
+          it 'is yielded errors from composed interactions' do
+            block_result = nil
+            OuterInteraction.set_callback :execute, :around do |_, block|
+              block_result = block.call
+            end
+
+            OuterInteraction.run
+            expect(block_result).to be_an(ActiveInteraction::Errors)
+            expect(block_result).to include(:base)
+          end
+        end
+
+        context 'after' do
+          it 'is yielded errors from composed interactions' do
+            has_run = false
+            OuterInteraction.set_callback :execute, :after do
+              has_run = true
+            end
+
+            OuterInteraction.run
+            expect(has_run).to be_truthy
+          end
+        end
+      end
     end
   end
 
