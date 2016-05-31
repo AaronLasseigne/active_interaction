@@ -74,8 +74,8 @@ module ActiveInteraction
     def run
       return unless valid?
 
-      result_or_errors = catch(:interrupt) do
-        run_callbacks(:execute) { execute }
+      result_or_errors = run_callbacks(:execute) do
+        catch(:interrupt) { execute }
       end
 
       self.result =
