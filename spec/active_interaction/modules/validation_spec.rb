@@ -47,7 +47,8 @@ describe ActiveInteraction::Validation do
 
         it 'returns an :invalid_type error' do
           type = I18n.translate(
-            "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}")
+            "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
+          )
 
           expect(result).to eql [[filter.name, :invalid_type, type: type]]
         end
