@@ -21,9 +21,9 @@ module ActiveInteraction
 
     def cast(value, _interaction)
       case value
-      when FalseClass, '0', /\Afalse\z/i, /\Aoff\z/i
+      when FalseClass, /\A(?:0|false|off)\z/i
         false
-      when TrueClass, '1', /\Atrue\z/i, /\Aon\z/i
+      when TrueClass, /\A(?:1|true|on)\z/i
         true
       else
         super
