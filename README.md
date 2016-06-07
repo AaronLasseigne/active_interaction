@@ -1306,6 +1306,11 @@ SayHello.run!(name: 'Taylor')
 # => "Hello, Taylor!"
 ```
 
+This can be confusing for boolean inputs.
+If you have some boolean input `foo`, then the actual value of that input is available through `foo`.
+The associated predicate method, `#foo?`, will tell you if that value is not `nil`.
+So it will only be `false` if the input is optional and happens to be `nil`.
+
 See [the optional inputs section][] for help on determining if an input was
 present in the input hash instead of just `nil`.
 
