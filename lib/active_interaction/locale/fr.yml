@@ -3,21 +3,21 @@ fr:
     errors:
       messages:
         invalid: est invalide
-        invalid_nested: possède une nested value invalide (%{name} => %{value})
-        invalid_type: n'est pas un %{type}
+        invalid_nested: contient une valeur imbriquée invalide (%{name} => %{value})
+        invalid_type: a un type invalide (%{type})
         missing: est obligatoire
     types:
-      array: array
-      boolean: boolean
+      array: tableau
+      boolean: booléen
       date: date
-      date_time: date time
-      decimal: decimal
-      file: file
-      float: float
-      hash: hash
-      integer: integer
+      date_time: date et heure
+      decimal: nombre décimal
+      file: fichier
+      float: nombre à virgule flottante
+      hash: tableau associatif
+      integer: nombre entier
       interface: interface
-      object: object
-      string: string
-      symbol: symbol
-      time: time
+      object: objet
+      string: chaîne de caractères
+      symbol: symbole
+      time: temps
