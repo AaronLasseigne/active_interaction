@@ -5,45 +5,45 @@ matrix:
   include:
   # This tests the "default" configuration.
   # Latest MRI, default Gemfile, default Rake task
-  - rvm: 2.3
+  - rvm: 2.3.1
 
   # These test specific versions of ActiveModel that we support.
   # Latest MRI, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
-    rvm: 2.3
+    rvm: 2.3.1
   # Latest MRI, ActiveModel 4.1, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.1.rb
-    rvm: 2.3
+    rvm: 2.3.1
   # Latest MRI, ActiveModel 4.0, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.0.rb
-    rvm: 2.3
+    rvm: 2.3.1
 
   # These test specific versions of MRI that we support.
   # MRI 2.2, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
-    rvm: 2.2
+    rvm: 2.2.5
   # MRI 2.1, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
-    rvm: 2.1
+    rvm: 2.1.9
   # MRI 2.0, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
-    rvm: 2.0
+    rvm: 2.0.0-p648
 
   # These test other Ruby implementations that we support.
   # JRuby 9, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
-    rvm: jruby-9
+    rvm: jruby-9.0.5.0
   # Rubinius 2, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
-    rvm: rbx-2
+    rvm: rbx-2.2.7
 notifications:
   email: false
   hipchat:
