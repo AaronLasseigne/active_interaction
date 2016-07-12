@@ -40,7 +40,7 @@ Gem::Specification.new do |gem|
     'coveralls' => ['~> 0.8'],
     'kramdown' => ['~> 1.11'],
     'rake' => ['~> 11.2'],
-    'rspec' => ['~> 3.4'],
+    'rspec' => ['~> 3.5'],
     'rubocop' => ['~> 0.41.2'],
     'yard' => ['~> 0.8']
   }.each do |name, versions|
