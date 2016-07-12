@@ -36,7 +36,7 @@ Gem::Specification.new do |gem|
   {
     'actionpack' => [],
     'benchmark-ips' => ['~> 2.6'],
-    'bundler' => ['~> 1.11'],
+    'bundler' => ['~> 1.12'],
     'coveralls' => ['~> 0.8'],
     'kramdown' => ['~> 1.11'],
     'rake' => ['~> 11.2'],
