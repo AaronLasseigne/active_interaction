@@ -196,7 +196,7 @@ Each method has the same signature:
 
 - An optional hash of options. Each filter supports at least these two options:
 
-  - `default` is the fallback value to use if `nil` is give. To make a filter
+  - `default` is the fallback value to use if `nil` is given. To make a filter
     optional, set `default: nil`.
 
   - `desc` is a human-readable description of the input. This can be useful for
@@ -218,7 +218,7 @@ array :x, :y, :z,
   end
 ```
 
-In general, filters accept values of the type the correspond to, plus a few
+In general, filters accept values of the type they correspond to, plus a few
 alternatives that can be reasonably coerced. Typically the coercions come from
 Rails, so `"1"` can be interpreted as the boolean value `true`, the string
 `"1"`, or the number `1`.
