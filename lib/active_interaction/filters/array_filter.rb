@@ -40,7 +40,7 @@ module ActiveInteraction
       end
     end
 
-    def method_missing(*, &block)
+    def method_missing(*, &block) # rubocop:disable Style/MethodMissing
       super do |klass, names, options|
         filter = klass.new(name.to_s.singularize.to_sym, options, &block)
 
