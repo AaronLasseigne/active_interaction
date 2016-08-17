@@ -107,7 +107,9 @@ module ActiveInteraction
       # @param name [Symbol]
       # @param options [Hash]
       def add_filter(klass, name, options, &block)
-        raise InvalidFilterError, name.inspect if InputProcessor.reserved?(name)
+        if InputProcessor.reserved?(name)
+          raise InvalidFilterError, %("#{name}" is a reserved name)
+        end
 
         initialize_filter(klass.new(name, options, &block))
       end
