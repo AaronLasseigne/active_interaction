@@ -38,7 +38,7 @@ Gem::Specification.new do |gem|
     'benchmark-ips' => ['~> 2.7'],
     'bundler' => ['~> 1.12'],
     'coveralls' => ['~> 0.8'],
-    'kramdown' => ['~> 1.11'],
+    'kramdown' => ['~> 1.12'],
     'rake' => ['~> 11.2'],
     'rspec' => ['~> 3.5'],
     'rubocop' => ['~> 0.42.0'],
