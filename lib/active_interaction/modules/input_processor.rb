@@ -14,7 +14,8 @@ module ActiveInteraction
 
       def reserved?(name)
         name.to_s.start_with?('_interaction_') ||
-          Base.instance_methods.include?(name)
+          Base.instance_methods.include?(name) ||
+          Base.private_instance_methods.include?(name)
       end
 
       def process(inputs)

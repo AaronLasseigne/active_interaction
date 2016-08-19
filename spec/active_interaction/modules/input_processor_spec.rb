@@ -9,7 +9,10 @@ describe ActiveInteraction::InputProcessor do
     end
 
     it 'returns true for existing instance methods' do
-      ActiveInteraction::Base.instance_methods.each do |method|
+      (
+        ActiveInteraction::Base.instance_methods +
+        ActiveInteraction::Base.private_instance_methods
+      ).each do |method|
         expect(described_class.reserved?(method)).to be_truthy
       end
     end
