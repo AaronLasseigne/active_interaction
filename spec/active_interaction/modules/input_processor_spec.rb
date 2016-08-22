@@ -8,6 +8,15 @@ describe ActiveInteraction::InputProcessor do
       expect(described_class.reserved?('_interaction_')).to be_truthy
     end
 
+    it 'returns true for existing instance methods' do
+      (
+        ActiveInteraction::Base.instance_methods +
+        ActiveInteraction::Base.private_instance_methods
+      ).each do |method|
+        expect(described_class.reserved?(method)).to be_truthy
+      end
+    end
+
     it 'returns false for anything else' do
       expect(described_class.reserved?(SecureRandom.hex)).to be_falsey
     end

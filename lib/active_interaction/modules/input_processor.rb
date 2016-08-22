@@ -13,7 +13,9 @@ module ActiveInteraction
       private_constant :GROUPED_INPUT_PATTERN
 
       def reserved?(name)
-        name.to_s.start_with?('_interaction_')
+        name.to_s.start_with?('_interaction_') ||
+          Base.instance_methods.include?(name) ||
+          Base.private_instance_methods.include?(name)
       end
 
       def process(inputs)
