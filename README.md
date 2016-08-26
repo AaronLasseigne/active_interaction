@@ -66,23 +66,22 @@ Read more on [the project page][] or check out [the full documentation][].
 Add it to your Gemfile:
 
 ``` rb
-gem 'active_interaction', '~> 3.0'
+gem 'active_interaction', '~> 3.2'
 ```
 
 Or install it manually:
 
 ``` sh
-$ gem install active_interaction --version '~> 3.0'
+$ gem install active_interaction --version '~> 3.2'
 ```
 
 This project uses [Semantic Versioning][]. Check out [the change log][] for a
 detailed list of changes. For help upgrading to version 2, please read [the
 announcement post][].
 
-ActiveInteraction works with all supported versions of Ruby (2.0 through 2.3)
-and ActiveModel (4.0 through 4.2).
-
-If you want to use ActiveInteraction with Ruby < 2.0.0 or ActiveModel < 4.0.0, use ActiveInteraction < 3.0.0.
+ActiveInteraction works with Ruby 2.0 through 2.3 and ActiveModel 4.0 through
+5.0. If you want to use ActiveInteraction with an older version of Ruby or
+ActiveModel, use ActiveInteraction < 3.0.0.
 
 ## Basic usage
 
@@ -171,9 +170,9 @@ class SayHello < ActiveInteraction::Base
 end
 ```
 
-When you run this interaction, two things will happen. **First ActiveInteraction
-will type check your inputs. Then ActiveModel will validate them.** If both of
-those are happy, it will be executed.
+When you run this interaction, two things will happen. **First
+ActiveInteraction will type check your inputs. Then ActiveModel will validate
+them.** If both of those are happy, it will be executed.
 
 ``` rb
 SayHello.run!(name: nil)
@@ -188,8 +187,8 @@ SayHello.run!(name: 'Taylor')
 
 ## Filters
 
-You can define filters inside an interaction using the appropriate class method.
-Each method has the same signature:
+You can define filters inside an interaction using the appropriate class
+method. Each method has the same signature:
 
 - Some symbolic names. These are the attributes to create.
 
@@ -874,8 +873,10 @@ end
 
 We recommend putting your interactions in `app/interactions`. It's also very
 helpful to group them by model. That way you can look in
-`app/interactions/accounts` for all the ways you can interact with accounts.
-In order to use this structure add `config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")` in your `application.rb`
+`app/interactions/accounts` for all the ways you can interact with accounts. In
+order to use this structure add
+`config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")` in
+your `application.rb`
 
 ```
 - app/
@@ -1305,10 +1306,10 @@ SayHello.run!(name: 'Taylor')
 # => "Hello, Taylor!"
 ```
 
-This can be confusing for boolean inputs.
-If you have some boolean input `foo`, then the actual value of that input is available through `foo`.
-The associated predicate method, `#foo?`, will tell you if that value is not `nil`.
-So it will only be `false` if the input is optional and happens to be `nil`.
+This can be confusing for boolean inputs. If you have some boolean input `foo`,
+then the actual value of that input is available through `foo`. The associated
+predicate method, `#foo?`, will tell you if that value is not `nil`. So it will
+only be `false` if the input is optional and happens to be `nil`.
 
 See [the optional inputs section][] for help on determining if an input was
 present in the input hash instead of just `nil`.
