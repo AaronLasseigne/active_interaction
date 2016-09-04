@@ -114,6 +114,23 @@ module ActiveInteraction
         initialize_filter(klass.new(name, options, &block))
       end
 
+      # @since 2.0.0
+      def proxy(name, mapping)
+        (@_proxies ||= Set.new).add(name)
+
+        attr_reader name
+
+        mapping.each do |to, from|
+          define_method(from) do
+            send(name).send(to)
+          end
+
+          define_method("#{from}=") do |value|
+            send(name).send("#{to}=", value)
+          end
+        end
+      end
+
       # Import filters from another interaction.
       #
       # @param klass [Class] The other interaction.
@@ -171,6 +188,7 @@ module ActiveInteraction
     def initialize(inputs = {})
       raise ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
 
+      process_proxies(self.class.instance_variable_get(:@_proxies) || Set.new)
       process_inputs(inputs.symbolize_keys)
     end
 
@@ -266,6 +284,13 @@ module ActiveInteraction
         Validation.validate(self, self.class.filters, inputs).each do |error|
           errors.add(*error)
         end
+      end
+    end
+
+    def process_proxies(proxies)
+      proxies.each do |name|
+        klass = name.to_s.camelize.constantize.new
+        instance_variable_set("@#{name}", klass)
       end
     end
   end

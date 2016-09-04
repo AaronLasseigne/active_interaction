@@ -53,22 +53,6 @@ module ActiveInteraction
       super
     end
 
-    private
-
-    # @param other [Class] The other interaction.
-    # @param (see ClassMethods.run)
-    #
-    # @return (see #result)
-    def compose(other, *args)
-      outcome = other.run(*args)
-
-      if outcome.valid?
-        outcome.result
-      else
-        throw :interrupt, outcome.errors
-      end
-    end
-
     # @return (see #result=)
     # @return [nil]
     def run
@@ -96,6 +80,30 @@ module ActiveInteraction
         result
       else
         raise InvalidInteractionError, errors.full_messages.join(', ')
+      end
+    end
+
+    private
+
+    # @param other [Class] The other interaction.
+    # @param (see ClassMethods.run)
+    #
+    # @return (see #result)
+    #
+    # @raise [Interrupt]
+    def compose(other, *args)
+      outcome = other.run(*args)
+
+      if outcome.valid?
+        outcome.result
+      else
+        fail Interrupt, outcome
+      end
+    end
+
+    def merge_errors_onto_base(new_errors)
+      new_errors.full_messages.each do |message|
+        errors.add(:base, message) unless errors.added?(:base, message)
       end
     end
 

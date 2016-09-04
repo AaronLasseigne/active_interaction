@@ -18,6 +18,18 @@ AddInteraction = Class.new(TestInteraction) do
   end
 end
 
+ProxyInteraction = Class.new(TestInteraction) do
+  float :a, :b
+
+  proxy :add_interaction,
+    x: :a,
+    y: :b
+
+  def execute
+    add_interaction.run!
+  end
+end
+
 InterruptInteraction = Class.new(TestInteraction) do
   object :x, :z,
     class: Object,
@@ -331,6 +343,17 @@ describe ActiveInteraction::Base do
 
     it 'strips non-filtered inputs' do
       expect(interaction.inputs).to_not have_key(:other)
+    end
+  end
+
+  describe '#proxy' do
+    let(:described_class) { ProxyInteraction }
+    let(:a) { rand }
+    let(:b) { rand }
+    let(:inputs) { { a: a, b: b } }
+
+    it 'works' do
+      expect(result).to eql a + b
     end
   end
 
