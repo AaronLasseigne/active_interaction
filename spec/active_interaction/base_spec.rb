@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'spec_helper'
+require 'action_controller'
 
 InteractionWithFilter = Class.new(TestInteraction) do
   float :thing
@@ -55,6 +56,22 @@ describe ActiveInteraction::Base do
 
       it 'raises an error' do
         expect { interaction }.to raise_error ArgumentError
+      end
+    end
+
+    context 'with non-hash inputs' do
+      let(:inputs) { [[:k, :v]] }
+
+      it 'raises an error' do
+        expect { interaction }.to raise_error ArgumentError
+      end
+    end
+
+    context 'with ActionController::Parameters inputs' do
+      let(:inputs) { ActionController::Parameters.new }
+
+      it 'does not raise an error' do
+        expect { interaction }.to_not raise_error
       end
     end
 
