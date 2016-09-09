@@ -242,11 +242,9 @@ module ActiveInteraction
       return inputs if inputs.is_a?(Hash)
 
       klass = 'ActionController::Parameters'.safe_constantize
-      if !klass || !inputs.is_a?(klass)
-        raise ArgumentError, 'inputs must be a hash'
-      end
+      return inputs.to_unsafe_h if klass && inputs.is_a?(klass)
 
-      inputs.to_unsafe_h
+      raise ArgumentError, 'inputs must be a hash'
     end
 
     # @param inputs [Hash{Symbol => Object}]
