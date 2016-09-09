@@ -241,10 +241,11 @@ module ActiveInteraction
     def normalize_inputs!(inputs)
       return inputs if inputs.is_a?(Hash)
 
-      klass = 'ActionController::Parameters'.safe_constantize
+      parameters = 'ActionController::Parameters'
+      klass = parameters.safe_constantize
       return inputs.to_unsafe_h if klass && inputs.is_a?(klass)
 
-      raise ArgumentError, 'inputs must be a hash'
+      raise ArgumentError, "inputs must be a hash or #{parameters}"
     end
 
     # @param inputs [Hash{Symbol => Object}]
