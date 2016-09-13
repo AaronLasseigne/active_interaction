@@ -169,8 +169,7 @@ module ActiveInteraction
     #
     # @private
     def initialize(inputs = {})
-      raise ArgumentError, 'inputs must be a hash' unless inputs.is_a?(Hash)
-
+      inputs = normalize_inputs!(inputs)
       process_inputs(inputs.symbolize_keys)
     end
 
@@ -233,6 +232,21 @@ module ActiveInteraction
     end
 
     private
+
+    # We want to allow both `Hash` objects and `ActionController::Parameters`
+    # objects. In Rails < 5, parameters are a subclass of hash and calling
+    # `#symbolize_keys` returns the entire hash, not just permitted values. In
+    # Rails >= 5, parameters are not a subclass of hash but calling
+    # `#to_unsafe_h` returns the entire hash.
+    def normalize_inputs!(inputs)
+      return inputs if inputs.is_a?(Hash)
+
+      parameters = 'ActionController::Parameters'
+      klass = parameters.safe_constantize
+      return inputs.to_unsafe_h if klass && inputs.is_a?(klass)
+
+      raise ArgumentError, "inputs must be a hash or #{parameters}"
+    end
 
     # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
