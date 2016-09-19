@@ -41,7 +41,7 @@ Gem::Specification.new do |gem|
     'kramdown' => ['~> 1.12'],
     'rake' => ['~> 11.2'],
     'rspec' => ['~> 3.5'],
-    'rubocop' => ['~> 0.42.0'],
+    'rubocop' => ['~> 0.43.0'],
     'yard' => ['~> 0.9']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions

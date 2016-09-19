@@ -92,11 +92,11 @@ module ActiveInteraction
     def run!
       run
 
-      if valid?
-        result
-      else
+      unless valid?
         raise InvalidInteractionError, errors.full_messages.join(', ')
       end
+
+      result
     end
 
     #

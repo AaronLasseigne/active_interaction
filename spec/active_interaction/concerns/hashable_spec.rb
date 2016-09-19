@@ -9,8 +9,8 @@ describe ActiveInteraction::Hashable do
     context 'with no arguments' do
       let(:hash) { subject.hash }
 
-      it 'returns a Fixnum' do
-        expect(hash).to be_a Fixnum
+      it 'returns an Integer' do
+        expect(hash).to be_an Integer
       end
     end
 
