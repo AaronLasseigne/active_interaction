@@ -59,23 +59,29 @@ module ActiveInteraction
     # @param (see ClassMethods.run)
     #
     # @return (see #result)
+    #
+    # @raise [Interrupt]
     def compose(other, *args)
       outcome = other.run(*args)
 
-      if outcome.valid?
-        outcome.result
-      else
-        throw :interrupt, outcome.errors
-      end
+      raise Interrupt, outcome.errors unless outcome.valid?
+
+      outcome.result
     end
 
     # @return (see #result=)
     # @return [nil]
+    #
+    # rubocop:disable MethodLength
     def run
       return unless valid?
 
       result_or_errors = run_callbacks(:execute) do
-        catch(:interrupt) { execute }
+        begin
+          execute
+        rescue Interrupt => interrupt
+          interrupt.errors
+        end
       end
 
       self.result =
@@ -85,6 +91,7 @@ module ActiveInteraction
           result_or_errors
         end
     end
+    # rubocop:enable MethodLength
 
     # @return [Object]
     #

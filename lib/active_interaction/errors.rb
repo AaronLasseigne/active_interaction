@@ -75,6 +75,21 @@ module ActiveInteraction
     end
   end
 
+  # Used by {Runnable} to signal a failure when composing.
+  #
+  # @private
+  class Interrupt < Error
+    attr_reader :errors
+
+    # @param errors [Runnable]
+    def initialize(errors)
+      super()
+
+      @errors = errors
+    end
+  end
+  private_constant :Interrupt
+
   # An extension that provides the ability to merge other errors into itself.
   class Errors < ActiveModel::Errors
     # Merge other errors into this one.
