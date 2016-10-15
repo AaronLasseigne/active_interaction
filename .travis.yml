@@ -1,4 +1,5 @@
-sudo: false
+sudo: required
+dist: trusty
 before_install: gem update bundler
 language: ruby
 matrix:
