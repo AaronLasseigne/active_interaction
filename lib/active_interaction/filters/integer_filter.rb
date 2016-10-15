@@ -17,5 +17,18 @@ module ActiveInteraction
   # @private
   class IntegerFilter < AbstractNumericFilter
     register :integer
+
+    private
+
+    # @return [Integer]
+    def base
+      options.fetch(:base, 0)
+    end
+
+    def convert(value, context)
+      Integer(value, base)
+    rescue ArgumentError
+      _cast(value, context)
+    end
   end
 end
