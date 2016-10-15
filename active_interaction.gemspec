@@ -39,7 +39,7 @@ Gem::Specification.new do |gem|
     'bundler' => ['~> 1.12'],
     'coveralls' => ['~> 0.8'],
     'kramdown' => ['~> 1.12'],
-    'rake' => ['~> 11.2'],
+    'rake' => ['~> 11.3'],
     'rspec' => ['~> 3.5'],
     'rubocop' => ['~> 0.43.0'],
     'yard' => ['~> 0.9']
