@@ -5,7 +5,7 @@ $LOAD_PATH.push(lib) unless $LOAD_PATH.include?(lib)
 
 require 'active_interaction/version'
 
-Gem::Specification.new do |gem|
+Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
   gem.name = 'active_interaction'
   gem.version = ActiveInteraction::VERSION
   gem.summary = 'Manage application specific business logic.'
@@ -41,7 +41,7 @@ Gem::Specification.new do |gem|
     'kramdown' => ['~> 1.12'],
     'rake' => ['~> 11.3'],
     'rspec' => ['~> 3.5'],
-    'rubocop' => ['~> 0.43.0'],
+    'rubocop' => ['~> 0.44.0'],
     'yard' => ['~> 0.9']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions
