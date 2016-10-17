@@ -71,7 +71,6 @@ module ActiveInteraction
 
     # @return (see #result=)
     # @return [nil]
-    #
     def run # rubocop:disable MethodLength
       return unless valid?
 
