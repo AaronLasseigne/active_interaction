@@ -64,7 +64,7 @@ module ActiveInteraction
     def compose(other, *args)
       outcome = other.run(*args)
 
-      raise Interrupt, outcome.errors unless outcome.valid?
+      raise Interrupt, outcome.errors if outcome.invalid?
 
       outcome.result
     end
