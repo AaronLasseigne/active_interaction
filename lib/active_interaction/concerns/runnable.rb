@@ -72,8 +72,7 @@ module ActiveInteraction
     # @return (see #result=)
     # @return [nil]
     #
-    # rubocop:disable MethodLength
-    def run
+    def run # rubocop:disable MethodLength
       return unless valid?
 
       result_or_errors = run_callbacks(:execute) do
@@ -91,7 +90,6 @@ module ActiveInteraction
           result_or_errors
         end
     end
-    # rubocop:enable MethodLength
 
     # @return [Object]
     #
