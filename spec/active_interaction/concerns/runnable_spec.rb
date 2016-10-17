@@ -5,6 +5,14 @@ require 'spec_helper'
 describe ActiveInteraction::Runnable do
   include_context 'concerns', ActiveInteraction::Runnable
 
+  class WrappableFailingInteraction
+    include ActiveInteraction::Runnable
+
+    def execute
+      errors.add(:base)
+    end
+  end
+
   shared_context 'with an error' do
     before { instance.errors.add(:base) }
   end
@@ -64,30 +72,22 @@ describe ActiveInteraction::Runnable do
       include_examples 'set_callback examples', :execute
 
       context 'execute with composed interaction' do
-        class InnerInteraction
+        class WithFailingCompose
           include ActiveInteraction::Runnable
 
           def execute
-            errors.add(:base)
-          end
-        end
-
-        class OuterInteraction
-          include ActiveInteraction::Runnable
-
-          def execute
-            compose(InnerInteraction)
+            compose(WrappableFailingInteraction)
           end
         end
 
         context 'around' do
           it 'is yielded errors from composed interactions' do
             block_result = nil
-            OuterInteraction.set_callback :execute, :around do |_, block|
+            WithFailingCompose.set_callback :execute, :around do |_, block|
               block_result = block.call
             end
 
-            OuterInteraction.run
+            WithFailingCompose.run
             expect(block_result).to be_an(ActiveInteraction::Errors)
             expect(block_result).to include(:base)
           end
@@ -96,11 +96,11 @@ describe ActiveInteraction::Runnable do
         context 'after' do
           it 'is yielded errors from composed interactions' do
             has_run = false
-            OuterInteraction.set_callback :execute, :after do
+            WithFailingCompose.set_callback :execute, :after do
               has_run = true
             end
 
-            OuterInteraction.run
+            WithFailingCompose.run
             expect(has_run).to be_truthy
           end
         end
@@ -240,6 +240,26 @@ describe ActiveInteraction::Runnable do
       it 'stays valid' do
         outcome.attribute = true
         expect(outcome).to be_valid
+      end
+    end
+
+    context 'with failing composition' do
+      class CheckInnerForFailure
+        include ActiveInteraction::Runnable
+
+        attr_reader :caught_error
+
+        def execute
+          compose(WrappableFailingInteraction)
+        rescue
+          @caught_error = true
+          raise
+        end
+      end
+
+      it 'throws an error from the inner interaction' do
+        outcome = CheckInnerForFailure.run
+        expect(outcome.caught_error).to be true
       end
     end
   end
