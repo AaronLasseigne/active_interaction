@@ -251,9 +251,9 @@ describe ActiveInteraction::Runnable do
 
         def execute
           compose(WrappableFailingInteraction)
-        rescue => interrupt
+        rescue
           @caught_error = true
-          raise interrupt
+          raise
         end
       end
 
