@@ -40,10 +40,6 @@ matrix:
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
     rvm: jruby-9.0.5.0
-  # Rubinius 2, ActiveModel 4.2, RSpec only
-  - env: RAKE_TASK=spec
-    gemfile: gemfiles/activemodel-4.2.rb
-    rvm: rbx-2
 notifications:
   email: false
   hipchat:
