@@ -604,7 +604,10 @@ IntegerInteraction.run!(limit: 10)
 # => [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 ```
 
-When a `String` is passed into an `integer` input, the value will coerced. However, you may want to specify the `base` for the conversion to something more sensible (e.g. `base: 10`).
+When a `String` is passed into an `integer` input, the value will be coerced.
+Coercion is based on `Kernel#Integer` which attempts to detect the base being used.
+However, you may want to specify the `base` for the conversion to something more
+sensible (e.g. `base: 10`).
 
 ``` rb
 class IntegerInteraction < ActiveInteraction::Base
