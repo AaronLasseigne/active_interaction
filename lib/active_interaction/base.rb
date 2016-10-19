@@ -101,6 +101,13 @@ module ActiveInteraction
         end
       end
 
+      # Get all the groups defined on this interaction.
+      #
+      # @return [Hash{Symbol => [FilterKey]}]
+      def groups
+        @_groups ||= {}
+      end
+
       private
 
       # @param klass [Class]
@@ -156,12 +163,22 @@ module ActiveInteraction
         define_method("#{attribute}?") { !public_send(attribute).nil? }
 
         eagerly_evaluate_default(filter)
+        add_filter_to_groups(filter)
       end
 
       # @param filter [Filter]
       def eagerly_evaluate_default(filter)
         default = filter.options[:default]
         filter.default if default && !default.is_a?(Proc)
+      end
+
+      # @param filter [Filter]
+      def add_filter_to_groups(filter)
+        group = filter.options[:group]
+        return unless group
+        group = group.to_sym
+        groups[group] ||= []
+        groups[group] << filter.name
       end
     end
 
@@ -195,10 +212,17 @@ module ActiveInteraction
     #   on the filters in the class.
     #
     # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
-    def inputs
-      self.class.filters.keys.each_with_object({}) do |name, h|
+    def inputs(group = nil)
+      keys = group ? filter_keys_for_group(group) : self.class.filters.keys
+      keys.each_with_object({}) do |name, h|
         h[name] = public_send(name)
       end
+    end
+
+    def filter_keys_for_group(group)
+      keys = self.class.groups[group]
+      raise MissingGroupError, "Group: #{group} does not exist" unless keys
+      keys
     end
 
     # Returns `true` if the given key was in the hash passed to {.run}.
