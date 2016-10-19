@@ -604,6 +604,24 @@ IntegerInteraction.run!(limit: 10)
 # => [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 ```
 
+When a `String` is passed into an `integer` input, the value will coerced. However, you may want to specify the `base` for the conversion to something more sensible (e.g. `base: 10`).
+
+``` rb
+class IntegerInteraction < ActiveInteraction::Base
+  integer :limit1, base: 10
+  integer :limit2
+  
+  def execute
+    [limit1, limit2]
+  end
+end
+
+IntegerInteraction.run!(limit1: "08", limit2: 8)
+# => [8, 8]
+IntegerInteraction.run!(limit1: "08", limit2: "08")
+# ArgumentError: invalid value for Integer(): "08"
+```
+
 ## Rails
 
 ActiveInteraction plays nicely with Rails. You can use interactions to handle
