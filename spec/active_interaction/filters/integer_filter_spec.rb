@@ -42,6 +42,14 @@ describe ActiveInteraction::IntegerFilter, :filter do
         end.to raise_error ActiveInteraction::InvalidValueError
       end
     end
+
+    it 'supports different bases' do
+      expect(filter.cast('07', nil)).to eql 7
+      expect do
+        filter.cast('08', nil)
+      end.to raise_error ActiveInteraction::InvalidValueError
+      expect(described_class.new(name, base: 10).cast('08', nil)).to eql 8
+    end
   end
 
   describe '#database_column_type' do
