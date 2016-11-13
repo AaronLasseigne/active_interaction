@@ -22,7 +22,7 @@ module ActiveInteraction
 
     # @return [Integer]
     def base
-      options.fetch(:base, 0)
+      options.fetch(:base, 10)
     end
 
     def convert(value, context)
