@@ -555,32 +555,6 @@ describe ActiveInteraction::Base do
     end
   end
 
-  context 'predicates' do
-    let(:described_class) { InteractionWithFilter }
-
-    it 'responds to the predicate' do
-      expect(interaction.respond_to?(:thing?)).to be_truthy
-    end
-
-    context 'without a value' do
-      it 'returns false' do
-        expect(interaction.thing?).to be_falsey
-      end
-    end
-
-    context 'with a value' do
-      let(:thing) { rand }
-
-      before do
-        inputs[:thing] = thing
-      end
-
-      it 'returns true' do
-        expect(interaction.thing?).to be_truthy
-      end
-    end
-  end
-
   describe '.import_filters' do
     shared_context 'import_filters context' do |only, except|
       let(:klass) { AddInteraction }
@@ -610,11 +584,11 @@ describe ActiveInteraction::Base do
         expect(klass.filters).to eql filters
       end
 
-      it 'responds to readers, writers, and predicates' do
+      it 'responds to readers and writers' do
         instance = described_class.new
 
         described_class.filters.keys.each do |name|
-          [name, "#{name}=", "#{name}?"].each do |method|
+          [name, "#{name}="].each do |method|
             expect(instance).to respond_to method
           end
         end
