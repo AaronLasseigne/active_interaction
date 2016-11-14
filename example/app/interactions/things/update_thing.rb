@@ -11,7 +11,7 @@ class UpdateThing < ActiveInteraction::Base
 
   validates :name,
     presence: true,
-    if: :name?
+    unless: 'name.nil?'
 
   # Make this interaction work as a form object.
   def to_model
@@ -19,7 +19,7 @@ class UpdateThing < ActiveInteraction::Base
   end
 
   def execute
-    thing.name = name if name?
+    thing.name = name if name.present?
     errors.merge!(thing.errors) unless thing.save
     thing
   end
