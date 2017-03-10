@@ -436,6 +436,62 @@ describe ActiveInteraction::Base do
       inputs[:y] = rand
       expect(result).to be false
     end
+
+    context 'nested hash values' do
+      let(:described_class) do
+        Class.new(TestInteraction) do
+          hash :x, default: {} do
+            boolean :y,
+              default: true
+          end
+
+          def execute; end
+        end
+      end
+
+      it 'is true when the nested input is given' do
+        described_class.class_exec do
+          def execute
+            given?(:x, :y)
+          end
+        end
+
+        inputs[:x] = { y: false }
+        expect(result).to be true
+      end
+
+      it 'is false when the nested input is not given' do
+        described_class.class_exec do
+          def execute
+            given?(:x, :y)
+          end
+        end
+
+        inputs[:x] = {}
+        expect(result).to be false
+      end
+
+      it 'is false when the first input is not given' do
+        described_class.class_exec do
+          def execute
+            given?(:x, :y)
+          end
+        end
+
+        expect(result).to be false
+      end
+
+      it 'is false when the first input is nil' do
+        described_class.class_exec do
+          def execute
+            given?(:x, :y)
+          end
+        end
+
+        inputs[:x] = nil
+        expect(result).to be false
+      end
+    end
   end
 
   context 'inheritance' do
