@@ -225,6 +225,7 @@ module ActiveInteraction
     #   Example.run!()               # => false
     #   Example.run!(x: nil)         # => false
     #   Example.run!(x: {})          # => false
+    #   Example.run!(x: { y: nil })  # => true
     #   Example.run!(x: { y: rand }) # => true
     #
     # @param input [#to_sym]
