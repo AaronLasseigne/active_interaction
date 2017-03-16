@@ -491,6 +491,17 @@ describe ActiveInteraction::Base do
         inputs[:x] = nil
         expect(result).to be false
       end
+
+      it 'returns false if you go too far' do
+        described_class.class_exec do
+          def execute
+            given?(:x, :y, :z)
+          end
+        end
+
+        inputs[:x] = { y: true }
+        expect(result).to be false
+      end
     end
   end
 
