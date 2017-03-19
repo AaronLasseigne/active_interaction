@@ -203,7 +203,8 @@ module ActiveInteraction
 
     # Returns `true` if the given key was in the hash passed to {.run}.
     # Otherwise returns `false`. Use this to figure out if an input was given,
-    # even if it was `nil`.
+    # even if it was `nil`. Keys within nested hash filter can also be checked
+    # by passing them in series.
     #
     # @example
     #   class Example < ActiveInteraction::Base
@@ -214,13 +215,36 @@ module ActiveInteraction
     #   Example.run!(x: nil)  # => true
     #   Example.run!(x: rand) # => true
     #
+    # @example Nested checks
+    #   class Example < ActiveInteraction::Base
+    #     hash :x, default: {} do
+    #       integer :y, default: nil
+    #     end
+    #     def execute; given?(:x, :y) end
+    #   end
+    #   Example.run!()               # => false
+    #   Example.run!(x: nil)         # => false
+    #   Example.run!(x: {})          # => false
+    #   Example.run!(x: { y: nil })  # => true
+    #   Example.run!(x: { y: rand }) # => true
+    #
     # @param input [#to_sym]
     #
     # @return [Boolean]
     #
     # @since 2.1.0
-    def given?(input)
-      @_interaction_keys.include?(input.to_sym)
+    def given?(input, *rest)
+      filter_level = self.class
+      input_level = @_interaction_inputs
+
+      [input, *rest].map(&:to_sym).each do |key|
+        filter_level = filter_level.filters[key]
+        if !filter_level || input_level.nil? || !input_level.key?(key)
+          break false
+        end
+
+        input_level = input_level[key]
+      end && true
     end
 
     protected
@@ -250,7 +274,7 @@ module ActiveInteraction
 
     # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
-      @_interaction_keys = inputs.keys.to_set & self.class.filters.keys
+      @_interaction_inputs = inputs
 
       inputs.each do |key, value|
         raise InvalidValueError, key.inspect if InputProcessor.reserved?(key)

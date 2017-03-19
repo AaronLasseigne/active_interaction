@@ -1267,7 +1267,8 @@ are merged to create `inputs`. There are times where it is useful to know
 whether a value was passed to `run` or the result of a filter default. In
 particular, it is useful when `nil` is an acceptable value. For example, you
 may optionally track your users' birthdays. You can use the `given?` predicate
-to see if an input was even passed to `run`.
+to see if an input was even passed to `run`. With `given?` you can also check
+the input of a hash filter by passing a series of keys to check.
 
 ``` rb
 class UpdateUser < ActiveInteraction::Base
