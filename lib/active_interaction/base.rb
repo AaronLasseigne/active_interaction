@@ -153,7 +153,6 @@ module ActiveInteraction
         filters[attribute] = filter
 
         attr_accessor attribute
-        define_method("#{attribute}?") { !public_send(attribute).nil? }
 
         eagerly_evaluate_default(filter)
       end
