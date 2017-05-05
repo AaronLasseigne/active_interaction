@@ -50,12 +50,4 @@ matrix:
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
     rvm: jruby-9.0.5.0
-notifications:
-  email: false
-  hipchat:
-  - secure: 'UXiSnDlm3hzEIzImCMtHriu1w9T8ZQi27WR0DxiA18OZ1swyHcRaFvOR/WGn
-
-      Q3JHLQ42o2utpc4IiMiKmD/2GIu5nququXqRYHF65Urrqrf1ymcGWlas5G6C
-
-      ivR5nEELqEsDgDZAcKGJtRgp70d6Geg5iFUfV9aP1ySy2U0AXBM='
 script: bundle exec rake $RAKE_TASK
