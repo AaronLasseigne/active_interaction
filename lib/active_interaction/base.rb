@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/hash/indifferent_access'
-require 'set'
 
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
