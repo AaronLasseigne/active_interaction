@@ -35,20 +35,11 @@ describe ActiveInteraction::Base do
   subject(:interaction) { described_class.new(inputs) }
 
   describe '.new(inputs = {})' do
-    it 'does not allow :_interaction_* as an option' do
-      key = :"_interaction_#{SecureRandom.hex}"
+    it 'does not set instance vars for reserved input names' do
+      key = :execute
       inputs[key] = nil
-      expect do
-        interaction
-      end.to raise_error ActiveInteraction::InvalidValueError
-    end
 
-    it 'does not allow "_interaction_*" as an option' do
-      key = "_interaction_#{SecureRandom.hex}"
-      inputs[key] = nil
-      expect do
-        interaction
-      end.to raise_error ActiveInteraction::InvalidValueError
+      expect(interaction.instance_variable_defined?(:"@#{key}")).to be false
     end
 
     context 'with invalid inputs' do

@@ -74,10 +74,8 @@ describe ActiveInteraction::InputProcessor do
     context 'with a reserved name' do
       before { inputs[:_interaction_key] = :value }
 
-      it 'raises an error' do
-        expect do
-          result
-        end.to raise_error ActiveInteraction::ReservedNameError
+      it 'skips the input' do
+        expect(result).to_not have_key(:_interaction_key)
       end
     end
   end

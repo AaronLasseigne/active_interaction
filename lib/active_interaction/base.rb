@@ -276,9 +276,7 @@ module ActiveInteraction
       @_interaction_inputs = inputs
 
       inputs.each do |key, value|
-        raise InvalidValueError, key.inspect if InputProcessor.reserved?(key)
-
-        populate_reader(key, value)
+        populate_reader(key, value) unless InputProcessor.reserved?(key)
       end
 
       populate_filters(InputProcessor.process(inputs))

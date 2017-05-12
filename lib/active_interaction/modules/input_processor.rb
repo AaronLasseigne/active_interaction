@@ -20,7 +20,7 @@ module ActiveInteraction
 
       def process(inputs)
         inputs.stringify_keys.sort.each_with_object({}) do |(k, v), h|
-          raise ReservedNameError, k.inspect if reserved?(k)
+          next if reserved?(k)
 
           if (match = GROUPED_INPUT_PATTERN.match(k))
             assign_to_group!(h, *match.captures, v)
