@@ -38,6 +38,11 @@ module ActiveInteraction
   # @return [Class]
   MissingFilterError = Class.new(Error)
 
+  # Raised if a group cannot be found.
+  #
+  # @return [Class]
+  MissingGroupError = Class.new(Error)
+
   # Raised if no value is given.
   #
   # @return [Class]
