@@ -45,6 +45,7 @@ require 'active_interaction/filters/object_filter'
 require 'active_interaction/filters/string_filter'
 require 'active_interaction/filters/symbol_filter'
 require 'active_interaction/filters/time_filter'
+require 'active_interaction/filters/uuid_filter'
 
 require 'active_interaction/base'
 

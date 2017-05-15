@@ -21,3 +21,4 @@ en:
       string: string
       symbol: symbol
       time: time
+      uuid: uuid
