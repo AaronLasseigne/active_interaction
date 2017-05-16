@@ -2,6 +2,51 @@
 
 ## Changed
 
+- [#392][] - Integer parsing now defaults the base to 10. ([how to upgrade](#integer-parsing-base-now-10))
+
+## Upgrading
+
+## Integer Parsing Base Now 10
+
+Integers are parsed using `Integer`. By default this meant that when
+strings were parsed, radix indicators (0, 0b, and 0x) were honored. Now
+we're defaulting the base to `10`. This means all strings will be parsed
+as though they are base 10.
+
+```ruby
+class Example < ActiveInteraction::Base
+  integer :x
+
+  def execute
+    x
+  end
+end
+
+# v3.7
+Example.run!(x: '010')
+# => 8
+
+# v4.0
+Example.run!(x: '010')
+# => 10
+```
+
+If you want the old behavior that respected the radix you can pass `0`
+as the base.
+
+```diff
+- integer :x
++ integer :x, base: 0
+```
+
+With that change, we can see the radix is respected again.
+
+```ruby
+# v4.0.0
+Example.run!(x: '010')
+# => 8
+```
+
 # [3.8.3][] (2020-04-22)
 
 ## Fixed
@@ -980,7 +1025,14 @@ Example.run
   [#454]: https://github.com/AaronLasseigne/active_interaction/pull/454
   [#455]: https://github.com/AaronLasseigne/active_interaction/pull/455
   [#457]: https://github.com/AaronLasseigne/active_interaction/issues/457
+<<<<<<< HEAD
   [#477]: https://github.com/AaronLasseigne/active_interaction/issues/477
   [#476]: https://github.com/AaronLasseigne/active_interaction/issues/476
   [#479]: https://github.com/AaronLasseigne/active_interaction/issues/479
+<<<<<<< HEAD
   [#486]: https://github.com/AaronLasseigne/active_interaction/issues/486
+=======
+=======
+  [#392]: https://github.com/AaronLasseigne/active_interaction/issues/392
+>>>>>>> dc8b989... default the integer base to 10
+>>>>>>> b83ca8a (default the integer base to 10)
