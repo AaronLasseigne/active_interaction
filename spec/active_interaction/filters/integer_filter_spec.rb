@@ -26,10 +26,10 @@ describe ActiveInteraction::IntegerFilter, :filter do
     end
 
     context 'with a String' do
-      let(:value) { rand(1 << 16).to_s }
+      let(:value) { '0' + rand(1 << 16).to_s }
 
       it 'returns an Integer' do
-        expect(result).to eql Integer(value)
+        expect(result).to eql Integer(value, 10)
       end
     end
 
@@ -44,11 +44,10 @@ describe ActiveInteraction::IntegerFilter, :filter do
     end
 
     it 'supports different bases' do
-      expect(filter.cast('07', nil)).to eql 7
+      expect(described_class.new(name, base: 8).cast('071', nil)).to eql 57
       expect do
-        filter.cast('08', nil)
+        described_class.new(name, base: 8).cast('081', nil)
       end.to raise_error ActiveInteraction::InvalidValueError
-      expect(described_class.new(name, base: 10).cast('08', nil)).to eql 8
     end
   end
 

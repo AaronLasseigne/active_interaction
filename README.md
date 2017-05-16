@@ -604,24 +604,27 @@ IntegerInteraction.run!(limit: 10)
 ```
 
 When a `String` is passed into an `integer` input, the value will be coerced.
-Coercion is based on `Kernel#Integer` which attempts to detect the base being used.
-However, you may want to specify the `base` for the conversion to something more
-sensible (e.g. `base: 10`).
+A default base of `10` is used though it may be overridden with the `base` option.
+If a base of `0` is provided, the coercion will respect radix indicators present
+in the string.
 
 ``` rb
 class IntegerInteraction < ActiveInteraction::Base
-  integer :limit1, base: 10
-  integer :limit2
-
+  integer :limit1
+  integer :limit2, base: 8
+  integer :limit3, base: 0
+  
   def execute
-    [limit1, limit2]
+    [limit1, limit2, limit3]
   end
 end
 
-IntegerInteraction.run!(limit1: "08", limit2: 8)
-# => [8, 8]
-IntegerInteraction.run!(limit1: "08", limit2: "08")
-# ArgumentError: invalid value for Integer(): "08"
+IntegerInteraction.run!(limit1: 71, limit2: 71, limit3: 71)
+# => [71, 71, 71]
+IntegerInteraction.run!(limit1: "071", limit2: "071", limit3: "0x71")
+# => [71, 57, 113]
+IntegerInteraction.run!(limit1: "08", limit2: "08", limit3: "08")
+ActiveInteraction::InvalidInteractionError: Limit2 is not a valid integer, Limit3 is not a valid integer
 ```
 
 ## Rails
