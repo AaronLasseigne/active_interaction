@@ -57,7 +57,6 @@ Read more on [the project page][] or check out [the full documentation][].
   - [Forms](#forms)
   - [Grouped inputs](#grouped-inputs)
   - [Optional inputs](#optional-inputs)
-  - [Predicates](#predicates)
   - [Translations](#translations)
 - [Credits](#credits)
 
@@ -613,7 +612,7 @@ sensible (e.g. `base: 10`).
 class IntegerInteraction < ActiveInteraction::Base
   integer :limit1, base: 10
   integer :limit2
-  
+
   def execute
     [limit1, limit2]
   end
@@ -837,10 +836,6 @@ The interaction that updates accounts is more complicated than the others. It
 requires an account to update, but the other inputs are optional. If they're
 missing, it'll ignore those attributes. If they're present, it'll update them.
 
-ActiveInteraction generates predicate methods (like `#first_name?`) for your
-inputs. They will return `false` if the input is `nil` and `true` otherwise.
-Skip to [the predicates section](#predicates) for more information about them.
-
 ``` rb
 class UpdateAccount < ActiveInteraction::Base
   object :account
@@ -850,14 +845,14 @@ class UpdateAccount < ActiveInteraction::Base
 
   validates :first_name,
     presence: true,
-    if: :first_name?
+    unless: 'first_name.nil?'
   validates :last_name,
     presence: true,
-    if: :last_name?
+    unless: 'last_name.nil?'
 
   def execute
-    account.first_name = first_name if first_name?
-    account.last_name = last_name if last_name?
+    account.first_name = first_name if first_name.present?
+    account.last_name = last_name if last_name.present?
 
     unless account.save
       errors.merge!(account.errors)
@@ -1300,41 +1295,6 @@ UpdateUser.run!(user: user, birthday: nil)
 # Update their birthday.
 UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
 ```
-
-### Predicates
-
-ActiveInteraction creates a predicate method for every input defined by a
-filter. So if you have an input called `foo`, there will be a predicate method
-called `#foo?`. That method will tell you if the input was given (that is, if
-it was not `nil`).
-
-``` rb
-class SayHello < ActiveInteraction::Base
-  string :name,
-    default: nil
-
-  def execute
-    if name?
-      "Hello, #{name}!"
-    else
-      "Howdy, stranger!"
-    end
-  end
-end
-
-SayHello.run!(name: nil)
-# => "Howdy, stranger!"
-SayHello.run!(name: 'Taylor')
-# => "Hello, Taylor!"
-```
-
-This can be confusing for boolean inputs. If you have some boolean input `foo`,
-then the actual value of that input is available through `foo`. The associated
-predicate method, `#foo?`, will tell you if that value is not `nil`. So it will
-only be `false` if the input is optional and happens to be `nil`.
-
-See [the optional inputs section][] for help on determining if an input was
-present in the input hash instead of just `nil`.
 
 ### Translations
 
