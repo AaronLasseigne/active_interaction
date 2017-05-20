@@ -75,6 +75,18 @@ describe ActiveInteraction::HashFilter, :filter do
         end
       end
     end
+
+    context 'with :strip false' do
+      let(:options) { { strip: false } }
+
+      context 'with a non-empty Hash' do
+        let(:value) { { 'a' => {} } }
+
+        it 'returns an empty Hash' do
+          expect(result).to eql value
+        end
+      end
+    end
   end
 
   describe '#default' do
