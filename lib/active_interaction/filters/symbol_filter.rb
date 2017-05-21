@@ -18,10 +18,7 @@ module ActiveInteraction
     register :symbol
 
     def cast(value, _interaction)
-      case value
-      when Symbol
-        value
-      when String
+      if value.respond_to?(:to_sym)
         value.to_sym
       else
         super

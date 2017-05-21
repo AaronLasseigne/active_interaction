@@ -25,6 +25,20 @@ describe ActiveInteraction::HashFilter, :filter do
       end
     end
 
+    context 'with an implicit Hash' do
+      let(:value) do
+        Class.new do
+          def to_hash
+            {}
+          end
+        end.new
+      end
+
+      it 'returns the Hash' do
+        expect(result).to eql value.to_hash
+      end
+    end
+
     context 'with a non-empty Hash' do
       let(:value) { { a: {} } }
 
@@ -84,6 +98,20 @@ describe ActiveInteraction::HashFilter, :filter do
 
         it 'returns an empty Hash' do
           expect(result).to eql value
+        end
+      end
+
+      context 'with a non-empty implicit Hash' do
+        let(:value) do
+          Class.new do
+            def to_hash
+              { 'a' => {} }
+            end
+          end.new
+        end
+
+        it 'returns the Hash' do
+          expect(result).to eql value.to_hash
         end
       end
     end
