@@ -21,14 +21,6 @@ module ActiveInteraction
   class IntegerFilter < AbstractNumericFilter
     register :integer
 
-    def cast(value, *)
-      if value.respond_to?(:to_int)
-        value.to_int
-      else
-        super
-      end
-    end
-
     private
 
     # @return [Integer]
