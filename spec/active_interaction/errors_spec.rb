@@ -68,6 +68,17 @@ describe ActiveInteraction::Errors do
         end
       end
 
+      context 'that is a symbol on base' do
+        before do
+          other.add(:base)
+        end
+
+        it 'adds the error' do
+          errors.merge!(other)
+          expect(errors.details[:base]).to eql [{ error: :invalid }]
+        end
+      end
+
       context 'that is a string' do
         let(:message) { SecureRandom.hex }
 

@@ -126,7 +126,7 @@ module ActiveInteraction
     end
 
     def merge_detail!(other, attribute, detail, error)
-      if attribute?(attribute)
+      if attribute?(attribute) || attribute == :base
         add(attribute, error, detail) unless added?(attribute, error, detail)
       else
         translated_error = translate(other, attribute, error)
