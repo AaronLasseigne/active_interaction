@@ -85,6 +85,28 @@ describe ActiveInteraction::TimeFilter, :filter do
       end
     end
 
+    context 'with an Integer' do
+      let(:value) { rand(1 << 16) }
+
+      it 'returns the Time' do
+        expect(result).to eql Time.at(value)
+      end
+    end
+
+    context 'with an implicit Integer' do
+      let(:value) do
+        Class.new do
+          def to_int
+            @to_int ||= rand(1 << 16)
+          end
+        end.new
+      end
+
+      it 'returns the Time' do
+        expect(result).to eql Time.at(value)
+      end
+    end
+
     context 'with a GroupedInput' do
       let(:year) { 2012 }
       let(:month) { 1 }
