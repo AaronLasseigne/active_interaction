@@ -83,6 +83,20 @@ describe ActiveInteraction::TimeFilter, :filter do
       end
     end
 
+    context 'with an implicit String' do
+      let(:value) do
+        Class.new do
+          def to_str
+            '2011-12-13 14:15:16 +1718'
+          end
+        end.new
+      end
+
+      it 'returns a Time' do
+        expect(result).to eql Time.parse(value)
+      end
+    end
+
     context 'with a GroupedInput' do
       let(:year) { 2012 }
       let(:month) { 1 }

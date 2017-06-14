@@ -61,6 +61,20 @@ describe ActiveInteraction::DateFilter, :filter do
       end
     end
 
+    context 'with an implicit String' do
+      let(:value) do
+        Class.new do
+          def to_str
+            '2011-12-13'
+          end
+        end.new
+      end
+
+      it 'returns a Date' do
+        expect(result).to eql Date.parse(value)
+      end
+    end
+
     context 'with a GroupedInput' do
       let(:year) { 2012 }
       let(:month) { 1 }
