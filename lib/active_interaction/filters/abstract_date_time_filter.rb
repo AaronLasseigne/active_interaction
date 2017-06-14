@@ -12,12 +12,11 @@ module ActiveInteraction
     private :_cast # rubocop:disable Style/AccessModifierDeclarations
 
     def cast(value, context)
-      case value
-      when String
-        convert(value, context)
-      when GroupedInput
+      if value.respond_to?(:to_str)
+        convert(value.to_str, context)
+      elsif value.is_a?(GroupedInput)
         convert(stringify(value), context)
-      when *klasses
+      elsif klasses.include?(value.class)
         value
       else
         super
