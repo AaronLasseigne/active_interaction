@@ -35,11 +35,11 @@ module ActiveInteraction
       super
     end
 
-    def cast(value, _interaction)
+    def cast(value, interaction)
       if value.is_a?(Numeric)
         klass.at(value)
       elsif value.respond_to?(:to_int)
-        klass.at(value.to_int)
+        send(__method__, value.to_int, interaction)
       else
         super
       end

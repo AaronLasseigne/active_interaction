@@ -33,11 +33,9 @@ module ActiveInteraction
       BigDecimal
     end
 
-    def convert(value, context)
+    def converter(value)
       Float(value) if value.is_a?(String)
       Kernel.public_send(klass.name, value, digits)
-    rescue ArgumentError
-      _cast(value, context)
     end
   end
 end

@@ -17,7 +17,7 @@ module ActiveInteraction
       elsif value.is_a?(Numeric) || value.is_a?(String)
         convert(value, context)
       elsif value.respond_to?(:to_int)
-        convert(value.to_int, context)
+        send(__method__, value.to_int, context)
       else
         super
       end
@@ -30,9 +30,13 @@ module ActiveInteraction
     private
 
     def convert(value, context)
-      Kernel.public_send(klass.name, value)
+      converter(value)
     rescue ArgumentError
       _cast(value, context)
+    end
+
+    def converter(value)
+      Kernel.public_send(klass.name, value)
     end
   end
 end
