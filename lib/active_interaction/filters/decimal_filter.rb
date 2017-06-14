@@ -22,17 +22,6 @@ module ActiveInteraction
   class DecimalFilter < AbstractNumericFilter
     register :decimal
 
-    def cast(value, _interaction)
-      case value
-      when Numeric
-        BigDecimal.new(value, digits)
-      when String
-        decimal_from_string(value)
-      else
-        super
-      end
-    end
-
     private
 
     # @return [Integer]
@@ -40,20 +29,15 @@ module ActiveInteraction
       options.fetch(:digits, 0)
     end
 
-    # @param value [String] string that has to be converted
-    #
-    # @return [BigDecimal]
-    #
-    # @raise [InvalidValueError] if given value can not be converted
-    def decimal_from_string(value)
-      Float(value)
-      BigDecimal.new(value, digits)
-    rescue ArgumentError
-      raise InvalidValueError, "Given value: #{value.inspect}"
-    end
-
     def klass
       BigDecimal
+    end
+
+    def convert(value, context)
+      Float(value) if value.is_a?(String)
+      Kernel.public_send(klass.name, value, digits)
+    rescue ArgumentError
+      _cast(value, context)
     end
   end
 end
