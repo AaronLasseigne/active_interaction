@@ -49,5 +49,5 @@ matrix:
   # JRuby 9, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
-    rvm: jruby-9.0.5.0
+    rvm: jruby-9.1.9.0
 script: bundle exec rake $RAKE_TASK
