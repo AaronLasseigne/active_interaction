@@ -14,10 +14,13 @@ module ActiveInteraction
     def cast(value, context)
       if value.is_a?(klass)
         value
-      elsif value.is_a?(Numeric) || value.is_a?(String)
+      elsif value.is_a?(Numeric)
         convert(value, context)
       elsif value.respond_to?(:to_int)
         send(__method__, value.to_int, context)
+      elsif value.respond_to?(:to_str)
+        value = value.to_str
+        value.blank? ? send(__method__, nil, context) : convert(value, context)
       else
         super
       end

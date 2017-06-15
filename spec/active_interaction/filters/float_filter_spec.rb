@@ -57,6 +57,34 @@ describe ActiveInteraction::FloatFilter, :filter do
         end.to raise_error ActiveInteraction::InvalidValueError
       end
     end
+
+    context 'with a blank String' do
+      let(:value) do
+        Class.new do
+          def to_str
+            ' '
+          end
+        end.new
+      end
+
+      context 'optional' do
+        include_context 'optional'
+
+        it 'returns the default' do
+          expect(result).to eql options[:default]
+        end
+      end
+
+      context 'required' do
+        include_context 'required'
+
+        it 'raises an error' do
+          expect do
+            result
+          end.to raise_error ActiveInteraction::MissingValueError
+        end
+      end
+    end
   end
 
   describe '#database_column_type' do

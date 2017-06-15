@@ -14,7 +14,8 @@ module ActiveInteraction
 
     def cast(value, context)
       if value.respond_to?(:to_str)
-        convert(value.to_str, context)
+        value = value.to_str
+        value.blank? ? send(__method__, nil, context) : convert(value, context)
       elsif value.is_a?(GroupedInput)
         convert(stringify(value), context)
       elsif klasses.include?(value.class)

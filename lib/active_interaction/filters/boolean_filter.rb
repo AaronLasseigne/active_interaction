@@ -20,6 +20,11 @@ module ActiveInteraction
     register :boolean
 
     def cast(value, _interaction)
+      if value.respond_to?(:to_str)
+        value = value.to_str
+        value = nil if value.blank?
+      end
+
       case value
       when FalseClass, /\A(?:0|false|off)\z/i
         false

@@ -1,25 +1,27 @@
-AlignParameters:
-  EnforcedStyle: with_fixed_indentation
 AllCops:
   Exclude:
   - example/db/schema.rb
   - tmp/**/*
   - vendor/**/*
-ClassLength:
-  Max: 120
 Documentation:
   Exclude:
   - spec/**/*
-FileName:
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+Layout/MultilineMethodCallBraceLayout:
+  EnforcedStyle: new_line
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Layout/MultilineOperationIndentation:
+  Enabled: false
+Metrics/ClassLength:
+  Max: 120
+Metrics/MethodLength:
+  Max: 15
+Style/FileName:
   Exclude:
   - gemfiles/*
-MultilineMethodCallBraceLayout:
-  EnforcedStyle: new_line
-MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-MultilineOperationIndentation:
-  Enabled: false
-PercentLiteralDelimiters:
+Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%W': '[]'
     '%i': '[]'

@@ -57,6 +57,34 @@ describe ActiveInteraction::IntegerFilter, :filter do
       end
     end
 
+    context 'with a blank String' do
+      let(:value) do
+        Class.new do
+          def to_str
+            ' '
+          end
+        end.new
+      end
+
+      context 'optional' do
+        include_context 'optional'
+
+        it 'returns the default' do
+          expect(result).to eql options[:default]
+        end
+      end
+
+      context 'required' do
+        include_context 'required'
+
+        it 'raises an error' do
+          expect do
+            result
+          end.to raise_error ActiveInteraction::MissingValueError
+        end
+      end
+    end
+
     it 'supports different bases' do
       expect(described_class.new(name, base: 8).cast('071', nil)).to eql 57
       expect do
