@@ -40,23 +40,6 @@ describe ActiveInteraction::Errors do
     let(:other) { described_class.new(klass.new) }
 
     context 'with an error' do
-      before do
-        other.add(:attribute)
-      end
-
-      it 'adds the error' do
-        errors.merge!(other)
-        expect(errors.messages[:attribute]).to eql ['is invalid']
-      end
-
-      it 'does not add duplicate errors' do
-        other.add(:attribute)
-        errors.merge!(other)
-        expect(errors.messages[:attribute]).to eql ['is invalid']
-      end
-    end
-
-    context 'with a detailed error' do
       context 'that is a symbol' do
         before do
           other.add(:attribute)
@@ -64,6 +47,16 @@ describe ActiveInteraction::Errors do
 
         it 'adds the error' do
           errors.merge!(other)
+
+          expect(errors.messages[:attribute]).to eql ['is invalid']
+          expect(errors.details[:attribute]).to eql [{ error: :invalid }]
+        end
+
+        it 'does not add duplicate errors' do
+          other.add(:attribute)
+          errors.merge!(other)
+
+          expect(errors.messages[:attribute]).to eql ['is invalid']
           expect(errors.details[:attribute]).to eql [{ error: :invalid }]
         end
       end
@@ -75,6 +68,8 @@ describe ActiveInteraction::Errors do
 
         it 'adds the error' do
           errors.merge!(other)
+
+          expect(errors.messages[:base]).to eql ['is invalid']
           expect(errors.details[:base]).to eql [{ error: :invalid }]
         end
       end
@@ -88,6 +83,8 @@ describe ActiveInteraction::Errors do
 
         it 'adds the error' do
           errors.merge!(other)
+
+          expect(errors.messages[:base]).to eql [message]
           expect(errors.details[:base]).to eql [{ error: message }]
         end
       end
