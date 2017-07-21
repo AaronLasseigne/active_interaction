@@ -6,21 +6,21 @@ AllCops:
 Documentation:
   Exclude:
   - spec/**/*
-Layout/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-Layout/MultilineMethodCallBraceLayout:
-  EnforcedStyle: new_line
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
 Layout/MultilineOperationIndentation:
   Enabled: false
 Metrics/ClassLength:
   Max: 120
 Metrics/MethodLength:
   Max: 15
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
 Style/FileName:
   Exclude:
   - gemfiles/*
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Style/MultilineOperationIndentation:
+  Enabled: false
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%W': '[]'
