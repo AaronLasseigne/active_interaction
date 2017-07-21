@@ -59,6 +59,19 @@ describe ActiveInteraction::Errors do
           expect(errors.messages[:attribute]).to eql ['is invalid']
           expect(errors.details[:attribute]).to eql [{ error: :invalid }]
         end
+
+        it 'merges unmatched errors onto base' do
+          other = described_class.new(Class.new(klass) do
+            attr_reader :attribute_2
+          end.new)
+          other.add(:attribute_2)
+          errors.merge!(other)
+
+          error_msg = 'Attribute 2 is invalid'
+
+          expect(errors.messages[:base]).to eql [error_msg]
+          expect(errors.details[:base]).to eql [{ error: error_msg }]
+        end
       end
 
       context 'that is a symbol on base' do
