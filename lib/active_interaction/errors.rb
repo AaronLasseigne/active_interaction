@@ -95,11 +95,11 @@ module ActiveInteraction
     # @param other [Errors]
     #
     # @return [Errors]
-    def merge!(other)
+    def merge!(other, move: {})
       if other.respond_to?(:details)
-        merge_details!(other)
+        merge_details!(other, move)
       else
-        merge_messages!(other)
+        merge_messages!(other, move)
       end
 
       self
@@ -107,9 +107,10 @@ module ActiveInteraction
 
     private
 
-    def merge_messages!(other)
+    def merge_messages!(other, move)
       other.messages.each do |attribute, messages|
         messages.each do |message|
+          attribute = move[attribute] if move.key?(attribute)
           unless attribute?(attribute)
             message = full_message(attribute, message)
             attribute = :base
@@ -119,9 +120,11 @@ module ActiveInteraction
       end
     end
 
-    def merge_details!(other)
+    def merge_details!(other, move)
       other.details.each do |attribute, details|
         details.each do |detail|
+          attribute = move[attribute] if move.key?(attribute)
+
           detail = detail.dup
           error = detail.delete(:error)
 

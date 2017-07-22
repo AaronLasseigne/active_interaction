@@ -101,6 +101,30 @@ describe ActiveInteraction::Errors do
           expect(errors.details[:base]).to eql [{ error: message }]
         end
       end
+
+      context 'with :move' do
+        let(:other) do
+          described_class.new(Class.new(klass) do
+            attr_reader :attribute_2
+          end.new)
+        end
+
+        it 'moves the errors from the target attribute to the source' do
+          other.add(:attribute_2)
+          errors.merge!(other, move: { attribute_2: :attribute })
+
+          expect(errors.messages[:attribute]).to eql ['is invalid']
+          expect(errors.details[:attribute]).to eql [{ error: :invalid }]
+        end
+
+        it 'works when the source is base' do
+          other.add(:attribute_2)
+          errors.merge!(other, move: { attribute_2: :base })
+
+          expect(errors.messages[:base]).to eql ['is invalid']
+          expect(errors.details[:base]).to eql [{ error: :invalid }]
+        end
+      end
     end
 
     context 'with an interpolated detailed error' do
