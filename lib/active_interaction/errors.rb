@@ -77,13 +77,14 @@ module ActiveInteraction
   #
   # @private
   class Interrupt < Error
-    attr_reader :errors
+    attr_reader :errors, :moves
 
     # @param errors [Runnable]
-    def initialize(errors)
+    def initialize(errors, moves)
       super()
 
       @errors = errors
+      @moves = moves
     end
   end
   private_constant :Interrupt

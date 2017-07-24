@@ -180,6 +180,16 @@ module ActiveInteraction
     #
     #   @return (see ActiveInteraction::Base.run!)
 
+    # @!method link(name)
+    #   Used when sending inputs to `compose`. Links a filter in the current
+    #     interaction such that its value is passed to the other interaction
+    #     in the inputs and errors on that input are mapped back to the linked
+    #     filter.
+    #
+    #   @param name (see ActiveInteraction::Runnable#link)
+    #
+    #   @return (see ActiveInteraction::Runnable#link)
+
     # @!method execute
     #   @abstract
     #

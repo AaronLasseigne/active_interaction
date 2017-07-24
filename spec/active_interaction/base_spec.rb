@@ -29,6 +29,15 @@ InterruptInteraction = Class.new(TestInteraction) do
   end
 end
 
+LinkedInputInteraction = Class.new(TestInteraction) do
+  float :a, :b,
+    default: nil
+
+  def execute
+    compose(AddInteraction, x: link(:a), y: link(:b))
+  end
+end
+
 describe ActiveInteraction::Base do
   include_context 'interactions'
 
@@ -370,6 +379,36 @@ describe ActiveInteraction::Base do
       it 'has the correct errors' do
         expect(outcome.errors.details)
           .to eql(x: [{ error: :missing }], base: [{ error: 'Y is required' }])
+      end
+    end
+
+    context 'with linked inputs' do
+      let(:described_class) { LinkedInputInteraction }
+
+      context 'with valid composition' do
+        before do
+          inputs[:a] = x
+          inputs[:b] = z
+        end
+
+        it 'is valid' do
+          expect(outcome).to be_valid
+        end
+
+        it 'returns the sum' do
+          expect(result).to eql x + z
+        end
+      end
+
+      context 'with invalid composition' do
+        it 'is invalid' do
+          expect(outcome).to be_invalid
+        end
+
+        it 'has the correct errors' do
+          expect(outcome.errors.details)
+            .to eql(a: [{ error: :missing }], b: [{ error: :missing }])
+        end
       end
     end
   end

@@ -22,7 +22,7 @@ describe ActiveInteraction::Runnable do
   end
 
   shared_context 'with #execute defined' do
-    before { klass.send(:define_method, :execute) { rand } }
+    before { klass.send(:define_method, :execute) { [1, 2] } }
   end
 
   context 'validations' do
@@ -83,13 +83,15 @@ describe ActiveInteraction::Runnable do
         context 'around' do
           it 'is yielded errors from composed interactions' do
             block_result = nil
+            block_moves = nil
             WithFailingCompose.set_callback :execute, :around do |_, block|
-              block_result = block.call
+              block_result, block_moves = block.call
             end
 
             WithFailingCompose.run
             expect(block_result).to be_an(ActiveInteraction::Errors)
             expect(block_result).to include(:base)
+            expect(block_moves).to eql({})
           end
         end
 
@@ -204,7 +206,7 @@ describe ActiveInteraction::Runnable do
       end
 
       it 'sets the result' do
-        expect(outcome.result).to_not be_nil
+        expect(outcome.result).to eql klass.new.execute
       end
 
       context 'with a validator' do

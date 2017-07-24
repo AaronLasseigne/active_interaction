@@ -11,6 +11,19 @@ module ActiveInteraction
   #
   # @private
   module Runnable
+    # Used in #compose calls to link an attributes value and errors to an
+    #   input in the composed interaction.
+    #
+    # @private
+    class Link
+      attr_reader :attribute, :value
+
+      def initialize(attribute, value)
+        @attribute = attribute
+        @value = value
+      end
+    end
+
     extend ActiveSupport::Concern
     include ActiveModel::Validations
 
@@ -55,6 +68,13 @@ module ActiveInteraction
 
     private
 
+    # @param name [Symbol] A filter name.
+    #
+    # @return [Link]
+    def link(name)
+      Link.new(name, inputs[name])
+    end
+
     # @param other [Class] The other interaction.
     # @param (see ClassMethods.run)
     #
@@ -62,11 +82,37 @@ module ActiveInteraction
     #
     # @raise [Interrupt]
     def compose(other, *args)
-      outcome = other.run(*args)
+      outcome = other.run(*promote_values_from_links(args))
 
-      raise Interrupt, outcome.errors if outcome.invalid?
+      if outcome.invalid?
+        raise Interrupt.new(outcome.errors, extract_moves(args))
+      end
 
       outcome.result
+    end
+
+    # @private
+    def promote_values_from_links(args)
+      args.map do |arg|
+        next arg unless arg.respond_to?(:to_hash)
+
+        arg.to_hash.each_with_object({}) do |(k, v), h|
+          h[k] = v.is_a?(Link) ? v.value : v
+        end
+      end
+    end
+
+    # @private
+    def extract_moves(args)
+      args.each_with_object({}) do |arg, h|
+        next arg unless arg.respond_to?(:to_hash)
+
+        arg.to_hash.each do |k, v|
+          next unless v.is_a?(Link)
+
+          h[k] = v.attribute
+        end
+      end
     end
 
     # @return (see #result=)
@@ -74,16 +120,16 @@ module ActiveInteraction
     def run # rubocop:disable MethodLength
       self.result =
         if valid?
-          result_or_errors = run_callbacks(:execute) do
+          result_or_errors, moves = run_callbacks(:execute) do
             begin
-              execute
+              [execute, nil]
             rescue Interrupt => interrupt
-              interrupt.errors
+              [interrupt.errors, interrupt.moves]
             end
           end
 
           if result_or_errors.is_a?(ActiveInteraction::Errors)
-            errors.merge!(result_or_errors)
+            errors.merge!(result_or_errors, move: moves || {})
             nil
           else
             result_or_errors
