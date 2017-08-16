@@ -94,6 +94,9 @@ module ActiveInteraction
     # Merge other errors into this one.
     #
     # @param other [Errors]
+    # @param move [Hash] A mapping of errors where the key is an attribute on
+    #   `other` that you would liked mapped to an attribute on the current
+    #   interaction.
     #
     # @return [Errors]
     def merge!(other, move: {})
