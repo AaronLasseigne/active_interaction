@@ -113,6 +113,9 @@ describe ActiveInteraction::Errors do
                   attributes: {
                     attribute: {
                       invalid_type: 'is not a valid %{type}'
+                    },
+                    attribute2: {
+                      invalid_type: 'is not a valid %{type}'
                     }
                   }
                 }
@@ -120,12 +123,32 @@ describe ActiveInteraction::Errors do
             }
           }
         )
-
-        other.add(:attribute, :invalid_type, type: nil)
       end
 
-      it 'does not raise an error' do
-        expect { errors.merge!(other) }.to_not raise_error
+      context 'on a shared attribute' do
+        it 'does not raise an error' do
+          other.add(:attribute, :invalid_type, type: nil)
+
+          expect { errors.merge!(other) }.to_not raise_error
+        end
+      end
+
+      context 'on an attribute moved to base' do
+        it 'does not raise an error' do
+          other_klass = Class.new do
+            include ActiveInteraction::ActiveModelable
+
+            attr_reader :attribute2
+
+            def self.name
+              @name ||= SecureRandom.hex
+            end
+          end
+          other = described_class.new(other_klass.new)
+          other.add(:attribute2, :invalid_type, type: nil)
+
+          expect { errors.merge!(other) }.to_not raise_error
+        end
       end
     end
 

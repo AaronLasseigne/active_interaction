@@ -17,6 +17,8 @@ Style/AlignParameters:
 Style/FileName:
   Exclude:
   - gemfiles/*
+Style/MultilineMethodCallBraceLayout:
+  EnforcedStyle: new_line
 Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 Style/MultilineOperationIndentation:
