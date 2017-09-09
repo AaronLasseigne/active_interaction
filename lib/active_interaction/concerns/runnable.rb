@@ -75,6 +75,15 @@ module ActiveInteraction
       Link.new(name, inputs[name])
     end
 
+    # @param *names [Symbol] A list of filter names.
+    #
+    # @return [Hash]
+    def autolink(*names)
+      names.each_with_object({}) do |name, mapping|
+        mapping[name] = link(name)
+      end
+    end
+
     # @param other [Class] The other interaction.
     # @param (see ClassMethods.run)
     #

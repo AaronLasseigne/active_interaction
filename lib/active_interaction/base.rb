@@ -190,6 +190,15 @@ module ActiveInteraction
     #
     #   @return (see ActiveInteraction::Runnable#link)
 
+    # @!method autolink(*names)
+    #   Used when sending inputs to `compose`. Automatically creates a hash of
+    #     links where the current interaction and the composed interaction share
+    #     filter names.
+    #
+    #   @param *names (see ActiveInteraction::Runnable#autolink)
+    #
+    #   @return (see ActiveInteraction::Runnable#autolink)
+
     # @!method execute
     #   @abstract
     #

@@ -38,6 +38,14 @@ LinkedInputInteraction = Class.new(TestInteraction) do
   end
 end
 
+AutoLinkedInputInteraction = Class.new(TestInteraction) do
+  float :x, :y
+
+  def execute
+    compose(AddInteraction, autolink(*inputs.keys))
+  end
+end
+
 describe ActiveInteraction::Base do
   include_context 'interactions'
 
@@ -409,6 +417,36 @@ describe ActiveInteraction::Base do
         it 'has the correct errors' do
           expect(outcome.errors.details)
             .to eql(a: [{ error: :missing }], b: [{ error: :missing }])
+        end
+      end
+    end
+
+    context 'with autolinked inputs' do
+      let(:described_class) { AutoLinkedInputInteraction }
+
+      context 'with valid composition' do
+        before do
+          inputs[:x] = x
+          inputs[:y] = z
+        end
+
+        it 'is valid' do
+          expect(outcome).to be_valid
+        end
+
+        it 'returns the sum' do
+          expect(result).to eql x + z
+        end
+      end
+
+      context 'with invalid composition' do
+        it 'is invalid' do
+          expect(outcome).to be_invalid
+        end
+
+        it 'has the correct errors' do
+          expect(outcome.errors.details)
+            .to eql(x: [{ error: :missing }], y: [{ error: :missing }])
         end
       end
     end
