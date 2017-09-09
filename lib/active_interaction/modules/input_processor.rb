@@ -3,8 +3,6 @@
 module ActiveInteraction
   # Groups inputs ending in "(*N*i)" into {GroupedInput}.
   #
-  # @since 1.2.0
-  #
   # @private
   module InputProcessor
     class << self

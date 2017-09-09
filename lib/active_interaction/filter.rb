@@ -193,8 +193,6 @@ module ActiveInteraction
     #
     # @return [Symbol] A database column type. If no sensible mapping exists,
     #   returns `:string`.
-    #
-    # @since 1.2.0
     def database_column_type
       :string
     end

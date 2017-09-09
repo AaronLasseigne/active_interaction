@@ -2,8 +2,6 @@
 
 module ActiveInteraction
   # A minimal implementation of an `ActiveRecord::ConnectionAdapters::Column`.
-  #
-  # @since 1.2.0
   class FilterColumn
     # @return [nil]
     attr_reader :limit

@@ -6,8 +6,6 @@ require 'active_model'
 #
 # @author Aaron Lasseigne <aaron.lasseigne@gmail.com>
 # @author Taylor Fausak <taylor@fausak.me>
-#
-# @since 1.0.0
 module ActiveInteraction
 end
 
