@@ -1159,7 +1159,7 @@ def execute
 end
 ```
 
-These types of errors will become standard with Rails 5. ActiveInteraction's
+These types of errors are standard as of Rails 5. ActiveInteraction's
 implementation is based off of [active_model-errors_details][].
 
 ActiveInteraction also supports merging errors. This is useful if you want to
