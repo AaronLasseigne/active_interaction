@@ -91,7 +91,8 @@ module ActiveInteraction
 
   # An extension that provides the ability to merge other errors into itself.
   class Errors < ActiveModel::Errors
-    # Merge other errors into this one.
+    # Merge other errors into this one. All errors are merged to base unless
+    #   they were specified using the `:move` attribute.
     #
     # @param other [Errors]
     # @param move [Hash] A mapping of errors where the key is an attribute on
@@ -112,40 +113,34 @@ module ActiveInteraction
     private
 
     def merge_messages!(other, move)
-      other.messages.each do |attribute, messages|
-        attribute = move[attribute] if move.key?(attribute)
+      other.messages.each do |from, messages|
+        to = move.fetch(from, :base)
 
         messages.each do |message|
-          unless attribute?(attribute)
-            message = full_message(attribute, message)
-            attribute = :base
-          end
-          add(attribute, message) unless added?(attribute, message)
+          message = full_message(from, message) if to == :base
+
+          add(to, message) unless added?(to, message)
         end
       end
     end
 
     def merge_details!(other, move)
-      other.details.each do |attribute, details|
-        attribute = move[attribute] if move.key?(attribute)
+      other.details.each do |from, details|
+        to = move.fetch(from, :base)
 
         details.each do |detail|
           detail = detail.dup
           error = detail.delete(:error)
 
-          merge_detail!(other, attribute, detail, error)
-        end
-      end
-    end
+          if to == :base
+            translated_error = translate(other, from, error, detail)
+            message = full_message(from, translated_error)
 
-    def merge_detail!(other, attribute, detail, error)
-      if attribute?(attribute) || attribute == :base
-        add(attribute, error, detail) unless added?(attribute, error, detail)
-      else
-        translated_error = translate(other, attribute, error, detail)
-        message = full_message(attribute, translated_error)
-        attribute = :base
-        add(attribute, message) unless added?(attribute, message)
+            add(to, message) unless added?(to, message)
+          else
+            add(to, error, detail) unless added?(to, error, detail)
+          end
+        end
       end
     end
 

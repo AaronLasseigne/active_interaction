@@ -377,8 +377,9 @@ describe ActiveInteraction::Base do
       end
 
       it 'has the correct errors' do
-        expect(outcome.errors.details)
-          .to eql(x: [{ error: :missing }], base: [{ error: 'Y is required' }])
+        expect(outcome.errors.details).to eql(
+          base: [{ error: 'X is required' }, { error: 'Y is required' }]
+        )
       end
     end
 

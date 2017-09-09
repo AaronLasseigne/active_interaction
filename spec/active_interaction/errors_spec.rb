@@ -45,30 +45,19 @@ describe ActiveInteraction::Errors do
           other.add(:attribute)
         end
 
-        it 'adds the error' do
+        it 'merges errors onto base' do
           errors.merge!(other)
 
-          expect(errors.messages[:attribute]).to eql ['is invalid']
-          expect(errors.details[:attribute]).to eql [{ error: :invalid }]
+          error_msg = 'Attribute is invalid'
+          expect(errors.messages[:base]).to eql [error_msg]
+          expect(errors.details[:base]).to eql [{ error: error_msg }]
         end
 
         it 'does not add duplicate errors' do
           other.add(:attribute)
           errors.merge!(other)
 
-          expect(errors.messages[:attribute]).to eql ['is invalid']
-          expect(errors.details[:attribute]).to eql [{ error: :invalid }]
-        end
-
-        it 'merges unmatched errors onto base' do
-          other = described_class.new(Class.new(klass) do
-            attr_reader :attribute_2
-          end.new)
-          other.add(:attribute_2)
-          errors.merge!(other)
-
-          error_msg = 'Attribute 2 is invalid'
-
+          error_msg = 'Attribute is invalid'
           expect(errors.messages[:base]).to eql [error_msg]
           expect(errors.details[:base]).to eql [{ error: error_msg }]
         end
@@ -82,8 +71,9 @@ describe ActiveInteraction::Errors do
         it 'adds the error' do
           errors.merge!(other)
 
-          expect(errors.messages[:base]).to eql ['is invalid']
-          expect(errors.details[:base]).to eql [{ error: :invalid }]
+          error_msg = 'is invalid'
+          expect(errors.messages[:base]).to eql [error_msg]
+          expect(errors.details[:base]).to eql [{ error: error_msg }]
         end
       end
 
@@ -121,8 +111,9 @@ describe ActiveInteraction::Errors do
           other.add(:attribute_2)
           errors.merge!(other, move: { attribute_2: :base })
 
-          expect(errors.messages[:base]).to eql ['is invalid']
-          expect(errors.details[:base]).to eql [{ error: :invalid }]
+          error_msg = 'Attribute 2 is invalid'
+          expect(errors.messages[:base]).to eql [error_msg]
+          expect(errors.details[:base]).to eql [{ error: error_msg }]
         end
       end
     end
