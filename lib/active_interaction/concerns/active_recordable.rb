@@ -24,8 +24,6 @@ module ActiveInteraction
     #   # => nil
     #
     # @return [FilterColumn, nil]
-    #
-    # @since 1.2.0
     def column_for_attribute(name)
       filter = self.class.filters[name]
       FilterColumn.intern(filter.database_column_type) if filter
@@ -49,8 +47,6 @@ module ActiveInteraction
     #   # => false
     #
     # @return [Boolean]
-    #
-    # @since 1.5.0
     def has_attribute?(name) # rubocop:disable Style/PredicateName
       self.class.filters.key?(name.to_sym)
     end

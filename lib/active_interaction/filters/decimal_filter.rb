@@ -14,8 +14,6 @@ module ActiveInteraction
     #
     #   @example
     #     decimal :amount, digits: 4
-    #
-    #   @since 1.2.0
   end
 
   # @private
