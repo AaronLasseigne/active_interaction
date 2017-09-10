@@ -1,3 +1,91 @@
+# [4.0.0][] (TBD)
+
+## Changed
+
+- [#398][] - predicate methods have been removed
+- [#411][] - always cache `result` once an interaction is run
+- [#392][] - default the integer parsing to base to 10
+
+## Upgrading
+
+We've removed the automatically predicat methods that were automatically
+generated for each input. They would return true if an input was not `nil`.
+They can be manually replaced with that same check.
+
+```ruby
+# v3.6
+class Example < ActiveInteraction::Base
+  string :first_name
+
+  validates :first_name,
+    presence: true,
+    if: :first_name?
+
+  def execute
+    # ...
+  end
+end
+
+# v4.0.0
+class Example < ActiveInteraction::Base
+  string :first_name
+
+  validates :first_name,
+    presence: true,
+    unless: 'first_name.nil?'
+
+  def execute
+    # ...
+  end
+end
+```
+
+We were already caching the result of valid interactions. Now we also
+cache the result of invalid interactions. This means that interactions,
+once run, will never change validity (`valid?`) or the result. Even
+before this the odds were small that this would be a problem. The case
+that brough this up was a validation that was time dependent and caused
+a failed outcome to later show success.
+
+Integers are parsed using `Integer`. By default this meant that when
+strings were parsed, radix indicators (0, 0b, and 0x) were honored. Now
+we're defaulting the base to `10`. This means all strings will be parsed
+as though they are base 10.
+
+```ruby
+class Example < ActiveInteraction::Base
+  integer :x
+
+  def execute
+    x
+  end
+end
+
+# v3.6
+Example.run!(x: '010')
+# => 8
+
+# v4.0.0
+Example.run!(x: '010')
+# => 10
+```
+
+If you want the old behavior that respected the radix you can pass `0`
+as the base.
+
+```diff
+- integer :x
++ integer :x, base: 0
+```
+
+With that change, we can see the radix is respected again.
+
+```ruby
+# v4.0.0
+Example.run!(x: '010')
+# => 8
+```
+
 # [3.6.1][] (2017-11-12)
 
 ## Fixed
@@ -729,6 +817,7 @@ Example.run
 
 - Initial release.
 
+  [4.0.0]: https://github.com/orgsync/active_interaction/compare/v3.6.1...v4.0.0
   [3.6.1]: https://github.com/orgsync/active_interaction/compare/v3.6.0...v3.6.1
   [3.6.0]: https://github.com/orgsync/active_interaction/compare/v3.5.3...v3.6.0
   [3.5.3]: https://github.com/orgsync/active_interaction/compare/v3.5.2...v3.5.3
@@ -908,7 +997,10 @@ Example.run
   [#383]: https://github.com/orgsync/active_interaction/pull/383
   [#384]: https://github.com/orgsync/active_interaction/pull/384
   [#387]: https://github.com/orgsync/active_interaction/pull/387
+  [#392]: https://github.com/orgsync/active_interaction/pull/392
+  [#398]: https://github.com/orgsync/active_interaction/pull/398
   [#408]: https://github.com/orgsync/active_interaction/pull/408
+  [#411]: https://github.com/orgsync/active_interaction/pull/411
   [#415]: https://github.com/orgsync/active_interaction/pull/415
   [#417]: https://github.com/orgsync/active_interaction/pull/417
   [#420]: https://github.com/orgsync/active_interaction/pull/420
