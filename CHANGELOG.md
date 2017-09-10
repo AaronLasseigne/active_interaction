@@ -151,8 +151,6 @@
 
 # [2.0.0][] (2015-05-06)
 
-For help upgrading to version 2, please read [the announcement post][].
-
 ## Changed
 
 - [#250][]: Replaced symbolic errors with Rails 5-style detailed errors.
@@ -168,6 +166,139 @@ For help upgrading to version 2, please read [the announcement post][].
 
 - [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
   This takes care of potential but unlikely DoS attacks noted in [#163][].
+  
+## Upgrading
+
+Please read through the Changed section for a full list of changes.
+
+The contents of the `execute` method are no longer wrapped in a transaction. You
+can manually add a transaction if you need it by using
+`ActiveRecord::Base.transaction`. We've also removed the `transaction` method since
+it no longer has a use.
+
+```ruby
+# v1.6
+class Example < ActiveInteraction::Base
+  # This is the default.
+  transaction true
+
+  def execute
+    # ...
+  end
+end
+
+# v2.0
+class Example < ActiveInteraction::Base
+  def execute
+    ActiveRecord::Base.transaction do
+      # ...
+    end
+  end
+end
+```
+
+Symbolic errors should now be added with `add` instead of `add_sym`. Additionally,
+you can view the errors with `details` instead of `symbolic`. This aligns with the
+direction Rails is taking.
+
+```ruby
+# v1.6
+class Example < ActiveInteraction::Base
+  def execute
+    errors.add_sym :base, :invalid
+    errors.add_sym :base, :custom, '...'
+  end
+end
+Example.run.errors.symbolic
+# => {:base=>[:invalid,:custom]}
+
+# v2.0
+class Example < ActiveInteraction::Base
+  def execute
+    errors.add :base, :invalid
+    errors.add :base, :custom, message: '...'
+  end
+end
+Example.run.errors.details
+# => {:base=>[{:error=>:invalid},{:error=>:custom,:message=>'...'}]}
+```
+
+In the `hash` filter we've stopped converting all inputs to symbols and instead we
+now convert the hash to a hash with indifferent access. This means hash keys will
+display as strings instead of symbols.
+
+```ruby
+class Example < ActiveInteraction::Base
+  hash :options,
+    strip: false
+
+  def execute
+    options.keys
+  end
+end
+
+# v1.6
+Example.run!(options: { enable: true })
+# => [:enable]
+
+# v2.0
+Example.run!(options: { enable: true })
+# => ["enable"]
+```
+
+We added the ability to return results from invalid interactions. Setting the result to
+`nil` was unnecessary. The right way to check for validity is to use `valid?`. This change
+allows you to return something from an interaction even if there are errors. This can be
+very useful when updating an existing record.
+
+```ruby
+class Example < ActiveInteraction::Base
+  def execute
+    errors.add(:base)
+    'something'
+  end
+end
+
+# v1.6
+outcome = Example.run
+outcome.valid?
+# => false
+outcome.result
+# => nil
+
+# v2.0
+outcome = Example.run
+outcome.valid?
+# => false
+outcome.result
+# => "something"
+```
+
+When setting a default with a `Proc` is is no longer eagerly evaluated.
+
+```ruby
+class Example < ActiveInteraction::Base
+  boolean :flag,
+    default: -> {
+      puts 'defaulting...'
+      true
+    }
+
+  def execute
+    puts 'executing...'
+  end
+end
+
+# v1.6
+# defaulting...
+Example.run
+# executing...
+
+# v2.0
+Example.run
+# defaulting...
+# executing...
+```
 
 # [1.6.1][] (2015-10-02)
 
@@ -752,5 +883,3 @@ For help upgrading to version 2, please read [the announcement post][].
   [#408]: https://github.com/orgsync/active_interaction/pull/408
   [#415]: https://github.com/orgsync/active_interaction/pull/415
   [#417]: https://github.com/orgsync/active_interaction/pull/417
-
-  [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
