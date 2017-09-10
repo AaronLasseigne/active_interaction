@@ -1,3 +1,66 @@
+# [3.5.2][] (2017-06-08)
+
+## Fixed
+
+- [#417][] - detailed errors added to `:base` are now properly merged
+
+# [3.5.1][] (2017-05-11)
+
+## Fixed
+
+- [#415][]: Reserved input names no longer error. Instead they are ignored. This fixes an issue with Rails 5.1 where `:format` was part of the params input sent to the interaction.
+
+# [3.5.0][] (2017-03-18)
+
+## Added
+
+- [#408][]: `given?` can now check for values in nested hashes within the input
+
+# [3.4.0][] (2016-10-20)
+
+## Added
+
+- [#387][]: Added an option to the `integer` filter to allow specification of a base when converting strings.
+
+## Fixed
+
+- [#384][]: Fixed wrapping `compose` call in an ActiveRecord transaction.
+
+# [3.3.0][] (2016-09-13)
+
+## Added
+
+- [#383][]: Allowed `ActionController::Parameters` as the input to `ActiveInteraction::Base.run`. Previously only `Hash` was allowed.
+
+# [3.2.1][] (2016-08-26)
+
+## Fixed
+
+- [#377][]: Fixed a bug that allowed interactions to define inputs the conflicted with `ActiveInteraction::Base`'s methods.
+- [#370][]: Improved the French translation. Thanks, @voondo!
+
+# [3.2.0][] (2016-06-07)
+
+## Added
+
+- [#365][]: Updated boolean filter to accept `"on"` for `true` and `"off"` for `false`. Thanks, @voondo!
+
+# [3.1.1][] (2016-05-31)
+
+## Added
+
+- [#362][]: Added translation for Brazilian Portuguese.
+
+## Fixed
+
+- [#364][]: Fixed a bug that prevented callbacks from being called by composed interactions that failed.
+
+# [3.1.0][] (2016-04-01)
+
+## Added
+
+- [#357][]: Allowed default lambdas to take an optional filter argument.
+
 # [3.0.1][] (2016-01-15)
 
 ## Fixed
@@ -510,6 +573,15 @@ For help upgrading to version 2, please read [the announcement post][].
 
 - Initial release.
 
+  [3.5.2]: https://github.com/orgsync/active_interaction/compare/v3.5.1...v3.5.2
+  [3.5.1]: https://github.com/orgsync/active_interaction/compare/v3.5.0...v3.5.1
+  [3.5.0]: https://github.com/orgsync/active_interaction/compare/v3.4.0...v3.5.0
+  [3.4.0]: https://github.com/orgsync/active_interaction/compare/v3.3.0...v3.4.0
+  [3.3.0]: https://github.com/orgsync/active_interaction/compare/v3.2.1...v3.3.0
+  [3.2.1]: https://github.com/orgsync/active_interaction/compare/v3.2.0...v3.2.1
+  [3.2.0]: https://github.com/orgsync/active_interaction/compare/v3.1.1...v3.2.0
+  [3.1.1]: https://github.com/orgsync/active_interaction/compare/v3.1.0...v3.1.1
+  [3.1.0]: https://github.com/orgsync/active_interaction/compare/v3.0.1...v3.1.0
   [3.0.1]: https://github.com/orgsync/active_interaction/compare/v3.0.0...v3.0.1
   [3.0.0]: https://github.com/orgsync/active_interaction/compare/v2.2.0...v3.0.0
   [2.2.0]: https://github.com/orgsync/active_interaction/compare/v2.1.5...v2.2.0
@@ -668,5 +740,17 @@ For help upgrading to version 2, please read [the announcement post][].
   [#344]: https://github.com/orgsync/active_interaction/pull/344
   [#346]: https://github.com/orgsync/active_interaction/pull/346
   [#349]: https://github.com/orgsync/active_interaction/pull/349
+  [#357]: https://github.com/orgsync/active_interaction/pull/357
+  [#362]: https://github.com/orgsync/active_interaction/pull/362
+  [#364]: https://github.com/orgsync/active_interaction/pull/364
+  [#365]: https://github.com/orgsync/active_interaction/pull/365
+  [#370]: https://github.com/orgsync/active_interaction/pull/370
+  [#377]: https://github.com/orgsync/active_interaction/pull/377
+  [#383]: https://github.com/orgsync/active_interaction/pull/383
+  [#384]: https://github.com/orgsync/active_interaction/pull/384
+  [#387]: https://github.com/orgsync/active_interaction/pull/387
+  [#408]: https://github.com/orgsync/active_interaction/pull/408
+  [#415]: https://github.com/orgsync/active_interaction/pull/415
+  [#417]: https://github.com/orgsync/active_interaction/pull/417
 
   [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
