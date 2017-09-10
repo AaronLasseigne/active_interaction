@@ -78,6 +78,12 @@
 - [#344][]: Support for Ruby 1.9.3.
 - [#346][]: Support for ActiveModel 3.2.
 
+## Upgrading
+
+Symbolic errors from composed interactions are now copied to their
+equivalently named filters on the parent interaction. This can cause
+some odd cases as noted in the the [README](README.md#errors).
+
 # [2.2.0][] (2015-12-18)
 
 ## Added
