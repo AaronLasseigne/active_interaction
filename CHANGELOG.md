@@ -2,9 +2,39 @@
 
 ## Changed
 
-- [#398][] - predicate methods have been removed
-- [#411][] - always cache `result` once an interaction is run
-- [#392][] - default the integer parsing to base to 10
+- [#398][] - Predicate methods have been removed.
+- [#411][] - Always cache `result` once an interaction is run.
+- [#392][] - Integer parsing now defaults the base to 10.
+- Implicit types are now supported for many filters:
+  - `array` accepts `to_ary`
+  - `date` accepts `to_str`
+  - `datetime` accepts `to_str`
+  - `decimal` accepts `to_int` and `to_str`
+  - `float` accepts `to_int` and `to_str`
+  - `hash` accepts `to_hash`
+  - `integer` accepts `to_int` and `to_str`
+  - `string` accepts `to_str`
+  - `symbol` accepts `to_sym`
+  - `time` accepts `to_int` and `to_str`
+- [#412][] - Filters will now treat blank string values as `nil`
+  (execpt `string` and `symbol`).
+- Merging errors now adds them all to `:base` of the source interaction.
+- Errors from composed interactions are now added to `:base` on the parent
+  interaction.
+- The `block` argument provided when using an `:around` callback on the
+  `execute` method now returns `[result, errors, moves]` instead of a single
+  value that was either the `result` or an error object. The `errors` and
+  `moves` will only be set when a composed interaction has failed.
+
+## Added
+
+- `merge!` now accepts an optional `:move` attribute to map errors on merged
+  fields/filters to filters on the source interaction
+- `link` which is used when passing inputs to a composed interaction where the
+  errors should be mapped back to the original input
+- `autolink` which creates a hash of linked values to pass to a composed
+  interaction where the names of the inputs of the two interactions match
+  exactly
 
 ## Upgrading
 
@@ -84,6 +114,182 @@ With that change, we can see the radix is respected again.
 # v4.0.0
 Example.run!(x: '010')
 # => 8
+```
+
+In an effort to improve form support, strings that are `blank?` will
+be converted into `nil` for all filters except `string` and `symbol`.
+Previously, blank strings would have cased `:invalid_type` errors but
+they'll now cause a `:missing` error which should be more form
+friendly. If the filter has a default, the blank string will cause
+the default to be used.
+
+```ruby
+class Example < ActiveInteraction::Base
+  integer :i
+  boolean :b, default: false
+
+  def execute
+    [i, b]
+  end
+end
+
+# v3.6
+Example.run(i: '', b: '').errors.details
+=> {:i=>[{:error=>:invalid_type, :type=>"integer"}], :b=>[{:error=>:invalid_type, :type=>"boolean"}]}
+
+# v4.0.0
+Example.run(i: '', b: '').errors.details
+=> {:i=>[{:error=>:missing}]}
+
+# v3.6
+Example.run(i: 0, b: '').errors.details
+=> {:b=>[{:error=>:invalid_type, :type=>"boolean"}]}
+
+# v4.0.0
+Example.run(i: 0, b: '').errors.details
+=> {}
+
+Example.run(i: 0, b: '').result
+=> [0, false] # the default is used for `:b`
+```
+
+When using `merge!`, all errors are now merged on to `:base`.
+
+```ruby
+class Example < ActiveInteraction::Base
+  integer :a, :b
+
+  validates :a,
+    numericality: { greater_than: 0 }
+
+  def execute
+    [a, b]
+  end
+end
+
+class Other < ActiveInteraction::Base
+  integer :a, :b
+
+  def execute
+    outcome = Example.run(a: a, b: b)
+
+    if outcome.valid?
+      outome.result
+    else
+      errors.merge!(outcome.errors)
+    end
+  end
+end
+
+# v3.6
+Other.run(a: 0, b: 0).errors.details
+=> {:a=>[{:error=>:greater_than, :value=>0, :count=>0}]}
+
+# v4.0.0
+Other.run(a: 0, b: 0).errors.details
+=> {:base=>[{:error=>"A must be greater than 0"}]}
+```
+
+If you want to move the errors you can do so with `:move`.
+
+```ruby
+class Example < ActiveInteraction::Base
+  integer :a, :b
+
+  validates :a,
+    numericality: { greater_than: 0 }
+
+  def execute
+    [a, b]
+  end
+end
+
+class Other < ActiveInteraction::Base
+  integer :c, :d
+
+  def execute
+    outcome = Example.run(a: c, b: d)
+
+    if outcome.valid?
+      outome.result
+    else
+      errors.merge!(outcome.errors, move: { a: :c })
+    end
+  end
+end
+
+Other.run(c: 0, d: 0).errors.details
+=> {:c=>[{:error=>:greater_than, :value=>0, :count=>0}]}
+```
+
+Similar to `merge!`, `compose` also merges errors to `:base`
+by default.
+
+```ruby
+class Example < ActiveInteraction::Base
+  integer :a, :b
+
+  validates :a,
+    numericality: { greater_than: 0 }
+
+  def execute
+    [a, b]
+  end
+end
+
+class Other < ActiveInteraction::Base
+  integer :a, :b
+
+  def execute
+    compose(Example, a: a, b: b)
+  end
+end
+
+# v3.6
+Other.run(a: 0, b: 0).errors.details
+=> {:a=>[{:error=>:greater_than, :value=>0, :count=>0}]}
+
+# v4.0.0
+Other.run(a: 0, b: 0).errors.details
+=> {:base=>[{:error=>"A must be greater than 0"}]}
+```
+
+If you wish to merge errors onto a specific input you can use `link`.
+It takes a symbol representing an filter on the parent interaction. The
+value of that filter is passed through and any errors are attached back
+to the linked filter on the parent interaction.
+
+```ruby
+class Example < ActiveInteraction::Base
+  integer :a, :b
+
+  validates :a,
+    numericality: { greater_than: 0 }
+
+  def execute
+    [a, b]
+  end
+end
+
+class Other < ActiveInteraction::Base
+  integer :a, :b
+
+  def execute
+    compose(Example, a: link(:a), b: link(:b))
+  end
+end
+
+Other.run(a: 0, b: 0).errors.details
+{:a=>[{:error=>:greater_than, :value=>0, :count=>0}]}
+```
+
+You could also accomplish this with `autolink` which creates a hash
+of linked values. This is useful when the filters have the same name
+in both interactions.
+
+```ruby
+autolink(:a, :b)
+=> { a: link(:a), b: link(:b) }
 ```
 
 # [3.6.1][] (2017-11-12)
@@ -1001,6 +1207,7 @@ Example.run
   [#398]: https://github.com/orgsync/active_interaction/pull/398
   [#408]: https://github.com/orgsync/active_interaction/pull/408
   [#411]: https://github.com/orgsync/active_interaction/pull/411
+  [#412]: https://github.com/orgsync/active_interaction/pull/412
   [#415]: https://github.com/orgsync/active_interaction/pull/415
   [#417]: https://github.com/orgsync/active_interaction/pull/417
   [#420]: https://github.com/orgsync/active_interaction/pull/420
