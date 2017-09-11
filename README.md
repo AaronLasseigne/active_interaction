@@ -21,6 +21,7 @@ handles your verbs.
 - [Common Usage](#common-usage)
   - [Input Defaults](#input-defaults)
   - [Optional Inputs](#optional-inputs)
+  - [Grouped Inputs](#grouped-inputs)
   - [Validations](#validations)
 - [Filters](#filters)
   - [Array](#array)
@@ -56,7 +57,6 @@ handles your verbs.
   - [Descriptions](#descriptions)
   - [Errors](#errors)
   - [Forms](#forms)
-  - [Grouped Inputs](#grouped-inputs)
   - [Translations](#translations)
 - [Credits](#credits)
 
@@ -205,6 +205,20 @@ UpdateUser.run!(user: user, birthday: nil)
 
 # Update their birthday.
 UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
+```
+
+### Grouped Inputs
+
+It can be convenient to apply the same options to a bunch of inputs. One common
+use case is making many inputs optional. Instead of setting `default: nil` on
+each one of them, you can use [`with_options`][] to reduce duplication.
+
+``` rb
+with_options default: nil do
+  date :birthday
+  string :name
+  boolean :wants_cake
+end
 ```
 
 ### Validations
@@ -1303,20 +1317,6 @@ ActiveInteraction also supports [formtastic][] and [simple_form][]. The filters
 used to define the inputs on your interaction will relay type information to
 these gems. As a result, form fields will automatically use the appropriate
 input type.
-
-### Grouped inputs
-
-It can be convenient to apply the same options to a bunch of inputs. One common
-use case is making many inputs optional. Instead of setting `default: nil` on
-each one of them, you can use [`with_options`][] to reduce duplication.
-
-``` rb
-with_options default: nil do
-  date :birthday
-  string :name
-  boolean :wants_cake
-end
-```
 
 ### Translations
 
