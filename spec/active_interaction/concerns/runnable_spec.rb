@@ -83,14 +83,15 @@ describe ActiveInteraction::Runnable do
         context 'around' do
           it 'is yielded errors from composed interactions' do
             block_result = nil
+            block_errors = nil
             block_moves = nil
             WithFailingCompose.set_callback :execute, :around do |_, block|
-              block_result, block_moves = block.call
+              block_result, block_errors, block_moves = block.call
             end
 
             WithFailingCompose.run
-            expect(block_result).to be_an(ActiveInteraction::Errors)
-            expect(block_result).to include(:base)
+            expect(block_result).to be nil
+            expect(block_errors).to be_an(ActiveInteraction::Errors)
             expect(block_moves).to eql({})
           end
         end

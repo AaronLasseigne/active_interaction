@@ -126,23 +126,20 @@ module ActiveInteraction
 
     # @return (see #result=)
     # @return [nil]
-    def run # rubocop:disable MethodLength
+    def run
       self.result =
         if valid?
-          result_or_errors, moves = run_callbacks(:execute) do
+          result, interrupt_errors, moves = run_callbacks(:execute) do
             begin
-              [execute, nil]
+              [execute, nil, nil]
             rescue Interrupt => interrupt
-              [interrupt.errors, interrupt.moves]
+              [nil, interrupt.errors, interrupt.moves]
             end
           end
 
-          if result_or_errors.is_a?(ActiveInteraction::Errors)
-            errors.merge!(result_or_errors, move: moves || {})
-            nil
-          else
-            result_or_errors
-          end
+          errors.merge!(interrupt_errors, move: moves) if interrupt_errors
+
+          result
         end
     end
 
