@@ -255,7 +255,7 @@ Other.run(a: 0, b: 0).errors.details
 ```
 
 If you wish to merge errors onto a specific input you can use `link`.
-It takes a symbol representing an filter on the parent interaction. The
+It takes a symbol representing a filter on the parent interaction. The
 value of that filter is passed through and any errors are attached back
 to the linked filter on the parent interaction.
 
