@@ -19,8 +19,8 @@ handles your verbs.
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Common Usage](#common-usage)
-  - [Optional Inputs](#optional-inputs)
   - [Input Defaults](#input-defaults)
+  - [Optional Inputs](#optional-inputs)
   - [Validations](#validations)
 - [Filters](#filters)
   - [Array](#array)
@@ -96,8 +96,7 @@ you need to do two things:
 2.  **Define your business logic.** Do this by implementing the `#execute`
     method. Each input you defined will be available as the type you specified.
     If any of the inputs are invalid, `#execute` won't be run. Filters are
-    responsible for type checking your inputs. Check out [the validations
-    section](#validations) if you need more than that.
+    responsible for type checking your inputs.
 
 That covers the basics. Let's put it all together into a simple example that
 squares a number.
@@ -148,16 +147,34 @@ Square.run!(x: 2.1)
 
 ## Common Usage
 
+### Input Defaults
+
+Adding a filter makes that input required. You can set a default so that if the
+input it not provided, the default will be used. Setting it to a lambda will
+lazily set the default value for that input. That means the value will be computed
+when the interaction is run, as opposed to when it is defined.
+
+Lambda defaults are evaluated in the context of the interaction, so you can use
+the values of other inputs in them.
+
+``` rb
+# This input defaults to `Time.at(123)`.
+time :b, default: Time.at(123)
+# This input lazily defaults to `Time.now`.
+time :c, default: -> { Time.now }
+# This input defaults to the value of `c` plus 10 seconds.
+time :d, default: -> { c + 10 }
+```
+
 ### Optional Inputs
 
-Optional inputs can be defined by using the `:default` option as described in
-[the filters section][]. Within the interaction, provided and default values
-are merged to create `inputs`. There are times where it is useful to know
-whether a value was passed to `run` or the result of a filter default. In
-particular, it is useful when `nil` is an acceptable value. For example, you
-may optionally track your users' birthdays. You can use the `given?` predicate
-to see if an input was even passed to `run`. With `given?` you can also check
-the input of a hash filter by passing a series of keys to check.
+To make an input optional, set the `:default` on the filter to `nil`. This
+enforces that all inputs have some value. If you need to know whether a value
+was passed or the default was used (most common for `nil` values) you can
+check that with `given?`. For hash filters you can check deeper defined inputs
+by providing `given?` a series of keys to check.
+
+Take the following example:
 
 ``` rb
 class UpdateUser < ActiveInteraction::Base
@@ -188,28 +205,6 @@ UpdateUser.run!(user: user, birthday: nil)
 
 # Update their birthday.
 UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
-```
-
-### Input Defaults
-
-The default value for an input can take on many different forms. Setting the
-default to `nil` makes the input optional. Setting it to some value makes that
-the default value for that input. Setting it to a lambda will lazily set the
-default value for that input. That means the value will be computed when the
-interaction is run, as opposed to when it is defined.
-
-Lambda defaults are evaluated in the context of the interaction, so you can use
-the values of other inputs in them.
-
-``` rb
-# This input is optional.
-time :a, default: nil
-# This input defaults to `Time.at(123)`.
-time :b, default: Time.at(123)
-# This input lazily defaults to `Time.now`.
-time :c, default: -> { Time.now }
-# This input defaults to the value of `c` plus 10 seconds.
-time :d, default: -> { c + 10 }
 ```
 
 ### Validations
@@ -587,7 +582,7 @@ SymbolInteraction.run!(method: :object_id)
 # => #<Proc:0x007fdc9ba94118>
 ```
 
-### Dates and times
+### Dates and Times
 
 Filters that work with dates and times behave similarly. By default, they all
 convert strings into their expected data types using `.parse`. Blank strings
