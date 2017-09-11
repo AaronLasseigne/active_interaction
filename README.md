@@ -18,6 +18,9 @@ handles your verbs.
 
 - [Installation](#installation)
 - [Getting Started](#getting-started)
+- [Common Usage](#common-usage)
+  - [Optional Inputs](#optional-inputs)
+  - [Input Defaults](#input-defaults)
   - [Validations](#validations)
 - [Filters](#filters)
   - [Array](#array)
@@ -50,12 +53,10 @@ handles your verbs.
 - [Advanced usage](#advanced-usage)
   - [Callbacks](#callbacks)
   - [Composition](#composition)
-  - [Defaults](#defaults)
   - [Descriptions](#descriptions)
   - [Errors](#errors)
   - [Forms](#forms)
   - [Grouped Inputs](#grouped-inputs)
-  - [Optional Inputs](#optional-inputs)
   - [Translations](#translations)
 - [Credits](#credits)
 
@@ -143,6 +144,72 @@ Square.run!(x: 'two point one')
 # ActiveInteraction::InvalidInteractionError: X is not a valid float
 Square.run!(x: 2.1)
 # => 4.41
+```
+
+## Common Usage
+
+### Optional Inputs
+
+Optional inputs can be defined by using the `:default` option as described in
+[the filters section][]. Within the interaction, provided and default values
+are merged to create `inputs`. There are times where it is useful to know
+whether a value was passed to `run` or the result of a filter default. In
+particular, it is useful when `nil` is an acceptable value. For example, you
+may optionally track your users' birthdays. You can use the `given?` predicate
+to see if an input was even passed to `run`. With `given?` you can also check
+the input of a hash filter by passing a series of keys to check.
+
+``` rb
+class UpdateUser < ActiveInteraction::Base
+  object :user
+  date :birthday,
+    default: nil
+
+  def execute
+    user.birthday = birthday if given?(:birthday)
+    errors.merge!(user.errors) unless user.save
+    user
+  end
+end
+```
+
+Now you have a few options. If you don't want to update their birthday, leave
+it out of the hash. If you want to remove their birthday, set `birthday: nil`.
+And if you want to update it, pass in the new value as usual.
+
+``` rb
+user = User.find(...)
+
+# Don't update their birthday.
+UpdateUser.run!(user: user)
+
+# Remove their birthday.
+UpdateUser.run!(user: user, birthday: nil)
+
+# Update their birthday.
+UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
+```
+
+### Input Defaults
+
+The default value for an input can take on many different forms. Setting the
+default to `nil` makes the input optional. Setting it to some value makes that
+the default value for that input. Setting it to a lambda will lazily set the
+default value for that input. That means the value will be computed when the
+interaction is run, as opposed to when it is defined.
+
+Lambda defaults are evaluated in the context of the interaction, so you can use
+the values of other inputs in them.
+
+``` rb
+# This input is optional.
+time :a, default: nil
+# This input defaults to `Time.at(123)`.
+time :b, default: Time.at(123)
+# This input lazily defaults to `Time.now`.
+time :c, default: -> { Time.now }
+# This input defaults to the value of `c` plus 10 seconds.
+time :d, default: -> { c + 10 }
 ```
 
 ### Validations
@@ -1062,28 +1129,6 @@ end
 Note that errors in composed interactions have a few tricky cases. See [the
 errors section][] for more information about them.
 
-### Defaults
-
-The default value for an input can take on many different forms. Setting the
-default to `nil` makes the input optional. Setting it to some value makes that
-the default value for that input. Setting it to a lambda will lazily set the
-default value for that input. That means the value will be computed when the
-interaction is run, as opposed to when it is defined.
-
-Lambda defaults are evaluated in the context of the interaction, so you can use
-the values of other inputs in them.
-
-``` rb
-# This input is optional.
-time :a, default: nil
-# This input defaults to `Time.at(123)`.
-time :b, default: Time.at(123)
-# This input lazily defaults to `Time.now`.
-time :c, default: -> { Time.now }
-# This input defaults to the value of `c` plus 10 seconds.
-time :d, default: -> { c + 10 }
-```
-
 ### Descriptions
 
 Use the `desc` option to provide human-readable descriptions of filters. You
@@ -1276,48 +1321,6 @@ with_options default: nil do
   string :name
   boolean :wants_cake
 end
-```
-
-### Optional inputs
-
-Optional inputs can be defined by using the `:default` option as described in
-[the filters section][]. Within the interaction, provided and default values
-are merged to create `inputs`. There are times where it is useful to know
-whether a value was passed to `run` or the result of a filter default. In
-particular, it is useful when `nil` is an acceptable value. For example, you
-may optionally track your users' birthdays. You can use the `given?` predicate
-to see if an input was even passed to `run`. With `given?` you can also check
-the input of a hash filter by passing a series of keys to check.
-
-``` rb
-class UpdateUser < ActiveInteraction::Base
-  object :user
-  date :birthday,
-    default: nil
-
-  def execute
-    user.birthday = birthday if given?(:birthday)
-    errors.merge!(user.errors) unless user.save
-    user
-  end
-end
-```
-
-Now you have a few options. If you don't want to update their birthday, leave
-it out of the hash. If you want to remove their birthday, set `birthday: nil`.
-And if you want to update it, pass in the new value as usual.
-
-``` rb
-user = User.find(...)
-
-# Don't update their birthday.
-UpdateUser.run!(user: user)
-
-# Remove their birthday.
-UpdateUser.run!(user: user, birthday: nil)
-
-# Update their birthday.
-UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
 ```
 
 ### Translations
