@@ -75,9 +75,8 @@ Or install it manually:
 $ gem install active_interaction --version '~> 3.6'
 ```
 
-This project uses [Semantic Versioning][]. Check out [GitHub releases][] for a
-detailed list of changes. For help upgrading to version 2, please read [the
-announcement post][].
+This project uses [Semantic Versioning][]. Check out the [CHANGELOG][] for a
+detailed list of changes and help upgrading.
 
 ActiveInteraction works with Ruby 2.0 through 2.4 and ActiveModel 4.0 through
 5.0. If you want to use ActiveInteraction with an older version of Ruby or
@@ -1386,7 +1385,6 @@ ActiveInteraction is licensed under [the MIT License][].
 [Full Documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
 [GitHub releases]: https://github.com/AaronLasseigne/active_interaction/releases
-[the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
 [active_model-errors_details]: https://github.com/cowbell/active_model-errors_details
 [aaron lasseigne]: https://github.com/AaronLasseigne
 [taylor fausak]: https://github.com/tfausak
@@ -1401,3 +1399,4 @@ ActiveInteraction is licensed under [the MIT License][].
 [the optional inputs section]: #optional-inputs
 [aire]: example
 [`with_options`]: http://api.rubyonrails.org/classes/Object.html#method-i-with_options
+[CHANGELOG]: CHANGELOG.md
