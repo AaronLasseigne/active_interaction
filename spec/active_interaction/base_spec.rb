@@ -585,6 +585,23 @@ describe ActiveInteraction::Base do
     end
   end
 
+  describe '#automove' do
+    let(:described_class) do
+      Class.new(TestInteraction) do
+        float :x, :y
+
+        def execute
+          automove(:x, :y)
+        end
+      end
+    end
+    let(:inputs) { { x: rand, y: rand } }
+
+    it 'generates a hash where the keys and values are the same' do
+      expect(result).to eql(x: :x, y: :y)
+    end
+  end
+
   context 'inheritance' do
     context 'filters' do
       let(:described_class) { InteractionWithFilter }

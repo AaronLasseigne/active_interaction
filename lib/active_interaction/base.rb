@@ -199,6 +199,14 @@ module ActiveInteraction
     #
     #   @return (see ActiveInteraction::Runnable#autolink)
 
+    # @!method automove(*names)
+    #   Used with `merge!` to generate a hash of moves when the moved errors
+    #     share the same name as where they're being moved to.
+    #
+    #   @param *names (see ActiveInteraction::Runnable#automove)
+    #
+    #   @return (see ActiveInteraction::Runnable#automove)
+
     # @!method execute
     #   @abstract
     #

@@ -29,12 +29,14 @@
 ## Added
 
 - `merge!` now accepts an optional `:move` attribute to map errors on merged
-  fields/filters to filters on the source interaction
-- `link` which is used when passing inputs to a composed interaction where the
-  errors should be mapped back to the original input
-- `autolink` which creates a hash of linked values to pass to a composed
+  fields/filters to filters on the source interaction.
+- `automove` creates a hash for the `:move` option of `merge!` where the keys
+  and values are the same.
+- `link` is used when passing inputs to a composed interaction where the
+  errors should be mapped back to the original input.
+- `autolink` creates a hash of linked values to pass to a composed
   interaction where the names of the inputs of the two interactions match
-  exactly
+  exactly.
 - `automove`
 
 ## Upgrading
