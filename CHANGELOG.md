@@ -35,12 +35,13 @@
 - `autolink` which creates a hash of linked values to pass to a composed
   interaction where the names of the inputs of the two interactions match
   exactly
+- `automove`
 
 ## Upgrading
 
-We've removed the automatically predicat methods that were automatically
-generated for each input. They would return true if an input was not `nil`.
-They can be manually replaced with that same check.
+We've removed the predicate methods that were automatically generated for each
+input. They would return true if an input was not `nil`.  They can be manually
+replaced with that same check.
 
 ```ruby
 # v3.6
