@@ -3,7 +3,7 @@ $LOAD_PATH.push(lib) unless $LOAD_PATH.include?(lib)
 
 require 'active_interaction/version'
 
-Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
+Gem::Specification.new do |gem|
   gem.name = 'active_interaction'
   gem.version = ActiveInteraction::VERSION
   gem.licenses = %w[MIT]
@@ -42,9 +42,9 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     'bundler' => ['~> 1.12'],
     'coveralls' => ['~> 0.8'],
     'kramdown' => ['~> 1.12'],
-    'rake' => ['~> 11.3'],
+    'rake' => ['~> 12.1'],
     'rspec' => ['~> 3.5'],
-    'rubocop' => ['~> 0.44.0'],
+    'rubocop' => ['~> 0.50.0'],
     'yard' => ['~> 0.9']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions

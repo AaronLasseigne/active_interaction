@@ -132,7 +132,7 @@ module ActiveInteraction
         other_filters.select! { |k, _| [*only].include?(k) } if only
         other_filters.reject! { |k, _| [*except].include?(k) } if except
 
-        other_filters.values.each { |filter| initialize_filter(filter) }
+        other_filters.each_value { |filter| initialize_filter(filter) }
       end
 
       # @param klass [Class]
@@ -220,7 +220,7 @@ module ActiveInteraction
     #
     # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
     def inputs
-      self.class.filters.keys.each_with_object({}) do |name, h|
+      self.class.filters.each_key.with_object({}) do |name, h|
         h[name] = public_send(name)
       end
     end

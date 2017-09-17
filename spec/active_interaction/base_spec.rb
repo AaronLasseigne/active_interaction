@@ -66,7 +66,7 @@ describe ActiveInteraction::Base do
     end
 
     context 'with non-hash inputs' do
-      let(:inputs) { [[:k, :v]] }
+      let(:inputs) { [%i[k v]] }
 
       it 'raises an error' do
         expect { interaction }.to raise_error ArgumentError
@@ -666,9 +666,11 @@ describe ActiveInteraction::Base do
       include_context 'import_filters context', only, except
 
       it 'imports the filters' do
-        expect(described_class.filters).to eql klass.filters
-          .select { |k, _| only.nil? ? true : [*only].include?(k) }
-          .reject { |k, _| except.nil? ? false : [*except].include?(k) }
+        expect(described_class.filters).to eql(
+          klass.filters
+            .select { |k, _| only.nil? ? true : [*only].include?(k) }
+            .reject { |k, _| except.nil? ? false : [*except].include?(k) }
+        )
       end
 
       it 'does not modify the source' do
@@ -680,7 +682,7 @@ describe ActiveInteraction::Base do
       it 'responds to readers and writers' do
         instance = described_class.new
 
-        described_class.filters.keys.each do |name|
+        described_class.filters.each_key do |name|
           [name, "#{name}="].each do |method|
             expect(instance).to respond_to method
           end

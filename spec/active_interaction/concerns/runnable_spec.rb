@@ -321,7 +321,7 @@ describe ActiveInteraction::Runnable do
 
         def execute
           compose(WrappableFailingInteraction)
-        rescue
+        rescue # rubocop:disable Lint/RescueWithoutErrorClass
           @caught_error = true
           raise
         end
