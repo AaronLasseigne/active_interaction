@@ -1,5 +1,3 @@
-# coding: utf-8
-
 require 'spec_helper'
 require 'active_record'
 unless defined?(JRUBY_VERSION) # rubocop:disable Style/IfUnlessModifier

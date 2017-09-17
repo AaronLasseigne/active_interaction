@@ -1,5 +1,3 @@
-# coding: utf-8
-
 TestInteraction = Class.new(ActiveInteraction::Base) do
   def self.name
     SecureRandom.hex
@@ -22,15 +20,25 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
   let(:described_class) do
     Class.new(TestInteraction) do
       public_send(type, :required, filter_options)
-      public_send(type, :optional, filter_options.merge(default: nil))
+      public_send(type, :optional,
+        filter_options.merge(
+          default: nil
+        )
+      )
       public_send(type, :default,
-        filter_options.merge(default: generator.call)
+        filter_options.merge(
+          default: generator.call
+        )
       )
       public_send(type, :defaults_1, :defaults_2,
-        filter_options.merge(default: generator.call)
+        filter_options.merge(
+          default: generator.call
+        )
       )
       public_send(type, :defaults_3,
-        filter_options.merge(default: -> { required })
+        filter_options.merge(
+          default: -> { required }
+        )
       )
     end
   end

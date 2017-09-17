@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -10,7 +9,7 @@ module ActiveInteraction
   # @private
   class AbstractDateTimeFilter < AbstractFilter
     alias _cast cast
-    private :_cast
+    private :_cast # rubocop:disable Style/AccessModifierDeclarations
 
     def cast(value, context)
       case value

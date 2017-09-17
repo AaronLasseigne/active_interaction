@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -40,7 +39,8 @@ module ActiveInteraction
       end
     end
 
-    def method_missing(*, &block) # rubocop:disable Style/MethodMissing
+    # rubocop:disable Style/MissingRespondToMissing
+    def method_missing(*, &block)
       super do |klass, names, options|
         filter = klass.new(name.to_s.singularize.to_sym, options, &block)
 
@@ -49,6 +49,7 @@ module ActiveInteraction
         filters[filter.name] = filter
       end
     end
+    # rubocop:enable Style/MissingRespondToMissing
 
     private
 
@@ -61,6 +62,7 @@ module ActiveInteraction
         ActiveRecord::Associations::CollectionProxy
       ].each do |name|
         next unless (klass = name.safe_constantize)
+
         result.push(klass)
       end
 

@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -33,7 +32,7 @@ module ActiveInteraction
         @columns[type] ||= new(type)
       end
 
-      private :new
+      private :new # rubocop:disable Style/AccessModifierDeclarations
     end
 
     # @param type [type] The database column type.

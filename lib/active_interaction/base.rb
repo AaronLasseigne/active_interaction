@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 require 'active_support/core_ext/hash/indifferent_access'
@@ -88,17 +87,21 @@ module ActiveInteraction
       #
       # @return [Hash{Symbol => Filter}]
       def filters
+        # rubocop:disable Naming/MemoizedInstanceVariableName
         @_interaction_filters ||= {}
+        # rubocop:enable Naming/MemoizedInstanceVariableName
       end
 
       # @private
-      def method_missing(*args, &block) # rubocop:disable Style/MethodMissing
+      # rubocop:disable Style/MissingRespondToMissing
+      def method_missing(*args, &block)
         super do |klass, names, options|
           raise InvalidFilterError, 'missing attribute name' if names.empty?
 
           names.each { |name| add_filter(klass, name, options, &block) }
         end
       end
+      # rubocop:enable Style/MissingRespondToMissing
 
       private
 

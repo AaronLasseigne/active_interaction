@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 require 'active_support/inflector'
@@ -131,8 +130,8 @@ module ActiveInteraction
       raise InvalidValueError if value.is_a?(GroupedInput)
 
       cast(value, context)
-    rescue InvalidNestedValueError => error
-      raise InvalidDefaultError, "#{name}: #{value.inspect} (#{error})"
+    rescue InvalidNestedValueError => e
+      raise InvalidDefaultError, "#{name}: #{value.inspect} (#{e})"
     rescue InvalidValueError, MissingValueError
       raise InvalidDefaultError, "#{name}: #{value.inspect}"
     end

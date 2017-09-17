@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -29,7 +28,7 @@ module ActiveInteraction
   class ObjectFilter < Filter
     register :object
 
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     def cast(value, context, reconstantize: true, convert: true)
       @klass ||= klass
 
@@ -51,7 +50,7 @@ module ActiveInteraction
         super(value, context)
       end
     end
-    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
     private
 

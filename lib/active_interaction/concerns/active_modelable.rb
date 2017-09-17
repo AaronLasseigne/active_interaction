@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -34,8 +33,7 @@ module ActiveInteraction
       false
     end
 
-    #
-    module ClassMethods
+    module ClassMethods # rubocop:disable Style/Documentation
       # @return [Symbol]
       #
       # @see ActiveModel::Translation#i18n_scope

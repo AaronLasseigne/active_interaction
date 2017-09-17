@@ -79,10 +79,6 @@ This project uses [Semantic Versioning][]. Check out [GitHub releases][] for a
 detailed list of changes. For help upgrading to version 2, please read [the
 announcement post][].
 
-ActiveInteraction works with Ruby 2.0 through 2.6 and ActiveModel 4.0 through
-6.0. If you want to use ActiveInteraction with an older version of Ruby or
-ActiveModel, use ActiveInteraction < 3.0.0.
-
 ## Basic usage
 
 To define an interaction, create a subclass of `ActiveInteraction::Base`. Then

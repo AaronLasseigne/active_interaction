@@ -6,7 +6,7 @@ class RecordThing
   end
 
   def self.finder(_)
-    @record2 ||= new
+    @finder ||= new
   end
 
   def self.finds_nil(_)
@@ -17,8 +17,8 @@ class RecordThing
     ''
   end
 
-  def self.passthrough(x)
-    x
+  def self.passthrough(obj)
+    obj
   end
 end
 class RecordThings; end

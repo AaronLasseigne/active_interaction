@@ -1,8 +1,6 @@
-# coding: utf-8
 # frozen_string_literal: true
 
-#
-module ActiveInteraction
+module ActiveInteraction # rubocop:disable Style/Documentation
   # Top-level error class. All other errors subclass this.
   #
   # @return [Class]

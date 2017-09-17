@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -99,8 +98,7 @@ module ActiveInteraction
       raise e
     end
 
-    #
-    module ClassMethods
+    module ClassMethods # rubocop:disable Style/Documentation
       def new(*)
         super.tap do |instance|
           {

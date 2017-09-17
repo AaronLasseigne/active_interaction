@@ -2,6 +2,7 @@
 
 ## Changed
 
+- drop support for Ruby 2.0, 2.1, and 2.2
 - [#392][] - Integer parsing now defaults the base to 10. ([how to upgrade](#integer-parsing-base-now-10))
 
 ## Upgrading
