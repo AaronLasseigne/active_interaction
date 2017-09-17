@@ -79,10 +79,6 @@ $ gem install active_interaction --version '~> 3.6'
 This project uses [Semantic Versioning][]. Check out the [CHANGELOG][] for a
 detailed list of changes and help upgrading.
 
-ActiveInteraction works with Ruby 2.0 through 2.4 and ActiveModel 4.0 through
-5.0. If you want to use ActiveInteraction with an older version of Ruby or
-ActiveModel, use ActiveInteraction < 3.0.0.
-
 ## Getting Started
 
 To define an interaction, create a subclass of `ActiveInteraction::Base`. Then

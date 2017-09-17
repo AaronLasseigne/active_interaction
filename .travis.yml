@@ -40,14 +40,6 @@ matrix:
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-5.1.rb
     rvm: 2.2.10
-  # MRI 2.1, ActiveModel 4.2, RSpec only
-  - env: RAKE_TASK=spec
-    gemfile: gemfiles/activemodel-4.2.rb
-    rvm: 2.1.10
-  # MRI 2.0, ActiveModel 4.1, RSpec only
-  - env: RAKE_TASK=spec
-    gemfile: gemfiles/activemodel-4.1.rb
-    rvm: 2.0.0-p648
 
   # These test other Ruby implementations that we support.
   # JRuby 9, ActiveModel 4.2, RSpec only

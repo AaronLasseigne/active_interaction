@@ -2,6 +2,7 @@
 
 ## Changed
 
+- drop support for Ruby 2.0 and 2.1
 - [#398][] - Predicate methods have been removed.
 - [#411][] - Always cache `result` once an interaction is run.
 - [#392][] - Integer parsing now defaults the base to 10.
