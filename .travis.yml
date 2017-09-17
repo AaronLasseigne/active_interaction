@@ -7,17 +7,17 @@ matrix:
   include:
   # This tests the "default" configuration.
   # Latest MRI, default Gemfile, default Rake task
-  - rvm: 2.4.1
+  - rvm: 2.4.2
 
   # These test specific versions of ActiveModel that we support.
   # Latest MRI, ActiveModel 5.0, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-5.1.rb
-    rvm: 2.4.1
+    rvm: 2.4.2
   # Latest MRI, ActiveModel 5.0, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-5.0.rb
-    rvm: 2.4.1
+    rvm: 2.4.2
   # Latest MRI, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
