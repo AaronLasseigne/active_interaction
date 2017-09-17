@@ -1,5 +1,3 @@
-# coding: utf-8
-
 require 'bigdecimal'
 require 'spec_helper'
 

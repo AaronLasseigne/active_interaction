@@ -1,5 +1,3 @@
-# coding: utf-8
-
 TestInteraction = Class.new(ActiveInteraction::Base) do
   def self.name
     SecureRandom.hex

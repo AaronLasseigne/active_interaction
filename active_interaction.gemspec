@@ -1,5 +1,3 @@
-# coding: utf-8
-
 lib = File.expand_path('lib', File.dirname(__FILE__))
 $LOAD_PATH.push(lib) unless $LOAD_PATH.include?(lib)
 
