@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -32,15 +31,16 @@ module ActiveInteraction
         value = value.with_indifferent_access
         initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
 
-        filters.each_with_object(initial) do |(name, filter), h|
-          clean_value(h, name.to_s, filter, value, context)
+        filters.each_with_object(initial) do |(name, filter), hash|
+          clean_value(hash, name.to_s, filter, value, context)
         end
       else
         super
       end
     end
 
-    def method_missing(*args, &block) # rubocop:disable Style/MethodMissing
+    # rubocop:disable Style/MissingRespondToMissing, Style/MethodMissingSuper
+    def method_missing(*args, &block)
       super(*args) do |klass, names, options|
         raise InvalidFilterError, 'missing attribute name' if names.empty?
 
@@ -49,11 +49,12 @@ module ActiveInteraction
         end
       end
     end
+    # rubocop:enable Style/MissingRespondToMissing, Style/MethodMissingSuper
 
     private
 
-    def clean_value(h, name, filter, value, context)
-      h[name] = filter.clean(value[name], context)
+    def clean_value(hash, name, filter, value, context)
+      hash[name] = filter.clean(value[name], context)
     rescue InvalidValueError, MissingValueError
       raise InvalidNestedValueError.new(name, value[name])
     end

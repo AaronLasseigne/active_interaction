@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -51,7 +50,7 @@ module ActiveInteraction
     # @return [Boolean]
     #
     # @since 1.5.0
-    def has_attribute?(name) # rubocop:disable Style/PredicateName
+    def has_attribute?(name) # rubocop:disable Naming/PredicateName
       self.class.filters.key?(name.to_sym)
     end
   end

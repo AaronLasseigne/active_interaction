@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -9,7 +8,7 @@ module ActiveInteraction
   # @private
   module InputProcessor
     class << self
-      GROUPED_INPUT_PATTERN = /\A(.+)\((\d+)i\)\z/
+      GROUPED_INPUT_PATTERN = /\A(.+)\((\d+)i\)\z/.freeze
       private_constant :GROUPED_INPUT_PATTERN
 
       # Checking `syscall` is the result of what appears to be a bug in Ruby.

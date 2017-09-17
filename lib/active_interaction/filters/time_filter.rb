@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
@@ -25,7 +24,7 @@ module ActiveInteraction
     register :time
 
     alias _klass klass
-    private :_klass
+    private :_klass # rubocop:disable Style/AccessModifierDeclarations
 
     def initialize(name, options = {}, &block)
       if options.key?(:format) && klass != Time

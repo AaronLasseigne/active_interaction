@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # Disable code coverage for JRuby because it always reports 0% coverage.
 if RUBY_ENGINE != 'jruby'
   require 'coveralls'

@@ -1,5 +1,3 @@
-AlignParameters:
-  EnforcedStyle: with_fixed_indentation
 AllCops:
   Exclude:
   - example/db/schema.rb
@@ -13,14 +11,24 @@ Documentation:
 FileName:
   Exclude:
   - gemfiles/*
-MultilineMethodCallBraceLayout:
+Layout/AlignArguments:
+  EnforcedStyle: with_fixed_indentation
+Layout/MultilineMethodCallBraceLayout:
   EnforcedStyle: new_line
-MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
-MultilineOperationIndentation:
+Layout/MultilineMethodDefinitionBraceLayout:
+  EnforcedStyle: new_line
+Layout/MultilineOperationIndentation:
   Enabled: false
-PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%W': '[]'
-    '%i': '[]'
-    '%w': '[]'
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - '**/*.gemspec'
+    - Rakefile
+    - Gemfile
+    - gemfiles/*
+    - spec/**/*
+    - benchmarks/*.rb

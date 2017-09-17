@@ -1,5 +1,3 @@
-# coding: utf-8
-
 require 'spec_helper'
 
 describe ActiveInteraction::Runnable do
@@ -334,7 +332,7 @@ describe ActiveInteraction::Runnable do
 
         def execute
           compose(WrappableFailingInteraction)
-        rescue
+        rescue StandardError
           @caught_error = true
           raise
         end
