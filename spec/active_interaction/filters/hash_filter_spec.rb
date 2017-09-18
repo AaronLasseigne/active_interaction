@@ -12,6 +12,14 @@ describe ActiveInteraction::HashFilter, :filter do
     end
   end
 
+  context 'with a nested filter using :groups' do
+    let(:block) { proc { hash :h, groups: [:a] } }
+
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
+    end
+  end
+
   describe '#cast' do
     let(:result) { filter.cast(value, nil) }
 

@@ -81,6 +81,10 @@ module ActiveInteraction
         raise InvalidFilterError, 'attribute names in array block'
       end
 
+      unless filter.groups.empty?
+        raise InvalidFilterError, 'nested filters can not be a part of a group'
+      end
+
       if filter.default?
         raise InvalidDefaultError, 'default values in array block'
       end

@@ -40,7 +40,7 @@ module ActiveInteraction
 
     def method_missing(*args, &block) # rubocop:disable Style/MethodMissing
       super(*args) do |klass, names, options|
-        raise InvalidFilterError, 'missing attribute name' if names.empty?
+        validate!(names, options)
 
         names.each do |name|
           filters[name] = klass.new(name, options, &block)
@@ -69,6 +69,15 @@ module ActiveInteraction
     # @return [Boolean]
     def strip?
       options.fetch(:strip, true)
+    end
+
+    def validate!(names, options)
+      raise InvalidFilterError, 'missing attribute name' if names.empty?
+      if options.key?(:groups)
+        raise InvalidFilterError, 'nested filters can not be a part of a group'
+      end
+
+      nil
     end
   end
 end

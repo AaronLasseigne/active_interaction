@@ -26,9 +26,14 @@
   `execute` method now returns `[result, errors, moves]` instead of a single
   value that was either the `result` or an error object. The `errors` and
   `moves` will only be set when a composed interaction has failed.
+- The `inputs` method now returns an `ActiveInteraction::Input` instead of a
+  hash. The `ActiveInteraction::Input` still responds to all hash methods.
 
 ## Added
 
+- New groups feature that allows inputs to be grouped and retrieved later.
+  Filters now have a `:groups` option where a group can be set and `inputs`
+  has a `group` method where a group can be retrieved.
 - `merge!` now accepts an optional `:move` attribute to map errors on merged
   fields/filters to filters on the source interaction.
 - `automove` creates a hash for the `:move` option of `merge!` where the keys

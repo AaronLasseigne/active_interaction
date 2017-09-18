@@ -9,6 +9,8 @@ module ActiveInteraction
   #
   #   @option options [Object] :default Fallback value if `nil` is given.
   #   @option options [String] :desc Human-readable description of this input.
+  #   @option options [Array<Symols>] :groups A group or groups that the input
+  #     belongs to.
 
   # Describes an input filter for an interaction.
   class Filter
@@ -145,6 +147,17 @@ module ActiveInteraction
     # @return [String, nil]
     def desc
       options[:desc]
+    end
+
+    # Get the groups.
+    #
+    # @example
+    #   ActiveInteraction::Filter.new(:example, groups: [:one]).groups
+    #   # => [:one]
+    #
+    # @return [Array<Symbols>]
+    def groups
+      options[:groups] || []
     end
 
     # Tells if this filter has a default value.

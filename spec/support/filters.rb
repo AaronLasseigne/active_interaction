@@ -201,6 +201,24 @@ shared_examples_for 'a filter' do
     end
   end
 
+  describe '#groups' do
+    it 'returns an empty Array' do
+      expect(filter.groups).to eql []
+    end
+
+    context 'with groups' do
+      let(:groups) { %i[a b] }
+
+      before do
+        options[:groups] = groups
+      end
+
+      it 'returns the groups' do
+        expect(filter.groups).to eql groups
+      end
+    end
+  end
+
   describe '#filters' do
     it 'returns Hash' do
       expect(filter.filters).to be_a Hash

@@ -25,6 +25,14 @@ describe ActiveInteraction::ArrayFilter, :filter do
     end
   end
 
+  context 'with a nested group' do
+    let(:block) { proc { array groups: [:a] } }
+
+    it 'raises an error' do
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
+    end
+  end
+
   context 'with a nested default' do
     let(:block) { proc { array default: nil } }
 

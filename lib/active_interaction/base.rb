@@ -220,9 +220,11 @@ module ActiveInteraction
     #
     # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
     def inputs
-      self.class.filters.each_key.with_object({}) do |name, h|
-        h[name] = public_send(name)
-      end
+      @inputs ||= self.class.filters
+        .each_with_object(ActiveInteraction::Inputs.new) do |(name, filter), i|
+          i.store(name, public_send(name), filter.groups)
+        end
+        .freeze
     end
 
     # Returns `true` if the given key was in the hash passed to {.run}.
