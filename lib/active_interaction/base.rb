@@ -109,7 +109,7 @@ module ActiveInteraction
       # @param name [Symbol]
       # @param options [Hash]
       def add_filter(klass, name, options, &block)
-        if InputProcessor.reserved?(name)
+        if ActiveInteraction::Inputs.reserved?(name)
           raise InvalidFilterError, %("#{name}" is a reserved name)
         end
 
@@ -198,9 +198,10 @@ module ActiveInteraction
     #
     # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
     def inputs
-      self.class.filters.keys.each_with_object({}) do |name, h|
-        h[name] = public_send(name)
-      end
+      @inputs ||= self.class.filters
+        .each_key.with_object(ActiveInteraction::Inputs.new) do |name, h|
+          h[name] = public_send(name)
+        end.freeze
     end
 
     # Returns `true` if the given key was in the hash passed to {.run}.
@@ -297,10 +298,12 @@ module ActiveInteraction
       @_interaction_inputs = inputs
 
       inputs.each do |key, value|
-        populate_reader(key, value) unless InputProcessor.reserved?(key)
+        next if ActiveInteraction::Inputs.reserved?(key)
+
+        populate_reader(key, value)
       end
 
-      populate_filters(InputProcessor.process(inputs))
+      populate_filters(ActiveInteraction::Inputs.process(inputs))
     end
 
     def populate_reader(key, value)

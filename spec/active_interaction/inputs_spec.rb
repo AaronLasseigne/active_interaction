@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe ActiveInteraction::InputProcessor do
+describe ActiveInteraction::Inputs do
+  subject(:inputs) { described_class.new }
+
   describe '.reserved?(name)' do
     it 'returns true for anything starting with "_interaction_"' do
       expect(described_class.reserved?('_interaction_')).to be_truthy
