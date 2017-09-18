@@ -77,16 +77,16 @@ module ActiveInteraction
     #   to the default value.
     #
     # @example
-    #   ActiveInteraction::Filter.new(:example).clean(nil)
+    #   ActiveInteraction::Filter.new(:example).clean(nil, nil)
     #   # => ActiveInteraction::MissingValueError: example
     # @example
-    #   ActiveInteraction::Filter.new(:example).clean(0)
+    #   ActiveInteraction::Filter.new(:example).clean(0, nil)
     #   # => ActiveInteraction::InvalidValueError: example: 0
     # @example
-    #   ActiveInteraction::Filter.new(:example, default: nil).clean(nil)
+    #   ActiveInteraction::Filter.new(:example, default: nil).clean(nil, nil)
     #   # => nil
     # @example
-    #   ActiveInteraction::Filter.new(:example, default: 0).clean(nil)
+    #   ActiveInteraction::Filter.new(:example, default: 0).clean(nil, nil)
     #   # => ActiveInteraction::InvalidDefaultError: example: 0
     #
     # @param value [Object]
