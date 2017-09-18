@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/hash/indifferent_access'
+require 'active_support/inflector'
 
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
@@ -27,7 +28,7 @@ module ActiveInteraction
   #   else
   #     outcome.errors
   #   end
-  class Base
+  class Base # rubocop:disable Metrics/ClassLength
     include ActiveModelable
     include ActiveRecordable
     include Runnable
@@ -120,19 +121,25 @@ module ActiveInteraction
       # @option options [Array<Symbol>, nil] :only Import only these filters.
       # @option options [Array<Symbol>, nil] :except Import all filters except
       #   for these.
+      # @option options [Array<Object>] :groups Add the filters to these
+      #   groups. Defaults to the class name of the other interaction
+      #   underscored. (e.g. `AdminUser` -> `:admin_user`)
       #
       # @return (see .filters)
       #
       # @!visibility public
-      def import_filters(klass, options = {})
+      def import_filters(klass, options = {}) # rubocop:disable Metrics/AbcSize
         only = options[:only]
         except = options[:except]
+        groups = options[:groups] || [klass.to_s.demodulize.underscore.to_sym]
 
-        other_filters = klass.filters.dup
-        other_filters.select! { |k, _| [*only].include?(k) } if only
-        other_filters.reject! { |k, _| [*except].include?(k) } if except
+        klass.filters.each do |name, filter|
+          next if only && ![*only].include?(name)
+          next if except && [*except].include?(name)
 
-        other_filters.each_value { |filter| initialize_filter(filter) }
+          options = filter.options.merge(groups: groups)
+          add_filter(filter.class, name, options, &filter.block)
+        end
       end
 
       # @param klass [Class]

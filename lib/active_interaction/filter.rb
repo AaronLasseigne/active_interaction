@@ -27,6 +27,9 @@ module ActiveInteraction
     # @return [Hash{Symbol => Object}]
     attr_reader :options
 
+    # @return [Block]
+    attr_reader :block
+
     undef_method :hash
 
     class << self
@@ -71,6 +74,7 @@ module ActiveInteraction
       @name = name
       @options = options.dup
       @filters = {}
+      @block = block
 
       instance_eval(&block) if block_given?
     end

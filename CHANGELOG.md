@@ -34,6 +34,9 @@
 - New groups feature that allows inputs to be grouped and retrieved later.
   Filters now have a `:groups` option where a group can be set and `inputs`
   has a `group` method where a group can be retrieved.
+- `import_filters` now  accepts a `:groups` option to set the group for all
+  imported filters. If not set, a default group is added based on the class
+  of the interaction being imported from.
 - `merge!` now accepts an optional `:move` attribute to map errors on merged
   fields/filters to filters on the source interaction.
 - `automove` creates a hash for the `:move` option of `merge!` where the keys

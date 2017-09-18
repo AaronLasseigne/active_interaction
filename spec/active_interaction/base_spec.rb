@@ -44,6 +44,17 @@ AutoLinkedInputInteraction = Class.new(TestInteraction) do
   end
 end
 
+FiltersToImportInteraction = Class.new(TestInteraction) do
+  float :x
+  array :y do
+    float
+  end
+
+  def execute
+    [x, y]
+  end
+end
+
 describe ActiveInteraction::Base do
   include_context 'interactions'
 
@@ -649,27 +660,28 @@ describe ActiveInteraction::Base do
   end
 
   describe '.import_filters' do
-    shared_context 'import_filters context' do |only, except|
-      let(:klass) { AddInteraction }
+    shared_context 'import_filters context' do |options|
+      let(:klass) { FiltersToImportInteraction }
 
       let(:described_class) do
         interaction = klass
-        options = {}
-        options[:only] = only unless only.nil?
-        options[:except] = except unless except.nil?
 
         Class.new(TestInteraction) { import_filters interaction, options }
       end
     end
 
-    shared_examples 'import_filters examples' do |only, except|
-      include_context 'import_filters context', only, except
+    shared_examples 'import_filters examples' do |options|
+      include_context 'import_filters context', options
 
       it 'imports the filters' do
-        expect(described_class.filters).to eql(
+        only = options[:only]
+        except = options[:except]
+
+        expect(described_class.filters.keys).to eql(
           klass.filters
-            .select { |k, _| only.nil? ? true : [*only].include?(k) }
-            .reject { |k, _| except.nil? ? false : [*except].include?(k) }
+            .keys
+            .select { |k| only.nil? ? true : [*only].include?(k) }
+            .reject { |k| except.nil? ? false : [*except].include?(k) }
         )
       end
 
@@ -691,31 +703,61 @@ describe ActiveInteraction::Base do
     end
 
     context 'with neither :only nor :except' do
-      include_examples 'import_filters examples', nil, nil
+      include_examples 'import_filters examples', {}
     end
 
     context 'with :only' do
       context 'as an Array' do
-        include_examples 'import_filters examples', [:x], nil
+        include_examples 'import_filters examples', only: [:x]
       end
 
       context 'as an Symbol' do
-        include_examples 'import_filters examples', :x, nil
+        include_examples 'import_filters examples', only: :x
       end
     end
 
     context 'with :except' do
       context 'as an Array' do
-        include_examples 'import_filters examples', nil, [:x]
+        include_examples 'import_filters examples', except: [:x]
       end
 
       context 'as an Symbol' do
-        include_examples 'import_filters examples', nil, :x
+        include_examples 'import_filters examples', except: :x
       end
     end
 
     context 'with :only & :except' do
-      include_examples 'import_filters examples', [:x], [:x]
+      include_examples 'import_filters examples', only: [:x], except: [:x]
+    end
+
+    context 'importing a filter with a block' do
+      include_context 'import_filters context', {}
+
+      it 'works' do
+        expect(described_class.filters[:y].clean([1], nil)).to eql [1.0]
+      end
+    end
+
+    context ':groups' do
+      context 'is given' do
+        include_context 'import_filters context', groups: [:a]
+
+        it 'puts all filters imported into the groups given' do
+          described_class.filters.each_value do |filter|
+            expect(filter.groups).to eql [:a]
+          end
+        end
+      end
+
+      context 'is not given' do
+        include_context 'import_filters context', {}
+
+        it 'puts all filters imported into a default group' do
+          described_class.filters.each_value do |filter|
+            expect(filter.groups).to eql [:filters_to_import_interaction]
+          end
+        end
+      end
     end
   end
 
