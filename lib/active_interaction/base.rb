@@ -40,25 +40,10 @@ module ActiveInteraction
       include Missable
 
       # @!method run(inputs = {})
-      #   @note If the interaction inputs are valid and there are no runtime
-      #     errors and execution completed successfully, {#valid?} will always
-      #     return true.
-      #
-      #   Runs validations and if there are no errors it will call {#execute}.
-      #
-      #   @param (see ActiveInteraction::Base#initialize)
-      #
-      #   @return [Base]
+      #   (see ActiveInteraction::Runnable#run)
 
       # @!method run!(inputs = {})
-      #   Like {.run} except that it returns the value of {#execute} or raises
-      #     an exception if there were any validation errors.
-      #
-      #   @param (see ActiveInteraction::Base.run)
-      #
-      #   @return (see ActiveInteraction::Runnable::ClassMethods#run!)
-      #
-      #   @raise (see ActiveInteraction::Runnable::ClassMethods#run!)
+      #   (see ActiveInteraction::Runnable#run!)
 
       # Get or set the description.
       #
@@ -178,49 +163,19 @@ module ActiveInteraction
     end
 
     # @!method compose(other, inputs = {})
-    #   Run another interaction and return its result. If the other interaction
-    #     fails, halt execution.
-    #
-    #   @param other (see ActiveInteraction::Runnable#compose)
-    #   @param inputs (see ActiveInteraction::Base#initialize)
-    #
-    #   @return (see ActiveInteraction::Base.run!)
+    #   (see ActiveInteraction::Runnable#compose)
 
     # @!method link(name)
-    #   Used when sending inputs to `compose`. Links a filter in the current
-    #     interaction such that its value is passed to the other interaction
-    #     in the inputs and errors on that input are mapped back to the linked
-    #     filter.
-    #
-    #   @param name (see ActiveInteraction::Runnable#link)
-    #
-    #   @return (see ActiveInteraction::Runnable#link)
+    #   (see ActiveInteraction::Runnable#link)
 
-    # @!method autolink(*names)
-    #   Used when sending inputs to `compose`. Automatically creates a hash of
-    #     links where the current interaction and the composed interaction share
-    #     filter names.
-    #
-    #   @param *names (see ActiveInteraction::Runnable#autolink)
-    #
-    #   @return (see ActiveInteraction::Runnable#autolink)
+    # @!method autolink(*names, group: nil)
+    #   (see ActiveInteraction::Runnable#autolink)
 
     # @!method automove(*names)
-    #   Used with `merge!` to generate a hash of moves when the moved errors
-    #     share the same name as where they're being moved to.
-    #
-    #   @param *names (see ActiveInteraction::Runnable#automove)
-    #
-    #   @return (see ActiveInteraction::Runnable#automove)
+    #   (see ActiveInteraction::Runnable#automove)
 
     # @!method execute
-    #   @abstract
-    #
-    #   Runs the business logic associated with the interaction. This method is
-    #   only run when there are no validation errors. The return value is
-    #   placed into {#result}.
-    #
-    #   @raise (see ActiveInteraction::Runnable#execute)
+    #   (see ActiveInteraction::Runnable#execute)
 
     # Returns the inputs provided to {.run} or {.run!} after being cast based
     #   on the filters in the class.

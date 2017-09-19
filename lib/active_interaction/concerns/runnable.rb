@@ -37,6 +37,10 @@ module ActiveInteraction
 
     # @abstract
     #
+    # Runs the business logic associated with the interaction. This method is
+    #   only run when there are no validation errors. The return value is
+    #   placed into {#result}.
+    #
     # @raise [NotImplementedError]
     def execute
       raise NotImplementedError
@@ -67,6 +71,11 @@ module ActiveInteraction
 
     private
 
+    # Used when sending inputs to `compose`. Links a filter in the current
+    #   interaction such that its value is passed to the other interaction
+    #   in the inputs and errors on that input are mapped back to the linked
+    #   filter.
+    #
     # @param name [Symbol] A filter name.
     #
     # @return [Link]
@@ -74,15 +83,25 @@ module ActiveInteraction
       Link.new(name, inputs[name])
     end
 
-    # @param *names [Symbol] A list of filter names.
+    # Used when sending inputs to `compose`. Automatically creates a hash of
+    #   links where the current interaction and the composed interaction share
+    #   filter names.
     #
-    # @return [Hash]
-    def autolink(*names)
+    # @param *names [Symbol] A list of filter names.
+    # @param group [Symbol] Include filters from this group.
+    #
+    # @return [Hash{Symbol => Link}]
+    def autolink(*names, group: nil)
+      names += inputs.group(group).keys unless group.nil?
+
       names.each_with_object({}) do |name, mapping|
         mapping[name] = link(name)
       end
     end
 
+    # Used with `merge!` to generate a hash of moves when the moved errors
+    #   share the same name as where they're being moved to.
+    #
     # @param *names [Symbol] A list of filter names.
     #
     # @return [Hash]
@@ -92,6 +111,9 @@ module ActiveInteraction
       end
     end
 
+    # Run another interaction and return its result. If the other interaction
+    #   fails, halt execution.
+    #
     # @param other [Class] The other interaction.
     # @param (see ClassMethods.run)
     #
@@ -132,8 +154,11 @@ module ActiveInteraction
       end
     end
 
-    # @return (see #result=)
-    # @return [nil]
+    # Runs validations and if there are no errors it will call {#execute}.
+    #
+    # @param (see ActiveInteraction::Base#initialize)
+    #
+    # @return [ActiveInteraction::Base]
     def run
       self.result =
         if valid?
@@ -151,6 +176,11 @@ module ActiveInteraction
         end
     end
 
+    # Like {.run} except that it returns the value of {#execute} or raises
+    #   an exception if there were any validation errors.
+    #
+    # @param (see .run)
+    #
     # @return [Object]
     #
     # @raise [InvalidInteractionError] If there are validation errors.

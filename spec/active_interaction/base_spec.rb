@@ -44,6 +44,14 @@ AutoLinkedInputInteraction = Class.new(TestInteraction) do
   end
 end
 
+AutoLinkedGroupInteraction = Class.new(TestInteraction) do
+  float :x, :y, groups: [:one]
+
+  def execute
+    compose(AddInteraction, autolink(group: :one))
+  end
+end
+
 FiltersToImportInteraction = Class.new(TestInteraction) do
   float :x
   array :y do
@@ -445,6 +453,14 @@ describe ActiveInteraction::Base do
 
         it 'returns the sum' do
           expect(result).to eql x + z
+        end
+
+        context 'with the :group option' do
+          let(:described_class) { AutoLinkedGroupInteraction }
+
+          it 'returns the sum' do
+            expect(result).to eql x + z
+          end
         end
       end
 
