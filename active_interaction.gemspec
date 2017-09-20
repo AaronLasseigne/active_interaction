@@ -46,9 +46,14 @@ Gem::Specification.new do |gem|
     'rake' => ['~> 12.1'],
     'rspec' => ['~> 3.5'],
     'rubocop' => ['~> 0.50.0'],
-    'sqlite3' => ['~> 1.3'],
     'yard' => ['~> 0.9']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions
+  end
+
+  if defined?(JRUBY_VERSION)
+    gem.add_development_dependency 'activerecord-jdbcsqlite3-adapter', '~> 1.3'
+  else
+    gem.add_development_dependency 'sqlite3', '~> 1.3'
   end
 end
