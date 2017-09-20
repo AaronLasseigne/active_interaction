@@ -3,3 +3,4 @@ source 'https://rubygems.org'
 gemspec path: '..'
 
 gem 'activemodel', '4.1'
+gem 'activerecord', '4.1'
