@@ -1,3 +1,9 @@
+# [3.5.3][] (2017-09-28)
+
+## Fixed
+
+- [#425][] where `given?` did not properly handle string keys for hashes with nested content
+
 # [3.5.2][] (2017-06-08)
 
 ## Fixed
@@ -710,6 +716,7 @@ Example.run
 
 - Initial release.
 
+  [3.5.3]: https://github.com/orgsync/active_interaction/compare/v3.5.2...v3.5.3
   [3.5.2]: https://github.com/orgsync/active_interaction/compare/v3.5.1...v3.5.2
   [3.5.1]: https://github.com/orgsync/active_interaction/compare/v3.5.0...v3.5.1
   [3.5.0]: https://github.com/orgsync/active_interaction/compare/v3.4.0...v3.5.0
@@ -889,3 +896,4 @@ Example.run
   [#408]: https://github.com/orgsync/active_interaction/pull/408
   [#415]: https://github.com/orgsync/active_interaction/pull/415
   [#417]: https://github.com/orgsync/active_interaction/pull/417
+  [#425]: https://github.com/orgsync/active_interaction/pull/425
