@@ -440,7 +440,7 @@ describe ActiveInteraction::Base do
         end
       end
 
-      it 'is true when the nested input is given' do
+      it 'is true when the nested inputs symbols are given' do
         described_class.class_exec do
           def execute
             given?(:x, :y)
@@ -448,6 +448,17 @@ describe ActiveInteraction::Base do
         end
 
         inputs[:x] = { y: false }
+        expect(result).to be true
+      end
+
+      it 'is true when the nested inputs strings are given' do
+        described_class.class_exec do
+          def execute
+            given?(:x, :y)
+          end
+        end
+
+        inputs['x'] = { 'y' => false }
         expect(result).to be true
       end
 

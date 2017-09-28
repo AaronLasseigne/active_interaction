@@ -232,17 +232,17 @@ module ActiveInteraction
     # @return [Boolean]
     #
     # @since 2.1.0
-    def given?(input, *rest)
+    def given?(input, *rest) # rubocop:disable Metrics/CyclomaticComplexity
       filter_level = self.class
       input_level = @_interaction_inputs
 
       [input, *rest].map(&:to_sym).each do |key|
         filter_level = filter_level.filters[key]
-        if !filter_level || input_level.nil? || !input_level.key?(key)
-          break false
-        end
 
-        input_level = input_level[key]
+        break false if filter_level.nil? || input_level.nil?
+        break false unless input_level.key?(key) || input_level.key?(key.to_s)
+
+        input_level = input_level[key] || input_level[key.to_s]
       end && true
     end
 
