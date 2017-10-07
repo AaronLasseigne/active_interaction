@@ -2,7 +2,15 @@
 
 require 'spec_helper'
 
-class Thing; end
+class Thing
+  def self.converter(_)
+    @converter ||= new
+  end
+
+  def self.converter_with_error(_)
+    raise 'error'
+  end
+end
 class Things; end
 
 describe ActiveInteraction::ObjectFilter, :filter do
@@ -138,6 +146,116 @@ describe ActiveInteraction::ObjectFilter, :filter do
         expect do
           result
         end.to raise_error ActiveInteraction::InvalidClassError
+      end
+    end
+
+    context 'with a converter' do
+      let(:value) { '' }
+
+      context 'that is a symbol' do
+        before do
+          options[:converter] = :converter
+        end
+
+        it 'calls the class method' do
+          expect(result).to eql Thing.converter(value)
+        end
+      end
+
+      context 'that is a proc' do
+        before do
+          options[:converter] = ->(x) { Thing.converter(x) }
+        end
+
+        it 'gets called' do
+          expect(result).to eql Thing.converter(value)
+        end
+      end
+
+      context 'with a object of the correct class' do
+        let(:value) { Thing.new }
+
+        it 'does not call the converter' do
+          expect(Thing).to_not receive(:converter)
+          expect(result).to eql value
+        end
+      end
+
+      context 'with a object is a subclass' do
+        let(:subclass) { Class.new(Thing) }
+        let(:value) { subclass.new }
+
+        it 'does not call the converter' do
+          expect(subclass).to_not receive(:converter)
+          expect(result).to eql value
+        end
+      end
+
+      context 'with a nil value' do
+        let(:value) { nil }
+        include_context 'optional'
+
+        it 'returns nil' do
+          expect(Thing).to_not receive(:converter)
+          expect(result).to eql value
+        end
+      end
+
+      context 'that is invalid' do
+        before do
+          options[:converter] = 'invalid converter'
+        end
+
+        it 'raises an error' do
+          expect do
+            result
+          end.to raise_error ActiveInteraction::InvalidConverterError
+        end
+      end
+
+      context 'that throws an error' do
+        before do
+          options[:converter] = :converter_with_error
+        end
+
+        it 'raises an error' do
+          expect do
+            result
+          end.to raise_error ActiveInteraction::InvalidValueError
+        end
+      end
+    end
+  end
+
+  describe '#clean' do
+    context 'with a converter' do
+      context 'that returns a nil' do
+        let(:value) { '' }
+
+        before do
+          options[:default] = Thing.new
+          options[:converter] = ->(_) { nil }
+        end
+
+        it 'raises an error' do
+          expect do
+            filter.clean(value, nil)
+          end.to raise_error ActiveInteraction::InvalidValueError
+        end
+      end
+
+      context 'that returns an invalid value' do
+        let(:value) { '' }
+
+        before do
+          options[:converter] = ->(_) { 'invalid' }
+        end
+
+        it 'raises an error' do
+          expect do
+            filter.clean(value, nil)
+          end.to raise_error ActiveInteraction::InvalidValueError
+        end
       end
     end
   end

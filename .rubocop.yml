@@ -13,6 +13,8 @@ Documentation:
 FileName:
   Exclude:
   - gemfiles/*
+MultilineMethodCallBraceLayout:
+  EnforcedStyle: new_line
 MultilineMethodCallIndentation:
   EnforcedStyle: indented
 MultilineOperationIndentation:

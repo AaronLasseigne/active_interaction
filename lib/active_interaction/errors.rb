@@ -13,6 +13,11 @@ module ActiveInteraction
   # @return [Class]
   InvalidClassError = Class.new(Error)
 
+  # Raised if a converter is invalid.
+  #
+  # @return [Class]
+  InvalidConverterError = Class.new(Error)
+
   # Raised if a default value is invalid.
   #
   # @return [Class]

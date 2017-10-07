@@ -108,7 +108,8 @@ describe ActiveInteraction::Errors do
                 }
               }
             }
-          })
+          }
+        )
 
         other.add(:attribute, :invalid_type, type: nil)
       end

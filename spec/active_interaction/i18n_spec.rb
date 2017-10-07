@@ -101,7 +101,8 @@ describe I18nInteraction do
             }
           },
           types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }
-        })
+        }
+      )
     end
   end
 end

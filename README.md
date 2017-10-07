@@ -418,6 +418,33 @@ object :dolly3,
   class: :Sheep
 ```
 
+If you have value objects or you would like to build one object from another,
+you can use the `converter` option. It is only called if the value provided does
+not pass `#is_a?` and `.===` for the object class. The `converter` option
+accepts a symbol that specifies a class method on the object class or a proc.
+Both will be passed the value and any errors thrown inside the converter will
+cause the value to be considered invalid. Any returned value that is not the
+correct class will also be treated as invalid. The value given to the `default`
+option will also be converted.
+
+``` rb
+class ObjectInteraction < ActiveInteraction::Base
+  object :ip_address,
+    class: IPAddr,
+    converter: :new
+
+  def execute
+    ip_address
+  end
+end
+
+ObjectInteraction.run!(ip_address: '192.168.1.1')
+# #<IPAddr: IPv4:192.168.1.1/255.255.255.255>
+
+ObjectInteraction.run!(ip_address: 1)
+# ActiveInteraction::InvalidInteractionError: Ip address is not a valid object
+```
+
 ### String
 
 String filters define inputs that only accept strings.
