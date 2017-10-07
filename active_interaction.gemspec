@@ -13,7 +13,7 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     ActiveInteraction manages application-specific business logic. It is an
     implementation of the command pattern in Ruby.
   TEXT
-  gem.homepage = 'http://devblog.orgsync.com/active_interaction/'
+  gem.homepage = 'https://github.com/AaronLasseigne/active_interaction'
   gem.licenses = %w[MIT]
 
   gem.required_ruby_version = '>= 2'
