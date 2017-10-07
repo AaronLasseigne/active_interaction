@@ -1389,8 +1389,7 @@ I18nInteraction.run(name: false).errors.messages[:name]
 ## Credits
 
 ActiveInteraction is brought to you by [Aaron Lasseigne][] and
-[Taylor Fausak][] from [OrgSync][]. We were inspired by the fantastic work done
-by [Jonathan Novak][] on [Mutations][].
+[Taylor Fausak][] and was originally built at [OrgSync][].
 
 If you want to contribute to ActiveInteraction, please read
 [our contribution guidelines][]. A [complete list of contributors][] is
@@ -1408,8 +1407,6 @@ ActiveInteraction is licensed under [the MIT License][].
 [aaron lasseigne]: https://github.com/AaronLasseigne
 [taylor fausak]: https://github.com/tfausak
 [orgsync]: https://github.com/orgsync
-[jonathan novak]: https://github.com/cypriss
-[mutations]: https://github.com/cypriss/mutations
 [our contribution guidelines]: CONTRIBUTING.md
 [complete list of contributors]: https://github.com/orgsync/active_interaction/graphs/contributors
 [the mit license]: LICENSE.md
