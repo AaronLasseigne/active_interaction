@@ -12,6 +12,7 @@ class Thing
   end
 end
 class Things; end
+BackupThing = Thing.clone
 
 describe ActiveInteraction::ObjectFilter, :filter do
   include_context 'filters'
@@ -34,7 +35,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         expect(result).to eql value
 
         Object.send(:remove_const, :Thing)
-        class Thing; end
+        Thing = BackupThing.clone
         value = Thing.new
 
         expect(filter.cast(value, nil)).to eql value
@@ -44,7 +45,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         filter
 
         Object.send(:remove_const, :Thing)
-        class Thing; end
+        Thing = BackupThing.clone
         class SubThing < Thing; end
         value = SubThing.new
 
@@ -65,7 +66,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
       context 'without the class available' do
         before { Object.send(:remove_const, :Thing) }
-        after { class Thing; end }
+        after { Thing = BackupThing.clone }
 
         it 'does not raise an error on initialization' do
           expect { filter }.to_not raise_error
