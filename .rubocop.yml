@@ -3,7 +3,7 @@ AllCops:
   - example/db/schema.rb
   - tmp/**/*
   - vendor/**/*
-  TargetRubyVersion: 2.0
+  TargetRubyVersion: 2.2
 Documentation:
   Exclude:
   - spec/**/*
