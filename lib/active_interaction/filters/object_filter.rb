@@ -72,7 +72,7 @@ module ActiveInteraction
         value.is_a?(@klass)
     end
 
-    def convert(klass, value, converter) # rubocop:disable Metrics/MethodLength
+    def convert(klass, value, converter)
       result =
         case converter
         when Proc

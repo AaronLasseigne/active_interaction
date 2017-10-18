@@ -92,9 +92,11 @@ describe ActiveInteraction::Errors do
 
       context 'with :move' do
         let(:other) do
-          described_class.new(Class.new(klass) do
-            attr_reader :attribute_2
-          end.new)
+          described_class.new(
+            Class.new(klass) do
+              attr_reader :attribute_2
+            end.new
+          )
         end
 
         it 'moves the errors from the target attribute to the source' do

@@ -9,6 +9,8 @@ Documentation:
   - spec/**/*
 Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
+Layout/MultilineMethodCallBraceLayout:
+  EnforcedStyle: new_line
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 Layout/MultilineOperationIndentation:
@@ -22,12 +24,6 @@ Metrics/MethodLength:
 Naming/FileName:
   Exclude:
   - gemfiles/*
-Style/MultilineMethodCallBraceLayout:
-  EnforcedStyle: new_line
-Style/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-Style/MultilineOperationIndentation:
-  Enabled: false
 Style/FormatStringToken:
   EnforcedStyle: template
 Style/PercentLiteralDelimiters:
