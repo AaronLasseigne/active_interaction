@@ -1,33 +1,32 @@
-# coding: utf-8
 # frozen_string_literal: true
 
 module ActiveInteraction
   class Base
-    # @!method self.object(*attributes, options = {})
+    # @!method self.record(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are the correct class.
     #
     #   @!macro filter_method_params
     #   @option options [Class, String, Symbol] :class (use the attribute name)
     #     Class name used to ensure the value.
-    #   @option options [Proc, Symbol] :converter A symbol specifying the name
-    #     of a class method of `:class` or a Proc that is called when a new
-    #     value is assigned to the value object. The converter is passed the
-    #     single value that is used in the assignment and is only called if the
-    #     new value is not an instance of `:class`. The class method or proc
-    #     are passed the value. Any error thrown inside the converter is trapped
-    #     and the value provided is treated as invalid. Any returned value that
-    #     is not the correct class will also be treated as invalid.
+    #   @option options [Symbol] :finder A symbol specifying the name of a
+    #     class method of `:class` that is called when a new value is assigned
+    #     to the object. The finder is passed the single value that is used in
+    #     the assignment and is only called if the new value is not an instance
+    #     of `:class`. The class method is passed the value. Any error thrown
+    #     inside the finder is trapped and the value provided is treated as
+    #     invalid. Any returned value that is not the correct class will also
+    #     be treated as invalid.
     #
     #   @example
-    #     object :account
+    #     record :account
     #   @example
-    #     object :account, class: User
+    #     record :account, class: User
   end
 
   # @private
-  class ObjectFilter < Filter
-    register :object
+  class RecordFilter < Filter
+    register :record
 
     # rubocop:disable Metrics/MethodLength
     def cast(value, context, reconstantize: true, convert: true)
@@ -41,8 +40,9 @@ module ActiveInteraction
           reconstantize: false,
           convert: convert
         )
-      elsif !value.nil? && convert && (converter = options[:converter])
-        value = convert(klass, value, converter)
+      elsif !value.nil? && convert
+        finder = options.fetch(:finder, :find)
+        value = find(klass, value, finder)
         public_send(__method__, value, context,
           reconstantize: reconstantize,
           convert: false
@@ -73,17 +73,8 @@ module ActiveInteraction
         value.is_a?(@klass)
     end
 
-    def convert(klass, value, converter) # rubocop:disable Metrics/MethodLength
-      result =
-        case converter
-        when Proc
-          converter.call(value)
-        when Symbol
-          klass.public_send(converter, value)
-        else
-          raise InvalidConverterError,
-            "#{converter.inspect} is not a valid converter"
-        end
+    def find(klass, value, finder)
+      result = klass.public_send(finder, value)
 
       raise InvalidValueError if result.nil?
 

@@ -28,6 +28,7 @@ Read more on [the project page][] or check out [the full documentation][].
   - [Hash](#hash)
   - [Interface](#interface)
   - [Object](#object)
+  - [Record](#record)
   - [String](#string)
   - [Symbol](#symbol)
   - [Dates and times](#dates-and-times)
@@ -444,6 +445,34 @@ ObjectInteraction.run!(ip_address: '192.168.1.1')
 ObjectInteraction.run!(ip_address: 1)
 # ActiveInteraction::InvalidInteractionError: Ip address is not a valid object
 ```
+
+### Record
+
+Record filters allow you to require an instance of a particular class or a value
+that can be used to locate an instance of the object. It checks either `#is_a?`
+on the instance or `.===` on the class. If the value does not match, it will
+call `find` on the class of the record. This is particularly useful when working
+with ActiveRecord objects. Like an object filter, the class is derived from the
+name passed but can be specified with the `class` option. The value given to the
+`default` option will also be found.
+
+``` rb
+class RecordInteraction < ActiveInteraction::Base
+  record :encoding
+
+  def execute
+    encoding
+  end
+end
+
+> RecordInteraction.run!(encoding: Encoding::US_ASCII)
+=> #<Encoding:US-ASCII>
+
+> RecordInteraction.run!(encoding: 'ascii')
+=> #<Encoding:US-ASCII>
+```
+
+A different method can be specified by providing a symbol to the `finder` option.
 
 ### String
 

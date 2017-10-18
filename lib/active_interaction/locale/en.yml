@@ -18,6 +18,7 @@ en:
       integer: integer
       interface: interface
       object: object
+      record: record
       string: string
       symbol: symbol
       time: time

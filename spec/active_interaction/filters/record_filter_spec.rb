@@ -1,29 +1,43 @@
-# coding: utf-8
-
 require 'spec_helper'
 
-class ObjectThing
-  def self.converter(_)
-    @converter ||= new
-  end
-
-  def self.converter_with_error(_)
+class RecordThing
+  def self.find(_)
     raise 'error'
   end
-end
-class ObjectThings; end
-BackupObjectThing = ObjectThing.clone
 
-describe ActiveInteraction::ObjectFilter, :filter do
+  def self.finder(_)
+    @record2 ||= new
+  end
+
+  def self.finds_nil(_)
+    nil
+  end
+
+  def self.finds_bad_value(_)
+    ''
+  end
+
+  def self.passthrough(x)
+    x
+  end
+end
+class RecordThings; end
+BackupRecordThing = RecordThing.clone
+
+describe ActiveInteraction::RecordFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
   before do
-    options[:class] = ObjectThing
+    options[:class] = RecordThing
   end
 
   describe '#cast' do
-    let(:value) { ObjectThing.new }
+    before do
+      options[:finder] = :finder
+    end
+
+    let(:value) { RecordThing.new }
     let(:result) { filter.cast(value, nil) }
 
     context 'with class as a Class' do
@@ -34,9 +48,9 @@ describe ActiveInteraction::ObjectFilter, :filter do
       it 'handles reconstantizing' do
         expect(result).to eql value
 
-        Object.send(:remove_const, :ObjectThing)
-        ObjectThing = BackupObjectThing.clone
-        value = ObjectThing.new
+        Object.send(:remove_const, :RecordThing)
+        RecordThing = BackupRecordThing.clone
+        value = RecordThing.new
 
         expect(filter.cast(value, nil)).to eql value
       end
@@ -44,17 +58,17 @@ describe ActiveInteraction::ObjectFilter, :filter do
       it 'handles reconstantizing subclasses' do
         filter
 
-        Object.send(:remove_const, :ObjectThing)
-        ObjectThing = BackupObjectThing.clone
-        class SubObjectThing < ObjectThing; end
-        value = SubObjectThing.new
+        Object.send(:remove_const, :RecordThing)
+        RecordThing = BackupRecordThing.clone
+        class SubRecordThing < RecordThing; end
+        value = SubRecordThing.new
 
         expect(filter.cast(value, nil)).to eql value
       end
 
       context 'without the class available' do
-        before { Object.send(:remove_const, :ObjectThing) }
-        after { ObjectThing = BackupObjectThing.clone }
+        before { Object.send(:remove_const, :RecordThing) }
+        after { RecordThing = BackupRecordThing.clone }
 
         it 'does not raise an error on initialization' do
           expect { filter }.to_not raise_error
@@ -66,7 +80,9 @@ describe ActiveInteraction::ObjectFilter, :filter do
         let(:class_equality) { false }
 
         before do
-          allow(ObjectThing).to receive(:===).and_return(case_equality)
+          options[:finder] = :passthrough
+
+          allow(RecordThing).to receive(:===).and_return(case_equality)
           allow(value).to receive(:is_a?).and_return(class_equality)
         end
 
@@ -98,7 +114,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
     context 'with class as a superclass' do
       before do
-        options[:class] = ObjectThing.superclass
+        options[:class] = RecordThing.superclass
       end
 
       it 'returns the instance' do
@@ -108,7 +124,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
     context 'with class as a String' do
       before do
-        options[:class] = ObjectThing.name
+        options[:class] = RecordThing.name
       end
 
       it 'returns the instance' do
@@ -117,9 +133,9 @@ describe ActiveInteraction::ObjectFilter, :filter do
     end
 
     context 'with a plural class' do
-      let(:value) { ObjectThings.new }
+      let(:value) { RecordThings.new }
 
-      before { options[:class] = ObjectThings }
+      before { options[:class] = RecordThings }
 
       it 'returns the instance' do
         expect(result).to eql value
@@ -138,92 +154,29 @@ describe ActiveInteraction::ObjectFilter, :filter do
       end
     end
 
-    context 'with a converter' do
+    context 'with a value that does not match the class' do
       let(:value) { '' }
 
-      context 'that is a symbol' do
-        before do
-          options[:converter] = :converter
-        end
-
-        it 'calls the class method' do
-          expect(result).to eql ObjectThing.converter(value)
-        end
+      it 'calls the finder' do
+        expect(result).to eql RecordThing.finder(value)
       end
 
-      context 'that is a proc' do
-        before do
-          options[:converter] = ->(x) { ObjectThing.converter(x) }
-        end
-
-        it 'gets called' do
-          expect(result).to eql ObjectThing.converter(value)
-        end
-      end
-
-      context 'with a object of the correct class' do
-        let(:value) { ObjectThing.new }
-
-        it 'does not call the converter' do
-          expect(ObjectThing).to_not receive(:converter)
-          expect(result).to eql value
-        end
-      end
-
-      context 'with a object is a subclass' do
-        let(:subclass) { Class.new(ObjectThing) }
-        let(:value) { subclass.new }
-
-        it 'does not call the converter' do
-          expect(subclass).to_not receive(:converter)
-          expect(result).to eql value
-        end
-      end
-
-      context 'with a nil value' do
-        let(:value) { nil }
-        include_context 'optional'
-
-        it 'returns nil' do
-          expect(ObjectThing).to_not receive(:converter)
-          expect(result).to eql value
-        end
-      end
-
-      context 'that is invalid' do
-        before do
-          options[:converter] = 'invalid converter'
-        end
-
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidConverterError
-        end
-      end
-
-      context 'that throws an error' do
-        before do
-          options[:converter] = :converter_with_error
-        end
-
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+      context 'with a custom finder' do
+        it 'calls the custom finder' do
+          expect(result).to eql RecordThing.finder(value)
         end
       end
     end
   end
 
   describe '#clean' do
-    context 'with a converter' do
+    context 'with a value that does not match the class' do
       context 'that returns a nil' do
         let(:value) { '' }
 
         before do
-          options[:default] = ObjectThing.new
-          options[:converter] = ->(_) { nil }
+          options[:default] = RecordThing.new
+          options[:finder] = :finds_nil
         end
 
         it 'raises an error' do
@@ -237,7 +190,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         let(:value) { '' }
 
         before do
-          options[:converter] = ->(_) { 'invalid' }
+          options[:finder] = :finds_bad_value
         end
 
         it 'raises an error' do

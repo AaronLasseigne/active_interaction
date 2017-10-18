@@ -18,6 +18,7 @@ fr:
       integer: nombre entier
       interface: interface
       object: objet
+      record: record
       string: chaîne de caractères
       symbol: symbole
       time: temps
