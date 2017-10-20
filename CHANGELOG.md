@@ -1,3 +1,10 @@
+# [3.6.0][] (2017-10-20)
+
+## Added
+
+- [#422][] A new `record` filter that accepts an object or calls a finder (e.g. `find`) for the value passed. This is particularly useful for ActiveRecord objects.
+- [#420][] A `converter` option on the `object` filter that allows the value passed to be manually converted into an object of the correct type.
+
 # [3.5.3][] (2017-09-28)
 
 ## Fixed
@@ -178,7 +185,7 @@ some odd cases as noted in the the [README](README.md#errors).
 
 - [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
   This takes care of potential but unlikely DoS attacks noted in [#163][].
-  
+
 ## Upgrading
 
 Please read through the Changed section for a full list of changes.
@@ -716,6 +723,7 @@ Example.run
 
 - Initial release.
 
+  [3.6.0]: https://github.com/orgsync/active_interaction/compare/v3.5.3...v3.6.0
   [3.5.3]: https://github.com/orgsync/active_interaction/compare/v3.5.2...v3.5.3
   [3.5.2]: https://github.com/orgsync/active_interaction/compare/v3.5.1...v3.5.2
   [3.5.1]: https://github.com/orgsync/active_interaction/compare/v3.5.0...v3.5.1
@@ -896,4 +904,6 @@ Example.run
   [#408]: https://github.com/orgsync/active_interaction/pull/408
   [#415]: https://github.com/orgsync/active_interaction/pull/415
   [#417]: https://github.com/orgsync/active_interaction/pull/417
+  [#420]: https://github.com/orgsync/active_interaction/pull/420
+  [#422]: https://github.com/orgsync/active_interaction/pull/422
   [#425]: https://github.com/orgsync/active_interaction/pull/425
