@@ -16,8 +16,6 @@ you write safer code by validating that your inputs conform to your
 expectations. If ActiveModel deals with your nouns, then ActiveInteraction
 handles your verbs.
 
-Read more on [the project page][] or check out [the full documentation][].
-
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
   - [Validations](#validations)
@@ -61,6 +59,8 @@ Read more on [the project page][] or check out [the full documentation][].
   - [Predicates](#predicates)
   - [Translations](#translations)
 - [Credits](#credits)
+
+[Full Documentation][]
 
 ## Installation
 
@@ -1453,18 +1453,17 @@ available on GitHub.
 
 ActiveInteraction is licensed under [the MIT License][].
 
-[activeinteraction]: https://github.com/orgsync/active_interaction
-[the project page]: http://orgsync.github.io/active_interaction/
-[the full documentation]: http://rubydoc.info/github/orgsync/active_interaction
+[activeinteraction]: https://github.com/AaronLasseigne/active_interaction
+[Full Documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
-[GitHub releases]: https://github.com/orgsync/active_interaction/releases
+[GitHub releases]: https://github.com/AaronLasseigne/active_interaction/releases
 [the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
 [active_model-errors_details]: https://github.com/cowbell/active_model-errors_details
 [aaron lasseigne]: https://github.com/AaronLasseigne
 [taylor fausak]: https://github.com/tfausak
 [orgsync]: https://github.com/orgsync
 [our contribution guidelines]: CONTRIBUTING.md
-[complete list of contributors]: https://github.com/orgsync/active_interaction/graphs/contributors
+[complete list of contributors]: https://github.com/AaronLasseigne/active_interaction/graphs/contributors
 [the mit license]: LICENSE.md
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
