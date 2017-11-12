@@ -134,7 +134,7 @@ module ActiveInteraction
       if attribute?(attribute) || attribute == :base
         add(attribute, error, detail) unless added?(attribute, error, detail)
       else
-        translated_error = translate(other, attribute, error)
+        translated_error = translate(other, attribute, error, detail)
         message = full_message(attribute, translated_error)
         attribute = :base
         add(attribute, message) unless added?(attribute, message)
@@ -145,9 +145,9 @@ module ActiveInteraction
       @base.respond_to?(attribute)
     end
 
-    def translate(other, attribute, error)
+    def translate(other, attribute, error, detail)
       if error.is_a?(Symbol)
-        other.generate_message(attribute, error)
+        other.generate_message(attribute, error, detail)
       else
         error
       end
