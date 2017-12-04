@@ -23,25 +23,12 @@ module ActiveInteraction
   class TimeFilter < AbstractDateTimeFilter
     register :time
 
-    alias _klass klass
-    private :_klass
-
     def initialize(name, options = {}, &block)
-      if options.key?(:format) && klass != Time
+      if options.key?(:format) && time_with_zone?
         raise InvalidFilterError, 'format option unsupported with time zones'
       end
 
       super
-    end
-
-    def cast(value, interaction)
-      if value.is_a?(Numeric)
-        klass.at(value)
-      elsif value.respond_to?(:to_int)
-        send(__method__, value.to_int, interaction)
-      else
-        super
-      end
     end
 
     def database_column_type
@@ -50,16 +37,34 @@ module ActiveInteraction
 
     private
 
-    def klass
-      if Time.respond_to?(:zone) && !Time.zone.nil?
-        Time.zone
+    def time_with_zone?
+      Time.respond_to?(:zone) && !Time.zone.nil?
+    end
+
+    def at(value)
+      if time_with_zone?
+        Time.zone.at(value)
+      else
+        Time.at(value)
+      end
+    end
+
+    def klasses
+      if time_with_zone?
+        super + [Time.zone.class]
       else
         super
       end
     end
 
-    def klasses
-      [_klass, klass.at(0).class]
+    def convert(value)
+      value = value.to_int if value.respond_to?(:to_int)
+
+      if value.is_a?(Numeric)
+        at(value)
+      else
+        super
+      end
     end
   end
 end

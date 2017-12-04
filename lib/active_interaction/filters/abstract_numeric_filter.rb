@@ -7,38 +7,37 @@ module ActiveInteraction
   #
   # @private
   class AbstractNumericFilter < AbstractFilter
-    alias _cast cast
-    private :_cast
-
-    def cast(value, context)
-      if value.is_a?(klass)
-        value
-      elsif value.is_a?(Numeric)
-        convert(value, context)
-      elsif value.respond_to?(:to_int)
-        send(__method__, value.to_int, context)
-      elsif value.respond_to?(:to_str)
-        value = value.to_str
-        value.blank? ? send(__method__, nil, context) : convert(value, context)
-      else
-        super
-      end
-    end
-
     def database_column_type
       self.class.slug
     end
 
     private
 
-    def convert(value, context)
-      converter(value)
-    rescue ArgumentError
-      _cast(value, context)
+    def matches?(value)
+      value.is_a?(klass)
+    end
+
+    def convert(value)
+      if value.is_a?(Numeric)
+        safe_converter(value)
+      elsif value.respond_to?(:to_int)
+        safe_converter(value.to_int)
+      elsif value.respond_to?(:to_str)
+        value = value.to_str
+        value.blank? ? nil : safe_converter(value)
+      else
+        value
+      end
     end
 
     def converter(value)
       Kernel.public_send(klass.name, value)
+    end
+
+    def safe_converter(value)
+      converter(value)
+    rescue ArgumentError
+      value
     end
   end
 end

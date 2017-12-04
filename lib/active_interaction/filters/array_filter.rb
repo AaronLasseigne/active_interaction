@@ -27,17 +27,34 @@ module ActiveInteraction
 
     register :array
 
-    def cast(value, context)
-      value = value.to_ary if value.respond_to?(:to_ary)
+    private
 
-      case value
-      when *classes
-        return value if filters.empty?
+    def klasses
+      %w[
+        ActiveRecord::Relation
+        ActiveRecord::Associations::CollectionProxy
+      ].each_with_object([Array]) do |name, result|
+        next unless (klass = name.safe_constantize)
+        result.push(klass)
+      end
+    end
 
-        filter = filters.values.first
-        value.map { |e| filter.clean(e, context) }
+    def matches?(value)
+      klasses.any? { |klass| value.is_a?(klass) }
+    end
+
+    def adjust_output(value, context)
+      return value if filters.empty?
+
+      filter = filters.values.first
+      value.map { |e| filter.clean(e, context) }
+    end
+
+    def convert(value)
+      if value.respond_to?(:to_ary)
+        value.to_ary
       else
-        super
+        value
       end
     end
 
@@ -49,23 +66,6 @@ module ActiveInteraction
 
         filters[filter.name] = filter
       end
-    end
-
-    private
-
-    # @return [Array<Class>]
-    def classes
-      result = [Array]
-
-      %w[
-        ActiveRecord::Relation
-        ActiveRecord::Associations::CollectionProxy
-      ].each do |name|
-        next unless (klass = name.safe_constantize)
-        result.push(klass)
-      end
-
-      result
     end
 
     # @param filter [Filter]

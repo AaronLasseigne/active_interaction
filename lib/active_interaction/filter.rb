@@ -179,7 +179,7 @@ module ActiveInteraction
     end
 
     # @param value [Object]
-    # @param _interaction [Base, nil]
+    # @param context [Base, nil]
     #
     # @return [Object]
     #
@@ -188,16 +188,33 @@ module ActiveInteraction
     # @raise [InvalidValueError] If the value is invalid.
     #
     # @private
-    def cast(value, _interaction)
-      case value
-      when NilClass
-        raise MissingValueError, name unless default?
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+    def cast(value, context, convert: true, reconstantize: true)
+      value = adjust_input(value)
 
+      if matches?(value)
+        adjust_output(value, context)
+      # can't use `nil?` because BasicObject doesn't have it
+      elsif value == nil # rubocop:disable Style/NilComparison
+        raise MissingValueError, name unless default?
         nil
+      elsif reconstantize
+        public_send(__method__, value, context,
+          convert: convert,
+          reconstantize: false
+        )
+      elsif convert
+        public_send(__method__, convert(value), context,
+          convert: false,
+          reconstantize: reconstantize
+        )
       else
         raise InvalidValueError, "#{name}: #{describe(value)}"
       end
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
 
     # Gets the type of database column that would represent the filter data.
     #
@@ -215,6 +232,22 @@ module ActiveInteraction
     end
 
     private
+
+    def adjust_input(value)
+      value
+    end
+
+    def matches?(_value)
+      false
+    end
+
+    def adjust_output(value, _context)
+      value
+    end
+
+    def convert(value)
+      value
+    end
 
     # @param value [Object]
     # @return [String]

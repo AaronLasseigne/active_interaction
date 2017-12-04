@@ -25,35 +25,37 @@ module ActiveInteraction
 
     register :hash
 
-    def cast(value, context)
-      if value.respond_to?(:to_hash)
-        value = value.to_hash.with_indifferent_access
-        initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
-
-        filters.each_with_object(initial) do |(name, filter), h|
-          clean_value(h, name.to_s, filter, value, context)
-        end
-      else
-        super
-      end
-    end
-
-    def method_missing(*args, &block) # rubocop:disable Style/MethodMissing
-      super(*args) do |klass, names, options|
-        validate!(names, options)
-
-        names.each do |name|
-          filters[name] = klass.new(name, options, &block)
-        end
-      end
-    end
-
     private
+
+    def matches?(value)
+      value.is_a?(Hash)
+    end
+
+    def adjust_output(value, context)
+      value = value.with_indifferent_access
+      initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
+
+      filters.each_with_object(initial) do |(name, filter), h|
+        clean_value(h, name.to_s, filter, value, context)
+      end
+    end
+
+    def convert(value)
+      if value.respond_to?(:to_hash)
+        value.to_hash
+      else
+        value
+      end
+    end
 
     def clean_value(h, name, filter, value, context)
       h[name] = filter.clean(value[name], context)
     rescue InvalidValueError, MissingValueError
       raise InvalidNestedValueError.new(name, value[name])
+    end
+
+    def strip?
+      options.fetch(:strip, true)
     end
 
     def raw_default(*)
@@ -66,9 +68,14 @@ module ActiveInteraction
       value
     end
 
-    # @return [Boolean]
-    def strip?
-      options.fetch(:strip, true)
+    def method_missing(*args, &block) # rubocop:disable Style/MethodMissing
+      super(*args) do |klass, names, options|
+        validate!(names, options)
+
+        names.each do |name|
+          filters[name] = klass.new(name, options, &block)
+        end
+      end
     end
 
     def validate!(names, options)

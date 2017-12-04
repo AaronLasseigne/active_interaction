@@ -21,7 +21,6 @@ module ActiveInteraction
 
     private
 
-    # @return [Integer]
     def digits
       options.fetch(:digits, 0)
     end
