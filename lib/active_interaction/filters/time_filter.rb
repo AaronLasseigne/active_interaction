@@ -65,6 +65,8 @@ module ActiveInteraction
       else
         super
       end
+    rescue NoMethodError
+      false
     end
   end
 end

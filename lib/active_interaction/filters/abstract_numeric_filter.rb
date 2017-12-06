@@ -15,6 +15,8 @@ module ActiveInteraction
 
     def matches?(value)
       value.is_a?(klass)
+    rescue NoMethodError
+      false
     end
 
     def convert(value)
@@ -28,6 +30,8 @@ module ActiveInteraction
       else
         value
       end
+    rescue NoMethodError
+      false
     end
 
     def converter(value)

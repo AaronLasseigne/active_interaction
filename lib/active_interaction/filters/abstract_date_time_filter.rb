@@ -20,6 +20,8 @@ module ActiveInteraction
 
     def matches?(value)
       klasses.any? { |klass| value.is_a?(klass) }
+    rescue NoMethodError
+      false
     end
 
     def convert(value)
@@ -31,6 +33,8 @@ module ActiveInteraction
       else
         value
       end
+    rescue NoMethodError
+      false
     end
 
     def convert_string(value)

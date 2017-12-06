@@ -20,6 +20,8 @@ module ActiveInteraction
 
     def matches?(value)
       value.is_a?(Symbol)
+    rescue NoMethodError
+      false
     end
 
     def convert(value)
@@ -28,6 +30,8 @@ module ActiveInteraction
       else
         value
       end
+    rescue NoMethodError
+      false
     end
   end
 end

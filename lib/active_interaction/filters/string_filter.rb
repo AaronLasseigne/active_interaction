@@ -24,6 +24,8 @@ module ActiveInteraction
 
     def matches?(value)
       value.is_a?(String)
+    rescue NoMethodError
+      false
     end
 
     def adjust_output(value, _context)
@@ -40,6 +42,8 @@ module ActiveInteraction
       else
         value
       end
+    rescue NoMethodError
+      false
     end
   end
 end

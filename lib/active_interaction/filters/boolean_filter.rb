@@ -31,10 +31,14 @@ module ActiveInteraction
       end
 
       value
+    rescue NoMethodError
+      value
     end
 
     def matches?(value)
       value.is_a?(FalseClass) || value.is_a?(TrueClass)
+    rescue NoMethodError
+      false
     end
 
     def convert(value)

@@ -29,6 +29,8 @@ module ActiveInteraction
 
     def matches?(value)
       value.is_a?(Hash)
+    rescue NoMethodError
+      false
     end
 
     def adjust_output(value, context)
@@ -46,6 +48,8 @@ module ActiveInteraction
       else
         value
       end
+    rescue NoMethodError
+      false
     end
 
     def clean_value(h, name, filter, value, context)

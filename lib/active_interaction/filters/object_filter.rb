@@ -40,6 +40,8 @@ module ActiveInteraction
     def matches?(value)
       klass === value || # rubocop:disable Style/CaseEquality
         value.is_a?(klass)
+    rescue NoMethodError
+      false
     end
 
     def convert(value)

@@ -41,6 +41,8 @@ module ActiveInteraction
 
     def matches?(value)
       klasses.any? { |klass| value.is_a?(klass) }
+    rescue NoMethodError
+      false
     end
 
     def adjust_output(value, context)
@@ -56,6 +58,8 @@ module ActiveInteraction
       else
         value
       end
+    rescue NoMethodError
+      false
     end
 
     def method_missing(*, &block) # rubocop:disable Style/MethodMissing
