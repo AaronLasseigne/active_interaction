@@ -173,7 +173,7 @@ module ActiveInteraction
     # @private
     # rubocop:disable Metrics/MethodLength
     def cast(value, context, convert: true, reconstantize: true)
-      if matches?(value)
+      if safe_matches?(value)
         adjust_output(value, context)
       # we can't use `nil?` because BasicObject doesn't have it
       elsif value == nil # rubocop:disable Style/NilComparison
@@ -186,7 +186,7 @@ module ActiveInteraction
           reconstantize: false
         )
       elsif convert
-        public_send(__method__, convert(value), context,
+        public_send(__method__, safe_convert(value), context,
           convert: false,
           reconstantize: reconstantize
         )
@@ -217,12 +217,24 @@ module ActiveInteraction
       false
     end
 
+    def safe_matches?(value)
+      matches?(value)
+    rescue NoMethodError
+      false
+    end
+
     def adjust_output(value, _context)
       value
     end
 
     def convert(value)
       value
+    end
+
+    def safe_convert(value)
+      convert(value)
+    rescue NoMethodError
+      false
     end
 
     # @param value [Object]

@@ -25,8 +25,6 @@ module ActiveInteraction
 
     def matches?(object)
       methods.all? { |method| object.respond_to?(method) }
-    rescue NoMethodError
-      false
     end
 
     def methods
