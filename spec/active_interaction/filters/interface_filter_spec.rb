@@ -11,14 +11,6 @@ describe ActiveInteraction::InterfaceFilter, :filter do
   describe '#cast' do
     let(:result) { filter.cast(value, nil) }
 
-    context 'with a BasicObject' do
-      let(:value) { BasicObject.new }
-
-      it 'raises an error' do
-        expect { result }.to raise_error ActiveInteraction::InvalidValueError
-      end
-    end
-
     context 'with an Object' do
       let(:value) { Object.new }
 
