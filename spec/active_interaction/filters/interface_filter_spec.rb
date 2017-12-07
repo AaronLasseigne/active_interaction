@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'json'
-require 'yaml'
 
 describe ActiveInteraction::InterfaceFilter, :filter do
   include_context 'filters'
@@ -11,27 +9,25 @@ describe ActiveInteraction::InterfaceFilter, :filter do
   describe '#cast' do
     let(:result) { filter.cast(value, nil) }
 
-    context 'with an Object' do
+    context 'with a matching object' do
+      let(:value) do
+        Class.new do
+          def dump; end
+
+          def load; end
+        end.new
+      end
+
+      it 'returns a the value' do
+        expect(result).to eql value
+      end
+    end
+
+    context 'with an non-matching object' do
       let(:value) { Object.new }
 
       it 'raises an error' do
         expect { result }.to raise_error ActiveInteraction::InvalidValueError
-      end
-    end
-
-    context 'with JSON' do
-      let(:value) { JSON }
-
-      it 'returns an Array' do
-        expect(result).to eql value
-      end
-    end
-
-    context 'with YAML' do
-      let(:value) { YAML }
-
-      it 'returns an Hash' do
-        expect(result).to eql value
       end
     end
   end
