@@ -3,7 +3,7 @@ require 'json'
 require 'yaml'
 
 InterfaceInteraction = Class.new(TestInteraction) do
-  interface :anything
+  interface :anything, methods: []
 end
 
 describe InterfaceInteraction do
