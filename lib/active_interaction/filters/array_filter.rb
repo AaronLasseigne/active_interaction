@@ -15,10 +15,6 @@ module ActiveInteraction
     #     array :ids do
     #       integer
     #     end
-    #   @example
-    #     array :ids do
-    #       integer default: nil
-    #     end
   end
 
   # @private
