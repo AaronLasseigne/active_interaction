@@ -7,6 +7,9 @@
 - [#392][] - Integer parsing now defaults the base to 10. ([how to upgrade](#integer-parsing-base-now-10))
 - The `inputs` method now returns an `ActiveInteraction::Input` instead of a
   hash. The `ActiveInteraction::Input` still responds to all hash methods.
+- The `object` and `record` filters now only accept an instance of the correct
+  class type or a subclass of the correct class. They no longer allow you to
+  check for included modules. ([how to upgrade](#object-and-record-filter-changes))
 - The `interface` filter will now look for an ancestor of the value passed
   based on the name of the interface or the value passed in the `from` option.
 - The `InvalidClassError` has been replaced by `InvalidNameError`.
@@ -18,7 +21,7 @@
 
 ## Upgrading
 
-## Integer Parsing Base Now 10
+### Integer Parsing Base Now 10
 
 Integers are parsed using `Integer`. By default this meant that when
 strings were parsed, radix indicators (0, 0b, and 0x) were honored. Now
@@ -58,6 +61,13 @@ With that change, we can see the radix is respected again.
 Example.run!(x: '010')
 # => 8
 ```
+
+### Object and Record Filter Changes
+
+The `object` and `record` filters used to be able to check for included modules
+in addition to a class type. This has been removed. If you want any object that
+has a particular module included, you'll need to use the newly expanded
+`interface` filter.
 
 # [3.8.3][] (2020-04-22)
 
@@ -1037,10 +1047,10 @@ Example.run
   [#454]: https://github.com/AaronLasseigne/active_interaction/pull/454
   [#455]: https://github.com/AaronLasseigne/active_interaction/pull/455
   [#457]: https://github.com/AaronLasseigne/active_interaction/issues/457
-<<<<<<< HEAD
   [#477]: https://github.com/AaronLasseigne/active_interaction/issues/477
   [#476]: https://github.com/AaronLasseigne/active_interaction/issues/476
   [#479]: https://github.com/AaronLasseigne/active_interaction/issues/479
+<<<<<<< HEAD
 <<<<<<< HEAD
   [#486]: https://github.com/AaronLasseigne/active_interaction/issues/486
 =======
@@ -1048,3 +1058,6 @@ Example.run
   [#392]: https://github.com/AaronLasseigne/active_interaction/issues/392
 >>>>>>> dc8b989... default the integer base to 10
 >>>>>>> b83ca8a (default the integer base to 10)
+=======
+  [#392]: https://github.com/AaronLasseigne/active_interaction/issues/392
+>>>>>>> 2594b86 (remove interface type support from the object and record filters)
