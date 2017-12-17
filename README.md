@@ -425,8 +425,31 @@ hash :stuff,
 
 ### Interface
 
-Interface filters allow you to specify that an object must respond to a certain
-set of methods. This allows you to do duck typing with interactions.
+Interface filters allow you to specify an interface that the passed value must
+meet in order to pass. The name of the interface is used to look for a constant
+inside the ancestor listing for the passed value. This allows for a variety of
+checks depending on what's passed. For instances you can check for an included
+module or an inherited ancestor class. Classes can be checked for an extended
+module or an inherited ancestor class. Modules can be checked for an extended
+module.
+
+``` rb
+class InterfaceInteraction < ActiveInteraction::Base
+  interface :exception
+
+  def execute
+    exception
+  end
+end
+
+InterfaceInteraction.run!(exception: Exception)
+# ActiveInteraction::InvalidInteractionError: Exception is not a valid interface
+InterfaceInteraction.run!(exception: NameError) # a subclass of Exception
+# => NameError
+```
+
+You can also create an anonymous interface on the fly by passing the `methods`
+option.
 
 ``` rb
 class InterfaceInteraction < ActiveInteraction::Base

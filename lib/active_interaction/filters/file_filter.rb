@@ -15,7 +15,7 @@ module ActiveInteraction
   end
 
   # @private
-  class FileFilter < InterfaceFilter
+  class FileFilter < Filter
     register :file
 
     def database_column_type
@@ -24,8 +24,10 @@ module ActiveInteraction
 
     private
 
-    def methods
-      [:rewind]
+    def matches?(object)
+      object.respond_to?(:rewind)
+    rescue NoMethodError
+      false
     end
   end
 end

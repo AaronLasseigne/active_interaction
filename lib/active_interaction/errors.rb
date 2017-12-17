@@ -12,6 +12,11 @@ module ActiveInteraction
   # @return [Class]
   InvalidClassError = Class.new(Error)
 
+  # Raised if an ancestor name is invalid.
+  #
+  # @return [Class]
+  InvalidAncestorError = Class.new(Error)
+
   # Raised if a converter is invalid.
   #
   # @return [Class]
