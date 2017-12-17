@@ -24,9 +24,18 @@ describe ActiveInteraction::ObjectFilter, :filter do
     let(:value) { ObjectThing.new }
     let(:result) { filter.cast(value, nil) }
 
-    context 'with class as a Class' do
+    context 'with an instance of the class' do
       it 'returns the instance' do
         expect(result).to eql value
+      end
+
+      context 'with an instance that is a subclass' do
+        let(:subclass) { Class.new(ObjectThing) }
+        let(:value) { subclass.new }
+
+        it 'returns the instance' do
+          expect(result).to eql value
+        end
       end
 
       it 'handles reconstantizing' do
@@ -57,50 +66,6 @@ describe ActiveInteraction::ObjectFilter, :filter do
         it 'does not raise an error on initialization' do
           expect { filter }.to_not raise_error
         end
-      end
-
-      context 'with bidirectional class comparisons' do
-        let(:case_equality) { false }
-        let(:class_equality) { false }
-
-        before do
-          allow(ObjectThing).to receive(:===).and_return(case_equality)
-          allow(value).to receive(:is_a?).and_return(class_equality)
-        end
-
-        context 'without case or class equality' do
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
-          end
-        end
-
-        context 'with case equality' do
-          let(:case_equality) { true }
-
-          it 'returns the instance' do
-            expect(result).to eql value
-          end
-        end
-
-        context 'with class equality' do
-          let(:class_equality) { true }
-
-          it 'returns the instance' do
-            expect(result).to eql value
-          end
-        end
-      end
-    end
-
-    context 'with class as a superclass' do
-      before do
-        options[:class] = ObjectThing.superclass
-      end
-
-      it 'returns the instance' do
-        expect(result).to eql value
       end
     end
 
@@ -159,7 +124,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         end
       end
 
-      context 'with a object of the correct class' do
+      context 'with an object of the correct class' do
         let(:value) { ObjectThing.new }
 
         it 'does not call the converter' do
@@ -168,7 +133,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         end
       end
 
-      context 'with a object is a subclass' do
+      context 'with an object that is a subclass' do
         let(:subclass) { Class.new(ObjectThing) }
         let(:value) { subclass.new }
 

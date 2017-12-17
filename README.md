@@ -475,9 +475,8 @@ InterfaceInteraction.run!(serializer: JSON)
 
 ### Object
 
-Object filters allow you to require an instance of a particular class. It
-checks either `#is_a?` on the instance or `.===` on the class. Because of that,
-it also works with classes that have mixed modules in with `include`.
+Object filters allow you to require an instance of a particular class or one of
+its subclasses.
 
 ``` rb
 class Cow
@@ -514,8 +513,8 @@ object :dolly3,
 ```
 
 If you have value objects or you would like to build one object from another,
-you can use the `converter` option. It is only called if the value provided does
-not pass `#is_a?` and `.===` for the object class. The `converter` option
+you can use the `converter` option. It is only called if the value provided is
+not an instance of the class or one of its subclasses. The `converter` option
 accepts a symbol that specifies a class method on the object class or a proc.
 Both will be passed the value and any errors thrown inside the converter will
 cause the value to be considered invalid. Any returned value that is not the
@@ -542,13 +541,13 @@ ObjectInteraction.run!(ip_address: 1)
 
 ### Record
 
-Record filters allow you to require an instance of a particular class or a value
-that can be used to locate an instance of the object. It checks either `#is_a?`
-on the instance or `.===` on the class. If the value does not match, it will
-call `find` on the class of the record. This is particularly useful when working
-with ActiveRecord objects. Like an object filter, the class is derived from the
-name passed but can be specified with the `class` option. The value given to the
-`default` option will also be found.
+Record filters allow you to require an instance of a particular class (or one
+of its subclasses) or a value that can be used to locate an instance of the
+object. If the value does not match, it will call `find` on the class of the
+record. This is particularly useful when working with ActiveRecord objects.
+Like an object filter, the class is derived from the name passed but can be
+specified with the `class` option. The value given to the `default` option will
+also be found.
 
 ``` rb
 class RecordInteraction < ActiveInteraction::Base

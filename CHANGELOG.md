@@ -30,6 +30,9 @@
   hash. The `ActiveInteraction::Input` still responds to all hash methods.
 - The `interface` filter will now look for an ancestor of the value passed
   based on the name of the interface or the value passed in the `from` option.
+- The `object` and `record` filters now only accept an instance of the correct
+  class type or a subclass of the correct class. They no longer allow you to
+  check for included modules.
 
 ## Added
 
@@ -305,6 +308,11 @@ in both interactions.
 autolink(:a, :b)
 => { a: link(:a), b: link(:b) }
 ```
+
+The `object` and `record` filters used to be able to check for included modules
+in addition to a class type. This has been removed. If you want any object that
+has a particular module included, you'll need to use the newly expanded
+`interface` filter.
 
 # [3.6.1][] (2017-11-12)
 

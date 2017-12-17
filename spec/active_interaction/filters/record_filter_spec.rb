@@ -40,9 +40,18 @@ describe ActiveInteraction::RecordFilter, :filter do
     let(:value) { RecordThing.new }
     let(:result) { filter.cast(value, nil) }
 
-    context 'with class as a Class' do
+    context 'with an instance of the class' do
       it 'returns the instance' do
         expect(result).to eql value
+      end
+
+      context 'with an instance that is a subclass' do
+        let(:subclass) { Class.new(RecordThing) }
+        let(:value) { subclass.new }
+
+        it 'returns the instance' do
+          expect(result).to eql value
+        end
       end
 
       it 'handles reconstantizing' do
@@ -72,42 +81,6 @@ describe ActiveInteraction::RecordFilter, :filter do
 
         it 'does not raise an error on initialization' do
           expect { filter }.to_not raise_error
-        end
-      end
-
-      context 'with bidirectional class comparisons' do
-        let(:case_equality) { false }
-        let(:class_equality) { false }
-
-        before do
-          options[:finder] = :passthrough
-
-          allow(RecordThing).to receive(:===).and_return(case_equality)
-          allow(value).to receive(:is_a?).and_return(class_equality)
-        end
-
-        context 'without case or class equality' do
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
-          end
-        end
-
-        context 'with case equality' do
-          let(:case_equality) { true }
-
-          it 'returns the instance' do
-            expect(result).to eql value
-          end
-        end
-
-        context 'with class equality' do
-          let(:class_equality) { true }
-
-          it 'returns the instance' do
-            expect(result).to eql value
-          end
         end
       end
     end
