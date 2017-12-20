@@ -10,6 +10,7 @@
 - The `interface` filter will now look for an ancestor of the value passed
   based on the name of the interface or the value passed in the `from` option.
 - The `InvalidClassError` has been replaced by `InvalidNameError`.
+- When introspecting an array filter, the inner filter is referenced by :'0' instead of the singularized version of the array filter name.
 
 ## Added
 
