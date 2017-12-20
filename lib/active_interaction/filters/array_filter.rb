@@ -59,24 +59,28 @@ module ActiveInteraction
       end
     end
 
-    # rubocop:disable Style/MissingRespondToMissing
+    # rubocop:disable Metrics/AbcSize, Style/MissingRespondToMissing
     def method_missing(*, &block)
       super do |klass, names, options|
-        filter = klass.new(name.to_s.singularize.to_sym, options, &block)
+        if klass == ObjectFilter && !options.key?(:class)
+          options[:class] = name.to_s.singularize.camelize.to_sym
+        end
+
+        filter = klass.new(names.first || '', options, &block)
+
+        filters[filters.size.to_s.to_sym] = filter
 
         validate!(filter, names)
-
-        filters[filter.name] = filter
       end
     end
-    # rubocop:enable Style/MissingRespondToMissing
+    # rubocop:enable Metrics/AbcSize, Style/MissingRespondToMissing
 
     # @param filter [Filter]
     # @param names [Array<Symbol>]
     #
     # @raise [InvalidFilterError]
     def validate!(filter, names)
-      unless filters.empty?
+      if filters.size > 1
         raise InvalidFilterError, 'multiple filters in array block'
       end
 

@@ -106,11 +106,19 @@ describe ActiveInteraction::ArrayFilter, :filter do
       end
 
       it 'has a filter with the right key' do
-        expect(filter.filters).to have_key(:object)
+        expect(filter.filters).to have_key(:'0')
       end
 
-      it 'has a filter with the right name' do
-        expect(filter.filters[:object].name).to eql(:object)
+      it 'has a filter with the right option' do
+        expect(filter.filters[:'0'].options).to have_key(:class)
+      end
+
+      context 'with a class set' do
+        let(:block) { proc { object class: String } }
+
+        it 'does not override the class' do
+          expect(filter.filters[:'0'].options[:class]).to eql String
+        end
       end
     end
   end
