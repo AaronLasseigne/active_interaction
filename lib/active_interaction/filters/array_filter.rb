@@ -60,8 +60,13 @@ module ActiveInteraction
 
     def method_missing(*, &block) # rubocop:disable Style/MethodMissing
       super do |klass, names, options|
-        if klass == ObjectFilter && !options.key?(:class)
-          options[:class] = name.to_s.singularize.camelize.to_sym
+        filter_name_or_option = {
+          ObjectFilter    => :class,
+          RecordFilter    => :class,
+          InterfaceFilter => :from
+        }
+        if (key = filter_name_or_option[klass]) && !options.key?(key)
+          options[key] = name.to_s.singularize.camelize.to_sym
         end
 
         filter = klass.new(names.first || '', options, &block)
