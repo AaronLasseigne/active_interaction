@@ -237,7 +237,8 @@ ArrayInteraction.run!(toppings: [:cheese, 'pepperoni'])
 # => 2
 ```
 
-Use a block to constrain the types of elements an array can contain.
+Use a block to constrain the types of elements an array can contain. Note that
+you can only have one filter inside an array block, and it must not have a name.
 
 ``` rb
 array :birthdays do
@@ -245,12 +246,21 @@ array :birthdays do
 end
 ```
 
-Note that you can only have one filter inside an array block, and it must not
-have a name.
+For `interface`, `object`, and `record` filters, the name of the array filter
+will be singularized and used to determine the type of value passed. In the
+example below, the objects passed would need to be of type `Cow`.
 
 ``` rb
 array :cows do
-  object class: Cow
+  object
+end
+```
+
+You can override this by passing the necessary information to the inner filter.
+
+```ruby
+array :managers do
+  object class: People
 end
 ```
 

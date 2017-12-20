@@ -4,7 +4,8 @@
 
 - drop support for Ruby 2.0, 2.1, and 2.2
 - drop suport for Rails < 5.0
-- [#392][] - Integer parsing now defaults the base to 10. ([how to upgrade](#integer-parsing-base-now-10))
+- [#392][] - Integer parsing now defaults the base to 10.
+  ([how to upgrade](#integer-parsing-base-now-10))
 - The `inputs` method now returns an `ActiveInteraction::Input` instead of a
   hash. The `ActiveInteraction::Input` still responds to all hash methods.
 - The `object` and `record` filters now only accept an instance of the correct
@@ -13,11 +14,16 @@
 - The `interface` filter will now look for an ancestor of the value passed
   based on the name of the interface or the value passed in the `from` option.
 - The `InvalidClassError` has been replaced by `InvalidNameError`.
-- When introspecting an array filter, the inner filter is referenced by :'0' instead of the singularized version of the array filter name.
+- When introspecting an array filter, the inner filter is referenced by :'0'
+  instead of the singularized version of the array filter name.
 
 ## Added
 
-- Implicit coercion of types are now supported in filters (e.g. to_str, to_int, etc).
+- Implicit coercion of types are now supported in filters (e.g. to_str, to_int,
+  etc).
+- The `interface` and `record` filters, when used as an inner filter for an
+  `array`, will have their `from/class` option set to a singularized version of
+  the `array` filter name.
 
 ## Upgrading
 
