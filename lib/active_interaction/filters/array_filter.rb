@@ -25,6 +25,13 @@ module ActiveInteraction
   class ArrayFilter < Filter
     include Missable
 
+    FILTER_NAME_OR_OPTION = {
+      'ActiveInteraction::ObjectFilter' => :class,
+      'ActiveInteraction::RecordFilter' => :class,
+      'ActiveInteraction::InterfaceFilter' => :from
+    }.freeze
+    private_constant :FILTER_NAME_OR_OPTION
+
     register :array
 
     private
@@ -59,12 +66,20 @@ module ActiveInteraction
       end
     end
 
-    # rubocop:disable Metrics/AbcSize, Style/MissingRespondToMissing
+    def add_option_in_place_of_name(klass, options)
+      if (key = FILTER_NAME_OR_OPTION[klass.to_s]) && !options.key?(key)
+        options.merge(
+          "#{key}": name.to_s.singularize.camelize.to_sym
+        )
+      else
+        options
+      end
+    end
+
+    # rubocop:disable Style/MissingRespondToMissing
     def method_missing(*, &block)
       super do |klass, names, options|
-        if klass == ObjectFilter && !options.key?(:class)
-          options[:class] = name.to_s.singularize.camelize.to_sym
-        end
+        options = add_option_in_place_of_name(klass, options)
 
         filter = klass.new(names.first || '', options, &block)
 
@@ -73,7 +88,7 @@ module ActiveInteraction
         validate!(filter, names)
       end
     end
-    # rubocop:enable Metrics/AbcSize, Style/MissingRespondToMissing
+    # rubocop:enable Style/MissingRespondToMissing
 
     # @param filter [Filter]
     # @param names [Array<Symbol>]

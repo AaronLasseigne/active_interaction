@@ -96,28 +96,34 @@ describe ActiveInteraction::ArrayFilter, :filter do
       end
     end
 
-    context 'with a nested object filter' do
-      let(:block) { proc { object } }
-      let(:name) { :objects }
-      let(:value) { [Object.new] }
+    [
+      %i[object class],
+      %i[record class],
+      %i[interface from]
+    ].each do |(type, option)|
+      context "with a nested #{type} filter" do
+        let(:block) { proc { public_send(type) } }
+        let(:name) { :objects }
+        let(:value) { [''] }
 
-      it 'does not raise an error' do
-        expect { result }.to_not raise_error
-      end
+        it 'does not raise an error' do
+          expect { result }.to_not raise_error
+        end
 
-      it 'has a filter with the right key' do
-        expect(filter.filters).to have_key(:'0')
-      end
+        it 'has a filter with the right key' do
+          expect(filter.filters).to have_key(:'0')
+        end
 
-      it 'has a filter with the right option' do
-        expect(filter.filters[:'0'].options).to have_key(:class)
-      end
+        it 'has a filter with the right option' do
+          expect(filter.filters[:'0'].options).to have_key(option)
+        end
 
-      context 'with a class set' do
-        let(:block) { proc { object class: String } }
+        context 'with a class set' do
+          let(:block) { proc { public_send(type, "#{option}": String) } }
 
-        it 'does not override the class' do
-          expect(filter.filters[:'0'].options[:class]).to eql String
+          it "does not override the #{option}" do
+            expect(filter.filters[:'0'].options[option]).to eql String
+          end
         end
       end
     end
