@@ -58,16 +58,24 @@ module ActiveInteraction
       false
     end
 
+    def add_option_in_place_of_name(klass, options)
+      filter_name_or_option = {
+        ObjectFilter    => :class,
+        RecordFilter    => :class,
+        InterfaceFilter => :from
+      }
+      if (key = filter_name_or_option[klass]) && !options.key?(key)
+        options.merge(
+          :"#{key}" => name.to_s.singularize.camelize.to_sym
+        )
+      else
+        options
+      end
+    end
+
     def method_missing(*, &block) # rubocop:disable Style/MethodMissing
       super do |klass, names, options|
-        filter_name_or_option = {
-          ObjectFilter    => :class,
-          RecordFilter    => :class,
-          InterfaceFilter => :from
-        }
-        if (key = filter_name_or_option[klass]) && !options.key?(key)
-          options[key] = name.to_s.singularize.camelize.to_sym
-        end
+        options = add_option_in_place_of_name(klass, options)
 
         filter = klass.new(names.first || '', options, &block)
 
