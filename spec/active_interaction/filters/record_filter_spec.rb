@@ -150,7 +150,7 @@ describe ActiveInteraction::RecordFilter, :filter do
       it 'raises an error' do
         expect do
           result
-        end.to raise_error ActiveInteraction::InvalidClassError
+        end.to raise_error ActiveInteraction::InvalidNameError
       end
     end
 
