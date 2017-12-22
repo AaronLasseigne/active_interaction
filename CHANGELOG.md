@@ -38,6 +38,8 @@
   `execute` method now returns `[result, errors, moves]` instead of a single
   value that was either the `result` or an error object. The `errors` and
   `moves` will only be set when a composed interaction has failed.
+- When introspecting an `array` filter, the inner filter is referenced by
+  `:'0'` instead of the singularized version of the array filter name.
 
 ## Added
 
@@ -57,6 +59,9 @@
   interaction where the names of the inputs of the two interactions match
   exactly.
 - `automove`
+- The `interface` and `record` filters, when used as an inner filter for an
+  `array`, will have their `from`/`class` option set to a singularized version
+  of the `array` filter name.
 
 ## Upgrading
 
