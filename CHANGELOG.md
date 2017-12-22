@@ -2,10 +2,24 @@
 
 ## Changed
 
+### Major
+
 - drop support for Ruby 2.0 and 2.1
 - [#398][] - Predicate methods have been removed.
-- [#411][] - Always cache `result` once an interaction is run.
 - [#392][] - Integer parsing now defaults the base to 10.
+- [#412][] - Filters will now treat blank string values as `nil`
+  (execpt `string` and `symbol`).
+- Merging errors now adds them all to `:base` of the source interaction.
+- Errors from composed interactions are now added to `:base` on the parent
+  interaction.
+- The `object` and `record` filters now only accept an instance of the correct
+  class type or a subclass of the correct class. They no longer allow you to
+  check for included modules.
+- The `interface` filter will now look for an ancestor of the value passed
+  based on the name of the interface or the value passed in the `from` option.
+
+### Minor
+
 - Implicit types are now supported for many filters:
   - `array` accepts `to_ary`
   - `date` accepts `to_str`
@@ -17,22 +31,13 @@
   - `string` accepts `to_str`
   - `symbol` accepts `to_sym`
   - `time` accepts `to_int` and `to_str`
-- [#412][] - Filters will now treat blank string values as `nil`
-  (execpt `string` and `symbol`).
-- Merging errors now adds them all to `:base` of the source interaction.
-- Errors from composed interactions are now added to `:base` on the parent
-  interaction.
+- [#411][] - Always cache `result` once an interaction is run.
+- The `inputs` method now returns an `ActiveInteraction::Input` instead of a
+  hash. The `ActiveInteraction::Input` still responds to all hash methods.
 - The `block` argument provided when using an `:around` callback on the
   `execute` method now returns `[result, errors, moves]` instead of a single
   value that was either the `result` or an error object. The `errors` and
   `moves` will only be set when a composed interaction has failed.
-- The `inputs` method now returns an `ActiveInteraction::Input` instead of a
-  hash. The `ActiveInteraction::Input` still responds to all hash methods.
-- The `interface` filter will now look for an ancestor of the value passed
-  based on the name of the interface or the value passed in the `from` option.
-- The `object` and `record` filters now only accept an instance of the correct
-  class type or a subclass of the correct class. They no longer allow you to
-  check for included modules.
 
 ## Added
 
