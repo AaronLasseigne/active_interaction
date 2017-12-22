@@ -6,15 +6,10 @@ module ActiveInteraction # rubocop:disable Style/Documentation
   # @return [Class]
   Error = Class.new(StandardError)
 
-  # Raised if a class name is invalid.
+  # Raised if a constant name is invalid.
   #
   # @return [Class]
-  InvalidClassError = Class.new(Error)
-
-  # Raised if an ancestor name is invalid.
-  #
-  # @return [Class]
-  InvalidAncestorError = Class.new(Error)
+  InvalidNameError = Class.new(Error)
 
   # Raised if a converter is invalid.
   #

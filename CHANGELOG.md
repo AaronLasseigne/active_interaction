@@ -9,6 +9,7 @@
   hash. The `ActiveInteraction::Input` still responds to all hash methods.
 - The `interface` filter will now look for an ancestor of the value passed
   based on the name of the interface or the value passed in the `from` option.
+- The `InvalidClassError` has been replaced by `InvalidNameError`.
 
 ## Added
 

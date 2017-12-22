@@ -34,7 +34,7 @@ module ActiveInteraction
       klass_name = options.fetch(:class, name).to_s.camelize
       Object.const_get(klass_name)
     rescue NameError
-      raise InvalidClassError, "class #{klass_name.inspect} does not exist"
+      raise InvalidNameError, "class #{klass_name.inspect} does not exist"
     end
 
     def matches?(value)

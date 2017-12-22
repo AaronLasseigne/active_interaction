@@ -166,7 +166,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         it 'raises an error' do
           expect do
             result
-          end.to raise_error ActiveInteraction::InvalidAncestorError
+          end.to raise_error ActiveInteraction::InvalidNameError
         end
       end
     end
@@ -323,7 +323,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         it 'raises an error' do
           expect do
             result
-          end.to raise_error ActiveInteraction::InvalidAncestorError
+          end.to raise_error ActiveInteraction::InvalidNameError
         end
       end
     end
