@@ -40,6 +40,7 @@
   `moves` will only be set when a composed interaction has failed.
 - When introspecting an `array` filter, the inner filter is referenced by
   `:'0'` instead of the singularized version of the array filter name.
+- The `InvalidClassError` has been replaced by `InvalidNameError`.
 
 ## Added
 

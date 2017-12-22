@@ -43,7 +43,7 @@ module ActiveInteraction
       const_name = options.fetch(:from, name).to_s.camelize
       Object.const_get(const_name)
     rescue NameError
-      raise InvalidAncestorError,
+      raise InvalidNameError,
         "constant #{const_name.inspect} does not exist"
     end
 
