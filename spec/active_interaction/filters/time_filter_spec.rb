@@ -20,9 +20,6 @@ describe ActiveInteraction::TimeFilter, :filter do
         before do
           time_zone = double
           allow(Time).to receive(:zone).and_return(time_zone)
-
-          time_with_zone = double
-          allow(time_zone).to receive(:at).and_return(time_with_zone)
         end
 
         it 'raises an error' do
