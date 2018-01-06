@@ -13,8 +13,8 @@ describe ActiveInteraction::TimeFilter, :filter do
   end
 
   describe '#initialize' do
-    context 'with a format' do
-      before { options[:format] = '%T' }
+    context 'with format' do
+      include_context 'with format'
 
       context 'with a time zone' do
         before do
