@@ -49,6 +49,20 @@ describe ActiveInteraction::TimeFilter, :filter do
         expect(result).to eql Time.parse(value)
       end
 
+      context 'with a time zone' do
+        before do
+          time_zone = double
+          allow(time_zone).to receive(:parse).and_return(Time.now)
+
+          allow(Time).to receive(:zone).and_return(time_zone)
+        end
+
+        it 'uses Time.zone' do
+          expect(Time.zone).to receive(:parse)
+          result
+        end
+      end
+
       context 'with format' do
         include_context 'with format'
 
@@ -127,6 +141,20 @@ describe ActiveInteraction::TimeFilter, :filter do
 
       it 'returns the Time' do
         expect(result).to eql Time.at(value)
+      end
+
+      context 'with a time zone' do
+        before do
+          time_zone = double
+          allow(time_zone).to receive(:at).and_return(Time.now)
+
+          allow(Time).to receive(:zone).and_return(time_zone)
+        end
+
+        it 'uses Time.zone' do
+          expect(Time.zone).to receive(:at)
+          result
+        end
       end
     end
 

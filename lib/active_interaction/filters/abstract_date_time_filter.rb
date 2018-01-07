@@ -39,9 +39,9 @@ module ActiveInteraction
 
     def convert_string(value)
       if format?
-        klass.strptime(value, format)
+        strptime(value)
       else
-        klass.parse(value) ||
+        parse(value) ||
           (raise ArgumentError, "no time information in #{value.inspect}")
       end
     rescue ArgumentError
@@ -54,6 +54,14 @@ module ActiveInteraction
 
     def format?
       options.key?(:format)
+    end
+
+    def parse(value)
+      klass.parse(value)
+    end
+
+    def strptime(value)
+      klass.strptime(value, format)
     end
 
     def convert_grouped_input(value)

@@ -49,6 +49,14 @@ module ActiveInteraction
       end
     end
 
+    def parse(value)
+      if time_with_zone?
+        Time.zone.parse(value)
+      else
+        super
+      end
+    end
+
     def klasses
       if time_with_zone?
         super + [Time.zone.class]
