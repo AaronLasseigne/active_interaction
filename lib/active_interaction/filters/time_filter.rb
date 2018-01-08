@@ -46,28 +46,8 @@ module ActiveInteraction
       Time.respond_to?(:zone) && !Time.zone.nil?
     end
 
-    def at(value)
-      if time_with_zone?
-        Time.zone.at(value)
-      else
-        Time.at(value)
-      end
-    end
-
-    def parse(value)
-      if time_with_zone?
-        Time.zone.parse(value)
-      else
-        super
-      end
-    end
-
-    def strptime(value)
-      if time_with_zone?
-        Time.zone.strptime(value, format)
-      else
-        super
-      end
+    def obj
+      time_with_zone? ? Time.zone : Time
     end
 
     def klasses
@@ -82,7 +62,7 @@ module ActiveInteraction
       value = value.to_int if value.respond_to?(:to_int)
 
       if value.is_a?(Numeric)
-        at(value)
+        obj.at(value)
       else
         super
       end

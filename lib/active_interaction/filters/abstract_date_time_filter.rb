@@ -18,6 +18,10 @@ module ActiveInteraction
       [klass]
     end
 
+    def obj
+      klass
+    end
+
     def matches?(value)
       klasses.any? { |klass| value.is_a?(klass) }
     rescue NoMethodError
@@ -39,9 +43,9 @@ module ActiveInteraction
 
     def convert_string(value)
       if format?
-        strptime(value)
+        obj.strptime(value, format)
       else
-        parse(value) ||
+        obj.parse(value) ||
           (raise ArgumentError, "no time information in #{value.inspect}")
       end
     rescue ArgumentError
@@ -54,14 +58,6 @@ module ActiveInteraction
 
     def format?
       options.key?(:format)
-    end
-
-    def parse(value)
-      klass.parse(value)
-    end
-
-    def strptime(value)
-      klass.strptime(value, format)
     end
 
     def convert_grouped_input(value)
