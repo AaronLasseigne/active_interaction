@@ -16,7 +16,7 @@ describe ActiveInteraction::TimeFilter, :filter do
     context 'with format' do
       include_context 'with format'
 
-      context 'with a time zone' do
+      context 'with a time zone that does not respond to strptime' do
         before do
           time_zone = double
           allow(Time).to receive(:zone).and_return(time_zone)
@@ -70,6 +70,20 @@ describe ActiveInteraction::TimeFilter, :filter do
 
         it 'returns a Time' do
           expect(result).to eql Time.strptime(value, format)
+        end
+
+        context 'with a time zone' do
+          before do
+            time_zone = double
+            allow(time_zone).to receive(:strptime).and_return(Time.now)
+
+            allow(Time).to receive(:zone).and_return(time_zone)
+          end
+
+          it 'uses Time.zone' do
+            expect(Time.zone).to receive(:strptime)
+            result
+          end
         end
       end
     end

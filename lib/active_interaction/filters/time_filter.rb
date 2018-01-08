@@ -24,8 +24,9 @@ module ActiveInteraction
     register :time
 
     def initialize(name, options = {}, &block)
-      if options.key?(:format) && time_with_zone?
-        raise InvalidFilterError, 'format option unsupported with time zones'
+      if options.key?(:format) && !supports_strptime?
+        raise InvalidFilterError,
+          'format is not allowed because Time.zone does not support `strptime`'
       end
 
       super
@@ -36,6 +37,10 @@ module ActiveInteraction
     end
 
     private
+
+    def supports_strptime?
+      !time_with_zone? || Time.zone.respond_to?(:strptime)
+    end
 
     def time_with_zone?
       Time.respond_to?(:zone) && !Time.zone.nil?
@@ -52,6 +57,14 @@ module ActiveInteraction
     def parse(value)
       if time_with_zone?
         Time.zone.parse(value)
+      else
+        super
+      end
+    end
+
+    def strptime(value)
+      if time_with_zone?
+        Time.zone.strptime(value, format)
       else
         super
       end
