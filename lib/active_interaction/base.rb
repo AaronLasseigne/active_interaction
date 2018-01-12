@@ -79,7 +79,19 @@ module ActiveInteraction
       # @private
       def method_missing(*args, &block) # rubocop:disable Style/MethodMissing
         super do |klass, names, options|
-          raise InvalidFilterError, 'missing attribute name' if names.empty?
+          if names.empty?
+            raise InvalidFilterError, ErrorMessage.new(
+              issue: {
+                desc: 'Filters need to be named.',
+                code: klass.new(nil, options, &block).source_str,
+                lines: [0]
+              },
+              fix: {
+                desc: 'This can be fixed by passing a name as the first argument to the filter.',
+                code: klass.new(:'<name>', options, &block).source_str
+              }
+            )
+          end
 
           names.each { |name| add_filter(klass, name, options, &block) }
         end
@@ -92,7 +104,13 @@ module ActiveInteraction
       # @param options [Hash]
       def add_filter(klass, name, options, &block)
         if ActiveInteraction::Inputs.reserved?(name)
-          raise InvalidFilterError, %("#{name}" is a reserved name)
+          raise InvalidFilterError, ErrorMessage.new(
+            issue: {
+              desc: %(The name "#{name}" is reserved. Please select a new name for the filter.),
+              code: klass.new(name, options, &block).source_str,
+              lines: [0]
+            }
+          )
         end
 
         initialize_filter(klass.new(name, options, &block))

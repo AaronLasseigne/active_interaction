@@ -20,7 +20,9 @@ Metrics/BlockLength:
 Metrics/ClassLength:
   Max: 120
 Metrics/MethodLength:
-  Max: 15
+  Max: 30
+Metrics/LineLength:
+  Enabled: false
 Naming/FileName:
   Exclude:
   - gemfiles/*
@@ -31,3 +33,5 @@ Style/PercentLiteralDelimiters:
     '%W': '[]'
     '%i': '[]'
     '%w': '[]'
+Style/UnneededPercentQ:
+  Enabled: false

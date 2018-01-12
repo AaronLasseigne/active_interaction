@@ -37,7 +37,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
     let(:block) { proc { array default: nil } }
 
     it 'raises an error' do
-      expect { filter }.to raise_error ActiveInteraction::InvalidDefaultError
+      expect { filter }.to raise_error ActiveInteraction::InvalidFilterError
     end
   end
 

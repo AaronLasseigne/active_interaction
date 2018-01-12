@@ -45,8 +45,7 @@ module ActiveInteraction
       if format?
         obj.strptime(value, format)
       else
-        obj.parse(value) ||
-          (raise ArgumentError, "no time information in #{value.inspect}")
+        obj.parse(value) || (raise ArgumentError)
       end
     rescue ArgumentError
       value

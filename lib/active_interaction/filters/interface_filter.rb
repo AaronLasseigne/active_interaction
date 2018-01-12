@@ -28,23 +28,35 @@ module ActiveInteraction
   class InterfaceFilter < Filter
     register :interface
 
+    # rubocop:disable Style/GuardClause
     def initialize(name, options = {}, &block)
-      if options.key?(:methods) && options.key?(:from)
-        raise InvalidFilterError,
-          'method and from options cannot both be passed'
-      end
-
       super
+
+      if options.key?(:from) && options.key?(:methods)
+        raise InvalidFilterError, ErrorMessage.new(
+          issue: {
+            desc: 'You cannot pass the from and methods options together.',
+            code: source_str,
+            lines: [0]
+          }
+        )
+      end
     end
+    # rubocop:enable Style/GuardClause
 
     private
 
     def from
       const_name = options.fetch(:from, name).to_s.camelize
       Object.const_get(const_name)
-    rescue NameError
-      raise InvalidNameError,
-        "constant #{const_name.inspect} does not exist"
+    rescue NameError => e
+      raise InvalidNameError, ErrorMessage.new(
+        issue: {
+          desc: e.message,
+          code: source_str,
+          lines: [0]
+        }
+      )
     end
 
     def matches?(object)

@@ -13,7 +13,7 @@ module ActiveInteraction
   #     belongs to.
 
   # Describes an input filter for an interaction.
-  class Filter
+  class Filter # rubocop:disable Metrics/ClassLength
     # @return [Hash{Symbol => Class}]
     CLASSES = {} # rubocop:disable Style/MutableConstant
     private_constant :CLASSES
@@ -53,7 +53,13 @@ module ActiveInteraction
       #
       # @see .slug
       def factory(slug)
-        CLASSES.fetch(slug) { raise MissingFilterError, slug.inspect }
+        CLASSES.fetch(slug) do
+          raise MissingFilterError, ErrorMessage.new(
+            issue: {
+              desc: %(The slug "#{slug.inspect}" does not represent any filter type.)
+            }
+          )
+        end
       end
 
       private
@@ -130,16 +136,20 @@ module ActiveInteraction
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
     def default(context = nil)
-      raise NoDefaultError, name unless default?
+      error_no_default unless default?
 
       value = raw_default(context)
       raise InvalidValueError if value.is_a?(GroupedInput)
 
       cast(value, context)
-    rescue InvalidNestedValueError => error
-      raise InvalidDefaultError, "#{name}: #{value.inspect} (#{error})"
     rescue InvalidValueError, MissingValueError
-      raise InvalidDefaultError, "#{name}: #{value.inspect}"
+      raise InvalidDefaultError, ErrorMessage.new(
+        issue: {
+          desc: %(The default value for the "#{name}" filter is not valid.),
+          code: source_str,
+          lines: [0]
+        }
+      )
     end
 
     # Get the description.
@@ -188,8 +198,6 @@ module ActiveInteraction
     # @raise [InvalidValueError] If the value is invalid.
     #
     # @private
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     def cast(value, context, convert: true, reconstantize: true)
       value = adjust_input(value)
 
@@ -197,7 +205,7 @@ module ActiveInteraction
         adjust_output(value, context)
       # can't use `nil?` because BasicObject doesn't have it
       elsif value == nil # rubocop:disable Style/NilComparison
-        raise MissingValueError, name unless default?
+        raise MissingValueError unless default?
         nil
       elsif reconstantize
         public_send(__method__, value, context,
@@ -210,11 +218,9 @@ module ActiveInteraction
           reconstantize: reconstantize
         )
       else
-        raise InvalidValueError, "#{name}: #{describe(value)}"
+        raise InvalidValueError
       end
     end
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
 
     # Gets the type of database column that would represent the filter data.
     #
@@ -229,6 +235,19 @@ module ActiveInteraction
     #   returns `:string`.
     def database_column_type
       :string
+    end
+
+    # @private
+    def source_str
+      source = [
+        "#{source_filter_str}#{block ? ' do' : ''}"
+      ]
+      filters.each_value do |filter|
+        source << "  #{filter.source_str}"
+      end
+      source << 'end' if block
+
+      source.join("\n")
     end
 
     private
@@ -268,6 +287,38 @@ module ActiveInteraction
       when 1 then context.instance_exec(self, &value)
       else context.instance_exec(&value)
       end
+    end
+
+    def source_name_str
+      return nil if name.nil? || name.empty?
+
+      " :#{name}"
+    end
+
+    def source_options_str
+      options
+        .map { |key, value| "#{key}: #{value.inspect}" }
+        .join(', ')
+    end
+
+    def source_filter_str
+      output = "#{self.class.slug} #{source_name_str}"
+      output += ", #{source_options_str}" if source_options_str.empty?
+      output
+    end
+
+    def error_no_default
+      raise NoDefaultError, ErrorMessage.new(
+        issue: {
+          desc: 'This filter does not have a default value to return.',
+          code: source_str,
+          lines: [0]
+        },
+        fix: {
+          desc: 'A default value can be added to the filter.',
+          code: source_str.sub(/(\Z| do)/, ', default: <default value>\1')
+        }
+      )
     end
   end
 end

@@ -81,32 +81,75 @@ module ActiveInteraction
 
         filters[filters.size.to_s.to_sym] = filter
 
-        validate!(filter, names)
+        validate!(filter)
       end
     end
 
-    # @param filter [Filter]
-    # @param names [Array<Symbol>]
-    #
-    # @raise [InvalidFilterError]
-    def validate!(filter, names)
-      if filters.size > 1
-        raise InvalidFilterError, 'multiple filters in array block'
-      end
-
-      unless names.empty?
-        raise InvalidFilterError, 'attribute names in array block'
-      end
-
-      unless filter.groups.empty?
-        raise InvalidFilterError, 'nested filters can not be a part of a group'
-      end
-
-      if filter.default?
-        raise InvalidDefaultError, 'default values in array block'
-      end
+    def validate!(filter)
+      error_multiple_inner_filters if filters.size > 1
+      error_named_inner_filter unless filter.name.empty?
+      error_inner_filter_using_groups unless filter.groups.empty?
+      error_inner_filter_using_default if filter.default?
 
       nil
+    end
+
+    def error_multiple_inner_filters
+      raise InvalidFilterError, ErrorMessage.new(
+        issue: {
+          desc: 'An array filter can only have one inner filter.',
+          code: source_str,
+          lines: 1..-2
+        }
+      )
+    end
+
+    def error_inner_filter_using_groups
+      raise InvalidFilterError, ErrorMessage.new(
+        issue: {
+          desc: %q(Inner array filters can't be referenced so they can't belong to a group.),
+          code: source_str,
+          lines: [1]
+        },
+        fix: {
+          if: -> { !options[:groups] },
+          desc: %q(If you're trying to set groups for the entire array, that can be done at the array level.),
+          code: source_str
+            .sub(/,? groups:.*?(?:,|$)/, '')
+            .sub(/ do/, ", groups: #{filters.first.last.groups.inspect} do")
+        }
+      )
+    end
+
+    def error_named_inner_filter
+      raise InvalidFilterError, ErrorMessage.new(
+        issue: {
+          desc: 'Inner values can not be referenced so they do not need to be named.',
+          code: source_str,
+          lines: [1]
+        },
+        fix: {
+          desc: 'You can fix this by removing the name.',
+          code: source_str
+            .sub(/\A(.*?#{filters.first.last.class.slug}) :#{filters.first.last.name},?(.*)\z/m, '\1\2')
+        }
+      )
+    end
+
+    def error_inner_filter_using_default
+      raise InvalidFilterError, ErrorMessage.new(
+        issue: {
+          desc: 'There are no inner filter values to set a default for.',
+          code: source_str,
+          lines: [1]
+        },
+        fix: {
+          if: -> { !options[:default] },
+          desc: %q(If you're trying to set a default for the entire array, that can be done at the array level.),
+          code: source_str
+            .sub(/ do/, ", default: [#{filters.first.last.default.inspect}] do")
+        }
+      )
     end
   end
 end

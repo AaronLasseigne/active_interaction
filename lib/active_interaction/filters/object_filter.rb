@@ -33,8 +33,8 @@ module ActiveInteraction
     def klass
       klass_name = options.fetch(:class, name).to_s.camelize
       Object.const_get(klass_name)
-    rescue NameError
-      raise InvalidNameError, "class #{klass_name.inspect} does not exist"
+    rescue NameError => e
+      error_invalid_class(e)
     end
 
     def matches?(value)
@@ -62,9 +62,30 @@ module ActiveInteraction
       when Symbol
         klass.public_send(converter, value)
       else
-        raise InvalidConverterError,
-          "#{converter.inspect} is not a valid converter"
+        raise InvalidConverterError, ErrorMessage.new(
+          issue: {
+            desc: 'The converter must be a symbol representing a class method or a Proc.',
+            code: source_str,
+            lines: [0]
+          }
+        )
       end
+    end
+
+    def error_invalid_class(error)
+      issue_desc, *fix_desc = error.message.split("\n")
+
+      raise InvalidNameError, ErrorMessage.new(
+        issue: {
+          desc: issue_desc,
+          code: source_str,
+          lines: [0]
+        },
+        fix: {
+          if: -> { !fix_desc.empty? },
+          desc: fix_desc.join("\n")
+        }
+      )
     end
   end
 end

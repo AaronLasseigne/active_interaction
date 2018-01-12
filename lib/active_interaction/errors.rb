@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'erb'
+
 #
 module ActiveInteraction
   # Top-level error class. All other errors subclass this.
@@ -153,6 +155,62 @@ module ActiveInteraction
       else
         error
       end
+    end
+  end
+
+  # Generate more detailed and human friendly error messages.
+  class ErrorMessage
+    def initialize(options)
+      @title = options[:title]
+      @issue = options[:issue]
+      @fix   = options[:fix]
+    end
+
+    attr_reader :title, :issue, :fix
+
+    def mark_bad_lines(code, bad_lines)
+      lines = code.split("\n")
+
+      if bad_lines.is_a?(Range)
+        replacement = 0.upto(lines.size - 1).to_a
+        bad_lines = replacement[bad_lines.begin]..replacement[bad_lines.end]
+      end
+
+      lines.map.with_index do |line, i|
+        "#{bad_lines.include?(i) ? '✗' : ' '} #{line}"
+      end.join("\n")
+    end
+
+    def to_str
+      correct_spacing(ERB.new(strip_heredoc(<<-MESSAGE), nil, '-').result(binding))
+        ## Issue
+
+        <%= issue[:desc] %>
+
+        <% if issue[:code] -%>
+        <%= mark_bad_lines(issue[:code], issue[:lines]) %>
+        <% end -%>
+
+        (The code above is generated and may not be identical to yours.)
+
+        <% if fix && (!fix[:if] || fix[:if].call) -%>
+        ## Fix
+
+        <%= fix[:desc] %>
+
+        <% if fix[:code] -%>
+        <%= mark_bad_lines(fix[:code], []) %>
+        <% end -%>
+        <% end -%>
+      MESSAGE
+    end
+
+    private def strip_heredoc(text)
+      text.gsub(/^#{text.scan(/^[ \t]*(?=\S)/).min}/, '')
+    end
+
+    private def correct_spacing(text)
+      text.strip.prepend("\n\n").concat("\n\n")
     end
   end
 end

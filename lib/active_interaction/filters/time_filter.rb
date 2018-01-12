@@ -24,12 +24,13 @@ module ActiveInteraction
     register :time
 
     def initialize(name, options = {}, &block)
-      if options.key?(:format) && !supports_strptime?
-        raise InvalidFilterError,
-          'format is not allowed because Time.zone does not support `strptime`'
-      end
-
       super
+
+      # rubocop:disable Style/GuardClause
+      if options.key?(:format) && !supports_strptime?
+        error_invalid_format_argument
+      end
+      # rubocop:enable Style/GuardClause
     end
 
     def database_column_type
@@ -68,6 +69,25 @@ module ActiveInteraction
       end
     rescue NoMethodError
       false
+    end
+
+    def error_invalid_format_argument
+      fixable = lambda do
+        Kernel.const_defined?('::ActiveSupport') &&
+        Kernel.const_get('::ActiveSupport').version < Gem::Version.new('5.0.0')
+      end
+
+      issue_desc = <<-MSG.strip
+        The format option is not allowed because `Time.zone` does not support `strptime`.
+      MSG
+      fix_desc = <<-MSG.strip
+        Upgrading ActiveSupport (or Rails) to at least 5.0.0 will add support for `strptime`.
+      MSG
+
+      raise InvalidFilterError, ErrorMessage.new(
+        issue: { desc: issue_desc, code: source_str, lines: [0] },
+        fix: { if: fixable.call, desc: fix_desc }
+      )
     end
   end
 end
