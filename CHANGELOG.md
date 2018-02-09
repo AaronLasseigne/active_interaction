@@ -8,7 +8,7 @@
 - [#398][] - Predicate methods have been removed.
 - [#392][] - Integer parsing now defaults the base to 10.
 - [#412][] - Filters will now treat blank string values as `nil`
-  (execpt `string` and `symbol`).
+  (except `string` and `symbol`).
 - Merging errors now adds them all to `:base` of the source interaction.
 - Errors from composed interactions are now added to `:base` on the parent
   interaction.
