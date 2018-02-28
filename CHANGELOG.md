@@ -21,6 +21,7 @@
 ### Minor
 
 - [#392][] - Integer parsing now defaults the base to 10. ([how to upgrade](#integer-parsing-base-now-10))
+- [#411][] - Always cache `result` once an interaction is run. ([implications](#result-caching))
 - Implicit types are now supported for many filters:
   - `array` accepts `to_ary`
   - `date` accepts `to_str`
@@ -32,7 +33,6 @@
   - `string` accepts `to_str`
   - `symbol` accepts `to_sym`
   - `time` accepts `to_int` and `to_str`
-- [#411][] - Always cache `result` once an interaction is run. ([implications](#result-caching))
 - The `inputs` method now returns an `ActiveInteraction::Input` instead of a
   hash. The `ActiveInteraction::Input` still responds to all hash methods.
 - The `block` argument provided when using an `:around` callback on the
