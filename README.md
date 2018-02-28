@@ -200,7 +200,7 @@ UpdateUser.run!(user: user)
 UpdateUser.run!(user: user, birthday: nil)
 
 # Update their birthday.
-UpdateUser.run!(user: user, birthday: Date.new(2000, 1, 2))
+UpdateUser.run!(user: user, birthday: Date.new(1912, 6, 23))
 ```
 
 ### Grouped Inputs
