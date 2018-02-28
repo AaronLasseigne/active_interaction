@@ -5,21 +5,22 @@
 ### Major
 
 - drop support for Ruby 2.0 and 2.1
-- [#398][] - Predicate methods have been removed.
+- [#398][] - Predicate methods have been removed. ([how to upgrade](#predicate-methods))
 - [#412][] - Filters will now treat blank string values as `nil`
-  (except `string` and `symbol`).
+  (except `string` and `symbol`). ([how to upgrade](#blank-values-treated-as-nil-for-filters))
 - Merging errors now adds them all to `:base` of the source interaction.
+  ([how to upgrade](#all-errors-are-merged-to-base-by-default))
 - Errors from composed interactions are now added to `:base` on the parent
-  interaction.
+  interaction. ([how to upgrade](#all-errors-are-merged-to-base-by-default))
 - The `object` and `record` filters now only accept an instance of the correct
   class type or a subclass of the correct class. They no longer allow you to
-  check for included modules.
+  check for included modules. ([how to upgrade](#object-and-record-filter-changes))
 - The `interface` filter will now look for an ancestor of the value passed
   based on the name of the interface or the value passed in the `from` option.
 
 ### Minor
 
-- [#392][] - Integer parsing now defaults the base to 10.
+- [#392][] - Integer parsing now defaults the base to 10. ([how to upgrade](#integer-parsing-base-now-10))
 - Implicit types are now supported for many filters:
   - `array` accepts `to_ary`
   - `date` accepts `to_str`
@@ -31,7 +32,7 @@
   - `string` accepts `to_str`
   - `symbol` accepts `to_sym`
   - `time` accepts `to_int` and `to_str`
-- [#411][] - Always cache `result` once an interaction is run.
+- [#411][] - Always cache `result` once an interaction is run. ([implications](#result-caching))
 - The `inputs` method now returns an `ActiveInteraction::Input` instead of a
   hash. The `ActiveInteraction::Input` still responds to all hash methods.
 - The `block` argument provided when using an `:around` callback on the
