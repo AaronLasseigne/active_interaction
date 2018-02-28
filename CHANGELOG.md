@@ -101,56 +101,6 @@ class Example < ActiveInteraction::Base
 end
 ```
 
-## Result Caching
-
-We were already caching the result of valid interactions. Now we also
-cache the result of invalid interactions. This means that interactions,
-once run, will never change validity (`valid?`) or the result. Even
-before this the odds were small that this would be a problem. The case
-that brough this up was a validation that was time dependent and caused
-a failed outcome to later show success.
-
-## Integer Parsing Base Now 10
-
-Integers are parsed using `Integer`. By default this meant that when
-strings were parsed, radix indicators (0, 0b, and 0x) were honored. Now
-we're defaulting the base to `10`. This means all strings will be parsed
-as though they are base 10.
-
-```ruby
-class Example < ActiveInteraction::Base
-  integer :x
-
-  def execute
-    x
-  end
-end
-
-# v3.6
-Example.run!(x: '010')
-# => 8
-
-# v4.0.0
-Example.run!(x: '010')
-# => 10
-```
-
-If you want the old behavior that respected the radix you can pass `0`
-as the base.
-
-```diff
-- integer :x
-+ integer :x, base: 0
-```
-
-With that change, we can see the radix is respected again.
-
-```ruby
-# v4.0.0
-Example.run!(x: '010')
-# => 8
-```
-
 ## Blank Values Treated As `nil` For Filters
 
 In an effort to improve form support, strings that are `blank?` will
@@ -337,6 +287,56 @@ The `object` and `record` filters used to be able to check for included modules
 in addition to a class type. This has been removed. If you want any object that
 has a particular module included, you'll need to use the newly expanded
 `interface` filter.
+
+## Result Caching
+
+We were already caching the result of valid interactions. Now we also
+cache the result of invalid interactions. This means that interactions,
+once run, will never change validity (`valid?`) or the result. Even
+before this the odds were small that this would be a problem. The case
+that brough this up was a validation that was time dependent and caused
+a failed outcome to later show success.
+
+## Integer Parsing Base Now 10
+
+Integers are parsed using `Integer`. By default this meant that when
+strings were parsed, radix indicators (0, 0b, and 0x) were honored. Now
+we're defaulting the base to `10`. This means all strings will be parsed
+as though they are base 10.
+
+```ruby
+class Example < ActiveInteraction::Base
+  integer :x
+
+  def execute
+    x
+  end
+end
+
+# v3.6
+Example.run!(x: '010')
+# => 8
+
+# v4.0.0
+Example.run!(x: '010')
+# => 10
+```
+
+If you want the old behavior that respected the radix you can pass `0`
+as the base.
+
+```diff
+- integer :x
++ integer :x, base: 0
+```
+
+With that change, we can see the radix is respected again.
+
+```ruby
+# v4.0.0
+Example.run!(x: '010')
+# => 8
+```
 
 # [3.6.1][] (2017-11-12)
 
