@@ -66,6 +66,8 @@
 
 ## Upgrade Guide
 
+### Predicate Methods
+
 We've removed the predicate methods that were automatically generated for each
 input. They would return true if an input was not `nil`.  They can be manually
 replaced with that same check.
@@ -98,12 +100,16 @@ class Example < ActiveInteraction::Base
 end
 ```
 
+## Result Caching
+
 We were already caching the result of valid interactions. Now we also
 cache the result of invalid interactions. This means that interactions,
 once run, will never change validity (`valid?`) or the result. Even
 before this the odds were small that this would be a problem. The case
 that brough this up was a validation that was time dependent and caused
 a failed outcome to later show success.
+
+## Integer Parsing Base Now 10
 
 Integers are parsed using `Integer`. By default this meant that when
 strings were parsed, radix indicators (0, 0b, and 0x) were honored. Now
@@ -144,6 +150,8 @@ Example.run!(x: '010')
 # => 8
 ```
 
+## Blank Values Treated As `nil` For Filters
+
 In an effort to improve form support, strings that are `blank?` will
 be converted into `nil` for all filters except `string` and `symbol`.
 Previously, blank strings would have cased `:invalid_type` errors but
@@ -180,6 +188,8 @@ Example.run(i: 0, b: '').errors.details
 Example.run(i: 0, b: '').result
 => [0, false] # the default is used for `:b`
 ```
+
+## All Errors Are Merged To `:base` By Default
 
 When using `merge!`, all errors are now merged on to `:base`.
 
@@ -319,6 +329,8 @@ in both interactions.
 autolink(:a, :b)
 => { a: link(:a), b: link(:b) }
 ```
+
+## Object and Record Filter Changes
 
 The `object` and `record` filters used to be able to check for included modules
 in addition to a class type. This has been removed. If you want any object that
