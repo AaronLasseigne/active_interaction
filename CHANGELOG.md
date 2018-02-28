@@ -6,7 +6,6 @@
 
 - drop support for Ruby 2.0 and 2.1
 - [#398][] - Predicate methods have been removed.
-- [#392][] - Integer parsing now defaults the base to 10.
 - [#412][] - Filters will now treat blank string values as `nil`
   (except `string` and `symbol`).
 - Merging errors now adds them all to `:base` of the source interaction.
@@ -20,6 +19,7 @@
 
 ### Minor
 
+- [#392][] - Integer parsing now defaults the base to 10.
 - Implicit types are now supported for many filters:
   - `array` accepts `to_ary`
   - `date` accepts `to_str`
