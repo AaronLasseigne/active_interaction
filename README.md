@@ -146,7 +146,7 @@ Square.run!(x: 2.1)
 ### Input Defaults
 
 Adding a filter makes that input required. You can set a default so that if the
-input it not provided, the default will be used. Setting it to a lambda will
+input is not provided, the default will be used. Setting it to a lambda will
 lazily set the default value for that input. That means the value will be computed
 when the interaction is run, as opposed to when it is defined.
 
