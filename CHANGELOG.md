@@ -64,7 +64,7 @@
   `array`, will have their `from`/`class` option set to a singularized version
   of the `array` filter name.
 
-## Upgrading
+## Upgrade Guide
 
 We've removed the predicate methods that were automatically generated for each
 input. They would return true if an input was not `nil`.  They can be manually
@@ -424,7 +424,7 @@ has a particular module included, you'll need to use the newly expanded
 - [#344][]: Support for Ruby 1.9.3.
 - [#346][]: Support for ActiveModel 3.2.
 
-## Upgrading
+## Upgrade Guide
 
 Symbolic errors from composed interactions are now copied to their
 equivalently named filters on the parent interaction. This can cause
@@ -519,7 +519,7 @@ some odd cases as noted in the the [README](README.md#errors).
 - [#215][]: Rather than symbolizing keys all hashes now use indifferent access.
   This takes care of potential but unlikely DoS attacks noted in [#163][].
 
-## Upgrading
+## Upgrade Guide
 
 Please read through the Changed section for a full list of changes.
 
