@@ -8,13 +8,18 @@ require 'active_interaction/version'
 Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
   gem.name = 'active_interaction'
   gem.version = ActiveInteraction::VERSION
+  gem.licenses = %w[MIT]
+
   gem.summary = 'Manage application specific business logic.'
   gem.description = <<-'TEXT'
     ActiveInteraction manages application-specific business logic. It is an
     implementation of the command pattern in Ruby.
   TEXT
-  gem.homepage = 'https://github.com/AaronLasseigne/active_interaction'
-  gem.licenses = %w[MIT]
+  gem.metadata = {
+    'homepage_uri'    => 'https://github.com/AaronLasseigne/active_interaction',
+    'source_code_uri' => 'https://github.com/AaronLasseigne/active_interaction',
+    'changelog_uri'   => 'https://github.com/AaronLasseigne/active_interaction/releases'
+  }
 
   gem.required_ruby_version = '>= 2'
 
