@@ -78,6 +78,10 @@ describe I18nInteraction do
     include_examples 'translation', :fr
   end
 
+  context 'italian' do
+    include_examples 'translation', :it
+  end
+
   context 'hsilgne' do
     before do
       # This must appear before including the translation examples so that the
