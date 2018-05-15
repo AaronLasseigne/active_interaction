@@ -7,7 +7,6 @@ It's an implementation of the command pattern in Ruby.
 [![Build](https://travis-ci.org/AaronLasseigne/active_interaction.svg?branch=master)](https://travis-ci.org/orgsync/active_interaction)
 [![Coverage](https://coveralls.io/repos/github/orgsync/active_interaction/badge.svg?branch=master)](https://coveralls.io/r/orgsync/active_interaction)
 [![Climate](https://codeclimate.com/github/orgsync/active_interaction/badges/gpa.svg)](https://codeclimate.com/github/orgsync/active_interaction)
-[![Dependencies](https://gemnasium.com/orgsync/active_interaction.svg)](https://gemnasium.com/orgsync/active_interaction)
 
 ---
 
