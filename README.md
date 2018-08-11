@@ -37,6 +37,7 @@ handles your verbs.
     - [Float](#float)
     - [Integer](#integer)
 - [Rails](#rails)
+  - [Setup](#setup)
   - [Controller](#controller)
     - [Index](#index)
     - [Show](#show)
@@ -45,7 +46,6 @@ handles your verbs.
     - [Destroy](#destroy)
     - [Edit](#edit)
     - [Update](#update)
-  - [Structure](#structure)
 - [Advanced usage](#advanced-usage)
   - [Callbacks](#callbacks)
   - [Composition](#composition)
@@ -688,6 +688,36 @@ let's take a look at a complete example of a controller with the typical
 resourceful actions. For a complete working example, check out [Aire][], our
 example Rails application.
 
+### Setup
+
+We recommend putting your interactions in `app/interactions`. It's also very
+helpful to group them by model. That way you can look in
+`app/interactions/accounts` for all the ways you can interact with accounts. In
+order to use this structure add
+`config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")` in
+your `application.rb`
+
+```
+- app/
+  - controllers/
+    - accounts_controller.rb
+  - interactions/
+    - accounts/
+      - create_account.rb
+      - destroy_account.rb
+      - find_account.rb
+      - list_accounts.rb
+      - update_account.rb
+  - models/
+    - account.rb
+  - views/
+    - account/
+      - edit.html.erb
+      - index.html.erb
+      - new.html.erb
+      - show.html.erb
+```
+
 ### Controller
 
 #### Index
@@ -943,36 +973,6 @@ def update
     render(:edit)
   end
 end
-```
-
-### Structure
-
-We recommend putting your interactions in `app/interactions`. It's also very
-helpful to group them by model. That way you can look in
-`app/interactions/accounts` for all the ways you can interact with accounts. In
-order to use this structure add
-`config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")` in
-your `application.rb`
-
-```
-- app/
-  - controllers/
-    - accounts_controller.rb
-  - interactions/
-    - accounts/
-      - create_account.rb
-      - destroy_account.rb
-      - find_account.rb
-      - list_accounts.rb
-      - update_account.rb
-  - models/
-    - account.rb
-  - views/
-    - account/
-      - edit.html.erb
-      - index.html.erb
-      - new.html.erb
-      - show.html.erb
 ```
 
 ## Advanced usage
