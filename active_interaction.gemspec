@@ -18,7 +18,7 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
   gem.metadata = {
     'homepage_uri'    => 'https://github.com/AaronLasseigne/active_interaction',
     'source_code_uri' => 'https://github.com/AaronLasseigne/active_interaction',
-    'changelog_uri'   => 'https://github.com/AaronLasseigne/active_interaction/releases'
+    'changelog_uri'   => 'https://github.com/AaronLasseigne/active_interaction/blob/master/CHANGELOG.md'
   }
 
   gem.required_ruby_version = '>= 2'
