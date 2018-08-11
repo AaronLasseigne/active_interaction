@@ -60,7 +60,6 @@
 - `autolink` creates a hash of linked values to pass to a composed
   interaction where the names of the inputs of the two interactions match
   exactly.
-- `automove`
 - The `interface` and `record` filters, when used as an inner filter for an
   `array`, will have their `from`/`class` option set to a singularized version
   of the `array` filter name.
