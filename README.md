@@ -685,8 +685,7 @@ IntegerInteraction.run!(limit1: "08", limit2: "08")
 ActiveInteraction plays nicely with Rails. You can use interactions to handle
 your business logic instead of models or controllers. To see how it all works,
 let's take a look at a complete example of a controller with the typical
-resourceful actions. For a complete working example, check out [Aire][], our
-example Rails application.
+resourceful actions.
 
 ### Setup
 
