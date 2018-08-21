@@ -1,3 +1,9 @@
+# [3.6.2][] (2018-08-21)
+
+## Fixed
+
+- [#411][] Cache the result of outcome validations. This also resolves duplicate callbacks on composed interactions.
+
 # [3.6.1][] (2017-11-12)
 
 ## Fixed
@@ -729,6 +735,7 @@ Example.run
 
 - Initial release.
 
+  [3.6.2]: https://github.com/orgsync/active_interaction/compare/v3.6.1...v3.6.2
   [3.6.1]: https://github.com/orgsync/active_interaction/compare/v3.6.0...v3.6.1
   [3.6.0]: https://github.com/orgsync/active_interaction/compare/v3.5.3...v3.6.0
   [3.5.3]: https://github.com/orgsync/active_interaction/compare/v3.5.2...v3.5.3
@@ -909,6 +916,7 @@ Example.run
   [#384]: https://github.com/orgsync/active_interaction/pull/384
   [#387]: https://github.com/orgsync/active_interaction/pull/387
   [#408]: https://github.com/orgsync/active_interaction/pull/408
+  [#411]: https://github.com/orgsync/active_interaction/pull/411
   [#415]: https://github.com/orgsync/active_interaction/pull/415
   [#417]: https://github.com/orgsync/active_interaction/pull/417
   [#420]: https://github.com/orgsync/active_interaction/pull/420
