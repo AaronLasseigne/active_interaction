@@ -492,12 +492,12 @@ StringInteraction.run!(name: 'Taylor')
 # => "Hello, Taylor!"
 ```
 
-If you want to strip leading and trailing whitespace from a string, set the
-`strip` option to `true`.
+String filter strips leading and trailing whitespace by default. To disable it, set the
+`strip` option to `false`.
 
 ``` rb
 string :comment,
-  strip: true
+  strip: false
 ```
 
 ### Symbol
