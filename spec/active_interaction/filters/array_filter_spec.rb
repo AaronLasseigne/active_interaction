@@ -135,6 +135,13 @@ describe ActiveInteraction::ArrayFilter, :filter do
         end
       end
     end
+
+    context 'with interface specified by methods' do
+      let(:block) { proc { public_send(:interface, methods: [:a_method]) } }
+      it 'does not set the from' do
+        expect(filter.filters[:'0'].options).to_not have_key(:from)
+      end
+    end
   end
 
   describe '#database_column_type' do

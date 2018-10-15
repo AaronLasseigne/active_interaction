@@ -64,7 +64,9 @@ module ActiveInteraction
         RecordFilter    => :class,
         InterfaceFilter => :from
       }
-      if (key = filter_name_or_option[klass]) && !options.key?(key)
+      if klass == InterfaceFilter && options.key?(:methods)
+        options
+      elsif (key = filter_name_or_option[klass]) && !options.key?(key)
         options.merge(
           :"#{key}" => name.to_s.singularize.camelize.to_sym
         )
