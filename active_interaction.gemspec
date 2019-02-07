@@ -1,6 +1,4 @@
-# coding: utf-8
-
-lib = File.expand_path('lib', File.dirname(__FILE__))
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.push(lib) unless $LOAD_PATH.include?(lib)
 
 require 'active_interaction/version'
@@ -41,7 +39,6 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
   {
     'actionpack' => [],
     'benchmark-ips' => ['~> 2.7'],
-    'bundler' => ['~> 1.12'],
     'coveralls' => ['~> 0.8'],
     'kramdown' => ['~> 1.12'],
     'rake' => ['~> 11.3'],
