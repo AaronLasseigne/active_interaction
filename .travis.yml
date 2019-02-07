@@ -9,6 +9,10 @@ matrix:
   # These test specific versions of ActiveModel that we support.
   # Latest MRI, ActiveModel 5.1, RSpec only
   - env: RAKE_TASK=spec
+    gemfile: gemfiles/activemodel-6.0.rb
+    rvm: 2.5.1
+  # Latest MRI, ActiveModel 5.1, RSpec only
+  - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-5.1.rb
     rvm: 2.5.1
   # Latest MRI, ActiveModel 5.0, RSpec only
