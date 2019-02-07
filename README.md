@@ -3,10 +3,10 @@
 ActiveInteraction manages application-specific business logic.
 It's an implementation of the command pattern in Ruby.
 
-[![Version](https://badge.fury.io/rb/active_interaction.svg)](https://rubygems.org/gems/active_interaction)
-[![Build](https://travis-ci.org/AaronLasseigne/active_interaction.svg?branch=master)](https://travis-ci.org/AaronLasseigne/active_interaction)
-[![Coverage](https://coveralls.io/repos/github/orgsync/active_interaction/badge.svg?branch=master)](https://coveralls.io/r/orgsync/active_interaction)
-[![Climate](https://codeclimate.com/github/orgsync/active_interaction/badges/gpa.svg)](https://codeclimate.com/github/orgsync/active_interaction)
+[![Version](https://img.shields.io/gem/v/active_interaction.svg?style=flat-square)](https://rubygems.org/gems/active_interaction)
+[![Build](https://img.shields.io/travis/AaronLasseigne/active_interaction.svg?style=flat-square)](https://travis-ci.org/AaronLasseigne/active_interaction)
+[![Coverage](https://img.shields.io/coveralls/github/orgsync/active_interaction.svg?style=flat-square)](https://coveralls.io/r/orgsync/active_interaction)
+[![Climate](https://img.shields.io/codeclimate/maintainability/orgsync/active_interaction.svg?style=flat-square)](https://codeclimate.com/github/orgsync/active_interaction)
 
 ---
 
