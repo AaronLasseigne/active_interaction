@@ -1,3 +1,9 @@
+# [3.7.0][] (TBD)
+
+## Added
+
+- [#454][] Support for Rails 6.
+
 # [3.6.2][] (2018-08-21)
 
 ## Fixed
@@ -735,6 +741,7 @@ Example.run
 
 - Initial release.
 
+  [3.7.0]: https://github.com/orgsync/active_interaction/compare/v3.6.2...v3.7.0
   [3.6.2]: https://github.com/orgsync/active_interaction/compare/v3.6.1...v3.6.2
   [3.6.1]: https://github.com/orgsync/active_interaction/compare/v3.6.0...v3.6.1
   [3.6.0]: https://github.com/orgsync/active_interaction/compare/v3.5.3...v3.6.0
@@ -923,3 +930,4 @@ Example.run
   [#422]: https://github.com/orgsync/active_interaction/pull/422
   [#425]: https://github.com/orgsync/active_interaction/pull/425
   [#429]: https://github.com/orgsync/active_interaction/pull/429
+  [#454]: https://github.com/orgsync/active_interaction/pull/454
