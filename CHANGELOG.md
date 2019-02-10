@@ -4,6 +4,10 @@
 
 - [#454][] Support for Rails 6.
 
+## Fixed
+
+- [#435][] Errors using the `:message` option were not properly merged.
+
 # [3.6.2][] (2018-08-21)
 
 ## Fixed
@@ -930,4 +934,5 @@ Example.run
   [#422]: https://github.com/orgsync/active_interaction/pull/422
   [#425]: https://github.com/orgsync/active_interaction/pull/425
   [#429]: https://github.com/orgsync/active_interaction/pull/429
+  [#435]: https://github.com/orgsync/active_interaction/pull/435
   [#454]: https://github.com/orgsync/active_interaction/pull/454
