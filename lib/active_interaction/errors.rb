@@ -107,49 +107,51 @@ module ActiveInteraction
 
     private
 
-    def merge_messages!(other)
-      other.messages.each do |attribute, messages|
-        messages.each do |message|
-          unless attribute?(attribute)
-            message = full_message(attribute, message)
-            attribute = :base
-          end
-          add(attribute, message) unless added?(attribute, message)
-        end
-      end
-    end
-
-    def merge_details!(other)
-      other.details.each do |attribute, details|
-        details.each do |detail|
-          detail = detail.dup
-          error = detail.delete(:error)
-
-          merge_detail!(other, attribute, detail, error)
-        end
-      end
-    end
-
-    def merge_detail!(other, attribute, detail, error)
-      if attribute?(attribute) || attribute == :base
-        add(attribute, error, detail) unless added?(attribute, error, detail)
-      else
-        translated_error = translate(other, attribute, error, detail)
-        message = full_message(attribute, translated_error)
-        attribute = :base
-        add(attribute, message) unless added?(attribute, message)
-      end
-    end
-
     def attribute?(attribute)
       @base.respond_to?(attribute)
     end
 
-    def translate(other, attribute, error, detail)
-      if error.is_a?(Symbol)
-        other.generate_message(attribute, error, detail)
+    def detailed_error?(detail)
+      detail[:error].is_a?(Symbol)
+    end
+
+    def merge_messages!(other)
+      other.messages.each do |attribute, messages|
+        messages.each do |message|
+          merge_message!(attribute, message)
+        end
+      end
+    end
+
+    def merge_message!(attribute, message)
+      unless attribute?(attribute)
+        message = full_message(attribute, message)
+        attribute = :base
+      end
+      add(attribute, message) unless added?(attribute, message)
+    end
+
+    def merge_details!(other)
+      other.messages.each do |attribute, messages|
+        messages.zip(other.details[attribute]) do |message, detail|
+          if detailed_error?(detail)
+            merge_detail!(attribute, detail, message)
+          else
+            merge_message!(attribute, message)
+          end
+        end
+      end
+    end
+
+    def merge_detail!(attribute, detail, message)
+      if attribute?(attribute) || attribute == :base
+        options = detail.dup
+        error = options.delete(:error)
+        options[:message] = message
+
+        add(attribute, error, options) unless added?(attribute, error, options)
       else
-        error
+        merge_message!(attribute, message)
       end
     end
   end

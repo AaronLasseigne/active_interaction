@@ -91,6 +91,21 @@ describe ActiveInteraction::Errors do
           expect(errors.details[:base]).to eql [{ error: message }]
         end
       end
+
+      context 'that uses the :message option' do
+        let(:message) { SecureRandom.hex }
+        let(:error_name) { :some_error }
+
+        before do
+          other.add(:base, error_name, message: message)
+        end
+
+        it 'adds the error' do
+          errors.merge!(other)
+          expect(errors.details[:base]).to eql [{ error: error_name }]
+          expect(errors.messages[:base]).to eql [message]
+        end
+      end
     end
 
     context 'with an interpolated detailed error' do
