@@ -14,6 +14,8 @@ module ActiveInteraction
 
       CALLBACKS_OPTIONS = ::ActiveModel::Errors::CALLBACKS_OPTIONS
       private_constant :CALLBACKS_OPTIONS
+      MESSAGE_OPTIONS = [:message].freeze
+      private_constant :MESSAGE_OPTIONS
 
       included do
         attr_reader :details
@@ -35,7 +37,9 @@ module ActiveInteraction
 
       def add_with_details(attribute, message = :invalid, options = {})
         message = message.call if message.respond_to?(:call)
-        error = options.except(*CALLBACKS_OPTIONS).merge(error: message)
+
+        error = options.except(*CALLBACKS_OPTIONS + MESSAGE_OPTIONS)
+          .merge(error: message)
         details[attribute].push(error)
         add_without_details(attribute, message, options)
       end

@@ -1,6 +1,7 @@
 The MIT License (MIT)
 
-Copyright (c) 2013 to 2015 Aaron Lasseigne and Taylor Fausak
+Copyright (c) 2013 to 2016 Aaron Lasseigne and Taylor Fausak
+Copyright (c) 2017 to 2019 Aaron Lasseigne
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

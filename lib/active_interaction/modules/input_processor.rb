@@ -12,8 +12,11 @@ module ActiveInteraction
       GROUPED_INPUT_PATTERN = /\A(.+)\((\d+)i\)\z/
       private_constant :GROUPED_INPUT_PATTERN
 
+      # Checking `syscall` is the result of what appears to be a bug in Ruby.
+      # https://bugs.ruby-lang.org/issues/15597
       def reserved?(name)
         name.to_s.start_with?('_interaction_') ||
+          name == :syscall ||
           Base.method_defined?(name) ||
           Base.private_method_defined?(name)
       end
