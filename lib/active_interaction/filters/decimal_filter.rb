@@ -25,7 +25,7 @@ module ActiveInteraction
     def cast(value, _interaction)
       case value
       when Numeric
-        BigDecimal.new(value, digits)
+        BigDecimal(value, digits)
       when String
         decimal_from_string(value)
       else
@@ -47,7 +47,7 @@ module ActiveInteraction
     # @raise [InvalidValueError] if given value can not be converted
     def decimal_from_string(value)
       Float(value)
-      BigDecimal.new(value, digits)
+      BigDecimal(value, digits)
     rescue ArgumentError
       raise InvalidValueError, "Given value: #{value.inspect}"
     end
