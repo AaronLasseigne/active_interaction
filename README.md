@@ -614,7 +614,7 @@ end
 
 DecimalInteraction.run!(price: 'one ninety-nine')
 # ActiveInteraction::InvalidInteractionError: Price is not a valid decimal
-DecimalInteraction.run!(price: BigDecimal.new(1.99, 2))
+DecimalInteraction.run!(price: BigDecimal(1.99, 2))
 # => #<BigDecimal:7fe792a42028,'0.2165E1',18(45)>
 ```
 

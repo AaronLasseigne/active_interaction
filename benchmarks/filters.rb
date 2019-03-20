@@ -8,7 +8,7 @@ VALUES = {
   boolean: false,
   date: Date.new,
   date_time: DateTime.new,
-  decimal: BigDecimal.new(0),
+  decimal: BigDecimal(0),
   file: StringIO.new,
   float: 0.0,
   hash: {},
