@@ -57,7 +57,9 @@ module ActiveInteraction
       return value if filters.empty?
 
       filter = filters.values.first
-      value.map { |e| filter.clean(e, context) }
+      value.map.with_index do |e, i|
+        with_nested_error_handling(i) { filter.clean(e, context) }
+      end
     end
 
     def convert(value)
@@ -93,6 +95,13 @@ module ActiveInteraction
       end
     end
     # rubocop:enable Style/MissingRespondToMissing
+
+    def with_nested_error_handling(index)
+      yield
+    rescue InvalidNestedValueError => ex
+      ex.nesting_index = index
+      raise ex
+    end
 
     # @param filter [Filter]
     # @param names [Array<Symbol>]
