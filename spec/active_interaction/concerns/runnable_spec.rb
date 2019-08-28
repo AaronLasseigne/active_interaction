@@ -326,23 +326,55 @@ describe ActiveInteraction::Runnable do
       end
     end
 
-    context 'with failing composition' do
-      class CheckInnerForFailure
-        include ActiveInteraction::Runnable
+    context 'with composition failing in the' do
+      let(:running) { klass.run }
 
-        attr_reader :caught_error
-
-        def execute
-          compose(WrappableFailingInteraction)
-        rescue
-          @caught_error = true
-          raise
+      shared_examples 'get an error from the inner interaction' do
+        it do
+          expect { running }.not_to raise_error
+          expect(running.caught_error).to be true
         end
       end
 
-      it 'throws an error from the inner interaction' do
-        outcome = CheckInnerForFailure.run
-        expect(outcome.caught_error).to be true
+      context 'execute' do
+        class CheckInnerForFailure
+          include ActiveInteraction::Runnable
+
+          attr_reader :caught_error
+
+          def execute
+            compose(WrappableFailingInteraction)
+          rescue
+            @caught_error = true
+            raise
+          end
+        end
+
+        let(:klass) { CheckInnerForFailure }
+
+        it_behaves_like 'get an error from the inner interaction'
+      end
+
+      context 'callback' do
+        class CheckInnerForFailureInCallback
+          include ActiveInteraction::Runnable
+
+          attr_reader :caught_error
+          set_callback :execute, :before, :failing_callback
+
+          def failing_callback
+            compose(WrappableFailingInteraction)
+          rescue
+            @caught_error = true
+            raise
+          end
+
+          def execute; end
+        end
+
+        let(:klass) { CheckInnerForFailureInCallback }
+
+        it_behaves_like 'get an error from the inner interaction'
       end
     end
   end
