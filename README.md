@@ -66,13 +66,13 @@ handles your verbs.
 Add it to your Gemfile:
 
 ``` rb
-gem 'active_interaction', '~> 3.8'
+gem 'active_interaction', '~> 4.0'
 ```
 
 Or install it manually:
 
 ``` sh
-$ gem install active_interaction --version '~> 3.8'
+$ gem install active_interaction --version '~> 4.0'
 ```
 
 This project uses [Semantic Versioning][]. Check out [GitHub releases][] for a
