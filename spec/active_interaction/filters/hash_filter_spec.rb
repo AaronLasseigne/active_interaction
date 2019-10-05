@@ -23,6 +23,20 @@ describe ActiveInteraction::HashFilter, :filter do
       end
     end
 
+    context 'with an implicit Hash' do
+      let(:value) do
+        Class.new do
+          def to_hash
+            {}
+          end
+        end.new
+      end
+
+      it 'returns the Hash' do
+        expect(result).to eql value.to_hash
+      end
+    end
+
     context 'with a non-empty Hash' do
       let(:value) { { a: {} } }
 

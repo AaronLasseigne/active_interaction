@@ -8,6 +8,7 @@
   hash. The `ActiveInteraction::Input` still responds to all hash methods.
 - Implicit types are now supported for many filters:
   - `array` accepts `to_ary`
+  - `hash` accepts `to_hash`
   - `string` accepts `to_str`
   - `symbol` accepts `to_sym`
 

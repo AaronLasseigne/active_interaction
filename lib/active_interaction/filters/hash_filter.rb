@@ -26,9 +26,9 @@ module ActiveInteraction
     register :hash
 
     def cast(value, context)
-      case value
-      when Hash
-        value = value.with_indifferent_access
+      if value.respond_to?(:to_hash)
+        value = value.to_hash.with_indifferent_access
+
         initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
 
         filters.each_with_object(initial) do |(name, filter), hash|
