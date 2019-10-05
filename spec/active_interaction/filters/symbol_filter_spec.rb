@@ -15,6 +15,20 @@ describe ActiveInteraction::SymbolFilter, :filter do
       end
     end
 
+    context 'with an implicit Symbol' do
+      let(:value) do
+        Class.new do
+          def to_sym
+            :symbol
+          end
+        end.new
+      end
+
+      it 'returns a symbol' do
+        expect(result).to eql value.to_sym
+      end
+    end
+
     context 'with a String' do
       let(:value) { SecureRandom.hex }
 

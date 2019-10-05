@@ -21,6 +21,20 @@ describe ActiveInteraction::StringFilter, :filter do
       end
     end
 
+    context 'with an implicit String' do
+      let(:value) do
+        Class.new do
+          def to_str
+            @to_str ||= SecureRandom.hex
+          end
+        end.new
+      end
+
+      it 'returns the String' do
+        expect(result).to eql value.to_str
+      end
+    end
+
     context 'with a strippable String' do
       let(:value) { " #{SecureRandom.hex} " }
 
