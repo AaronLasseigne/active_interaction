@@ -21,8 +21,8 @@ module ActiveInteraction
     register :string
 
     def cast(value, _interaction)
-      case value
-      when String
+      if value.respond_to?(:to_str)
+        value = value.to_str
         strip? ? value.strip : value
       else
         super
