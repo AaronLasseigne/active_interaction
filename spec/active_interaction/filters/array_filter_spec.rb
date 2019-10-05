@@ -44,6 +44,20 @@ describe ActiveInteraction::ArrayFilter, :filter do
       end
     end
 
+    context 'with an implicit Array' do
+      let(:value) do
+        Class.new do
+          def to_ary
+            [1, 2, 3]
+          end
+        end.new
+      end
+
+      it 'returns the Array' do
+        expect(result).to eql value.to_ary
+      end
+    end
+
     context 'with a heterogenous Array' do
       let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
