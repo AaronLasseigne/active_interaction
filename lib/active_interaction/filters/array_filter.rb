@@ -28,6 +28,8 @@ module ActiveInteraction
     register :array
 
     def cast(value, context)
+      value = value.to_ary if value.respond_to?(:to_ary)
+
       case value
       when *classes
         return value if filters.empty?
