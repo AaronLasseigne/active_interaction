@@ -28,35 +28,8 @@ module ActiveInteraction
   class ObjectFilter < Filter
     register :object
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    def cast(value, context, reconstantize: true, convert: true)
-      @klass ||= klass
-
-      if matches?(value)
-        value
-      elsif reconstantize
-        @klass = klass
-        public_send(__method__, value, context,
-          reconstantize: false,
-          convert: convert
-        )
-      elsif !value.nil? && convert && (converter = options[:converter])
-        value = convert(klass, value, converter)
-        public_send(__method__, value, context,
-          reconstantize: reconstantize,
-          convert: false
-        )
-      else
-        super(value, context)
-      end
-    end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
-
     private
 
-    # @return [Class]
-    #
-    # @raise [InvalidClassError]
     def klass
       klass_name = options.fetch(:class, name).to_s.camelize
       Object.const_get(klass_name)
@@ -64,33 +37,33 @@ module ActiveInteraction
       raise InvalidClassError, "class #{klass_name.inspect} does not exist"
     end
 
-    # @param value [Object]
-    #
-    # @return [Boolean]
     def matches?(value)
-      @klass === value || # rubocop:disable Style/CaseEquality
-        value.is_a?(@klass)
+      klass === value || # rubocop:disable Style/CaseEquality
+        value.is_a?(klass)
     end
 
-    def convert(klass, value, converter) # rubocop:disable Metrics/MethodLength
-      result =
-        case converter
-        when Proc
-          converter.call(value)
-        when Symbol
-          klass.public_send(converter, value)
-        else
-          raise InvalidConverterError,
-            "#{converter.inspect} is not a valid converter"
-        end
-
-      raise InvalidValueError if result.nil?
-
-      result
+    def convert(value)
+      converter(value).tap do |result|
+        raise InvalidValueError if result.nil?
+      end
     rescue StandardError => e
       raise e if e.is_a?(InvalidConverterError)
 
       raise InvalidValueError
+    end
+
+    def converter(value)
+      return value unless (converter = options[:converter])
+
+      case converter
+      when Proc
+        converter.call(value)
+      when Symbol
+        klass.public_send(converter, value)
+      else
+        raise InvalidConverterError,
+          "#{converter.inspect} is not a valid converter"
+      end
     end
   end
 end

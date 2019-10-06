@@ -22,15 +22,12 @@ module ActiveInteraction
 
     private
 
-    # @return [Integer]
     def base
       options.fetch(:base, 10)
     end
 
-    def convert(value, context)
+    def converter(value)
       Integer(value, value.is_a?(String) ? base : 0)
-    rescue ArgumentError
-      _cast(value, context)
     end
   end
 end

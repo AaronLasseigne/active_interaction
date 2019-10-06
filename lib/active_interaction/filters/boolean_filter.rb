@@ -18,19 +18,25 @@ module ActiveInteraction
   class BooleanFilter < Filter
     register :boolean
 
-    def cast(value, _interaction)
+    def database_column_type
+      self.class.slug
+    end
+
+    private
+
+    def matches?(value)
+      value.is_a?(TrueClass) || value.is_a?(FalseClass)
+    end
+
+    def convert(value)
       case value
-      when FalseClass, /\A(?:0|false|off)\z/i
+      when /\A(?:0|false|off)\z/i
         false
-      when TrueClass, /\A(?:1|true|on)\z/i
+      when /\A(?:1|true|on)\z/i
         true
       else
         super
       end
-    end
-
-    def database_column_type
-      self.class.slug
     end
   end
 end

@@ -25,17 +25,37 @@ module ActiveInteraction
 
     register :hash
 
-    def cast(value, context)
+    private
+
+    def matches?(value)
+      value.is_a?(Hash)
+    end
+
+    def clean_value(hash, name, filter, value, context)
+      hash[name] = filter.clean(value[name], context)
+    rescue InvalidValueError, MissingValueError
+      raise InvalidNestedValueError.new(name, value[name])
+    end
+
+    def strip?
+      options.fetch(:strip, true)
+    end
+
+    def adjust_output(value, context)
+      value = value.to_hash.with_indifferent_access
+
+      initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
+
+      filters.each_with_object(initial) do |(name, filter), hash|
+        clean_value(hash, name.to_s, filter, value, context)
+      end
+    end
+
+    def convert(value)
       if value.respond_to?(:to_hash)
-        value = value.to_hash.with_indifferent_access
-
-        initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
-
-        filters.each_with_object(initial) do |(name, filter), hash|
-          clean_value(hash, name.to_s, filter, value, context)
-        end
+        value.to_hash
       else
-        super
+        value
       end
     end
 
@@ -51,14 +71,6 @@ module ActiveInteraction
     end
     # rubocop:enable Style/MissingRespondToMissing, Style/MethodMissingSuper
 
-    private
-
-    def clean_value(hash, name, filter, value, context)
-      hash[name] = filter.clean(value[name], context)
-    rescue InvalidValueError, MissingValueError
-      raise InvalidNestedValueError.new(name, value[name])
-    end
-
     def raw_default(*)
       value = super
 
@@ -67,11 +79,6 @@ module ActiveInteraction
       end
 
       value
-    end
-
-    # @return [Boolean]
-    def strip?
-      options.fetch(:strip, true)
     end
   end
 end

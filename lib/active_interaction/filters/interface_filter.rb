@@ -21,15 +21,8 @@ module ActiveInteraction
   class InterfaceFilter < Filter
     register :interface
 
-    def cast(value, _interaction)
-      matches?(value) ? value : super
-    end
-
     private
 
-    # @param object [Object]
-    #
-    # @return [Boolean]
     def matches?(object)
       methods.all? { |method| object.respond_to?(method) }
     rescue NoMethodError
