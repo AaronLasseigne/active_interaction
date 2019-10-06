@@ -256,8 +256,9 @@ end
 
 ### Boolean
 
-Boolean filters convert the strings `"1"` and `"true"` (case-insensitive) into
-`true`. They also convert `"0"` and `"false"` into `false`.
+Boolean filters convert the strings `"1"`, `"true"`, and `"on"`
+(case-insensitive) into `true`. They also convert `"0"`, `"false"`, and `"off"`
+into `false`.
 
 ``` rb
 class BooleanInteraction < ActiveInteraction::Base
@@ -684,7 +685,7 @@ class IntegerInteraction < ActiveInteraction::Base
   integer :limit1
   integer :limit2, base: 8
   integer :limit3, base: 0
-  
+
   def execute
     [limit1, limit2, limit3]
   end
