@@ -33,6 +33,20 @@ describe ActiveInteraction::DecimalFilter, :filter do
       end
     end
 
+    context 'with an implicit Integer' do
+      let(:value) do
+        Class.new do
+          def to_int
+            @to_int ||= rand(1 << 16)
+          end
+        end.new
+      end
+
+      it 'returns a BigDecimal' do
+        expect(result).to eql BigDecimal(value.to_int)
+      end
+    end
+
     context 'with a Numeric' do
       let(:value) { rand(1 << 16) }
 
