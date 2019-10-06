@@ -20,20 +20,26 @@ module ActiveInteraction
   class StringFilter < Filter
     register :string
 
-    def cast(value, _interaction)
-      if value.respond_to?(:to_str)
-        value = value.to_str
-        strip? ? value.strip : value
-      else
-        super
-      end
-    end
-
     private
 
-    # @return [Boolean]
     def strip?
       options.fetch(:strip, true)
+    end
+
+    def matches?(value)
+      value.is_a?(String)
+    end
+
+    def adjust_output(value, _context)
+      strip? ? value.strip : value
+    end
+
+    def convert(value)
+      if value.respond_to?(:to_str)
+        value.to_str
+      else
+        value
+      end
     end
   end
 end

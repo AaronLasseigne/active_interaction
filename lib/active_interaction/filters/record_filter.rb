@@ -28,36 +28,8 @@ module ActiveInteraction
   class RecordFilter < Filter
     register :record
 
-    # rubocop:disable Metrics/MethodLength
-    def cast(value, context, reconstantize: true, convert: true)
-      @klass ||= klass
-
-      if matches?(value)
-        value
-      elsif reconstantize
-        @klass = klass
-        public_send(__method__, value, context,
-          reconstantize: false,
-          convert: convert
-        )
-      elsif !value.nil? && convert
-        finder = options.fetch(:finder, :find)
-        value = find(klass, value, finder)
-        public_send(__method__, value, context,
-          reconstantize: reconstantize,
-          convert: false
-        )
-      else
-        super(value, context)
-      end
-    end
-    # rubocop:enable Metrics/MethodLength
-
     private
 
-    # @return [Class]
-    #
-    # @raise [InvalidClassError]
     def klass
       klass_name = options.fetch(:class, name).to_s.camelize
       Object.const_get(klass_name)
@@ -65,12 +37,14 @@ module ActiveInteraction
       raise InvalidClassError, "class #{klass_name.inspect} does not exist"
     end
 
-    # @param value [Object]
-    #
-    # @return [Boolean]
     def matches?(value)
-      @klass === value || # rubocop:disable Style/CaseEquality
-        value.is_a?(@klass)
+      klass === value || # rubocop:disable Style/CaseEquality
+        value.is_a?(klass)
+    end
+
+    def convert(value)
+      finder = options.fetch(:finder, :find)
+      find(klass, value, finder)
     end
 
     def find(klass, value, finder)

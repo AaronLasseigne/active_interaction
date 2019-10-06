@@ -16,7 +16,13 @@ module ActiveInteraction
   class SymbolFilter < Filter
     register :symbol
 
-    def cast(value, _interaction)
+    private
+
+    def matches?(value)
+      value.is_a?(Symbol)
+    end
+
+    def convert(value)
       if value.respond_to?(:to_sym)
         value.to_sym
       else

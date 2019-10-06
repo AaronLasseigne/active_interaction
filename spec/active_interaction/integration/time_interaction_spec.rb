@@ -1,17 +1,5 @@
 require 'spec_helper'
 
-TimeZone = Class.new do
-  def self.at(*args)
-    TimeWithZone.new(Time.at(*args))
-  end
-
-  def self.parse(*args)
-    TimeWithZone.new(Time.parse(*args))
-  rescue ArgumentError
-    nil
-  end
-end
-
 TimeWithZone = Class.new do
   attr_reader :time
 
@@ -20,7 +8,17 @@ TimeWithZone = Class.new do
   end
 
   def ==(other)
-    time == other.time
+    !other.nil? && time == other.time
+  end
+
+  def at(*args)
+    Time.at(*args)
+  end
+
+  def parse(*args)
+    Time.parse(*args)
+  rescue ArgumentError
+    nil
   end
 end
 
@@ -38,14 +36,14 @@ describe TimeInteraction do
     before do
       inputs[:a] = a
 
-      allow(Time).to receive(:zone).and_return(TimeZone)
+      allow(Time).to receive(:zone).and_return(TimeWithZone.new(0))
     end
 
     context 'with an integer' do
       let(:a) { rand(1 << 16) }
 
       it 'returns the correct value' do
-        expect(result[:a]).to eq TimeZone.at(a)
+        expect(result[:a]).to eq Time.zone.at(a)
       end
     end
 
@@ -53,7 +51,7 @@ describe TimeInteraction do
       let(:a) { '2011-12-13T14:15:16Z' }
 
       it 'returns the correct value' do
-        expect(result[:a]).to eq TimeZone.parse(a)
+        expect(result[:a]).to eq Time.zone.parse(a)
       end
     end
 

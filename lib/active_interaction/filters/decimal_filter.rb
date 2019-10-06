@@ -19,38 +19,23 @@ module ActiveInteraction
   class DecimalFilter < AbstractNumericFilter
     register :decimal
 
-    def cast(value, _interaction)
-      case value
-      when Numeric
-        BigDecimal(value, digits)
-      when String
-        decimal_from_string(value)
-      else
-        super
-      end
-    end
-
     private
 
-    # @return [Integer]
     def digits
       options.fetch(:digits, 0)
     end
 
-    # @param value [String] string that has to be converted
-    #
-    # @return [BigDecimal]
-    #
-    # @raise [InvalidValueError] if given value can not be converted
-    def decimal_from_string(value)
-      Float(value)
-      BigDecimal(value, digits)
-    rescue ArgumentError
-      raise InvalidValueError, "Given value: #{value.inspect}"
-    end
-
     def klass
       BigDecimal
+    end
+
+    def converter(value)
+      # Ruby < 2.4 does not throw an error in BigDecimal
+      # for invalid strings. We'll simulate the error by
+      # calling Float.
+      Float(value) if value.is_a?(String)
+
+      BigDecimal(value, digits)
     end
   end
 end
