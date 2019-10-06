@@ -1,3 +1,4 @@
+require 'bigdecimal'
 require 'spec_helper'
 
 describe ActiveInteraction::FloatFilter, :filter do
@@ -15,8 +16,22 @@ describe ActiveInteraction::FloatFilter, :filter do
       end
     end
 
+    context 'with an implicit Integer' do
+      let(:value) do
+        Class.new do
+          def to_int
+            @to_int ||= rand(1 << 16)
+          end
+        end.new
+      end
+
+      it 'returns a Float' do
+        expect(result).to eql value.to_int.to_f
+      end
+    end
+
     context 'with a Numeric' do
-      let(:value) { rand(1 << 16) }
+      let(:value) { BigDecimal('1.2') }
 
       it 'returns a Float' do
         expect(result).to eql value.to_f
