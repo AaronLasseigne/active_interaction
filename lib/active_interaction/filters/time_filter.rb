@@ -35,8 +35,9 @@ module ActiveInteraction
     end
 
     def cast(value, _interaction)
-      case value
-      when Numeric
+      value = value.to_int if value.respond_to?(:to_int)
+
+      if value.is_a?(Numeric)
         klass.at(value)
       else
         super

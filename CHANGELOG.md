@@ -6,7 +6,10 @@
 - [#392][] - Integer parsing now defaults the base to 10. ([how to upgrade](#integer-parsing-base-now-10))
 - The `inputs` method now returns an `ActiveInteraction::Input` instead of a
   hash. The `ActiveInteraction::Input` still responds to all hash methods.
-- Implicit types are now supported for many filters:
+
+## Added
+
+- Implicit types are now supported in filters:
   - `array` accepts `to_ary`
   - `date` accepts `to_str`
   - `datetime` accepts `to_str`
@@ -16,7 +19,7 @@
   - `integer` accepts `to_int`
   - `string` accepts `to_str`
   - `symbol` accepts `to_sym`
-  - `time` accepts `to_str`
+  - `time` accepts `to_str` and `to_int`
 
 ## Upgrading
 
