@@ -52,6 +52,6 @@ matrix:
   # These test other Ruby implementations that we support.
   # JRuby 9, ActiveModel 6.0, RSpec only
   - env: RAKE_TASK=spec
-    gemfile: gemfiles/activemodel-6.0.rb
+    gemfile: gemfiles/activemodel-5.2.rb
     rvm: jruby-9.2.7.0
 script: bundle exec rake $RAKE_TASK
