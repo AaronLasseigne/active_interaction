@@ -18,10 +18,12 @@ module ActiveInteraction
     end
 
     def convert(value)
-      if value.is_a?(Numeric) || value.is_a?(String)
+      if value.is_a?(Numeric)
         safe_converter(value)
       elsif value.respond_to?(:to_int)
         safe_converter(value.to_int)
+      elsif value.respond_to?(:to_str)
+        safe_converter(value.to_str)
       else
         super
       end

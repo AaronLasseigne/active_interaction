@@ -55,6 +55,21 @@ describe ActiveInteraction::FloatFilter, :filter do
         end.to raise_error ActiveInteraction::InvalidValueError
       end
     end
+
+    context 'with an implicit String' do
+      let(:value) do
+        Class.new do
+          def to_str
+            '1.1'
+          end
+        end.new
+      end
+
+      it 'returns a Float' do
+        # apparently `Float()` doesn't do this even though `Integer()` does
+        expect(result).to eql Float(value.to_str)
+      end
+    end
   end
 
   describe '#database_column_type' do

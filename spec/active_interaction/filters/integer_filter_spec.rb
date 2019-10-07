@@ -24,7 +24,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
     end
 
     context 'with a String' do
-      let(:value) { '0' + rand(1 << 16).to_s }
+      let(:value) { rand(1 << 16).to_s }
 
       it 'returns an Integer' do
         expect(result).to eql Integer(value, 10)
@@ -38,6 +38,21 @@ describe ActiveInteraction::IntegerFilter, :filter do
         expect do
           result
         end.to raise_error ActiveInteraction::InvalidValueError
+      end
+    end
+
+    context 'with an implicit String' do
+      let(:value) do
+        Class.new do
+          def to_str
+            '1'
+          end
+        end.new
+      end
+
+      it 'returns an Integer' do
+        # jRuby freezes on the implicit string value
+        expect(result).to eql Integer(value.to_str, 10)
       end
     end
 

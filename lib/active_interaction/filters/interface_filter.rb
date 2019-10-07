@@ -29,7 +29,6 @@ module ActiveInteraction
       false
     end
 
-    # @return [Array<Symbol>]
     def methods
       options.fetch(:methods, [])
     end
