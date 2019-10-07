@@ -1,27 +1,27 @@
 require 'spec_helper'
 require 'active_record'
-unless defined?(JRUBY_VERSION) # rubocop:disable Style/IfUnlessModifier
+if defined?(JRUBY_VERSION)
+  require 'activerecord-jdbcsqlite3-adapter'
+else
   require 'sqlite3'
 end
 
-unless defined?(JRUBY_VERSION)
-  ActiveRecord::Base.establish_connection(
-    adapter: 'sqlite3',
-    database: ':memory:'
-  )
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: ':memory:'
+)
 
-  ActiveRecord::Schema.define do
-    create_table(:lists)
-    create_table(:elements) { |t| t.column(:list_id, :integer) }
-  end
+ActiveRecord::Schema.define do
+  create_table(:lists)
+  create_table(:elements) { |t| t.column(:list_id, :integer) }
+end
 
-  class List < ActiveRecord::Base
-    has_many :elements
-  end
+class List < ActiveRecord::Base
+  has_many :elements
+end
 
-  class Element < ActiveRecord::Base
-    belongs_to :list
-  end
+class Element < ActiveRecord::Base
+  belongs_to :list
 end
 
 ArrayInteraction = Class.new(TestInteraction) do
@@ -36,10 +36,8 @@ end
 describe ArrayInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction', :array, -> { [] }
-  unless defined?(JRUBY_VERSION)
-    it_behaves_like 'an interaction', :array, -> { Element.where('1 = 1') }
-    it_behaves_like 'an interaction', :array, -> { List.create!.elements }
-  end
+  it_behaves_like 'an interaction', :array, -> { Element.where('1 = 1') }
+  it_behaves_like 'an interaction', :array, -> { List.create!.elements }
 
   context 'with inputs[:a]' do
     let(:a) { [[]] }
