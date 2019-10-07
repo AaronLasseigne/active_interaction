@@ -72,6 +72,20 @@ describe ActiveInteraction::DecimalFilter, :filter do
         end.to raise_error ActiveInteraction::InvalidValueError
       end
     end
+
+    context 'with an implicit String' do
+      let(:value) do
+        Class.new do
+          def to_str
+            '1.1'
+          end
+        end.new
+      end
+
+      it 'returns a BigDecimal' do
+        expect(result).to eql BigDecimal(value)
+      end
+    end
   end
 
   describe '#database_column_type' do

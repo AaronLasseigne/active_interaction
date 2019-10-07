@@ -9,17 +9,7 @@
 
 ## Added
 
-- Implicit types are now supported in filters:
-  - `array` accepts `to_ary`
-  - `date` accepts `to_str`
-  - `datetime` accepts `to_str`
-  - `decimal` accepts `to_int`
-  - `float` accepts `to_int`
-  - `hash` accepts `to_hash`
-  - `integer` accepts `to_int`
-  - `string` accepts `to_str`
-  - `symbol` accepts `to_sym`
-  - `time` accepts `to_str` and `to_int`
+- Implicit coercion of types are now supported in filters (e.g. to_str, to_int, etc).
 
 ## Upgrading
 
