@@ -1,14 +1,28 @@
 # coding: utf-8
 
 require 'spec_helper'
+require 'active_record'
+unless defined?(JRUBY_VERSION) # rubocop:disable Style/IfUnlessModifier
+  require 'sqlite3'
+end
 
-module ActiveRecord
-  class Relation
+unless defined?(JRUBY_VERSION)
+  ActiveRecord::Base.establish_connection(
+    adapter: 'sqlite3',
+    database: ':memory:'
+  )
+
+  ActiveRecord::Schema.define do
+    create_table(:lists)
+    create_table(:elements) { |t| t.column(:list_id, :integer) }
   end
 
-  module Associations
-    class CollectionProxy
-    end
+  class List < ActiveRecord::Base
+    has_many :elements
+  end
+
+  class Element < ActiveRecord::Base
+    belongs_to :list
   end
 end
 
@@ -24,9 +38,10 @@ end
 describe ArrayInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction', :array, -> { [] }
-  it_behaves_like 'an interaction', :array, -> { ActiveRecord::Relation.new }
-  it_behaves_like 'an interaction', :array,
-    -> { ActiveRecord::Associations::CollectionProxy.new }
+  unless defined?(JRUBY_VERSION)
+    it_behaves_like 'an interaction', :array, -> { Element.where('1 = 1') }
+    it_behaves_like 'an interaction', :array, -> { List.create!.elements }
+  end
 
   context 'with inputs[:a]' do
     let(:a) { [[]] }
