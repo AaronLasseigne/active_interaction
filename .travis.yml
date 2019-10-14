@@ -4,55 +4,55 @@ matrix:
   include:
   # This tests the "default" configuration.
   # Latest MRI, default Gemfile, default Rake task
-  - rvm: 2.6.1
+  - rvm: 2.6
 
   # These test specific versions of ActiveModel that we support.
   # Latest MRI, ActiveModel 5.1, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-6.0.rb
-    rvm: 2.6.1
+    rvm: 2.6
   # Latest MRI, ActiveModel 5.1, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-5.1.rb
-    rvm: 2.6.1
+    rvm: 2.6
   # Latest MRI, ActiveModel 5.0, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-5.0.rb
-    rvm: 2.6.1
+    rvm: 2.6
   # Latest Usable MRI, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
-    rvm: 2.3.7
+    rvm: 2.3
   # Latest Usable MRI, ActiveModel 4.1, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.1.rb
-    rvm: 2.3.7
+    rvm: 2.3
   # Latest Usable MRI, ActiveModel 4.0, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.0.rb
-    rvm: 2.3.7
+    rvm: 2.3
 
   # These test specific versions of MRI that we support.
   # MRI 2.5.3, ActiveModel 5.1, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-5.1.rb
-    rvm: 2.5.3
+    rvm: 2.5
   # MRI 2.4, ActiveModel 5.1, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-5.1.rb
-    rvm: 2.4.4
+    rvm: 2.4
   # MRI 2.2, ActiveModel 5.1, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-5.1.rb
-    rvm: 2.2.10
+    rvm: 2.2
   # MRI 2.1, ActiveModel 4.2, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.2.rb
-    rvm: 2.1.10
+    rvm: 2.1
   # MRI 2.0, ActiveModel 4.1, RSpec only
   - env: RAKE_TASK=spec
     gemfile: gemfiles/activemodel-4.1.rb
-    rvm: 2.0.0-p648
+    rvm: 2.0
 
   # These test other Ruby implementations that we support.
   # JRuby 9, ActiveModel 4.2, RSpec only
