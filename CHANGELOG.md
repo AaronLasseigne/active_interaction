@@ -3,6 +3,7 @@
 ## Changed
 
 - drop support for Ruby 2.0, 2.1, and 2.2
+- drop suport for Rails < 5.0
 - [#392][] - Integer parsing now defaults the base to 10. ([how to upgrade](#integer-parsing-base-now-10))
 - The `inputs` method now returns an `ActiveInteraction::Input` instead of a
   hash. The `ActiveInteraction::Input` still responds to all hash methods.

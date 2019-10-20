@@ -46,8 +46,6 @@ require 'active_interaction/filters/time_filter'
 
 require 'active_interaction/base'
 
-require 'active_interaction/backports'
-
 I18n.load_path.unshift(
   *Dir.glob(
     File.expand_path(
