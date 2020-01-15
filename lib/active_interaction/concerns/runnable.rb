@@ -98,7 +98,7 @@ module ActiveInteraction
       run
 
       unless valid?
-        raise InvalidInteractionError.new self
+        raise InvalidInteractionError, self
       end
 
       result

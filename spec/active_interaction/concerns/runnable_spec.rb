@@ -371,9 +371,7 @@ describe ActiveInteraction::Runnable do
         end
 
         it 'adds interaction instance to this error' do
-          expect do
-            result
-          end.to raise_error do |error|
+          expect { result }.to raise_error do |error|
             expect(error.interaction).to be_a klass
           end
         end
