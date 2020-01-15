@@ -97,11 +97,9 @@ module ActiveInteraction
     def run!
       run
 
-      unless valid?
-        raise InvalidInteractionError, self
-      end
+      return result if valid?
 
-      result
+      raise InvalidInteractionError, self
     end
 
     #
