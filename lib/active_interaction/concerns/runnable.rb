@@ -98,7 +98,7 @@ module ActiveInteraction
       run
 
       unless valid?
-        raise InvalidInteractionError, errors.full_messages.join(', ')
+        raise InvalidInteractionError.new self
       end
 
       result

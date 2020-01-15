@@ -369,6 +369,14 @@ describe ActiveInteraction::Runnable do
             result
           end.to raise_error ActiveInteraction::InvalidInteractionError
         end
+
+        it 'adds interaction instance to this error' do
+          expect do
+            result
+          end.to raise_error do |error|
+            expect(error.interaction).to be_a klass
+          end
+        end
       end
     end
   end
