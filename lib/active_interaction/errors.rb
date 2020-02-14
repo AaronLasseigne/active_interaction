@@ -31,7 +31,15 @@ module ActiveInteraction
   # Raised if an interaction is invalid.
   #
   # @return [Class]
-  InvalidInteractionError = Class.new(Error)
+  class InvalidInteractionError < Error
+    attr_reader :interaction
+
+    def initialize(interaction)
+      @interaction = interaction
+
+      super(interaction.errors.full_messages.join(', '))
+    end
+  end
 
   # Raised if a user-supplied value is invalid.
   #
