@@ -107,11 +107,11 @@ describe ActiveInteraction::Runnable do
           context 'using if' do
             it 'yields errors to the if' do
               has_run = false
-              # rubocop:disable Metic/LineLength
+              # rubocop:disable Metrics/LineLength
               WithFailingCompose.set_callback :execute, :after, if: -> { errors.any? } do
                 has_run = true
               end
-              # rubocop:enable Metic/LineLength
+              # rubocop:enable Metrics/LineLength
 
               WithFailingCompose.run
               expect(has_run).to be_truthy
