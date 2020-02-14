@@ -1,0 +1,24 @@
+ja:
+  active_interaction:
+    errors:
+      messages:
+        invalid: は無効です
+        invalid_nested: は無効なネストされた値です (%{name} => %{value})
+        invalid_type: は無効な %{type} です
+        missing: が必要です
+    types:
+      array: 配列
+      boolean: ブール
+      date: 日付
+      date_time: 日時
+      decimal: 10進数
+      file: ファイル
+      float: 浮動小数点数
+      hash: ハッシュ
+      integer: 整数
+      interface: インターフェース
+      object: オブジェクト
+      record: レコード
+      string: 文字
+      symbol: シンボル
+      time: 時間
