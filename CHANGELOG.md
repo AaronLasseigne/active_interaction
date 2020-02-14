@@ -1,3 +1,9 @@
+# [3.8.0][] (TBD)
+
+## Added
+
+- [#477][] `InvalidInteractionError` now provides access to the failing interaction by calling `interaction`.
+
 # [3.7.1][] (2019-03-20)
 
 ## Fixed
@@ -752,6 +758,7 @@ Example.run
 
 - Initial release.
 
+  [3.8.0]: https://github.com/AaronLasseigne/active_interaction/compare/v3.7.1...v3.8.0
   [3.7.1]: https://github.com/AaronLasseigne/active_interaction/compare/v3.7.0...v3.7.1
   [3.7.0]: https://github.com/AaronLasseigne/active_interaction/compare/v3.6.2...v3.7.0
   [3.6.2]: https://github.com/AaronLasseigne/active_interaction/compare/v3.6.1...v3.6.2
@@ -946,3 +953,4 @@ Example.run
   [#454]: https://github.com/AaronLasseigne/active_interaction/pull/454
   [#455]: https://github.com/AaronLasseigne/active_interaction/pull/455
   [#457]: https://github.com/AaronLasseigne/active_interaction/issues/457
+  [#477]: https://github.com/AaronLasseigne/active_interaction/issues/477
