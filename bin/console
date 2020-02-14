@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'active_interaction'
+
+require 'irb'
+IRB.start(__FILE__)
