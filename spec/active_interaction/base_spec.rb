@@ -505,6 +505,79 @@ describe ActiveInteraction::Base do
         expect(result).to be false
       end
     end
+
+    context 'nested array values' do
+      let(:described_class) do
+        Class.new(TestInteraction) do
+          array :x do
+            hash do
+              boolean :y, default: true
+            end
+          end
+
+          def execute; end
+        end
+      end
+
+      context 'has a positive index' do
+        it 'returns true if found' do
+          described_class.class_exec do
+            def execute
+              given?(:x, 0, :y)
+            end
+          end
+
+          inputs[:x] = [{ y: true }]
+          expect(result).to be true
+        end
+
+        it 'returns false if not found' do
+          described_class.class_exec do
+            def execute
+              given?(:x, 0, :y)
+            end
+          end
+
+          inputs[:x] = []
+          expect(result).to be false
+        end
+      end
+
+      context 'has a negative index' do
+        it 'returns true if found' do
+          described_class.class_exec do
+            def execute
+              given?(:x, -1, :y)
+            end
+          end
+
+          inputs[:x] = [{ y: true }]
+          expect(result).to be true
+        end
+
+        it 'returns false if not found' do
+          described_class.class_exec do
+            def execute
+              given?(:x, -1, :y)
+            end
+          end
+
+          inputs[:x] = []
+          expect(result).to be false
+        end
+      end
+
+      it 'returns false if you go too far' do
+        described_class.class_exec do
+          def execute
+            given?(:x, 10, :y)
+          end
+        end
+
+        inputs[:x] = [{}]
+        expect(result).to be false
+      end
+    end
   end
 
   context 'inheritance' do

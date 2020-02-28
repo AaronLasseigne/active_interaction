@@ -3,6 +3,7 @@
 ## Added
 
 - [#477][] `InvalidInteractionError` now provides access to the failing interaction by calling `interaction`.
+- [#476][] Update `given?` to check for items in an array by passing an index.
 
 # [3.7.1][] (2019-03-20)
 
@@ -954,3 +955,4 @@ Example.run
   [#455]: https://github.com/AaronLasseigne/active_interaction/pull/455
   [#457]: https://github.com/AaronLasseigne/active_interaction/issues/457
   [#477]: https://github.com/AaronLasseigne/active_interaction/issues/477
+  [#476]: https://github.com/AaronLasseigne/active_interaction/issues/476

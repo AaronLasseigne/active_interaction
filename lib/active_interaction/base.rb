@@ -28,7 +28,7 @@ module ActiveInteraction
   #   else
   #     outcome.errors
   #   end
-  class Base
+  class Base # rubocop:disable Metrics/ClassLength
     include ActiveModelable
     include ActiveRecordable
     include Runnable
@@ -203,7 +203,8 @@ module ActiveInteraction
     # Returns `true` if the given key was in the hash passed to {.run}.
     # Otherwise returns `false`. Use this to figure out if an input was given,
     # even if it was `nil`. Keys within nested hash filter can also be checked
-    # by passing them in series.
+    # by passing them in series. Arrays can be checked in the same manor as
+    # hashes by passing an index.
     #
     # @example
     #   class Example < ActiveInteraction::Base
@@ -219,32 +220,49 @@ module ActiveInteraction
     #     hash :x, default: {} do
     #       integer :y, default: nil
     #     end
-    #     def execute; given?(:x, :y) end
+    #     array :a, default: [] do
+    #       integer
+    #     end
+    #     def execute; given?(:x, :y) || given?(:a, 2) end
     #   end
     #   Example.run!()               # => false
     #   Example.run!(x: nil)         # => false
     #   Example.run!(x: {})          # => false
     #   Example.run!(x: { y: nil })  # => true
     #   Example.run!(x: { y: rand }) # => true
+    #   Example.run!(a: [1, 2])      # => false
+    #   Example.run!(a: [1, 2, 3])   # => true
     #
     # @param input [#to_sym]
     #
     # @return [Boolean]
     #
     # @since 2.1.0
-    def given?(input, *rest) # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable all
+    def given?(input, *rest)
       filter_level = self.class
       input_level = @_interaction_inputs
 
-      [input, *rest].map(&:to_sym).each do |key|
-        filter_level = filter_level.filters[key]
+      [input, *rest].each do |key_or_index|
+        if key_or_index.is_a?(Symbol) || key_or_index.is_a?(String)
+          key_or_index = key_or_index.to_sym
+          filter_level = filter_level.filters[key_or_index]
 
-        break false if filter_level.nil? || input_level.nil?
-        break false unless input_level.key?(key) || input_level.key?(key.to_s)
+          break false if filter_level.nil? || input_level.nil?
+          break false unless input_level.key?(key_or_index) || input_level.key?(key_or_index.to_s)
 
-        input_level = input_level[key] || input_level[key.to_s]
+          input_level = input_level[key_or_index] || input_level[key_or_index.to_s]
+        else
+          filter_level = filter_level.filters.first.last
+
+          break false if filter_level.nil? || input_level.nil?
+          break false unless key_or_index.between?(-input_level.size, input_level.size - 1)
+
+          input_level = input_level[key_or_index]
+        end
       end && true
     end
+    # rubocop:enable all
 
     protected
 
