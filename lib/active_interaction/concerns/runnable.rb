@@ -99,7 +99,9 @@ module ActiveInteraction
 
       return result if valid?
 
-      raise InvalidInteractionError, self
+      e = InvalidInteractionError.new(errors.full_messages.join(', '))
+      e.interaction = self
+      raise e
     end
 
     #

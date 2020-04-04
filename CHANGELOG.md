@@ -1,3 +1,9 @@
+# [3.8.1][] (TBD)
+
+## Fixed
+
+- The implementation for providing a failing interaction on `InvalidInteractionError` was a breaking API change. It now works without breaking the API.
+
 # [3.8.0][] (2020-02-28)
 
 ## Added
@@ -759,6 +765,7 @@ Example.run
 
 - Initial release.
 
+  [3.8.1]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.0...v3.8.1
   [3.8.0]: https://github.com/AaronLasseigne/active_interaction/compare/v3.7.1...v3.8.0
   [3.7.1]: https://github.com/AaronLasseigne/active_interaction/compare/v3.7.0...v3.7.1
   [3.7.0]: https://github.com/AaronLasseigne/active_interaction/compare/v3.6.2...v3.7.0
