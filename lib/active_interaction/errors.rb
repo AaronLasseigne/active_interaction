@@ -92,12 +92,16 @@ module ActiveInteraction
 
   # An extension that provides the ability to merge other errors into itself.
   class Errors < ActiveModel::Errors
+    attr_reader :backtrace
+
     # Merge other errors into this one.
     #
     # @param other [Errors]
     #
     # @return [Errors]
     def merge!(other)
+      @backtrace ||= other.backtrace if other.respond_to?(:backtrace)
+
       if other.respond_to?(:details)
         merge_details!(other)
       else
@@ -105,6 +109,14 @@ module ActiveInteraction
       end
 
       self
+    end
+
+    # Add a new error.
+    # @see ActiveModel::Errors#add
+    # @return [Array]
+    def add(*)
+      @backtrace ||= caller
+      super
     end
 
     private

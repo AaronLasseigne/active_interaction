@@ -24,6 +24,12 @@ InterruptInteraction = Class.new(TestInteraction) do
     class: Object,
     default: nil
 
+  # NOTE: the relative position between this method
+  #   and the compose line should be preserved.
+  def self.composition_location
+    "#{__FILE__}:#{__LINE__ + 4}:in `execute'"
+  end
+
   def execute
     compose(AddInteraction, x: x, y: z)
   end
@@ -370,6 +376,15 @@ describe ActiveInteraction::Base do
       it 'has the correct errors' do
         expect(outcome.errors.details)
           .to eql(x: [{ error: :missing }], base: [{ error: 'Y is required' }])
+      end
+
+      it 'has the correct backtrace' do
+        begin
+          described_class.run!(inputs)
+        rescue ActiveInteraction::InvalidInteractionError => e
+          expect(e.backtrace)
+            .to include(InterruptInteraction.composition_location)
+        end
       end
     end
   end

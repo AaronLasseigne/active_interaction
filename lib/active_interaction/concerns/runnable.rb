@@ -101,6 +101,7 @@ module ActiveInteraction
 
       e = InvalidInteractionError.new(errors.full_messages.join(', '))
       e.interaction = self
+      e.set_backtrace(errors.backtrace) if errors.backtrace
       raise e
     end
 
