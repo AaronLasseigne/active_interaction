@@ -7,7 +7,7 @@
 - [#392][] - Integer parsing now defaults the base to 10.
   ([how to upgrade](#integer-parsing-base-now-10))
 - The `inputs` method now returns an `ActiveInteraction::Input` instead of a
-  hash. The `ActiveInteraction::Input` still responds to all hash methods.
+  hash. The `ActiveInteraction::Input` class still responds to all hash methods.
 - The `object` and `record` filters now only accept an instance of the correct
   class type or a subclass of the correct class. They no longer allow you to
   check for included modules. ([how to upgrade](#object-and-record-filter-changes))
