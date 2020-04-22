@@ -92,6 +92,8 @@ module ActiveInteraction
 
   # An extension that provides the ability to merge other errors into itself.
   class Errors < ActiveModel::Errors
+    attr_accessor :backtrace
+
     # Merge other errors into this one.
     #
     # @param other [Errors]

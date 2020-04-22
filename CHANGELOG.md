@@ -1,3 +1,9 @@
+# [3.8.2][] (2020-04-22)
+
+## Fixed
+
+- [479][] Composed interactions that throw errors now show a complete backtrace instead of ending at the `run!` of the outermost interaction.
+
 # [3.8.1][] (2020-04-04)
 
 ## Fixed
@@ -765,6 +771,7 @@ Example.run
 
 - Initial release.
 
+  [3.8.2]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.1...v3.8.2
   [3.8.1]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.0...v3.8.1
   [3.8.0]: https://github.com/AaronLasseigne/active_interaction/compare/v3.7.1...v3.8.0
   [3.7.1]: https://github.com/AaronLasseigne/active_interaction/compare/v3.7.0...v3.7.1
@@ -963,3 +970,4 @@ Example.run
   [#457]: https://github.com/AaronLasseigne/active_interaction/issues/457
   [#477]: https://github.com/AaronLasseigne/active_interaction/issues/477
   [#476]: https://github.com/AaronLasseigne/active_interaction/issues/476
+  [#479]: https://github.com/AaronLasseigne/active_interaction/issues/479
