@@ -312,11 +312,9 @@ module ActiveInteraction
 
     def populate_filters(inputs)
       self.class.filters.each do |name, filter|
-        begin
-          public_send("#{name}=", filter.clean(inputs[name], self))
-        rescue InvalidValueError, MissingValueError, NoDefaultError
-          nil # #type_check will add errors if appropriate.
-        end
+        public_send("#{name}=", filter.clean(inputs[name], self))
+      rescue InvalidValueError, MissingValueError, NoDefaultError
+        nil # #type_check will add errors if appropriate.
       end
     end
 

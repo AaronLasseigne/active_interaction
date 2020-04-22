@@ -377,12 +377,10 @@ describe ActiveInteraction::Base do
       end
 
       it 'has the correct backtrace' do
-        begin
-          described_class.run!(inputs)
-        rescue ActiveInteraction::InvalidInteractionError => e
-          expect(e.backtrace)
-            .to include(InterruptInteraction.composition_location)
-        end
+        described_class.run!(inputs)
+      rescue ActiveInteraction::InvalidInteractionError => e
+        expect(e.backtrace)
+          .to include(InterruptInteraction.composition_location)
       end
     end
   end

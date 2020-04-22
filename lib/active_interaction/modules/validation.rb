@@ -11,14 +11,13 @@ module ActiveInteraction
       # @param inputs [Hash{Symbol => Object}]
       def validate(context, filters, inputs)
         filters.each_with_object([]) do |(name, filter), errors|
-          begin
-            filter.clean(inputs[name], context)
-          rescue NoDefaultError
-            nil
-          rescue InvalidNestedValueError,
-                 InvalidValueError, MissingValueError => e
-            errors << error_args(filter, e)
-          end
+          filter.clean(inputs[name], context)
+        rescue NoDefaultError
+          nil
+        rescue InvalidNestedValueError,
+               InvalidValueError,
+               MissingValueError => e
+          errors << error_args(filter, e)
         end
       end
 
