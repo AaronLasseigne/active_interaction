@@ -422,25 +422,6 @@ InterfaceInteraction.run!(serializer: JSON)
 # => "{\"is_json\":true}"
 ```
 
-NOTE: The `methods` option is optional.
-
-```rb
-class InterfaceInteraction < ActiveInteraction::Base
-  interface :anything
-
-  def execute
-    anything.class
-  end
-end
-
-require 'json'
-
-InterfaceInteraction.run!(anything: Hash.new)
-# => Hash
-InterfaceInteraction.run!
-# => NilClass
-```
-
 ### Object
 
 Object filters allow you to require an instance of a particular class or one of
