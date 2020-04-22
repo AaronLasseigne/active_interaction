@@ -4,7 +4,7 @@ ActiveInteraction manages application-specific business logic.
 It's an implementation of the command pattern in Ruby.
 
 [![Version](https://img.shields.io/gem/v/active_interaction.svg?style=flat-square)](https://rubygems.org/gems/active_interaction)
-[![Build](https://img.shields.io/travis/AaronLasseigne/active_interaction.svg?style=flat-square)](https://travis-ci.org/AaronLasseigne/active_interaction)
+[![Test](https://img.shields.io/github/workflow/status/AaronLasseigne/active_interaction/Test?label=Test&style=flat-square)](https://github.com/AaronLasseigne/active_interaction/actions?query=workflow%3ATest)
 [![Coverage](https://img.shields.io/coveralls/github/AaronLasseigne/active_interaction.svg?style=flat-square)](https://coveralls.io/r/orgsync/active_interaction)
 [![Climate](https://img.shields.io/codeclimate/maintainability/orgsync/active_interaction.svg?style=flat-square)](https://codeclimate.com/github/orgsync/active_interaction)
 
