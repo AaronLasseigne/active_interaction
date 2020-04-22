@@ -78,12 +78,10 @@ describe ActiveInteraction::HashFilter, :filter do
         end
 
         it 'populates the error' do
-          begin
-            result
-          rescue ActiveInteraction::InvalidNestedValueError => e
-            expect(e.filter_name).to eql k
-            expect(e.input_value).to eql v
-          end
+          result
+        rescue ActiveInteraction::InvalidNestedValueError => e
+          expect(e.filter_name).to eql k
+          expect(e.input_value).to eql v
         end
       end
     end
