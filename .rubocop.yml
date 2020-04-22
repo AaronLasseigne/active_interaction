@@ -4,6 +4,7 @@ AllCops:
   - example/db/schema.rb
   - tmp/**/*
   - vendor/**/*
+  - bin/**/*
 ClassLength:
   Max: 120
 Documentation:

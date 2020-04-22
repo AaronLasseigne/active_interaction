@@ -76,9 +76,9 @@ module ActiveInteraction
       self.result = run_callbacks(:execute) do
         begin
           execute
-        rescue Interrupt => interrupt
-          errors.backtrace = interrupt.errors.backtrace || interrupt.backtrace
-          errors.merge!(interrupt.errors)
+        rescue Interrupt => e
+          errors.backtrace = e.errors.backtrace || e.backtrace
+          errors.merge!(e.errors)
         end
       end
     end
