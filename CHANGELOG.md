@@ -4,6 +4,8 @@
 
 - drop support for Ruby < 2.5
 - drop support for Rails < 5.0
+- [#398][] - Predicate methods have been removed.
+  ([how to upgrade](#predicate-methods))
 - [#392][] - Integer parsing now defaults the base to 10.
   ([how to upgrade](#integer-parsing-base-now-10))
 - The `inputs` method now returns an `ActiveInteraction::Input` instead of a
@@ -26,6 +28,40 @@
   the `array` filter name.
 
 ## Upgrading
+
+### Predicate Methods
+
+We've removed the predicate methods that were automatically generated for each
+input. They would return true if an input was not `nil`.  They can be manually
+replaced with that same check.
+
+```ruby
+# v3.8
+class Example < ActiveInteraction::Base
+  string :first_name
+
+  validates :first_name,
+    presence: true,
+    if: :first_name?
+
+  def execute
+    # ...
+  end
+end
+
+# v4.0
+class Example < ActiveInteraction::Base
+  string :first_name
+
+  validates :first_name,
+    presence: true,
+    unless: 'first_name.nil?'
+
+  def execute
+    # ...
+  end
+end
+```
 
 ### Integer Parsing Base Now 10
 
@@ -1050,3 +1086,4 @@ Example.run
   [#476]: https://github.com/AaronLasseigne/active_interaction/issues/476
   [#479]: https://github.com/AaronLasseigne/active_interaction/issues/479
   [#392]: https://github.com/AaronLasseigne/active_interaction/issues/392
+  [#398]: https://github.com/AaronLasseigne/active_interaction/issues/398
