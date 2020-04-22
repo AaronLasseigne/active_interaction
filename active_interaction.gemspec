@@ -19,7 +19,7 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     'changelog_uri' => 'https://github.com/AaronLasseigne/active_interaction/blob/master/CHANGELOG.md'
   }
 
-  gem.required_ruby_version = '>= 2.3'
+  gem.required_ruby_version = '>= 2.5'
 
   {
     'Aaron Lasseigne' => 'aaron.lasseigne@gmail.com',
