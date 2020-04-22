@@ -1,0 +1,81 @@
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Prerequisites
+      run: sudo apt install libsqlite3-dev
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "2.7"
+
+    - name: Build
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+
+    - name: Lint
+      run: bundle exec rake rubocop
+
+  rails:
+    name: Test Ruby ${{ matrix.ruby }} on ActiveModel ${{ matrix.activemodel }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ["2.7"]
+        activemodel: ["6.0", "5.2", "5.1", "5.0"]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Prerequisites
+      run: sudo apt install libsqlite3-dev
+
+    - name: Set up Ruby ${{ matrix.ruby }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+
+    - name: Build
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3 --gemfile=gemfiles/activemodel-${{ matrix.activemodel }}.rb
+
+    - name: Test
+      run: bundle exec rake spec
+
+  ruby:
+    name: Test Ruby ${{ matrix.ruby }} on ActiveModel ${{ matrix.activemodel }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ["2.6", "2.5", "2.4", "jruby-9.2.11.1"]
+        activemodel: ["5.2"]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Prerequisites
+      run: sudo apt install libsqlite3-dev
+
+    - name: Set up Ruby ${{ matrix.ruby }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+
+    - name: Build
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3 --gemfile=gemfiles/activemodel-${{ matrix.activemodel }}.rb
+
+    - name: Test
+      run: bundle exec rake spec
