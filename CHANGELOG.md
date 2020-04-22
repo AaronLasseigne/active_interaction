@@ -43,7 +43,7 @@ class Example < ActiveInteraction::Base
   end
 end
 
-# v3.7
+# v3.8
 Example.run!(x: '010')
 # => 8
 
