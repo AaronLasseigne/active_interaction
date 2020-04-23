@@ -25,7 +25,8 @@ module ActiveInteraction
       elsif value.respond_to?(:to_int)
         safe_converter(value.to_int)
       elsif value.respond_to?(:to_str)
-        safe_converter(value.to_str)
+        value = value.to_str
+        value.blank? ? send(__method__, nil) : safe_converter(value)
       else
         super
       end

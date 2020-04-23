@@ -6,6 +6,8 @@
 - drop support for Rails < 5.0
 - [#398][] - Predicate methods have been removed.
   ([how to upgrade](#predicate-methods))
+- [#412][] - Filters will now treat blank string values as `nil`
+  (except `string` and `symbol`). ([how to upgrade](#blank-values-treated-as-nil-for-filters))
 - [#392][] - Integer parsing now defaults the base to 10.
   ([how to upgrade](#integer-parsing-base-now-10))
 - The `inputs` method now returns an `ActiveInteraction::Input` instead of a
@@ -61,6 +63,45 @@ class Example < ActiveInteraction::Base
     # ...
   end
 end
+```
+
+## Blank Values Treated As `nil` For Filters
+
+In an effort to improve form support, strings that are `blank?` will
+be converted into `nil` for all filters except `string` and `symbol`.
+Previously, blank strings would have cased `:invalid_type` errors but
+they'll now cause a `:missing` error which should be more form
+friendly. If the filter has a default, the blank string will cause
+the default to be used.
+
+```ruby
+class Example < ActiveInteraction::Base
+  integer :i
+  boolean :b, default: false
+
+  def execute
+    [i, b]
+  end
+end
+
+# v3.8
+Example.run(i: '', b: '').errors.details
+=> {:i=>[{:error=>:invalid_type, :type=>"integer"}], :b=>[{:error=>:invalid_type, :type=>"boolean"}]}
+
+# v4.0
+Example.run(i: '', b: '').errors.details
+=> {:i=>[{:error=>:missing}]}
+
+# v3.8
+Example.run(i: 0, b: '').errors.details
+=> {:b=>[{:error=>:invalid_type, :type=>"boolean"}]}
+
+# v4.0
+Example.run(i: 0, b: '').errors.details
+=> {}
+
+Example.run(i: 0, b: '').result
+=> [0, false] # the default is used for `:b`
 ```
 
 ### Integer Parsing Base Now 10

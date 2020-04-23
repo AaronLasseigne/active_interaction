@@ -31,6 +31,11 @@ module ActiveInteraction
     end
 
     def convert(value)
+      if value.respond_to?(:to_str)
+        value = value.to_str
+        value = nil if value.blank?
+      end
+
       case value
       when /\A(?:0|false|off)\z/i
         false
