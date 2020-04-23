@@ -26,7 +26,8 @@ module ActiveInteraction
 
     def convert(value)
       if value.respond_to?(:to_str)
-        convert_string(value.to_str)
+        value = value.to_str
+        value.blank? ? send(__method__, nil) : convert_string(value)
       elsif value.is_a?(GroupedInput)
         convert_grouped_input(value)
       else

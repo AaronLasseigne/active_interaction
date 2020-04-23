@@ -267,7 +267,7 @@ end
 
 Boolean filters convert the strings `"1"`, `"true"`, and `"on"`
 (case-insensitive) into `true`. They also convert `"0"`, `"false"`, and `"off"`
-into `false`.
+into `false`. Blank strings will be treated as `nil`.
 
 ``` rb
 class BooleanInteraction < ActiveInteraction::Base
@@ -565,9 +565,10 @@ SymbolInteraction.run!(method: :object_id)
 ### Dates and times
 
 Filters that work with dates and times behave similarly. By default, they all
-convert strings into their expected data types using `.parse`. If you give the
-`format` option, they will instead convert strings using `.strptime`. Note that
-formats won't work with `DateTime` and `Time` filters if a time zone is set.
+convert strings into their expected data types using `.parse`. Blank strings
+will be treated as `nil`. If you give the `format` option, they will instead
+convert strings using `.strptime`. Note that formats won't work with `DateTime`
+and `Time` filters if a time zone is set.
 
 #### Date
 
@@ -641,7 +642,8 @@ time :start,
 ### Numbers
 
 All numeric filters accept numeric input. They will also convert strings using
-the appropriate method from `Kernel` (like `.Float`).
+the appropriate method from `Kernel` (like `.Float`). Blank strings will be
+treated as `nil`.
 
 #### Decimal
 
