@@ -26,6 +26,8 @@ module ActiveInteraction
 
     def matches?(value)
       value.is_a?(TrueClass) || value.is_a?(FalseClass)
+    rescue NoMethodError # BasicObject
+      false
     end
 
     def convert(value)
@@ -37,6 +39,8 @@ module ActiveInteraction
       else
         super
       end
+    rescue NoMethodError # BasicObject
+      super
     end
   end
 end

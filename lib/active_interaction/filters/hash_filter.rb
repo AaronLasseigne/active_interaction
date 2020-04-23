@@ -29,6 +29,8 @@ module ActiveInteraction
 
     def matches?(value)
       value.is_a?(Hash)
+    rescue NoMethodError # BasicObject
+      false
     end
 
     def clean_value(hash, name, filter, value, context)
@@ -55,8 +57,10 @@ module ActiveInteraction
       if value.respond_to?(:to_hash)
         value.to_hash
       else
-        value
+        super
       end
+    rescue NoMethodError # BasicObject
+      super
     end
 
     # rubocop:disable Style/MissingRespondToMissing, Style/MethodMissingSuper
