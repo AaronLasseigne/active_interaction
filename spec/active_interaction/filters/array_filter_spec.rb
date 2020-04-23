@@ -34,7 +34,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value, nil) }
+    let(:result) { filter.send(:cast, value, nil) }
 
     context 'with an Array' do
       let(:value) { [] }

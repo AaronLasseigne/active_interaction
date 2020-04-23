@@ -22,7 +22,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
   describe '#cast' do
     let(:value) { ObjectThing.new }
-    let(:result) { filter.cast(value, nil) }
+    let(:result) { filter.send(:cast, value, nil) }
 
     context 'with an instance of the class' do
       it 'returns the instance' do
@@ -45,7 +45,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         ObjectThing = BackupObjectThing
         value = ObjectThing.new
 
-        expect(filter.cast(value, nil)).to eql value
+        expect(filter.send(:cast, value, nil)).to eql value
       end
 
       it 'handles reconstantizing subclasses' do
@@ -56,7 +56,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         class SubObjectThing < ObjectThing; end
         value = SubObjectThing.new
 
-        expect(filter.cast(value, nil)).to eql value
+        expect(filter.send(:cast, value, nil)).to eql value
       end
 
       context 'without the class available' do

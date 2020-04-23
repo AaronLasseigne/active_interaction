@@ -5,7 +5,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
   it_behaves_like 'a filter'
 
   describe '#cast' do
-    let(:result) { filter.cast(value, nil) }
+    let(:result) { filter.send(:cast, value, nil) }
 
     context 'with an Integer' do
       let(:value) { rand(1 << 16) }
@@ -85,9 +85,11 @@ describe ActiveInteraction::IntegerFilter, :filter do
     end
 
     it 'supports different bases' do
-      expect(described_class.new(name, base: 8).cast('071', nil)).to eql 57
+      expect(
+        described_class.new(name, base: 8).send(:cast, '071', nil)
+      ).to eql 57
       expect do
-        described_class.new(name, base: 8).cast('081', nil)
+        described_class.new(name, base: 8).send(:cast, '081', nil)
       end.to raise_error ActiveInteraction::InvalidValueError
     end
   end

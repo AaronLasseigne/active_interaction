@@ -8,7 +8,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
     context 'falsey' do
       [false, '0', 'false', 'FALSE', 'off', 'OFF'].each do |value|
         it "returns false for #{value.inspect}" do
-          expect(filter.cast(value, nil)).to be_falsey
+          expect(filter.send(:cast, value, nil)).to be_falsey
         end
       end
 
@@ -22,7 +22,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
         end
 
         it 'returns false' do
-          expect(filter.cast(value, nil)).to be_falsey
+          expect(filter.send(:cast, value, nil)).to be_falsey
         end
       end
     end
@@ -30,7 +30,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
     context 'truthy' do
       [true, '1', 'true', 'TRUE', 'on', 'ON'].each do |value|
         it "returns true for #{value.inspect}" do
-          expect(filter.cast(value, nil)).to be_truthy
+          expect(filter.send(:cast, value, nil)).to be_truthy
         end
       end
 
@@ -44,7 +44,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
         end
 
         it 'returns true' do
-          expect(filter.cast(value, nil)).to be_truthy
+          expect(filter.send(:cast, value, nil)).to be_truthy
         end
       end
     end
@@ -62,7 +62,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
         include_context 'optional'
 
         it 'returns the default' do
-          expect(filter.cast(value, nil)).to eql options[:default]
+          expect(filter.send(:cast, value, nil)).to eql options[:default]
         end
       end
 
@@ -71,7 +71,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
 
         it 'raises an error' do
           expect do
-            filter.cast(value, nil)
+            filter.send(:cast, value, nil)
           end.to raise_error ActiveInteraction::MissingValueError
         end
       end

@@ -6,7 +6,7 @@ module ActiveInteraction
   # Common logic for filters that handle numeric objects.
   #
   # @private
-  class AbstractNumericFilter < AbstractFilter
+  class AbstractNumericFilter < Filter
     def database_column_type
       self.class.slug
     end

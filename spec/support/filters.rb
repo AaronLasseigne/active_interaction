@@ -47,7 +47,7 @@ shared_examples_for 'a filter' do
 
   describe '#cast' do
     let(:value) { nil }
-    let(:result) { filter.cast(value, nil) }
+    let(:result) { filter.send(:cast, value, nil) }
 
     context 'optional' do
       include_context 'optional'

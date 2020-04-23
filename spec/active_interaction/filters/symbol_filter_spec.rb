@@ -5,7 +5,7 @@ describe ActiveInteraction::SymbolFilter, :filter do
   it_behaves_like 'a filter'
 
   describe '#cast' do
-    let(:result) { filter.cast(value, nil) }
+    let(:result) { filter.send(:cast, value, nil) }
 
     context 'with a Symbol' do
       let(:value) { SecureRandom.hex.to_sym }
