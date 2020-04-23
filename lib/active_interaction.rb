@@ -25,7 +25,6 @@ require 'active_interaction/modules/validation'
 
 require 'active_interaction/filter_column'
 require 'active_interaction/filter'
-require 'active_interaction/filters/abstract_filter'
 require 'active_interaction/filters/interface_filter'
 require 'active_interaction/filters/abstract_date_time_filter'
 require 'active_interaction/filters/abstract_numeric_filter'

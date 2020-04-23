@@ -13,7 +13,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value, nil) }
+    let(:result) { filter.send(:cast, value, nil) }
 
     context 'with a Datetime' do
       let(:value) { DateTime.new }

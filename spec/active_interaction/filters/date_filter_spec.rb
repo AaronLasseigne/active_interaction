@@ -13,7 +13,7 @@ describe ActiveInteraction::DateFilter, :filter do
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value, nil) }
+    let(:result) { filter.send(:cast, value, nil) }
 
     context 'with a Date' do
       let(:value) { Date.new }

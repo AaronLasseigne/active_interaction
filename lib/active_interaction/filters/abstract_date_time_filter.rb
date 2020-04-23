@@ -7,7 +7,7 @@ module ActiveInteraction
   #   objects.
   #
   # @private
-  class AbstractDateTimeFilter < AbstractFilter
+  class AbstractDateTimeFilter < Filter
     def database_column_type
       self.class.slug
     end

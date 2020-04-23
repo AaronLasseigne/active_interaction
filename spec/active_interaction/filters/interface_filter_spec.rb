@@ -10,7 +10,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
   end
 
   describe '#cast' do
-    let(:result) { filter.cast(value, nil) }
+    let(:result) { filter.send(:cast, value, nil) }
 
     context 'with an implicit constant name' do
       context 'passed an instance' do

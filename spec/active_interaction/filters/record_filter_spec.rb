@@ -38,7 +38,7 @@ describe ActiveInteraction::RecordFilter, :filter do
     end
 
     let(:value) { RecordThing.new }
-    let(:result) { filter.cast(value, nil) }
+    let(:result) { filter.send(:cast, value, nil) }
 
     context 'with an instance of the class' do
       it 'returns the instance' do
@@ -61,7 +61,7 @@ describe ActiveInteraction::RecordFilter, :filter do
         RecordThing = BackupRecordThing
         value = RecordThing.new
 
-        expect(filter.cast(value, nil)).to eql value
+        expect(filter.send(:cast, value, nil)).to eql value
       end
 
       it 'handles reconstantizing subclasses' do
@@ -72,7 +72,7 @@ describe ActiveInteraction::RecordFilter, :filter do
         class SubRecordThing < RecordThing; end
         value = SubRecordThing.new
 
-        expect(filter.cast(value, nil)).to eql value
+        expect(filter.send(:cast, value, nil)).to eql value
       end
 
       context 'without the class available' do

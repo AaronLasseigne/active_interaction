@@ -94,7 +94,9 @@ module ActiveInteraction
     #
     # @return [Object]
     #
-    # @raise (see #cast)
+    # @raise [MissingValueError] If the value is missing and there is no
+    #   default.
+    # @raise [InvalidValueError] If the value is invalid.
     # @raise (see #default)
     def clean(value, context)
       value = cast(value, context)
@@ -119,7 +121,7 @@ module ActiveInteraction
     #
     # @param context [Base, nil]
     #
-    # @return (see #raw_default)
+    # @return [Object]
     #
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
@@ -161,41 +163,6 @@ module ActiveInteraction
       options.key?(:default)
     end
 
-    # @param value [Object]
-    # @param context [Base, nil]
-    #
-    # @return [Object]
-    #
-    # @raise [MissingValueError] If the value is missing and there is no
-    #   default.
-    # @raise [InvalidValueError] If the value is invalid.
-    #
-    # @private
-    # rubocop:disable Metrics/MethodLength
-    def cast(value, context, convert: true, reconstantize: true)
-      if matches?(value)
-        adjust_output(value, context)
-      # we can't use `nil?` because BasicObject doesn't have it
-      elsif value == nil # rubocop:disable Style/NilComparison
-        raise MissingValueError, name unless default?
-
-        nil
-      elsif reconstantize
-        public_send(__method__, value, context,
-          convert: convert,
-          reconstantize: false
-        )
-      elsif convert
-        public_send(__method__, convert(value), context,
-          convert: false,
-          reconstantize: reconstantize
-        )
-      else
-        raise InvalidValueError, "#{name}: #{describe(value)}"
-      end
-    end
-    # rubocop:enable Metrics/MethodLength
-
     # Gets the type of database column that would represent the filter data.
     #
     # @example
@@ -213,6 +180,31 @@ module ActiveInteraction
 
     private
 
+    # rubocop:disable Metrics/MethodLength
+    def cast(value, context, convert: true, reconstantize: true)
+      if matches?(value)
+        adjust_output(value, context)
+      # we can't use `nil?` because BasicObject doesn't have it
+      elsif value == nil # rubocop:disable Style/NilComparison
+        raise MissingValueError, name unless default?
+
+        nil
+      elsif reconstantize
+        send(__method__, value, context,
+          convert: convert,
+          reconstantize: false
+        )
+      elsif convert
+        send(__method__, convert(value), context,
+          convert: false,
+          reconstantize: reconstantize
+        )
+      else
+        raise InvalidValueError, "#{name}: #{describe(value)}"
+      end
+    end
+    # rubocop:enable Metrics/MethodLength
+
     def matches?(_value)
       false
     end
@@ -225,17 +217,16 @@ module ActiveInteraction
       value
     end
 
-    # @param value [Object]
-    # @return [String]
+    def klass
+      @klass ||= Object.const_get(self.class.slug.to_s.camelize, false)
+    end
+
     def describe(value)
       value.inspect
     rescue NoMethodError
       "(Object doesn't support #inspect)"
     end
 
-    # @param context [Base, nil]
-    #
-    # @return [Object]
     def raw_default(context)
       value = options.fetch(:default)
       return value unless value.is_a?(Proc)
