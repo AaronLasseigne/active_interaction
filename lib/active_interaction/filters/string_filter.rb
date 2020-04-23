@@ -28,6 +28,8 @@ module ActiveInteraction
 
     def matches?(value)
       value.is_a?(String)
+    rescue NoMethodError # BasicObject
+      false
     end
 
     def adjust_output(value, _context)
@@ -38,8 +40,10 @@ module ActiveInteraction
       if value.respond_to?(:to_str)
         value.to_str
       else
-        value
+        super
       end
+    rescue NoMethodError # BasicObject
+      super
     end
   end
 end

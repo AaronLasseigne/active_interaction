@@ -49,6 +49,8 @@ module ActiveInteraction
 
     def matches?(value)
       klasses.any? { |klass| value.is_a?(klass) }
+    rescue NoMethodError # BasicObject
+      false
     end
 
     def adjust_output(value, context)
@@ -62,8 +64,10 @@ module ActiveInteraction
       if value.respond_to?(:to_ary)
         value.to_ary
       else
-        value
+        super
       end
+    rescue NoMethodError # BasicObject
+      super
     end
 
     def add_option_in_place_of_name(klass, options)

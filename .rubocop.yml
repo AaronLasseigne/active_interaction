@@ -26,6 +26,8 @@ Layout/MultilineOperationIndentation:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
+Metrics/MethodLength:
+  Max: 15
 Style/FrozenStringLiteralComment:
   Exclude:
     - '**/*.gemspec'

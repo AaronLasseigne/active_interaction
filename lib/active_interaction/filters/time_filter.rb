@@ -57,6 +57,8 @@ module ActiveInteraction
       else
         super
       end
+    rescue NoMethodError # BasicObject
+      super
     end
   end
 end
