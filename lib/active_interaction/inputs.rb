@@ -4,7 +4,13 @@ module ActiveInteraction
   # Holds inputs passed to the interaction.
   class Inputs < DelegateClass(Hash)
     class << self
-      GROUPED_INPUT_PATTERN = /\A(.+)\((\d+)i\)\z/.freeze
+      # matches inputs like "key(1i)"
+      GROUPED_INPUT_PATTERN = /
+        \A
+        (?<key>.+)         # extracts "key"
+        \((?<index>\d+)i\) # extracts "1"
+        \z
+      /x.freeze
       private_constant :GROUPED_INPUT_PATTERN
 
       # Checking `syscall` is the result of what appears to be a bug in Ruby.
@@ -20,8 +26,8 @@ module ActiveInteraction
         inputs.stringify_keys.sort.each_with_object({}) do |(k, v), h|
           next if reserved?(k)
 
-          if (match = GROUPED_INPUT_PATTERN.match(k))
-            assign_to_grouped_input!(h, *match.captures, v)
+          if (group = GROUPED_INPUT_PATTERN.match(k))
+            assign_to_grouped_input!(h, group[:key], group[:index], v)
           else
             h[k.to_sym] = v
           end
