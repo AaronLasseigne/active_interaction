@@ -74,14 +74,11 @@ module ActiveInteraction
     def run
       return self.result = nil unless valid?
 
-      run_callbacks(:execute) do
-        self.result =
-          begin
-            execute
-          rescue Interrupt => interrupt
-            errors.backtrace = interrupt.errors.backtrace || interrupt.backtrace
-            errors.merge!(interrupt.errors)
-          end
+      self.result = run_callbacks(:execute) do
+        execute
+      rescue Interrupt => interrupt
+        errors.backtrace = interrupt.errors.backtrace || interrupt.backtrace
+        errors.merge!(interrupt.errors)
       end
     end
 
