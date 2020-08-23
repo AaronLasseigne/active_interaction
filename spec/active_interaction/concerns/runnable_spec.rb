@@ -345,6 +345,24 @@ describe ActiveInteraction::Runnable do
         expect(outcome.caught_error).to be true
       end
     end
+
+    context 'with block not called and error in execute around callback' do
+      class CheckExecuteAroundCallbackForFailure
+        include ActiveInteraction::ActiveModelable
+        include ActiveInteraction::Runnable
+
+        set_callback :execute, :around, -> { errors.add(:base, 'invalid') }
+
+        def execute
+          true
+        end
+      end
+
+      it 'is invalid' do
+        outcome = CheckExecuteAroundCallbackForFailure.run
+        expect(outcome).to_not be_valid
+      end
+    end
   end
 
   describe '.run!' do
