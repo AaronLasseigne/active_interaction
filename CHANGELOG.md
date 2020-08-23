@@ -1,3 +1,9 @@
+# [3.8.3][] (2020-04-22)
+
+## Fixed
+
+- [486][] `valid?` returns true if block not called and error added in execute around callback.
+
 # [3.8.2][] (2020-04-22)
 
 ## Fixed
@@ -771,6 +777,7 @@ Example.run
 
 - Initial release.
 
+  [3.8.3]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.2...v3.8.3
   [3.8.2]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.1...v3.8.2
   [3.8.1]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.0...v3.8.1
   [3.8.0]: https://github.com/AaronLasseigne/active_interaction/compare/v3.7.1...v3.8.0
@@ -971,3 +978,4 @@ Example.run
   [#477]: https://github.com/AaronLasseigne/active_interaction/issues/477
   [#476]: https://github.com/AaronLasseigne/active_interaction/issues/476
   [#479]: https://github.com/AaronLasseigne/active_interaction/issues/479
+  [#486]: https://github.com/AaronLasseigne/active_interaction/issues/486
