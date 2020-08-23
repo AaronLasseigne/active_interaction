@@ -346,7 +346,7 @@ describe ActiveInteraction::Runnable do
       end
     end
 
-    context 'with block not called and error added in execute around callback' do
+    context 'with block not called and error in execute around callback' do
       class CheckExecuteAroundCallbackForFailure
         include ActiveInteraction::ActiveModelable
         include ActiveInteraction::Runnable
