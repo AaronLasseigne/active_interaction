@@ -28,7 +28,7 @@ module ActiveInteraction
 
     # rubocop:disable Metrics/MethodLength
     def cast(value, context)
-      value = normalize_inputs(value)
+      value = ActionParamsCompatibility.cast_to_hash(value)
       case value
       when Hash
         value = value.with_indifferent_access
@@ -73,20 +73,6 @@ module ActiveInteraction
     # @return [Boolean]
     def strip?
       options.fetch(:strip, true)
-    end
-
-    # We want to allow both `Hash` objects and `ActionController::Parameters`
-    # objects. In Rails < 5, parameters are a subclass of hash and calling
-    # `#symbolize_keys` returns the entire hash, not just permitted values. In
-    # Rails >= 5, parameters are not a subclass of hash but calling
-    # `#to_unsafe_h` returns the entire hash.
-    def normalize_inputs(inputs)
-      klass = 'ActionController::Parameters'.safe_constantize
-      if klass && inputs.is_a?(klass)
-        inputs.to_unsafe_h
-      else
-        inputs
-      end
     end
   end
 end
