@@ -13,11 +13,9 @@ module ActiveInteraction
       # Rails >= 5, parameters are not a subclass of hash but calling
       # `#to_unsafe_h` returns the entire hash.
       def cast_to_hash(params)
-        if action_params_klass && params.is_a?(action_params_klass)
-          params.to_unsafe_h
-        else
-          params
-        end
+        return params if params.is_a? Hash
+        return params.to_unsafe_h if action_params_klass && params.is_a?(action_params_klass)
+        params
       end
 
       def action_params_klass
