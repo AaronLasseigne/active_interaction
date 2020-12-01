@@ -14,7 +14,11 @@ module ActiveInteraction
       # `#to_unsafe_h` returns the entire hash.
       def cast_to_hash(params)
         return params if params.is_a? Hash
-        return params.to_unsafe_h if action_params_klass && params.is_a?(action_params_klass)
+
+        if action_params_klass && params.is_a?(action_params_klass)
+          return params.to_unsafe_h
+        end
+
         params
       end
 
