@@ -150,7 +150,7 @@ module ActiveInteraction
         options = detail.dup
         error = options.delete(:error)
 
-        add(attribute, error, options.merge(message: message)) unless added?(attribute, error, options)
+        add(attribute, error, **options.merge(message: message)) unless added?(attribute, error, **options)
       else
         merge_message!(attribute, message)
       end

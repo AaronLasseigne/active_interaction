@@ -16,7 +16,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: "2.7"
+        ruby-version: "3.0"
 
     - name: Build
       run: |
@@ -31,8 +31,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ["2.7"]
-        activemodel: ["6.1", "6.0", "5.2", "5.1", "5.0"]
+        ruby: ["3.0"]
+        activemodel: ["6.1", "6.0"]
+        include:
+          - activemodel: "5.2"
+            ruby: "2.7"
+          - activemodel: "5.1"
+            ruby: "2.7"
+          - activemodel: "5.0"
+            ruby: "2.7"
 
     steps:
     - uses: actions/checkout@v2
@@ -58,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ["2.6", "2.5", "jruby-9.2.11.1"]
+        ruby: ["2.7", "2.6", "2.5", "jruby-9.2.11.1"]
         activemodel: ["5.2"]
 
     steps:

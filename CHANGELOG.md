@@ -2,8 +2,8 @@
 
 ## Changed
 
-- drop support for Ruby < 2.5
-- drop support for Rails < 5.0
+- drop support for Ruby < 2.5, added support for Ruby 3.0
+- drop support for Rails < 5.0, added support for Rails 6.1
 - [#398][] - Predicate methods have been removed.
   ([how to upgrade](#predicate-methods))
 - [#412][] - Filters will now treat blank string values as `nil`

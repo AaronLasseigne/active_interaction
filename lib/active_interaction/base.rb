@@ -313,8 +313,8 @@ module ActiveInteraction
 
     def type_check
       run_callbacks(:type_check) do
-        Validation.validate(self, self.class.filters, inputs).each do |error|
-          errors.add(*error)
+        Validation.validate(self, self.class.filters, inputs).each do |attr, type, kwargs = {}|
+          errors.add(attr, type, **kwargs)
         end
       end
     end
