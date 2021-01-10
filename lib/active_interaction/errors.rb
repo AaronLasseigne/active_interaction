@@ -149,9 +149,10 @@ module ActiveInteraction # rubocop:disable Style/Documentation
       if attribute?(attribute) || attribute == :base
         options = detail.dup
         error = options.delete(:error)
-        options[:message] = message
 
-        add(attribute, error, options) unless added?(attribute, error, options)
+        unless added?(attribute, error, options)
+          add(attribute, error, options.merge(message: message))
+        end
       else
         merge_message!(attribute, message)
       end

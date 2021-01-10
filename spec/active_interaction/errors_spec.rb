@@ -168,7 +168,7 @@ describe ActiveInteraction::Errors do
 
         it 'merges the nested errors' do
           a.valid?
-          expect(a.errors.messages).to eql('b.name': ["can't be blank"])
+          expect(a.errors.messages).to eq('b.name': ["can't be blank"])
           expect(a.errors.size).to eql 1
           expect { errors.merge!(a.errors) }.to_not raise_error
           expect(errors.size).to eql 1
