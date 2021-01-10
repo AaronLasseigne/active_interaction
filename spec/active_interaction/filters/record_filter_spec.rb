@@ -21,7 +21,8 @@ class RecordThing
     obj
   end
 end
-class RecordThings; end
+
+class RecordThings; end # rubocop:disable Lint/EmptyClass
 BackupRecordThing = RecordThing
 
 describe ActiveInteraction::RecordFilter, :filter do
@@ -58,7 +59,7 @@ describe ActiveInteraction::RecordFilter, :filter do
         expect(result).to eql value
 
         Object.send(:remove_const, :RecordThing)
-        RecordThing = BackupRecordThing
+        RecordThing = BackupRecordThing # rubocop:disable Lint/ConstantDefinitionInBlock
         value = RecordThing.new
 
         expect(filter.send(:cast, value, nil)).to eql value
@@ -68,8 +69,8 @@ describe ActiveInteraction::RecordFilter, :filter do
         filter
 
         Object.send(:remove_const, :RecordThing)
-        RecordThing = BackupRecordThing
-        class SubRecordThing < RecordThing; end
+        RecordThing = BackupRecordThing # rubocop:disable Lint/ConstantDefinitionInBlock
+        class SubRecordThing < RecordThing; end # rubocop:disable Lint/ConstantDefinitionInBlock
         value = SubRecordThing.new
 
         expect(filter.send(:cast, value, nil)).to eql value
@@ -77,7 +78,7 @@ describe ActiveInteraction::RecordFilter, :filter do
 
       context 'without the class available' do
         before { Object.send(:remove_const, :RecordThing) }
-        after { RecordThing = BackupRecordThing }
+        after { RecordThing = BackupRecordThing } # rubocop:disable Lint/ConstantDefinitionInBlock
 
         it 'does not raise an error on initialization' do
           expect { filter }.to_not raise_error

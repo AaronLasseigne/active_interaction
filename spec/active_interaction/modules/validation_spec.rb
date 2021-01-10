@@ -48,7 +48,7 @@ describe ActiveInteraction::Validation do
             "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
           )
 
-          expect(result).to eql [[filter.name, :invalid_type, type: type]]
+          expect(result).to eql [[filter.name, :invalid_type, { type: type }]]
         end
       end
 

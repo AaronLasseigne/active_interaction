@@ -30,7 +30,7 @@ module ActiveInteraction
         @columns[type] ||= new(type)
       end
 
-      private :new # rubocop:disable Style/AccessModifierDeclarations
+      private :new
     end
 
     # @param type [type] The database column type.

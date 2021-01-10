@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ActiveInteraction # rubocop:disable Style/Documentation
+module ActiveInteraction
   # Top-level error class. All other errors subclass this.
   #
   # @return [Class]
@@ -150,9 +150,7 @@ module ActiveInteraction # rubocop:disable Style/Documentation
         options = detail.dup
         error = options.delete(:error)
 
-        unless added?(attribute, error, options)
-          add(attribute, error, options.merge(message: message))
-        end
+        add(attribute, error, options.merge(message: message)) unless added?(attribute, error, options)
       else
         merge_message!(attribute, message)
       end

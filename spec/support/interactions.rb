@@ -30,12 +30,12 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
           default: generator.call
         )
       )
-      public_send(type, :defaults_1, :defaults_2,
+      public_send(type, :defaults1, :defaults2,
         filter_options.merge(
           default: generator.call
         )
       )
-      public_send(type, :defaults_3,
+      public_send(type, :defaults3,
         filter_options.merge(
           default: -> { required }
         )
@@ -89,16 +89,16 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       expect(result[:default]).to_not be_nil
     end
 
-    it 'does not return nil for :defaults_1' do
-      expect(result[:defaults_1]).to_not be_nil
+    it 'does not return nil for :defaults1' do
+      expect(result[:defaults1]).to_not be_nil
     end
 
-    it 'does not return nil for :defaults_2' do
-      expect(result[:defaults_2]).to_not be_nil
+    it 'does not return nil for :defaults2' do
+      expect(result[:defaults2]).to_not be_nil
     end
 
-    it 'evaluates :defaults_3 in the interaction binding' do
-      expect(result[:defaults_3]).to eql result[:required]
+    it 'evaluates :defaults3 in the interaction binding' do
+      expect(result[:defaults3]).to eql result[:required]
     end
 
     context 'with inputs[:optional]' do

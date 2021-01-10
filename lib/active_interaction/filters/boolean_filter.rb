@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  class Base
+  class Base # rubocop:disable Lint/EmptyClass
     # @!method self.boolean(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are Booleans. The strings `"1"`, `"true"`, and `"on"`

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  class Base
+  class Base # rubocop:disable Lint/EmptyClass
     # @!method self.array(*attributes, options = {}, &block)
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are Arrays.
@@ -99,17 +99,11 @@ module ActiveInteraction
     #
     # @raise [InvalidFilterError]
     def validate!(filter, names)
-      if filters.size > 1
-        raise InvalidFilterError, 'multiple filters in array block'
-      end
+      raise InvalidFilterError, 'multiple filters in array block' if filters.size > 1
 
-      unless names.empty?
-        raise InvalidFilterError, 'attribute names in array block'
-      end
+      raise InvalidFilterError, 'attribute names in array block' unless names.empty?
 
-      if filter.default?
-        raise InvalidDefaultError, 'default values in array block'
-      end
+      raise InvalidDefaultError, 'default values in array block' if filter.default?
 
       nil
     end

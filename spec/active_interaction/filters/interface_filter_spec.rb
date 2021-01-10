@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 module InterfaceModule; end
-class InterfaceClass; end
+
+class InterfaceClass; end # rubocop:disable Lint/EmptyClass
 
 describe ActiveInteraction::InterfaceFilter, :filter do
   include_context 'filters'
@@ -30,7 +31,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         context 'with the class inherited from' do
           let(:name) { :interface_class }
           let(:value) do
-            Class.new(InterfaceClass) {}.new
+            Class.new(InterfaceClass) {}.new # rubocop:disable Lint/EmptyBlock
           end
 
           it 'returns a the value' do
@@ -41,7 +42,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         context 'that is extended by the ancestor' do
           let(:name) { :interface_module }
           let(:value) do
-            Class.new {}.new.extend(InterfaceModule)
+            Class.new {}.new.extend(InterfaceModule) # rubocop:disable Lint/EmptyBlock
           end
 
           it 'returns a the value' do
@@ -78,7 +79,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         context 'with the class inherited from' do
           let(:name) { :interface_class }
           let(:value) do
-            Class.new(InterfaceClass) {}
+            Class.new(InterfaceClass) {} # rubocop:disable Lint/EmptyBlock
           end
 
           it 'returns a the value' do
@@ -189,7 +190,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         context 'with the class inherited from' do
           before { options.merge!(from: :interface_class) }
           let(:value) do
-            Class.new(InterfaceClass) {}.new
+            Class.new(InterfaceClass) {}.new # rubocop:disable Lint/EmptyBlock
           end
 
           it 'returns a the value' do
@@ -200,7 +201,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         context 'that is extended by the ancestor' do
           before { options.merge!(from: :interface_module) }
           let(:value) do
-            Class.new {}.new.extend(InterfaceModule)
+            Class.new {}.new.extend(InterfaceModule) # rubocop:disable Lint/EmptyBlock
           end
 
           it 'returns a the value' do
@@ -235,7 +236,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         context 'with the class inherited from' do
           before { options.merge!(from: :interface_class) }
           let(:value) do
-            Class.new(InterfaceClass) {}
+            Class.new(InterfaceClass) {} # rubocop:disable Lint/EmptyBlock
           end
 
           it 'returns a the value' do

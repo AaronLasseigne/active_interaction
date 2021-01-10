@@ -673,7 +673,7 @@ describe ActiveInteraction::Base do
       it 'responds to readers and writers' do
         instance = described_class.new
 
-        described_class.filters.keys.each do |name|
+        described_class.filters.each_key do |name|
           [name, "#{name}="].each do |method|
             expect(instance).to respond_to method
           end

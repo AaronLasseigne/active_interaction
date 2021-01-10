@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  class Base
+  class Base # rubocop:disable Lint/EmptyClass
     # @!method self.interface(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #   the attributes implement an interface. An interface can be based on a

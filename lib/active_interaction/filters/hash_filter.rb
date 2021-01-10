@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  class Base
+  class Base # rubocop:disable Lint/EmptyClass
     # @!method self.hash(*attributes, options = {}, &block)
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are Hashes.
@@ -63,7 +63,7 @@ module ActiveInteraction
       super
     end
 
-    # rubocop:disable Style/MissingRespondToMissing, Style/MethodMissingSuper
+    # rubocop:disable Style/MissingRespondToMissing
     def method_missing(*args, &block)
       super(*args) do |klass, names, options|
         raise InvalidFilterError, 'missing attribute name' if names.empty?
@@ -73,14 +73,12 @@ module ActiveInteraction
         end
       end
     end
-    # rubocop:enable Style/MissingRespondToMissing, Style/MethodMissingSuper
+    # rubocop:enable Style/MissingRespondToMissing
 
     def raw_default(*)
       value = super
 
-      if value.is_a?(Hash) && !value.empty?
-        raise InvalidDefaultError, "#{name}: #{value.inspect}"
-      end
+      raise InvalidDefaultError, "#{name}: #{value.inspect}" if value.is_a?(Hash) && !value.empty?
 
       value
     end

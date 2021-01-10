@@ -18,7 +18,7 @@ end
 describe I18nInteraction do
   include_context 'interactions'
 
-  TYPES = ActiveInteraction::Filter
+  TYPES = ActiveInteraction::Filter # rubocop:disable Lint/ConstantDefinitionInBlock
     .const_get(:CLASSES)
     .map { |slug, _| slug.to_s }
 
@@ -85,9 +85,7 @@ describe I18nInteraction do
       # This must appear before including the translation examples so that the
       # locale is available before it is assigned.
       locale = :hsilgne
-      unless I18n.locale_available?(locale)
-        I18n.config.available_locales = I18n.config.available_locales + [locale]
-      end
+      I18n.config.available_locales = I18n.config.available_locales + [locale] unless I18n.locale_available?(locale)
     end
 
     include_examples 'translation', :hsilgne
@@ -98,7 +96,7 @@ describe I18nInteraction do
           errors: {
             messages: {
               invalid: 'is invalid'.reverse,
-              invalid_type: "%{type} #{'is not a valid'.reverse}",
+              invalid_type: "%<type>s} #{'is not a valid'.reverse}",
               missing: 'missing'.reverse
             }
           },

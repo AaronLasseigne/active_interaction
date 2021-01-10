@@ -42,9 +42,11 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     'benchmark-ips' => ['~> 2.7'],
     'coveralls' => ['~> 0.8'],
     'kramdown' => ['~> 2.1'],
-    'rake' => ['~> 12.3'],
+    'rake' => ['~> 13.0'],
     'rspec' => ['~> 3.5'],
-    'rubocop' => ['~> 0.74.0'],
+    'rubocop' => ['~> 1.8'],
+    'rubocop-rake' => ['~> 0.5.1'],
+    'rubocop-rspec' => ['~> 2.1'],
     'yard' => ['~> 0.9']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions

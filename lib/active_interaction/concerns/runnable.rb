@@ -45,9 +45,7 @@ module ActiveInteraction
 
     # @return [Boolean]
     def valid?(*)
-      if instance_variable_defined?(:@_interaction_valid)
-        return @_interaction_valid
-      end
+      return @_interaction_valid if instance_variable_defined?(:@_interaction_valid)
 
       super
     end

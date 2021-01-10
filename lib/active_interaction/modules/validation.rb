@@ -26,10 +26,9 @@ module ActiveInteraction
       def error_args(filter, error)
         case error
         when InvalidNestedValueError
-          [filter.name, :invalid_nested,
-           name: error.filter_name.inspect, value: error.input_value.inspect]
+          [filter.name, :invalid_nested, { name: error.filter_name.inspect, value: error.input_value.inspect }]
         when InvalidValueError
-          [filter.name, :invalid_type, type: type(filter)]
+          [filter.name, :invalid_type, { type: type(filter) }]
         when MissingValueError
           [filter.name, :missing]
         end

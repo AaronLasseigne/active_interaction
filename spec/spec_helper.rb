@@ -5,13 +5,11 @@ if RUBY_ENGINE != 'jruby'
 end
 
 require 'i18n'
-if I18n.config.respond_to?(:enforce_available_locales)
-  I18n.config.enforce_available_locales = true
-end
+I18n.config.enforce_available_locales = true if I18n.config.respond_to?(:enforce_available_locales)
 
 require 'active_interaction'
 
-Dir['./spec/support/**/*.rb'].each { |f| require f }
+Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true

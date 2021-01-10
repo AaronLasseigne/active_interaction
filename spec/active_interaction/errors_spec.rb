@@ -107,7 +107,7 @@ describe ActiveInteraction::Errors do
                 klass.name => {
                   attributes: {
                     attribute: {
-                      invalid_type: 'is not a valid %{type}'
+                      invalid_type: 'is not a valid %<type>s'
                     }
                   }
                 }
@@ -152,12 +152,12 @@ describe ActiveInteraction::Errors do
             end
           end
 
-          class A < ActiveRecord::Base
+          class A < ActiveRecord::Base # rubocop:disable Lint/ConstantDefinitionInBlock
             has_one :b
             accepts_nested_attributes_for :b
           end
 
-          class B < ActiveRecord::Base
+          class B < ActiveRecord::Base # rubocop:disable Lint/ConstantDefinitionInBlock
             belongs_to :a
 
             validates :name, presence: true

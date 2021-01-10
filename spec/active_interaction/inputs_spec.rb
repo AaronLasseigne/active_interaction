@@ -8,7 +8,6 @@ describe ActiveInteraction::Inputs do
       expect(described_class.reserved?('_interaction_')).to be_truthy
     end
 
-    # rubocop:disable Metrics/LineLength
     it 'returns true for existing instance methods' do
       (
         (ActiveInteraction::Base.instance_methods - Object.instance_methods) +
@@ -17,7 +16,6 @@ describe ActiveInteraction::Inputs do
         expect(described_class.reserved?(method)).to be_truthy
       end
     end
-    # rubocop:enable Metrics/LineLength
 
     it 'returns false for anything else' do
       expect(described_class.reserved?(SecureRandom.hex)).to be_falsey

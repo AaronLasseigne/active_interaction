@@ -3,7 +3,7 @@
 require 'bigdecimal'
 
 module ActiveInteraction
-  class Base
+  class Base # rubocop:disable Lint/EmptyClass
     # @!method self.decimal(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are BigDecimals. Numerics and String values are

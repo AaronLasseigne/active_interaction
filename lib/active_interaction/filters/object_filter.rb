@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  class Base
+  class Base # rubocop:disable Lint/EmptyClass
     # @!method self.object(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are the correct class.

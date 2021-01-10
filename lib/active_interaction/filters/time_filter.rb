@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  class Base
+  class Base # rubocop:disable Lint/EmptyClass
     # @!method self.time(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are Times. Numeric values are processed using `at`.
@@ -24,9 +24,7 @@ module ActiveInteraction
     register :time
 
     def initialize(name, options = {}, &block)
-      if options.key?(:format) && time_with_zone?
-        raise InvalidFilterError, 'format option unsupported with time zones'
-      end
+      raise InvalidFilterError, 'format option unsupported with time zones' if options.key?(:format) && time_with_zone?
 
       super
     end

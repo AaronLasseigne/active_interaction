@@ -25,7 +25,7 @@ describe ActiveInteraction::Hashable do
       end
 
       context 'with a block' do
-        let(:block) { proc {} }
+        let(:block) { proc {} } # rubocop:disable Lint/EmptyBlock
         let(:hash) { subject.hash(*arguments, &block) }
 
         it 'calls method_missing' do

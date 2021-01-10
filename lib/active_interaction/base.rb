@@ -27,7 +27,7 @@ module ActiveInteraction
   #   else
   #     outcome.errors
   #   end
-  class Base # rubocop:disable Metrics/ClassLength
+  class Base
     include ActiveModelable
     include ActiveRecordable
     include Runnable
@@ -73,9 +73,7 @@ module ActiveInteraction
       # @return [String, nil] The description.
       def desc(desc = nil)
         if desc.nil?
-          unless instance_variable_defined?(:@_interaction_desc)
-            @_interaction_desc = nil
-          end
+          @_interaction_desc = nil unless instance_variable_defined?(:@_interaction_desc)
         else
           @_interaction_desc = desc
         end
@@ -109,9 +107,7 @@ module ActiveInteraction
       # @param name [Symbol]
       # @param options [Hash]
       def add_filter(klass, name, options, &block)
-        if ActiveInteraction::Inputs.reserved?(name)
-          raise InvalidFilterError, %("#{name}" is a reserved name)
-        end
+        raise InvalidFilterError, %("#{name}" is a reserved name) if ActiveInteraction::Inputs.reserved?(name)
 
         initialize_filter(klass.new(name, options, &block))
       end
@@ -136,7 +132,7 @@ module ActiveInteraction
         other_filters.select! { |k, _| [*only].include?(k) } if only
         other_filters.reject! { |k, _| [*except].include?(k) } if except
 
-        other_filters.values.each { |filter| initialize_filter(filter) }
+        other_filters.each_value { |filter| initialize_filter(filter) }
       end
 
       # @param klass [Class]
@@ -149,9 +145,7 @@ module ActiveInteraction
       # @param filter [Filter]
       def initialize_filter(filter)
         attribute = filter.name
-        if filters.key?(attribute)
-          warn "WARNING: Redefining #{name}##{attribute} filter"
-        end
+        warn "WARNING: Redefining #{name}##{attribute} filter" if filters.key?(attribute)
         filters[attribute] = filter
 
         attr_accessor attribute

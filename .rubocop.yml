@@ -1,19 +1,15 @@
 AllCops:
   TargetRubyVersion: 2.5
+  NewCops: enable
   Exclude:
-  - example/db/schema.rb
-  - tmp/**/*
-  - vendor/**/*
-  - bin/**/*
-ClassLength:
-  Max: 120
-Documentation:
+    - example/db/schema.rb
+    - tmp/**/*
+    - vendor/**/*
+    - bin/**/*
+Naming/FileName:
   Exclude:
-  - spec/**/*
-FileName:
-  Exclude:
-  - gemfiles/*
-Layout/AlignArguments:
+    - gemfiles/*
+Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
 Layout/MultilineMethodCallBraceLayout:
   EnforcedStyle: new_line
@@ -26,6 +22,8 @@ Layout/MultilineOperationIndentation:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
+Metrics/ClassLength:
+  Max: 120
 Metrics/MethodLength:
   Max: 15
 Style/FrozenStringLiteralComment:

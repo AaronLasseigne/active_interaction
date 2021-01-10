@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ActiveInteraction::Runnable do
   include_context 'concerns', ActiveInteraction::Runnable
 
-  class WrappableFailingInteraction
+  class WrappableFailingInteraction # rubocop:disable Lint/ConstantDefinitionInBlock
     include ActiveInteraction::Runnable
 
     def execute
@@ -70,7 +70,7 @@ describe ActiveInteraction::Runnable do
       include_examples 'set_callback examples', :execute
 
       context 'execute with composed interaction' do
-        class WithFailingCompose
+        class WithFailingCompose # rubocop:disable Lint/ConstantDefinitionInBlock
           include ActiveInteraction::Runnable
 
           def execute
@@ -105,11 +105,9 @@ describe ActiveInteraction::Runnable do
           context 'using if' do
             it 'yields errors to the if' do
               has_run = false
-              # rubocop:disable Metrics/LineLength
               WithFailingCompose.set_callback :execute, :after, if: -> { errors.any? } do
                 has_run = true
               end
-              # rubocop:enable Metrics/LineLength
 
               WithFailingCompose.run
               expect(has_run).to be_truthy
@@ -235,10 +233,10 @@ describe ActiveInteraction::Runnable do
     context 'caches the validity and result of the run' do
       let(:klass) do
         Class.new(ActiveInteraction::Base) do
-          INVALID = [false, true].cycle
+          invalid = [false, true].cycle
 
           validate do |interaction|
-            interaction.errors.add(:base, 'failed') unless INVALID.next
+            interaction.errors.add(:base, 'failed') unless invalid.next
           end
 
           def execute
@@ -258,10 +256,10 @@ describe ActiveInteraction::Runnable do
     context 'caches the validity and result of the run' do
       let(:klass) do
         Class.new(ActiveInteraction::Base) do
-          VALID = [true, false].cycle
+          valid = [true, false].cycle
 
           validate do |interaction|
-            interaction.errors.add(:base, 'failed') unless VALID.next
+            interaction.errors.add(:base, 'failed') unless valid.next
           end
 
           def execute
@@ -325,7 +323,7 @@ describe ActiveInteraction::Runnable do
     end
 
     context 'with failing composition' do
-      class CheckInnerForFailure
+      class CheckInnerForFailure # rubocop:disable Lint/ConstantDefinitionInBlock
         include ActiveInteraction::Runnable
 
         attr_reader :caught_error
@@ -345,7 +343,7 @@ describe ActiveInteraction::Runnable do
     end
 
     context 'with block not called and error in execute around callback' do
-      class CheckExecuteAroundCallbackForFailure
+      class CheckExecuteAroundCallbackForFailure # rubocop:disable Lint/ConstantDefinitionInBlock
         include ActiveInteraction::ActiveModelable
         include ActiveInteraction::Runnable
 

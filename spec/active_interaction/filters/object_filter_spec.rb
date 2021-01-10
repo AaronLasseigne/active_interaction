@@ -9,7 +9,8 @@ class ObjectThing
     raise 'error'
   end
 end
-class ObjectThings; end
+
+class ObjectThings; end # rubocop:disable Lint/EmptyClass
 BackupObjectThing = ObjectThing
 
 describe ActiveInteraction::ObjectFilter, :filter do
@@ -42,7 +43,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         expect(result).to eql value
 
         Object.send(:remove_const, :ObjectThing)
-        ObjectThing = BackupObjectThing
+        ObjectThing = BackupObjectThing # rubocop:disable Lint/ConstantDefinitionInBlock
         value = ObjectThing.new
 
         expect(filter.send(:cast, value, nil)).to eql value
@@ -52,8 +53,8 @@ describe ActiveInteraction::ObjectFilter, :filter do
         filter
 
         Object.send(:remove_const, :ObjectThing)
-        ObjectThing = BackupObjectThing
-        class SubObjectThing < ObjectThing; end
+        ObjectThing = BackupObjectThing # rubocop:disable Lint/ConstantDefinitionInBlock
+        class SubObjectThing < ObjectThing; end # rubocop:disable Lint/ConstantDefinitionInBlock
         value = SubObjectThing.new
 
         expect(filter.send(:cast, value, nil)).to eql value
@@ -61,7 +62,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
       context 'without the class available' do
         before { Object.send(:remove_const, :ObjectThing) }
-        after { ObjectThing = BackupObjectThing }
+        after { ObjectThing = BackupObjectThing } # rubocop:disable Lint/ConstantDefinitionInBlock
 
         it 'does not raise an error on initialization' do
           expect { filter }.to_not raise_error
@@ -186,7 +187,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
         before do
           options[:default] = ObjectThing.new
-          options[:converter] = ->(_) { nil }
+          options[:converter] = ->(_) {}
         end
 
         it 'raises an error' do
