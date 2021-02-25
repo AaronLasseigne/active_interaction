@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ["2.7", "2.6", "2.5", "jruby-9.2.11.1"]
+        ruby: ["2.7", "2.6", "2.5", "jruby-9.2.15.0"]
         activemodel: ["5.2"]
 
     steps:
