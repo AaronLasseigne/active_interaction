@@ -1,3 +1,9 @@
+# [Next][] (TBD)
+
+## Fix
+
+- Fix regression of filter name relaxing.
+
 # [4.0.0][] (2021-01-10)
 
 ## Changed
