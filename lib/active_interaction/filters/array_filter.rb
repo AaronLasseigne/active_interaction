@@ -98,9 +98,9 @@ module ActiveInteraction
 
     def with_nested_error_handling(index)
       yield
-    rescue InvalidNestedValueError => ex
-      ex.nesting_index = index
-      raise ex
+    rescue InvalidNestedValueError => e
+      e.nesting_index = index
+      raise e
     end
 
     # @param filter [Filter]
