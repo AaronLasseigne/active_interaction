@@ -98,11 +98,7 @@ module ActiveInteraction
     #
     # @return [Errors]
     def merge!(other)
-      if other.respond_to?(:details)
-        merge_details!(other)
-      else
-        merge_messages!(other)
-      end
+      merge_details!(other)
 
       self
     end
@@ -115,14 +111,6 @@ module ActiveInteraction
 
     def detailed_error?(detail)
       detail[:error].is_a?(Symbol)
-    end
-
-    def merge_messages!(other)
-      other.messages.each do |attribute, messages|
-        messages.each do |message|
-          merge_message!(attribute, message)
-        end
-      end
     end
 
     def merge_message!(attribute, message)
