@@ -39,9 +39,17 @@ module ActiveInteraction
       Time.respond_to?(:zone) && !Time.zone.nil?
     end
 
+    def klass
+      if time_with_zone?
+        Time.zone
+      else
+        super
+      end
+    end
+
     def klasses
       if time_with_zone?
-        super + [Time.zone.class]
+        [Time.zone.at(0).class, Time]
       else
         super
       end

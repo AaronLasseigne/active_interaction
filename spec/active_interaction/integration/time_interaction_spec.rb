@@ -12,11 +12,11 @@ TimeWithZone = Class.new do
   end
 
   def at(*args)
-    Time.at(*args)
+    TimeWithZone.new(Time.at(*args) + 1)
   end
 
   def parse(*args)
-    Time.parse(*args)
+    TimeWithZone.new(Time.parse(*args) + 1)
   rescue ArgumentError
     nil
   end
@@ -43,7 +43,7 @@ describe TimeInteraction do
       let(:a) { rand(1 << 16) }
 
       it 'returns the correct value' do
-        expect(result[:a]).to eq Time.zone.at(a)
+        expect(result[:a]).to eq TimeWithZone.new(0).at(a)
       end
     end
 
@@ -51,7 +51,7 @@ describe TimeInteraction do
       let(:a) { '2011-12-13T14:15:16Z' }
 
       it 'returns the correct value' do
-        expect(result[:a]).to eq Time.zone.parse(a)
+        expect(result[:a]).to eq TimeWithZone.new(0).parse(a)
       end
     end
 
