@@ -191,10 +191,7 @@ module ActiveInteraction
     #
     # @return [Hash{Symbol => Object}] All inputs passed to {.run} or {.run!}.
     def inputs
-      @inputs ||= self.class.filters
-        .each_key.with_object(ActiveInteraction::Inputs.new) do |name, h|
-          h[name] = public_send(name)
-        end.freeze
+      @_interaction_inputs
     end
 
     # Returns `true` if the given key was in the hash passed to {.run}.
@@ -238,7 +235,7 @@ module ActiveInteraction
     # rubocop:disable all
     def given?(input, *rest)
       filter_level = self.class
-      input_level = @_interaction_inputs
+      input_level = @_interaction_raw_inputs
 
       [input, *rest].each do |key_or_index|
         if key_or_index.is_a?(Symbol) || key_or_index.is_a?(String)
@@ -288,12 +285,14 @@ module ActiveInteraction
 
     # @param inputs [Hash{Symbol => Object}]
     def process_inputs(inputs)
-      @_interaction_inputs = inputs
+      @_interaction_raw_inputs = inputs
 
-      populate_filters(ActiveInteraction::Inputs.process(inputs))
+      populate_filters_and_inputs(ActiveInteraction::Inputs.process(inputs))
     end
 
-    def populate_filters(inputs)
+    def populate_filters_and_inputs(inputs)
+      @_interaction_inputs = ActiveInteraction::Inputs.new
+
       self.class.filters.each do |name, filter|
         value =
           begin
@@ -304,8 +303,11 @@ module ActiveInteraction
             inputs[name]
           end
 
+        @_interaction_inputs[name] = value
         public_send("#{name}=", value)
       end
+
+      @_interaction_inputs.freeze
     end
 
     def type_check
