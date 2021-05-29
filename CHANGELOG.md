@@ -938,6 +938,7 @@ Example.run
 
 - Initial release.
 
+  [4.0.1]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.0...v4.0.1
   [4.0.0]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.3...v4.0.0
   [3.8.3]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.2...v3.8.3
   [3.8.2]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.1...v3.8.2
@@ -1143,3 +1144,4 @@ Example.run
   [#486]: https://github.com/AaronLasseigne/active_interaction/issues/486
   [#392]: https://github.com/AaronLasseigne/active_interaction/issues/392
   [#398]: https://github.com/AaronLasseigne/active_interaction/issues/398
+  [#495]: https://github.com/AaronLasseigne/active_interaction/issues/495
