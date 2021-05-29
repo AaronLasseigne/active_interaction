@@ -70,41 +70,6 @@ describe ActiveInteraction::Base do
       end
     end
 
-    context 'with a reader' do
-      let(:described_class) do
-        Class.new(TestInteraction) do
-          attr_reader :thing
-
-          validates :thing, presence: true
-        end
-      end
-
-      context 'validation' do
-        context 'failing' do
-          it 'returns an invalid outcome' do
-            expect(interaction).to be_invalid
-          end
-        end
-
-        context 'passing' do
-          before { inputs[:thing] = SecureRandom.hex }
-
-          it 'returns a valid outcome' do
-            expect(interaction).to be_valid
-          end
-        end
-      end
-
-      context 'with a single input' do
-        let(:thing) { SecureRandom.hex }
-        before { inputs[:thing] = thing }
-
-        it 'sets the attribute' do
-          expect(interaction.thing).to eql thing
-        end
-      end
-    end
-
     context 'with a filter' do
       let(:described_class) { InteractionWithFilter }
 

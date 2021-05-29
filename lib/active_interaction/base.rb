@@ -290,24 +290,21 @@ module ActiveInteraction
     def process_inputs(inputs)
       @_interaction_inputs = inputs
 
-      inputs.each do |key, value|
-        next if ActiveInteraction::Inputs.reserved?(key)
-
-        populate_reader(key, value)
-      end
-
       populate_filters(ActiveInteraction::Inputs.process(inputs))
-    end
-
-    def populate_reader(key, value)
-      instance_variable_set("@#{key}", value) if respond_to?(key)
     end
 
     def populate_filters(inputs)
       self.class.filters.each do |name, filter|
-        public_send("#{name}=", filter.clean(inputs[name], self))
-      rescue InvalidValueError, MissingValueError, NoDefaultError
-        nil # #type_check will add errors if appropriate.
+        value =
+          begin
+            filter.clean(inputs[name], self)
+          rescue InvalidValueError, MissingValueError, NoDefaultError
+            # #type_check will add errors if appropriate.
+            # We'll get the original value for the error.
+            inputs[name]
+          end
+
+        public_send("#{name}=", value)
       end
     end
 
