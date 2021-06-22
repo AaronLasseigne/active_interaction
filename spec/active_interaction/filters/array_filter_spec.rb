@@ -127,6 +127,17 @@ describe ActiveInteraction::ArrayFilter, :filter do
         end
       end
     end
+
+    context 'with a nested interface type' do
+      context 'with the methods option set' do
+        let(:block) { proc { public_send(:interface, methods: %i[to_s]) } }
+
+        it 'has a filter with the right option' do
+          expect(filter.filters[:'0'].options).to have_key(:methods)
+          expect(filter.filters[:'0'].options[:methods]).to eql %i[to_s]
+        end
+      end
+    end
   end
 
   describe '#database_column_type' do

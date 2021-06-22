@@ -25,10 +25,12 @@ module ActiveInteraction
   class ArrayFilter < Filter
     include Missable
 
+    # The array starts with the class override key and then contains any
+    # additional options which halt explicit setting of the class.
     FILTER_NAME_OR_OPTION = {
-      'ActiveInteraction::ObjectFilter' => :class,
-      'ActiveInteraction::RecordFilter' => :class,
-      'ActiveInteraction::InterfaceFilter' => :from
+      'ActiveInteraction::ObjectFilter' => [:class].freeze,
+      'ActiveInteraction::RecordFilter' => [:class].freeze,
+      'ActiveInteraction::InterfaceFilter' => %i[from methods].freeze
     }.freeze
     private_constant :FILTER_NAME_OR_OPTION
 
@@ -71,9 +73,9 @@ module ActiveInteraction
     end
 
     def add_option_in_place_of_name(klass, options)
-      if (key = FILTER_NAME_OR_OPTION[klass.to_s]) && !options.key?(key)
+      if (keys = FILTER_NAME_OR_OPTION[klass.to_s]) && (keys && options.keys).empty?
         options.merge(
-          "#{key}": name.to_s.singularize.camelize.to_sym
+          "#{keys.first}": name.to_s.singularize.camelize.to_sym
         )
       else
         options

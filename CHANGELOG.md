@@ -1,3 +1,9 @@
+# [4.0.2][] (TBD)
+
+## Fix
+
+- [#505][] - Nested Interface filters using the `:methods` option threw an error.
+
 # [4.0.1][] (2021-05-26)
 
 ## Fix
@@ -1145,3 +1151,4 @@ Example.run
   [#392]: https://github.com/AaronLasseigne/active_interaction/issues/392
   [#398]: https://github.com/AaronLasseigne/active_interaction/issues/398
   [#495]: https://github.com/AaronLasseigne/active_interaction/issues/495
+  [#505]: https://github.com/AaronLasseigne/active_interaction/issues/505
