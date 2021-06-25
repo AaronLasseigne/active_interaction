@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'active_support/core_ext/hash/indifferent_access'
-
 module ActiveInteraction
   # @abstract Subclass and override {#execute} to implement a custom
   #   ActiveInteraction::Base class.
@@ -164,8 +162,9 @@ module ActiveInteraction
     #
     # @private
     def initialize(inputs = {})
-      inputs = normalize_inputs!(inputs)
-      process_inputs(inputs.symbolize_keys)
+      @_interaction_raw_inputs = inputs
+
+      populate_filters_and_inputs(Inputs.process(inputs))
     end
 
     # @!method compose(other, inputs = {})
@@ -273,28 +272,6 @@ module ActiveInteraction
     end
 
     private
-
-    # We want to allow both `Hash` objects and `ActionController::Parameters`
-    # objects. In Rails < 5, parameters are a subclass of hash and calling
-    # `#symbolize_keys` returns the entire hash, not just permitted values. In
-    # Rails >= 5, parameters are not a subclass of hash but calling
-    # `#to_unsafe_h` returns the entire hash.
-    def normalize_inputs!(inputs)
-      return inputs if inputs.is_a?(Hash)
-
-      parameters = 'ActionController::Parameters'
-      klass = parameters.safe_constantize
-      return inputs.to_unsafe_h if klass && inputs.is_a?(klass)
-
-      raise ArgumentError, "inputs must be a hash or #{parameters}"
-    end
-
-    # @param inputs [Hash{Symbol => Object}]
-    def process_inputs(inputs)
-      @_interaction_raw_inputs = inputs
-
-      populate_filters_and_inputs(Inputs.process(inputs))
-    end
 
     def populate_filters_and_inputs(inputs)
       @_interaction_inputs = Inputs.new

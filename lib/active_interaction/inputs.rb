@@ -37,18 +37,31 @@ module ActiveInteraction
 
       # @private
       def process(inputs)
-        inputs.stringify_keys.sort.each_with_object({}) do |(k, v), h|
-          next if reserved?(k)
+        normalize_inputs!(inputs)
+          .stringify_keys
+          .sort
+          .each_with_object({}) do |(k, v), h|
+            next if reserved?(k)
 
-          if (group = GROUPED_INPUT_PATTERN.match(k))
-            assign_to_grouped_input!(h, group[:key], group[:index], v)
-          else
-            h[k.to_sym] = v
+            if (group = GROUPED_INPUT_PATTERN.match(k))
+              assign_to_grouped_input!(h, group[:key], group[:index], v)
+            else
+              h[k.to_sym] = v
+            end
           end
-        end
       end
 
       private
+
+      def normalize_inputs!(inputs)
+        return inputs if inputs.is_a?(Hash)
+
+        parameters = 'ActionController::Parameters'
+        klass = parameters.safe_constantize
+        return inputs.to_unsafe_h if klass && inputs.is_a?(klass)
+
+        raise ArgumentError, "inputs must be a hash or #{parameters}"
+      end
 
       def assign_to_grouped_input!(inputs, key, index, value)
         key = key.to_sym

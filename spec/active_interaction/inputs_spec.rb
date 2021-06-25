@@ -26,6 +26,30 @@ describe ActiveInteraction::Inputs do
     let(:inputs) { {} }
     let(:result) { described_class.process(inputs) }
 
+    context 'with invalid inputs' do
+      let(:inputs) { nil }
+
+      it 'raises an error' do
+        expect { result }.to raise_error ArgumentError
+      end
+    end
+
+    context 'with non-hash inputs' do
+      let(:inputs) { [%i[k v]] }
+
+      it 'raises an error' do
+        expect { result }.to raise_error ArgumentError
+      end
+    end
+
+    context 'with ActionController::Parameters inputs' do
+      let(:inputs) { ActionController::Parameters.new }
+
+      it 'does not raise an error' do
+        expect { result }.to_not raise_error
+      end
+    end
+
     context 'with simple inputs' do
       before { inputs[:key] = :value }
 

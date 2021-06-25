@@ -46,30 +46,6 @@ describe ActiveInteraction::Base do
       expect(interaction.instance_variable_defined?(:"@#{key}")).to be false
     end
 
-    context 'with invalid inputs' do
-      let(:inputs) { nil }
-
-      it 'raises an error' do
-        expect { interaction }.to raise_error ArgumentError
-      end
-    end
-
-    context 'with non-hash inputs' do
-      let(:inputs) { [%i[k v]] }
-
-      it 'raises an error' do
-        expect { interaction }.to raise_error ArgumentError
-      end
-    end
-
-    context 'with ActionController::Parameters inputs' do
-      let(:inputs) { ActionController::Parameters.new }
-
-      it 'does not raise an error' do
-        expect { interaction }.to_not raise_error
-      end
-    end
-
     context 'with a filter' do
       let(:described_class) { InteractionWithFilter }
 
