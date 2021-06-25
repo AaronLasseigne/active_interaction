@@ -43,7 +43,7 @@ module ActiveInteraction
       #
       #   Runs validations and if there are no errors it will call {#execute}.
       #
-      #   @param (see ActiveInteraction::Base#initialize)
+      #   @param (see ActiveInteraction::Inputs.process)
       #
       #   @return [Base]
 
@@ -158,8 +158,6 @@ module ActiveInteraction
       end
     end
 
-    # @param inputs [Hash{Symbol => Object}] Attribute values to set.
-    #
     # @private
     def initialize(inputs = {})
       @_interaction_raw_inputs = inputs

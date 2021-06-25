@@ -35,6 +35,8 @@ module ActiveInteraction
           )
       end
 
+      # @param inputs [Hash, ActionController::Parameters] Attribute values to set.
+      #
       # @private
       def process(inputs)
         normalize_inputs!(inputs)
