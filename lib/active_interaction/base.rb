@@ -107,7 +107,7 @@ module ActiveInteraction
       # @param name [Symbol]
       # @param options [Hash]
       def add_filter(klass, name, options, &block)
-        raise InvalidFilterError, %("#{name}" is a reserved name) if ActiveInteraction::Inputs.reserved?(name)
+        raise InvalidFilterError, %("#{name}" is a reserved name) if Inputs.reserved?(name)
 
         initialize_filter(klass.new(name, options, &block))
       end
@@ -239,20 +239,26 @@ module ActiveInteraction
 
       [input, *rest].each do |key_or_index|
         if key_or_index.is_a?(Symbol) || key_or_index.is_a?(String)
-          key_or_index = key_or_index.to_sym
-          filter_level = filter_level.filters[key_or_index]
+          key = key_or_index.to_sym
+          key_to_s = key_or_index.to_s
+          filter_level = filter_level.filters[key]
 
           break false if filter_level.nil? || input_level.nil?
-          break false unless input_level.key?(key_or_index) || input_level.key?(key_or_index.to_s)
+          if filter_level.accepts_grouped_inputs?
+            break false unless input_level.key?(key) || input_level.key?(key_to_s) || Inputs.keys_for_group?(input_level.keys, key)
+          else
+            break false unless input_level.key?(key) || input_level.key?(key_to_s)
+          end
 
-          input_level = input_level[key_or_index] || input_level[key_or_index.to_s]
+          input_level = input_level[key] || input_level[key_to_s]
         else
+          index = key_or_index
           filter_level = filter_level.filters.first.last
 
           break false if filter_level.nil? || input_level.nil?
-          break false unless key_or_index.between?(-input_level.size, input_level.size - 1)
+          break false unless index.between?(-input_level.size, input_level.size - 1)
 
-          input_level = input_level[key_or_index]
+          input_level = input_level[index]
         end
       end && true
     end
@@ -287,11 +293,11 @@ module ActiveInteraction
     def process_inputs(inputs)
       @_interaction_raw_inputs = inputs
 
-      populate_filters_and_inputs(ActiveInteraction::Inputs.process(inputs))
+      populate_filters_and_inputs(Inputs.process(inputs))
     end
 
     def populate_filters_and_inputs(inputs)
-      @_interaction_inputs = ActiveInteraction::Inputs.new
+      @_interaction_inputs = Inputs.new
 
       self.class.filters.each do |name, filter|
         value =

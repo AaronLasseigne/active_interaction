@@ -178,6 +178,21 @@ module ActiveInteraction
       :string
     end
 
+    # Tells whether or not the filter accepts a group of parameters to form a
+    # single input.
+    #
+    # @example
+    #   ActiveInteraction::TimeFilter.new(Time.now).accepts_grouped_inputs?
+    #   # => true
+    # @example
+    #   ActiveInteraction::Filter.new(:example).accepts_grouped_inputs?
+    #   # => false
+    #
+    # @return [Boolean]
+    def accepts_grouped_inputs?
+      false
+    end
+
     private
 
     # rubocop:disable Metrics/MethodLength

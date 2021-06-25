@@ -13,6 +13,12 @@ module ActiveInteraction
       /x.freeze
       private_constant :GROUPED_INPUT_PATTERN
 
+      # @private
+      def keys_for_group?(keys, group_key)
+        search_key = /\A#{group_key}\(\d+i\)\z/
+        keys.any? { |key| search_key.match?(key) }
+      end
+
       # Checking `syscall` is the result of what appears to be a bug in Ruby.
       # https://bugs.ruby-lang.org/issues/15597
       # @private

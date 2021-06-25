@@ -12,6 +12,10 @@ module ActiveInteraction
       self.class.slug
     end
 
+    def accepts_grouped_inputs?
+      true
+    end
+
     private
 
     def klasses

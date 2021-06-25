@@ -1,3 +1,9 @@
+# [4.0.3][] (TBD)
+
+## Fix
+
+- [#499][] - `given?` now recognizes multi-part date inputs by their primary key name
+
 # [4.0.2][] (2021-06-22)
 
 ## Fix
@@ -944,6 +950,7 @@ Example.run
 
 - Initial release.
 
+  [4.0.2]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.2...v4.0.3
   [4.0.2]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.1...v4.0.2
   [4.0.1]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.0...v4.0.1
   [4.0.0]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.3...v4.0.0
@@ -1153,3 +1160,4 @@ Example.run
   [#398]: https://github.com/AaronLasseigne/active_interaction/issues/398
   [#495]: https://github.com/AaronLasseigne/active_interaction/issues/495
   [#505]: https://github.com/AaronLasseigne/active_interaction/issues/505
+  [#499]: https://github.com/AaronLasseigne/active_interaction/issues/499
