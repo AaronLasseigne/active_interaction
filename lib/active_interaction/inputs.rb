@@ -15,6 +15,7 @@ module ActiveInteraction
 
       # Checking `syscall` is the result of what appears to be a bug in Ruby.
       # https://bugs.ruby-lang.org/issues/15597
+      # @private
       def reserved?(name)
         name.to_s.start_with?('_interaction_') ||
           name == :syscall ||
@@ -28,6 +29,7 @@ module ActiveInteraction
           )
       end
 
+      # @private
       def process(inputs)
         inputs.stringify_keys.sort.each_with_object({}) do |(k, v), h|
           next if reserved?(k)
@@ -71,6 +73,7 @@ module ActiveInteraction
     # @param groups [Array<Object>] The groups to store the pair under.
     #
     # @return [Object] value
+    # @private
     def store(key, value, groups = [])
       groups.each do |group|
         @groups[group] << key
@@ -88,6 +91,7 @@ module ActiveInteraction
     # @param name [Object] Name of the group to return.
     #
     # @return [Hash] Inputs from the group name given.
+    # @private
     def group(name)
       @inputs.select { |k, _| @groups[name].include?(k) }
     end
