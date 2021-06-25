@@ -3,6 +3,7 @@
 ## Fix
 
 - [#499][] - `given?` now recognizes multi-part date inputs by their primary key name
+- [#493][] - `compose` now properly accepts `Inputs`
 
 # [4.0.2][] (2021-06-22)
 
@@ -1161,3 +1162,4 @@ Example.run
   [#495]: https://github.com/AaronLasseigne/active_interaction/issues/495
   [#505]: https://github.com/AaronLasseigne/active_interaction/issues/505
   [#499]: https://github.com/AaronLasseigne/active_interaction/issues/499
+  [#493]: https://github.com/AaronLasseigne/active_interaction/issues/493
