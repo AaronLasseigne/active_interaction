@@ -977,10 +977,10 @@ class UpdateAccount < ActiveInteraction::Base
 
   validates :first_name,
     presence: true,
-    unless: 'first_name.nil?'
+    unless: -> { first_name.nil? }
   validates :last_name,
     presence: true,
-    unless: 'last_name.nil?'
+    unless: -> { last_name.nil? }
 
   def execute
     account.first_name = first_name if first_name.present?

@@ -77,7 +77,7 @@ class Example < ActiveInteraction::Base
 
   validates :first_name,
     presence: true,
-    unless: 'first_name.nil?'
+    unless: -> { first_name.nil? }
 
   def execute
     # ...
