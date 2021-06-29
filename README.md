@@ -1448,8 +1448,8 @@ I18nInteraction.run(name: false).errors.messages[:name]
 
 ## Credits
 
-ActiveInteraction is brought to you by [Aaron Lasseigne][] and
-[Taylor Fausak][] and was originally built at [OrgSync][].
+ActiveInteraction is brought to you by [Aaron Lasseigne][].
+Along with Aaron, [Taylor Fausak][] helped create and maintain ActiveInteraction but has since moved on.
 
 If you want to contribute to ActiveInteraction, please read
 [our contribution guidelines][]. A [complete list of contributors][] is
@@ -1461,11 +1461,8 @@ ActiveInteraction is licensed under [the MIT License][].
 [Full Documentation]: http://rubydoc.info/github/orgsync/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
 [GitHub releases]: https://github.com/AaronLasseigne/active_interaction/releases
-[the announcement post]: http://devblog.orgsync.com/2015/05/06/announcing-active-interaction-2/
-[active_model-errors_details]: https://github.com/cowbell/active_model-errors_details
 [aaron lasseigne]: https://github.com/AaronLasseigne
 [taylor fausak]: https://github.com/tfausak
-[orgsync]: https://github.com/orgsync
 [our contribution guidelines]: CONTRIBUTING.md
 [complete list of contributors]: https://github.com/AaronLasseigne/active_interaction/graphs/contributors
 [the mit license]: LICENSE.md
@@ -1474,5 +1471,4 @@ ActiveInteraction is licensed under [the MIT License][].
 [the filters section]: #filters
 [the errors section]: #errors
 [the optional inputs section]: #optional-inputs
-[aire]: example
 [`with_options`]: http://api.rubyonrails.org/classes/Object.html#method-i-with_options
