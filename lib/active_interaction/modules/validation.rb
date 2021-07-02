@@ -14,25 +14,16 @@ module ActiveInteraction
           filter.clean(inputs[name], context)
         rescue NoDefaultError
           nil
-        rescue InvalidNestedValueError,
-               InvalidValueError,
-               MissingValueError => e
-          errors << error_args(filter, e)
+        rescue InvalidNestedValueError => e
+          errors << [filter.name, :invalid_nested, { name: e.filter_name.inspect, value: e.input_value.inspect }]
+        rescue InvalidValueError
+          errors << [filter.name, :invalid_type, { type: type(filter) }]
+        rescue MissingValueError
+          errors << [filter.name, :missing]
         end
       end
 
       private
-
-      def error_args(filter, error)
-        case error
-        when InvalidNestedValueError
-          [filter.name, :invalid_nested, { name: error.filter_name.inspect, value: error.input_value.inspect }]
-        when InvalidValueError
-          [filter.name, :invalid_type, { type: type(filter) }]
-        when MissingValueError
-          [filter.name, :missing]
-        end
-      end
 
       # @param filter [Filter]
       def type(filter)
