@@ -58,7 +58,7 @@ handles your verbs.
   - [Translations](#translations)
 - [Credits](#credits)
 
-[Full Documentation][]
+[API Documentation][]
 
 ## Installation
 
@@ -1458,7 +1458,7 @@ available on GitHub.
 ActiveInteraction is licensed under [the MIT License][].
 
 [activeinteraction]: https://github.com/AaronLasseigne/active_interaction
-[Full Documentation]: http://rubydoc.info/github/orgsync/active_interaction
+[API Documentation]: http://rubydoc.info/github/AaronLasseigne/active_interaction
 [semantic versioning]: http://semver.org/spec/v2.0.0.html
 [GitHub releases]: https://github.com/AaronLasseigne/active_interaction/releases
 [aaron lasseigne]: https://github.com/AaronLasseigne
