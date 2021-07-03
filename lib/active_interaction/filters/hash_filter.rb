@@ -44,7 +44,7 @@ module ActiveInteraction
     end
 
     def adjust_output(value, context)
-      value = value.to_hash.with_indifferent_access
+      value = ActiveSupport::HashWithIndifferentAccess.new(value.to_hash)
 
       initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
 

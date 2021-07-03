@@ -19,7 +19,7 @@ describe HashInteraction do
     before { inputs[:a] = a }
 
     it 'returns the correct value for :a' do
-      expect(result[:a]).to eql a.with_indifferent_access
+      expect(result[:a]).to eql ActiveSupport::HashWithIndifferentAccess.new(a)
     end
 
     it 'returns the correct value for :b' do
