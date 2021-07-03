@@ -1,3 +1,10 @@
+# [4.0.4][] (TBD)
+
+## Fix
+
+- [#510][] - Hash parameters failed when working outside of Rails.
+- [#511][] - Nested filters with options but no `:class` failed to have `:class` automatically added.
+
 # [4.0.3][] (2021-06-24)
 
 ## Fix
@@ -951,7 +958,8 @@ Example.run
 
 - Initial release.
 
-  [4.0.2]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.2...v4.0.3
+  [4.0.4]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.3...v4.0.4
+  [4.0.3]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.2...v4.0.3
   [4.0.2]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.1...v4.0.2
   [4.0.1]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.0...v4.0.1
   [4.0.0]: https://github.com/AaronLasseigne/active_interaction/compare/v3.8.3...v4.0.0
@@ -1163,3 +1171,4 @@ Example.run
   [#505]: https://github.com/AaronLasseigne/active_interaction/issues/505
   [#499]: https://github.com/AaronLasseigne/active_interaction/issues/499
   [#493]: https://github.com/AaronLasseigne/active_interaction/issues/493
+  [#510]: https://github.com/AaronLasseigne/active_interaction/issues/510

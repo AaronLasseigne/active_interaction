@@ -73,7 +73,7 @@ module ActiveInteraction
     end
 
     def add_option_in_place_of_name(klass, options)
-      if (keys = FILTER_NAME_OR_OPTION[klass.to_s]) && (keys && options.keys).empty?
+      if (keys = FILTER_NAME_OR_OPTION[klass.to_s]) && (keys & options.keys).empty?
         options.merge(
           "#{keys.first}": name.to_s.singularize.camelize.to_sym
         )

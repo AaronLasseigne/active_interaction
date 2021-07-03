@@ -137,6 +137,18 @@ describe ActiveInteraction::ArrayFilter, :filter do
           expect(filter.filters[:'0'].options[:methods]).to eql %i[to_s]
         end
       end
+
+      context 'with another option set' do
+        let(:block) { proc { public_send(:object, converter: :new) } }
+        let(:name) { :objects }
+
+        it 'has a filter with the right options' do
+          expect(filter.filters[:'0'].options).to have_key(:class)
+          expect(filter.filters[:'0'].options[:class]).to eql :Object
+          expect(filter.filters[:'0'].options).to have_key(:converter)
+          expect(filter.filters[:'0'].options[:converter]).to eql :new
+        end
+      end
     end
   end
 
