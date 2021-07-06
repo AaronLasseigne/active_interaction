@@ -48,6 +48,7 @@ module ActiveInteraction
     end
 
     def matches?(object)
+      return false if object.nil?
       return matches_methods?(object) if options.key?(:methods)
 
       const = from

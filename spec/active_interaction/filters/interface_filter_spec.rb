@@ -61,6 +61,17 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
         end
 
+        context 'that is nil' do
+          let(:name) { :interface_module }
+          let(:value) { nil }
+
+          it 'raises an error' do
+            expect do
+              result
+            end.to raise_error ActiveInteraction::MissingValueError
+          end
+        end
+
         context 'with the class itself' do
           let(:name) { :interface_class }
           let(:value) do
