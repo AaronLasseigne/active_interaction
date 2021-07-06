@@ -1173,3 +1173,4 @@ Example.run
   [#493]: https://github.com/AaronLasseigne/active_interaction/issues/493
   [#510]: https://github.com/AaronLasseigne/active_interaction/issues/510
   [#511]: https://github.com/AaronLasseigne/active_interaction/issues/511
+  [#412]: https://github.com/AaronLasseigne/active_interaction/issues/412
