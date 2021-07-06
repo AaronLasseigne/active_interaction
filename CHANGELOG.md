@@ -183,13 +183,13 @@ has a particular module included, you'll need to use the newly expanded
 
 ## Fixed
 
-- [486][] `valid?` returns true if block not called and error added in execute around callback.
+- [#486][] `valid?` returns true if block not called and error added in execute around callback.
 
 # [3.8.2][] (2020-04-22)
 
 ## Fixed
 
-- [479][] Composed interactions that throw errors now show a complete backtrace instead of ending at the `run!` of the outermost interaction.
+- [#479][] Composed interactions that throw errors now show a complete backtrace instead of ending at the `run!` of the outermost interaction.
 
 # [3.8.1][] (2020-04-04)
 
