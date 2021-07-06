@@ -61,7 +61,7 @@ module ActiveInteraction
     end
 
     def matches_methods?(object)
-      options.fetch(:methods, []).all? { |method| object.respond_to?(method) }
+      options[:methods].all? { |method| object.respond_to?(method) }
     end
 
     def checking_class_inheritance?(object, from)
