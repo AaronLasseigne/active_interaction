@@ -50,6 +50,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
+        bundler: "2.2.22"
         bundler-cache: true
 
     - name: Test
@@ -76,6 +77,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
+        bundler: "2.2.22"
         bundler-cache: true
 
     - name: Test
