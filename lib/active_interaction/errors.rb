@@ -98,7 +98,11 @@ module ActiveInteraction
     #
     # @return [Errors]
     def merge!(other)
-      merge_details!(other)
+      if respond_to?(:import) # Rails 6.1
+        merge_error_objects!(other)
+      else
+        merge_details!(other)
+      end
 
       self
     end
@@ -141,6 +145,17 @@ module ActiveInteraction
         add(attribute, error, **options.merge(message: message)) unless added?(attribute, error, **options)
       else
         merge_message!(attribute, message)
+      end
+    end
+
+    def merge_error_objects!(other)
+      other.each do |error|
+        if detailed_error?(error.details)
+          import(error)
+          self.uniq!
+        else
+          merge_message!(error.attribute, error.message)
+        end
       end
     end
   end
