@@ -56,7 +56,7 @@ module ActiveInteraction
     end
 
     def adjust_output(value, context)
-      return value if filters.empty?
+      return value.to_a if filters.empty?
 
       filter = filters.values.first
       value.map { |e| filter.clean(e, context) }

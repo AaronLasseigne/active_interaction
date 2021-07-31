@@ -1,3 +1,11 @@
+# [5.0.0][] (TBD)
+
+## Fixed
+
+- When passing an `ActiveRecord::Relation` in an array filter with no inner
+  filter, the value returned was an `ActiveRecord::Relation` instead of an
+  Array.
+
 # [4.1.0][] (2021-12-30)
 
 ## Added
@@ -976,6 +984,7 @@ Example.run
 
 - Initial release.
 
+  [5.0.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.1.0...v5.0.0
   [4.1.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.6...v4.1.0
   [4.0.6]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.5...v4.0.6
   [4.0.5]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.4...v4.0.5

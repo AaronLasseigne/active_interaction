@@ -14,7 +14,7 @@ shared_context 'interactions' do
   let(:result) { outcome.result }
 end
 
-shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
+shared_examples_for 'an interaction' do |type, generator, adjust_output = nil, **filter_options|
   include_context 'interactions'
 
   let(:described_class) do
@@ -73,7 +73,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
     end
 
     it 'returns the correct value for :required' do
-      expect(result[:required]).to eql required
+      expect(result[:required]).to eql(adjust_output ? adjust_output.call(required) : required)
     end
 
     it 'returns nil for :optional' do
@@ -107,7 +107,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       before { inputs[:optional] = optional }
 
       it 'returns the correct value for :optional' do
-        expect(result[:optional]).to eql optional
+        expect(result[:optional]).to eql(adjust_output ? adjust_output.call(optional) : optional)
       end
     end
 
@@ -117,7 +117,7 @@ shared_examples_for 'an interaction' do |type, generator, filter_options = {}|
       before { inputs[:default] = default }
 
       it 'returns the correct value for :default' do
-        expect(result[:default]).to eql default
+        expect(result[:default]).to eql(adjust_output ? adjust_output.call(default) : default)
       end
     end
   end
