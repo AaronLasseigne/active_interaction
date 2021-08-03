@@ -10,14 +10,14 @@ describe ActiveInteraction::StringFilter, :filter do
     end
   end
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with a String' do
       let(:value) { SecureRandom.hex }
 
       it 'returns the String' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -31,7 +31,7 @@ describe ActiveInteraction::StringFilter, :filter do
       end
 
       it 'returns the String' do
-        expect(result).to eql value.to_str
+        expect(result.value).to eql value.to_str
       end
     end
 
@@ -39,14 +39,14 @@ describe ActiveInteraction::StringFilter, :filter do
       let(:value) { " #{SecureRandom.hex} " }
 
       it 'returns the stripped string' do
-        expect(result).to eql value.strip
+        expect(result.value).to eql value.strip
       end
 
       context 'without strip' do
         include_context 'without strip'
 
         it 'returns the String' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
     end

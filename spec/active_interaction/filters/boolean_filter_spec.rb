@@ -4,11 +4,11 @@ describe ActiveInteraction::BooleanFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  describe '#cast' do
+  describe '#process' do
     context 'falsey' do
       [false, '0', 'false', 'FALSE', 'off', 'OFF'].each do |value|
         it "returns false for #{value.inspect}" do
-          expect(filter.send(:cast, value, nil)).to be_falsey
+          expect(filter.process(value, nil).value).to be_falsey
         end
       end
 
@@ -22,7 +22,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
         end
 
         it 'returns false' do
-          expect(filter.send(:cast, value, nil)).to be_falsey
+          expect(filter.process(value, nil).value).to be_falsey
         end
       end
     end
@@ -30,7 +30,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
     context 'truthy' do
       [true, '1', 'true', 'TRUE', 'on', 'ON'].each do |value|
         it "returns true for #{value.inspect}" do
-          expect(filter.send(:cast, value, nil)).to be_truthy
+          expect(filter.process(value, nil).value).to be_truthy
         end
       end
 
@@ -44,7 +44,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
         end
 
         it 'returns true' do
-          expect(filter.send(:cast, value, nil)).to be_truthy
+          expect(filter.process(value, nil).value).to be_truthy
         end
       end
     end
@@ -62,17 +62,17 @@ describe ActiveInteraction::BooleanFilter, :filter do
         include_context 'optional'
 
         it 'returns the default' do
-          expect(filter.send(:cast, value, nil)).to eql options[:default]
+          expect(filter.process(value, nil).value).to eql options[:default]
         end
       end
 
       context 'required' do
         include_context 'required'
 
-        it 'raises an error' do
-          expect do
-            filter.send(:cast, value, nil)
-          end.to raise_error ActiveInteraction::MissingValueError
+        it 'indicates an error' do
+          expect(
+            filter.process(value, nil).error
+          ).to be_an_instance_of ActiveInteraction::MissingValueError
         end
       end
     end

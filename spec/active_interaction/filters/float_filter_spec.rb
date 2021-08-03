@@ -5,14 +5,14 @@ describe ActiveInteraction::FloatFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with a Float' do
       let(:value) { rand }
 
       it 'returns the Float' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -26,7 +26,7 @@ describe ActiveInteraction::FloatFilter, :filter do
       end
 
       it 'returns a Float' do
-        expect(result).to eql value.to_int.to_f
+        expect(result.value).to eql value.to_int.to_f
       end
     end
 
@@ -34,7 +34,7 @@ describe ActiveInteraction::FloatFilter, :filter do
       let(:value) { BigDecimal('1.2') }
 
       it 'returns a Float' do
-        expect(result).to eql value.to_f
+        expect(result.value).to eql value.to_f
       end
     end
 
@@ -42,17 +42,17 @@ describe ActiveInteraction::FloatFilter, :filter do
       let(:value) { rand.to_s }
 
       it 'returns a Float' do
-        expect(result).to eql Float(value)
+        expect(result.value).to eql Float(value)
       end
     end
 
     context 'with an invalid String' do
       let(:value) { 'invalid' }
 
-      it 'raises an error' do
-        expect do
-          result
-        end.to raise_error ActiveInteraction::InvalidValueError
+      it 'indicates an error' do
+        expect(
+          result.error
+        ).to be_an_instance_of ActiveInteraction::InvalidValueError
       end
     end
 
@@ -67,7 +67,7 @@ describe ActiveInteraction::FloatFilter, :filter do
 
       it 'returns a Float' do
         # apparently `Float()` doesn't do this even though `Integer()` does
-        expect(result).to eql Float(value.to_str)
+        expect(result.value).to eql Float(value.to_str)
       end
     end
 
@@ -84,17 +84,17 @@ describe ActiveInteraction::FloatFilter, :filter do
         include_context 'optional'
 
         it 'returns the default' do
-          expect(result).to eql options[:default]
+          expect(result.value).to eql options[:default]
         end
       end
 
       context 'required' do
         include_context 'required'
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::MissingValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::MissingValueError
         end
       end
     end

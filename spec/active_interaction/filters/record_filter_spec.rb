@@ -33,17 +33,17 @@ describe ActiveInteraction::RecordFilter, :filter do
     options[:class] = RecordThing
   end
 
-  describe '#cast' do
+  describe '#process' do
     before do
       options[:finder] = :finder
     end
 
     let(:value) { RecordThing.new }
-    let(:result) { filter.send(:cast, value, nil) }
+    let(:result) { filter.process(value, nil) }
 
     context 'with an instance of the class' do
       it 'returns the instance' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
 
       context 'with an instance that is a subclass' do
@@ -51,18 +51,18 @@ describe ActiveInteraction::RecordFilter, :filter do
         let(:value) { subclass.new }
 
         it 'returns the instance' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
       it 'handles reconstantizing' do
-        expect(result).to eql value
+        expect(result.value).to eql value
 
         Object.send(:remove_const, :RecordThing)
         RecordThing = BackupRecordThing # rubocop:disable Lint/ConstantDefinitionInBlock
         value = RecordThing.new
 
-        expect(filter.send(:cast, value, nil)).to eql value
+        expect(filter.process(value, nil).value).to eql value
       end
 
       it 'handles reconstantizing subclasses' do
@@ -73,7 +73,7 @@ describe ActiveInteraction::RecordFilter, :filter do
         class SubRecordThing < RecordThing; end # rubocop:disable Lint/ConstantDefinitionInBlock
         value = SubRecordThing.new
 
-        expect(filter.send(:cast, value, nil)).to eql value
+        expect(filter.process(value, nil).value).to eql value
       end
 
       context 'without the class available' do
@@ -92,7 +92,7 @@ describe ActiveInteraction::RecordFilter, :filter do
       end
 
       it 'returns the instance' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -102,7 +102,7 @@ describe ActiveInteraction::RecordFilter, :filter do
       end
 
       it 'returns the instance' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -112,7 +112,7 @@ describe ActiveInteraction::RecordFilter, :filter do
       before { options[:class] = RecordThings }
 
       it 'returns the instance' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -132,12 +132,45 @@ describe ActiveInteraction::RecordFilter, :filter do
       let(:value) { '' }
 
       it 'calls the finder' do
-        expect(result).to eql RecordThing.finder(value)
+        expect(result.value).to eql RecordThing.finder(value)
       end
 
       context 'with a custom finder' do
         it 'calls the custom finder' do
-          expect(result).to eql RecordThing.finder(value)
+          expect(result.value).to eql RecordThing.finder(value)
+        end
+      end
+    end
+  end
+
+  describe '#process' do
+    context 'with a value that does not match the class' do
+      context 'that returns a nil' do
+        let(:value) { '' }
+
+        before do
+          options[:default] = RecordThing.new
+          options[:finder] = :finds_nil
+        end
+
+        it 'indicates an error' do
+          expect(
+            filter.process(value, nil).error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        end
+      end
+
+      context 'that returns an invalid value' do
+        let(:value) { '' }
+
+        before do
+          options[:finder] = :finds_bad_value
+        end
+
+        it 'indicates an error' do
+          expect(
+            filter.process(value, nil).error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end

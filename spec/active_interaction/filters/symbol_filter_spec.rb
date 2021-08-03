@@ -4,14 +4,14 @@ describe ActiveInteraction::SymbolFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with a Symbol' do
       let(:value) { SecureRandom.hex.to_sym }
 
       it 'returns the Symbol' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -25,7 +25,7 @@ describe ActiveInteraction::SymbolFilter, :filter do
       end
 
       it 'returns a symbol' do
-        expect(result).to eql value.to_sym
+        expect(result.value).to eql value.to_sym
       end
     end
 
@@ -33,7 +33,7 @@ describe ActiveInteraction::SymbolFilter, :filter do
       let(:value) { SecureRandom.hex }
 
       it 'returns a Symbol' do
-        expect(result).to eql value.to_sym
+        expect(result.value).to eql value.to_sym
       end
     end
   end

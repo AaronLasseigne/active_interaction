@@ -4,14 +4,14 @@ describe ActiveInteraction::IntegerFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with an Integer' do
       let(:value) { rand(1 << 16) }
 
       it 'returns the Integer' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -19,7 +19,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
       let(:value) { rand(1 << 16) + rand }
 
       it 'returns an Integer' do
-        expect(result).to eql value.to_i
+        expect(result.value).to eql value.to_i
       end
     end
 
@@ -27,17 +27,17 @@ describe ActiveInteraction::IntegerFilter, :filter do
       let(:value) { rand(1 << 16).to_s }
 
       it 'returns an Integer' do
-        expect(result).to eql Integer(value, 10)
+        expect(result.value).to eql Integer(value, 10)
       end
     end
 
     context 'with an invalid String' do
       let(:value) { 'invalid' }
 
-      it 'raises an error' do
-        expect do
-          result
-        end.to raise_error ActiveInteraction::InvalidValueError
+      it 'indicates an error' do
+        expect(
+          result.error
+        ).to be_an_instance_of ActiveInteraction::InvalidValueError
       end
     end
 
@@ -52,7 +52,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
 
       it 'returns an Integer' do
         # jRuby freezes on the implicit string value
-        expect(result).to eql Integer(value.to_str, 10)
+        expect(result.value).to eql Integer(value.to_str, 10)
       end
     end
 
@@ -69,28 +69,28 @@ describe ActiveInteraction::IntegerFilter, :filter do
         include_context 'optional'
 
         it 'returns the default' do
-          expect(result).to eql options[:default]
+          expect(result.value).to eql options[:default]
         end
       end
 
       context 'required' do
         include_context 'required'
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::MissingValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::MissingValueError
         end
       end
     end
 
     it 'supports different bases' do
       expect(
-        described_class.new(name, base: 8).send(:cast, '071', nil)
+        described_class.new(name, base: 8).process('071', nil).value
       ).to eql 57
-      expect do
-        described_class.new(name, base: 8).send(:cast, '081', nil)
-      end.to raise_error ActiveInteraction::InvalidValueError
+      expect(
+        described_class.new(name, base: 8).process('081', nil).error
+      ).to be_an_instance_of ActiveInteraction::InvalidValueError
     end
   end
 

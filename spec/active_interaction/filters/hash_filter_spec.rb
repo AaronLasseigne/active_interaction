@@ -12,14 +12,14 @@ describe ActiveInteraction::HashFilter, :filter do
     end
   end
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with a Hash' do
       let(:value) { {} }
 
       it 'returns the Hash' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -33,7 +33,7 @@ describe ActiveInteraction::HashFilter, :filter do
       end
 
       it 'returns the Hash' do
-        expect(result).to eql value.to_hash
+        expect(result.value).to eql value.to_hash
       end
     end
 
@@ -41,7 +41,7 @@ describe ActiveInteraction::HashFilter, :filter do
       let(:value) { { a: {} } }
 
       it 'returns an empty Hash' do
-        expect(result).to eql({})
+        expect(result.value).to eql({})
       end
     end
 
@@ -52,7 +52,7 @@ describe ActiveInteraction::HashFilter, :filter do
         let(:value) { { 'a' => {} } }
 
         it 'returns the Hash' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
 
         context 'with String keys' do
@@ -71,10 +71,10 @@ describe ActiveInteraction::HashFilter, :filter do
         let(:v) { double }
         let(:value) { { k => v } }
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidNestedValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidNestedValueError
         end
 
         it 'populates the error' do
@@ -93,7 +93,7 @@ describe ActiveInteraction::HashFilter, :filter do
         let(:value) { { 'a' => {} } }
 
         it 'returns an empty Hash' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
     end

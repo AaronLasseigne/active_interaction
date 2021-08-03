@@ -10,8 +10,8 @@ describe ActiveInteraction::InterfaceFilter, :filter do
     let(:name) { :interface_module }
   end
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with an implicit constant name' do
       context 'passed an instance' do
@@ -24,7 +24,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -35,7 +35,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -46,7 +46,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -54,10 +54,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_module }
           let(:value) { Class.new }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
 
@@ -65,10 +65,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_module }
           let(:value) { nil }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::MissingValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::MissingValueError
           end
         end
 
@@ -78,10 +78,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
             InterfaceClass.new
           end
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
       end
@@ -94,7 +94,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -107,7 +107,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -115,10 +115,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_class }
           let(:value) { Class }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
 
@@ -126,10 +126,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_class }
           let(:value) { InterfaceClass }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
       end
@@ -144,7 +144,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -152,10 +152,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_module }
           let(:value) { Module.new }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
 
@@ -163,10 +163,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_module }
           let(:value) { InterfaceModule }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
       end
@@ -194,7 +194,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -205,7 +205,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -216,7 +216,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -224,10 +224,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_class }
           let(:value) { Class.new }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
 
@@ -235,10 +235,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_class }
           let(:value) { InterfaceClass.new }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
       end
@@ -251,7 +251,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -264,7 +264,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -272,10 +272,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_class }
           let(:value) { Class }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
 
@@ -283,10 +283,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_class }
           let(:value) { InterfaceClass }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
       end
@@ -301,7 +301,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'returns a the value' do
-            expect(result).to eql value
+            expect(result.value).to eql value
           end
         end
 
@@ -309,10 +309,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_module }
           let(:value) { Module.new }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
 
@@ -320,10 +320,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:name) { :interface_module }
           let(:value) { InterfaceModule }
 
-          it 'raises an error' do
-            expect do
-              result
-            end.to raise_error ActiveInteraction::InvalidValueError
+          it 'indicates an error' do
+            expect(
+              result.error
+            ).to be_an_instance_of ActiveInteraction::InvalidValueError
           end
         end
       end
@@ -353,17 +353,17 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         end
 
         it 'returns a the value' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
       context 'passed an invalid instance' do
         let(:value) { Class.new }
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
 
@@ -377,17 +377,17 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         end
 
         it 'returns a the value' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
       context 'passed an invalid class' do
         let(:value) { Class }
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
 
@@ -401,17 +401,17 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         end
 
         it 'returns a the value' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
       context 'passed an invalid module' do
         let(:value) { Module.new }
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end

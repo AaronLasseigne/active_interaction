@@ -1,5 +1,9 @@
 # [5.0.0][] (TBD)
 
+## Added
+
+- `Filter#process` which returns an `Input`.
+
 ## Fixed
 
 - When passing an `ActiveRecord::Relation` in an array filter with no inner

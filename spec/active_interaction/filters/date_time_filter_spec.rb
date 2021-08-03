@@ -12,14 +12,14 @@ describe ActiveInteraction::DateTimeFilter, :filter do
     end
   end
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with a Datetime' do
       let(:value) { DateTime.new }
 
       it 'returns the DateTime' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -27,7 +27,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
       let(:value) { '2011-12-13T14:15:16+17:18' }
 
       it 'returns a DateTime' do
-        expect(result).to eql DateTime.parse(value)
+        expect(result.value).to eql DateTime.parse(value)
       end
 
       context 'with format' do
@@ -36,7 +36,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
         let(:value) { '13/12/2011 14:15:16 +17:18' }
 
         it 'returns a DateTime' do
-          expect(result).to eql DateTime.strptime(value, format)
+          expect(result.value).to eql DateTime.strptime(value, format)
         end
       end
     end
@@ -44,19 +44,19 @@ describe ActiveInteraction::DateTimeFilter, :filter do
     context 'with an invalid String' do
       let(:value) { 'invalid' }
 
-      it 'raises an error' do
-        expect do
-          result
-        end.to raise_error ActiveInteraction::InvalidValueError
+      it 'indicates an error' do
+        expect(
+          result.error
+        ).to be_an_instance_of ActiveInteraction::InvalidValueError
       end
 
       context 'with format' do
         include_context 'with format'
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end
@@ -71,7 +71,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
       end
 
       it 'returns a DateTime' do
-        expect(result).to eql DateTime.parse(value)
+        expect(result.value).to eql DateTime.parse(value)
       end
     end
 
@@ -88,17 +88,17 @@ describe ActiveInteraction::DateTimeFilter, :filter do
         include_context 'optional'
 
         it 'returns the default' do
-          expect(result).to eql options[:default]
+          expect(result.value).to eql options[:default]
         end
       end
 
       context 'required' do
         include_context 'required'
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::MissingValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::MissingValueError
         end
       end
     end
@@ -123,7 +123,7 @@ describe ActiveInteraction::DateTimeFilter, :filter do
 
       it 'returns a DateTime' do
         expect(
-          result
+          result.value
         ).to eql DateTime.new(year, month, day, hour, min, sec)
       end
     end
@@ -132,10 +132,10 @@ describe ActiveInteraction::DateTimeFilter, :filter do
       context 'empty' do
         let(:value) { ActiveInteraction::GroupedInput.new }
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
 
@@ -146,10 +146,10 @@ describe ActiveInteraction::DateTimeFilter, :filter do
           )
         end
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end

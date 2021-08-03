@@ -12,14 +12,14 @@ describe ActiveInteraction::DecimalFilter, :filter do
     end
   end
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with a Float' do
       let(:value) { rand }
 
       it 'returns the BigDecimal' do
-        expect(result).to eql BigDecimal(value, 0)
+        expect(result.value).to eql BigDecimal(value, 0)
       end
 
       context 'with :digits option' do
@@ -28,7 +28,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
         let(:value) { 1.23456789 }
 
         it 'returns BigDecimal with given digits' do
-          expect(result).to eql BigDecimal('1.235')
+          expect(result.value).to eql BigDecimal('1.235')
         end
       end
     end
@@ -43,7 +43,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
       end
 
       it 'returns a BigDecimal' do
-        expect(result).to eql BigDecimal(value.to_int)
+        expect(result.value).to eql BigDecimal(value.to_int)
       end
     end
 
@@ -51,7 +51,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
       let(:value) { rand(1 << 16) }
 
       it 'returns a BigDecimal' do
-        expect(result).to eql BigDecimal(value)
+        expect(result.value).to eql BigDecimal(value)
       end
     end
 
@@ -59,17 +59,17 @@ describe ActiveInteraction::DecimalFilter, :filter do
       let(:value) { rand.to_s }
 
       it 'returns a BigDecimal' do
-        expect(result).to eql BigDecimal(value)
+        expect(result.value).to eql BigDecimal(value)
       end
     end
 
     context 'with an invalid String' do
       let(:value) { 'invalid' }
 
-      it 'raises an error' do
-        expect do
-          result
-        end.to raise_error ActiveInteraction::InvalidValueError
+      it 'indicates an error' do
+        expect(
+          result.error
+        ).to be_an_instance_of ActiveInteraction::InvalidValueError
       end
     end
 
@@ -83,7 +83,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
       end
 
       it 'returns a BigDecimal' do
-        expect(result).to eql BigDecimal(value)
+        expect(result.value).to eql BigDecimal(value)
       end
     end
 
@@ -100,17 +100,17 @@ describe ActiveInteraction::DecimalFilter, :filter do
         include_context 'optional'
 
         it 'returns the default' do
-          expect(result).to eql options[:default]
+          expect(result.value).to eql options[:default]
         end
       end
 
       context 'required' do
         include_context 'required'
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::MissingValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::MissingValueError
         end
       end
     end

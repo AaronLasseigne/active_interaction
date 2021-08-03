@@ -73,6 +73,38 @@ module ActiveInteraction
       instance_eval(&block) if block_given?
     end
 
+    # Processes the input through the filter and returns a variety of data
+    #   about the input.
+    #
+    # @example
+    #   input = ActiveInteraction::Filter.new(:example, default: nil).process(nil, nil)
+    #   input.value
+    #   # => nil
+    #
+    # @param value [Object]
+    # @param context [Base, nil]
+    #
+    # @return [Input]
+    #
+    # @raise (see #default)
+    def process(value, context)
+      error = nil
+      clean_value =
+        begin
+          clean(value, context)
+        rescue InvalidValueError, MissingValueError, InvalidNestedValueError => e
+          error = e
+          value
+        end
+
+      clean_value = default(context) if clean_value.nil? && error.nil?
+
+      Input.new(
+        value: clean_value,
+        error: error
+      )
+    end
+
     # Convert a value into the expected type. If no value is given, fall back
     #   to the default value.
     #
@@ -94,9 +126,7 @@ module ActiveInteraction
     #
     # @return [Object]
     #
-    # @raise [MissingValueError] If the value is missing and there is no
-    #   default.
-    # @raise [InvalidValueError] If the value is invalid.
+    # @raise (see #cast)
     # @raise (see #default)
     def clean(value, context)
       value = cast(value, context)
@@ -195,6 +225,9 @@ module ActiveInteraction
 
     private
 
+    # @raise [MissingValueError] If the value is missing and there is no
+    #   default.
+    # @raise [InvalidValueError] If the value is invalid.
     # rubocop:disable Metrics/MethodLength
     def cast(value, context, convert: true, reconstantize: true)
       if matches?(value)

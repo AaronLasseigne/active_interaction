@@ -83,6 +83,50 @@ shared_examples_for 'a filter' do
     end
   end
 
+  describe '#process' do
+    let(:value) { nil }
+
+    context 'optional' do
+      include_context 'optional'
+
+      it 'returns the default' do
+        expect(filter.process(value, nil).value).to eql options[:default]
+      end
+    end
+
+    context 'required' do
+      include_context 'required'
+
+      it 'indicates an error' do
+        expect(
+          filter.process(value, nil).error
+        ).to be_an_instance_of ActiveInteraction::MissingValueError
+      end
+
+      context 'with an invalid value' do
+        let(:value) { Object.new }
+
+        it 'indicates an error' do
+          expect(
+            filter.process(value, nil).error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        end
+      end
+    end
+
+    context 'with an invalid default' do
+      before do
+        options[:default] = Object.new
+      end
+
+      it 'raises an error' do
+        expect do
+          filter.process(value, nil)
+        end.to raise_error ActiveInteraction::InvalidDefaultError
+      end
+    end
+  end
+
   describe '#clean' do
     let(:value) { nil }
 

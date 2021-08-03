@@ -12,14 +12,14 @@ describe ActiveInteraction::DateFilter, :filter do
     end
   end
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with a Date' do
       let(:value) { Date.new }
 
       it 'returns the Date' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -27,7 +27,7 @@ describe ActiveInteraction::DateFilter, :filter do
       let(:value) { '2011-12-13' }
 
       it 'returns a Date' do
-        expect(result).to eql Date.parse(value)
+        expect(result.value).to eql Date.parse(value)
       end
 
       context 'with format' do
@@ -36,7 +36,7 @@ describe ActiveInteraction::DateFilter, :filter do
         let(:value) { '13/12/2011' }
 
         it 'returns a Date' do
-          expect(result).to eql Date.strptime(value, format)
+          expect(result.value).to eql Date.strptime(value, format)
         end
       end
     end
@@ -44,19 +44,19 @@ describe ActiveInteraction::DateFilter, :filter do
     context 'with an invalid String' do
       let(:value) { 'invalid' }
 
-      it 'raises an error' do
-        expect do
-          result
-        end.to raise_error ActiveInteraction::InvalidValueError
+      it 'indicates an error' do
+        expect(
+          result.error
+        ).to be_an_instance_of ActiveInteraction::InvalidValueError
       end
 
       context 'with format' do
         include_context 'with format'
 
         it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end
@@ -71,7 +71,7 @@ describe ActiveInteraction::DateFilter, :filter do
       end
 
       it 'returns a Date' do
-        expect(result).to eql Date.parse(value)
+        expect(result.value).to eql Date.parse(value)
       end
     end
 
@@ -88,17 +88,17 @@ describe ActiveInteraction::DateFilter, :filter do
         include_context 'optional'
 
         it 'returns the default' do
-          expect(result).to eql options[:default]
+          expect(result.value).to eql options[:default]
         end
       end
 
       context 'required' do
         include_context 'required'
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::MissingValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::MissingValueError
         end
       end
     end
@@ -116,7 +116,7 @@ describe ActiveInteraction::DateFilter, :filter do
       end
 
       it 'returns a Date' do
-        expect(result).to eql Date.new(year, month, day)
+        expect(result.value).to eql Date.new(year, month, day)
       end
     end
 
@@ -124,10 +124,10 @@ describe ActiveInteraction::DateFilter, :filter do
       context 'empty' do
         let(:value) { ActiveInteraction::GroupedInput.new }
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
 
@@ -139,9 +139,9 @@ describe ActiveInteraction::DateFilter, :filter do
         end
 
         it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end

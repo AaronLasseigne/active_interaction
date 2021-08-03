@@ -21,13 +21,13 @@ describe ActiveInteraction::ObjectFilter, :filter do
     options[:class] = ObjectThing
   end
 
-  describe '#cast' do
+  describe '#process' do
     let(:value) { ObjectThing.new }
-    let(:result) { filter.send(:cast, value, nil) }
+    let(:result) { filter.process(value, nil) }
 
     context 'with an instance of the class' do
       it 'returns the instance' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
 
       context 'with an instance that is a subclass' do
@@ -35,18 +35,18 @@ describe ActiveInteraction::ObjectFilter, :filter do
         let(:value) { subclass.new }
 
         it 'returns the instance' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
       it 'handles reconstantizing' do
-        expect(result).to eql value
+        expect(result.value).to eql value
 
         Object.send(:remove_const, :ObjectThing)
         ObjectThing = BackupObjectThing # rubocop:disable Lint/ConstantDefinitionInBlock
         value = ObjectThing.new
 
-        expect(filter.send(:cast, value, nil)).to eql value
+        expect(filter.process(value, nil).value).to eql value
       end
 
       it 'handles reconstantizing subclasses' do
@@ -57,7 +57,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         class SubObjectThing < ObjectThing; end # rubocop:disable Lint/ConstantDefinitionInBlock
         value = SubObjectThing.new
 
-        expect(filter.send(:cast, value, nil)).to eql value
+        expect(filter.process(value, nil).value).to eql value
       end
 
       context 'without the class available' do
@@ -76,7 +76,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
       end
 
       it 'returns the instance' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -86,7 +86,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
       before { options[:class] = ObjectThings }
 
       it 'returns the instance' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -111,7 +111,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         end
 
         it 'calls the class method' do
-          expect(result).to eql ObjectThing.converter(value)
+          expect(result.value).to eql ObjectThing.converter(value)
         end
       end
 
@@ -121,7 +121,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
         end
 
         it 'gets called' do
-          expect(result).to eql ObjectThing.converter(value)
+          expect(result.value).to eql ObjectThing.converter(value)
         end
       end
 
@@ -130,7 +130,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
         it 'does not call the converter' do
           expect(ObjectThing).to_not receive(:converter)
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
@@ -140,7 +140,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
         it 'does not call the converter' do
           expect(subclass).to_not receive(:converter)
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
@@ -150,7 +150,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
         it 'returns nil' do
           expect(ObjectThing).to_not receive(:converter)
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
@@ -171,10 +171,42 @@ describe ActiveInteraction::ObjectFilter, :filter do
           options[:converter] = :converter_with_error
         end
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        end
+      end
+    end
+  end
+  describe '#process' do
+    context 'with a converter' do
+      context 'that returns a nil' do
+        let(:value) { '' }
+
+        before do
+          options[:default] = ObjectThing.new
+          options[:converter] = ->(_) {}
+        end
+
+        it 'indicates an error' do
+          expect(
+            filter.process(value, nil).error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        end
+      end
+
+      context 'that returns an invalid value' do
+        let(:value) { '' }
+
+        before do
+          options[:converter] = ->(_) { 'invalid' }
+        end
+
+        it 'indicates an error' do
+          expect(
+            filter.process(value, nil).error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end

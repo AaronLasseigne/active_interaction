@@ -25,14 +25,14 @@ describe ActiveInteraction::ArrayFilter, :filter do
     end
   end
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with an Array' do
       let(:value) { [] }
 
       it 'returns the Array' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -46,7 +46,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
       end
 
       it 'returns the Array' do
-        expect(result).to eql value.to_ary
+        expect(result.value).to eql value.to_ary
       end
     end
 
@@ -54,7 +54,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
       let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
       it 'returns the Array' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -65,7 +65,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
         let(:value) { [] }
 
         it 'returns the Array' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
@@ -73,17 +73,17 @@ describe ActiveInteraction::ArrayFilter, :filter do
         let(:value) { [[]] }
 
         it 'returns the Array' do
-          expect(result).to eql value
+          expect(result.value).to eql value
         end
       end
 
       context 'with a heterogenous Array' do
         let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end

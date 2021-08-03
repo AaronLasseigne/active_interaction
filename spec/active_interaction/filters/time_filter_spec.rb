@@ -34,14 +34,14 @@ describe ActiveInteraction::TimeFilter, :filter do
     end
   end
 
-  describe '#cast' do
-    let(:result) { filter.send(:cast, value, nil) }
+  describe '#process' do
+    let(:result) { filter.process(value, nil) }
 
     context 'with a Time' do
       let(:value) { Time.new }
 
       it 'returns the Time' do
-        expect(result).to eql value
+        expect(result.value).to eql value
       end
     end
 
@@ -49,7 +49,7 @@ describe ActiveInteraction::TimeFilter, :filter do
       let(:value) { '2011-12-13 14:15:16 +1718' }
 
       it 'returns a Time' do
-        expect(result).to eql Time.parse(value)
+        expect(result.value).to eql Time.parse(value)
       end
 
       context 'with format' do
@@ -58,7 +58,7 @@ describe ActiveInteraction::TimeFilter, :filter do
         let(:value) { '13/12/2011 14:15:16 +1718' }
 
         it 'returns a Time' do
-          expect(result).to eql Time.strptime(value, format)
+          expect(result.value).to eql Time.strptime(value, format)
         end
       end
     end
@@ -66,19 +66,19 @@ describe ActiveInteraction::TimeFilter, :filter do
     context 'with an invalid String' do
       let(:value) { 'invalid' }
 
-      it 'raises an error' do
-        expect do
-          result
-        end.to raise_error ActiveInteraction::InvalidValueError
+      it 'indicates an error' do
+        expect(
+          result.error
+        ).to be_an_instance_of ActiveInteraction::InvalidValueError
       end
 
       context 'with format' do
         include_context 'with format'
 
-        it do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end
@@ -93,7 +93,7 @@ describe ActiveInteraction::TimeFilter, :filter do
       end
 
       it 'returns a Time' do
-        expect(result).to eql Time.parse(value)
+        expect(result.value).to eql Time.parse(value)
       end
     end
 
@@ -110,17 +110,17 @@ describe ActiveInteraction::TimeFilter, :filter do
         include_context 'optional'
 
         it 'returns the default' do
-          expect(result).to eql options[:default]
+          expect(result.value).to eql options[:default]
         end
       end
 
       context 'required' do
         include_context 'required'
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::MissingValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::MissingValueError
         end
       end
     end
@@ -129,7 +129,7 @@ describe ActiveInteraction::TimeFilter, :filter do
       let(:value) { rand(1 << 16) }
 
       it 'returns the Time' do
-        expect(result).to eql Time.at(value)
+        expect(result.value).to eql Time.at(value)
       end
     end
 
@@ -143,7 +143,7 @@ describe ActiveInteraction::TimeFilter, :filter do
       end
 
       it 'returns the Time' do
-        expect(result).to eql Time.at(value)
+        expect(result.value).to eql Time.at(value)
       end
     end
 
@@ -167,7 +167,7 @@ describe ActiveInteraction::TimeFilter, :filter do
 
       it 'returns a Time' do
         expect(
-          result
+          result.value
         ).to eql Time.new(year, month, day, hour, min, sec)
       end
     end
@@ -176,10 +176,10 @@ describe ActiveInteraction::TimeFilter, :filter do
       context 'empty' do
         let(:value) { ActiveInteraction::GroupedInput.new }
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
 
@@ -190,10 +190,10 @@ describe ActiveInteraction::TimeFilter, :filter do
           )
         end
 
-        it 'raises an error' do
-          expect do
-            result
-          end.to raise_error ActiveInteraction::InvalidValueError
+        it 'indicates an error' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
     end
