@@ -156,12 +156,14 @@ module ActiveInteraction
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
     def default(context = nil)
+      return @default if defined?(@default)
+
       raise NoDefaultError, name unless default?
 
       value = raw_default(context)
       raise InvalidValueError if value.is_a?(GroupedInput)
 
-      cast(value, context)
+      @default = cast(value, context)
     rescue InvalidNestedValueError => e
       raise InvalidDefaultError, "#{name}: #{value.inspect} (#{e})"
     rescue InvalidValueError, MissingValueError
@@ -279,9 +281,10 @@ module ActiveInteraction
       value = options.fetch(:default)
       return value unless value.is_a?(Proc)
 
-      case value.arity
-      when 1 then context.instance_exec(self, &value)
-      else context.instance_exec(&value)
+      if value.arity == 1
+        context.instance_exec(self, &value)
+      else
+        context.instance_exec(&value)
       end
     end
   end
