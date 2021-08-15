@@ -91,7 +91,7 @@ module ActiveInteraction
       error = nil
       clean_value =
         begin
-          clean(value, context)
+          cast(value, context)
         rescue InvalidValueError, MissingValueError, InvalidNestedValueError => e
           error = e
           value

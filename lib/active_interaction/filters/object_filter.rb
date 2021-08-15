@@ -38,6 +38,8 @@ module ActiveInteraction
     end
 
     def matches?(value)
+      return false if value == nil # rubocop:disable Style/NilComparison
+
       value.class <= klass
     rescue NoMethodError
       false

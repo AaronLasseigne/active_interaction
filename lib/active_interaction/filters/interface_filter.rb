@@ -47,34 +47,34 @@ module ActiveInteraction
         "constant #{const_name.inspect} does not exist"
     end
 
-    def matches?(object)
-      return false if object.nil?
-      return matches_methods?(object) if options.key?(:methods)
+    def matches?(value)
+      return false if value == nil # rubocop:disable Style/NilComparison
+      return matches_methods?(value) if options.key?(:methods)
 
       const = from
-      if checking_class_inheritance?(object, const)
-        class_inherits_from?(object, const)
+      if checking_class_inheritance?(value, const)
+        class_inherits_from?(value, const)
       else
-        singleton_ancestor?(object, const)
+        singleton_ancestor?(value, const)
       end
     rescue NoMethodError
       false
     end
 
-    def matches_methods?(object)
-      options[:methods].all? { |method| object.respond_to?(method) }
+    def matches_methods?(value)
+      options[:methods].all? { |method| value.respond_to?(method) }
     end
 
-    def checking_class_inheritance?(object, from)
-      object.is_a?(Class) && from.is_a?(Class)
+    def checking_class_inheritance?(value, from)
+      value.is_a?(Class) && from.is_a?(Class)
     end
 
     def class_inherits_from?(klass, inherits_from)
       klass != inherits_from && klass.ancestors.include?(inherits_from)
     end
 
-    def singleton_ancestor?(object, from)
-      object.class != from && object.singleton_class.ancestors.include?(from)
+    def singleton_ancestor?(value, from)
+      value.class != from && value.singleton_class.ancestors.include?(from)
     end
   end
 end

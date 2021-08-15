@@ -275,17 +275,10 @@ module ActiveInteraction
       @_interaction_inputs = Inputs.new
 
       self.class.filters.each do |name, filter|
-        value =
-          begin
-            filter.clean(inputs[name], self)
-          rescue InvalidValueError, MissingValueError, NoDefaultError
-            # #type_check will add errors if appropriate.
-            # We'll get the original value for the error.
-            inputs[name]
-          end
+        input = filter.process(inputs[name], self)
 
-        @_interaction_inputs[name] = value
-        public_send("#{name}=", value)
+        @_interaction_inputs[name] = input.value
+        public_send("#{name}=", input.value)
       end
 
       @_interaction_inputs.freeze
