@@ -1,5 +1,10 @@
 # [5.0.0][] (TBD)
 
+## Changed
+
+- `ActiveInteraction::Inputs` no longer inherits from `Hash` though it still has most of the methods
+  provided by `Hash`.
+
 ## Added
 
 - `Filter#process` which returns an `Input`.

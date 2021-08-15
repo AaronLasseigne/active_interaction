@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module ActiveInteraction
   # Holds inputs passed to the interaction.
-  class Inputs < DelegateClass(Hash)
+  class Inputs
+    include Enumerable
+    extend Forwardable
+
     class << self
       # matches inputs like "key(1i)"
       GROUPED_INPUT_PATTERN = /
@@ -40,7 +45,6 @@ module ActiveInteraction
       # @private
       def process(inputs)
         normalize_inputs!(inputs)
-          .stringify_keys
           .sort
           .each_with_object({}) do |(k, v), h|
             next if reserved?(k)
@@ -56,11 +60,12 @@ module ActiveInteraction
       private
 
       def normalize_inputs!(inputs)
-        return inputs if inputs.is_a?(Hash) || inputs.is_a?(Inputs)
+        return inputs.stringify_keys if inputs.is_a?(Hash)
+        return inputs if inputs.is_a?(Inputs)
 
         parameters = 'ActionController::Parameters'
         klass = parameters.safe_constantize
-        return inputs.to_unsafe_h if klass && inputs.is_a?(klass)
+        return inputs.to_unsafe_h.stringify_keys if klass && inputs.is_a?(klass)
 
         raise ArgumentError, "inputs must be a hash or #{parameters}"
       end
@@ -73,8 +78,49 @@ module ActiveInteraction
       end
     end
 
+    # @private
     def initialize(inputs = {})
-      super(inputs)
+      @inputs = inputs
     end
+
+    def to_h
+      @inputs
+    end
+
+    def_delegators :to_h,
+      :[],
+      :[]=,
+      :dig,
+      :each,
+      :each_key,
+      :each_pair,
+      :each_value,
+      :empty?,
+      :except,
+      :fetch,
+      :fetch_values,
+      :filter,
+      :flatten,
+      :has_key?,
+      :has_value?,
+      :include?,
+      :inspect,
+      :key,
+      :key?,
+      :keys,
+      :length,
+      :member?,
+      :merge,
+      :rassoc,
+      :reject,
+      :select,
+      :size,
+      :slice,
+      :store,
+      :to_a,
+      :to_s,
+      :value?,
+      :values,
+      :values_at
   end
 end
