@@ -59,7 +59,7 @@ module ActiveInteraction
       return value.to_a if filters.empty?
 
       filter = filters.values.first
-      value.map { |e| filter.clean(e, context) }
+      value.map { |item| filter.clean(item, context) }
     end
 
     def convert(value)
