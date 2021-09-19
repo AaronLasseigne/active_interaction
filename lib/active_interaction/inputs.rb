@@ -80,16 +80,15 @@ module ActiveInteraction
 
     # @private
     def initialize(inputs = {})
-      @inputs = inputs
+      @inputs = self.class.process(inputs)
     end
 
     def to_h
-      @inputs
+      @to_h ||= to_h_hash(@inputs).freeze
     end
 
     def_delegators :to_h,
       :[],
-      :[]=,
       :dig,
       :each,
       :each_key,
@@ -122,5 +121,26 @@ module ActiveInteraction
       :value?,
       :values,
       :values_at
+
+    private
+
+    def to_h_hash(inputs)
+      inputs.transform_values do |input|
+        to_h_input(input)
+      end
+    end
+
+    def to_h_input(input)
+      case input.class.to_s
+      when 'Array'
+        input.map { |item| to_h_input(item) }
+      when 'Hash'
+        to_h_hash(input)
+      when 'ActiveInteraction::Input'
+        to_h_input(input.value)
+      else
+        input
+      end
+    end
   end
 end

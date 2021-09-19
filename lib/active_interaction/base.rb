@@ -188,7 +188,7 @@ module ActiveInteraction
     #
     # @return [ActiveInteraction::Inputs] All expected inputs passed to {.run} or {.run!}.
     def inputs
-      @_interaction_inputs
+      @_interaction_inputs.to_h
     end
 
     # Returns `true` if the given key was in the hash passed to {.run}.
@@ -271,17 +271,15 @@ module ActiveInteraction
 
     private
 
-    def populate_filters_and_inputs(inputs)
-      @_interaction_inputs = Inputs.new
-
+    def populate_filters_and_inputs(processed_inputs)
+      inputs = {}
       self.class.filters.each do |name, filter|
-        input = filter.process(inputs[name], self)
+        inputs[name] = filter.process(processed_inputs[name], self)
 
-        @_interaction_inputs[name] = input.value
-        public_send("#{name}=", input.value)
+        public_send("#{name}=", inputs[name].value)
       end
 
-      @_interaction_inputs.freeze
+      @_interaction_inputs = Inputs.new(inputs)
     end
 
     def type_check
