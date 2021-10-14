@@ -25,14 +25,6 @@ describe ActiveInteraction::ArrayFilter, :filter do
     end
   end
 
-  context 'with a nested default' do
-    let(:block) { proc { array default: nil } }
-
-    it 'raises an error' do
-      expect { filter }.to raise_error ActiveInteraction::InvalidDefaultError
-    end
-  end
-
   describe '#cast' do
     let(:result) { filter.send(:cast, value, nil) }
 

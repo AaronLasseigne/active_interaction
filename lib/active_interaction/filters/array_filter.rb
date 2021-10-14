@@ -91,7 +91,7 @@ module ActiveInteraction
 
         filters[filters.size.to_s.to_sym] = filter
 
-        validate!(filter, names)
+        validate!(names)
       end
     end
     # rubocop:enable Style/MissingRespondToMissing
@@ -100,12 +100,10 @@ module ActiveInteraction
     # @param names [Array<Symbol>]
     #
     # @raise [InvalidFilterError]
-    def validate!(filter, names)
+    def validate!(names)
       raise InvalidFilterError, 'multiple filters in array block' if filters.size > 1
 
       raise InvalidFilterError, 'attribute names in array block' unless names.empty?
-
-      raise InvalidDefaultError, 'default values in array block' if filter.default?
 
       nil
     end

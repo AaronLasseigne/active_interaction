@@ -1,3 +1,9 @@
+# [4.0.6][] (2021-10-13)
+
+## Fix
+
+- [#515][] - Filters nested in arrays should accept default values as indicated in the documentation.
+
 # [4.0.5][] (2021-07-11)
 
 ## Fix
@@ -964,6 +970,7 @@ Example.run
 
 - Initial release.
 
+  [4.0.6]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.5...v4.0.6
   [4.0.5]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.4...v4.0.5
   [4.0.4]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.3...v4.0.4
   [4.0.3]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.2...v4.0.3
@@ -1182,3 +1189,4 @@ Example.run
   [#511]: https://github.com/AaronLasseigne/active_interaction/issues/511
   [#412]: https://github.com/AaronLasseigne/active_interaction/issues/412
   [#480]: https://github.com/AaronLasseigne/active_interaction/issues/480
+  [#515]: https://github.com/AaronLasseigne/active_interaction/issues/515
