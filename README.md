@@ -1020,9 +1020,9 @@ end
 
 ### Callbacks
 
-ActiveModel provides a powerful framework for defining callbacks.
-ActiveInteraction hooks into that framework to allow hooking into various parts
-of an interaction's lifecycle.
+[ActiveSupport::Callbacks][] provides a powerful framework for defining callbacks.
+ActiveInteraction uses that framework to allow hooking into various parts of an
+interaction's lifecycle.
 
 ``` rb
 class Increment < ActiveInteraction::Base
@@ -1471,3 +1471,4 @@ ActiveInteraction is licensed under [the MIT License][].
 [the errors section]: #errors
 [the optional inputs section]: #optional-inputs
 [`with_options`]: http://api.rubyonrails.org/classes/Object.html#method-i-with_options
+[ActiveSupport::Callbacks]: https://api.rubyonrails.org/classes/ActiveSupport/Callbacks.html
