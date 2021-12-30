@@ -34,3 +34,5 @@ Style/FrozenStringLiteralComment:
     - gemfiles/*
     - spec/**/*
     - benchmarks/*.rb
+Style/OpenStructUse:
+  Enabled: false

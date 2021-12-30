@@ -16,7 +16,8 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
   gem.metadata = {
     'homepage_uri' => 'https://github.com/AaronLasseigne/active_interaction',
     'source_code_uri' => 'https://github.com/AaronLasseigne/active_interaction',
-    'changelog_uri' => 'https://github.com/AaronLasseigne/active_interaction/blob/master/CHANGELOG.md'
+    'changelog_uri' => 'https://github.com/AaronLasseigne/active_interaction/blob/master/CHANGELOG.md',
+    'rubygems_mfa_required' => 'true'
   }
 
   gem.required_ruby_version = '>= 2.5'
@@ -44,9 +45,9 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     'kramdown' => ['~> 2.1'],
     'rake' => ['~> 13.0'],
     'rspec' => ['~> 3.5'],
-    'rubocop' => ['~> 1.17.0'],
-    'rubocop-rake' => ['~> 0.5.1'],
-    'rubocop-rspec' => ['~> 2.1'],
+    'rubocop' => ['~> 1.24.0'],
+    'rubocop-rake' => ['~> 0.6.0'],
+    'rubocop-rspec' => ['~> 2.7.0'],
     'yard' => ['~> 0.9']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions
