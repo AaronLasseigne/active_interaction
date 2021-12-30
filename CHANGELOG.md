@@ -1,38 +1,44 @@
+# [4.1.0][] (TBD)
+
+## Added
+
+- [#518][] - Add Rails 7 support
+
 # [4.0.6][] (2021-10-13)
 
-## Fix
+## Fixed
 
 - [#515][] - Filters nested in arrays should accept default values as indicated in the documentation.
 
 # [4.0.5][] (2021-07-11)
 
-## Fix
+## Fixed
 
 - [#480][] - Interfaces used inside hashes failed to recognize `nil` as a non-value.
 
 # [4.0.4][] (2021-07-03)
 
-## Fix
+## Fixed
 
 - [#510][] - Hash parameters failed when working outside of Rails.
 - [#511][] - Nested filters with options but no `:class` failed to have `:class` automatically added.
 
 # [4.0.3][] (2021-06-24)
 
-## Fix
+## Fixed
 
 - [#499][] - `given?` now recognizes multi-part date inputs by their primary key name
 - [#493][] - `compose` now properly accepts `Inputs`
 
 # [4.0.2][] (2021-06-22)
 
-## Fix
+## Fixed
 
 - [#505][] - Nested Interface filters using the `:methods` option threw an error.
 
 # [4.0.1][] (2021-05-26)
 
-## Fix
+## Fixed
 
 - Fix regression of filter name relaxing.
 - [#495][] - Fix time filter ignoring time zones
@@ -970,6 +976,7 @@ Example.run
 
 - Initial release.
 
+  [4.1.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.6...v4.1.0
   [4.0.6]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.5...v4.0.6
   [4.0.5]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.4...v4.0.5
   [4.0.4]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.3...v4.0.4
@@ -1190,3 +1197,4 @@ Example.run
   [#412]: https://github.com/AaronLasseigne/active_interaction/issues/412
   [#480]: https://github.com/AaronLasseigne/active_interaction/issues/480
   [#515]: https://github.com/AaronLasseigne/active_interaction/issues/515
+  [#518]: https://github.com/AaronLasseigne/active_interaction/issues/518
