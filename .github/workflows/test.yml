@@ -34,7 +34,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      BUNDLE_GEMFILE: gemfiles/activemodel-${{ matrix.activemodel }}.gemfile
+      BUNDLE_GEMFILE: gemfiles/rails-${{ matrix.activemodel }}.gemfile
 
     steps:
     - uses: actions/checkout@v2
