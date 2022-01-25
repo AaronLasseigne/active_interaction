@@ -22,9 +22,9 @@ describe ActiveInteraction::Inputs do
     end
   end
 
-  describe '.process(inputs)' do
+  describe '.normalize(inputs)' do
     let(:inputs) { {} }
-    let(:result) { described_class.process(inputs) }
+    let(:result) { described_class.normalize(inputs) }
 
     context 'with invalid inputs' do
       let(:inputs) { nil }

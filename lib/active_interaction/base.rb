@@ -162,7 +162,7 @@ module ActiveInteraction
     def initialize(inputs = {})
       @_interaction_raw_inputs = inputs
 
-      populate_filters_and_inputs(Inputs.process(inputs))
+      populate_filters_and_inputs(Inputs.normalize(inputs))
     end
 
     # @!method compose(other, inputs = {})

@@ -43,8 +43,8 @@ module ActiveInteraction
       # @param inputs [Hash, ActionController::Parameters, ActiveInteraction::Inputs] Attribute values to set.
       #
       # @private
-      def process(inputs)
-        normalize_inputs!(inputs)
+      def normalize(inputs)
+        convert(inputs)
           .sort
           .each_with_object({}) do |(k, v), h|
             next if reserved?(k)
@@ -59,8 +59,9 @@ module ActiveInteraction
 
       private
 
-      def normalize_inputs!(inputs)
+      def convert(inputs)
         return inputs.stringify_keys if inputs.is_a?(Hash)
+        return inputs if inputs.is_a?(Inputs)
 
         parameters = 'ActionController::Parameters'
         klass = parameters.safe_constantize
