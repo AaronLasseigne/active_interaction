@@ -61,7 +61,6 @@ module ActiveInteraction
 
       def normalize_inputs!(inputs)
         return inputs.stringify_keys if inputs.is_a?(Hash)
-        return inputs if inputs.is_a?(Inputs)
 
         parameters = 'ActionController::Parameters'
         klass = parameters.safe_constantize
@@ -80,7 +79,7 @@ module ActiveInteraction
 
     # @private
     def initialize(inputs = {})
-      @inputs = self.class.process(inputs)
+      @inputs = inputs
     end
 
     def to_h

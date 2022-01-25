@@ -50,14 +50,6 @@ describe ActiveInteraction::Inputs do
       end
     end
 
-    context 'with Inputs inputs' do
-      let(:inputs) { ActiveInteraction::Inputs.new }
-
-      it 'does not raise an error' do
-        expect { result }.to_not raise_error
-      end
-    end
-
     context 'with simple inputs' do
       before { inputs[:key] = :value }
 
