@@ -228,7 +228,6 @@ module ActiveInteraction
     #
     # @return [Boolean]
     #
-    # @since 2.1.0
     # rubocop:disable all
     def given?(input, *rest)
       filter_level = self.class
