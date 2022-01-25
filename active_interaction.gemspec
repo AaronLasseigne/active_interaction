@@ -35,8 +35,8 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     Dir.glob(File.join('lib', 'active_interaction', 'locale', '*.yml'))
   gem.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
 
-  gem.add_dependency 'activemodel', '>= 5', '< 8'
-  gem.add_dependency 'activesupport', '>= 5', '< 8'
+  gem.add_dependency 'activemodel', '>= 5.2', '< 8'
+  gem.add_dependency 'activesupport', '>= 5.2', '< 8'
 
   {
     'actionpack' => [],
