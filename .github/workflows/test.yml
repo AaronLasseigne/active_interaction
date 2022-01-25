@@ -60,7 +60,7 @@ jobs:
     name: Test Ruby ${{ matrix.ruby }} on ActiveModel ${{ matrix.activemodel }}
     strategy:
       matrix:
-        ruby: ["2.7", "2.6", "2.5"]
+        ruby: ["2.7"]
         activemodel: ["5.2"]
 
     runs-on: ubuntu-latest

@@ -3,6 +3,7 @@
 ## Changed
 
 - Drop support for JRuby.
+- Drop support for Ruby 2.5 and 2.6
 - `ActiveInteraction::Inputs` no longer inherits from `Hash` though it still has most of the methods
   provided by `Hash`.
 

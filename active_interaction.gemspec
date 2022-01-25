@@ -20,7 +20,7 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     'rubygems_mfa_required' => 'true'
   }
 
-  gem.required_ruby_version = '>= 2.5'
+  gem.required_ruby_version = '>= 2.7'
 
   {
     'Aaron Lasseigne' => 'aaron.lasseigne@gmail.com',
