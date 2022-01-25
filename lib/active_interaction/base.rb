@@ -43,7 +43,7 @@ module ActiveInteraction
       #
       #   Runs validations and if there are no errors it will call {#execute}.
       #
-      #   @param (see ActiveInteraction::Inputs.process)
+      #   @param input [Hash, ActionController::Parameters]
       #
       #   @return [Base]
 
