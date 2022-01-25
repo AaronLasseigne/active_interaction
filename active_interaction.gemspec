@@ -48,13 +48,9 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     'rubocop' => ['~> 1.24.0'],
     'rubocop-rake' => ['~> 0.6.0'],
     'rubocop-rspec' => ['~> 2.7.0'],
+    'sqlite3' => [],
     'yard' => ['~> 0.9']
   }.each do |name, versions|
     gem.add_development_dependency name, *versions
-  end
-  if defined?(JRUBY_VERSION)
-    gem.add_development_dependency 'activerecord-jdbcsqlite3-adapter'
-  else
-    gem.add_development_dependency 'sqlite3'
   end
 end

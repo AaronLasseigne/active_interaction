@@ -1,15 +1,11 @@
 require 'spec_helper'
 require 'active_record'
-unless defined?(JRUBY_VERSION) # rubocop:disable Style/IfUnlessModifier
-  require 'sqlite3'
-end
+require 'sqlite3'
 
-unless defined?(JRUBY_VERSION)
-  ActiveRecord::Base.establish_connection(
-    adapter: 'sqlite3',
-    database: ':memory:'
-  )
-end
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: ':memory:'
+)
 
 describe ActiveInteraction::Errors do
   let(:klass) do
@@ -139,40 +135,38 @@ describe ActiveInteraction::Errors do
       end
     end
 
-    unless defined?(JRUBY_VERSION)
-      context 'with nested errors' do
-        before do
-          # suppress create_table output
-          allow($stdout).to receive(:puts)
-          ActiveRecord::Schema.define do
-            create_table(:as)
-            create_table(:bs) do |t|
-              t.column :a_id, :integer
-              t.column :name, :string
-            end
-          end
-
-          class A < ActiveRecord::Base # rubocop:disable Lint/ConstantDefinitionInBlock
-            has_one :b
-            accepts_nested_attributes_for :b
-          end
-
-          class B < ActiveRecord::Base # rubocop:disable Lint/ConstantDefinitionInBlock
-            belongs_to :a
-
-            validates :name, presence: true
+    context 'with nested errors' do
+      before do
+        # suppress create_table output
+        allow($stdout).to receive(:puts)
+        ActiveRecord::Schema.define do
+          create_table(:as)
+          create_table(:bs) do |t|
+            t.column :a_id, :integer
+            t.column :name, :string
           end
         end
 
-        let(:a) { A.create(b_attributes: { name: nil }) }
-
-        it 'merges the nested errors' do
-          a.valid?
-          expect(a.errors.messages).to eq('b.name': ["can't be blank"])
-          expect(a.errors.size).to eql 1
-          expect { errors.merge!(a.errors) }.to_not raise_error
-          expect(errors.size).to eql 1
+        class A < ActiveRecord::Base # rubocop:disable Lint/ConstantDefinitionInBlock
+          has_one :b
+          accepts_nested_attributes_for :b
         end
+
+        class B < ActiveRecord::Base # rubocop:disable Lint/ConstantDefinitionInBlock
+          belongs_to :a
+
+          validates :name, presence: true
+        end
+      end
+
+      let(:a) { A.create(b_attributes: { name: nil }) }
+
+      it 'merges the nested errors' do
+        a.valid?
+        expect(a.errors.messages).to eq('b.name': ["can't be blank"])
+        expect(a.errors.size).to eql 1
+        expect { errors.merge!(a.errors) }.to_not raise_error
+        expect(errors.size).to eql 1
       end
     end
   end

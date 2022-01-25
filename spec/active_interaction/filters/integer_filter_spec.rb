@@ -51,7 +51,6 @@ describe ActiveInteraction::IntegerFilter, :filter do
       end
 
       it 'returns an Integer' do
-        # jRuby freezes on the implicit string value
         expect(result.value).to eql Integer(value.to_str, 10)
       end
     end
