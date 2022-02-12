@@ -29,7 +29,7 @@ module ActiveInteraction
     # @overload children
     #   Child inputs if a nested filter is used.
     #
-    #   @return [Input, ArrayInput]
+    #   @return [Array<Input, ArrayInput>]
     attr_reader :children
   end
 end
