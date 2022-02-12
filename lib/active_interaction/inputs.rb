@@ -131,12 +131,10 @@ module ActiveInteraction
     end
 
     def to_h_input(input)
-      case input.class.to_s
-      when 'Array'
-        input.map { |item| to_h_input(item) }
-      when 'Hash'
-        to_h_hash(input)
-      when 'ActiveInteraction::Input'
+      case input
+      when ActiveInteraction::ArrayInput
+        input.value
+      when ActiveInteraction::Input
         to_h_input(input.value)
       else
         input

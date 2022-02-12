@@ -36,6 +36,31 @@ module ActiveInteraction
 
     register :array
 
+    def process(value, context)
+      input = super
+
+      value = input.value
+      error = input.error
+      children = []
+
+      unless filters.empty?
+        input.value.map do |item|
+          filters[:'0'].process(item, context).tap do |result|
+            error ||= InvalidValueError.new if result.error
+            children.push(result)
+          end
+        end
+      end
+
+      value = default(context) if value.nil? && error.nil?
+
+      ArrayInput.new(
+        value: value,
+        error: error,
+        children: children
+      )
+    end
+
     private
 
     def klasses
@@ -55,11 +80,8 @@ module ActiveInteraction
       false
     end
 
-    def adjust_output(value, context)
-      return value.to_a if filters.empty?
-
-      filter = filters.values.first
-      value.map { |item| filter.clean(item, context) }
+    def adjust_output(value, _context)
+      value.to_a
     end
 
     def convert(value)

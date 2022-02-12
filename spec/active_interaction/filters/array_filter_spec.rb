@@ -31,8 +31,16 @@ describe ActiveInteraction::ArrayFilter, :filter do
     context 'with an Array' do
       let(:value) { [] }
 
+      it 'returns an ArrayInput' do
+        expect(result).to be_an_instance_of ActiveInteraction::ArrayInput
+      end
+
       it 'returns the Array' do
         expect(result.value).to eql value
+      end
+
+      it 'has no children' do
+        expect(result.children).to eql []
       end
     end
 
@@ -62,10 +70,19 @@ describe ActiveInteraction::ArrayFilter, :filter do
       let(:block) { proc { array } }
 
       context 'with an Array' do
-        let(:value) { [] }
+        let(:child_value) { [] }
+        let(:value) { [child_value, child_value] }
 
         it 'returns the Array' do
           expect(result.value).to eql value
+        end
+
+        it 'has children' do
+          expect(result.children.size).to eql 2
+          result.children.each do |child|
+            expect(child).to be_an_instance_of ActiveInteraction::ArrayInput
+            expect(child.value).to be child_value
+          end
         end
       end
 

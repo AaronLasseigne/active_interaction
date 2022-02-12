@@ -84,12 +84,12 @@ module ActiveInteraction
     # @param value [Object]
     # @param context [Base, nil]
     #
-    # @return [Input]
+    # @return [Input, ArrayInput]
     #
     # @raise (see #default)
     def process(value, context)
       error = nil
-      clean_value =
+      value =
         begin
           cast(value, context)
         rescue InvalidValueError, MissingValueError, InvalidNestedValueError => e
@@ -97,10 +97,10 @@ module ActiveInteraction
           value
         end
 
-      clean_value = default(context) if clean_value.nil? && error.nil?
+      value = default(context) if value.nil? && error.nil?
 
       Input.new(
-        value: clean_value,
+        value: value,
         error: error
       )
     end
@@ -161,13 +161,21 @@ module ActiveInteraction
       raise NoDefaultError, name unless default?
 
       value = raw_default(context)
-      raise InvalidValueError if value.is_a?(GroupedInput)
+      raise InvalidDefaultError, "#{name}: #{value.inspect}" if value.is_a?(GroupedInput)
 
-      @default = cast(value, context)
-    rescue InvalidNestedValueError => e
-      raise InvalidDefaultError, "#{name}: #{value.inspect} (#{e})"
-    rescue InvalidValueError, MissingValueError
-      raise InvalidDefaultError, "#{name}: #{value.inspect}"
+      @default =
+        if value.nil?
+          nil
+        else
+          default = process(value, context)
+          case default.error
+          when InvalidNestedValueError
+            raise InvalidDefaultError, "#{name}: #{value.inspect} (#{default.error})"
+          when InvalidValueError, MissingValueError
+            raise InvalidDefaultError, "#{name}: #{value.inspect}"
+          end
+          default.value
+        end
     end
 
     # Get the description.
@@ -230,7 +238,6 @@ module ActiveInteraction
     # @raise [MissingValueError] If the value is missing and there is no
     #   default.
     # @raise [InvalidValueError] If the value is invalid.
-    # rubocop:disable Metrics/MethodLength
     def cast(value, context, convert: true, reconstantize: true)
       if matches?(value)
         adjust_output(value, context)
@@ -253,7 +260,6 @@ module ActiveInteraction
         raise InvalidValueError, "#{name}: #{describe(value)}"
       end
     end
-    # rubocop:enable Metrics/MethodLength
 
     def matches?(_value)
       false

@@ -19,13 +19,15 @@ Layout/MultilineMethodDefinitionBraceLayout:
   EnforcedStyle: new_line
 Layout/MultilineOperationIndentation:
   Enabled: false
+Metrics/AbcSize:
+  Max: 30
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
 Metrics/ClassLength:
-  Max: 120
+  Enabled: false
 Metrics/MethodLength:
-  Max: 15
+  Max: 20
 Style/FrozenStringLiteralComment:
   Exclude:
     - '**/*.gemspec'
