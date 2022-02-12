@@ -17,8 +17,6 @@ Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 Layout/MultilineMethodDefinitionBraceLayout:
   EnforcedStyle: new_line
-Layout/MultilineOperationIndentation:
-  Enabled: false
 Metrics/AbcSize:
   Max: 30
 Metrics/BlockLength:

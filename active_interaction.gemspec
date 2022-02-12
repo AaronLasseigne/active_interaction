@@ -30,7 +30,8 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     gem.email = hash.values
   end
 
-  gem.files = %w[CHANGELOG.md CONTRIBUTING.md LICENSE.md README.md] +
+  gem.files =
+    %w[CHANGELOG.md CONTRIBUTING.md LICENSE.md README.md] +
     Dir.glob(File.join('lib', '**', '*.rb')) +
     Dir.glob(File.join('lib', 'active_interaction', 'locale', '*.yml'))
   gem.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
