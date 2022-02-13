@@ -186,7 +186,7 @@ module ActiveInteraction
     # Returns the inputs provided to {.run} or {.run!} after being cast based
     #   on the filters in the class.
     #
-    # @return [ActiveInteraction::Inputs] All expected inputs passed to {.run} or {.run!}.
+    # @return [Inputs] All expected inputs passed to {.run} or {.run!}.
     def inputs
       @_interaction_inputs.to_h
     end

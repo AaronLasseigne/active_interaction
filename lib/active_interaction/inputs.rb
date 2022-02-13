@@ -40,7 +40,7 @@ module ActiveInteraction
           )
       end
 
-      # @param inputs [Hash, ActionController::Parameters, ActiveInteraction::Inputs] Attribute values to set.
+      # @param inputs [Hash, Inputs, ActionController::Parameters] Attribute values to set.
       #
       # @private
       def normalize(inputs)
