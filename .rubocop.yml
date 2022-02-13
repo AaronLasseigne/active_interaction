@@ -24,6 +24,8 @@ Metrics/BlockLength:
     - spec/**/*
 Metrics/ClassLength:
   Enabled: false
+Metrics/CyclomaticComplexity:
+  Max: 8
 Metrics/MethodLength:
   Max: 20
 Style/FrozenStringLiteralComment:

@@ -84,6 +84,15 @@ describe ActiveInteraction::ArrayFilter, :filter do
             expect(child.value).to be child_value
           end
         end
+
+        context 'given a nil value' do
+          let(:value) { nil }
+
+          it 'returns an error' do
+            expect(result.value).to eql value
+            expect(result.error).to be_an_instance_of ActiveInteraction::MissingValueError
+          end
+        end
       end
 
       context 'with an Array of Arrays' do

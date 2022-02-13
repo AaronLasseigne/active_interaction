@@ -43,8 +43,8 @@ module ActiveInteraction
       error = input.error
       children = []
 
-      unless filters.empty?
-        input.value.map do |item|
+      if !value.nil? && !filters.empty?
+        value.map do |item|
           filters[:'0'].process(item, context).tap do |result|
             error ||= InvalidValueError.new if result.error
             children.push(result)
