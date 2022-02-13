@@ -127,50 +127,6 @@ shared_examples_for 'a filter' do
     end
   end
 
-  describe '#clean' do
-    let(:value) { nil }
-
-    context 'optional' do
-      include_context 'optional'
-
-      it 'returns the default' do
-        expect(filter.clean(value, nil)).to eql options[:default]
-      end
-    end
-
-    context 'required' do
-      include_context 'required'
-
-      it 'raises an error' do
-        expect do
-          filter.clean(value, nil)
-        end.to raise_error ActiveInteraction::MissingValueError
-      end
-
-      context 'with an invalid value' do
-        let(:value) { Object.new }
-
-        it 'raises an error' do
-          expect do
-            filter.clean(value, nil)
-          end.to raise_error ActiveInteraction::InvalidValueError
-        end
-      end
-    end
-
-    context 'with an invalid default' do
-      before do
-        options[:default] = Object.new
-      end
-
-      it 'raises an error' do
-        expect do
-          filter.clean(value, nil)
-        end.to raise_error ActiveInteraction::InvalidDefaultError
-      end
-    end
-  end
-
   describe '#default' do
     context 'optional' do
       include_context 'optional'

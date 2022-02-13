@@ -212,39 +212,6 @@ describe ActiveInteraction::ObjectFilter, :filter do
     end
   end
 
-  describe '#clean' do
-    context 'with a converter' do
-      context 'that returns a nil' do
-        let(:value) { '' }
-
-        before do
-          options[:default] = ObjectThing.new
-          options[:converter] = ->(_) {}
-        end
-
-        it 'raises an error' do
-          expect do
-            filter.clean(value, nil)
-          end.to raise_error ActiveInteraction::InvalidValueError
-        end
-      end
-
-      context 'that returns an invalid value' do
-        let(:value) { '' }
-
-        before do
-          options[:converter] = ->(_) { 'invalid' }
-        end
-
-        it 'raises an error' do
-          expect do
-            filter.clean(value, nil)
-          end.to raise_error ActiveInteraction::InvalidValueError
-        end
-      end
-    end
-  end
-
   describe '#database_column_type' do
     it 'returns :string' do
       expect(filter.database_column_type).to eql :string

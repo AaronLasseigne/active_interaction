@@ -105,38 +105,6 @@ module ActiveInteraction
       )
     end
 
-    # Convert a value into the expected type. If no value is given, fall back
-    #   to the default value.
-    #
-    # @example
-    #   ActiveInteraction::Filter.new(:example).clean(nil, nil)
-    #   # => ActiveInteraction::MissingValueError: example
-    # @example
-    #   ActiveInteraction::Filter.new(:example).clean(0, nil)
-    #   # => ActiveInteraction::InvalidValueError: example: 0
-    # @example
-    #   ActiveInteraction::Filter.new(:example, default: nil).clean(nil, nil)
-    #   # => nil
-    # @example
-    #   ActiveInteraction::Filter.new(:example, default: 0).clean(nil, nil)
-    #   # => ActiveInteraction::InvalidDefaultError: example: 0
-    #
-    # @param value [Object]
-    # @param context [Base, nil]
-    #
-    # @return [Object]
-    #
-    # @raise (see #cast)
-    # @raise (see #default)
-    def clean(value, context)
-      value = cast(value, context)
-      if value.nil?
-        default(context)
-      else
-        value
-      end
-    end
-
     # Get the default value.
     #
     # @example

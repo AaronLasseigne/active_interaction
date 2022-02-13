@@ -176,39 +176,6 @@ describe ActiveInteraction::RecordFilter, :filter do
     end
   end
 
-  describe '#clean' do
-    context 'with a value that does not match the class' do
-      context 'that returns a nil' do
-        let(:value) { '' }
-
-        before do
-          options[:default] = RecordThing.new
-          options[:finder] = :finds_nil
-        end
-
-        it 'raises an error' do
-          expect do
-            filter.clean(value, nil)
-          end.to raise_error ActiveInteraction::InvalidValueError
-        end
-      end
-
-      context 'that returns an invalid value' do
-        let(:value) { '' }
-
-        before do
-          options[:finder] = :finds_bad_value
-        end
-
-        it 'raises an error' do
-          expect do
-            filter.clean(value, nil)
-          end.to raise_error ActiveInteraction::InvalidValueError
-        end
-      end
-    end
-  end
-
   describe '#database_column_type' do
     it 'returns :string' do
       expect(filter.database_column_type).to eql :string

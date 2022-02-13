@@ -7,6 +7,7 @@
 - Drop support for Rails 5.0 and 5.1
 - `ActiveInteraction::Inputs` no longer inherits from `Hash` though it still has most of the methods
   provided by `Hash`.
+- Removed `Filter#clean` (use `Filter#process` and call `#value` on the result)
 
 ## Added
 
