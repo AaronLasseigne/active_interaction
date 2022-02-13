@@ -25,6 +25,27 @@ module ActiveInteraction
 
     register :hash
 
+    def process(value, context)
+      input = super
+
+      return HashInput.new(value: input.value, error: input.error) if input.error
+      return HashInput.new(value: default(context), error: input.error) if input.value.nil?
+
+      value = strip? ? HashWithIndifferentAccess.new : input.value
+      error = nil
+      children = {}
+
+      filters.each do |name, filter|
+        filter.process(input.value[name], context).tap do |result|
+          value[name] = result.value
+          error ||= InvalidNestedValueError.new(name, input.value[name]) if result.error
+          children[name.to_sym] = result
+        end
+      end
+
+      HashInput.new(value: value, error: error, children: children)
+    end
+
     private
 
     def matches?(value)
@@ -33,24 +54,12 @@ module ActiveInteraction
       false
     end
 
-    def clean_value(hash, name, filter, value, context)
-      hash[name] = filter.clean(value[name], context)
-    rescue InvalidValueError, MissingValueError
-      raise InvalidNestedValueError.new(name, value[name])
-    end
-
     def strip?
       options.fetch(:strip, true)
     end
 
-    def adjust_output(value, context)
-      value = ActiveSupport::HashWithIndifferentAccess.new(value.to_hash)
-
-      initial = strip? ? ActiveSupport::HashWithIndifferentAccess.new : value
-
-      filters.each_with_object(initial) do |(name, filter), hash|
-        clean_value(hash, name.to_s, filter, value, context)
-      end
+    def adjust_output(value, _context)
+      ActiveSupport::HashWithIndifferentAccess.new(value)
     end
 
     def convert(value)

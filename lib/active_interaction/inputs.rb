@@ -84,7 +84,7 @@ module ActiveInteraction
     end
 
     def to_h
-      @to_h ||= to_h_hash(@inputs).freeze
+      @to_h ||= @inputs.transform_values(&:value).freeze
     end
 
     def_delegators :to_h,
@@ -121,24 +121,5 @@ module ActiveInteraction
       :value?,
       :values,
       :values_at
-
-    private
-
-    def to_h_hash(inputs)
-      inputs.transform_values do |input|
-        to_h_input(input)
-      end
-    end
-
-    def to_h_input(input)
-      case input
-      when ActiveInteraction::ArrayInput
-        input.value
-      when ActiveInteraction::Input
-        to_h_input(input.value)
-      else
-        input
-      end
-    end
   end
 end

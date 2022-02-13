@@ -84,7 +84,7 @@ module ActiveInteraction
     # @param value [Object]
     # @param context [Base, nil]
     #
-    # @return [Input, ArrayInput]
+    # @return [Input, ArrayInput, HashInput]
     #
     # @raise (see #default)
     def process(value, context)

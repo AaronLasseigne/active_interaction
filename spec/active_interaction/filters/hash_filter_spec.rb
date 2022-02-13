@@ -20,6 +20,7 @@ describe ActiveInteraction::HashFilter, :filter do
 
       it 'returns the Hash' do
         expect(result.value).to eql value
+        expect(result.value).to be_an_instance_of HashWithIndifferentAccess
       end
     end
 
@@ -53,6 +54,7 @@ describe ActiveInteraction::HashFilter, :filter do
 
         it 'returns the Hash' do
           expect(result.value).to eql value
+          expect(result.value).to be_an_instance_of HashWithIndifferentAccess
         end
 
         context 'with String keys' do
