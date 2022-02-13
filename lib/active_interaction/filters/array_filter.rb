@@ -39,11 +39,14 @@ module ActiveInteraction
     def process(value, context)
       input = super
 
+      return ArrayInput.new(value: input.value, error: input.error) if input.error
+      return ArrayInput.new(value: default(context), error: input.error) if input.value.nil?
+
       value = input.value
-      error = input.error
+      error = nil
       children = []
 
-      if !value.nil? && !filters.empty?
+      unless filters.empty?
         value.map do |item|
           filters[:'0'].process(item, context).tap do |result|
             error ||= InvalidValueError.new if result.error
@@ -52,13 +55,7 @@ module ActiveInteraction
         end
       end
 
-      value = default(context) if value.nil? && error.nil?
-
-      ArrayInput.new(
-        value: value,
-        error: error,
-        children: children
-      )
+      ArrayInput.new(value: value, error: error, children: children)
     end
 
     private
