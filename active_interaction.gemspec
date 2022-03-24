@@ -11,7 +11,8 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
   gem.summary = 'Manage application specific business logic.'
   gem.description = <<-'TEXT'
     ActiveInteraction manages application-specific business logic. It is an
-    implementation of the command pattern in Ruby.
+    implementation of service objects specifically built to work seamlessly
+    with Rails.
   TEXT
   gem.metadata = {
     'homepage_uri' => 'https://github.com/AaronLasseigne/active_interaction',
