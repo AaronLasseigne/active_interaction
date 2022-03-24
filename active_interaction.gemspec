@@ -40,7 +40,6 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
   gem.add_dependency 'rails', '>= 5.2', '< 8'
 
   {
-    'benchmark-ips' => ['~> 2.7'],
     'kramdown' => ['~> 2.1'],
     'rake' => ['~> 13.0'],
     'rspec' => ['~> 3.5'],
