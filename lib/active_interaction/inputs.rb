@@ -8,16 +8,16 @@ module ActiveInteraction
     include Enumerable
     extend Forwardable
 
-    class << self
-      # matches inputs like "key(1i)"
-      GROUPED_INPUT_PATTERN = /
-        \A
-        (?<key>.+)         # extracts "key"
-        \((?<index>\d+)i\) # extracts "1"
-        \z
-      /x.freeze
-      private_constant :GROUPED_INPUT_PATTERN
+    # matches inputs like "key(1i)"
+    GROUPED_INPUT_PATTERN = /
+      \A
+      (?<key>.+)         # extracts "key"
+      \((?<index>\d+)i\) # extracts "1"
+      \z
+    /x.freeze
+    private_constant :GROUPED_INPUT_PATTERN
 
+    class << self
       # @private
       def keys_for_group?(keys, group_key)
         search_key = /\A#{group_key}\(\d+i\)\z/
@@ -39,48 +39,22 @@ module ActiveInteraction
             !Object.private_method_defined?(name)
           )
       end
+    end
 
-      # @param inputs [Hash, Inputs, ActionController::Parameters] Attribute values to set.
-      #
-      # @private
-      def normalize(inputs)
-        convert(inputs)
-          .sort
-          .each_with_object({}) do |(k, v), h|
-            next if reserved?(k)
+    # @private
+    def initialize(raw_inputs, base)
+      @raw_inputs = raw_inputs
+      @normalized_inputs = normalize(raw_inputs)
+      @inputs = base.class.filters.each_with_object({}) do |(name, filter), inputs|
+        inputs[name] = filter.process(@normalized_inputs[name], base)
 
-            if (group = GROUPED_INPUT_PATTERN.match(k))
-              assign_to_grouped_input!(h, group[:key], group[:index], v)
-            else
-              h[k.to_sym] = v
-            end
-          end
-      end
-
-      private
-
-      def convert(inputs)
-        return inputs.stringify_keys if inputs.is_a?(Hash)
-        return inputs if inputs.is_a?(Inputs)
-
-        parameters = 'ActionController::Parameters'
-        klass = parameters.safe_constantize
-        return inputs.to_unsafe_h.stringify_keys if klass && inputs.is_a?(klass)
-
-        raise ArgumentError, "inputs must be a hash or #{parameters}"
-      end
-
-      def assign_to_grouped_input!(inputs, key, index, value)
-        key = key.to_sym
-
-        inputs[key] = GroupedInput.new unless inputs[key].is_a?(GroupedInput)
-        inputs[key][index] = value
+        yield name, inputs[name]
       end
     end
 
     # @private
-    def initialize(inputs = {})
-      @inputs = inputs
+    def normalized
+      @normalized_inputs
     end
 
     def to_h
@@ -121,5 +95,39 @@ module ActiveInteraction
       :value?,
       :values,
       :values_at
+
+    private
+
+    def normalize(inputs)
+      convert(inputs)
+        .sort
+        .each_with_object({}) do |(k, v), h|
+          next if self.class.reserved?(k)
+
+          if (group = GROUPED_INPUT_PATTERN.match(k))
+            assign_to_grouped_input!(h, group[:key], group[:index], v)
+          else
+            h[k.to_sym] = v
+          end
+        end
+    end
+
+    def convert(inputs)
+      return inputs.stringify_keys if inputs.is_a?(Hash)
+      return inputs if inputs.is_a?(Inputs)
+
+      parameters = 'ActionController::Parameters'
+      klass = parameters.safe_constantize
+      return inputs.to_unsafe_h.stringify_keys if klass && inputs.is_a?(klass)
+
+      raise ArgumentError, "inputs must be a hash or #{parameters}"
+    end
+
+    def assign_to_grouped_input!(inputs, key, index, value)
+      key = key.to_sym
+
+      inputs[key] = GroupedInput.new unless inputs[key].is_a?(GroupedInput)
+      inputs[key][index] = value
+    end
   end
 end

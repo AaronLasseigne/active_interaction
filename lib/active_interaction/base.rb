@@ -162,7 +162,9 @@ module ActiveInteraction
     def initialize(inputs = {})
       @_interaction_raw_inputs = inputs
 
-      populate_filters_and_inputs(Inputs.normalize(inputs))
+      @_interaction_inputs = Inputs.new(inputs, self) do |name, input|
+        public_send("#{name}=", input.value)
+      end
     end
 
     # @!method compose(other, inputs = {})
@@ -269,17 +271,6 @@ module ActiveInteraction
     end
 
     private
-
-    def populate_filters_and_inputs(processed_inputs)
-      inputs = {}
-      self.class.filters.each do |name, filter|
-        inputs[name] = filter.process(processed_inputs[name], self)
-
-        public_send("#{name}=", inputs[name].value)
-      end
-
-      @_interaction_inputs = Inputs.new(inputs)
-    end
 
     def type_check
       run_callbacks(:type_check) do
