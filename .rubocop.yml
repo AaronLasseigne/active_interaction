@@ -49,8 +49,6 @@ RSpec/ExampleLength:
   Enabled: false
 RSpec/FilePath:
   Enabled: false
-RSpec/InstanceVariable:
-  Enabled: false
 RSpec/LeakyConstantDeclaration:
   Enabled: false
 RSpec/MessageSpies:

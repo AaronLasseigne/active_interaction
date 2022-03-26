@@ -205,18 +205,18 @@ describe ActiveInteraction::Base do
         before { inputs[:thing] = thing }
 
         context 'failing runtime validations' do
-          before do
-            @execute = described_class.instance_method(:execute)
+          around do |example|
+            old_method = described_class.instance_method(:execute)
             described_class.send(:define_method, :execute) do
               errors.add(:thing, 'is invalid')
               errors.add(:thing, :invalid)
               true
             end
-          end
 
-          after do
+            example.run
+
             silence_warnings do
-              described_class.send(:define_method, :execute, @execute)
+              described_class.send(:define_method, :execute, old_method)
             end
           end
 

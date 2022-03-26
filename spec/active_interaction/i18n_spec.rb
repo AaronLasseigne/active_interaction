@@ -23,12 +23,14 @@ describe I18nInteraction do
     .map { |slug, _| slug.to_s }
 
   shared_examples 'translation' do |locale|
-    before do
-      @locale = I18n.locale
+    around do |example|
+      old_locale = I18n.locale
       I18n.locale = locale
-    end
 
-    after { I18n.locale = @locale }
+      example.run
+
+      I18n.locale = old_locale
+    end
 
     context 'types' do
       TYPES.each do |type|
@@ -81,14 +83,12 @@ describe I18nInteraction do
   end
 
   context 'hsilgne' do
-    before do
-      # This must appear before including the translation examples so that the
-      # locale is available before it is assigned.
-      locale = :hsilgne
-      I18n.config.available_locales = I18n.config.available_locales + [locale] unless I18n.locale_available?(locale)
-    end
+    # This must appear before including the translation examples so that the
+    # locale is available before it is assigned.
+    around do |example|
+      old_locals = I18n.config.available_locales
+      I18n.config.available_locales += [:hsilgne]
 
-    before do
       I18n.backend.store_translations('hsilgne',
         active_interaction: {
           errors: {
@@ -101,6 +101,10 @@ describe I18nInteraction do
           types: TYPES.each_with_object({}) { |e, a| a[e] = e.reverse }
         }
       )
+
+      example.run
+
+      I18n.config.available_locales = old_locals
     end
 
     include_examples 'translation', :hsilgne
