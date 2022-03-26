@@ -136,6 +136,21 @@ describe ActiveInteraction::Errors do
     end
 
     context 'with nested errors' do
+      let(:a_klass) do
+        Class.new(ActiveRecord::Base) do
+          has_one :b
+          accepts_nested_attributes_for :b
+        end
+      end
+      let(:a) { A.create(b_attributes: { name: nil }) }
+      let(:b_klass) do
+        Class.new(ActiveRecord::Base) do
+          belongs_to :a
+
+          validates :name, presence: true
+        end
+      end
+
       before do
         # suppress create_table output
         allow($stdout).to receive(:puts)
@@ -147,19 +162,9 @@ describe ActiveInteraction::Errors do
           end
         end
 
-        class A < ActiveRecord::Base # rubocop:disable Lint/ConstantDefinitionInBlock
-          has_one :b
-          accepts_nested_attributes_for :b
-        end
-
-        class B < ActiveRecord::Base # rubocop:disable Lint/ConstantDefinitionInBlock
-          belongs_to :a
-
-          validates :name, presence: true
-        end
+        stub_const('A', a_klass)
+        stub_const('B', b_klass)
       end
-
-      let(:a) { A.create(b_attributes: { name: nil }) }
 
       it 'merges the nested errors' do
         a.valid?

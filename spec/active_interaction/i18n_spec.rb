@@ -15,12 +15,13 @@ I18nInteraction = Class.new(TestInteraction) do
   end
 end
 
+TYPES = ActiveInteraction::Filter
+  .const_get(:CLASSES)
+  .keys
+  .map(&:to_s)
+
 describe I18nInteraction do
   include_context 'interactions'
-
-  TYPES = ActiveInteraction::Filter # rubocop:disable Lint/ConstantDefinitionInBlock
-    .const_get(:CLASSES)
-    .map { |slug, _| slug.to_s }
 
   shared_examples 'translation' do |locale|
     around do |example|
