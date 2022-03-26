@@ -43,9 +43,9 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     'kramdown' => ['~> 2.1'],
     'rake' => ['~> 13.0'],
     'rspec' => ['~> 3.5'],
-    'rubocop' => ['~> 1.24.0'],
+    'rubocop' => ['~> 1.26.1'],
     'rubocop-rake' => ['~> 0.6.0'],
-    'rubocop-rspec' => ['~> 2.7.0'],
+    'rubocop-rspec' => ['~> 2.9.0'],
     'sqlite3' => [],
     'yard' => ['~> 0.9']
   }.each do |name, versions|
