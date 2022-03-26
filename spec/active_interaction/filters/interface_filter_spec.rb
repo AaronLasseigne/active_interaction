@@ -187,6 +187,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
       context 'passed an instance' do
         context 'with the module included' do
           before { options.merge!(from: :interface_module) }
+
           let(:value) do
             Class.new do
               include InterfaceModule
@@ -200,6 +201,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
 
         context 'with the class inherited from' do
           before { options.merge!(from: :interface_class) }
+
           let(:value) do
             Class.new(InterfaceClass) {}.new # rubocop:disable Lint/EmptyBlock
           end
@@ -211,6 +213,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
 
         context 'that is extended by the ancestor' do
           before { options.merge!(from: :interface_module) }
+
           let(:value) do
             Class.new {}.new.extend(InterfaceModule) # rubocop:disable Lint/EmptyBlock
           end
@@ -246,6 +249,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
       context 'passed a class' do
         context 'with the class inherited from' do
           before { options.merge!(from: :interface_class) }
+
           let(:value) do
             Class.new(InterfaceClass) {} # rubocop:disable Lint/EmptyBlock
           end
@@ -257,6 +261,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
 
         context 'that is extended by the ancestor' do
           before { options.merge!(from: :interface_module) }
+
           let(:value) do
             Class.new do
               extend InterfaceModule
@@ -294,6 +299,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
       context 'passed a module' do
         context 'that is extended by the ancestor' do
           before { options.merge!(from: :interface_module) }
+
           let(:value) do
             Module.new do
               extend InterfaceModule
@@ -330,6 +336,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
 
       context 'given an invalid name' do
         before { options.merge!(from: :invalid) }
+
         let(:value) { Object }
 
         it 'raises an error' do
@@ -432,7 +439,7 @@ describe ActiveInteraction::InterfaceFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :string' do
-      expect(filter.database_column_type).to eql :string
+      expect(filter.database_column_type).to be :string
     end
   end
 end

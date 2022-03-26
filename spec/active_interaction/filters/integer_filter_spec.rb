@@ -86,7 +86,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
     it 'supports different bases' do
       expect(
         described_class.new(name, base: 8).process('071', nil).value
-      ).to eql 57
+      ).to be 57
       expect(
         described_class.new(name, base: 8).process('081', nil).error
       ).to be_an_instance_of ActiveInteraction::InvalidValueError
@@ -95,7 +95,7 @@ describe ActiveInteraction::IntegerFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :integer' do
-      expect(filter.database_column_type).to eql :integer
+      expect(filter.database_column_type).to be :integer
     end
   end
 end

@@ -5,30 +5,30 @@ describe ActiveInteraction::Filter, :filter do
 
   describe '#database_column_type' do
     it 'returns `:string`' do
-      expect(subject.database_column_type).to eql :string
+      expect(filter.database_column_type).to be :string
     end
   end
 
   context 'with an unregistered subclass' do
-    let(:described_class) { Class.new(ActiveInteraction::Filter) }
+    let(:klass) { Class.new(described_class) }
 
     describe '.slug' do
       it 'is nil' do
-        expect(described_class.slug).to be_nil
+        expect(klass.slug).to be_nil
       end
     end
   end
 
   context 'with a registered subclass' do
-    it_behaves_like 'a filter'
-
+    let(:slug) { SecureRandom.hex.to_sym }
     let(:described_class) do
       s = slug
       Class.new(ActiveInteraction::Filter) do
         register s
       end
     end
-    let(:slug) { SecureRandom.hex.to_sym }
+
+    it_behaves_like 'a filter'
 
     describe '.slug' do
       it 'returns the registered slug' do

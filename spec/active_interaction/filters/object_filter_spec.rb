@@ -15,11 +15,11 @@ BackupObjectThing = ObjectThing
 
 describe ActiveInteraction::ObjectFilter, :filter do
   include_context 'filters'
-  it_behaves_like 'a filter'
-
   before do
     options[:class] = ObjectThing
   end
+
+  it_behaves_like 'a filter'
 
   describe '#process' do
     let(:value) { ObjectThing.new }
@@ -62,6 +62,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
       context 'without the class available' do
         before { Object.send(:remove_const, :ObjectThing) }
+
         after { ObjectThing = BackupObjectThing } # rubocop:disable Lint/ConstantDefinitionInBlock
 
         it 'does not raise an error on initialization' do
@@ -146,6 +147,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
       context 'with a nil value' do
         let(:value) { nil }
+
         include_context 'optional'
 
         it 'returns nil' do
@@ -177,10 +179,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
           ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
       end
-    end
-  end
-  describe '#process' do
-    context 'with a converter' do
+
       context 'that returns a nil' do
         let(:value) { '' }
 
@@ -214,7 +213,7 @@ describe ActiveInteraction::ObjectFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :string' do
-      expect(filter.database_column_type).to eql :string
+      expect(filter.database_column_type).to be :string
     end
   end
 end

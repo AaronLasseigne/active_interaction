@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Hashable do
-  include_context 'concerns', ActiveInteraction::Hashable
+  include_context 'concerns', described_class
 
   describe '#hash(*args, &block)' do
     context 'with no arguments' do
-      let(:hash) { subject.hash }
+      let(:hash) { instance.hash }
 
       it 'returns an Integer' do
         expect(hash).to be_an Integer
@@ -14,28 +14,28 @@ describe ActiveInteraction::Hashable do
 
     context 'with arguments' do
       let(:arguments) { [:attribute, {}] }
-      let(:hash) { subject.hash(*arguments) }
+      let(:hash) { instance.hash(*arguments) }
 
-      before { allow(subject).to receive(:method_missing) }
+      before { allow(instance).to receive(:method_missing) }
 
       it 'calls method_missing' do
         hash
-        expect(subject).to have_received(:method_missing).once
+        expect(instance).to have_received(:method_missing).once
           .with(:hash, *arguments)
       end
 
       context 'with a block' do
         let(:block) { proc {} }
-        let(:hash) { subject.hash(*arguments, &block) }
+        let(:hash) { instance.hash(*arguments, &block) }
 
         it 'calls method_missing' do
           hash
-          expect(subject).to have_received(:method_missing).once
+          expect(instance).to have_received(:method_missing).once
             .with(:hash, *arguments)
         end
 
         it 'passes the block to method_missing' do
-          allow(subject).to receive(:method_missing) do |*, &other_block|
+          allow(instance).to receive(:method_missing) do |*, &other_block|
             expect(other_block).to equal block
           end
           hash(&block)

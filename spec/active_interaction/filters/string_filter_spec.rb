@@ -54,7 +54,7 @@ describe ActiveInteraction::StringFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :string' do
-      expect(filter.database_column_type).to eql :string
+      expect(filter.database_column_type).to be :string
     end
   end
 end

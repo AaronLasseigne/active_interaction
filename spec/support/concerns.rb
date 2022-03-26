@@ -1,4 +1,6 @@
 shared_context 'concerns' do |concern|
+  subject(:instance) { klass.new }
+
   let(:klass) do
     Class.new do
       include concern
@@ -8,6 +10,4 @@ shared_context 'concerns' do |concern|
       end
     end
   end
-
-  subject(:instance) { klass.new }
 end

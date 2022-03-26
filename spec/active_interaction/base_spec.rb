@@ -35,9 +35,9 @@ InterruptInteraction = Class.new(TestInteraction) do
 end
 
 describe ActiveInteraction::Base do
-  include_context 'interactions'
-
   subject(:interaction) { described_class.new(inputs) }
+
+  include_context 'interactions'
 
   describe '.new(inputs = {})' do
     it 'does not set instance vars for reserved input names' do
@@ -84,7 +84,7 @@ describe ActiveInteraction::Base do
         before { inputs[:thing] = 1 }
 
         it 'sets the attribute to the filtered value' do
-          expect(interaction.thing).to eql 1.0
+          expect(interaction.thing).to be 1.0
         end
       end
 
@@ -280,7 +280,7 @@ describe ActiveInteraction::Base do
     let(:inputs) { { thing: 1, other: other_val } }
 
     it 'casts filtered inputs' do
-      expect(interaction.inputs[:thing]).to eql 1.0
+      expect(interaction.inputs[:thing]).to be 1.0
     end
 
     it 'strips non-filtered inputs' do

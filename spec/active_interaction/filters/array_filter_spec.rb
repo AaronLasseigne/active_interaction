@@ -78,7 +78,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
         end
 
         it 'has children' do
-          expect(result.children.size).to eql 2
+          expect(result.children.size).to be 2
           result.children.each do |child|
             expect(child).to be_an_instance_of ActiveInteraction::ArrayInput
             expect(child.value).to be child_value
@@ -162,9 +162,9 @@ describe ActiveInteraction::ArrayFilter, :filter do
 
         it 'has a filter with the right options' do
           expect(filter.filters[:'0'].options).to have_key(:class)
-          expect(filter.filters[:'0'].options[:class]).to eql :Object
+          expect(filter.filters[:'0'].options[:class]).to be :Object
           expect(filter.filters[:'0'].options).to have_key(:converter)
-          expect(filter.filters[:'0'].options[:converter]).to eql :new
+          expect(filter.filters[:'0'].options[:converter]).to be :new
         end
       end
     end
@@ -172,7 +172,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :string' do
-      expect(filter.database_column_type).to eql :string
+      expect(filter.database_column_type).to be :string
     end
   end
 end

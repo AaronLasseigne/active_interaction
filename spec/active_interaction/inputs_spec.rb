@@ -5,7 +5,7 @@ describe ActiveInteraction::Inputs do
 
   describe '.reserved?(name)' do
     it 'returns true for anything starting with "_interaction_"' do
-      expect(described_class.reserved?('_interaction_')).to be_truthy
+      expect(described_class).to be_reserved('_interaction_')
     end
 
     it 'returns true for existing instance methods' do
@@ -13,12 +13,12 @@ describe ActiveInteraction::Inputs do
         (ActiveInteraction::Base.instance_methods - Object.instance_methods) +
         (ActiveInteraction::Base.private_instance_methods - Object.private_instance_methods)
       ).each do |method|
-        expect(described_class.reserved?(method)).to be_truthy
+        expect(described_class).to be_reserved(method)
       end
     end
 
     it 'returns false for anything else' do
-      expect(described_class.reserved?(SecureRandom.hex)).to be_falsey
+      expect(described_class).to_not be_reserved(SecureRandom.hex)
     end
   end
 

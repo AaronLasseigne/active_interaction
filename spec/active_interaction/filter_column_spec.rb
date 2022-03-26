@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe ActiveInteraction::FilterColumn do
-  let(:type) { :float }
   subject(:column) { described_class.intern(type) }
+
+  let(:type) { :float }
 
   describe '.intern(type)' do
     it 'returns the same object for each type' do
@@ -81,14 +82,6 @@ describe ActiveInteraction::FilterColumn do
           expect(text?).to be_falsey
         end
       end
-    end
-  end
-
-  describe '#type' do
-    let(:type) { :float }
-
-    it 'returns the type' do
-      expect(column.type).to eql type
     end
   end
 end

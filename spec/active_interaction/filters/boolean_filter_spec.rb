@@ -80,7 +80,7 @@ describe ActiveInteraction::BooleanFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :boolean' do
-      expect(filter.database_column_type).to eql :boolean
+      expect(filter.database_column_type).to be :boolean
     end
   end
 end

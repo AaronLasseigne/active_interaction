@@ -34,7 +34,7 @@ describe ActiveInteraction::FileFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :file' do
-      expect(filter.database_column_type).to eql :file
+      expect(filter.database_column_type).to be :file
     end
   end
 end

@@ -8,6 +8,8 @@ ActiveRecord::Base.establish_connection(
 )
 
 describe ActiveInteraction::Errors do
+  subject(:errors) { described_class.new(klass.new) }
+
   let(:klass) do
     Class.new do
       include ActiveInteraction::ActiveModelable
@@ -19,8 +21,6 @@ describe ActiveInteraction::Errors do
       end
     end
   end
-
-  subject(:errors) { described_class.new(klass.new) }
 
   describe '#merge!' do
     let(:other) { described_class.new(klass.new) }
@@ -164,9 +164,9 @@ describe ActiveInteraction::Errors do
       it 'merges the nested errors' do
         a.valid?
         expect(a.errors.messages).to eq('b.name': ["can't be blank"])
-        expect(a.errors.size).to eql 1
+        expect(a.errors.size).to be 1
         expect { errors.merge!(a.errors) }.to_not raise_error
-        expect(errors.size).to eql 1
+        expect(errors.size).to be 1
       end
     end
   end

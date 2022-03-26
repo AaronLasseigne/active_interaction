@@ -1,9 +1,9 @@
 shared_context 'filters' do
+  subject(:filter) { described_class.new(name, options, &block) }
+
   let(:block) { nil }
   let(:name) { SecureRandom.hex.to_sym }
   let(:options) { {} }
-
-  subject(:filter) { described_class.new(name, options, &block) }
 
   shared_context 'optional' do
     before do

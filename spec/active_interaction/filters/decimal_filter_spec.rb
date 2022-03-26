@@ -118,7 +118,7 @@ describe ActiveInteraction::DecimalFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :decimal' do
-      expect(filter.database_column_type).to eql :decimal
+      expect(filter.database_column_type).to be :decimal
     end
   end
 end

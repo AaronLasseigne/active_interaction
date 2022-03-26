@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Missable do
-  include_context 'concerns', ActiveInteraction::Missable
+  include_context 'concerns', described_class
 
   describe '#respond_to?(slug, include_all = false)' do
     context 'with invalid slug' do
       let(:slug) { :slug }
 
       it 'returns false' do
-        expect(instance.respond_to?(slug)).to be_falsey
+        expect(instance).to_not respond_to(slug)
       end
     end
 
@@ -16,7 +16,7 @@ describe ActiveInteraction::Missable do
       let(:slug) { :boolean }
 
       it 'returns true' do
-        expect(instance.respond_to?(slug)).to be_truthy
+        expect(instance).to respond_to(slug)
       end
     end
   end

@@ -88,8 +88,6 @@ describe I18nInteraction do
       I18n.config.available_locales = I18n.config.available_locales + [locale] unless I18n.locale_available?(locale)
     end
 
-    include_examples 'translation', :hsilgne
-
     before do
       I18n.backend.store_translations('hsilgne',
         active_interaction: {
@@ -104,5 +102,7 @@ describe I18nInteraction do
         }
       )
     end
+
+    include_examples 'translation', :hsilgne
   end
 end

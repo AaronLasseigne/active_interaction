@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Runnable do
-  include_context 'concerns', ActiveInteraction::Runnable
+  include_context 'concerns', described_class
 
   class WrappableFailingInteraction # rubocop:disable Lint/ConstantDefinitionInBlock
     include ActiveInteraction::Runnable
@@ -230,49 +230,51 @@ describe ActiveInteraction::Runnable do
       end
     end
 
-    context 'caches the validity and result of the run' do
-      let(:klass) do
-        Class.new(ActiveInteraction::Base) do
-          invalid = [false, true].cycle
+    context 'caches the result of the run' do
+      context 'when it is invalid' do
+        let(:klass) do
+          Class.new(ActiveInteraction::Base) do
+            invalid = [false, true].cycle
 
-          validate do |interaction|
-            interaction.errors.add(:base, 'failed') unless invalid.next
-          end
+            validate do |interaction|
+              interaction.errors.add(:base, 'failed') unless invalid.next
+            end
 
-          def execute
-            true
+            def execute
+              true
+            end
           end
+        end
+
+        it 'fails' do
+          expect(outcome).to_not be_valid
+          expect(outcome.result).to be_nil
+          expect(outcome).to_not be_valid
+          expect(outcome.result).to be_nil
         end
       end
 
-      it 'is invalid' do
-        expect(outcome).to_not be_valid
-        expect(outcome.result).to be_nil
-        expect(outcome).to_not be_valid
-        expect(outcome.result).to be_nil
-      end
-    end
+      context 'when it is valid' do
+        let(:klass) do
+          Class.new(ActiveInteraction::Base) do
+            valid = [true, false].cycle
 
-    context 'caches the validity and result of the run' do
-      let(:klass) do
-        Class.new(ActiveInteraction::Base) do
-          valid = [true, false].cycle
+            validate do |interaction|
+              interaction.errors.add(:base, 'failed') unless valid.next
+            end
 
-          validate do |interaction|
-            interaction.errors.add(:base, 'failed') unless valid.next
-          end
-
-          def execute
-            true
+            def execute
+              true
+            end
           end
         end
-      end
 
-      it 'is valid' do
-        expect(outcome).to be_valid
-        expect(outcome.result).to be true
-        expect(outcome).to be_valid
-        expect(outcome.result).to be true
+        it 'succeeds' do
+          expect(outcome).to be_valid
+          expect(outcome.result).to be true
+          expect(outcome).to be_valid
+          expect(outcome.result).to be true
+        end
       end
     end
 

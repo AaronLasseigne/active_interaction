@@ -15,19 +15,19 @@ shared_examples_for 'ActiveModel' do
 end
 
 describe ActiveInteraction::ActiveModelable do
-  include_context 'concerns', ActiveInteraction::ActiveModelable
+  include_context 'concerns', described_class
 
   it_behaves_like 'ActiveModel'
 
   describe '.i18n_scope' do
     it 'returns the scope' do
-      expect(klass.i18n_scope).to eql :active_interaction
+      expect(klass.i18n_scope).to be :active_interaction
     end
   end
 
   describe '#i18n_scope' do
     it 'returns the scope' do
-      expect(instance.i18n_scope).to eql :active_interaction
+      expect(instance.i18n_scope).to be :active_interaction
     end
   end
 

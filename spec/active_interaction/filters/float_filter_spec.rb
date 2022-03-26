@@ -102,7 +102,7 @@ describe ActiveInteraction::FloatFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :float' do
-      expect(filter.database_column_type).to eql :float
+      expect(filter.database_column_type).to be :float
     end
   end
 end

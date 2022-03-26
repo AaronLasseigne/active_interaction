@@ -28,22 +28,22 @@ describe ActiveInteraction::ActiveRecordable do
       end
 
       it 'returns a FilterColumn of type boolean' do
-        expect(column.type).to eql :float
+        expect(column.type).to be :float
       end
     end
   end
 
   describe '#has_attribute?' do
     it 'returns true if the filter exists' do
-      expect(outcome.has_attribute?(:thing)).to be_truthy
+      expect(outcome).to have_attribute(:thing)
     end
 
     it 'works with strings' do
-      expect(outcome.has_attribute?('thing')).to be_truthy
+      expect(outcome).to have_attribute('thing')
     end
 
     it 'returns false if the filter does not exist' do
-      expect(outcome.has_attribute?(:not_a_filter)).to be_falsey
+      expect(outcome).to_not have_attribute(:not_a_filter)
     end
   end
 end

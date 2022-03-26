@@ -27,11 +27,11 @@ BackupRecordThing = RecordThing
 
 describe ActiveInteraction::RecordFilter, :filter do
   include_context 'filters'
-  it_behaves_like 'a filter'
-
   before do
     options[:class] = RecordThing
   end
+
+  it_behaves_like 'a filter'
 
   describe '#process' do
     before do
@@ -78,6 +78,7 @@ describe ActiveInteraction::RecordFilter, :filter do
 
       context 'without the class available' do
         before { Object.send(:remove_const, :RecordThing) }
+
         after { RecordThing = BackupRecordThing } # rubocop:disable Lint/ConstantDefinitionInBlock
 
         it 'does not raise an error on initialization' do
@@ -140,11 +141,7 @@ describe ActiveInteraction::RecordFilter, :filter do
           expect(result.value).to eql RecordThing.finder(value)
         end
       end
-    end
-  end
 
-  describe '#process' do
-    context 'with a value that does not match the class' do
       context 'that returns a nil' do
         let(:value) { '' }
 
@@ -178,7 +175,7 @@ describe ActiveInteraction::RecordFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :string' do
-      expect(filter.database_column_type).to eql :string
+      expect(filter.database_column_type).to be :string
     end
   end
 end

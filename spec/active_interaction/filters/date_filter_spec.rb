@@ -149,7 +149,7 @@ describe ActiveInteraction::DateFilter, :filter do
 
   describe '#database_column_type' do
     it 'returns :date' do
-      expect(filter.database_column_type).to eql :date
+      expect(filter.database_column_type).to be :date
     end
   end
 
