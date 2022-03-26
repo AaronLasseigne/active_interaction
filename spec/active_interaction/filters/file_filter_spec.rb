@@ -24,7 +24,7 @@ describe ActiveInteraction::FileFilter, :filter do
     end
 
     context 'with an object that responds to #rewind' do
-      let(:value) { double(rewind: nil) }
+      let(:value) { double(rewind: nil) } # rubocop:disable RSpec/VerifiedDoubles
 
       it 'returns the object' do
         expect(result.value).to eq value

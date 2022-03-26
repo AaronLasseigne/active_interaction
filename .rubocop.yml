@@ -65,5 +65,3 @@ RSpec/NotToNot:
   EnforcedStyle: to_not
 RSpec/ScatteredSetup:
   Enabled: false
-RSpec/VerifiedDoubles:
-  Enabled: false
