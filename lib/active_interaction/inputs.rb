@@ -48,7 +48,7 @@ module ActiveInteraction
       @inputs = base.class.filters.each_with_object({}) do |(name, filter), inputs|
         inputs[name] = filter.process(@normalized_inputs[name], base)
 
-        yield name, inputs[name]
+        yield name, inputs[name] if block_given?
       end
     end
 
