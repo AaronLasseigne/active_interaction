@@ -130,7 +130,12 @@ describe ActiveInteraction::ObjectFilter, :filter do
         let(:value) { ObjectThing.new }
 
         it 'does not call the converter' do
-          expect(ObjectThing).to_not receive(:converter)
+          allow(ObjectThing).to receive(:converter)
+          result.value
+          expect(ObjectThing).to_not have_received(:converter)
+        end
+
+        it 'returns the correct value' do
           expect(result.value).to eql value
         end
       end
@@ -140,7 +145,12 @@ describe ActiveInteraction::ObjectFilter, :filter do
         let(:value) { subclass.new }
 
         it 'does not call the converter' do
-          expect(subclass).to_not receive(:converter)
+          allow(subclass).to receive(:converter)
+          result.value
+          expect(subclass).to_not have_received(:converter)
+        end
+
+        it 'returns the correct value' do
           expect(result.value).to eql value
         end
       end
@@ -151,7 +161,12 @@ describe ActiveInteraction::ObjectFilter, :filter do
         include_context 'optional'
 
         it 'returns nil' do
-          expect(ObjectThing).to_not receive(:converter)
+          allow(ObjectThing).to receive(:converter)
+          result.value
+          expect(ObjectThing).to_not have_received(:converter)
+        end
+
+        it 'returns the correct value' do
           expect(result.value).to eql value
         end
       end

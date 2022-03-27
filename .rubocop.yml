@@ -51,8 +51,6 @@ RSpec/FilePath:
   Enabled: false
 RSpec/LeakyConstantDeclaration:
   Enabled: false
-RSpec/MessageSpies:
-  Enabled: false
 RSpec/MultipleDescribes:
   Enabled: false
 RSpec/MultipleMemoizedHelpers:

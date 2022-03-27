@@ -182,8 +182,8 @@ describe ActiveInteraction::Base do
 
     it 'warns when redefining a filter' do
       klass = Class.new(described_class)
-      expect(klass).to receive(:warn).with(/\AWARNING:/)
-      klass.boolean :thing
+      allow(klass).to receive(:warn)
+      expect(klass.boolean(:thing)).to have_received(:warn).with(/\AWARNING:/)
     end
 
     describe '.run(inputs = {})' do
