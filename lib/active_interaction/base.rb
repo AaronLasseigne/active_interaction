@@ -190,7 +190,7 @@ module ActiveInteraction
     #
     # @return [Inputs] All expected inputs passed to {.run} or {.run!}.
     def inputs
-      @_interaction_inputs.to_h
+      @_interaction_inputs
     end
 
     # Returns `true` if the given key was in the hash passed to {.run}.
