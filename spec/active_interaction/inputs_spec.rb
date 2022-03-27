@@ -105,4 +105,154 @@ describe ActiveInteraction::Inputs do
       end
     end
   end
+
+  describe '#given?' do
+    let(:base_class) do
+      Class.new(ActiveInteraction::Base) do
+        float :x,
+          default: nil
+
+        def execute; end
+      end
+    end
+
+    it 'is false when the input is not given' do
+      expect(inputs.given?(:x)).to be false
+    end
+
+    it 'is true when the input is nil' do
+      args[:x] = nil
+      expect(inputs.given?(:x)).to be true
+    end
+
+    it 'is true when the input is given' do
+      args[:x] = rand
+      expect(inputs.given?(:x)).to be true
+    end
+
+    it 'symbolizes its argument' do
+      args[:x] = rand
+      expect(inputs.given?('x')).to be true
+    end
+
+    it 'only tracks inputs with filters' do
+      args[:y] = rand
+      expect(inputs.given?(:y)).to be false
+    end
+
+    context 'nested hash values' do
+      let(:base_class) do
+        Class.new(ActiveInteraction::Base) do
+          hash :x, default: {} do
+            boolean :y,
+              default: true
+          end
+
+          def execute; end
+        end
+      end
+
+      it 'is true when the nested inputs symbols are given' do
+        described_class.class_exec do
+          def execute
+            given?(:x, :y)
+          end
+        end
+
+        args[:x] = { y: false }
+        expect(inputs.given?(:x, :y)).to be true
+      end
+
+      it 'is true when the nested inputs strings are given' do
+        args['x'] = { 'y' => false }
+        expect(inputs.given?(:x, :y)).to be true
+      end
+
+      it 'is false when the nested input is not given' do
+        args[:x] = {}
+        expect(inputs.given?(:x, :y)).to be false
+      end
+
+      it 'is false when the first input is not given' do
+        expect(inputs.given?(:x, :y)).to be false
+      end
+
+      it 'is false when the first input is nil' do
+        args[:x] = nil
+        expect(inputs.given?(:x, :y)).to be false
+      end
+
+      it 'returns false if you go too far' do
+        args[:x] = { y: true }
+        expect(inputs.given?(:x, :y, :z)).to be false
+      end
+    end
+
+    context 'nested array values' do
+      let(:base_class) do
+        Class.new(ActiveInteraction::Base) do
+          array :x do
+            hash do
+              boolean :y, default: true
+            end
+          end
+
+          def execute; end
+        end
+      end
+
+      context 'has a positive index' do
+        it 'returns true if found' do
+          args[:x] = [{ y: true }]
+          expect(inputs.given?(:x, 0, :y)).to be true
+        end
+
+        it 'returns false if not found' do
+          args[:x] = []
+          expect(inputs.given?(:x, 0, :y)).to be false
+        end
+      end
+
+      context 'has a negative index' do
+        it 'returns true if found' do
+          args[:x] = [{ y: true }]
+          expect(inputs.given?(:x, -1, :y)).to be true
+        end
+
+        it 'returns false if not found' do
+          args[:x] = []
+          expect(inputs.given?(:x, -1, :y)).to be false
+        end
+      end
+
+      it 'returns false if you go too far' do
+        args[:x] = [{}]
+        expect(inputs.given?(:x, 10, :y)).to be false
+      end
+    end
+
+    context 'multi-part date values' do
+      let(:base_class) do
+        Class.new(ActiveInteraction::Base) do
+          date :thing,
+            default: nil
+
+          def execute; end
+        end
+      end
+
+      it 'returns true when the input is given' do
+        args.merge!(
+          'thing(1i)' => '2020',
+          'thing(2i)' => '12',
+          'thing(3i)' => '31'
+        )
+        expect(inputs.given?(:thing)).to be true
+      end
+
+      it 'returns false if not found' do
+        expect(inputs.given?(:thing)).to be false
+      end
+    end
+  end
 end

@@ -1357,8 +1357,8 @@ Optional inputs can be defined by using the `:default` option as described in
 are merged to create `inputs`. There are times where it is useful to know
 whether a value was passed to `run` or the result of a filter default. In
 particular, it is useful when `nil` is an acceptable value. For example, you
-may optionally track your users' birthdays. You can use the `given?` predicate
-to see if an input was even passed to `run`. With `given?` you can also check
+may optionally track your users' birthdays. You can use the `inputs.given?` predicate
+to see if an input was even passed to `run`. With `inputs.given?` you can also check
 the input of a hash or array filter by passing a series of keys or indexes to
 check.
 
@@ -1369,7 +1369,7 @@ class UpdateUser < ActiveInteraction::Base
     default: nil
 
   def execute
-    user.birthday = birthday if given?(:birthday)
+    user.birthday = birthday if inputs.given?(:birthday)
     errors.merge!(user.errors) unless user.save
     user
   end

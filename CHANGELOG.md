@@ -6,8 +6,9 @@
 - Drop support for Ruby 2.5 and 2.6, adding support for 3.1
 - Drop support for Rails 5.0 and 5.1
 - `ActiveInteraction::Inputs` no longer inherits from `Hash` though it still has most of the methods
-  provided by `Hash`.
+  provided by `Hash` (methods that write were removed).
 - Removed `Filter#clean` (use `Filter#process` and call `#value` on the result)
+- The `given?` method has been moved onto `inputs`. ([how to upgrade](#given?))
 
 ## Added
 
@@ -18,6 +19,32 @@
 - When passing an `ActiveRecord::Relation` in an array filter with no inner
   filter, the value returned was an `ActiveRecord::Relation` instead of an
   Array.
+
+## Upgrading
+
+### `given?`
+
+The `given?` method can now be found on `inputs`. It works the same as before.
+
+```ruby
+# 4.1
+class Example < ActiveInteraction::Base
+  string :name, default: nil
+
+  def execute
+    given?(:name)
+  end
+end
+
+# 5.0
+class Example < ActiveInteraction::Base
+  string :name, default: nil
+
+  def execute
+    inputs.given?(:name)
+  end
+end
+```
 
 # [4.1.0][] (2021-12-30)
 

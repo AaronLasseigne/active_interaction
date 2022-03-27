@@ -18,12 +18,6 @@ module ActiveInteraction
     private_constant :GROUPED_INPUT_PATTERN
 
     class << self
-      # @private
-      def keys_for_group?(keys, group_key)
-        search_key = /\A#{group_key}\(\d+i\)\z/
-        keys.any? { |key| search_key.match?(key) }
-      end
-
       # Checking `syscall` is the result of what appears to be a bug in Ruby.
       # https://bugs.ruby-lang.org/issues/15597
       # @private
@@ -44,6 +38,7 @@ module ActiveInteraction
     # @private
     def initialize(raw_inputs, base)
       @raw_inputs = raw_inputs
+      @base = base
       @normalized_inputs = normalize(raw_inputs)
       @inputs = base.class.filters.each_with_object({}) do |(name, filter), inputs|
         inputs[name] = filter.process(@normalized_inputs[name], base)
@@ -96,6 +91,75 @@ module ActiveInteraction
       :values,
       :values_at
 
+    # Returns `true` if the given key was in the hash passed to {.run}.
+    # Otherwise returns `false`. Use this to figure out if an input was given,
+    # even if it was `nil`. Keys within nested hash filter can also be checked
+    # by passing them in series. Arrays can be checked in the same manor as
+    # hashes by passing an index.
+    #
+    # @example
+    #   class Example < ActiveInteraction::Base
+    #     integer :x, default: nil
+    #     def execute; given?(:x) end
+    #   end
+    #   Example.run!()        # => false
+    #   Example.run!(x: nil)  # => true
+    #   Example.run!(x: rand) # => true
+    #
+    # @example Nested checks
+    #   class Example < ActiveInteraction::Base
+    #     hash :x, default: {} do
+    #       integer :y, default: nil
+    #     end
+    #     array :a, default: [] do
+    #       integer
+    #     end
+    #     def execute; given?(:x, :y) || given?(:a, 2) end
+    #   end
+    #   Example.run!()               # => false
+    #   Example.run!(x: nil)         # => false
+    #   Example.run!(x: {})          # => false
+    #   Example.run!(x: { y: nil })  # => true
+    #   Example.run!(x: { y: rand }) # => true
+    #   Example.run!(a: [1, 2])      # => false
+    #   Example.run!(a: [1, 2, 3])   # => true
+    #
+    # @param input [#to_sym]
+    #
+    # @return [Boolean]
+    #
+    # rubocop:disable all
+    def given?(input, *rest)
+      filter_level = @base.class
+      input_level = @raw_inputs
+
+      [input, *rest].each do |key_or_index|
+        if key_or_index.is_a?(Symbol) || key_or_index.is_a?(String)
+          key = key_or_index.to_sym
+          key_to_s = key_or_index.to_s
+          filter_level = filter_level.filters[key]
+
+          break false if filter_level.nil? || input_level.nil?
+          if filter_level.accepts_grouped_inputs?
+            break false unless input_level.key?(key) || input_level.key?(key_to_s) || keys_for_group?(input_level.keys, key)
+          else
+            break false unless input_level.key?(key) || input_level.key?(key_to_s)
+          end
+
+          input_level = input_level[key] || input_level[key_to_s]
+        else
+          index = key_or_index
+          filter_level = filter_level.filters.first.last
+
+          break false if filter_level.nil? || input_level.nil?
+          break false unless index.between?(-input_level.size, input_level.size - 1)
+
+          input_level = input_level[index]
+        end
+      end && true
+    end
+    # rubocop:enable all
+
     private
 
     def normalize(inputs)
@@ -124,6 +188,11 @@ module ActiveInteraction
 
       inputs[key] = GroupedInput.new unless inputs[key].is_a?(GroupedInput)
       inputs[key][index] = value
+    end
+
+    def keys_for_group?(keys, group_key)
+      search_key = /\A#{group_key}\(\d+i\)\z/
+      keys.any? { |key| search_key.match?(key) }
     end
   end
 end
