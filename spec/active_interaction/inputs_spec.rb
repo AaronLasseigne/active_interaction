@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 describe ActiveInteraction::Inputs do
-  subject(:inputs) { described_class.new }
+  subject(:inputs) { described_class.new(args, base_class.new) }
+
+  let(:args) { {} }
+  let(:base_class) { ActiveInteraction::Base }
 
   describe '.reserved?(name)' do
     it 'returns true for anything starting with "_interaction_"' do
@@ -23,11 +26,10 @@ describe ActiveInteraction::Inputs do
   end
 
   describe '#normalized' do
-    let(:inputs) { {} }
-    let(:result) { described_class.new(inputs, ActiveInteraction::Base.new).normalized }
+    let(:result) { inputs.normalized }
 
     context 'with invalid inputs' do
-      let(:inputs) { nil }
+      let(:args) { nil }
 
       it 'raises an error' do
         expect { result }.to raise_error ArgumentError
@@ -35,7 +37,7 @@ describe ActiveInteraction::Inputs do
     end
 
     context 'with non-hash inputs' do
-      let(:inputs) { [%i[k v]] }
+      let(:args) { [%i[k v]] }
 
       it 'raises an error' do
         expect { result }.to raise_error ArgumentError
@@ -43,7 +45,7 @@ describe ActiveInteraction::Inputs do
     end
 
     context 'with ActionController::Parameters inputs' do
-      let(:inputs) { ActionController::Parameters.new }
+      let(:args) { ::ActionController::Parameters.new }
 
       it 'does not raise an error' do
         expect { result }.to_not raise_error
@@ -51,17 +53,17 @@ describe ActiveInteraction::Inputs do
     end
 
     context 'with simple inputs' do
-      before { inputs[:key] = :value }
+      before { args[:key] = :value }
 
       it 'sends them straight through' do
-        expect(result).to eql inputs
+        expect(result).to eql args
       end
     end
 
     context 'with groupable inputs' do
       context 'without a matching simple input' do
         before do
-          inputs.merge!(
+          args.merge!(
             'key(1i)' => :value1,
             'key(2i)' => :value2
           )
@@ -79,7 +81,7 @@ describe ActiveInteraction::Inputs do
 
       context 'with a matching simple input' do
         before do
-          inputs.merge!(
+          args.merge!(
             'key(1i)' => :value1,
             key: :value2
           )
@@ -96,7 +98,7 @@ describe ActiveInteraction::Inputs do
     end
 
     context 'with a reserved name' do
-      before { inputs[:_interaction_key] = :value }
+      before { args[:_interaction_key] = :value }
 
       it 'skips the input' do
         expect(result).to_not have_key(:_interaction_key)
