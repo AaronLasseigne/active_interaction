@@ -2,6 +2,7 @@
 
 require 'active_model'
 require 'active_support/core_ext/hash/indifferent_access'
+require 'action_controller'
 
 # Manage application specific business logic.
 #
