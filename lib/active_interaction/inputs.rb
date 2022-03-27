@@ -37,7 +37,6 @@ module ActiveInteraction
 
     # @private
     def initialize(raw_inputs, base)
-      @raw_inputs = raw_inputs
       @base = base
       @normalized_inputs = normalize(raw_inputs)
       @inputs = base.class.filters.each_with_object({}) do |(name, filter), inputs|
@@ -131,7 +130,7 @@ module ActiveInteraction
     # rubocop:disable all
     def given?(input, *rest)
       filter_level = @base.class
-      input_level = @raw_inputs
+      input_level = @normalized_inputs
 
       [input, *rest].each do |key_or_index|
         if key_or_index.is_a?(Symbol) || key_or_index.is_a?(String)
@@ -140,11 +139,7 @@ module ActiveInteraction
           filter_level = filter_level.filters[key]
 
           break false if filter_level.nil? || input_level.nil?
-          if filter_level.accepts_grouped_inputs?
-            break false unless input_level.key?(key) || input_level.key?(key_to_s) || keys_for_group?(input_level.keys, key)
-          else
-            break false unless input_level.key?(key) || input_level.key?(key_to_s)
-          end
+          break false unless input_level.key?(key) || input_level.key?(key_to_s)
 
           input_level = input_level[key] || input_level[key_to_s]
         else
@@ -188,11 +183,6 @@ module ActiveInteraction
 
       inputs[key] = GroupedInput.new unless inputs[key].is_a?(GroupedInput)
       inputs[key][index] = value
-    end
-
-    def keys_for_group?(keys, group_key)
-      search_key = /\A#{group_key}\(\d+i\)\z/
-      keys.any? { |key| search_key.match?(key) }
     end
   end
 end
