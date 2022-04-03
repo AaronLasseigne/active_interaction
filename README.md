@@ -1025,7 +1025,7 @@ interaction's lifecycle.
 
 ``` rb
 class Increment < ActiveInteraction::Base
-  set_callback :type_check, :before, -> { puts 'before type check' }
+  set_callback :filter, :before, -> { puts 'before type check' }
 
   integer :x
 
@@ -1055,7 +1055,7 @@ Increment.run!(x: 1)
 # => 2
 ```
 
-In order, the available callbacks are `type_check`, `validate`, and `execute`.
+In order, the available callbacks are `filter`, `validate`, and `execute`.
 You can set `before`, `after`, or `around` on any of them.
 
 ### Composition

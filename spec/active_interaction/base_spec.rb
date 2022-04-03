@@ -455,7 +455,7 @@ describe ActiveInteraction::Base do
   context 'callbacks' do
     let(:described_class) { Class.new(TestInteraction) }
 
-    %w[type_check validate execute].each do |name|
+    %w[filter validate execute].each do |name|
       %w[before after around].map(&:to_sym).each do |type|
         it "runs the #{type} #{name} callback" do
           called = false
@@ -466,9 +466,9 @@ describe ActiveInteraction::Base do
       end
     end
 
-    context 'with errors during type_check' do
+    context 'with errors during filter' do
       before do
-        described_class.set_callback(:type_check, :before) do
+        described_class.set_callback(:filter, :before) do
           errors.add(:base)
         end
       end

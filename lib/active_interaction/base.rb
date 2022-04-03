@@ -30,7 +30,7 @@ module ActiveInteraction
     include ActiveRecordable
     include Runnable
 
-    define_callbacks :type_check
+    define_callbacks :filter
 
     class << self
       include Hashable
@@ -196,15 +196,15 @@ module ActiveInteraction
     protected
 
     def run_validations!
-      type_check
+      filter
 
       super if errors.empty?
     end
 
     private
 
-    def type_check
-      run_callbacks(:type_check) do
+    def filter
+      run_callbacks(:filter) do
         Validation.validate(self, self.class.filters, inputs).each do |attr, type, kwargs = {}|
           errors.add(attr, type, **kwargs)
         end
