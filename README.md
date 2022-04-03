@@ -51,7 +51,7 @@ handles your verbs.
   - [Descriptions](#descriptions)
   - [Errors](#errors)
   - [Forms](#forms)
-  - [Grouped inputs](#grouped-inputs)
+  - [Shared input options](#shared-input-options)
   - [Optional inputs](#optional-inputs)
   - [Translations](#translations)
 - [Credits](#credits)
@@ -1337,7 +1337,7 @@ used to define the inputs on your interaction will relay type information to
 these gems. As a result, form fields will automatically use the appropriate
 input type.
 
-### Grouped inputs
+### Shared input options
 
 It can be convenient to apply the same options to a bunch of inputs. One common
 use case is making many inputs optional. Instead of setting `default: nil` on
