@@ -118,7 +118,7 @@ end
 
 ## Added
 
-- Implicit coercion of types are now supported in filters (e.g. to_str, to_int,
+- Implicit coercion of types are now supported in filters (e.g. `to_str`, `to_int`,
   etc).
 - The `interface` and `record` filters, when used as an inner filter for an
   `array`, will have their `from/class` option set to a singularized version of
