@@ -492,7 +492,8 @@ object. If the value does not match, it will call `find` on the class of the
 record. This is particularly useful when working with ActiveRecord objects.
 Like an object filter, the class is derived from the name passed but can be
 specified with the `class` option. Any `default` that is not an instance of the
-class or subclass and is not `nil` will also be found.
+class or subclass and is not `nil` will also be found. Blank strings passed in
+will be treated as `nil`.
 
 ``` rb
 class RecordInteraction < ActiveInteraction::Base

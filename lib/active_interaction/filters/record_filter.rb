@@ -44,8 +44,16 @@ module ActiveInteraction
     end
 
     def convert(value)
+      return nil if blank_string?(value)
+
       finder = options.fetch(:finder, :find)
       find(klass, value, finder)
+    end
+
+    def blank_string?(value)
+      value.is_a?(String) && value.blank?
+    rescue NoMethodError # BasicObject
+      false
     end
 
     def find(klass, value, finder)

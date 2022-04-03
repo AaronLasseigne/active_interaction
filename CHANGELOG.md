@@ -9,6 +9,7 @@
   provided by `Hash` (methods that write were removed).
 - Removed `Filter#clean` (use `Filter#process` and call `#value` on the result)
 - The `given?` method has been moved onto `inputs`. ([how to upgrade](#given?))
+- [#503][] - The record filter now treats blank strings value as `nil`. This was missed in the 4.0 update.
 
 ## Added
 

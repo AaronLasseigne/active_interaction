@@ -14,11 +14,7 @@ class RecordThing
   end
 
   def self.finds_bad_value(_)
-    ''
-  end
-
-  def self.passthrough(obj)
-    obj
+    Object.new
   end
 end
 
@@ -34,10 +30,6 @@ describe ActiveInteraction::RecordFilter, :filter do
   it_behaves_like 'a filter'
 
   describe '#process' do
-    before do
-      options[:finder] = :finder
-    end
-
     let(:value) { RecordThing.new }
     let(:result) { filter.process(value, nil) }
 
@@ -130,20 +122,28 @@ describe ActiveInteraction::RecordFilter, :filter do
     end
 
     context 'with a value that does not match the class' do
-      let(:value) { '' }
+      let(:value) { 1 }
 
-      it 'calls the finder' do
-        expect(result.value).to eql RecordThing.finder(value)
+      it 'calls the default finder' do
+        allow(RecordThing).to receive(:find)
+        result
+        expect(RecordThing).to have_received(:find).with(value)
       end
 
       context 'with a custom finder' do
+        before do
+          options[:finder] = :finder
+        end
+
         it 'calls the custom finder' do
-          expect(result.value).to eql RecordThing.finder(value)
+          allow(RecordThing).to receive(:finder)
+          result
+          expect(RecordThing).to have_received(:finder).with(value)
         end
       end
 
       context 'that returns a nil' do
-        let(:value) { '' }
+        let(:value) { 1 }
 
         before do
           options[:default] = RecordThing.new
@@ -158,7 +158,7 @@ describe ActiveInteraction::RecordFilter, :filter do
       end
 
       context 'that returns an invalid value' do
-        let(:value) { '' }
+        let(:value) { 1 }
 
         before do
           options[:finder] = :finds_bad_value
@@ -168,6 +168,28 @@ describe ActiveInteraction::RecordFilter, :filter do
           expect(
             filter.process(value, nil).error
           ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        end
+      end
+    end
+
+    context 'with a blank String' do
+      let(:value) { ' ' }
+
+      context 'optional' do
+        include_context 'optional'
+
+        it 'returns the default' do
+          expect(filter.process(value, nil).value).to eql options[:default]
+        end
+      end
+
+      context 'required' do
+        include_context 'required'
+
+        it 'indicates an error' do
+          expect(
+            filter.process(value, nil).error
+          ).to be_an_instance_of ActiveInteraction::MissingValueError
         end
       end
     end
