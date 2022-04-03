@@ -6,7 +6,7 @@ module ActiveInteraction
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are DateTimes. String values are processed using
     #     `parse` unless the format option is given, in which case they will be
-    #     processed with `strptime`.
+    #     processed with `strptime`. Blank strings are treated as a `nil` value.
     #
     #   @!macro filter_method_params
     #   @option options [String] :format parse strings using this format string

@@ -6,7 +6,8 @@ module ActiveInteraction
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are Booleans. The strings `"1"`, `"true"`, and `"on"`
     #     (case-insensitive) are converted to `true` while the strings `"0"`,
-    #     `"false"`, and `"off"` are converted to `false`.
+    #     `"false"`, and `"off"` are converted to `false`. Blank strings are
+    #     treated as a `nil` value.
     #
     #   @!macro filter_method_params
     #

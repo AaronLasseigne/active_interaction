@@ -4,7 +4,9 @@ module ActiveInteraction
   class Base # rubocop:disable Lint/EmptyClass
     # @!method self.record(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
-    #     the attributes are the correct class.
+    #     the attributes are the correct class. Blank strings passed in will be
+    #     treated as `nil` and the `finder` will not be called.
+
     #
     #   @!macro filter_method_params
     #   @option options [Class, String, Symbol] :class (use the attribute name)

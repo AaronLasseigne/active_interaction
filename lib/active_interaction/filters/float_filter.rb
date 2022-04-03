@@ -5,7 +5,7 @@ module ActiveInteraction
     # @!method self.float(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are Floats. Integer and String values are converted
-    #     into Floats.
+    #     into Floats. Blank strings are treated as a `nil` value.
     #
     #   @!macro filter_method_params
     #

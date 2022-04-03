@@ -7,7 +7,7 @@ module ActiveInteraction
     # @!method self.decimal(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are BigDecimals. Numerics and String values are
-    #     converted into BigDecimals.
+    #     converted into BigDecimals. Blank strings are treated as a `nil` value.
     #
     #   @!macro filter_method_params
     #

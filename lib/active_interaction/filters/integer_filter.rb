@@ -5,7 +5,7 @@ module ActiveInteraction
     # @!method self.integer(*attributes, options = {})
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are Integers. String values are converted into
-    #     Integers.
+    #     Integers. Blank strings are treated as a `nil` value.
     #
     #   @!macro filter_method_params
     #   @option options [Integer] :base (10) The base used to convert strings

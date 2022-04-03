@@ -6,9 +6,9 @@ module ActiveInteraction
     #   Creates accessors for the attributes and ensures that values passed to
     #     the attributes are Times. Numeric values are processed using `at`.
     #     Strings are processed using `parse` unless the format option is
-    #     given, in which case they will be processed with `strptime`. If
-    #     `Time.zone` is available it will be used so that the values are time
-    #     zone aware.
+    #     given, in which case they will be processed with `strptime`. Blank
+    #     strings are treated as a `nil` value. If `Time.zone` is available it
+    #     will be used so that the values are time zone aware.
     #
     #   @!macro filter_method_params
     #   @option options [String] :format parse strings using this format string
