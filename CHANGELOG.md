@@ -1249,3 +1249,4 @@ Example.run
   [#480]: https://github.com/AaronLasseigne/active_interaction/issues/480
   [#515]: https://github.com/AaronLasseigne/active_interaction/issues/515
   [#518]: https://github.com/AaronLasseigne/active_interaction/issues/518
+  [#503]: https://github.com/AaronLasseigne/active_interaction/issues/503
