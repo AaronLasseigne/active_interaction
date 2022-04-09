@@ -73,8 +73,7 @@ $ gem install active_interaction --version '~> 4.1'
 ```
 
 This project uses [Semantic Versioning][]. Check out [GitHub releases][] for a
-detailed list of changes. For help upgrading to version 2, please read [the
-announcement post][].
+detailed list of changes.
 
 ## Basic usage
 
