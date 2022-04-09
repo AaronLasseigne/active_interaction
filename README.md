@@ -736,10 +736,7 @@ resourceful actions.
 
 We recommend putting your interactions in `app/interactions`. It's also very
 helpful to group them by model. That way you can look in
-`app/interactions/accounts` for all the ways you can interact with accounts. In
-order to use this structure add
-`config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")` in
-your `application.rb`
+`app/interactions/accounts` for all the ways you can interact with accounts.
 
 ```
 - app/
