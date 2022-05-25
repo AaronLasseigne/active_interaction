@@ -1,0 +1,11 @@
+root = true
+
+# Everywhere
+[*]
+end_of_line = lf # Unix-style newlines
+trim_trailing_whitespace = true
+
+# Ruby
+[.rb, .rbs, .rake, Rakefile]
+indent_style = space
+indent_size = 2
