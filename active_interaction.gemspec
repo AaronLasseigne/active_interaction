@@ -1,43 +1,42 @@
-lib = File.expand_path('lib', __dir__)
-$LOAD_PATH.push(lib) unless $LOAD_PATH.include?(lib)
+# frozen_string_literal: true
 
-require 'active_interaction/version'
+require_relative 'lib/active_interaction/version'
 
-Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
-  gem.name = 'active_interaction'
-  gem.version = ActiveInteraction::VERSION
-  gem.licenses = %w[MIT]
-
-  gem.summary = 'Manage application specific business logic.'
-  gem.description = <<-'TEXT'
-    ActiveInteraction manages application-specific business logic. It is an
-    implementation of service objects specifically built to work seamlessly
-    with Rails.
-  TEXT
-  gem.metadata = {
-    'homepage_uri' => 'https://github.com/AaronLasseigne/active_interaction',
-    'source_code_uri' => 'https://github.com/AaronLasseigne/active_interaction',
-    'changelog_uri' => 'https://github.com/AaronLasseigne/active_interaction/blob/master/CHANGELOG.md',
-    'rubygems_mfa_required' => 'true'
-  }
-
-  gem.required_ruby_version = '>= 2.7'
+Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
+  spec.name = 'active_interaction'
+  spec.version = ActiveInteraction::VERSION
+  spec.license = 'MIT'
 
   {
     'Aaron Lasseigne' => 'aaron.lasseigne@gmail.com',
     'Taylor Fausak' => 'taylor@fausak.me'
   }.tap do |hash|
-    gem.authors = hash.keys
-    gem.email = hash.values
+    spec.authors = hash.keys
+    spec.email = hash.values
   end
 
-  gem.files =
+  spec.summary = 'Manage application specific business logic.'
+  spec.description = <<~'TEXT'
+    ActiveInteraction manages application-specific business logic. It is an
+    implementation of what are called service objects, interactors, or the
+    command pattern. No matter what you call it, its built to work seamlessly
+    with Rails.
+  TEXT
+  spec.homepage = 'https://github.com/AaronLasseigne/active_interaction'
+  spec.metadata['homepage_uri'] = spec.homepage
+  spec.metadata['source_code_uri'] = spec.homepage
+  spec.metadata['changelog_uri'] = "#{spec.homepage}/blob/main/CHANGELOG.md"
+  spec.metadata['rubygems_mfa_required'] = 'true'
+
+  spec.required_ruby_version = '>= 2.7'
+
+  spec.files =
     %w[CHANGELOG.md CONTRIBUTING.md LICENSE.md README.md] +
     Dir.glob(File.join('lib', '**', '*.rb')) +
     Dir.glob(File.join('lib', 'active_interaction', 'locale', '*.yml'))
-  gem.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
+  spec.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
 
-  gem.add_dependency 'rails', '>= 5.2', '< 8'
+  spec.add_dependency 'rails', '>= 5.2', '< 8'
 
   {
     'kramdown' => ['~> 2.1'],
@@ -49,6 +48,6 @@ Gem::Specification.new do |gem| # rubocop:disable Metrics/BlockLength
     'sqlite3' => [],
     'yard' => ['~> 0.9']
   }.each do |name, versions|
-    gem.add_development_dependency name, *versions
+    spec.add_development_dependency name, *versions
   end
 end
