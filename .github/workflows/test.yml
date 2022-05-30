@@ -10,9 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install Prerequisites
-      run: sudo apt install libsqlite3-dev
-
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
