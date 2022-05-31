@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'action_controller'
+require 'active_support/core_ext/kernel/reporting'
 
 InteractionWithFilter = Class.new(TestInteraction) do
   float :thing
