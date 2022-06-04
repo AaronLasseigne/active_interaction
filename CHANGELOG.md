@@ -11,6 +11,9 @@
 - The `given?` method has been moved onto `inputs`. ([how to upgrade](#given?))
 - [#503][] - The record filter now treats blank strings value as `nil`. This was missed in the 4.0 update.
 - The `type_check` callback has been renamed to `filter` to better match the reality of what it does.
+- Errors on the array filter will now be indexed if the Rails config `index_nested_attribute_errors`
+  is `true` or the `:index_errors` option is set to `true`. The `:index_errors` option always overrides
+  the Rails config.
 
 ## Added
 

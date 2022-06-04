@@ -36,7 +36,9 @@ module ActiveInteraction
   # Raised if a user-supplied value is invalid.
   #
   # @return [Class]
-  InvalidValueError = Class.new(Error)
+  class InvalidValueError < Error
+    attr_accessor :index
+  end
 
   # Raised if a filter cannot be found.
   #
@@ -103,10 +105,15 @@ module ActiveInteraction
       self
     end
 
+    # @private
+    def deindex_attribute(attribute)
+      attribute.to_s.remove(/\[\d+\]/)
+    end
+
     private
 
     def attribute?(attribute)
-      @base.respond_to?(attribute)
+      @base.respond_to?(deindex_attribute(attribute))
     end
 
     def detailed_error?(detail)

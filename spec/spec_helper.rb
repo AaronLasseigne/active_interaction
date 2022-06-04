@@ -8,4 +8,12 @@ Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run_including :focus
+
+  config.before(:suite) do
+    if ::ActiveRecord.respond_to?(:index_nested_attribute_errors)
+      ::ActiveRecord.index_nested_attribute_errors = false
+    else
+      ::ActiveRecord::Base.index_nested_attribute_errors = false
+    end
+  end
 end

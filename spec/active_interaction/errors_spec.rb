@@ -11,10 +11,9 @@ describe ActiveInteraction::Errors do
   subject(:errors) { described_class.new(klass.new) }
 
   let(:klass) do
-    Class.new do
-      include ActiveInteraction::ActiveModelable
-
-      attr_reader :attribute
+    Class.new(ActiveInteraction::Base) do
+      string :attribute, defualt: nil
+      array :array, defualt: nil
 
       def self.name
         @name ||= SecureRandom.hex
@@ -117,6 +116,25 @@ describe ActiveInteraction::Errors do
 
       it 'does not raise an error' do
         expect { errors.merge!(other) }.to_not raise_error
+      end
+    end
+
+    context 'with nested index errors' do
+      let(:other) { described_class.new(klass.new) }
+
+      before do
+        if ::ActiveRecord.respond_to?(:index_nested_attribute_errors)
+          allow(::ActiveRecord).to receive(:index_nested_attribute_errors).and_return(true)
+        else
+          allow(::ActiveRecord::Base).to receive(:index_nested_attribute_errors).and_return(true)
+        end
+
+        other.add(:'array[0]')
+      end
+
+      it 'adds the error' do
+        errors.merge!(other)
+        expect(errors.messages[:'array[0]']).to eql ['is invalid']
       end
     end
 

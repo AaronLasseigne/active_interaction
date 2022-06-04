@@ -193,6 +193,11 @@ module ActiveInteraction
       @_interaction_inputs
     end
 
+    # @private
+    def read_attribute_for_validation(attribute)
+      super(errors.deindex_attribute(attribute))
+    end
+
     protected
 
     def run_validations!

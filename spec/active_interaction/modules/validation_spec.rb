@@ -40,15 +40,32 @@ describe ActiveInteraction::Validation do
       end
 
       context 'InvalidValueError' do
-        let(:exception) { ActiveInteraction::InvalidValueError }
-        let(:filter) { ActiveInteraction::FloatFilter.new(:name, {}) }
+        let(:filter) { ActiveInteraction::ArrayFilter.new(:name, [1.0, 'a']) { float } }
 
-        it 'returns an :invalid_type error' do
-          type = I18n.translate(
-            "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
-          )
+        context 'when the error has no index' do
+          let(:exception) { ActiveInteraction::InvalidValueError }
 
-          expect(result).to eql [[filter.name, :invalid_type, { type: type }]]
+          it 'returns an :invalid_type error' do
+            type = I18n.translate(
+              "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
+            )
+
+            expect(result).to eql [[filter.name, :invalid_type, { type: type }]]
+          end
+        end
+
+        context 'when the error has an index' do
+          let(:exception) do
+            ActiveInteraction::InvalidValueError.new.tap { |e| e.index = 1 }
+          end
+
+          it 'returns an :invalid_type error' do
+            type = I18n.translate(
+              "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
+            )
+
+            expect(result).to eql [[:"#{filter.name}[1]", :invalid_type, { type: type }]]
+          end
         end
       end
 

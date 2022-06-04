@@ -35,12 +35,16 @@ module ActiveInteraction
             { name: error.filter_name.inspect, value: error.input_value.inspect }
           ]
         when InvalidValueError
-          [filter.name, :invalid_type, { type: type(filter) }]
+          [name_with_index(filter.name, error.index), :invalid_type, { type: type(filter) }]
         when MissingValueError
           [filter.name, :missing]
         else
           raise "invalid error #{error}"
         end
+      end
+
+      def name_with_index(name, index)
+        index ? :"#{name}[#{index}]" : name
       end
     end
   end

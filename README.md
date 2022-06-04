@@ -260,6 +260,31 @@ array :managers do
 end
 ```
 
+Errors that occur will be indexed based on the Rails configuration setting
+`index_nested_attribute_errors`. You can also manually override this setting
+with the `:index_errors` option.
+
+```ruby
+class ArrayInteraction < ActiveInteraction::Base
+  array :favorite_numbers, index_errors: true do
+    integer
+  end
+
+  def execute
+    favorite_numbers
+  end
+end
+
+ArrayInteraction.run(favorite_numbers: [8, 'bazillion']).errors.details
+=> {:"favorite_numbers[1]"=>[{:error=>:invalid_type, :type=>"array"}]}
+```
+
+With `:index_errors` set to `false` the error would have been:
+
+```ruby
+{:favorite_numbers=>[{:error=>:invalid_type, :type=>"array"}]}
+```
+
 ### Boolean
 
 Boolean filters convert the strings `"1"`, `"true"`, and `"on"`

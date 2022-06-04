@@ -111,6 +111,40 @@ describe ActiveInteraction::ArrayFilter, :filter do
             result.error
           ).to be_an_instance_of ActiveInteraction::InvalidValueError
         end
+
+        context 'when :index_errors is true' do
+          before do
+            options[:index_errors] = true
+          end
+
+          it 'attaches the index of the value where the error occurred' do
+            expect(result.error.index).to be 1
+          end
+        end
+
+        context 'when ActiveRecord.index_nested_attribute_errors is true' do
+          before do
+            if ::ActiveRecord.respond_to?(:index_nested_attribute_errors)
+              allow(::ActiveRecord).to receive(:index_nested_attribute_errors).and_return(true)
+            else
+              allow(::ActiveRecord::Base).to receive(:index_nested_attribute_errors).and_return(true)
+            end
+          end
+
+          it 'attaches the index of the value where the error occurred' do
+            expect(result.error.index).to be 1
+          end
+
+          context 'when :index_errors is false' do
+            before do
+              options[:index_errors] = false
+            end
+
+            it 'does not attach the index' do
+              expect(result.error.index).to be_nil
+            end
+          end
+        end
       end
     end
 

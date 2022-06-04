@@ -8,6 +8,8 @@ module ActiveInteraction
     #
     #   @!macro filter_method_params
     #   @param block [Proc] filter method to apply to each element
+    #   @option options [Boolean] :index_errors (ActiveRecord.index_nested_attribute_errors) returns errors with an
+    #     index
     #
     #   @example
     #     array :ids
@@ -47,9 +49,12 @@ module ActiveInteraction
       children = []
 
       unless filters.empty?
-        value.map do |item|
+        value.map.with_index do |item, i|
           filters[:'0'].process(item, context).tap do |result|
-            error ||= InvalidValueError.new if result.error
+            if !error && result.error
+              error = InvalidValueError.new
+              error.index = i if index_errors?
+            end
             children.push(result)
           end
         end
@@ -59,6 +64,16 @@ module ActiveInteraction
     end
 
     private
+
+    def index_errors?
+      default =
+        if ::ActiveRecord.respond_to?(:index_nested_attribute_errors)
+          ::ActiveRecord.index_nested_attribute_errors # Moved to here in Rails 7.0
+        else
+          ::ActiveRecord::Base.index_nested_attribute_errors
+        end
+      options.fetch(:index_errors, default)
+    end
 
     def klasses
       %w[
