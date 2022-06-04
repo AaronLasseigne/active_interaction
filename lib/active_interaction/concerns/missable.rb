@@ -7,6 +7,8 @@ module ActiveInteraction
   module Missable
     extend ActiveSupport::Concern
 
+    private
+
     # @param slug [Symbol]
     #
     # @yield [klass, args, options]
@@ -25,8 +27,6 @@ module ActiveInteraction
 
       self
     end
-
-    private
 
     # @param slug [Symbol]
     #

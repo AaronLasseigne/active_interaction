@@ -88,7 +88,8 @@ module ActiveInteraction
         # rubocop:enable Naming/MemoizedInstanceVariableName
       end
 
-      # @private
+      private
+
       # rubocop:disable Style/MissingRespondToMissing
       def method_missing(*args, &block)
         super do |klass, names, options|
@@ -98,8 +99,6 @@ module ActiveInteraction
         end
       end
       # rubocop:enable Style/MissingRespondToMissing
-
-      private
 
       # @param klass [Class]
       # @param name [Symbol]

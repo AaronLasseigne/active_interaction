@@ -45,7 +45,7 @@ describe ActiveInteraction::Missable do
 
       it 'calls super' do
         expect do
-          instance.method_missing(slug)
+          instance.public_send(slug)
         end.to raise_error NameError
       end
     end
@@ -55,12 +55,12 @@ describe ActiveInteraction::Missable do
       let(:slug) { :boolean }
 
       it 'returns self' do
-        expect(instance.method_missing(slug)).to eql instance
+        expect(instance.public_send(slug)).to eql instance
       end
 
       it 'yields' do
         expect do |b|
-          instance.method_missing(slug, &b)
+          instance.public_send(slug, &b)
         end.to yield_with_args(filter, [], {})
       end
 
@@ -69,7 +69,7 @@ describe ActiveInteraction::Missable do
 
         it 'yields' do
           expect do |b|
-            instance.method_missing(:boolean, *names, &b)
+            instance.public_send(:boolean, *names, &b)
           end.to yield_with_args(filter, names, {})
         end
       end
@@ -79,7 +79,7 @@ describe ActiveInteraction::Missable do
 
         it 'yields' do
           expect do |b|
-            instance.method_missing(:boolean, options, &b)
+            instance.public_send(:boolean, options, &b)
           end.to yield_with_args(filter, [], options)
         end
       end
@@ -90,7 +90,7 @@ describe ActiveInteraction::Missable do
 
         it 'yields' do
           expect do |b|
-            instance.method_missing(:boolean, *names, options, &b)
+            instance.public_send(:boolean, *names, options, &b)
           end.to yield_with_args(filter, names, options)
         end
       end
