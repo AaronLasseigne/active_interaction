@@ -1466,6 +1466,19 @@ I18nInteraction.run(name: false).errors.messages[:name]
 # => ["gnirts dilav a ton si"]
 ```
 
+Everything else works like an `activerecord` entry. For example, to rename an
+attribute you can use `attributes`.
+
+Here we'll rename the `num` attribute on an interaction named `product`:
+
+``` yml
+en:
+  active_interaction:
+    attributes:
+      product:
+        num: 'Number'
+```
+
 ## Credits
 
 ActiveInteraction is brought to you by [Aaron Lasseigne][].
