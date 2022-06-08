@@ -22,11 +22,11 @@ describe ActiveInteraction::Validation do
       end
     end
 
-    context 'filter.cast returns a value' do
+    context 'filter returns no errors' do
       let(:inputs) { { name: 1 } }
 
       before do
-        allow(filter).to receive(:cast).and_return(1)
+        allow(filter).to receive(:process).and_return(ActiveInteraction::Input.new(value: 1))
       end
 
       it 'returns no errors' do
@@ -34,16 +34,16 @@ describe ActiveInteraction::Validation do
       end
     end
 
-    context 'filter throws' do
+    context 'filter returns with errors' do
       before do
-        allow(filter).to receive(:cast).and_raise(exception)
+        allow(filter).to receive(:process).and_return(ActiveInteraction::Input.new(error: exception))
       end
 
       context 'InvalidValueError' do
         let(:filter) { ActiveInteraction::ArrayFilter.new(:name, [1.0, 'a']) { float } }
 
         context 'when the error has no index' do
-          let(:exception) { ActiveInteraction::InvalidValueError }
+          let(:exception) { ActiveInteraction::InvalidValueError.new }
 
           it 'returns an :invalid_type error' do
             type = I18n.translate(
@@ -84,7 +84,7 @@ describe ActiveInteraction::Validation do
       end
 
       context 'MissingValueError' do
-        let(:exception) { ActiveInteraction::MissingValueError }
+        let(:exception) { ActiveInteraction::MissingValueError.new }
 
         it 'returns a :missing error' do
           expect(result).to eql [[filter.name, :missing]]
