@@ -45,44 +45,6 @@ shared_examples_for 'a filter' do
     end
   end
 
-  describe '#cast' do
-    let(:value) { nil }
-    let(:result) { filter.send(:cast, value, nil) }
-
-    context 'optional' do
-      include_context 'optional'
-
-      it 'returns nil' do
-        expect(result).to be_nil
-      end
-    end
-
-    context 'required' do
-      include_context 'required'
-
-      it 'raises an error' do
-        expect { result }.to raise_error ActiveInteraction::MissingValueError
-      end
-
-      context 'with an invalid default' do
-        let(:value) { Object.new }
-
-        it 'raises an error' do
-          expect { result }.to raise_error ActiveInteraction::InvalidValueError
-        end
-      end
-    end
-
-    # BasicObject is missing a lot of methods
-    context 'with a BasicObject' do
-      let(:value) { BasicObject.new }
-
-      it 'raises an error' do
-        expect { result }.to raise_error ActiveInteraction::InvalidValueError
-      end
-    end
-  end
-
   describe '#process' do
     let(:value) { nil }
 
@@ -123,6 +85,17 @@ shared_examples_for 'a filter' do
         expect do
           filter.process(value, nil)
         end.to raise_error ActiveInteraction::InvalidDefaultError
+      end
+    end
+
+    # BasicObject is missing a lot of methods
+    context 'with a BasicObject' do
+      let(:value) { BasicObject.new }
+
+      it 'indicates an error' do
+        expect(
+          filter.process(value, nil).error
+        ).to be_an_instance_of ActiveInteraction::InvalidValueError
       end
     end
   end

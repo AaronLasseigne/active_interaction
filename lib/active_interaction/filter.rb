@@ -97,7 +97,8 @@ module ActiveInteraction
           value
         end
 
-      value = default(context) if value.nil? && error.nil?
+      # we can't use `nil?` because BasicObject doesn't have it
+      value = default(context) if value == nil && error.nil? # rubocop:disable Style/NilComparison
 
       Input.new(
         value: value,
