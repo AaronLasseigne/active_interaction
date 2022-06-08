@@ -38,6 +38,16 @@ module ActiveInteraction
   # @return [Class]
   class InvalidValueError < Error
     attr_accessor :index
+
+    def initialize(*args, index_error: false)
+      super(*args)
+
+      @index_error = index_error
+    end
+
+    def index_error?
+      @index_error
+    end
   end
 
   # Raised if a filter cannot be found.

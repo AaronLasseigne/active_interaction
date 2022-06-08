@@ -52,8 +52,8 @@ module ActiveInteraction
         value.map.with_index do |item, i|
           filters[:'0'].process(item, context).tap do |result|
             if !error && result.error
-              error = InvalidValueError.new
-              error.index = i if index_errors?
+              error = InvalidValueError.new(index_error: index_errors?)
+              error.index = i
             end
             children.push(result)
           end

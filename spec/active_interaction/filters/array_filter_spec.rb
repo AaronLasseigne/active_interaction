@@ -119,6 +119,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
 
           it 'attaches the index of the value where the error occurred' do
             expect(result.error.index).to be 1
+            expect(result.error).to be_index_error
           end
         end
 
@@ -133,6 +134,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
 
           it 'attaches the index of the value where the error occurred' do
             expect(result.error.index).to be 1
+            expect(result.error).to be_index_error
           end
 
           context 'when :index_errors is false' do
@@ -141,7 +143,8 @@ describe ActiveInteraction::ArrayFilter, :filter do
             end
 
             it 'does not attach the index' do
-              expect(result.error.index).to be_nil
+              expect(result.error.index).to be 1
+              expect(result.error).to_not be_index_error
             end
           end
         end

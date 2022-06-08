@@ -54,9 +54,23 @@ describe ActiveInteraction::Validation do
           end
         end
 
-        context 'when the error has an index' do
+        context 'when the error does not use an index' do
           let(:exception) do
             ActiveInteraction::InvalidValueError.new.tap { |e| e.index = 1 }
+          end
+
+          it 'returns an :invalid_type error' do
+            type = I18n.translate(
+              "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
+            )
+
+            expect(result).to eql [[filter.name, :invalid_type, { type: type }]]
+          end
+        end
+
+        context 'when the error uses an index' do
+          let(:exception) do
+            ActiveInteraction::InvalidValueError.new(index_error: true).tap { |e| e.index = 1 }
           end
 
           it 'returns an :invalid_type error' do
