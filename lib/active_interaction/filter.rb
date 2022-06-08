@@ -92,7 +92,7 @@ module ActiveInteraction
       value =
         begin
           cast(value, context)
-        rescue InvalidValueError, MissingValueError, InvalidNestedValueError => e
+        rescue InvalidValueError, MissingValueError => e
           error = e
           value
         end
