@@ -97,9 +97,6 @@ module ActiveInteraction
           value
         end
 
-      # we can't use `nil?` because BasicObject doesn't have it
-      value = default(context) if value == nil && error.nil? # rubocop:disable Style/NilComparison
-
       Input.new(
         value: value,
         error: error
@@ -214,7 +211,7 @@ module ActiveInteraction
       elsif value == nil # rubocop:disable Style/NilComparison
         raise MissingValueError, name unless default?
 
-        nil
+        default(context)
       elsif reconstantize
         send(__method__, value, context,
           convert: convert,
