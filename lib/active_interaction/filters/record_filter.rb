@@ -64,9 +64,7 @@ module ActiveInteraction
       raise InvalidValueError if result.nil?
 
       result
-    rescue StandardError => e
-      raise e if e.is_a?(InvalidConverterError)
-
+    rescue StandardError
       raise InvalidValueError
     end
   end
