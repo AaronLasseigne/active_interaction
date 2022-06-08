@@ -88,14 +88,7 @@ module ActiveInteraction
     #
     # @raise (see #default)
     def process(value, context)
-      error = nil
-      value =
-        begin
-          cast(value, context)
-        rescue InvalidValueError, MissingValueError => e
-          error = e
-          value
-        end
+      value, error = cast(value, context)
 
       Input.new(
         value: value,
@@ -201,29 +194,21 @@ module ActiveInteraction
 
     private
 
-    # @raise [MissingValueError] If the value is missing and there is no
-    #   default.
-    # @raise [InvalidValueError] If the value is invalid.
     def cast(value, context, convert: true, reconstantize: true)
       if matches?(value)
-        adjust_output(value, context)
-      # we can't use `nil?` because BasicObject doesn't have it
-      elsif value == nil # rubocop:disable Style/NilComparison
-        raise MissingValueError, name unless default?
-
-        default(context)
+        [adjust_output(value, context), nil]
+      elsif value == nil # rubocop:disable Style/NilComparison - BasicObject does not have `nil?`
+        default? ? [default(context), nil] : [value, MissingValueError.new(name)]
       elsif reconstantize
-        send(__method__, value, context,
-          convert: convert,
-          reconstantize: false
-        )
+        send(__method__, value, context, convert: convert, reconstantize: false)
       elsif convert
-        send(__method__, convert(value), context,
-          convert: false,
-          reconstantize: reconstantize
-        )
+        begin
+          send(__method__, convert(value), context, convert: false, reconstantize: reconstantize)
+        rescue InvalidValueError => e
+          [value, e]
+        end
       else
-        raise InvalidValueError, "#{name}: #{describe(value)}"
+        [value, InvalidValueError.new("#{name}: #{describe(value)}")]
       end
     end
 
