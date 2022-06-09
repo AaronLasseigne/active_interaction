@@ -32,7 +32,11 @@ module ActiveInteraction
     # @return [Object] If there are no validation errors.
     # @return [nil] If there are validation errors.
     def result
-      @_interaction_result
+      if block_given?
+        yield @_interaction_result
+      else
+        @_interaction_result
+      end
     end
 
     # @param result [Object]
