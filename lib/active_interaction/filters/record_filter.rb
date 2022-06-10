@@ -46,11 +46,15 @@ module ActiveInteraction
     end
 
     def convert(value)
-      return nil if blank_string?(value)
+      return [nil, nil] if blank_string?(value)
 
       finder = options.fetch(:finder, :find)
-      find(klass, value, finder).tap do |result|
-        raise InvalidValueError if result.nil?
+      result = find(klass, value, finder)
+
+      if result.nil?
+        [value, InvalidValueError.new]
+      else
+        [result, nil]
       end
     end
 

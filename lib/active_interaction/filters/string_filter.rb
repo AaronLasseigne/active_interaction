@@ -38,7 +38,7 @@ module ActiveInteraction
 
     def convert(value)
       if value.respond_to?(:to_str)
-        value.to_str
+        [value.to_str, nil]
       else
         super
       end

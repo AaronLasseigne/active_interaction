@@ -194,23 +194,26 @@ module ActiveInteraction
 
     private
 
-    def cast(value, context, convert: true, reconstantize: true)
+    # rubocop:disable Metrics/PerceivedComplexity
+    def cast(value, context, convertize: true, reconstantize: true)
       if matches?(value)
         [adjust_output(value, context), nil]
       elsif value == nil # rubocop:disable Style/NilComparison - BasicObject does not have `nil?`
         default? ? [default(context), nil] : [value, MissingValueError.new(name)]
       elsif reconstantize
-        send(__method__, value, context, convert: convert, reconstantize: false)
-      elsif convert
-        begin
-          send(__method__, convert(value), context, convert: false, reconstantize: reconstantize)
-        rescue InvalidValueError => e
-          [value, e]
+        send(__method__, value, context, convertize: convertize, reconstantize: false)
+      elsif convertize
+        value, error = convert(value)
+        if error
+          [value, error]
+        else
+          send(__method__, value, context, convertize: false, reconstantize: reconstantize)
         end
       else
         [value, InvalidValueError.new("#{name}: #{describe(value)}")]
       end
     end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def matches?(_value)
       false
@@ -221,7 +224,7 @@ module ActiveInteraction
     end
 
     def convert(value)
-      value
+      [value, nil]
     end
 
     def klass

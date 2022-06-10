@@ -64,7 +64,7 @@ module ActiveInteraction
 
     def convert(value)
       if value.respond_to?(:to_hash)
-        value.to_hash
+        [value.to_hash, nil]
       else
         super
       end

@@ -21,12 +21,16 @@ module ActiveInteraction
 
     def convert(value)
       if value.is_a?(Numeric)
-        safe_converter(value)
+        [safe_converter(value), nil]
       elsif value.respond_to?(:to_int)
-        safe_converter(value.to_int)
+        [safe_converter(value.to_int), nil]
       elsif value.respond_to?(:to_str)
         value = value.to_str
-        value.blank? ? send(__method__, nil) : safe_converter(value)
+        if value.blank?
+          send(__method__, nil)
+        else
+          [safe_converter(value), nil]
+        end
       else
         super
       end

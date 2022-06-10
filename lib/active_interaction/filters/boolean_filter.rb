@@ -39,9 +39,9 @@ module ActiveInteraction
 
       case value
       when /\A(?:0|false|off)\z/i
-        false
+        [false, nil]
       when /\A(?:1|true|on)\z/i
-        true
+        [true, nil]
       else
         super
       end

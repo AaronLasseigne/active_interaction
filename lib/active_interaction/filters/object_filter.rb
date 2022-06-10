@@ -46,13 +46,17 @@ module ActiveInteraction
     end
 
     def convert(value)
-      converter(value).tap do |result|
-        raise InvalidValueError if result.nil?
+      result = converter(value)
+
+      if result.nil?
+        [value, InvalidValueError.new]
+      else
+        [result, nil]
       end
     rescue StandardError => e
       raise e if e.is_a?(InvalidConverterError)
 
-      raise InvalidValueError
+      [value, InvalidValueError.new]
     end
 
     def converter(value)

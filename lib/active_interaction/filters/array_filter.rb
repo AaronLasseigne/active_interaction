@@ -98,7 +98,7 @@ module ActiveInteraction
 
     def convert(value)
       if value.respond_to?(:to_ary)
-        value.to_ary
+        [value.to_ary, nil]
       else
         super
       end

@@ -34,10 +34,10 @@ module ActiveInteraction
         if value.blank?
           send(__method__, nil)
         else
-          convert_string(value)
+          [convert_string(value), nil]
         end
       elsif value.is_a?(GroupedInput)
-        convert_grouped_input(value)
+        [convert_grouped_input(value), nil]
       else
         super
       end

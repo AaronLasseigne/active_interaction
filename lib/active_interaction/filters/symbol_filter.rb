@@ -26,7 +26,7 @@ module ActiveInteraction
 
     def convert(value)
       if value.respond_to?(:to_sym)
-        value.to_sym
+        [value.to_sym, nil]
       else
         super
       end
