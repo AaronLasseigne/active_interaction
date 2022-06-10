@@ -31,14 +31,16 @@ module ActiveInteraction
     def convert(value)
       if value.respond_to?(:to_str)
         value = value.to_str
-        value.blank? ? send(__method__, nil) : convert_string(value)
+        if value.blank?
+          send(__method__, nil)
+        else
+          convert_string(value)
+        end
       elsif value.is_a?(GroupedInput)
         convert_grouped_input(value)
       else
         super
       end
-    rescue ArgumentError
-      value
     rescue NoMethodError # BasicObject
       super
     end
@@ -47,9 +49,10 @@ module ActiveInteraction
       if format?
         klass.strptime(value, format)
       else
-        klass.parse(value) ||
-          (raise ArgumentError, "no time information in #{value.inspect}")
+        klass.parse(value) || value
       end
+    rescue ArgumentError
+      value
     end
 
     def convert_grouped_input(value)

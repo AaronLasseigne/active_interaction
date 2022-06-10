@@ -18,11 +18,12 @@ describe ActiveInteraction::TimeFilter, :filter do
 
       context 'with a time zone' do
         before do
-          time_zone = double
-          allow(Time).to receive(:zone).and_return(time_zone)
-
           time_with_zone = double
+
+          time_zone = double
           allow(time_zone).to receive(:at).and_return(time_with_zone)
+
+          allow(Time).to receive(:zone).and_return(time_zone)
         end
 
         it 'raises an error' do
@@ -50,6 +51,22 @@ describe ActiveInteraction::TimeFilter, :filter do
 
       it 'returns a Time' do
         expect(result.value).to eql Time.parse(value)
+      end
+
+      context 'with a time zone' do
+        before do
+          klass = double
+          allow(klass).to receive(:parse).with(value).and_return(nil)
+
+          allow(filter).to receive(:matches?).and_return(false)
+          allow(filter).to receive(:klass).and_return(klass)
+        end
+
+        it 'indicates an error the string is not parsable' do
+          expect(
+            result.error
+          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        end
       end
 
       context 'with format' do
