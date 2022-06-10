@@ -49,7 +49,9 @@ module ActiveInteraction
       return nil if blank_string?(value)
 
       finder = options.fetch(:finder, :find)
-      find(klass, value, finder)
+      find(klass, value, finder).tap do |result|
+        raise InvalidValueError if result.nil?
+      end
     end
 
     def blank_string?(value)
@@ -59,13 +61,9 @@ module ActiveInteraction
     end
 
     def find(klass, value, finder)
-      result = klass.public_send(finder, value)
-
-      raise InvalidValueError if result.nil?
-
-      result
+      klass.public_send(finder, value)
     rescue StandardError
-      raise InvalidValueError
+      nil
     end
   end
 end
