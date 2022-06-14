@@ -199,7 +199,7 @@ module ActiveInteraction
       if matches?(value)
         [adjust_output(value, context), nil]
       elsif value == nil # rubocop:disable Style/NilComparison - BasicObject does not have `nil?`
-        default? ? [default(context), nil] : [value, MissingValueError.new(name)]
+        default? ? [default(context), nil] : [value, MissingValueError.new]
       elsif reconstantize
         send(__method__, value, context, convertize: convertize, reconstantize: false)
       elsif convertize

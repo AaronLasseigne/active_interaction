@@ -1,73 +1,25 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  # Top-level error class. All other errors subclass this.
-  #
-  # @return [Class]
-  Error = Class.new(StandardError)
-
-  # Raised if a constant name is invalid.
-  #
-  # @return [Class]
-  InvalidNameError = Class.new(Error)
-
-  # Raised if a converter is invalid.
-  #
-  # @return [Class]
-  InvalidConverterError = Class.new(Error)
-
-  # Raised if a default value is invalid.
-  #
-  # @return [Class]
-  InvalidDefaultError = Class.new(Error)
-
-  # Raised if a filter has an invalid definition.
-  #
-  # @return [Class]
-  InvalidFilterError = Class.new(Error)
-
-  # Raised if an interaction is invalid.
-  #
-  # @return [Class]
-  class InvalidInteractionError < Error
-    attr_accessor :interaction
-  end
+  # Raised if a filter cannot be found.
+  class MissingValueError; end # rubocop:disable Lint/EmptyClass
 
   # Raised if a user-supplied value is invalid.
-  #
-  # @return [Class]
-  class InvalidValueError < Error
-    attr_accessor :index
-
-    def initialize(*args, index_error: false)
-      super(*args)
-
+  class InvalidValueError
+    def initialize(message = nil, index_error: false)
+      @message = message
       @index_error = index_error
     end
+
+    attr_accessor :index
+    attr_reader :message
 
     def index_error?
       @index_error
     end
   end
 
-  # Raised if a filter cannot be found.
-  #
-  # @return [Class]
-  MissingFilterError = Class.new(Error)
-
-  # Raised if no value is given.
-  #
-  # @return [Class]
-  MissingValueError = Class.new(Error)
-
-  # Raised if there is no default value.
-  #
-  # @return [Class]
-  NoDefaultError = Class.new(Error)
-
   # Raised if a user-supplied value to a nested hash input is invalid.
-  #
-  # @return [Class]
   class InvalidNestedValueError < InvalidValueError
     # @return [Symbol]
     attr_reader :filter_name
@@ -84,21 +36,6 @@ module ActiveInteraction
       @input_value = input_value
     end
   end
-
-  # Used by {Runnable} to signal a failure when composing.
-  #
-  # @private
-  class Interrupt < Error
-    attr_reader :errors
-
-    # @param errors [Runnable]
-    def initialize(errors)
-      super()
-
-      @errors = errors
-    end
-  end
-  private_constant :Interrupt
 
   # An extension that provides the ability to merge other errors into itself.
   class Errors < ActiveModel::Errors

@@ -13,6 +13,7 @@ module ActiveInteraction
 end
 
 require_relative 'active_interaction/version'
+require_relative 'active_interaction/exceptions'
 require_relative 'active_interaction/errors'
 
 require_relative 'active_interaction/concerns/active_modelable'
