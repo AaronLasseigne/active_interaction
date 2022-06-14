@@ -135,9 +135,8 @@ describe ActiveInteraction::TimeFilter, :filter do
         include_context 'required'
 
         it 'indicates an error' do
-          expect(
-            result.error
-          ).to be_an_instance_of ActiveInteraction::MissingValueError
+          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(result.error.type).to be :missing
         end
       end
     end

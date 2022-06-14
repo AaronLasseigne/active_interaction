@@ -15,7 +15,7 @@ module ActiveInteraction
     # @overload error
     #   Any error that occurred during processing.
     #
-    #   @return [InvalidValueError, MissingValueError, InvalidNestedValueError]
+    #   @return [Filter::Error, InvalidValueError, InvalidNestedValueError]
     attr_reader :error
   end
 

@@ -114,7 +114,7 @@ module ActiveInteraction
     #
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
-    def default(context = nil)
+    def default(context = nil) # rubocop:disable all
       return @default if defined?(@default)
 
       raise NoDefaultError, name unless default?
@@ -127,11 +127,18 @@ module ActiveInteraction
           nil
         else
           default = process(value, context)
-          case default.error
-          when InvalidNestedValueError
-            raise InvalidDefaultError, "#{name}: #{value.inspect} (#{default.error})"
-          when InvalidValueError, MissingValueError
-            raise InvalidDefaultError, "#{name}: #{value.inspect}"
+          if default.error.is_a?(Filter::Error)
+            case default.error.type
+            when :missing
+              raise InvalidDefaultError, "#{name}: #{value.inspect}"
+            end
+          else
+            case default.error
+            when InvalidNestedValueError
+              raise InvalidDefaultError, "#{name}: #{value.inspect} (#{default.error})"
+            when InvalidValueError
+              raise InvalidDefaultError, "#{name}: #{value.inspect}"
+            end
           end
           default.value
         end
@@ -199,7 +206,7 @@ module ActiveInteraction
       if matches?(value)
         [adjust_output(value, context), nil]
       elsif value == nil # rubocop:disable Style/NilComparison - BasicObject does not have `nil?`
-        default? ? [default(context), nil] : [value, MissingValueError.new]
+        default? ? [default(context), nil] : [value, Filter::Error.new(self, :missing)]
       elsif reconstantize
         send(__method__, value, context, convertize: convertize, reconstantize: false)
       elsif convertize

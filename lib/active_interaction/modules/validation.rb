@@ -27,19 +27,21 @@ module ActiveInteraction
       end
 
       def error_to_validation_error(error, filter)
-        case error
-        when InvalidNestedValueError
-          [
-            filter.name,
-            :invalid_nested,
-            { name: error.filter_name.inspect, value: error.input_value.inspect }
-          ]
-        when InvalidValueError
-          [name_with_index(filter.name, error), :invalid_type, { type: type(filter) }]
-        when MissingValueError
-          [filter.name, :missing]
+        if error.is_a?(Filter::Error)
+          [error.name, error.type]
         else
-          raise "invalid error #{error}"
+          case error
+          when InvalidNestedValueError
+            [
+              filter.name,
+              :invalid_nested,
+              { name: error.filter_name.inspect, value: error.input_value.inspect }
+            ]
+          when InvalidValueError
+            [name_with_index(filter.name, error), :invalid_type, { type: type(filter) }]
+          else
+            raise "invalid error #{error}"
+          end
         end
       end
 

@@ -66,9 +66,8 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { nil }
 
           it 'indicates an error' do
-            expect(
-              result.error
-            ).to be_an_instance_of ActiveInteraction::MissingValueError
+            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(result.error.type).to be :missing
           end
         end
 

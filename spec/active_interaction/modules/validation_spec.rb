@@ -83,8 +83,8 @@ describe ActiveInteraction::Validation do
         end
       end
 
-      context 'MissingValueError' do
-        let(:exception) { ActiveInteraction::MissingValueError.new }
+      context 'Filter::Error' do
+        let(:exception) { ActiveInteraction::Filter::Error.new(filter, :missing) }
 
         it 'returns a :missing error' do
           expect(result).to eql [[filter.name, :missing]]

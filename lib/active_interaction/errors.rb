@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  # Raised if a filter cannot be found.
-  class MissingValueError; end # rubocop:disable Lint/EmptyClass
-
   # Raised if a user-supplied value is invalid.
   class InvalidValueError
     def initialize(message = nil, index_error: false)

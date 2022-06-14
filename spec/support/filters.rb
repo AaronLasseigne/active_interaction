@@ -60,9 +60,10 @@ shared_examples_for 'a filter' do
       include_context 'required'
 
       it 'indicates an error' do
-        expect(
-          filter.process(value, nil).error
-        ).to be_an_instance_of ActiveInteraction::MissingValueError
+        input = filter.process(value, nil)
+
+        expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
+        expect(input.error.type).to be :missing
       end
 
       context 'with an invalid value' do
