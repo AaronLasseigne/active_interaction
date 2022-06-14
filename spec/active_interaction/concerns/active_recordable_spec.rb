@@ -23,11 +23,11 @@ describe ActiveInteraction::ActiveRecordable do
     context 'name is an input name' do
       let(:name) { described_class.filters.keys.first }
 
-      it 'returns a FilterColumn' do
-        expect(column).to be_a ActiveInteraction::FilterColumn
+      it 'returns a Filter::Column' do
+        expect(column).to be_a ActiveInteraction::Filter::Column
       end
 
-      it 'returns a FilterColumn of type boolean' do
+      it 'returns a Filter::Column of type boolean' do
         expect(column.type).to be :float
       end
     end

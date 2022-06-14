@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveInteraction::FilterColumn do
+describe ActiveInteraction::Filter::Column do
   subject(:column) { described_class.intern(type) }
 
   let(:type) { :float }

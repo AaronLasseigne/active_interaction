@@ -14,6 +14,7 @@
 - Errors on the array filter will now be indexed if the Rails config `index_nested_attribute_errors`
   is `true` or the `:index_errors` option is set to `true`. The `:index_errors` option always overrides
   the Rails config.
+- `ActiveIneraction::FilterColumn` is now `ActiveInteraction::Filter::Column`
 
 ## Added
 

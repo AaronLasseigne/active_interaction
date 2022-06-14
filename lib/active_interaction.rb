@@ -28,7 +28,7 @@ require_relative 'active_interaction/inputs'
 
 require_relative 'active_interaction/modules/validation'
 
-require_relative 'active_interaction/filter_column'
+require_relative 'active_interaction/filter/column'
 require_relative 'active_interaction/filter'
 require_relative 'active_interaction/filters/interface_filter'
 require_relative 'active_interaction/filters/abstract_date_time_filter'

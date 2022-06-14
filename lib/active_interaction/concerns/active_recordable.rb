@@ -17,15 +17,15 @@ module ActiveInteraction
     #   end
     #
     #   Interaction.new.column_for_attribute(:email)
-    #   # => #<ActiveInteraction::FilterColumn:0x007faebeb2a6c8 @type=:string>
+    #   # => #<ActiveInteraction::Filter::Column:0x007faebeb2a6c8 @type=:string>
     #
     #   Interaction.new.column_for_attribute(:not_a_filter)
     #   # => nil
     #
-    # @return [FilterColumn, nil]
+    # @return [Filter::Column, nil]
     def column_for_attribute(name)
       filter = self.class.filters[name]
-      FilterColumn.intern(filter.database_column_type) if filter
+      Filter::Column.intern(filter.database_column_type) if filter
     end
 
     # Returns true if a filter of that name exists.
