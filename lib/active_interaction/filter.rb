@@ -129,15 +129,13 @@ module ActiveInteraction
           default = process(value, context)
           if default.error.is_a?(Filter::Error)
             case default.error.type
-            when :missing
+            when :missing, :invalid_type
               raise InvalidDefaultError, "#{name}: #{value.inspect}"
             end
           else
             case default.error
             when InvalidNestedValueError
               raise InvalidDefaultError, "#{name}: #{value.inspect} (#{default.error})"
-            when InvalidValueError
-              raise InvalidDefaultError, "#{name}: #{value.inspect}"
             end
           end
           default.value
@@ -217,7 +215,7 @@ module ActiveInteraction
           send(__method__, value, context, convertize: false, reconstantize: reconstantize)
         end
       else
-        [value, InvalidValueError.new("#{name}: #{describe(value)}")]
+        [value, Filter::Error.new(self, :invalid_type)]
       end
     end
     # rubocop:enable Metrics/PerceivedComplexity

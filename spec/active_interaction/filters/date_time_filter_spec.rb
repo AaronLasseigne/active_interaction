@@ -45,18 +45,16 @@ describe ActiveInteraction::DateTimeFilter, :filter do
       let(:value) { 'invalid' }
 
       it 'indicates an error' do
-        expect(
-          result.error
-        ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
+        expect(result.error.type).to be :invalid_type
       end
 
       context 'with format' do
         include_context 'with format'
 
         it 'indicates an error' do
-          expect(
-            result.error
-          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(result.error.type).to be :invalid_type
         end
       end
     end
@@ -132,9 +130,8 @@ describe ActiveInteraction::DateTimeFilter, :filter do
         let(:value) { ActiveInteraction::GroupedInput.new }
 
         it 'indicates an error' do
-          expect(
-            result.error
-          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(result.error.type).to be :invalid_type
         end
       end
 
@@ -146,9 +143,8 @@ describe ActiveInteraction::DateTimeFilter, :filter do
         end
 
         it 'indicates an error' do
-          expect(
-            result.error
-          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(result.error.type).to be :invalid_type
         end
       end
     end

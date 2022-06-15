@@ -1,23 +1,8 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  # Raised if a user-supplied value is invalid.
-  class InvalidValueError
-    def initialize(message = nil, index_error: false)
-      @message = message
-      @index_error = index_error
-    end
-
-    attr_accessor :index
-    attr_reader :message
-
-    def index_error?
-      @index_error
-    end
-  end
-
   # Raised if a user-supplied value to a nested hash input is invalid.
-  class InvalidNestedValueError < InvalidValueError
+  class InvalidNestedValueError
     # @return [Symbol]
     attr_reader :filter_name
 
@@ -27,10 +12,12 @@ module ActiveInteraction
     # @param filter_name [Symbol]
     # @param input_value [Object]
     def initialize(filter_name, input_value)
-      super("#{filter_name}: #{input_value.inspect}")
-
       @filter_name = filter_name
       @input_value = input_value
+    end
+
+    def message
+      "#{filter_name}: #{input_value.inspect}"
     end
   end
 

@@ -70,9 +70,10 @@ shared_examples_for 'a filter' do
         let(:value) { Object.new }
 
         it 'indicates an error' do
-          expect(
-            filter.process(value, nil).error
-          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+          input = filter.process(value, nil)
+
+          expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(input.error.type).to be :invalid_type
         end
       end
     end
@@ -94,9 +95,10 @@ shared_examples_for 'a filter' do
       let(:value) { BasicObject.new }
 
       it 'indicates an error' do
-        expect(
-          filter.process(value, nil).error
-        ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        input = filter.process(value, nil)
+
+        expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
+        expect(input.error.type).to be :invalid_type
       end
     end
   end

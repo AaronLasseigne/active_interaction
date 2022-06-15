@@ -67,9 +67,8 @@ describe ActiveInteraction::DecimalFilter, :filter do
       let(:value) { 'invalid' }
 
       it 'indicates an error' do
-        expect(
-          result.error
-        ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
+        expect(result.error.type).to be :invalid_type
       end
     end
 

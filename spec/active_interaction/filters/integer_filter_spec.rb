@@ -35,9 +35,8 @@ describe ActiveInteraction::IntegerFilter, :filter do
       let(:value) { 'invalid' }
 
       it 'indicates an error' do
-        expect(
-          result.error
-        ).to be_an_instance_of ActiveInteraction::InvalidValueError
+        expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
+        expect(result.error.type).to be :invalid_type
       end
     end
 
@@ -86,9 +85,9 @@ describe ActiveInteraction::IntegerFilter, :filter do
       expect(
         described_class.new(name, base: 8).process('071', nil).value
       ).to be 57
-      expect(
-        described_class.new(name, base: 8).process('081', nil).error
-      ).to be_an_instance_of ActiveInteraction::InvalidValueError
+      input = described_class.new(name, base: 8).process('081', nil)
+      expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
+      expect(input.error.type).to be :invalid_type
     end
   end
 

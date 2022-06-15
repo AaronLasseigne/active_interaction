@@ -43,7 +43,7 @@ describe ActiveInteraction::Validation do
         let(:filter) { ActiveInteraction::ArrayFilter.new(:name, [1.0, 'a']) { float } }
 
         context 'when the error has no index' do
-          let(:exception) { ActiveInteraction::InvalidValueError.new }
+          let(:exception) { ActiveInteraction::Filter::Error.new(filter, :invalid_type) }
 
           it 'returns an :invalid_type error' do
             type = I18n.translate(
@@ -56,7 +56,7 @@ describe ActiveInteraction::Validation do
 
         context 'when the error does not use an index' do
           let(:exception) do
-            ActiveInteraction::InvalidValueError.new.tap { |e| e.index = 1 }
+            ActiveInteraction::Filter::IndexedError.new(filter, :invalid_type, 1)
           end
 
           it 'returns an :invalid_type error' do
@@ -70,7 +70,7 @@ describe ActiveInteraction::Validation do
 
         context 'when the error uses an index' do
           let(:exception) do
-            ActiveInteraction::InvalidValueError.new(index_error: true).tap { |e| e.index = 1 }
+            ActiveInteraction::Filter::IndexedError.new(filter, :invalid_type, 1, index_error: true)
           end
 
           it 'returns an :invalid_type error' do
@@ -87,7 +87,7 @@ describe ActiveInteraction::Validation do
         let(:exception) { ActiveInteraction::Filter::Error.new(filter, :missing) }
 
         it 'returns a :missing error' do
-          expect(result).to eql [[filter.name, :missing]]
+          expect(result).to eql [[filter.name, :missing, {}]]
         end
       end
 

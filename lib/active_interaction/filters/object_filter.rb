@@ -49,14 +49,14 @@ module ActiveInteraction
       result = converter(value)
 
       if result.nil?
-        [value, InvalidValueError.new]
+        [value, Filter::Error.new(self, :invalid_type)]
       else
         [result, nil]
       end
     rescue StandardError => e
       raise e if e.is_a?(InvalidConverterError)
 
-      [value, InvalidValueError.new]
+      [value, Filter::Error.new(self, :invalid_type)]
     end
 
     def converter(value)

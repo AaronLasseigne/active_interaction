@@ -52,7 +52,7 @@ module ActiveInteraction
       result = find(klass, value, finder)
 
       if result.nil?
-        [value, InvalidValueError.new]
+        [value, Filter::Error.new(self, :invalid_type)]
       else
         [result, nil]
       end

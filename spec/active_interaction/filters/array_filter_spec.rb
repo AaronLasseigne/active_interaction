@@ -108,9 +108,8 @@ describe ActiveInteraction::ArrayFilter, :filter do
         let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
         it 'indicates an error' do
-          expect(
-            result.error
-          ).to be_an_instance_of ActiveInteraction::InvalidValueError
+          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::IndexedError
+          expect(result.error.type).to be :invalid_type
         end
 
         context 'when :index_errors is true' do
