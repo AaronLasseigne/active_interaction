@@ -12,11 +12,12 @@ module ActiveInteraction
     #   The processed input value.
     attr_reader :value
 
-    # @overload error
-    #   Any error that occurred during processing.
+    # Any errors that occurred during processing.
     #
-    #   @return [Filter::Error, InvalidNestedValueError]
-    attr_reader :error
+    # @return [Filter::Error, Filter::IndexedError, InvalidNestedValueError]
+    def errors
+      @errors ||= Array(@error)
+    end
   end
 
   # Represents a processed array input.

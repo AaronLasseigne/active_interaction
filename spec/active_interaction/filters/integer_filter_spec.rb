@@ -35,8 +35,10 @@ describe ActiveInteraction::IntegerFilter, :filter do
       let(:value) { 'invalid' }
 
       it 'indicates an error' do
-        expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-        expect(result.error.type).to be :invalid_type
+        error = result.errors.first
+
+        expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+        expect(error.type).to be :invalid_type
       end
     end
 
@@ -75,8 +77,10 @@ describe ActiveInteraction::IntegerFilter, :filter do
         include_context 'required'
 
         it 'indicates an error' do
-          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-          expect(result.error.type).to be :missing
+          error = result.errors.first
+
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.type).to be :missing
         end
       end
     end
@@ -85,9 +89,10 @@ describe ActiveInteraction::IntegerFilter, :filter do
       expect(
         described_class.new(name, base: 8).process('071', nil).value
       ).to be 57
-      input = described_class.new(name, base: 8).process('081', nil)
-      expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
-      expect(input.error.type).to be :invalid_type
+      error = described_class.new(name, base: 8).process('081', nil).errors.first
+
+      expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+      expect(error.type).to be :invalid_type
     end
   end
 

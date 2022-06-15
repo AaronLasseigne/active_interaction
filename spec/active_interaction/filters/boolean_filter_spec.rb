@@ -70,10 +70,10 @@ describe ActiveInteraction::BooleanFilter, :filter do
         include_context 'required'
 
         it 'indicates an error' do
-          input = filter.process(value, nil)
+          error = filter.process(value, nil).errors.first
 
-          expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
-          expect(input.error.type).to be :missing
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.type).to be :missing
         end
       end
     end

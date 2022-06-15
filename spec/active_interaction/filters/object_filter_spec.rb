@@ -189,8 +189,10 @@ describe ActiveInteraction::ObjectFilter, :filter do
         end
 
         it 'indicates an error' do
-          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-          expect(result.error.type).to be :invalid_type
+          error = result.errors.first
+
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.type).to be :invalid_type
         end
       end
 
@@ -203,10 +205,10 @@ describe ActiveInteraction::ObjectFilter, :filter do
         end
 
         it 'indicates an error' do
-          input = filter.process(value, nil)
+          error = filter.process(value, nil).errors.first
 
-          expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
-          expect(input.error.type).to be :invalid_type
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.type).to be :invalid_type
         end
       end
 
@@ -218,10 +220,10 @@ describe ActiveInteraction::ObjectFilter, :filter do
         end
 
         it 'indicates an error' do
-          input = filter.process(value, nil)
+          error = filter.process(value, nil).errors.first
 
-          expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
-          expect(input.error.type).to be :invalid_type
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.type).to be :invalid_type
         end
       end
     end

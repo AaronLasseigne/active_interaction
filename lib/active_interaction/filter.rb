@@ -127,15 +127,15 @@ module ActiveInteraction
           nil
         else
           default = process(value, context)
-          if default.error.is_a?(Filter::Error)
-            case default.error.type
+          if default.errors.any? && default.errors.first.is_a?(Filter::Error)
+            case default.errors.first.type
             when :missing, :invalid_type
               raise InvalidDefaultError, "#{name}: #{value.inspect}"
             end
           else
-            case default.error
+            case default.errors.first
             when InvalidNestedValueError
-              raise InvalidDefaultError, "#{name}: #{value.inspect} (#{default.error})"
+              raise InvalidDefaultError, "#{name}: #{value.inspect} (#{default.errors.first})"
             end
           end
           default.value

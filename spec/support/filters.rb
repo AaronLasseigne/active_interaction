@@ -60,20 +60,20 @@ shared_examples_for 'a filter' do
       include_context 'required'
 
       it 'indicates an error' do
-        input = filter.process(value, nil)
+        error = filter.process(value, nil).errors.first
 
-        expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
-        expect(input.error.type).to be :missing
+        expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+        expect(error.type).to be :missing
       end
 
       context 'with an invalid value' do
         let(:value) { Object.new }
 
         it 'indicates an error' do
-          input = filter.process(value, nil)
+          error = filter.process(value, nil).errors.first
 
-          expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
-          expect(input.error.type).to be :invalid_type
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.type).to be :invalid_type
         end
       end
     end
@@ -95,10 +95,10 @@ shared_examples_for 'a filter' do
       let(:value) { BasicObject.new }
 
       it 'indicates an error' do
-        input = filter.process(value, nil)
+        error = filter.process(value, nil).errors.first
 
-        expect(input.error).to be_an_instance_of ActiveInteraction::Filter::Error
-        expect(input.error.type).to be :invalid_type
+        expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+        expect(error.type).to be :invalid_type
       end
     end
   end

@@ -41,8 +41,8 @@ module ActiveInteraction
     def process(value, context)
       input = super
 
-      return ArrayInput.new(value: input.value, error: input.error) if input.error
-      return ArrayInput.new(value: default(context), error: input.error) if input.value.nil?
+      return ArrayInput.new(value: input.value, error: input.errors.first) if input.errors.any?
+      return ArrayInput.new(value: default(context), error: input.errors.first) if input.value.nil?
 
       value = input.value
       error = nil
@@ -51,7 +51,7 @@ module ActiveInteraction
       unless filters.empty?
         value.map.with_index do |item, i|
           filters[:'0'].process(item, context).tap do |result|
-            error = IndexedError.new(self, :invalid_type, i, index_error: index_errors?) if !error && result.error
+            error ||= IndexedError.new(self, :invalid_type, i, index_error: index_errors?) if result.errors.any?
 
             children.push(result)
           end

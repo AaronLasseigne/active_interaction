@@ -75,7 +75,7 @@ describe ActiveInteraction::HashFilter, :filter do
 
         it 'indicates an error' do
           expect(
-            result.error
+            result.errors.first
           ).to be_an_instance_of ActiveInteraction::InvalidNestedValueError
         end
 

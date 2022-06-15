@@ -25,11 +25,11 @@ module ActiveInteraction
 
     register :hash
 
-    def process(value, context)
+    def process(value, context) # rubocop:disable all
       input = super
 
-      return HashInput.new(value: input.value, error: input.error) if input.error
-      return HashInput.new(value: default(context), error: input.error) if input.value.nil?
+      return HashInput.new(value: input.value, error: input.errors.first) if input.errors.first
+      return HashInput.new(value: default(context), error: input.errors.first) if input.value.nil?
 
       value = strip? ? HashWithIndifferentAccess.new : input.value
       error = nil
@@ -38,7 +38,7 @@ module ActiveInteraction
       filters.each do |name, filter|
         filter.process(input.value[name], context).tap do |result|
           value[name] = result.value
-          error ||= InvalidNestedValueError.new(name, input.value[name]) if result.error
+          error ||= InvalidNestedValueError.new(name, input.value[name]) if result.errors.any?
           children[name.to_sym] = result
         end
       end

@@ -55,8 +55,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { Class.new }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
 
@@ -65,8 +67,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { nil }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :missing
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :missing
           end
         end
 
@@ -77,8 +81,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           end
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
       end
@@ -113,8 +119,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { Class }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
 
@@ -123,8 +131,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { InterfaceClass }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
       end
@@ -148,8 +158,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { Module.new }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
 
@@ -158,8 +170,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { InterfaceModule }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
       end
@@ -221,8 +235,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { Class.new }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
 
@@ -231,8 +247,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { InterfaceClass.new }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
       end
@@ -269,8 +287,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { Class }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
 
@@ -279,8 +299,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { InterfaceClass }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
       end
@@ -305,8 +327,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { Module.new }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
 
@@ -315,8 +339,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
           let(:value) { InterfaceModule }
 
           it 'indicates an error' do
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :invalid_type
+            error = result.errors.first
+
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :invalid_type
           end
         end
       end
@@ -355,8 +381,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         let(:value) { Class.new }
 
         it 'indicates an error' do
-          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-          expect(result.error.type).to be :invalid_type
+          error = result.errors.first
+
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.type).to be :invalid_type
         end
       end
 
@@ -378,8 +406,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         let(:value) { Class }
 
         it 'indicates an error' do
-          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-          expect(result.error.type).to be :invalid_type
+          error = result.errors.first
+
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.type).to be :invalid_type
         end
       end
 
@@ -401,8 +431,10 @@ describe ActiveInteraction::InterfaceFilter, :filter do
         let(:value) { Module.new }
 
         it 'indicates an error' do
-          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-          expect(result.error.type).to be :invalid_type
+          error = result.errors.first
+
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.type).to be :invalid_type
         end
       end
     end

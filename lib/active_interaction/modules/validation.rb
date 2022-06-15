@@ -13,8 +13,8 @@ module ActiveInteraction
         filters.each_with_object([]) do |(name, filter), errors|
           input = filter.process(inputs[name], context)
 
-          if input.error
-            new_error = error_to_validation_error(input.error, filter)
+          input.errors.each do |error|
+            new_error = error_to_validation_error(error, filter)
             errors << new_error if new_error
           end
         end

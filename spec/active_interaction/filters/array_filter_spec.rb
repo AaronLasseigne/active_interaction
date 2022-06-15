@@ -89,9 +89,11 @@ describe ActiveInteraction::ArrayFilter, :filter do
           let(:value) { nil }
 
           it 'returns an error' do
+            error = result.errors.first
+
             expect(result.value).to eql value
-            expect(result.error).to be_an_instance_of ActiveInteraction::Filter::Error
-            expect(result.error.type).to be :missing
+            expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+            expect(error.type).to be :missing
           end
         end
       end
@@ -108,8 +110,10 @@ describe ActiveInteraction::ArrayFilter, :filter do
         let(:value) { [[], false, 0.0, {}, 0, '', :''] }
 
         it 'indicates an error' do
-          expect(result.error).to be_an_instance_of ActiveInteraction::Filter::IndexedError
-          expect(result.error.type).to be :invalid_type
+          error = result.errors.first
+
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::IndexedError
+          expect(error.type).to be :invalid_type
         end
 
         context 'when :index_errors is true' do
@@ -118,8 +122,10 @@ describe ActiveInteraction::ArrayFilter, :filter do
           end
 
           it 'attaches the index of the value where the error occurred' do
-            expect(result.error.index).to be 1
-            expect(result.error).to be_index_error
+            error = result.errors.first
+
+            expect(error.index).to be 1
+            expect(error).to be_index_error
           end
         end
 
@@ -133,8 +139,10 @@ describe ActiveInteraction::ArrayFilter, :filter do
           end
 
           it 'attaches the index of the value where the error occurred' do
-            expect(result.error.index).to be 1
-            expect(result.error).to be_index_error
+            error = result.errors.first
+
+            expect(error.index).to be 1
+            expect(error).to be_index_error
           end
 
           context 'when :index_errors is false' do
@@ -143,8 +151,10 @@ describe ActiveInteraction::ArrayFilter, :filter do
             end
 
             it 'does not attach the index' do
-              expect(result.error.index).to be 1
-              expect(result.error).to_not be_index_error
+              error = result.errors.first
+
+              expect(error.index).to be 1
+              expect(error).to_not be_index_error
             end
           end
         end
