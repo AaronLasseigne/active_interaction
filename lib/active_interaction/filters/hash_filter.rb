@@ -28,8 +28,8 @@ module ActiveInteraction
     def process(value, context) # rubocop:disable all
       input = super
 
-      return HashInput.new(value: input.value, error: input.errors.first) if input.errors.first
-      return HashInput.new(value: default(context), error: input.errors.first) if input.value.nil?
+      return HashInput.new(self, value: input.value, error: input.errors.first) if input.errors.first
+      return HashInput.new(self, value: default(context), error: input.errors.first) if input.value.nil?
 
       value = strip? ? HashWithIndifferentAccess.new : input.value
       error = nil
@@ -43,7 +43,7 @@ module ActiveInteraction
         end
       end
 
-      HashInput.new(value: value, error: error, children: children)
+      HashInput.new(self, value: value, error: error, children: children)
     end
 
     private

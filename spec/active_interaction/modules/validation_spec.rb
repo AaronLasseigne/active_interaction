@@ -26,7 +26,7 @@ describe ActiveInteraction::Validation do
       let(:inputs) { { name: 1 } }
 
       before do
-        allow(filter).to receive(:process).and_return(ActiveInteraction::Input.new(value: 1))
+        allow(filter).to receive(:process).and_return(ActiveInteraction::Input.new(filter, value: 1))
       end
 
       it 'returns no errors' do
@@ -36,7 +36,7 @@ describe ActiveInteraction::Validation do
 
     context 'filter returns with errors' do
       before do
-        allow(filter).to receive(:process).and_return(ActiveInteraction::Input.new(error: exception))
+        allow(filter).to receive(:process).and_return(ActiveInteraction::Input.new(filter, error: exception))
       end
 
       context 'InvalidValueError' do

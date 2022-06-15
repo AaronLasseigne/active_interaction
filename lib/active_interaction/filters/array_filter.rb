@@ -41,8 +41,8 @@ module ActiveInteraction
     def process(value, context)
       input = super
 
-      return ArrayInput.new(value: input.value, error: input.errors.first) if input.errors.any?
-      return ArrayInput.new(value: default(context), error: input.errors.first) if input.value.nil?
+      return ArrayInput.new(self, value: input.value, error: input.errors.first) if input.errors.any?
+      return ArrayInput.new(self, value: default(context), error: input.errors.first) if input.value.nil?
 
       value = input.value
       error = nil
@@ -58,7 +58,7 @@ module ActiveInteraction
         end
       end
 
-      ArrayInput.new(value: value, error: error, children: children)
+      ArrayInput.new(self, value: value, error: error, children: children)
     end
 
     private

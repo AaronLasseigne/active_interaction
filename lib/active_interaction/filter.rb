@@ -90,10 +90,7 @@ module ActiveInteraction
     def process(value, context)
       value, error = cast(value, context)
 
-      Input.new(
-        value: value,
-        error: error
-      )
+      Input.new(self, value: value, error: error)
     end
 
     # Get the default value.

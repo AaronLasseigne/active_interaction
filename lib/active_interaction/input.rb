@@ -3,7 +3,8 @@
 module ActiveInteraction
   # Represents a processed input.
   class Input
-    def initialize(value: nil, error: nil)
+    def initialize(filter, value: nil, error: nil)
+      @filter = filter
       @value = value
       @error = error
     end
@@ -22,8 +23,9 @@ module ActiveInteraction
 
   # Represents a processed array input.
   class ArrayInput < Input
-    def initialize(value: nil, error: nil, children: [])
-      super(value: value, error: error)
+    def initialize(filter, value: nil, error: nil, children: [])
+      super(filter, value: value, error: error)
+
       @children = children
     end
 
@@ -36,8 +38,9 @@ module ActiveInteraction
 
   # Represents a processed hash input.
   class HashInput < Input
-    def initialize(value: nil, error: nil, children: {})
-      super(value: value, error: error)
+    def initialize(filter, value: nil, error: nil, children: {})
+      super(filter, value: value, error: error)
+
       @children = children
     end
 
