@@ -42,44 +42,14 @@ describe ActiveInteraction::Validation do
       context 'InvalidValueError' do
         let(:filter) { ActiveInteraction::ArrayFilter.new(:name, [1.0, 'a']) { float } }
 
-        context 'when the error has no index' do
-          let(:exception) { ActiveInteraction::Filter::Error.new(filter, :invalid_type) }
+        let(:exception) { ActiveInteraction::Filter::Error.new(filter, :invalid_type) }
 
-          it 'returns an :invalid_type error' do
-            type = I18n.translate(
-              "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
-            )
+        it 'returns an :invalid_type error' do
+          type = I18n.translate(
+            "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
+          )
 
-            expect(result).to eql [[filter.name, :invalid_type, { type: type }]]
-          end
-        end
-
-        context 'when the error does not use an index' do
-          let(:exception) do
-            ActiveInteraction::Filter::IndexedError.new(filter, :invalid_type, 1)
-          end
-
-          it 'returns an :invalid_type error' do
-            type = I18n.translate(
-              "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
-            )
-
-            expect(result).to eql [[filter.name, :invalid_type, { type: type }]]
-          end
-        end
-
-        context 'when the error uses an index' do
-          let(:exception) do
-            ActiveInteraction::Filter::IndexedError.new(filter, :invalid_type, 1, index_error: true)
-          end
-
-          it 'returns an :invalid_type error' do
-            type = I18n.translate(
-              "#{ActiveInteraction::Base.i18n_scope}.types.#{filter.class.slug}"
-            )
-
-            expect(result).to eql [[:"#{filter.name}[1]", :invalid_type, { type: type }]]
-          end
+          expect(result).to eql [[filter.name, :invalid_type, { type: type }]]
         end
       end
 

@@ -49,16 +49,12 @@ module ActiveInteraction
       children = []
 
       unless filters.empty?
-        value.map.with_index do |item, i|
-          filters[:'0'].process(item, context).tap do |result|
-            error ||= IndexedError.new(self, :invalid_type, i, index_error: index_errors?) if result.errors.any?
-
-            children.push(result)
-          end
+        value.each do |item|
+          children.push(filters[:'0'].process(item, context))
         end
       end
 
-      ArrayInput.new(self, value: value, error: error, children: children)
+      ArrayInput.new(self, value: value, error: error, children: children, index_errors: index_errors?)
     end
 
     private

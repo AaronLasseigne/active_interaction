@@ -15,39 +15,9 @@ module ActiveInteraction
 
     # Any errors that occurred during processing.
     #
-    # @return [Filter::Error, Filter::IndexedError, InvalidNestedValueError]
+    # @return [Filter::Error, InvalidNestedValueError]
     def errors
       @errors ||= Array(@error)
     end
-  end
-
-  # Represents a processed array input.
-  class ArrayInput < Input
-    def initialize(filter, value: nil, error: nil, children: [])
-      super(filter, value: value, error: error)
-
-      @children = children
-    end
-
-    # @overload children
-    #   Child inputs if a nested filter is used.
-    #
-    #   @return [Array<Input, ArrayInput, HashInput>]
-    attr_reader :children
-  end
-
-  # Represents a processed hash input.
-  class HashInput < Input
-    def initialize(filter, value: nil, error: nil, children: {})
-      super(filter, value: value, error: error)
-
-      @children = children
-    end
-
-    # @overload children
-    #   Child inputs if nested filters are used.
-    #
-    #   @return [Hash{ Symbol => Input, ArrayInput, HashInput }]
-    attr_reader :children
   end
 end

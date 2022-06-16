@@ -24,6 +24,8 @@ require_relative 'active_interaction/concerns/runnable'
 
 require_relative 'active_interaction/grouped_input'
 require_relative 'active_interaction/input'
+require_relative 'active_interaction/array_input'
+require_relative 'active_interaction/hash_input'
 require_relative 'active_interaction/inputs'
 
 require_relative 'active_interaction/modules/validation'

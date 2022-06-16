@@ -107,12 +107,14 @@ describe ActiveInteraction::ArrayFilter, :filter do
       end
 
       context 'with a heterogenous Array' do
-        let(:value) { [[], false, 0.0, {}, 0, '', :''] }
+        let(:value) { [[], false, 0.0] }
 
         it 'indicates an error' do
           error = result.errors.first
 
-          expect(error).to be_an_instance_of ActiveInteraction::Filter::IndexedError
+          expect(result.errors.size).to be 1
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.name).to be filter.name
           expect(error.type).to be :invalid_type
         end
 
@@ -121,11 +123,14 @@ describe ActiveInteraction::ArrayFilter, :filter do
             options[:index_errors] = true
           end
 
-          it 'attaches the index of the value where the error occurred' do
-            error = result.errors.first
+          it 'shows the index of where the error occurred' do
+            expect(result.errors.size).to be 2
 
-            expect(error.index).to be 1
-            expect(error).to be_index_error
+            result.errors.each.with_index(1) do |error, i|
+              expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+              expect(error.name).to be :"#{filter.name}[#{i}]"
+              expect(error.type).to be :invalid_type
+            end
           end
         end
 
@@ -138,11 +143,14 @@ describe ActiveInteraction::ArrayFilter, :filter do
             end
           end
 
-          it 'attaches the index of the value where the error occurred' do
-            error = result.errors.first
+          it 'shows the index of where the error occurred' do
+            expect(result.errors.size).to be 2
 
-            expect(error.index).to be 1
-            expect(error).to be_index_error
+            result.errors.each.with_index(1) do |error, i|
+              expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+              expect(error.name).to be :"#{filter.name}[#{i}]"
+              expect(error.type).to be :invalid_type
+            end
           end
 
           context 'when :index_errors is false' do
@@ -153,8 +161,10 @@ describe ActiveInteraction::ArrayFilter, :filter do
             it 'does not attach the index' do
               error = result.errors.first
 
-              expect(error.index).to be 1
-              expect(error).to_not be_index_error
+              expect(result.errors.size).to be 1
+              expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+              expect(error.name).to be filter.name
+              expect(error.type).to be :invalid_type
             end
           end
         end

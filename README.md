@@ -262,7 +262,8 @@ end
 
 Errors that occur will be indexed based on the Rails configuration setting
 `index_nested_attribute_errors`. You can also manually override this setting
-with the `:index_errors` option.
+with the `:index_errors` option. In this state is is possible to get multiple
+errors from a single filter.
 
 ```ruby
 class ArrayInteraction < ActiveInteraction::Base
