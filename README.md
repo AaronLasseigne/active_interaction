@@ -463,8 +463,8 @@ not an instance of the class or one of its subclasses. The `converter` option
 accepts a symbol that specifies a class method on the object class or a proc.
 Both will be passed the value and any errors thrown inside the converter will
 cause the value to be considered invalid. Any returned value that is not the
-correct class will also be treated as invalid. The value given to the `default`
-option will also be converted.
+correct class will also be treated as invalid. Any `default` that is not an
+instance of the class or subclass and is not `nil` will also be converted.
 
 ``` rb
 class ObjectInteraction < ActiveInteraction::Base
@@ -491,8 +491,8 @@ of its subclasses) or a value that can be used to locate an instance of the
 object. If the value does not match, it will call `find` on the class of the
 record. This is particularly useful when working with ActiveRecord objects.
 Like an object filter, the class is derived from the name passed but can be
-specified with the `class` option. The value given to the `default` option will
-also be found.
+specified with the `class` option. Any `default` that is not an instance of the
+class or subclass and is not `nil` will also be found.
 
 ``` rb
 class RecordInteraction < ActiveInteraction::Base
