@@ -3,6 +3,7 @@
 module ActiveInteraction
   # Represents a processed array input.
   class ArrayInput < Input
+    # @private
     def initialize(filter, value: nil, error: nil, index_errors: false, children: [])
       super(filter, value: value, error: error)
 
@@ -17,6 +18,9 @@ module ActiveInteraction
     #   @return [Array<Input, ArrayInput, HashInput>]
     attr_reader :children
 
+    # Any errors that occurred during processing.
+    #
+    # @return [Filter::Error]
     def errors # rubocop:disable Metrics/PerceivedComplexity
       return @errors if defined?(@errors)
 
@@ -32,10 +36,10 @@ module ActiveInteraction
             name = :"#{@filter.name}[#{i}]"
             name = :"#{name}.#{error.name.to_s.sub(/\A0\./, '')}" if children_are_hashes?(children)
             Filter::Error.new(error.filter, error.type, name: name)
-          end
+          end.freeze
         else
           error, = child_errors.first
-          [Filter::Error.new(@filter, error.type)]
+          [Filter::Error.new(@filter, error.type)].freeze
         end
     end
 

@@ -51,6 +51,9 @@ module ActiveInteraction
       @normalized_inputs
     end
 
+    # Turn the inputs into a Hash.
+    #
+    # @return [Hash]
     def to_h
       @to_h ||= @inputs.transform_values(&:value).freeze
     end
