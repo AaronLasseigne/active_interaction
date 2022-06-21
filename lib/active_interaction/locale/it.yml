@@ -3,7 +3,6 @@ it:
     errors:
       messages:
         invalid: non è valido
-        invalid_nested: ha un valore nidificato non valido (%{name} => %{value})
         invalid_type: non è di tipo %{type}
         missing: è obbligatorio
     types:

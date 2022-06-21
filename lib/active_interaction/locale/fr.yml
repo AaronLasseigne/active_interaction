@@ -3,7 +3,6 @@ fr:
     errors:
       messages:
         invalid: est invalide
-        invalid_nested: contient une valeur imbriquée invalide (%{name} => %{value})
         invalid_type: a un type invalide (%{type})
         missing: est obligatoire
     types:

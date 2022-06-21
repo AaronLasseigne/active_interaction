@@ -14,27 +14,7 @@ module ActiveInteraction
           input = filter.process(inputs[name], context)
 
           input.errors.each do |error|
-            new_error = error_to_validation_error(error, filter)
-            errors << new_error if new_error
-          end
-        end
-      end
-
-      private
-
-      def error_to_validation_error(error, filter)
-        if error.is_a?(Filter::Error)
-          [error.name, error.type, error.options]
-        else
-          case error
-          when InvalidNestedValueError
-            [
-              filter.name,
-              :invalid_nested,
-              { name: error.filter_name.inspect, value: error.input_value.inspect }
-            ]
-          else
-            raise "invalid error #{error}"
+            errors << [error.name, error.type, error.options]
           end
         end
       end

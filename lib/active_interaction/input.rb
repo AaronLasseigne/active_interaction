@@ -15,7 +15,7 @@ module ActiveInteraction
 
     # Any errors that occurred during processing.
     #
-    # @return [Filter::Error, InvalidNestedValueError]
+    # @return [Filter::Error]
     def errors
       @errors ||= Array(@error)
     end

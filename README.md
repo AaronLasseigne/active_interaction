@@ -1201,7 +1201,7 @@ errors.
 ``` rb
 outcome = BuyItem.run(item: 'Thing', options: { gift_wrapped: 'yes' })
 outcome.errors.messages
-# => {:credit_card=>["is required"], :item=>["is not a valid object"], :options=>["has an invalid nested value (\"gift_wrapped\" => \"yes\")"]}
+# => {:credit_card=>["is required"], :item=>["is not a valid object"], :"options.gift_wrapped"=>["is not a valid boolean"]}
 ```
 
 Determining the type of error based on the string is difficult if not
@@ -1210,7 +1210,7 @@ the same list of errors with a testable label representing the error.
 
 ``` rb
 outcome.errors.details
-# => {:credit_card=>[{:error=>:missing}], :item=>[{:type=>"object", :error=>:invalid_type}], :options=>[{:name=>"\"gift_wrapped\"", :value=>"\"yes\"", :error=>:invalid_nested}]}
+# => {:credit_card=>[{:error=>:missing}], :item=>[{:error=>:invalid_type, :type=>"object"}], :"options.gift_wrapped"=>[{:error=>:invalid_type, :type=>"boolean"}]}
 ```
 
 Detailed errors can also be manually added during the execute call by passing a
@@ -1447,7 +1447,6 @@ hsilgne:
     errors:
       messages:
         invalid: dilavni si
-        invalid_nested: (%{value} <= %{name}) eulav detsen dilavni na sah
         invalid_type: '%{type} dilav a ton si'
         missing: deriuqer si
 ```

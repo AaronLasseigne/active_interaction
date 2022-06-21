@@ -14,5 +14,26 @@ module ActiveInteraction
     #
     #   @return [Hash{ Symbol => Input, ArrayInput, HashInput }]
     attr_reader :children
+
+    def errors
+      return @errors if defined?(@errors)
+
+      return @errors = super if @error
+
+      child_errors = get_errors(children)
+
+      return @errors = super if child_errors.empty?
+
+      @errors ||=
+        child_errors.map do |error|
+          Filter::Error.new(error.filter, error.type, name: :"#{@filter.name}.#{error.name}")
+        end
+    end
+
+    private
+
+    def get_errors(children)
+      children.values.flat_map(&:errors)
+    end
   end
 end

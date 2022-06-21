@@ -1,26 +1,6 @@
 # frozen_string_literal: true
 
 module ActiveInteraction
-  # Raised if a user-supplied value to a nested hash input is invalid.
-  class InvalidNestedValueError
-    # @return [Symbol]
-    attr_reader :filter_name
-
-    # @return [Object]
-    attr_reader :input_value
-
-    # @param filter_name [Symbol]
-    # @param input_value [Object]
-    def initialize(filter_name, input_value)
-      @filter_name = filter_name
-      @input_value = input_value
-    end
-
-    def message
-      "#{filter_name}: #{input_value.inspect}"
-    end
-  end
-
   # An extension that provides the ability to merge other errors into itself.
   class Errors < ActiveModel::Errors
     attr_accessor :backtrace
@@ -37,14 +17,14 @@ module ActiveInteraction
     end
 
     # @private
-    def deindex_attribute(attribute)
-      attribute.to_s.remove(/\[\d+\]/)
+    def local_attribute(attribute)
+      attribute.to_s.sub(/\A([^.\[]*).*\z/, '\1').to_sym
     end
 
     private
 
     def attribute?(attribute)
-      @base.respond_to?(deindex_attribute(attribute))
+      @base.respond_to?(local_attribute(attribute))
     end
 
     def detailed_error?(detail)

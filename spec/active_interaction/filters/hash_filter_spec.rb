@@ -74,16 +74,12 @@ describe ActiveInteraction::HashFilter, :filter do
         let(:value) { { k => v } }
 
         it 'indicates an error' do
-          expect(
-            result.errors.first
-          ).to be_an_instance_of ActiveInteraction::InvalidNestedValueError
-        end
+          error = result.errors.first
 
-        it 'populates the error' do
-          result
-        rescue ActiveInteraction::InvalidNestedValueError => e
-          expect(e.filter_name).to eql k
-          expect(e.input_value).to eql v
+          expect(result.errors.size).to be 1
+          expect(error).to be_an_instance_of ActiveInteraction::Filter::Error
+          expect(error.name).to be :"#{filter.name}.#{error.filter.name}"
+          expect(error.type).to be :invalid_type
         end
       end
     end

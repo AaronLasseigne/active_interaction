@@ -3,7 +3,6 @@ pt-BR:
     errors:
       messages:
         invalid: é inválido
-        invalid_nested: possui um valor aninhado inválido (%{name} => %{value})
         invalid_type: não é um(a) %{type} válido(a)
         missing: é obrigatório
     types:

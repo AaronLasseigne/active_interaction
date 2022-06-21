@@ -3,7 +3,6 @@ ja:
     errors:
       messages:
         invalid: は無効です
-        invalid_nested: は無効なネストされた値です (%{name} => %{value})
         invalid_type: は無効な %{type} です
         missing: が必要です
     types:

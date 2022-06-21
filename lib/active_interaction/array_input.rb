@@ -6,6 +6,7 @@ module ActiveInteraction
     def initialize(filter, value: nil, error: nil, index_errors: false, children: [])
       super(filter, value: value, error: error)
 
+      @filter = filter
       @index_errors = index_errors
       @children = children
     end
@@ -16,7 +17,7 @@ module ActiveInteraction
     #   @return [Array<Input, ArrayInput, HashInput>]
     attr_reader :children
 
-    def errors
+    def errors # rubocop:disable Metrics/PerceivedComplexity
       return @errors if defined?(@errors)
 
       return @errors = super if @error
@@ -28,7 +29,9 @@ module ActiveInteraction
       @errors ||=
         if @index_errors
           child_errors.map do |(error, i)|
-            Filter::Error.new(error.filter, error.type, name: :"#{@filter.name}[#{i}]")
+            name = :"#{@filter.name}[#{i}]"
+            name = :"#{name}.#{error.name.to_s.sub(/\A0\./, '')}" if children_are_hashes?(children)
+            Filter::Error.new(error.filter, error.type, name: name)
           end
         else
           error, = child_errors.first
@@ -44,6 +47,12 @@ module ActiveInteraction
           [error, i]
         end
       end
+    end
+
+    def children_are_hashes?(children)
+      return @children_are_hashes if defined?(@children_are_hashes)
+
+      @children_are_hashes = children.first&.is_a?(HashInput)
     end
   end
 end

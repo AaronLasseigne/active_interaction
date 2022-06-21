@@ -11,10 +11,13 @@
 - The `given?` method has been moved onto `inputs`. ([how to upgrade](#given?))
 - [#503][] - The record filter now treats blank strings value as `nil`. This was missed in the 4.0 update.
 - The `type_check` callback has been renamed to `filter` to better match the reality of what it does.
+- `ActiveIneraction::FilterColumn` is now `ActiveInteraction::Filter::Column`
 - Errors on the array filter will now be indexed if the Rails config `index_nested_attribute_errors`
   is `true` or the `:index_errors` option is set to `true`. The `:index_errors` option always overrides
   the Rails config.
-- `ActiveIneraction::FilterColumn` is now `ActiveInteraction::Filter::Column`
+- Invalid nested errors (`:invalid_nested`) are gone. Instead the nested errors will appear as they would
+  in Rails if they were a `has_many` relationship being assigned attributes through a parent.
+  ([how to upgrade](#nested-hash-errors))
 
 ## Added
 
@@ -50,6 +53,61 @@ class Example < ActiveInteraction::Base
     inputs.given?(:name)
   end
 end
+```
+
+### Nested Hash Errors
+
+Nested hash errors no longer add an error as through it happened on the hash.
+They now use the error in its original form and attach the name of the hash to
+the error. It is also not limited to returning one error.
+
+```ruby
+class HashInteraction < ActiveInteraction::Base
+  hash :mailing_lists do
+    boolean :marketing
+    boolean :product_updates
+  end
+
+  def execute
+    # ...
+  end
+end
+
+> outcome = HashInteraction.run(mailing_lists: {})
+
+# 4.1
+> outcome.errors.details
+# => {:mailing_lists=>[{:error=>:invalid_nested, :name=>"\"marketing\"", :value=>"nil"}]},
+> outcome.errors.messages
+# => {:mailing_lists=>["has an invalid nested value (\"marketing\" => nil)"]}
+> outcome.errors.full_messages
+# => ["Mailing lists has an invalid nested value (\"marketing\" => nil)"]
+
+# 5.0
+> outcome.errors.details
+# => {:"mailing_lists.marketing"=>[{:error=>:missing}], :"mailing_lists.product_updates"=>[{:error=>:missing}]}
+> outcome.errors.messages
+# => {:"mailing_lists.marketing"=>["is required"], :"mailing_lists.product_updates"=>["is required"]}
+> outcome.errors.full_messages
+# => ["Mailing lists marketing is required", "Mailing lists product updates is required"]
+```
+
+I18n can handle these values the same as nested values in Rails:
+
+```yml
+en:
+  active_interaction:
+    attributes:
+      hash_interaction/mailing_lists:
+        marketing: 'Mailing list "Marketing"'
+        product_updates: 'Mailing list "Product Updates"'
+```
+
+Using the same example from above:
+
+```ruby
+> outcome.errors.full_messages
+# => ["Mailing list \"Marketing\" is required", "Mailing list \"Product Updates\" is required"]
 ```
 
 # [4.1.0][] (2021-12-30)

@@ -111,7 +111,7 @@ module ActiveInteraction
     #
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
-    def default(context = nil) # rubocop:disable all
+    def default(context = nil)
       return @default if defined?(@default)
 
       raise NoDefaultError, name unless default?
@@ -125,16 +125,9 @@ module ActiveInteraction
         else
           default = process(value, context)
           if default.errors.any? && default.errors.first.is_a?(Filter::Error)
-            case default.errors.first.type
-            when :missing, :invalid_type
-              raise InvalidDefaultError, "#{name}: #{value.inspect}"
-            end
-          else
-            case default.errors.first
-            when InvalidNestedValueError
-              raise InvalidDefaultError, "#{name}: #{value.inspect} (#{default.errors.first})"
-            end
+            raise InvalidDefaultError, "#{name}: #{value.inspect}"
           end
+
           default.value
         end
     end

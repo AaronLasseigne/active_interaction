@@ -194,7 +194,7 @@ module ActiveInteraction
 
     # @private
     def read_attribute_for_validation(attribute)
-      super(errors.deindex_attribute(attribute))
+      super(errors.local_attribute(attribute))
     end
 
     protected

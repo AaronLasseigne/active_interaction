@@ -25,7 +25,7 @@ module ActiveInteraction
 
     register :hash
 
-    def process(value, context) # rubocop:disable all
+    def process(value, context)
       input = super
 
       return HashInput.new(self, value: input.value, error: input.errors.first) if input.errors.first
@@ -38,7 +38,6 @@ module ActiveInteraction
       filters.each do |name, filter|
         filter.process(input.value[name], context).tap do |result|
           value[name] = result.value
-          error ||= InvalidNestedValueError.new(name, input.value[name]) if result.errors.any?
           children[name.to_sym] = result
         end
       end

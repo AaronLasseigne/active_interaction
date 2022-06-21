@@ -39,7 +39,7 @@ describe ActiveInteraction::Validation do
         allow(filter).to receive(:process).and_return(ActiveInteraction::Input.new(filter, error: exception))
       end
 
-      context 'InvalidValueError' do
+      context 'Filter::Error' do
         let(:filter) { ActiveInteraction::ArrayFilter.new(:name, [1.0, 'a']) { float } }
 
         let(:exception) { ActiveInteraction::Filter::Error.new(filter, :invalid_type) }
@@ -50,30 +50,6 @@ describe ActiveInteraction::Validation do
           )
 
           expect(result).to eql [[filter.name, :invalid_type, { type: type }]]
-        end
-      end
-
-      context 'Filter::Error' do
-        let(:exception) { ActiveInteraction::Filter::Error.new(filter, :missing) }
-
-        it 'returns a :missing error' do
-          expect(result).to eql [[filter.name, :missing, {}]]
-        end
-      end
-
-      context 'InvalidNestedValueError' do
-        let(:exception) do
-          ActiveInteraction::InvalidNestedValueError.new(name, value)
-        end
-        let(:name) { SecureRandom.hex.to_sym }
-        let(:value) { double }
-
-        it 'returns an :invalid_nested error' do
-          expect(result).to eql [[
-            filter.name,
-            :invalid_nested,
-            { name: name.inspect, value: value.inspect }
-          ]]
         end
       end
     end
