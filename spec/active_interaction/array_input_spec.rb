@@ -39,7 +39,7 @@ describe ActiveInteraction::ArrayInput do
     end
 
     context 'with children with errors' do
-      let(:child_filter) { ActiveInteraction::IntegerFilter.new(:'0') }
+      let(:child_filter) { ActiveInteraction::IntegerFilter.new(:'') }
       let(:child_error) { ActiveInteraction::Filter::Error.new(child_filter, :invalid_type) }
       let(:child1) { ActiveInteraction::Input.new(child_filter, value: 'a', error: child_error) }
       let(:child2) { ActiveInteraction::Input.new(child_filter, value: 'b', error: child_error) }
@@ -79,6 +79,34 @@ describe ActiveInteraction::ArrayInput do
           end
         end
 
+        context 'with a nested array' do
+          let(:invalid_value) { Object.new }
+          let(:array_child) do
+            filter = ActiveInteraction::IntegerFilter.new(:'')
+            ActiveInteraction::Input.new(filter,
+              value: invalid_value,
+              error: ActiveInteraction::Filter::Error.new(filter, :invalid_type)
+            )
+          end
+          let(:child_filter) { ActiveInteraction::ArrayFilter.new(:'') { integer } }
+          let(:child) do
+            described_class.new(child_filter,
+              value: [invalid_value],
+              index_errors: index_errors,
+              children: [array_child]
+            )
+          end
+          let(:children) { [child] }
+
+          it 'returns the error' do
+            expect(input.errors.size).to be 1
+
+            error = input.errors.first
+            expect(error.name).to be :"#{filter.name}[0][0]"
+            expect(error.type).to be :invalid_type
+          end
+        end
+
         context 'with a nested hash' do
           let(:hash_child_a) do
             filter = ActiveInteraction::IntegerFilter.new(:a)
@@ -94,7 +122,7 @@ describe ActiveInteraction::ArrayInput do
               error: ActiveInteraction::Filter::Error.new(filter, :missing)
             )
           end
-          let(:child_filter) { ActiveInteraction::HashFilter.new(:'0') { integer :a, :b } }
+          let(:child_filter) { ActiveInteraction::HashFilter.new(:'') { integer :a, :b } }
           let(:child) do
             ActiveInteraction::HashInput.new(child_filter, value: {}, children: { a: hash_child_a, b: hash_child_b })
           end
@@ -110,6 +138,26 @@ describe ActiveInteraction::ArrayInput do
             error = input.errors.last
             expect(error.name).to be :"#{filter.name}[0].b"
             expect(error.type).to be :missing
+          end
+
+          context 'with an invalid hash' do
+            let(:child_filter) { ActiveInteraction::HashFilter.new(:'') }
+            let(:child) do
+              ActiveInteraction::HashInput.new(child_filter,
+                value: Object.new,
+                error: ActiveInteraction::Filter::Error.new(child_filter, :invalid_type),
+                children: {}
+              )
+            end
+            let(:children) { [child] }
+
+            it 'list all child errors' do
+              expect(input.errors.size).to be 1
+
+              error = input.errors.first
+              expect(error.name).to be :"#{filter.name}[0]"
+              expect(error.type).to be :invalid_type
+            end
           end
         end
       end
