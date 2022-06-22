@@ -88,7 +88,7 @@ you need to do two things:
 2.  **Define your business logic.** Do this by implementing the `#execute`
     method. Each input you defined will be available as the type you specified.
     If any of the inputs are invalid, `#execute` won't be run. Filters are
-    responsible for type checking your inputs. Check out [the validations
+    responsible for checking your inputs. Check out [the validations
     section](#validations) if you need more than that.
 
 That covers the basics. Let's put it all together into a simple example that
@@ -140,7 +140,7 @@ Square.run!(x: 2.1)
 
 ### Validations
 
-ActiveInteraction type checks your inputs. Often you'll want more than that.
+ActiveInteraction checks your inputs. Often you'll want more than that.
 For instance, you may want an input to be a string with at least one
 non-whitespace character. Instead of writing your own validation for that, you
 can use validations from ActiveModel.
@@ -163,7 +163,7 @@ end
 ```
 
 When you run this interaction, two things will happen. **First
-ActiveInteraction will type check your inputs. Then ActiveModel will validate
+ActiveInteraction will check your inputs. Then ActiveModel will validate
 them.** If both of those are happy, it will be executed.
 
 ``` rb
@@ -865,7 +865,7 @@ end
 ```
 
 Note that it's perfectly fine to add errors during execution. Not all errors
-have to come from type checking or validation.
+have to come from checking or validation.
 
 #### New
 
@@ -1048,7 +1048,7 @@ interaction's lifecycle.
 
 ``` rb
 class Increment < ActiveInteraction::Base
-  set_callback :filter, :before, -> { puts 'before type check' }
+  set_callback :filter, :before, -> { puts 'before filter' }
 
   integer :x
 
@@ -1070,7 +1070,7 @@ class Increment < ActiveInteraction::Base
 end
 
 Increment.run!(x: 1)
-# before type check
+# before filter
 # after validate
 # >>>
 # executing
