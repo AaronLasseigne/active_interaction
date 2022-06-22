@@ -8,9 +8,10 @@
 - `ActiveInteraction::Inputs` no longer inherits from `Hash` though it still has most of the methods
   provided by `Hash` (methods that write were removed).
 - Removed `Filter#clean` (use `Filter#process` and call `#value` on the result)
-- The `given?` method has been moved onto `inputs`. ([how to upgrade](#given?))
+- The `given?` method has been moved onto `inputs`. ([how to upgrade](#given))
 - [#503][] - The record filter now treats blank strings value as `nil`. This was missed in the 4.0 update.
 - The `type_check` callback has been renamed to `filter` to better match the reality of what it does.
+  ([how to upgrade](#filter-callback))
 - `ActiveIneraction::FilterColumn` is now `ActiveInteraction::Filter::Column`
 - Errors on the array filter will now be indexed if the Rails config `index_nested_attribute_errors`
   is `true` or the `:index_errors` option is set to `true`. The `:index_errors` option always overrides
@@ -53,6 +54,18 @@ class Example < ActiveInteraction::Base
     inputs.given?(:name)
   end
 end
+```
+
+### Filter Callback
+
+You'll need to rename any `:type_check` callbacks to `:filter`.
+
+```ruby
+# 4.1
+set_callback :type_check, :before, -> { puts 'before type check' }
+
+# 5.0
+set_callback :filter, :before, -> { puts 'before type check' }
 ```
 
 ### Nested Hash Errors
