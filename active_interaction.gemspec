@@ -36,7 +36,11 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
     Dir.glob(File.join('lib', 'active_interaction', 'locale', '*.yml'))
   spec.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
 
-  spec.add_dependency 'rails', '>= 5.2', '< 8'
+  rails_gem_constraints = ['>= 5.2', '< 8']
+  spec.add_dependency 'actionpack', *rails_gem_constraints
+  spec.add_dependency 'activemodel', *rails_gem_constraints
+  spec.add_dependency 'activerecord', *rails_gem_constraints
+  spec.add_dependency 'activesupport', *rails_gem_constraints
 
   {
     'kramdown' => ['~> 2.1'],
