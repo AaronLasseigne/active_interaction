@@ -294,17 +294,28 @@ describe ActiveInteraction::Base do
     let(:z) { rand }
 
     context 'with valid composition' do
-      before do
-        inputs[:x] = x
-        inputs[:z] = z
+      context 'when inputs is a hash' do
+        let(:inputs) { { x: x, z: z } }
+
+        it 'is valid' do
+          expect(outcome).to be_valid
+        end
+
+        it 'returns the sum' do
+          expect(result).to eql x + z
+        end
       end
 
-      it 'is valid' do
-        expect(outcome).to be_valid
-      end
+      context 'when inputs is an ActiveInteraction::Inputs' do
+        let(:inputs) { ActiveInteraction::Inputs.new({ x: x, z: z }, described_class.new) }
 
-      it 'returns the sum' do
-        expect(result).to eql x + z
+        it 'is valid' do
+          expect(outcome).to be_valid
+        end
+
+        it 'returns the sum' do
+          expect(result).to eql x + z
+        end
       end
     end
 
