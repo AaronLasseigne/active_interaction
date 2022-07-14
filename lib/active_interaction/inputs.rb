@@ -87,6 +87,7 @@ module ActiveInteraction
       :size,
       :slice,
       :store,
+      :stringify_keys,
       :to_a,
       :to_s,
       :value?,
@@ -175,7 +176,7 @@ module ActiveInteraction
     end
 
     def convert(inputs)
-      return inputs.stringify_keys if inputs.is_a?(Hash)
+      return inputs.stringify_keys if inputs.is_a?(Hash) || inputs.is_a?(Inputs)
       return inputs.to_unsafe_h.stringify_keys if inputs.is_a?(ActionController::Parameters)
 
       raise ArgumentError, 'inputs must be a hash or ActionController::Parameters'
