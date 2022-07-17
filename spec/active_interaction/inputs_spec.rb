@@ -44,6 +44,14 @@ describe ActiveInteraction::Inputs do
       end
     end
 
+    context 'with ActiveInteraction::Inputs inputs' do
+      let(:args) { described_class.new({ key: :value }, base_class.new) }
+
+      it 'does not raise an error' do
+        expect { result }.to_not raise_error
+      end
+    end
+
     context 'with ActionController::Parameters inputs' do
       let(:args) { ::ActionController::Parameters.new }
 

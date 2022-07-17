@@ -175,6 +175,7 @@ module ActiveInteraction
     end
 
     def convert(inputs)
+      return inputs if inputs.is_a?(self.class)
       return inputs.stringify_keys if inputs.is_a?(Hash)
       return inputs.to_unsafe_h.stringify_keys if inputs.is_a?(ActionController::Parameters)
 
