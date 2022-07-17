@@ -1,3 +1,9 @@
+# [5.0.1][] (TBD)
+
+## Fixed
+
+- [#536][] - `compose` accepts `Inputs`
+
 # [5.0.0][] (2022-06-24)
 
 ## Changed
@@ -1101,6 +1107,7 @@ Example.run
 
 - Initial release.
 
+  [5.0.1]: https://github.com/AaronLasseigne/active_interaction/compare/v5.0.0...v5.0.1
   [5.0.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.1.0...v5.0.0
   [4.1.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.6...v4.1.0
   [4.0.6]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.5...v4.0.6
@@ -1325,3 +1332,4 @@ Example.run
   [#515]: https://github.com/AaronLasseigne/active_interaction/issues/515
   [#518]: https://github.com/AaronLasseigne/active_interaction/issues/518
   [#503]: https://github.com/AaronLasseigne/active_interaction/issues/503
+  [#536]: https://github.com/AaronLasseigne/active_interaction/issues/536
