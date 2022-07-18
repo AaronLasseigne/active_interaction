@@ -1492,13 +1492,13 @@ ActiveInteraction is licensed under [the MIT License][].
 
 [activeinteraction]: https://github.com/AaronLasseigne/active_interaction
 [API Documentation]: http://rubydoc.info/github/AaronLasseigne/active_interaction
-[semantic versioning]: http://semver.org/spec/v2.0.0.html
+[Semantic Versioning]: http://semver.org/spec/v2.0.0.html
 [GitHub releases]: https://github.com/AaronLasseigne/active_interaction/releases
 [aaron lasseigne]: https://github.com/AaronLasseigne
 [taylor fausak]: https://github.com/tfausak
 [our contribution guidelines]: CONTRIBUTING.md
 [complete list of contributors]: https://github.com/AaronLasseigne/active_interaction/graphs/contributors
-[the mit license]: LICENSE.md
+[the MIT License]: LICENSE.md
 [formtastic]: https://rubygems.org/gems/formtastic
 [simple_form]: https://rubygems.org/gems/simple_form
 [the filters section]: #filters
