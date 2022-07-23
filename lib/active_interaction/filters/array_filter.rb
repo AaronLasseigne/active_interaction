@@ -60,11 +60,15 @@ module ActiveInteraction
     private
 
     def index_errors?
+      klass = 'ActiveRecord'.safe_constantize
+
       default =
-        if ::ActiveRecord.respond_to?(:index_nested_attribute_errors)
-          ::ActiveRecord.index_nested_attribute_errors # Moved to here in Rails 7.0
+        if !klass
+          false
+        elsif klass.respond_to?(:index_nested_attribute_errors)
+          klass.index_nested_attribute_errors # Moved to here in Rails 7.0
         else
-          ::ActiveRecord::Base.index_nested_attribute_errors
+          klass::Base.index_nested_attribute_errors
         end
       options.fetch(:index_errors, default)
     end

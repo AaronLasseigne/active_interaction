@@ -177,9 +177,12 @@ module ActiveInteraction
     def convert(inputs)
       return inputs if inputs.is_a?(self.class)
       return inputs.stringify_keys if inputs.is_a?(Hash)
-      return inputs.to_unsafe_h.stringify_keys if inputs.is_a?(ActionController::Parameters)
 
-      raise ArgumentError, 'inputs must be a hash or ActionController::Parameters'
+      parameters = 'ActionController::Parameters'
+      klass = parameters.safe_constantize
+      return inputs.to_unsafe_h.stringify_keys if klass && inputs.is_a?(klass)
+
+      raise ArgumentError, 'inputs must be a hash, ActiveInteraction::Inputs, or ActionController::Parameters'
     end
 
     def assign_to_grouped_input!(inputs, key, index, value)

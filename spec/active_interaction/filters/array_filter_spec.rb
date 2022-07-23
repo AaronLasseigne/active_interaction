@@ -136,10 +136,10 @@ describe ActiveInteraction::ArrayFilter, :filter do
 
         context 'when ActiveRecord.index_nested_attribute_errors is true' do
           before do
-            if ::ActiveRecord.respond_to?(:index_nested_attribute_errors)
-              allow(::ActiveRecord).to receive(:index_nested_attribute_errors).and_return(true)
+            if ActiveRecord.respond_to?(:index_nested_attribute_errors)
+              allow(ActiveRecord).to receive(:index_nested_attribute_errors).and_return(true)
             else
-              allow(::ActiveRecord::Base).to receive(:index_nested_attribute_errors).and_return(true)
+              allow(ActiveRecord::Base).to receive(:index_nested_attribute_errors).and_return(true)
             end
           end
 

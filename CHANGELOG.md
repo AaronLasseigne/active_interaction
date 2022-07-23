@@ -1,4 +1,8 @@
-# [5.0.1][] (TBD)
+# [5.1.0][] (TBD)
+
+## Added
+
+- Limit dependencies to the minimum requirements.
 
 ## Fixed
 
@@ -1107,7 +1111,7 @@ Example.run
 
 - Initial release.
 
-  [5.0.1]: https://github.com/AaronLasseigne/active_interaction/compare/v5.0.0...v5.0.1
+  [5.1.0]: https://github.com/AaronLasseigne/active_interaction/compare/v5.0.0...v5.1.0
   [5.0.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.1.0...v5.0.0
   [4.1.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.6...v4.1.0
   [4.0.6]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.5...v4.0.6

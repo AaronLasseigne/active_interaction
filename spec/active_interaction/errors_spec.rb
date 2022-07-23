@@ -123,10 +123,10 @@ describe ActiveInteraction::Errors do
       let(:other) { described_class.new(klass.new) }
 
       before do
-        if ::ActiveRecord.respond_to?(:index_nested_attribute_errors)
-          allow(::ActiveRecord).to receive(:index_nested_attribute_errors).and_return(true)
+        if ActiveRecord.respond_to?(:index_nested_attribute_errors)
+          allow(ActiveRecord).to receive(:index_nested_attribute_errors).and_return(true)
         else
-          allow(::ActiveRecord::Base).to receive(:index_nested_attribute_errors).and_return(true)
+          allow(ActiveRecord::Base).to receive(:index_nested_attribute_errors).and_return(true)
         end
 
         other.add(:'array[0]')
