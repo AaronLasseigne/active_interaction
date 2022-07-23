@@ -11,7 +11,7 @@ For features please open a [discussion][] and we can make sure the feature fits 
 2. Add a breaking test for your change.
 3. Make the tests pass.
 4. Push your fork.
-5. Submit a pull request.
+5. Submit a pull request against the `next` branch.
 
 ## Code Style
 
