@@ -17,23 +17,25 @@ handles your verbs.
 - [Basic usage](#basic-usage)
   - [Validations](#validations)
 - [Filters](#filters)
-  - [Array](#array)
-  - [Boolean](#boolean)
-  - [File](#file)
-  - [Hash](#hash)
-  - [Interface](#interface)
-  - [Object](#object)
-  - [Record](#record)
-  - [String](#string)
-  - [Symbol](#symbol)
-  - [Dates and times](#dates-and-times)
-    - [Date](#date)
-    - [DateTime](#datetime)
-    - [Time](#time)
-  - [Numbers](#numbers)
-    - [Decimal](#decimal)
-    - [Float](#float)
-    - [Integer](#integer)
+  - [Basic Filters](#basic-filters)
+    - [Array](#array)
+    - [Boolean](#boolean)
+    - [File](#file)
+    - [Hash](#hash)
+    - [String](#string)
+    - [Symbol](#symbol)
+    - [Dates and times](#dates-and-times)
+      - [Date](#date)
+      - [DateTime](#datetime)
+      - [Time](#time)
+    - [Numbers](#numbers)
+      - [Decimal](#decimal)
+      - [Float](#float)
+      - [Integer](#integer)
+  - [Advanced Filters](#advanced-filters)
+    - [Interface](#interface)
+    - [Object](#object)
+    - [Record](#record)
 - [Rails](#rails)
   - [Setup](#setup)
   - [Controller](#controller)
@@ -213,7 +215,9 @@ alternatives that can be reasonably coerced. Typically the coercions come from
 Rails, so `"1"` can be interpreted as the boolean value `true`, the string
 `"1"`, or the number `1`.
 
-### Array
+### Basic Filters
+
+#### Array
 
 In addition to accepting arrays, array inputs will convert
 `ActiveRecord::Relation`s into arrays.
@@ -286,7 +290,7 @@ With `:index_errors` set to `false` the error would have been:
 {:favorite_numbers=>[{:error=>:invalid_type, :type=>"array"}]}
 ```
 
-### Boolean
+#### Boolean
 
 Boolean filters convert the strings `"1"`, `"true"`, and `"on"`
 (case-insensitive) into `true`. They also convert `"0"`, `"false"`, and `"off"`
@@ -307,7 +311,7 @@ BooleanInteraction.run!(kool_aid: true)
 # => "Oh yeah!"
 ```
 
-### File
+#### File
 
 File filters also accept `TempFile`s and anything that responds to `#rewind`.
 That means that you can pass the `params` from uploading files via forms in
@@ -328,7 +332,7 @@ FileInteraction.run!(readme: File.open('README.md'))
 # => 21563
 ```
 
-### Hash
+#### Hash
 
 Hash filters accept hashes. The expected value types are given by passing a
 block and nesting other filters. You can have any number of filters inside a
@@ -380,7 +384,221 @@ hash :stuff,
   strip: false
 ```
 
-### Interface
+#### String
+
+String filters define inputs that only accept strings.
+
+``` rb
+class StringInteraction < ActiveInteraction::Base
+  string :name
+
+  def execute
+    "Hello, #{name}!"
+  end
+end
+
+StringInteraction.run!(name: 0xDEADBEEF)
+# ActiveInteraction::InvalidInteractionError: Name is not a valid string
+StringInteraction.run!(name: 'Taylor')
+# => "Hello, Taylor!"
+```
+
+String filter strips leading and trailing whitespace by default. To disable it, set the
+`strip` option to `false`.
+
+``` rb
+string :comment,
+  strip: false
+```
+
+#### Symbol
+
+Symbol filters define inputs that accept symbols. Strings will be converted
+into symbols.
+
+``` rb
+class SymbolInteraction < ActiveInteraction::Base
+  symbol :method
+
+  def execute
+    method.to_proc
+  end
+end
+
+SymbolInteraction.run!(method: -> {})
+# ActiveInteraction::InvalidInteractionError: Method is not a valid symbol
+SymbolInteraction.run!(method: :object_id)
+# => #<Proc:0x007fdc9ba94118>
+```
+
+#### Dates and times
+
+Filters that work with dates and times behave similarly. By default, they all
+convert strings into their expected data types using `.parse`. Blank strings
+will be treated as `nil`. If you give the `format` option, they will instead
+convert strings using `.strptime`. Note that formats won't work with `DateTime`
+and `Time` filters if a time zone is set.
+
+##### Date
+
+``` rb
+class DateInteraction < ActiveInteraction::Base
+  date :birthday
+
+  def execute
+    birthday + (18 * 365)
+  end
+end
+
+DateInteraction.run!(birthday: 'yesterday')
+# ActiveInteraction::InvalidInteractionError: Birthday is not a valid date
+DateInteraction.run!(birthday: Date.new(1989, 9, 1))
+# => #<Date: 2007-08-28 ((2454341j,0s,0n),+0s,2299161j)>
+```
+
+``` rb
+date :birthday,
+  format: '%Y-%m-%d'
+```
+
+##### DateTime
+
+``` rb
+class DateTimeInteraction < ActiveInteraction::Base
+  date_time :now
+
+  def execute
+    now.iso8601
+  end
+end
+
+DateTimeInteraction.run!(now: 'now')
+# ActiveInteraction::InvalidInteractionError: Now is not a valid date time
+DateTimeInteraction.run!(now: DateTime.now)
+# => "2015-03-11T11:04:40-05:00"
+```
+
+``` rb
+date_time :start,
+  format: '%Y-%m-%dT%H:%M:%S'
+```
+
+##### Time
+
+In addition to converting strings with `.parse` (or `.strptime`), time filters
+convert numbers with `.at`.
+
+``` rb
+class TimeInteraction < ActiveInteraction::Base
+  time :epoch
+
+  def execute
+    Time.now - epoch
+  end
+end
+
+TimeInteraction.run!(epoch: 'a long, long time ago')
+# ActiveInteraction::InvalidInteractionError: Epoch is not a valid time
+TimeInteraction.run!(epoch: Time.new(1970))
+# => 1426068362.5136619
+```
+
+``` rb
+time :start,
+  format: '%Y-%m-%dT%H:%M:%S'
+```
+
+#### Numbers
+
+All numeric filters accept numeric input. They will also convert strings using
+the appropriate method from `Kernel` (like `.Float`). Blank strings will be
+treated as `nil`.
+
+##### Decimal
+
+``` rb
+class DecimalInteraction < ActiveInteraction::Base
+  decimal :price
+
+  def execute
+    price * 1.0825
+  end
+end
+
+DecimalInteraction.run!(price: 'one ninety-nine')
+# ActiveInteraction::InvalidInteractionError: Price is not a valid decimal
+DecimalInteraction.run!(price: BigDecimal(1.99, 2))
+# => #<BigDecimal:7fe792a42028,'0.2165E1',18(45)>
+```
+
+To specify the number of significant digits, use the `digits` option.
+
+``` rb
+decimal :dollars,
+  digits: 2
+```
+
+##### Float
+
+``` rb
+class FloatInteraction < ActiveInteraction::Base
+  float :x
+
+  def execute
+    x**2
+  end
+end
+
+FloatInteraction.run!(x: 'two point one')
+# ActiveInteraction::InvalidInteractionError: X is not a valid float
+FloatInteraction.run!(x: 2.1)
+# => 4.41
+```
+
+##### Integer
+
+``` rb
+class IntegerInteraction < ActiveInteraction::Base
+  integer :limit
+
+  def execute
+    limit.downto(0).to_a
+  end
+end
+
+IntegerInteraction.run!(limit: 'ten')
+# ActiveInteraction::InvalidInteractionError: Limit is not a valid integer
+IntegerInteraction.run!(limit: 10)
+# => [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+```
+
+When a `String` is passed into an `integer` input, the value will be coerced.
+A default base of `10` is used though it may be overridden with the `base` option.
+If a base of `0` is provided, the coercion will respect radix indicators present
+in the string.
+
+``` rb
+class IntegerInteraction < ActiveInteraction::Base
+  integer :limit1
+  integer :limit2, base: 8
+  integer :limit3, base: 0
+
+  def execute
+    [limit1, limit2, limit3]
+  end
+end
+
+IntegerInteraction.run!(limit1: 71, limit2: 71, limit3: 71)
+# => [71, 71, 71]
+IntegerInteraction.run!(limit1: "071", limit2: "071", limit3: "0x71")
+# => [71, 57, 113]
+IntegerInteraction.run!(limit1: "08", limit2: "08", limit3: "08")
+ActiveInteraction::InvalidInteractionError: Limit2 is not a valid integer, Limit3 is not a valid integer
+```
+
+### Advanced Filters
+
+#### Interface
 
 Interface filters allow you to specify an interface that the passed value must
 meet in order to pass. The name of the interface is used to look for a constant
@@ -444,7 +662,7 @@ InterfaceInteraction.run!(serializer: JSON)
 # => "{\"is_json\":true}"
 ```
 
-### Object
+#### Object
 
 Object filters allow you to require an instance of a particular class or one of
 its subclasses.
@@ -510,7 +728,7 @@ ObjectInteraction.run!(ip_address: 1)
 # ActiveInteraction::InvalidInteractionError: Ip address is not a valid object
 ```
 
-### Record
+#### Record
 
 Record filters allow you to require an instance of a particular class (or one
 of its subclasses) or a value that can be used to locate an instance of the
@@ -538,218 +756,6 @@ end
 ```
 
 A different method can be specified by providing a symbol to the `finder` option.
-
-### String
-
-String filters define inputs that only accept strings.
-
-``` rb
-class StringInteraction < ActiveInteraction::Base
-  string :name
-
-  def execute
-    "Hello, #{name}!"
-  end
-end
-
-StringInteraction.run!(name: 0xDEADBEEF)
-# ActiveInteraction::InvalidInteractionError: Name is not a valid string
-StringInteraction.run!(name: 'Taylor')
-# => "Hello, Taylor!"
-```
-
-String filter strips leading and trailing whitespace by default. To disable it, set the
-`strip` option to `false`.
-
-``` rb
-string :comment,
-  strip: false
-```
-
-### Symbol
-
-Symbol filters define inputs that accept symbols. Strings will be converted
-into symbols.
-
-``` rb
-class SymbolInteraction < ActiveInteraction::Base
-  symbol :method
-
-  def execute
-    method.to_proc
-  end
-end
-
-SymbolInteraction.run!(method: -> {})
-# ActiveInteraction::InvalidInteractionError: Method is not a valid symbol
-SymbolInteraction.run!(method: :object_id)
-# => #<Proc:0x007fdc9ba94118>
-```
-
-### Dates and times
-
-Filters that work with dates and times behave similarly. By default, they all
-convert strings into their expected data types using `.parse`. Blank strings
-will be treated as `nil`. If you give the `format` option, they will instead
-convert strings using `.strptime`. Note that formats won't work with `DateTime`
-and `Time` filters if a time zone is set.
-
-#### Date
-
-``` rb
-class DateInteraction < ActiveInteraction::Base
-  date :birthday
-
-  def execute
-    birthday + (18 * 365)
-  end
-end
-
-DateInteraction.run!(birthday: 'yesterday')
-# ActiveInteraction::InvalidInteractionError: Birthday is not a valid date
-DateInteraction.run!(birthday: Date.new(1989, 9, 1))
-# => #<Date: 2007-08-28 ((2454341j,0s,0n),+0s,2299161j)>
-```
-
-``` rb
-date :birthday,
-  format: '%Y-%m-%d'
-```
-
-#### DateTime
-
-``` rb
-class DateTimeInteraction < ActiveInteraction::Base
-  date_time :now
-
-  def execute
-    now.iso8601
-  end
-end
-
-DateTimeInteraction.run!(now: 'now')
-# ActiveInteraction::InvalidInteractionError: Now is not a valid date time
-DateTimeInteraction.run!(now: DateTime.now)
-# => "2015-03-11T11:04:40-05:00"
-```
-
-``` rb
-date_time :start,
-  format: '%Y-%m-%dT%H:%M:%S'
-```
-
-#### Time
-
-In addition to converting strings with `.parse` (or `.strptime`), time filters
-convert numbers with `.at`.
-
-``` rb
-class TimeInteraction < ActiveInteraction::Base
-  time :epoch
-
-  def execute
-    Time.now - epoch
-  end
-end
-
-TimeInteraction.run!(epoch: 'a long, long time ago')
-# ActiveInteraction::InvalidInteractionError: Epoch is not a valid time
-TimeInteraction.run!(epoch: Time.new(1970))
-# => 1426068362.5136619
-```
-
-``` rb
-time :start,
-  format: '%Y-%m-%dT%H:%M:%S'
-```
-
-### Numbers
-
-All numeric filters accept numeric input. They will also convert strings using
-the appropriate method from `Kernel` (like `.Float`). Blank strings will be
-treated as `nil`.
-
-#### Decimal
-
-``` rb
-class DecimalInteraction < ActiveInteraction::Base
-  decimal :price
-
-  def execute
-    price * 1.0825
-  end
-end
-
-DecimalInteraction.run!(price: 'one ninety-nine')
-# ActiveInteraction::InvalidInteractionError: Price is not a valid decimal
-DecimalInteraction.run!(price: BigDecimal(1.99, 2))
-# => #<BigDecimal:7fe792a42028,'0.2165E1',18(45)>
-```
-
-To specify the number of significant digits, use the `digits` option.
-
-``` rb
-decimal :dollars,
-  digits: 2
-```
-
-#### Float
-
-``` rb
-class FloatInteraction < ActiveInteraction::Base
-  float :x
-
-  def execute
-    x**2
-  end
-end
-
-FloatInteraction.run!(x: 'two point one')
-# ActiveInteraction::InvalidInteractionError: X is not a valid float
-FloatInteraction.run!(x: 2.1)
-# => 4.41
-```
-
-#### Integer
-
-``` rb
-class IntegerInteraction < ActiveInteraction::Base
-  integer :limit
-
-  def execute
-    limit.downto(0).to_a
-  end
-end
-
-IntegerInteraction.run!(limit: 'ten')
-# ActiveInteraction::InvalidInteractionError: Limit is not a valid integer
-IntegerInteraction.run!(limit: 10)
-# => [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-```
-
-When a `String` is passed into an `integer` input, the value will be coerced.
-A default base of `10` is used though it may be overridden with the `base` option.
-If a base of `0` is provided, the coercion will respect radix indicators present
-in the string.
-
-``` rb
-class IntegerInteraction < ActiveInteraction::Base
-  integer :limit1
-  integer :limit2, base: 8
-  integer :limit3, base: 0
-
-  def execute
-    [limit1, limit2, limit3]
-  end
-end
-
-IntegerInteraction.run!(limit1: 71, limit2: 71, limit3: 71)
-# => [71, 71, 71]
-IntegerInteraction.run!(limit1: "071", limit2: "071", limit3: "0x71")
-# => [71, 57, 113]
-IntegerInteraction.run!(limit1: "08", limit2: "08", limit3: "08")
-ActiveInteraction::InvalidInteractionError: Limit2 is not a valid integer, Limit3 is not a valid integer
-```
 
 ## Rails
 
