@@ -66,6 +66,16 @@ describe ActiveInteraction::ArrayFilter, :filter do
       end
     end
 
+    context 'with a nested filter where the value transforms' do
+      let(:block) { proc { symbol } }
+      let(:name) { :test }
+      let(:value) { ['test'] }
+
+      it 'returns the transformed value' do
+        expect(result.value).to eql [:test]
+      end
+    end
+
     context 'with a nested filter' do
       let(:block) { proc { array } }
 
@@ -81,7 +91,7 @@ describe ActiveInteraction::ArrayFilter, :filter do
           expect(result.children.size).to be 2
           result.children.each do |child|
             expect(child).to be_an_instance_of ActiveInteraction::ArrayInput
-            expect(child.value).to be child_value
+            expect(child.value).to eql child_value
           end
         end
 

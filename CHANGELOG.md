@@ -6,7 +6,8 @@
 
 ## Fixed
 
-- [#536][] - `compose` accepts `Inputs`
+- [#536][] - `compose` accepts `Inputs`.
+- [#537][] - Arrays with nested filters returned the wrong value.
 
 # [5.0.0][] (2022-06-24)
 
@@ -1337,3 +1338,4 @@ Example.run
   [#518]: https://github.com/AaronLasseigne/active_interaction/issues/518
   [#503]: https://github.com/AaronLasseigne/active_interaction/issues/503
   [#536]: https://github.com/AaronLasseigne/active_interaction/issues/536
+  [#537]: https://github.com/AaronLasseigne/active_interaction/issues/537
