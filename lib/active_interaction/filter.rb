@@ -112,24 +112,21 @@ module ActiveInteraction
     # @raise [NoDefaultError] If the default is missing.
     # @raise [InvalidDefaultError] If the default is invalid.
     def default(context = nil)
-      return @default if defined?(@default)
-
       raise NoDefaultError, name unless default?
 
       value = raw_default(context)
       raise InvalidDefaultError, "#{name}: #{value.inspect}" if value.is_a?(GroupedInput)
 
-      @default =
-        if value.nil?
-          nil
-        else
-          default = process(value, context)
-          if default.errors.any? && default.errors.first.is_a?(Filter::Error)
-            raise InvalidDefaultError, "#{name}: #{value.inspect}"
-          end
-
-          default.value
+      if value.nil?
+        nil
+      else
+        default = process(value, context)
+        if default.errors.any? && default.errors.first.is_a?(Filter::Error)
+          raise InvalidDefaultError, "#{name}: #{value.inspect}"
         end
+
+        default.value
+      end
     end
 
     # Get the description.

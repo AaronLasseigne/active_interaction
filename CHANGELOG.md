@@ -1,3 +1,9 @@
+# [5.1.1][] (2022-09-01)
+
+## Fixed
+
+- [#539][] - Fixed a caching error in default values.
+
 # [5.1.0][] (2022-07-28)
 
 ## Added
@@ -1112,6 +1118,7 @@ Example.run
 
 - Initial release.
 
+  [5.1.1]: https://github.com/AaronLasseigne/active_interaction/compare/v5.1.0...v5.1.1
   [5.1.0]: https://github.com/AaronLasseigne/active_interaction/compare/v5.0.0...v5.1.0
   [5.0.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.1.0...v5.0.0
   [4.1.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.0.6...v4.1.0
@@ -1339,3 +1346,4 @@ Example.run
   [#503]: https://github.com/AaronLasseigne/active_interaction/issues/503
   [#536]: https://github.com/AaronLasseigne/active_interaction/issues/536
   [#537]: https://github.com/AaronLasseigne/active_interaction/issues/537
+  [#539]: https://github.com/AaronLasseigne/active_interaction/issues/539

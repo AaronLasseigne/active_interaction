@@ -36,4 +36,25 @@ describe ActiveInteraction::Filter, :filter do
       end
     end
   end
+
+  describe '#default' do
+    subject(:filter) { ActiveInteraction::IntegerFilter.new(:test, default: default) }
+
+    context 'when it is a value' do
+      let(:default) { 1 }
+
+      it 'returns the default' do
+        expect(filter.default).to be 1
+      end
+    end
+
+    context 'when it is a proc' do
+      let(:default) { -> { i + 1 } }
+
+      it 'returns the default' do
+        expect(filter.default(double(i: 0))).to be 1 # rubocop:disable RSpec/VerifiedDoubles
+        expect(filter.default(double(i: 1))).to be 2 # rubocop:disable RSpec/VerifiedDoubles
+      end
+    end
+  end
 end
