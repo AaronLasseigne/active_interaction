@@ -1,0 +1,23 @@
+es:
+  active_interaction:
+    errors:
+      messages:
+        invalid: es inválido
+        invalid_type: no es un %{type} válido
+        missing: es requerido
+    types:
+      array: array
+      boolean: boolean
+      date: date
+      date_time: date time
+      decimal: decimal
+      file: file
+      float: float
+      hash: hash
+      integer: integer
+      interface: interface
+      object: object
+      record: record
+      string: string
+      symbol: symbol
+      time: time
