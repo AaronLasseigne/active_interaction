@@ -1,3 +1,9 @@
+# [5.2.0][] (TBD)
+
+- Added translation for Spanish. Thanks @matiasasis!
+
+## Added
+
 # [5.1.1][] (2022-09-01)
 
 ## Fixed
@@ -1118,6 +1124,7 @@ Example.run
 
 - Initial release.
 
+  [5.2.0]: https://github.com/AaronLasseigne/active_interaction/compare/v5.1.1...v5.2.0
   [5.1.1]: https://github.com/AaronLasseigne/active_interaction/compare/v5.1.0...v5.1.1
   [5.1.0]: https://github.com/AaronLasseigne/active_interaction/compare/v5.0.0...v5.1.0
   [5.0.0]: https://github.com/AaronLasseigne/active_interaction/compare/v4.1.0...v5.0.0
