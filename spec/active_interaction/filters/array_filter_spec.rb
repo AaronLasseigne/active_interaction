@@ -74,6 +74,11 @@ describe ActiveInteraction::ArrayFilter, :filter do
       it 'returns the transformed value' do
         expect(result.value).to eql [:test]
       end
+
+      it 'does not modify the original value' do
+        expect(result.value.object_id).to_not eql value.object_id
+        expect(value).to eql ['test']
+      end
     end
 
     context 'with a nested filter' do

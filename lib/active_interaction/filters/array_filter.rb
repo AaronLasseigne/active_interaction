@@ -49,7 +49,7 @@ module ActiveInteraction
       children = []
 
       unless filters.empty?
-        value.map! do |item|
+        value = value.map do |item|
           result = filters[:'0'].process(item, context)
           children.push(result)
           result.value
