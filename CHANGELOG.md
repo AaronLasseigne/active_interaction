@@ -1,6 +1,12 @@
 # [5.2.0][] (TBD)
 
+## Added
+
 - Added translation for Spanish. Thanks @matiasasis!
+
+## Fixed
+
+- [#545][] - Arrays passed in are no longer modified. Thanks @jonkgrimes!
 
 ## Added
 
@@ -1354,3 +1360,4 @@ Example.run
   [#536]: https://github.com/AaronLasseigne/active_interaction/issues/536
   [#537]: https://github.com/AaronLasseigne/active_interaction/issues/537
   [#539]: https://github.com/AaronLasseigne/active_interaction/issues/539
+  [#545]: https://github.com/AaronLasseigne/active_interaction/issues/545
