@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::Validation do
+RSpec.describe ActiveInteraction::Validation do
   describe '.validate(context, filters, inputs)' do
     let(:inputs) { {} }
     let(:filter) { ActiveInteraction::Filter.new(:name, {}) }

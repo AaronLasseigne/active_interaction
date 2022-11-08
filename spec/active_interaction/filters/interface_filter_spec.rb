@@ -1,10 +1,8 @@
-require 'spec_helper'
-
 module InterfaceModule; end
 
 class InterfaceClass; end # rubocop:disable Lint/EmptyClass
 
-describe ActiveInteraction::InterfaceFilter, :filter do
+RSpec.describe ActiveInteraction::InterfaceFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter' do
     let(:name) { :interface_module }

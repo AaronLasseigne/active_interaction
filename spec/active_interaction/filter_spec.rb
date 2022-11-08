@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::Filter, :filter do
+RSpec.describe ActiveInteraction::Filter, :filter do
   include_context 'filters'
 
   describe '#database_column_type' do

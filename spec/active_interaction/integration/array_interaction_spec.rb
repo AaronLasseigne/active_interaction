@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'active_record'
 require 'sqlite3'
 
@@ -29,7 +28,7 @@ ArrayInteraction = Class.new(TestInteraction) do
   end
 end
 
-describe ArrayInteraction do
+RSpec.describe ArrayInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction', :array, -> { [] }
   it_behaves_like 'an interaction', :array, -> { Element.where('1 = 1') }, ->(result) { result.to_a }

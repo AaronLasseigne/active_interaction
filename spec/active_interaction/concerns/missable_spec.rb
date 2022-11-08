@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::Missable do
+RSpec.describe ActiveInteraction::Missable do
   include_context 'concerns', described_class
 
   describe '#respond_to?(slug, include_all = false)' do

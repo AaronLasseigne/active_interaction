@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::GroupedInput do
+RSpec.describe ActiveInteraction::GroupedInput do
   subject(:grouped_input) { described_class.new }
 
   it 'subclasses OpenStruct' do

@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::Inputs do
+RSpec.describe ActiveInteraction::Inputs do
   subject(:inputs) { described_class.new(args, base_class.new) }
 
   let(:args) { {} }

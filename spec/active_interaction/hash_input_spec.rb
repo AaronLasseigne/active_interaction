@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::HashInput do
+RSpec.describe ActiveInteraction::HashInput do
   subject(:input) do
     described_class.new(filter,
       value: value,

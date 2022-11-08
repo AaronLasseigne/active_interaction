@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 class RecordThing
   def self.find(_)
     raise 'error'
@@ -21,7 +19,7 @@ end
 class RecordThings; end # rubocop:disable Lint/EmptyClass
 BackupRecordThing = RecordThing
 
-describe ActiveInteraction::RecordFilter, :filter do
+RSpec.describe ActiveInteraction::RecordFilter, :filter do
   include_context 'filters'
   before do
     options[:class] = RecordThing

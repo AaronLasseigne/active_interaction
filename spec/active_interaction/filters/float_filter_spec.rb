@@ -1,7 +1,6 @@
 require 'bigdecimal'
-require 'spec_helper'
 
-describe ActiveInteraction::FloatFilter, :filter do
+RSpec.describe ActiveInteraction::FloatFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 

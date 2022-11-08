@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-shared_examples_for 'ActiveModel' do
+RSpec.shared_examples_for 'ActiveModel' do
   it 'includes ActiveModel::Conversion' do
     expect(subject).to be_a_kind_of ActiveModel::Conversion
   end
@@ -14,7 +12,7 @@ shared_examples_for 'ActiveModel' do
   end
 end
 
-describe ActiveInteraction::ActiveModelable do
+RSpec.describe ActiveInteraction::ActiveModelable do
   include_context 'concerns', described_class
 
   it_behaves_like 'ActiveModel'

@@ -8,13 +8,13 @@ TestInteraction = Class.new(ActiveInteraction::Base) do
   end
 end
 
-shared_context 'interactions' do
+RSpec.shared_context 'interactions' do
   let(:inputs) { {} }
   let(:outcome) { described_class.run(inputs) }
   let(:result) { outcome.result }
 end
 
-shared_examples_for 'an interaction' do |type, generator, adjust_output = nil, **filter_options|
+RSpec.shared_examples_for 'an interaction' do |type, generator, adjust_output = nil, **filter_options|
   include_context 'interactions'
 
   let(:described_class) do

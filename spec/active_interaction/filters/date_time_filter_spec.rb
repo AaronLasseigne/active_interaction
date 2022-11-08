@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::DateTimeFilter, :filter do
+RSpec.describe ActiveInteraction::DateTimeFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 

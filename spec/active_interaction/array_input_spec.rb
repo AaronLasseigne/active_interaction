@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::ArrayInput do
+RSpec.describe ActiveInteraction::ArrayInput do
   subject(:input) do
     described_class.new(filter,
       value: value,

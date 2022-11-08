@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'active_record'
 require 'sqlite3'
 
@@ -7,7 +6,7 @@ ActiveRecord::Base.establish_connection(
   database: ':memory:'
 )
 
-describe ActiveInteraction::Errors do
+RSpec.describe ActiveInteraction::Errors do
   subject(:errors) { described_class.new(klass.new) }
 
   let(:klass) do

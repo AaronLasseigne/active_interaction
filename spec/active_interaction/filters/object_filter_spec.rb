@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 class ObjectThing
   def self.converter(_)
     @converter ||= new
@@ -13,7 +11,7 @@ end
 class ObjectThings; end # rubocop:disable Lint/EmptyClass
 BackupObjectThing = ObjectThing
 
-describe ActiveInteraction::ObjectFilter, :filter do
+RSpec.describe ActiveInteraction::ObjectFilter, :filter do
   include_context 'filters'
   before do
     options[:class] = ObjectThing

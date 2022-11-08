@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::AbstractNumericFilter, :filter do
+RSpec.describe ActiveInteraction::AbstractNumericFilter, :filter do
   include_context 'filters'
 
   describe '#process' do

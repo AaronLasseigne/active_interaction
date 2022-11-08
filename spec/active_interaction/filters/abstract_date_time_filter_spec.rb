@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::AbstractDateTimeFilter, :filter do
+RSpec.describe ActiveInteraction::AbstractDateTimeFilter, :filter do
   include_context 'filters'
 
   describe '#process' do

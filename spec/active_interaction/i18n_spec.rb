@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction do
+RSpec.describe ActiveInteraction do
   context 'I18n.load_path' do
     it 'contains localization file paths' do
       expect(I18n.load_path)
@@ -20,7 +18,7 @@ TYPES = ActiveInteraction::Filter
   .keys
   .map(&:to_s)
 
-describe I18nInteraction do
+RSpec.describe I18nInteraction do
   include_context 'interactions'
 
   shared_examples 'translation' do |locale|

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 TimeWithZone = Class.new do
   attr_reader :time
 
@@ -26,7 +24,7 @@ TimeInteraction = Class.new(TestInteraction) do
   time :a
 end
 
-describe TimeInteraction do
+RSpec.describe TimeInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction', :time, -> { Time.now }
 

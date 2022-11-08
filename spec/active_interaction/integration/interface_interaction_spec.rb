@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'json'
 require 'yaml'
 
@@ -6,7 +5,7 @@ InterfaceInteraction = Class.new(TestInteraction) do
   interface :anything, methods: []
 end
 
-describe InterfaceInteraction do
+RSpec.describe InterfaceInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction',
     :interface,

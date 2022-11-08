@@ -1,10 +1,8 @@
-require 'spec_helper'
-
 InteractionWithFloatFilter = Class.new(TestInteraction) do
   float :thing
 end
 
-describe ActiveInteraction::ActiveRecordable do
+RSpec.describe ActiveInteraction::ActiveRecordable do
   include_context 'interactions'
 
   let(:described_class) { InteractionWithFloatFilter }

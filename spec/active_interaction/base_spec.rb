@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'action_controller'
 require 'active_support/core_ext/kernel/reporting'
 
@@ -34,7 +33,7 @@ InterruptInteraction = Class.new(TestInteraction) do
   end
 end
 
-describe ActiveInteraction::Base do
+RSpec.describe ActiveInteraction::Base do
   subject(:interaction) { described_class.new(inputs) }
 
   include_context 'interactions'

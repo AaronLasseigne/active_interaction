@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::Runnable do
+RSpec.describe ActiveInteraction::Runnable do
   include_context 'concerns', described_class
 
   class WrappableFailingInteraction # rubocop:disable Lint/ConstantDefinitionInBlock

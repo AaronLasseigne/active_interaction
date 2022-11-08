@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::Hashable do
+RSpec.describe ActiveInteraction::Hashable do
   include_context 'concerns', described_class
 
   describe '#hash(*args, &block)' do

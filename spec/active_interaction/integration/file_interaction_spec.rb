@@ -1,11 +1,10 @@
-require 'spec_helper'
 require 'action_dispatch'
 
 FileInteraction = Class.new(TestInteraction) do
   file :a
 end
 
-describe FileInteraction do
+RSpec.describe FileInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction', :file, -> { File.open(__FILE__) }
 

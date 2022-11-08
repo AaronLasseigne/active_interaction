@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 HashInteraction = Class.new(TestInteraction) do
   hash :a do
     hash :x
@@ -9,7 +7,7 @@ HashInteraction = Class.new(TestInteraction) do
   end
 end
 
-describe HashInteraction do
+RSpec.describe HashInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction', :hash, -> { {} }
 

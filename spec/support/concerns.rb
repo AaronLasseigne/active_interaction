@@ -1,4 +1,4 @@
-shared_context 'concerns' do |concern|
+RSpec.shared_context 'concerns' do |concern|
   subject(:instance) { klass.new }
 
   let(:klass) do

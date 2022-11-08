@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe ActiveInteraction::ArrayFilter, :filter do
+RSpec.describe ActiveInteraction::ArrayFilter, :filter do
   include_context 'filters'
   it_behaves_like 'a filter'
 

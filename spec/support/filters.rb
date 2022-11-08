@@ -1,4 +1,4 @@
-shared_context 'filters' do
+RSpec.shared_context 'filters' do
   subject(:filter) { described_class.new(name, options, &block) }
 
   let(:block) { nil }
@@ -18,7 +18,7 @@ shared_context 'filters' do
   end
 end
 
-shared_examples_for 'a filter' do
+RSpec.shared_examples_for 'a filter' do
   include_context 'filters'
 
   describe '.factory' do
