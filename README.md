@@ -2,16 +2,11 @@
 
 ActiveInteraction manages application-specific business logic.
 It's an implementation of service objects designed to blend seamlessly into Rails.
+It also helps you write safer code by validating that your inputs conform to your expectations.
+If ActiveModel deals with your nouns, then ActiveInteraction handles your verbs.
 
 [![Version](https://img.shields.io/gem/v/active_interaction.svg?style=flat-square)](https://rubygems.org/gems/active_interaction)
 [![Test](https://img.shields.io/github/workflow/status/AaronLasseigne/active_interaction/Test?label=Test&style=flat-square)](https://github.com/AaronLasseigne/active_interaction/actions?query=workflow%3ATest)
-
----
-
-ActiveInteraction gives you a place to put your business logic. It also helps
-you write safer code by validating that your inputs conform to your
-expectations. If ActiveModel deals with your nouns, then ActiveInteraction
-handles your verbs.
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
