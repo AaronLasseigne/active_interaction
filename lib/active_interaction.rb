@@ -19,6 +19,7 @@ require_relative 'active_interaction/concerns/active_recordable'
 require_relative 'active_interaction/concerns/hashable'
 require_relative 'active_interaction/concerns/missable'
 require_relative 'active_interaction/concerns/runnable'
+require_relative 'active_interaction/concerns/sugarable'
 
 require_relative 'active_interaction/grouped_input'
 require_relative 'active_interaction/input'

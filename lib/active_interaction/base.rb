@@ -35,6 +35,7 @@ module ActiveInteraction
     class << self
       include Hashable
       include Missable
+      include Sugarable
 
       # @!method run(inputs = {})
       #   @note If the interaction inputs are valid and there are no runtime
