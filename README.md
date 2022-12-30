@@ -6,7 +6,7 @@ It also helps you write safer code by validating that your inputs conform to you
 If ActiveModel deals with your nouns, then ActiveInteraction handles your verbs.
 
 [![Version](https://img.shields.io/gem/v/active_interaction.svg?style=flat-square)](https://rubygems.org/gems/active_interaction)
-[![Test](https://img.shields.io/github/workflow/status/AaronLasseigne/active_interaction/Test?label=Test&style=flat-square)](https://github.com/AaronLasseigne/active_interaction/actions?query=workflow%3ATest)
+[![Test](https://img.shields.io/github/actions/workflow/status/AaronLasseigne/active_interaction/test.yml?label=Test&style=flat-square&branch=main)](https://github.com/AaronLasseigne/active_interaction/actions?query=workflow%3ATest)
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
