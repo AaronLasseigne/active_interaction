@@ -16,6 +16,10 @@ module ActiveInteraction
       self
     end
 
+    def full_messages
+      map(&:message)
+    end
+
     # @private
     def local_attribute(attribute)
       attribute.to_s.sub(/\A([^.\[]*).*\z/, '\1').to_sym
