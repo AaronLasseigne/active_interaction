@@ -17,7 +17,7 @@ module ActiveInteraction
     end
 
     def full_messages
-      map(&:message)
+      map(&:full_message)
     end
 
     # @private
