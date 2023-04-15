@@ -146,6 +146,9 @@ module ActiveInteraction
         filters[attribute] = filter
 
         attr_accessor attribute
+        if filter.is_a?(BooleanFilter)
+          alias_method "#{attribute}?", attribute
+        end
 
         eagerly_evaluate_default(filter)
       end
