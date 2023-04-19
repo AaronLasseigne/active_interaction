@@ -38,6 +38,20 @@ RSpec.describe ActiveInteraction::Errors do
         errors.merge!(other)
         expect(errors.messages[:attribute]).to eql ['is invalid']
       end
+
+      context 'that provides other options' do
+        let(:value) { SecureRandom.hex }
+        let(:error_name) { 'Some error' }
+
+        before do
+          other.add(:base, error_name, value: value)
+        end
+
+        it 'adds the error' do
+          errors.merge!(other)
+          expect(errors.details[:base]).to eql [{ error: error_name, value: value }]
+        end
+      end
     end
 
     context 'with a detailed error' do
@@ -88,6 +102,20 @@ RSpec.describe ActiveInteraction::Errors do
           errors.merge!(other)
           expect(errors.details[:base]).to eql [{ error: error_name }]
           expect(errors.messages[:base]).to eql [message]
+        end
+      end
+
+      context 'that provides other options' do
+        let(:value) { SecureRandom.hex }
+        let(:error_name) { :some_error }
+
+        before do
+          other.add(:base, error_name, value: value)
+        end
+
+        it 'adds the error' do
+          errors.merge!(other)
+          expect(errors.details[:base]).to eql [{ error: error_name, value: value }]
         end
       end
     end

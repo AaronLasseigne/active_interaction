@@ -11,7 +11,15 @@ module ActiveInteraction
     #
     # @return [Errors]
     def merge!(other)
-      merge_details!(other)
+      other.messages.each do |attribute, messages|
+        messages.zip(other.details[attribute]) do |message, detail|
+          if detailed_error?(detail)
+            merge_detail!(attribute, detail, message)
+          else
+            merge_message!(attribute, detail, message)
+          end
+        end
+      end
 
       self
     end
@@ -31,24 +39,16 @@ module ActiveInteraction
       detail[:error].is_a?(Symbol)
     end
 
-    def merge_message!(attribute, message)
+    def merge_message!(attribute, detail, message)
+      options = detail.dup
+      options.delete(:error)
+
       unless attribute?(attribute)
         message = full_message(attribute, message)
         attribute = :base
       end
-      add(attribute, message) unless added?(attribute, message)
-    end
 
-    def merge_details!(other)
-      other.messages.each do |attribute, messages|
-        messages.zip(other.details[attribute]) do |message, detail|
-          if detailed_error?(detail)
-            merge_detail!(attribute, detail, message)
-          else
-            merge_message!(attribute, message)
-          end
-        end
-      end
+      add(attribute, message, **options) unless added?(attribute, message, **options)
     end
 
     def merge_detail!(attribute, detail, message)
@@ -58,7 +58,7 @@ module ActiveInteraction
 
         add(attribute, error, **options.merge(message: message)) unless added?(attribute, error, **options)
       else
-        merge_message!(attribute, message)
+        merge_message!(attribute, detail, message)
       end
     end
   end
