@@ -1,3 +1,9 @@
+# [5.2.1][] (TBD)
+
+## Fixed
+
+ - [#554][] - Non-detailed error should not lose options when merged.
+
 # [5.2.0][] (2022-10-22)
 
 ## Added
@@ -1361,3 +1367,4 @@ Example.run
   [#537]: https://github.com/AaronLasseigne/active_interaction/issues/537
   [#539]: https://github.com/AaronLasseigne/active_interaction/issues/539
   [#545]: https://github.com/AaronLasseigne/active_interaction/issues/545
+  [#554]: https://github.com/AaronLasseigne/active_interaction/issues/554
