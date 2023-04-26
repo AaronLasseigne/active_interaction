@@ -1,4 +1,8 @@
-# [5.2.1][] (TBD)
+# [5.3.0][] (TBD)
+
+## Added
+
+ - Added predicate methods for boolean values. Thanks @heka1024
 
 ## Fixed
 

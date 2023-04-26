@@ -291,12 +291,15 @@ Boolean filters convert the strings `"1"`, `"true"`, and `"on"`
 (case-insensitive) into `true`. They also convert `"0"`, `"false"`, and `"off"`
 into `false`. Blank strings will be treated as `nil`.
 
+Boolean values can be accessed using the filter name but can also be checked
+using a predicate method of the same name.
+
 ``` rb
 class BooleanInteraction < ActiveInteraction::Base
   boolean :kool_aid
 
   def execute
-    'Oh yeah!' if kool_aid
+    'Oh yeah!' if kool_aid? # could also use `kool_aid`
   end
 end
 
