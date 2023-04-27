@@ -4,4 +4,11 @@ gemspec path: '..'
 
 gem 'activemodel', '~> 6.0.0'
 gem 'activerecord', '~> 6.0.0'
-gem 'sqlite3', '~> 1.4.1'
+
+platforms :mri do
+  gem 'sqlite3', '~> 1.4.1'
+end
+platforms :jruby do
+  gem 'activerecord-jdbc-adapter', '~> 60'
+  gem 'activerecord-jdbcsqlite3-adapter', '~> 60'
+end

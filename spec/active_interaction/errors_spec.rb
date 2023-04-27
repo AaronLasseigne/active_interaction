@@ -1,5 +1,9 @@
 require 'active_record'
-require 'sqlite3'
+if defined? JRUBY_VERSION
+  require 'activerecord-jdbc-adapter'
+else
+  require 'sqlite3'
+end
 
 ActiveRecord::Base.establish_connection(
   adapter: 'sqlite3',
