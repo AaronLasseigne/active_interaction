@@ -60,13 +60,13 @@ If ActiveModel deals with your nouns, then ActiveInteraction handles your verbs.
 Add it to your Gemfile:
 
 ``` rb
-gem 'active_interaction', '~> 5.2'
+gem 'active_interaction', '~> 5.3'
 ```
 
 Or install it manually:
 
 ``` sh
-$ gem install active_interaction --version '~> 5.2'
+$ gem install active_interaction --version '~> 5.3'
 ```
 
 This project uses [Semantic Versioning][]. Check out [GitHub releases][] for a
