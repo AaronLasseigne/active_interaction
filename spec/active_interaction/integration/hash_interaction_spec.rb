@@ -71,4 +71,36 @@ RSpec.describe HashInteraction do
       end.to raise_error ActiveInteraction::InvalidDefaultError
     end
   end
+
+  context 'with a default' do
+    context 'with a lazy nested default' do
+      it 'raises an error' do
+        expect do
+          Class.new(ActiveInteraction::Base) do
+            hash :b, default: {} do
+              hash :x, default: -> { {} }
+            end
+          end
+        end.to raise_error ActiveInteraction::InvalidDefaultError
+      end
+    end
+  end
+
+  context 'with a lazy default' do
+    context 'with a lazy nested default' do
+      it 'returns the correct value' do
+        klass = Class.new(ActiveInteraction::Base) do
+          hash :b, default: -> { {} } do
+            hash :x, default: -> { {} }
+          end
+
+          def execute
+            b
+          end
+        end
+
+        expect(klass.run!).to eql('x' => {})
+      end
+    end
+  end
 end

@@ -25,7 +25,7 @@ module ActiveInteraction
 
     register :hash
 
-    def process(value, context)
+    def process(value, context) # rubocop:disable Metrics/AbcSize
       input = super
 
       return HashInput.new(self, value: input.value, error: input.errors.first) if input.errors.first
@@ -36,6 +36,10 @@ module ActiveInteraction
       children = {}
 
       filters.each do |name, filter|
+        if filter.options[:default].is_a?(Proc) && !options[:default].is_a?(Proc)
+          raise InvalidDefaultError, "#{self.name}: must use a lazy default if any nested filter uses a lazy default"
+        end
+
         filter.process(input.value[name], context).tap do |result|
           value[name] = result.value
           children[name.to_sym] = result

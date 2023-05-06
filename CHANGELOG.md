@@ -7,6 +7,7 @@
 ## Fixed
 
  - [#554][] - Non-detailed error should not lose options when merged.
+ - [#553][] - Improve error handling and documentation for hash filter defaults.
 
 # [5.2.0][] (2022-10-22)
 
@@ -1372,3 +1373,4 @@ Example.run
   [#539]: https://github.com/AaronLasseigne/active_interaction/issues/539
   [#545]: https://github.com/AaronLasseigne/active_interaction/issues/545
   [#554]: https://github.com/AaronLasseigne/active_interaction/issues/554
+  [#553]: https://github.com/AaronLasseigne/active_interaction/issues/553

@@ -358,7 +358,8 @@ HashInteraction.run!(preferences: { newsletter: true, 'sweepstakes' => false })
 
 Setting default hash values can be tricky. The default value has to be either
 `nil` or `{}`. Use `nil` to make the hash optional. Use `{}` if you want to set
-some defaults for values inside the hash.
+some defaults for values inside the hash. If any nested filter uses a
+[lazy default](#defaults) then the hash must also use a lazy default.
 
 ``` rb
 hash :optional,
