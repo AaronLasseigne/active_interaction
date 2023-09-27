@@ -592,7 +592,7 @@ IntegerInteraction.run!(limit1: 71, limit2: 71, limit3: 71)
 IntegerInteraction.run!(limit1: "071", limit2: "071", limit3: "0x71")
 # => [71, 57, 113]
 IntegerInteraction.run!(limit1: "08", limit2: "08", limit3: "08")
-ActiveInteraction::InvalidInteractionError: Limit2 is not a valid integer, Limit3 is not a valid integer
+# ActiveInteraction::InvalidInteractionError: Limit2 is not a valid integer, Limit3 is not a valid integer
 ```
 
 ### Advanced Filters
@@ -747,11 +747,11 @@ class RecordInteraction < ActiveInteraction::Base
   end
 end
 
-> RecordInteraction.run!(encoding: Encoding::US_ASCII)
-=> #<Encoding:US-ASCII>
+RecordInteraction.run!(encoding: Encoding::US_ASCII)
+# => #<Encoding:US-ASCII>
 
-> RecordInteraction.run!(encoding: 'ascii')
-=> #<Encoding:US-ASCII>
+RecordInteraction.run!(encoding: 'ascii')
+# => #<Encoding:US-ASCII>
 ```
 
 A different method can be specified by providing a symbol to the `finder` option.
