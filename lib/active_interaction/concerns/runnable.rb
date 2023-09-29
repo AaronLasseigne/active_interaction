@@ -120,6 +120,21 @@ module ActiveInteraction
       def run!(*args)
         new(*args).send(:run!)
       end
+
+      # Set a callback that will be run before {#execute}.
+      def before_execute(*args, &block)
+        set_callback(:execute, :before, *args, &block)
+      end
+
+      # Set a callback that will be run after {#execute}.
+      def after_execute(*args, &block)
+        set_callback(:execute, :after, *args, &block)
+      end
+
+      # Set a callback that will be run around {#execute}.
+      def around_execute(*args, &block)
+        set_callback(:execute, :around, *args, &block)
+      end
     end
   end
 end
