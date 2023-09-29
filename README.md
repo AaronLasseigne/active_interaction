@@ -1053,24 +1053,34 @@ interaction's lifecycle.
 
 ``` rb
 class Increment < ActiveInteraction::Base
-  set_callback :filter, :before, -> { puts 'before filter' }
+  before_validate do
+    puts 'before validate'
+  end
+  # or you can use the `set_callback` method
+  # set_callback :validate, :before, -> { puts 'before validate' }
 
   integer :x
 
-  set_callback :validate, :after, -> { puts 'after validate' }
+  after_validate :echo_after_validate
 
   validates :x,
     numericality: { greater_than_or_equal_to: 0 }
 
-  set_callback :execute, :around, lambda { |_interaction, block|
+  around_execute do |_interaction, block|
     puts '>>>'
     block.call
     puts '<<<'
-  }
+  end
 
   def execute
     puts 'executing'
     x + 1
+  end
+
+  private
+
+  def echo_after_validate
+    puts 'after validate'
   end
 end
 
@@ -1082,6 +1092,8 @@ Increment.run!(x: 1)
 # <<<
 # => 2
 ```
+
+Of course, you can set callback using `set_callback` manually.
 
 In order, the available callbacks are `filter`, `validate`, and `execute`.
 You can set `before`, `after`, or `around` on any of them.
