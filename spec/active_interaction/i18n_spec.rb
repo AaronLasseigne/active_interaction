@@ -81,6 +81,10 @@ RSpec.describe I18nInteraction do
     include_examples 'translation', :it
   end
 
+  context 'korean' do
+    include_examples 'translation', :ko
+  end
+
   context 'hsilgne' do
     # This must appear before including the translation examples so that the
     # locale is available before it is assigned.
