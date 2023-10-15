@@ -1,0 +1,23 @@
+ko:
+  active_interaction:
+    errors:
+      messages:
+        invalid: 유효하지 않습니다
+        invalid_type: '%{type}은(는) 유효하지 않습니다'
+        missing: 이(가) 누락되었습니다
+    types:
+      array: 배열
+      boolean: 불린
+      date: date
+      date_time: date time
+      decimal: decimal
+      file: 파일
+      float: float
+      hash: 해시
+      integer: 정수
+      interface: 인터페이스
+      object: 오브젝트
+      record: 레코드
+      string: 문자열
+      symbol: 심볼
+      time: time
