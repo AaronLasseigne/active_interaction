@@ -88,6 +88,36 @@ module ActiveInteraction
         # rubocop:enable Naming/MemoizedInstanceVariableName
       end
 
+      # Set a callback that will be run before {#filter}.
+      def before_filter(*args, &block)
+        set_callback(:filter, :before, *args, &block)
+      end
+
+      # Set a callback that will be run after {#filter}.
+      def after_filter(*args, &block)
+        set_callback(:filter, :after, *args, &block)
+      end
+
+      # Set a callback that will be run around {#filter}.
+      def around_filter(*args, &block)
+        set_callback(:filter, :around, *args, &block)
+      end
+
+      # Set a callback that will be run before {#validate}.
+      def before_validate(*args, &block)
+        set_callback(:validate, :before, *args, &block)
+      end
+
+      # Set a callback that will be run after {#validate}.
+      def after_validate(*args, &block)
+        set_callback(:validate, :after, *args, &block)
+      end
+
+      # Set a callback that will be run around {#validate}.
+      def around_validate(*args, &block)
+        set_callback(:validate, :around, *args, &block)
+      end
+
       private
 
       # rubocop:disable Style/MissingRespondToMissing
