@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
@@ -23,9 +23,11 @@ jobs:
     name: Test Ruby ${{ matrix.ruby }} on ActiveModel ${{ matrix.activemodel }}
     strategy:
       matrix:
-        ruby: ["3.2"]
-        activemodel: ["7.0"]
+        ruby: ["3.2", "3.3"]
+        activemodel: ["7.1"]
         include:
+          - activemodel: "7.0"
+            ruby: "3.2"
           - activemodel: "6.1"
             ruby: "3.1"
           - activemodel: "6.0"
@@ -38,7 +40,7 @@ jobs:
       BUNDLE_GEMFILE: gemfiles/rails-${{ matrix.activemodel }}.gemfile
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Prerequisites
       run: sudo apt install libsqlite3-dev
