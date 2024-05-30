@@ -4,7 +4,7 @@ RSpec.describe ActiveInteraction::Validation do
     let(:filter) { ActiveInteraction::Filter.new(:name, {}) }
     let(:interaction) do
       name = filter.name
-      klass = Class.new(ActiveInteraction::Base) { attr_writer(name) }
+      klass = Class.new(ActiveInteraction::Base) { attr_accessor(name) }
       klass.filters[name] = filter
       klass.new
     end
