@@ -24,8 +24,10 @@ jobs:
     strategy:
       matrix:
         ruby: ["3.2", "3.3"]
-        activemodel: ["7.1"]
+        activemodel: ["8.0"]
         include:
+          - activemodel: "7.1"
+            ruby: "3.2"
           - activemodel: "7.0"
             ruby: "3.2"
           - activemodel: "6.1"
