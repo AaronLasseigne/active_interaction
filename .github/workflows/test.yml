@@ -13,7 +13,7 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: "3.2"
+        ruby-version: "3.3"
         bundler-cache: true
 
     - name: Lint
@@ -24,9 +24,9 @@ jobs:
     strategy:
       matrix:
         ruby: ["3.2", "3.3"]
-        activemodel: ["7.1", "8.0"]
+        activemodel: ["8.0"]
         include:
-          - activemodel: "8.0"
+          - activemodel: "7.1"
             ruby: "3.3"
           - activemodel: "7.0"
             ruby: "3.2"
