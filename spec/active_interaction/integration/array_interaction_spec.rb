@@ -31,8 +31,10 @@ end
 RSpec.describe ArrayInteraction do
   include_context 'interactions'
   it_behaves_like 'an interaction', :array, -> { [] }
+  # rubocop:disable Style/SymbolProc
   it_behaves_like 'an interaction', :array, -> { Element.where('1 = 1') }, ->(result) { result.to_a }
   it_behaves_like 'an interaction', :array, -> { List.create!.elements }, ->(result) { result.to_a }
+  # rubocop:enable Style/SymbolProc
 
   context 'with inputs[:a]' do
     let(:a) { [[]] }

@@ -40,7 +40,7 @@ RSpec.describe ActiveInteraction::ObjectFilter, :filter do
       it 'handles reconstantizing' do
         expect(result.value).to eql value
 
-        Object.send(:remove_const, :ObjectThing)
+        Object.send(:remove_const, :ObjectThing) # rubocop:disable RSpec/RemoveConst
         ObjectThing = BackupObjectThing # rubocop:disable Lint/ConstantDefinitionInBlock
         value = ObjectThing.new
 
@@ -50,7 +50,7 @@ RSpec.describe ActiveInteraction::ObjectFilter, :filter do
       it 'handles reconstantizing subclasses' do
         filter
 
-        Object.send(:remove_const, :ObjectThing)
+        Object.send(:remove_const, :ObjectThing) # rubocop:disable RSpec/RemoveConst
         ObjectThing = BackupObjectThing # rubocop:disable Lint/ConstantDefinitionInBlock
         class SubObjectThing < ObjectThing; end # rubocop:disable Lint/ConstantDefinitionInBlock
         value = SubObjectThing.new
@@ -59,7 +59,7 @@ RSpec.describe ActiveInteraction::ObjectFilter, :filter do
       end
 
       context 'without the class available' do
-        before { Object.send(:remove_const, :ObjectThing) }
+        before { Object.send(:remove_const, :ObjectThing) } # rubocop:disable RSpec/RemoveConst
 
         after { ObjectThing = BackupObjectThing } # rubocop:disable Lint/ConstantDefinitionInBlock
 

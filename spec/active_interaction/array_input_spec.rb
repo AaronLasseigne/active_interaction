@@ -39,9 +39,9 @@ RSpec.describe ActiveInteraction::ArrayInput do
     context 'with children with errors' do
       let(:child_filter) { ActiveInteraction::IntegerFilter.new(:'') }
       let(:child_error) { ActiveInteraction::Filter::Error.new(child_filter, :invalid_type) }
-      let(:child1) { ActiveInteraction::Input.new(child_filter, value: 'a', error: child_error) }
-      let(:child2) { ActiveInteraction::Input.new(child_filter, value: 'b', error: child_error) }
-      let(:children) { [child1, child2] }
+      let(:child_a) { ActiveInteraction::Input.new(child_filter, value: 'a', error: child_error) }
+      let(:child_b) { ActiveInteraction::Input.new(child_filter, value: 'b', error: child_error) }
+      let(:children) { [child_a, child_b] }
 
       context 'with an error on the array' do
         let(:error) { ActiveInteraction::Filter::Error.new(filter, :invalid_type) }

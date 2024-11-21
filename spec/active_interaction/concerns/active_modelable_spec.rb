@@ -1,14 +1,14 @@
 RSpec.shared_examples_for 'ActiveModel' do
   it 'includes ActiveModel::Conversion' do
-    expect(subject).to be_a_kind_of ActiveModel::Conversion
+    expect(subject).to be_a ActiveModel::Conversion
   end
 
   it 'includes ActiveModel::Validations' do
-    expect(subject).to be_a_kind_of ActiveModel::Validations
+    expect(subject).to be_a ActiveModel::Validations
   end
 
   it 'extends ActiveModel::Naming' do
-    expect(subject.class).to be_a_kind_of ActiveModel::Naming
+    expect(subject.class).to be_a ActiveModel::Naming
   end
 end
 

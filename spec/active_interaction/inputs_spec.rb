@@ -51,7 +51,7 @@ RSpec.describe ActiveInteraction::Inputs do
     end
 
     context 'with ActionController::Parameters inputs' do
-      let(:args) { ::ActionController::Parameters.new }
+      let(:args) { ActionController::Parameters.new }
 
       it 'does not raise an error' do
         expect { result }.to_not raise_error

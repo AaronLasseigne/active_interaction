@@ -2,7 +2,7 @@
 
 require_relative 'lib/active_interaction/version'
 
-Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
+Gem::Specification.new do |spec|
   spec.name = 'active_interaction'
   spec.version = ActiveInteraction::VERSION
   spec.license = 'MIT'
@@ -16,7 +16,7 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
   end
 
   spec.summary = 'Manage application specific business logic.'
-  spec.description = <<~'TEXT'
+  spec.description = <<~TEXT
     ActiveInteraction manages application-specific business logic. It is an
     implementation of what are called service objects, interactors, or the
     command pattern. No matter what you call it, its built to work seamlessly
@@ -34,7 +34,6 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
     %w[CHANGELOG.md CONTRIBUTING.md LICENSE.md README.md] +
     Dir.glob(File.join('lib', '**', '*.rb')) +
     Dir.glob(File.join('lib', 'active_interaction', 'locale', '*.yml'))
-  spec.test_files = Dir.glob(File.join('spec', '**', '*.rb'))
 
   spec.add_dependency 'activemodel', '>= 5.2', '< 9'
   spec.add_dependency 'activesupport', '>= 5.2', '< 9'
@@ -45,9 +44,9 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
     'kramdown' => ['~> 2.1'],
     'rake' => ['~> 13.0'],
     'rspec' => ['~> 3.5'],
-    'rubocop' => ['~> 1.26.1'],
+    'rubocop' => ['~> 1.68.0'],
     'rubocop-rake' => ['~> 0.6.0'],
-    'rubocop-rspec' => ['~> 2.9.0'],
+    'rubocop-rspec' => ['~> 3.2.0'],
     'sqlite3' => [],
     'yard' => ['~> 0.9']
   }.each do |name, versions|

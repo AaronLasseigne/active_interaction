@@ -56,8 +56,10 @@ RSpec.describe ActiveInteraction::TimeFilter, :filter do
           klass = double
           allow(klass).to receive(:parse).with(value).and_return(nil)
 
-          allow(filter).to receive(:matches?).and_return(false)
-          allow(filter).to receive(:klass).and_return(klass)
+          allow(filter).to receive_messages(
+            matches?: false,
+            klass: klass
+          )
         end
 
         it 'indicates an error the string is not parsable' do

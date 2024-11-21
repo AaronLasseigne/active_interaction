@@ -218,7 +218,7 @@ RSpec.describe ActiveInteraction::ArrayFilter, :filter do
 
     context 'with a nested interface type' do
       context 'with the methods option set' do
-        let(:block) { proc { public_send(:interface, methods: %i[to_s]) } }
+        let(:block) { proc { interface(methods: %i[to_s]) } }
 
         it 'has a filter with the right option' do
           expect(filter.filters[:'0'].options).to have_key(:methods)
@@ -227,7 +227,7 @@ RSpec.describe ActiveInteraction::ArrayFilter, :filter do
       end
 
       context 'with another option set' do
-        let(:block) { proc { public_send(:object, converter: :new) } }
+        let(:block) { proc { object(converter: :new) } }
         let(:name) { :objects }
 
         it 'has a filter with the right options' do

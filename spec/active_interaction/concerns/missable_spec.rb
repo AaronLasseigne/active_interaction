@@ -67,7 +67,7 @@ RSpec.describe ActiveInteraction::Missable do
 
         it 'yields' do
           expect do |b|
-            instance.public_send(:boolean, *names, &b)
+            instance.boolean(*names, &b)
           end.to yield_with_args(filter, names, {})
         end
       end
@@ -77,7 +77,7 @@ RSpec.describe ActiveInteraction::Missable do
 
         it 'yields' do
           expect do |b|
-            instance.public_send(:boolean, options, &b)
+            instance.boolean(options, &b)
           end.to yield_with_args(filter, [], options)
         end
       end
@@ -88,7 +88,7 @@ RSpec.describe ActiveInteraction::Missable do
 
         it 'yields' do
           expect do |b|
-            instance.public_send(:boolean, *names, options, &b)
+            instance.boolean(*names, options, &b)
           end.to yield_with_args(filter, names, options)
         end
       end
