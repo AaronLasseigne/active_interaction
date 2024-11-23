@@ -42,6 +42,7 @@ Gem::Specification.new do |spec|
     'actionpack' => [],
     'activerecord' => [],
     'kramdown' => ['~> 2.1'],
+    'ostruct' => ['~> 0.6'],
     'rake' => ['~> 13.0'],
     'rspec' => ['~> 3.5'],
     'rubocop' => ['~> 1.68.0'],

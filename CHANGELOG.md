@@ -4,6 +4,10 @@
 
  - Support for Rails 8.
 
+## Fixed
+
+ - Manually pull in the `ostruct` gem since it's being removed from stdlib.
+
 # [5.3.0][] (2023-05-06)
 
 ## Added
