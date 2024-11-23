@@ -1,12 +1,12 @@
-# [5.4.0][] (2024-11-17)
+# [5.4.0][] (2024-11-23)
 
 ## Added
 
- - Support for Rails 8.
+ - [#579][] Support for Rails 8. Thanks @bvalentino!
 
 ## Fixed
 
- - Manually pull in the `ostruct` gem since it's being removed from stdlib.
+ - [#577][] Manually pull in the `ostruct` gem since it's being removed from stdlib.
 
 # [5.3.0][] (2023-05-06)
 
@@ -1385,3 +1385,5 @@ Example.run
   [#545]: https://github.com/AaronLasseigne/active_interaction/issues/545
   [#554]: https://github.com/AaronLasseigne/active_interaction/issues/554
   [#553]: https://github.com/AaronLasseigne/active_interaction/issues/553
+  [#577]: https://github.com/AaronLasseigne/active_interaction/issues/577
+  [#579]: https://github.com/AaronLasseigne/active_interaction/pull/579
