@@ -26,6 +26,8 @@ jobs:
         ruby: ["3.2", "3.3"]
         activemodel: ["8.0"]
         include:
+          - activemodel: "7.2"
+            ruby: "3.3"
           - activemodel: "7.1"
             ruby: "3.3"
           - activemodel: "7.0"
