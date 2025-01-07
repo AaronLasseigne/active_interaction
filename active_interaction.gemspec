@@ -37,12 +37,12 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activemodel', '>= 5.2', '< 9'
   spec.add_dependency 'activesupport', '>= 5.2', '< 9'
+  spec.add_dependency 'ostruct', '~> 0.6'
 
   {
     'actionpack' => [],
     'activerecord' => [],
     'kramdown' => ['~> 2.1'],
-    'ostruct' => ['~> 0.6'],
     'rake' => ['~> 13.0'],
     'rspec' => ['~> 3.5'],
     'rubocop' => ['~> 1.68.0'],
