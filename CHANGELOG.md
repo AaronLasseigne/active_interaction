@@ -4,6 +4,11 @@
 
  - Support for Ruby 3.4.
 
+## Fixed
+
+ - OStruct was listed as a development dependency instead of a runtime dependency.
+   The need for OStruct has been removed entirely.
+
 # [5.4.0][] (2024-11-23)
 
 ## Added
