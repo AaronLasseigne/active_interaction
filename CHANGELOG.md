@@ -1,3 +1,9 @@
+# [5.5.0][] (TBD)
+
+## Added
+
+ - Support for Ruby 3.4.
+
 # [5.4.0][] (2024-11-23)
 
 ## Added

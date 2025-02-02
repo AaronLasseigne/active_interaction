@@ -25,7 +25,11 @@ InterruptInteraction = Class.new(TestInteraction) do
   # NOTE: the relative position between this method
   #   and the compose line should be preserved.
   def self.composition_location
-    "#{__FILE__}:#{__LINE__ + 4}:in `execute'"
+    if RUBY_VERSION >= '3.4'
+      "#{__FILE__}:#{__LINE__ + 7}:in 'InterruptInteraction#execute'"
+    else
+      "#{__FILE__}:#{__LINE__ + 5}:in `execute'"
+    end
   end
 
   def execute
