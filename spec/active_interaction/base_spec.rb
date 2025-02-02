@@ -5,6 +5,11 @@ InteractionWithFilter = Class.new(TestInteraction) do
   float :thing
 end
 
+InteractionWithFilterAndValidator = Class.new(TestInteraction) do
+  string :thing
+  validates :thing, presence: true
+end
+
 InteractionWithDateFilter = Class.new(TestInteraction) do
   date :thing
 end
@@ -107,6 +112,19 @@ RSpec.describe ActiveInteraction::Base do
 
         it 'returns a Date' do
           expect(interaction.thing).to eql Date.new(year, month, day)
+        end
+      end
+
+      context 'and a validator' do
+        let(:described_class) { InteractionWithFilterAndValidator }
+
+        it 'returns false on validation with no value given' do
+          expect(interaction.valid?).to be false
+        end
+
+        it 'passes validation when value is given later' do
+          interaction.thing = 'potato'
+          expect(interaction).to be_valid
         end
       end
     end

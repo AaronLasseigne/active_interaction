@@ -205,6 +205,7 @@ module ActiveInteraction
       filter
 
       super if errors.empty?
+      errors.empty?
     end
 
     private
