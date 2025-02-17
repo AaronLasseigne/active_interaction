@@ -11,8 +11,8 @@ RSpec.describe ActiveInteraction::Errors do
 
   let(:klass) do
     Class.new(ActiveInteraction::Base) do
-      string :attribute, defualt: nil
-      array :array, defualt: nil
+      string :attribute, default: nil
+      array :array, default: nil
 
       def self.name
         @name ||= SecureRandom.hex

@@ -140,6 +140,14 @@ RSpec.describe ActiveInteraction::Base do
       end.to raise_error NoMethodError
     end
 
+    it 'raises an error for a non-existent kwarg' do
+      expect do
+        Class.new(TestInteraction) do
+          string :beverage, type: :sparkling_wine, bubbles: true
+        end
+      end.to raise_error ActiveInteraction::InvalidFilterError, /invalid options: type, bubbles/
+    end
+
     it do
       expect do
         Class.new(TestInteraction) do
