@@ -77,7 +77,7 @@ module ActiveInteraction
 
     # rubocop:disable Style/MissingRespondToMissing
     def method_missing(*args, &block)
-      super(*args) do |klass, names, options|
+      super do |klass, names, options|
         raise InvalidFilterError, 'missing attribute name' if names.empty?
 
         names.each do |name|

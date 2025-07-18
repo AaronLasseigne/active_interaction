@@ -36,6 +36,20 @@ module ActiveInteraction
       include Hashable
       include Missable
 
+      ALLOWED_KWARGS = %i[
+        desc
+        default
+        index_errors
+        strip
+        format
+        digits
+        base
+        from
+        methods
+        class
+        converter
+      ].freeze
+
       # @!method run(inputs = {})
       #   @note If the interaction inputs are valid and there are no runtime
       #     errors and execution completed successfully, {#valid?} will always
@@ -105,6 +119,9 @@ module ActiveInteraction
       # @param options [Hash]
       def add_filter(klass, name, options, &block)
         raise InvalidFilterError, %("#{name}" is a reserved name) if Inputs.reserved?(name)
+        if (invalid_options = options.keys - ALLOWED_KWARGS).any?
+          raise InvalidFilterError, "invalid options: #{invalid_options.join(', ')}"
+        end
 
         initialize_filter(klass.new(name, options, &block))
       end
