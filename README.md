@@ -1221,7 +1221,7 @@ outcome.errors.details
 Detailed errors can also be manually added during the execute call by passing a
 symbol to `#add` instead of a string.
 
-Adding an error at any point during #execute will flag the interaction as invalid. The `#execute` method will, however, run to completion. Interaction started with `.run!` will raise `ActiveInteraction::InvalidInteractionError`.
+Adding an error at any point during `#execute` will flag the interaction as invalid. The `#execute` method will, however, run to completion. Interaction started with `.run!` will raise `ActiveInteraction::InvalidInteractionError`.
 
 ``` rb
 def execute
