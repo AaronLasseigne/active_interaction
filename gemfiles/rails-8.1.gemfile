@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+
+gemspec path: '..'
+
+gem 'activemodel', '~> 8.1.0'
+gem 'activerecord', '~> 8.1.0'
+gem 'sqlite3', '>= 2.1'
