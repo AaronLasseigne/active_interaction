@@ -8,10 +8,10 @@ module ActiveInteraction
     class << self
       # @param context [Base]
       # @param filters [Hash{Symbol => Filter}]
-      # @param inputs [Inputs]
-      def validate(context, filters, inputs)
+      # @param _inputs [Inputs]
+      def validate(context, filters, _inputs)
         filters.each_with_object([]) do |(name, filter), errors|
-          input = filter.process(inputs[name], context)
+          input = filter.process(context.send(name), context)
 
           input.errors.each do |error|
             errors << [error.name, error.type, error.options]
