@@ -20,6 +20,10 @@ module ActiveInteraction
   class IntegerFilter < AbstractNumericFilter
     register :integer
 
+    def self.allowed_options
+      super + %i[base]
+    end
+
     private
 
     def base

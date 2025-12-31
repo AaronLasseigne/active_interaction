@@ -30,6 +30,10 @@ module ActiveInteraction
   class RecordFilter < Filter
     register :record
 
+    def self.allowed_options
+      super + %i[class finder]
+    end
+
     private
 
     def klass

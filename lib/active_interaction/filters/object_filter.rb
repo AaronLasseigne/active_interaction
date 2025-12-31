@@ -28,6 +28,10 @@ module ActiveInteraction
   class ObjectFilter < Filter
     register :object
 
+    def self.allowed_options
+      super + %i[class converter]
+    end
+
     private
 
     def klass

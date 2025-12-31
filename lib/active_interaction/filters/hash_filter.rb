@@ -25,6 +25,10 @@ module ActiveInteraction
 
     register :hash
 
+    def self.allowed_options
+      super + %i[strip]
+    end
+
     def process(value, context) # rubocop:disable Metrics/AbcSize
       input = super
 

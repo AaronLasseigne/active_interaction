@@ -20,6 +20,10 @@ module ActiveInteraction
   class StringFilter < Filter
     register :string
 
+    def self.allowed_options
+      super + %i[strip]
+    end
+
     private
 
     def strip?

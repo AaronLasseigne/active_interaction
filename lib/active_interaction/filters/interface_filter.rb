@@ -28,6 +28,10 @@ module ActiveInteraction
   class InterfaceFilter < Filter
     register :interface
 
+    def self.allowed_options
+      super + %i[from methods]
+    end
+
     def initialize(name, options = {}, &block)
       if options.key?(:methods) && options.key?(:from)
         raise InvalidFilterError,

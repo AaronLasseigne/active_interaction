@@ -19,6 +19,10 @@ module ActiveInteraction
   class DecimalFilter < AbstractNumericFilter
     register :decimal
 
+    def self.allowed_options
+      super + %i[digits]
+    end
+
     private
 
     def digits

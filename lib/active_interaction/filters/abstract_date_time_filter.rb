@@ -8,6 +8,10 @@ module ActiveInteraction
   #
   # @private
   class AbstractDateTimeFilter < Filter
+    def self.allowed_options
+      super + %i[format]
+    end
+
     def database_column_type
       self.class.slug
     end
