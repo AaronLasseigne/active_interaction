@@ -51,6 +51,13 @@ module ActiveInteraction
         CLASSES.fetch(slug) { raise MissingFilterError, slug.inspect }
       end
 
+      # Returns the list of allowed options for this filter type.
+      #
+      # @return [Array<Symbol>]
+      def allowed_options
+        %i[desc default]
+      end
+
       private
 
       # @param slug [Symbol]
@@ -66,6 +73,7 @@ module ActiveInteraction
     #
     # @option options [Object] :default Fallback value to use when given `nil`.
     def initialize(name, options = {}, &block)
+      validate_options!(options)
       @name = name
       @options = options.dup
       @filters = {}
@@ -227,6 +235,12 @@ module ActiveInteraction
       value.inspect
     rescue NoMethodError
       "(Object doesn't support #inspect)"
+    end
+
+    def validate_options!(options)
+      if (invalid_options = options.keys - self.class.allowed_options).any?
+        raise ArgumentError, "invalid options: #{invalid_options.join(', ')}"
+      end
     end
 
     def raw_default(context)

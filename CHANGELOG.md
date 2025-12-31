@@ -3,6 +3,7 @@
 ## Added
 
  - Support for Ruby 3.4.
+ - Added per-filter option validation. Each filter type now validates its own specific options and raises `ArgumentError` when passed unrecognized options.
 
 ## Fixed
 

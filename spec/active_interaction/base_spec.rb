@@ -140,6 +140,42 @@ RSpec.describe ActiveInteraction::Base do
       end.to raise_error NoMethodError
     end
 
+    it 'raises an error for a non-existent kwarg' do
+      expect do
+        Class.new(TestInteraction) do
+          string :beverage, type: :sparkling_wine, bubbles: true
+        end
+      end.to raise_error ArgumentError, /invalid options: type, bubbles/
+    end
+
+    it 'allows extending allowed_options for custom filters' do
+      Class.new(ActiveInteraction::Filter) do
+        register :custom
+
+        def self.allowed_options
+          super + %i[custom_option]
+        end
+
+        private
+
+        def matches?(value)
+          value.is_a?(String)
+        end
+      end
+
+      extended_class = Class.new(TestInteraction) do
+        custom :test_field, custom_option: true
+      end
+
+      expect { extended_class.new }.not_to raise_error
+    end
+
+    it 'filters validate their own options' do
+      expect(ActiveInteraction::StringFilter.allowed_options).to include(:desc, :default, :strip)
+      expect(ActiveInteraction::IntegerFilter.allowed_options).to include(:desc, :default, :base)
+      expect(ActiveInteraction::Filter.allowed_options).to eq(%i[desc default])
+    end
+
     it do
       expect do
         Class.new(TestInteraction) do

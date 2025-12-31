@@ -38,6 +38,10 @@ module ActiveInteraction
 
     register :array
 
+    def self.allowed_options
+      super + %i[index_errors]
+    end
+
     def process(value, context)
       input = super
 
