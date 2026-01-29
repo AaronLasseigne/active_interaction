@@ -66,6 +66,7 @@ RSpec.describe ActiveInteraction::Runnable do
 
       include_examples 'set_callback examples', :validate
       include_examples 'set_callback examples', :execute
+      include_examples 'set_callback examples', :run
 
       context 'execute with composed interaction' do
         class WithFailingCompose # rubocop:disable Lint/ConstantDefinitionInBlock

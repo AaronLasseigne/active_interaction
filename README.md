@@ -1053,6 +1053,7 @@ interaction's lifecycle.
 
 ``` rb
 class Increment < ActiveInteraction::Base
+  set_callback :run, :before, -> { puts 'before run' }
   set_callback :filter, :before, -> { puts 'before filter' }
 
   integer :x
@@ -1075,6 +1076,7 @@ class Increment < ActiveInteraction::Base
 end
 
 Increment.run!(x: 1)
+# before run
 # before filter
 # after validate
 # >>>
@@ -1083,7 +1085,7 @@ Increment.run!(x: 1)
 # => 2
 ```
 
-In order, the available callbacks are `filter`, `validate`, and `execute`.
+In order, the available callbacks are `run`, `filter`, `validate`, and `execute`.
 You can set `before`, `after`, or `around` on any of them.
 
 ### Composition

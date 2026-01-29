@@ -469,7 +469,7 @@ RSpec.describe ActiveInteraction::Base do
   context 'callbacks' do
     let(:described_class) { Class.new(TestInteraction) }
 
-    %w[filter validate execute].each do |name|
+    %w[run filter validate execute].each do |name|
       %w[before after around].map(&:to_sym).each do |type|
         it "runs the #{type} #{name} callback" do
           called = false
@@ -478,6 +478,33 @@ RSpec.describe ActiveInteraction::Base do
           expect(called).to be_truthy
         end
       end
+    end
+
+    it 'runs callbacks in the correct order' do
+      execution_log = []
+      described_class.set_callback(:filter, :before) { execution_log << :before_filter }
+      described_class.set_callback(:filter, :after) { execution_log << :after_filter }
+      described_class.set_callback(:validate, :before) { execution_log << :before_validate }
+      described_class.set_callback(:validate, :after) { execution_log << :after_validate }
+      described_class.set_callback(:execute, :before) { execution_log << :before_execute }
+      described_class.set_callback(:execute, :after) { execution_log << :after_execute }
+      described_class.set_callback(:run, :before) { execution_log << :before_run }
+      described_class.set_callback(:run, :after) { execution_log << :after_run }
+
+      outcome
+
+      expect(execution_log).to eq(
+        %i[
+          before_run
+          before_filter
+          after_filter
+          before_validate
+          after_validate
+          before_execute
+          after_execute
+          after_run
+        ]
+      )
     end
 
     context 'with errors during filter' do
