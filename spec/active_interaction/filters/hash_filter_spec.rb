@@ -124,4 +124,27 @@ RSpec.describe ActiveInteraction::HashFilter, :filter do
       expect(filter.database_column_type).to be :string
     end
   end
+
+  describe 'nesting limit' do
+    def nested_hash(depth)
+      (1..depth).inject({ leaf: 1 }) { |acc, _| { k: acc } }
+    end
+
+    it 'does not crash with SystemStackError on a very deeply nested hash' do
+      # Without the nesting cap this raises SystemStackError around ~5k deep,
+      # because HashWithIndifferentAccess recursively re-wraps nested hashes.
+      expect { filter.process(nested_hash(10_000), nil) }.not_to raise_error
+    end
+
+    it 'rejects hashes beyond the limit with a filter error' do
+      result = filter.process(nested_hash(10_000), nil)
+      expect(result.errors.first).to be_an_instance_of(ActiveInteraction::Filter::Error)
+      expect(result.errors.first.type).to be :invalid_type
+    end
+
+    it 'counts depth through arrays, since HashWithIndifferentAccess recurses into them' do
+      mixed = { a: [{ b: [{ c: nested_hash(10_000) }] }] }
+      expect { filter.process(mixed, nil) }.not_to raise_error
+    end
+  end
 end

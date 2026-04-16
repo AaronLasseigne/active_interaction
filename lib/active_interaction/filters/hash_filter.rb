@@ -23,6 +23,12 @@ module ActiveInteraction
   class HashFilter < Filter
     include Missable
 
+    # Limits how deeply a Hash input may be nested. `adjust_output` wraps
+    # matching hashes with `HashWithIndifferentAccess`, which recursively
+    # re-wraps nested hashes and arrays. Without a cap, a crafted deeply
+    # nested hash can crash the process with `SystemStackError`.
+    MAX_NESTING = 32
+
     register :hash
 
     def process(value, context) # rubocop:disable Metrics/AbcSize
@@ -52,9 +58,21 @@ module ActiveInteraction
     private
 
     def matches?(value)
-      value.is_a?(Hash)
+      value.is_a?(Hash) && !exceeds_nesting_limit?(value, 1)
     rescue NoMethodError # BasicObject
       false
+    end
+
+    # Short-circuits at MAX_NESTING, so recursion depth is bounded by
+    # MAX_NESTING rather than by the input depth.
+    def exceeds_nesting_limit?(value, depth)
+      return true if depth > MAX_NESTING
+
+      case value
+      when Hash then value.each_value.any? { |v| exceeds_nesting_limit?(v, depth + 1) }
+      when Array then value.any? { |v| exceeds_nesting_limit?(v, depth + 1) }
+      else false
+      end
     end
 
     def strip?
