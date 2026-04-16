@@ -75,6 +75,22 @@ RSpec.describe ActiveInteraction::DateFilter, :filter do
       end
     end
 
+    context 'with a #to_str that returns a non-String' do
+      let(:value) do
+        Class.new do
+          def to_str
+            :not_a_string
+          end
+        end.new
+      end
+
+      it 'returns a filter error instead of raising TypeError' do
+        expect { result }.not_to raise_error
+        expect(result.errors.first).to be_an_instance_of ActiveInteraction::Filter::Error
+        expect(result.errors.first.type).to be :invalid_type
+      end
+    end
+
     context 'with a blank String' do
       let(:value) do
         Class.new do

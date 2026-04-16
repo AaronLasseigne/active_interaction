@@ -51,7 +51,7 @@ module ActiveInteraction
       else
         klass.parse(value) || value
       end
-    rescue ArgumentError
+    rescue ArgumentError, TypeError
       value
     end
 

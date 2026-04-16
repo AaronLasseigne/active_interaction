@@ -44,7 +44,7 @@ module ActiveInteraction
 
     def safe_converter(value)
       converter(value)
-    rescue ArgumentError
+    rescue ArgumentError, TypeError
       value
     end
   end
