@@ -1,3 +1,11 @@
+# Unreleased
+
+## Fixed
+
+ - A default that converts to `nil` (for example a blank string) no longer
+   recurses between `Filter#default` and `Filter#cast`, which raised
+   `SystemStackError`. It resolves to `nil`, as it did in 4.x.
+
 # [5.5.0][] (2025-02-02)
 
 ## Added

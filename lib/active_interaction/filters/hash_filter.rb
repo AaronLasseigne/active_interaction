@@ -25,11 +25,13 @@ module ActiveInteraction
 
     register :hash
 
-    def process(value, context) # rubocop:disable Metrics/AbcSize
+    def process(value, context, use_default: true) # rubocop:disable Metrics/AbcSize
       input = super
 
       return HashInput.new(self, value: input.value, error: input.errors.first) if input.errors.first
-      return HashInput.new(self, value: default(context), error: input.errors.first) if input.value.nil?
+      if input.value.nil?
+        return HashInput.new(self, value: use_default ? default(context) : nil, error: input.errors.first)
+      end
 
       value = strip? ? HashWithIndifferentAccess.new : input.value
       error = nil
