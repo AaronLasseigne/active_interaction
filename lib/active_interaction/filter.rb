@@ -87,8 +87,8 @@ module ActiveInteraction
     # @return [Input, ArrayInput, HashInput]
     #
     # @raise (see #default)
-    def process(value, context)
-      value, error = cast(value, context)
+    def process(value, context, use_default: true)
+      value, error = cast(value, context, use_default: use_default)
 
       Input.new(self, value: value, error: error)
     end
@@ -120,7 +120,7 @@ module ActiveInteraction
       if value.nil?
         nil
       else
-        default = process(value, context)
+        default = process(value, context, use_default: false)
         if default.errors.any? && default.errors.first.is_a?(Filter::Error)
           raise InvalidDefaultError, "#{name}: #{value.inspect}"
         end
@@ -186,26 +186,34 @@ module ActiveInteraction
 
     private
 
-    # rubocop:disable Metrics/PerceivedComplexity
-    def cast(value, context, convertize: true, reconstantize: true)
+    def cast(value, context, convertize: true, reconstantize: true, use_default: true)
       if matches?(value)
         [adjust_output(value, context), nil]
       elsif value == nil # rubocop:disable Style/NilComparison - BasicObject does not have `nil?`
-        default? ? [default(context), nil] : [value, Filter::Error.new(self, :missing)]
+        cast_nil(value, context, use_default)
       elsif reconstantize
-        send(__method__, value, context, convertize: convertize, reconstantize: false)
+        send(__method__, value, context, convertize: convertize, reconstantize: false, use_default: use_default)
       elsif convertize
         value, error = convert(value)
         if error
           [value, error]
         else
-          send(__method__, value, context, convertize: false, reconstantize: reconstantize)
+          send(__method__, value, context, convertize: false, reconstantize: reconstantize, use_default: use_default)
         end
       else
         [value, Filter::Error.new(self, :invalid_type)]
       end
     end
-    # rubocop:enable Metrics/PerceivedComplexity
+
+    # Resolves a nil value. When a default is already being evaluated
+    # (+use_default+ is false) the default must not be requested again: a
+    # default that converts to nil would ask for itself forever.
+    def cast_nil(value, context, use_default)
+      return [value, Filter::Error.new(self, :missing)] unless default?
+      return [nil, nil] unless use_default
+
+      [default(context), nil]
+    end
 
     def matches?(_value)
       false

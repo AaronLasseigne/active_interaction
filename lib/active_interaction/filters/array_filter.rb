@@ -38,11 +38,13 @@ module ActiveInteraction
 
     register :array
 
-    def process(value, context)
+    def process(value, context, use_default: true)
       input = super
 
       return ArrayInput.new(self, value: input.value, error: input.errors.first) if input.errors.any?
-      return ArrayInput.new(self, value: default(context), error: input.errors.first) if input.value.nil?
+      if input.value.nil?
+        return ArrayInput.new(self, value: use_default ? default(context) : nil, error: input.errors.first)
+      end
 
       value = input.value
       error = nil
