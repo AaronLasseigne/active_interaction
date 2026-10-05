@@ -38,7 +38,7 @@ module ActiveInteraction
     end
 
     def matches?(value)
-      return false if value == nil # rubocop:disable Style/NilComparison
+      return false if nil == value # rubocop:disable Style/YodaCondition - avoids calling the value's #==
 
       value.class <= klass
     rescue NoMethodError

@@ -190,7 +190,7 @@ module ActiveInteraction
     def cast(value, context, convertize: true, reconstantize: true)
       if matches?(value)
         [adjust_output(value, context), nil]
-      elsif value == nil # rubocop:disable Style/NilComparison - BasicObject does not have `nil?`
+      elsif nil == value # rubocop:disable Style/YodaCondition - avoids calling the value's #== (BasicObject has no `nil?`)
         default? ? [default(context), nil] : [value, Filter::Error.new(self, :missing)]
       elsif reconstantize
         send(__method__, value, context, convertize: convertize, reconstantize: false)
